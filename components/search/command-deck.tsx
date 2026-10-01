@@ -49,6 +49,11 @@ const STARTING_POINTS = [
     label: "Atelier",
     hint: "Everyday interface, made by hand",
   },
+  {
+    href: "/studio",
+    label: "Studio",
+    hint: "Product interface, press to screen",
+  },
   { href: "/guides", label: "Guides", hint: "The field manuals" },
 ];
 
@@ -370,7 +375,9 @@ export function CommandDeck() {
         aria-label="Search (Command K)"
       >
         <Search aria-hidden className="size-3.5" />
-        <span className="hidden sm:inline">Search</span>
+        {/* From xl the header row carries eleven links inline: the trigger
+            keeps its icon and shortcut and gives up the word. */}
+        <span className="hidden sm:inline xl:hidden">Search</span>
         <kbd className="hidden rounded-1 bg-surface-1 px-1 py-0.5 font-mono text-[10px] text-ink-3 sm:inline">
           ⌘K
         </kbd>

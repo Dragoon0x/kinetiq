@@ -46,7 +46,10 @@ export function ComponentDocPage({
       slug={item.name}
       base={kind === "blocks" ? "blocks" : kind}
     />
-  ) : (category?.slug === "tactile" || category?.slug === "atelier") && Demo ? (
+  ) : (category?.slug === "tactile" ||
+      category?.slug === "atelier" ||
+      category?.slug === "studio") &&
+    Demo ? (
     // Room pieces carry their tweaks and sound onto their own page.
     <TactileDocPreview
       room={category.slug}

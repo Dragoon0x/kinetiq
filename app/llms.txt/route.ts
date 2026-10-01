@@ -111,6 +111,7 @@ export function GET() {
     `- [Spatial wing](${siteConfig.url}/spatial): the depth collections, live`,
     `- [Tactile](${siteConfig.url}/tactile): components you can feel — live, with physics, sound and shareable tweaks`,
     `- [Atelier](${siteConfig.url}/atelier): everyday interface made by hand — loaders, widgets, notices, fields, menus, device frames, keepsakes and backdrops`,
+    `- [Studio](${siteConfig.url}/studio): product interface — toggles, buttons, cards and containers with deep APIs, and complete AI, workspace, data, flow, commerce and app-screen surfaces`,
     `- [Blocks](${siteConfig.url}/blocks), [Pages](${siteConfig.url}/pages), [Templates](${siteConfig.url}/templates): the assemblies, in ascending scale`,
     `- [Showcases](${siteConfig.url}/showcase): each category staged as a scene`,
     `- [Sitemap](${siteConfig.url}/sitemap.xml)`,

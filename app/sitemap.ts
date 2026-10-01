@@ -20,6 +20,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/spatial",
     "/tactile",
     "/atelier",
+    "/studio",
     "/blocks",
     "/pages",
     "/templates",

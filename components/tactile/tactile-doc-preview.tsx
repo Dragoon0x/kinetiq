@@ -7,6 +7,7 @@ import Link from "next/link";
 
 import { ATELIER_ROOM } from "@/components/atelier/atelier-room";
 import { SpecimenPlate } from "@/components/lab/specimen-plate";
+import { STUDIO_ROOM } from "@/components/studio/studio-room";
 import { defaultsOf } from "@/registry/lib/tweaks";
 
 import { RoomProvider } from "./room";
@@ -16,10 +17,14 @@ import { TweakPanel, type TweakState } from "./tweak-panel";
 import { TACTILE_ROOM } from "./tactile-room";
 import { useTactileModule } from "./use-tactile-module";
 
-const ROOMS = { tactile: TACTILE_ROOM, atelier: ATELIER_ROOM } as const;
+const ROOMS = {
+  tactile: TACTILE_ROOM,
+  atelier: ATELIER_ROOM,
+  studio: STUDIO_ROOM,
+} as const;
 
 /**
- * A room piece's preview on its own docs page (Tactile or Atelier): the same
+ * A room piece's preview on its own docs page (Tactile, Atelier or Studio): the same
  * specimen plate as every other component, with its tweaks and its sound
  * beneath it. The server renders the demo at its defaults as `children`; the
  * first tweak (or turning sound on) hands over to the live, code-split demo

@@ -21,6 +21,7 @@ const NAV = [
   { href: "/spatial", label: "Spatial" },
   { href: "/tactile", label: "Tactile" },
   { href: "/atelier", label: "Atelier" },
+  { href: "/studio", label: "Studio" },
   { href: "/blocks", label: "Blocks" },
   { href: "/pages", label: "Pages" },
   { href: "/templates", label: "Templates" },
@@ -29,10 +30,11 @@ const NAV = [
 ] as const;
 
 /**
- * The ten destinations need about 800px of row. At 1280px that still leaves
- * 61px between the nav and the tools (measured), so the inline nav starts at
- * `xl` and everything below it gets a real menu. An eleventh will not fit at
- * 1280 without a narrower gap or a later breakpoint — measure before adding.
+ * The eleven destinations need about 840px of row. At 1280px they fit with
+ * links at px-2.5 and the search trigger reduced to its icon and shortcut
+ * from xl up (measured: 73px to spare at 1280 and wider), so the inline nav starts at `xl` and
+ * everything below it gets a real menu. A twelfth will not fit at 1280 —
+ * measure before adding.
  *
  * It used to be an overflow-x-auto strip with the scrollbar hidden, which
  * meant that on a phone you saw "Components", half of "Explore", and no
@@ -114,7 +116,7 @@ export function SiteHeader() {
                   key={item.href}
                   href={item.href}
                   aria-current={active ? "page" : undefined}
-                  className={cn(linkClass(active), "px-3 py-1.5 text-sm")}
+                  className={cn(linkClass(active), "px-2.5 py-1.5 text-sm")}
                 >
                   {item.label}
                 </Link>

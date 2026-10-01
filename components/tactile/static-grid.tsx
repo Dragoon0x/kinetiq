@@ -5,7 +5,12 @@ import { cn } from "@/registry/lib/utils";
 import type { TactileItem } from "./tactile-card";
 import { GroupGlyph } from "./group-glyph";
 
-const SPAN = { square: "", wide: "sm:col-span-2", tall: "row-span-2" } as const;
+const SPAN = {
+  square: "",
+  wide: "sm:col-span-2",
+  tall: "row-span-2",
+  large: "row-span-2 sm:col-span-2",
+} as const;
 
 /**
  * The gallery as the server sends it: the same grid, the same card sizes,

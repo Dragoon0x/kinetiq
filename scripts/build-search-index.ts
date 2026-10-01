@@ -175,6 +175,23 @@ async function main() {
     },
     {
       s: "x",
+      t: "Studio",
+      d: "Product interface, from the smallest press to the whole screen — micro-interactions and complete app surfaces.",
+      h: "/studio",
+      k: [
+        "studio",
+        "micro-interactions",
+        "toggles",
+        "buttons",
+        "app ui",
+        "dashboard",
+        "ai chat",
+        "templates",
+        "screens",
+      ],
+    },
+    {
+      s: "x",
       t: "Blocks",
       d: "Larger assemblies — complete, product-ready sections.",
       h: "/blocks",

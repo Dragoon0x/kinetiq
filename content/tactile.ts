@@ -23,7 +23,7 @@ export type TactileVerb =
   | "spin";
 
 /** How much of the gallery grid a card takes: one cell, two across, two down. */
-export type TactileAspect = "square" | "wide" | "tall";
+export type TactileAspect = "square" | "wide" | "tall" | "large";
 
 export type Verb = {
   slug: TactileVerb;

@@ -9,12 +9,12 @@ export type RoomGroup = { slug: string; label: string };
 
 /**
  * A gallery room: the page it lives on, how its wall is filtered, and the
- * code-split demo for every piece in it. Tactile and Atelier are both rooms;
+ * code-split demo for every piece in it. Tactile, Atelier and Studio are rooms;
  * the gallery, its cards, the stage and the docs preview read the room they
  * are in from context, so neither room ships the other's demos.
  */
 export type Room = {
-  id: "tactile" | "atelier";
+  id: "tactile" | "atelier" | "studio";
   /** The room's page, e.g. "/tactile". */
   path: string;
   name: string;

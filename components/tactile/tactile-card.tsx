@@ -54,12 +54,23 @@ const HINT: Record<string, Record<string, number[]>> = {
   keepsakes: { rotate: [0, -10, 0] },
   frames: { y: [0, -2, 0] },
   backdrops: { opacity: [1, 0.4, 1] },
+  toggles: { x: [0, 3, 0] },
+  buttons: { scale: [1, 0.8, 1] },
+  cards: { y: [0, -2, 0] },
+  containers: { scaleX: [1, 1.2, 1] },
+  ai: { rotate: [0, 18, -8, 0] },
+  workspace: { scale: [1, 0.88, 1] },
+  data: { scaleY: [1, 1.25, 1] },
+  flows: { x: [0, 3, 0] },
+  commerce: { rotate: [0, -10, 6, 0] },
+  screens: { y: [0, -2, 0] },
 };
 
 const SPAN: Record<TactileAspect, string> = {
   square: "",
   wide: "sm:col-span-2",
   tall: "row-span-2",
+  large: "row-span-2 sm:col-span-2",
 };
 
 /**

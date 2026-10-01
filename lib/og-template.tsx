@@ -107,6 +107,7 @@ const CATEGORY_LOOK: Record<
   devtools: { spring: "flick", accent: "amber" },
   tactile: { spring: "recoil", accent: "sky" },
   atelier: { spring: "glide", accent: "amber" },
+  studio: { spring: "snap", accent: "mint" },
 };
 
 export type OgItemKind = "components" | "blocks" | "pages" | "templates";
