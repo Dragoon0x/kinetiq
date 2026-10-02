@@ -23510,6 +23510,395 @@ Notes:
 - The label never claims Connected before the host has answered, and a pointer still resting on the button after it connects does not preview Disconnect until it leaves and comes back. Every label is stacked in one cell, so the control keeps one width; the cable, plug and sparks are drawn inside its own box.
 - The jiggle and the holds pause on a hidden page; at rest nothing animates.
 
+### Profile Lift (KQ-1271) — `profile-lift`
+The portrait steps out of its frame.
+
+A profile card whose portrait steps out of its frame: hovering it or moving keyboard focus into it lifts the portrait out of a recessed circular well on the snap spring, growing past the frame's edge while its shadow falls into the empty ring below and softens with the height, as the figures count up from zero and the follow pill docks on the frame's rim on snap; a mouse or pen tilts the card toward itself on glide, the lifted portrait shifting further than the card. Pressing the card grows it into a sheet with the bio, links and followers in common, one shared-layout surface on the glide spring with the portrait, name and figures travelling to their places, and Escape or the close button folds it back the same way. The card and the follow pill are real buttons that Enter and Space press, focus moves to the sheet's close button and back to the card, and under reduced motion nothing tilts or travels: the frame lights, the shadow and pill fade in place and the sheet cross-fades.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/profile-lift`
+
+Props:
+- `name`: string (default "Ines Calder") — The person: the card's heading, the drawn portrait's seed and every accessible name.
+- `handle`: string (default "@ines.calder") — Shown in the open sheet above the bio.
+- `role`: string (default "Product designer at Fernworks") — The line under the name.
+- `portrait`: React.ReactNode — What fills the portrait disc, such as an img. Defaults to a head-and-shoulders portrait drawn from the name in the accent's hue.
+- `bio`: string — The open sheet's paragraph.
+- `figures`: ProfileFigure[] (default defaultProfileFigures) — The counted row ({ id, label, value }). The first figure is the followers count, which following adds one to.
+- `links`: ProfileLink[] (default defaultProfileLinks) — The open sheet's links ({ id, label, detail?, href }).
+- `mutuals`: { names: string[]; total: number } (default defaultProfileMutuals) — Followers in common: the named ones shown first, then the rest as a count.
+- `following / defaultFollowing`: boolean (default false) — Whether the viewer follows this person, controlled or initial.
+- `onFollowingChange`: (following: boolean) => void — Fires from the press that changed it, with the new state.
+- `expanded / defaultExpanded`: boolean (default false) — Whether the card is open as the full sheet, controlled or initial.
+- `onExpandedChange`: (expanded: boolean) => void — Fires from the press or the Escape that opened or closed the sheet.
+- `followLabel`: string (default "Follow") — The follow button before following; also the start of its accessible name.
+- `followingLabel`: string (default "Following") — The follow button once following. The pill is always as wide as the longer label.
+- `lift`: number (default 0.6) — How far the portrait steps out of its frame, 0 to 1: how high it rises, how much it grows and how deep its shadow falls.
+- `tilt`: number (default 6) — How far the card turns toward the pointer, in degrees on each axis (up to 10); 0 holds it flat.
+- `stats`: "count" | "still" | "off" (default "count") — What the figures do as the portrait lifts: count up from zero, stay still, or leave the card.
+- `countDuration`: number (default 700) — How long the count-up runs, in ms.
+- `formatFigure`: (value: number) => string — How a figure is written. Defaults to compact en-US, "2.4K".
+- `size`: "sm" | "md" | "lg" (default "md") — The portrait: 72, 88 or 104 px across, in a frame 20 to 28 px wider.
+- `accent`: string (default "var(--accent)") — The follow button's fill and the drawn portrait's hue, any CSS colour.
+- `sound`: boolean (default false) — Play a swish as the visitor opens or closes the sheet and a pop as they follow or unfollow. Nothing sounds on hover.
+- `disabled`: boolean (default false) — Nothing lifts, tilts or opens, and the card is drawn at reduced strength.
+- `className`: string — Classes for the card's outer box.
+
+Notes:
+- Keyboard: Tab reaches the card itself (Enter or Space opens the sheet) and then Follow; focus anywhere inside lifts the portrait exactly as a hover does. In the sheet focus starts on the close button, and Escape anywhere in the card closes it and returns focus to the card.
+- Reduced motion is a designed state: no tilt, rise or layout travel. The frame's ring lights, the shadow and the follow pill fade in place, the figures show their values without counting and the sheet cross-fades.
+- Pass figures without the viewer: the first figure is treated as the followers count and shows one more while following, rolling to it when the state changes.
+- The outer box carries 8 px of padding so the tilted card never draws outside it; the card itself is up to 320 px wide and the sheet grows to about 520 px tall at 316 wide.
+- Controlled `expanded` waits for the host: focus moves into the sheet only when it actually arrives, and back to the card only when the card does.
+
+### Pricing Plinth (KQ-1272) — `pricing-plinth`
+The plan you pick rises to meet you.
+
+A pricing table whose plans stand on plinths along a floor: choosing one lifts it on the glide spring while its plinth grows underneath, a spotlight pans across to it from above on the same spring and pools light on its head, the other plans step back, and the chosen plan's features check in one after another with each tick drawn on the flick spring. The Monthly/Yearly switch slides its thumb on snap and re-rolls every price on an odometer whose wheels each go round once more and settle on their new digits on glide, a beat apart, as a save tag swings in on its string on the recoil spring. Plans and billing are real radiogroups where the arrow keys move and choose and Home and End jump, a polite live region speaks the chosen plan and price once, and under reduced motion nothing rises, pans or spins while the light, ring and prices still change.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/pricing-plinth`
+
+Props:
+- `plans`: PricingPlan[] (default defaultPricingPlans) — The plans, left to right: { id, name, blurb?, monthly, yearly, features }, with monthly and yearly both as prices per month.
+- `value / defaultValue`: string | null (default the second plan) — The chosen plan's id, controlled or initial; null chooses none and puts the light out.
+- `onValueChange`: (id: string) => void — Fires from the press or the key that chose a plan.
+- `cycle / defaultCycle`: "monthly" | "yearly" (default "monthly") — The billing cycle, controlled or initial. Changing it re-rolls every price.
+- `onCycleChange`: (cycle: "monthly" | "yearly") => void — Fires from the switch that changed it.
+- `onConfirm`: (id: string, cycle: "monthly" | "yearly") => void — The Continue button, with the chosen plan and cycle.
+- `rise`: number (default 14) — How high the chosen plan rises on its plinth, in px (up to 28); a hovered plan rises 30% of it.
+- `spotlight`: number (default 0.7) — How strong the light on the chosen plan is, 0 to 1: the cone, the pool on its head and the lit plinth. 0 puts the spotlight out.
+- `stagger`: number (default 40) — Delay between the odometer's wheels as prices re-roll, in ms.
+- `title`: string (default "Plans") — The heading, and the plans' accessible name.
+- `monthlyLabel`: string (default "Monthly") — The switch's first option.
+- `yearlyLabel`: string (default "Yearly") — The switch's second option.
+- `saveLabel`: string (default "Save N%") — The tag that swings in for yearly billing, by default the best saving across the plans; an empty string hides it.
+- `actionLabel`: (plan: PricingPlan) => string (default "Continue with {name}") — The Continue button's text for a plan. The button is always as wide as the longest.
+- `currency`: string (default "USD") — ISO 4217 code the prices are in.
+- `locale`: string (default "en-US") — Locale the prices are written in.
+- `size`: "sm" | "md" | "lg" (default "md") — The prices' type scale.
+- `accent`: string (default "var(--accent-bright)") — The light, the chosen ring, the tag and the ticks, any CSS colour.
+- `sound`: boolean (default false) — Play a click on the switch, a chime as the saving swings in and a snap as a plan lands on its plinth.
+- `disabled`: boolean (default false) — Nothing can be chosen or switched, and the table is drawn at reduced strength.
+- `className`: string — Classes for the table's outer box.
+
+Notes:
+- Keyboard: Tab reaches the billing switch and then the chosen plan; in each group the arrow keys move and choose, Home and End jump, and Space or Enter chooses. Tab again reaches Continue.
+- Reduced motion keeps every piece of information and drops the travel: no rise, no step back, no pan and no spin. The light and the ring cross-fade to the chosen plan, the wheels land on their digits, the tag fades and the ticks appear by opacity.
+- Give yearly prices per month, as the page shows them; the yearly total is worked out for the note under the price and for the spoken sentence. The odometer handles digits being added or dropped (9 to 16) by growing or collapsing a wheel.
+- The layout follows the component's own width through a named container query: below 32rem the plans stand as three narrow columns and the chosen plan's features list under the floor; from 32rem each card carries its blurb and features.
+- The odometer is hidden from assistive technology; each plan's description carries its price and billing as a sentence, and a polite live region speaks the chosen plan and price once per change.
+
+### Place Card (KQ-1273) — `place-card`
+The map finds the door as you look.
+
+A venue card with a small drawn map: hovering the card or moving keyboard focus into it zooms the map toward the pin on the glide spring, closing in about a point by the door so the pin holds still while streets thin and blocks grow, then draws the walk from you to the door and sets its dashes marching while the pin hops once on the recoil spring; markers and the walk keep their size on screen at any zoom, and the march runs only while the card is looked at, on screen and visible. Under the map a clock dial around the closing time shows the opening hours, a dot at now and an arc to closing whose sweep glides when now moves, read from a now prop in the venue's time zone. Directions opens numbered steps on a measured height that glides open, focus moves to the first step, Up and Down choose a step and light its stretch of the walk with a marker that glides to its start, and Escape closes the list and returns focus to the button.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/place-card`
+
+Props:
+- `name`: string (default "Coldbrook Roasters") — The venue: the card's heading and the map's accessible name.
+- `kind`: string (default "Coffee and bakery") — What kind of place it is, under the name.
+- `address`: string (default "14 Basin Street") — Under the name, after the kind.
+- `now`: Date | number — The moment the hours are read at. Without it the card keeps its own clock, read from the first frame after mount and paused while the page is hidden.
+- `timeZone`: string (default "UTC") — The venue's IANA time zone, used to read now, so the server and the browser agree.
+- `opensAt`: string (default "07:30") — Today's opening time, 24-hour HH:MM.
+- `closesAt`: string (default "22:00") — Today's closing time, 24-hour HH:MM; earlier than opensAt means after midnight.
+- `map`: PlaceMap (default defaultPlaceMap) — The neighbourhood: world size, streets, river, parks, blocks, the venue's building, and the walk's path from you (its first point) to the door (its last).
+- `steps`: PlaceStep[] (default defaultPlaceSteps) — The walk as numbered steps ({ id, text, meters, at }), each starting at a point of map.path.
+- `expanded / defaultExpanded`: boolean (default false) — Whether the directions are open, controlled or initial.
+- `onExpandedChange`: (expanded: boolean) => void — Fires from the press or the Escape that opened or closed the directions.
+- `onStepSelect`: (index: number) => void — A step was chosen from the list, by press or arrow key.
+- `zoom`: number (default 1.8) — How far looking at the card zooms the map toward the pin, 1 to 3.
+- `route`: "dashes" | "dots" | "line" (default "dashes") — How the walk is drawn: dashes that march to the door, footstep dots that march, or a still line.
+- `hours`: "12h" | "24h" (default "24h") — The clock the hours are read on: the dial's 12 or 24 hours and every time on the card.
+- `drawDuration`: number (default 700) — How long the walk takes to draw from you to the door, in ms.
+- `walkSpeed`: number (default 80) — Walking pace that turns the steps' metres into minutes, in metres a minute.
+- `directionsLabel`: string (default "Directions") — The directions button's text while closed.
+- `closeLabel`: string (default "Hide directions") — The same button's text while the steps are open; the button is always as wide as the longer label.
+- `size`: "sm" | "md" | "lg" (default "md") — The map's height: 136, 168 or 200 px.
+- `accent`: string (default "var(--accent-bright)") — The walk, the you marker and the hours arc, any CSS colour.
+- `pinColor`: string (default "var(--danger)") — The pin's pigment, any CSS colour; drawn at a fixed lightness so it reads the same in both themes.
+- `sound`: boolean (default false) — Play a swish as the visitor opens or closes the directions and a plip, rising with the step number, as they choose a step.
+- `disabled`: boolean (default false) — Nothing zooms or opens, and the card is drawn at reduced strength.
+- `className`: string — Classes for the card.
+
+Notes:
+- Keyboard: Tab reaches Directions, and focus there zooms the map and draws the walk just as a hover does. Enter or Space opens the steps with focus on the first; Up, Down, Home and End choose a step; Escape anywhere in the card closes them and returns focus to the button.
+- Reduced motion keeps the information and drops the travel: the map does not zoom, the walk fades in whole and never marches, the pin does not hop, the hours arc and the step marker land without sweeping, and the steps open without sliding.
+- Pass now with the venue's timeZone for server rendering: both are read through Intl, so the server and the browser draw the same dial. Without now the card renders its hours alone and starts its own minute clock after mount.
+- The march costs nothing when no one is looking: it runs only while the card is hovered, focused or open, on screen (IntersectionObserver) and while the page is visible.
+- Bring your own neighbourhood through map: draw it in any world size, and keep the walk within the middle of the world, since the frame crops the world to its own aspect and zooms about a point between the door and the middle of the walk.
+
+### Track Card (KQ-1274) — `track-card`
+Hover to see the shape of it.
+
+A music track card whose waveform is its bottom edge: a dotted baseline at rest that stands up bar by bar on hover, keyboard focus or play, rippling out from where the pointer came in with every bar on its own springs.snap step response, while moving along the card scrubs a ghost playhead that lights the bars up to the pointer and a press or drag on the lane seeks with the playhead gliding on springs.glide. Play slides the record half out of its sleeve on glide and spins it up like a turntable under a sheen that does not turn; Like and Queue throw a copy of the cover on a parabola into the Up next badge, which recoils on springs.recoil and rolls its count on snap when it lands and opens a real disclosure panel on snap. The lane is a slider (arrows five seconds, Page keys thirty, Home and End), Play, Like and Queue are buttons, and Escape closes the panel and hands focus back to the badge.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/track-card`
+
+Props:
+- `track`: { id: string; title: string; artist: string; duration: number; release?: string } (default defaultTrack) — The track; its title is the card's heading and duration (seconds) sets the lane's length.
+- `art`: React.ReactNode — Cover art drawn inside the sleeve, such as an <img>. Defaults to procedural art seeded from the track.
+- `upNext`: { id: string; title: string; artist: string; duration: number }[] (default defaultUpNext) — The tracks already lined up after this one, listed in the Up next panel and counted on the badge.
+- `playing / defaultPlaying`: boolean (default false) — Playback. Playing slides the record out and spins it; uncontrolled, the playhead advances by itself.
+- `onPlayingChange`: (playing: boolean) => void — Fires from the press that changed it, or when the track reaches its end.
+- `position / defaultPosition`: number (default 0) — The playhead in seconds. Controlled, the playhead follows the host and glides on a real seek.
+- `onPositionChange`: (seconds: number) => void — Fires on every seek (press, drag, arrow keys), on pause and at the end.
+- `liked / defaultLiked`: boolean (default false) — The heart.
+- `onLikedChange`: (liked: boolean) => void — Fires from the press that changed it.
+- `queued / defaultQueued`: boolean (default false) — This track is lined up in Up next.
+- `onQueuedChange`: (queued: boolean) => void — Fires from Queue, from a like that lines the track up, or from Remove in the panel.
+- `likeQueues`: boolean (default true) — Liking a track that is not lined up yet also adds it to Up next, thrown into the badge.
+- `bars`: number (default 56) — How many bars the waveform is drawn with: coarse blocks or a dense comb (under 4 px a bar, the gaps close).
+- `spin`: number (default 16) — How fast the record turns while playing, in rpm; 0 holds it still.
+- `peek`: number (default 0.5) — How far the record slides out of its sleeve while playing, as a share of the record (0.1 to 0.7).
+- `reveal`: "hover" | "always" (default "hover") — When the waveform stands up: on hover, focus, play and scrub, or always.
+- `size`: "sm" | "md" | "lg" (default "md") — Sleeve 64 / 72 / 80 px on a narrow card, 96 / 112 / 128 px on a wide one.
+- `accent`: string (default "var(--accent-bright)") — Colour of the played bars, the playhead and the cover art, as any CSS colour.
+- `sound`: boolean (default false) — Ticks for presses and scrub detents, and a blup when a thrown track lands in the badge.
+- `disabled`: boolean (default false) — Nothing plays, seeks, reveals or queues.
+- `className`: string — Classes for the card.
+
+Notes:
+- Keyboard: Tab reaches the Up next badge, Play, Like, Queue and the lane; the lane is a slider (ArrowRight or ArrowUp +5 s, ArrowLeft or ArrowDown -5 s, PageUp and PageDown 30 s, Home, End). Keyboard focus anywhere in the card raises the waveform and lets the record peek out, exactly as hover does.
+- The badge opens the Up next panel as a disclosure: focus moves into it when it arrives, Escape (caught wherever focus is in the card), the close button, the badge or a press outside close it, and focus returns to the badge.
+- Reduced motion: no ripple, slide, spin, throw or recoil. The full waveform cross-fades in over its stubs, the record swaps out in place, and the playhead, the lit bars and the count still change.
+- For real playback, control position from your audio element's timeupdate and playing from its play and pause events; the record and the lane follow. Uncontrolled, the card simulates playback, paused while it is off screen or the page is hidden.
+- The card lays itself out by its own width: a compact layout under 36rem with an icon-only Play, and a wide one with a 112 px sleeve from 36rem.
+- Sound plays only when sound is true and only answers a press, a drag or a key; playback itself is silent.
+
+### Role Card (KQ-1275) — `role-card`
+The salary band draws itself.
+
+A job listing card whose salary band draws itself against the market range on springs.glide when you hover or focus it, the end labels counting as they travel, while the location, remote and employment chips straighten from a loose scatter on springs.snap with a cascade and the company badge flips in real perspective to show the team's size. The top-right corner is paper: pressing it, or dragging it down and left 1:1 and letting go, folds it over along the diagonal in 3D on snap, cutting the card along the crease and showing its shaded back, and unfolding glides it open. Apply morphs into a two-field form inside the card through a shared layout on glide, and a sent application morphs back into Applied as a stamp lands beside it on springs.recoil; the form is a real disclosure that takes focus on arrival and gives it back on Cancel or Escape.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/role-card`
+
+Props:
+- `listing`: RoleListing (default defaultListing) — The role: title, company, team, team size, location, remote, employment, salary band, market range, summary, posted and applicants.
+- `saved / defaultSaved`: boolean (default false) — The corner is folded down and the role saved.
+- `onSavedChange`: (saved: boolean) => void — Fires from the press or the drag that folded or unfolded the corner.
+- `open / defaultOpen`: boolean (default false) — The application form is showing.
+- `onOpenChange`: (open: boolean) => void — Fires from Apply, Cancel, Escape and a sent application.
+- `applied / defaultApplied`: boolean (default false) — An application has been sent and the card is stamped.
+- `onAppliedChange`: (applied: boolean) => void — Fires when a submission succeeds.
+- `onApply`: (application: { email: string; link: string }) => void | Promise<unknown> — Sends the application. A returned promise shows Sending with the button's width held; a rejection keeps the form open with an error.
+- `band`: "sweep" | "center" | "ends" (default "sweep") — How the salary band draws: sweeping up from its low end, spreading from its midpoint, or closing in from the scale's edges.
+- `crease`: number (default 40) — The folding corner's size in px: a small dog-ear or a big fold.
+- `expand`: "inline" | "sheet" (default "inline") — Where the form opens: growing the card in place (its height glides), or as a sheet over its lower half.
+- `reveal`: "hover" | "always" (default "hover") — When the band draws, the chips settle and the badge flips: on hover, keyboard focus or a tap, or always.
+- `formatMoney`: (amount: number, currency: string) => string (default "€62k" style) — How an amount is written, in the labels, the band and its spoken sentence.
+- `applyLabel`: string (default "Apply") — The Apply button's text.
+- `appliedLabel`: string (default "Applied") — The text once applied, on the button and the stamp.
+- `size`: "sm" | "md" | "lg" (default "md") — Badge (36 / 40 / 48 px) and title size; sm also tightens the padding.
+- `accent`: string (default "var(--accent)") — The offered band, the Apply fill and the warm chip icons, as any CSS colour.
+- `sound`: boolean (default false) — Paper for the fold and the form, a click for Send and for the stamp landing.
+- `disabled`: boolean (default false) — No reveal, no fold, no applying.
+- `className`: string — Classes for the card.
+
+Notes:
+- Keyboard: Tab reaches Apply, then the corner; keyboard focus anywhere in the card draws the band, settles the chips and flips the badge. The corner is an aria-pressed button, so Space or Enter folds and unfolds it through the same path as a press.
+- Apply is a disclosure: the form takes focus on its email field when it arrives, Cancel and Escape (caught wherever focus is in the card) close it and return focus to Apply, and after a sent application focus lands on Applied.
+- Return a promise from onApply to show Sending; reject it to keep the form open with a 'Not sent' line, and the next Send tries again. An invalid email is flagged with aria-invalid and a message without calling onApply.
+- Reduced motion: nothing folds, flips, tilts, travels or bounces. The dog-ear swaps in, the badge faces cross-fade, the band fades in whole and the stamp fades in, so every state still shows.
+- On touch screens a tap on the card reveals the band, and the corner can be dragged down and left to fold it (touch-action is none on the corner only).
+
+### Lesson Card (KQ-1276) — `lesson-card`
+Progress you can see filling.
+
+A course card made as a small deck: the front card's ring fills to the share of the course done on springs.glide the first time it comes into view, its percentage counting with it, and the streak days dot along its bottom edge, while the next lesson's card sits behind as a sliver and rises out on glide on hover or keyboard focus. Continue flips through: the front card tips back about its bottom edge on an accelerating exit tween, the next comes forward on springs.snap, the one behind moves up a place on glide, and then the ring fills to its new share and today's dot pops in on springs.recoil. The peeking card's strip is a real disclosure button that pins it up, Escape lowers it, Continue's name says where it goes, and focus follows the new front card.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/lesson-card`
+
+Props:
+- `course`: string (default "Pricing for Product Teams") — The course: the card's heading.
+- `provider`: string (default "Fieldline Academy") — Who runs it, shown beside Continue.
+- `lessons`: { id: string; title: string; minutes: number }[] (default defaultLessons) — The course's lessons, in order.
+- `lesson / defaultLesson`: number (default 6) — Index of the current lesson; lessons.length means the course is complete. The ring shows lesson / lessons.length.
+- `onLessonChange`: (index: number) => void — Fires from Continue (the next index) and Start again (0).
+- `onContinue`: (lesson: { id: string; title: string; minutes: number }) => void — Fires from Continue with the lesson just finished.
+- `activity`: boolean[] (default defaultActivity) — Days of activity, oldest first; the last is today. Continue marks today done.
+- `ring`: "thin" | "thick" | "segmented" (default "thick") — The ring: one thin arc, one thick arc, or one segment per lesson filling in turn.
+- `peek`: number (default 0.75) — How far the next lesson's card rises from behind on hover, 0 to 1.
+- `streak`: number (default 14) — How many days dot along the bottom edge; 0 hides the streak.
+- `continueLabel`: string (default "Continue") — The Continue button's text.
+- `finishLabel`: string (default "Finish course") — Continue's text on the last lesson.
+- `restartLabel`: string (default "Start again") — The button on the complete card.
+- `nextLabel`: string (default "Up next") — Words on the card that peeks from behind.
+- `size`: "sm" | "md" | "lg" (default "md") — Ring 48 / 60 / 72 px.
+- `accent`: string (default "var(--accent-bright)") — The ring, the active days and Continue, as any CSS colour.
+- `sound`: boolean (default false) — A swish for the flip-through and a plip, pitched by the share, when the ring lands.
+- `disabled`: boolean (default false) — Nothing continues or peeks.
+- `className`: string — Classes for the card.
+
+Notes:
+- Keyboard: Tab reaches Continue, then the peeking card's strip; keyboard focus in the card raises the next card. Enter on the strip pins it up and Escape (caught wherever focus is in the card) lowers it. After Continue, focus moves to the new front card's button before the old card leaves.
+- Only the front card is in the tab and reading order: the cards behind, and the one flipping away, are inert and hidden from assistive technology. The ring is a progressbar whose value is lessons done, and a polite live region speaks one sentence per lesson.
+- Reduced motion: the deck re-stacks in place and the new card cross-fades in with no tip, rise or bounce; the ring still fills, on a short tween, and the percentage and streak still update.
+- The ring fills the first time the card enters the viewport, so a card further down a page fills when it is reached rather than off screen.
+- Control lesson to drive the card from your progress store; a host that moves it plays the same flip-through, and Start again calls onLessonChange(0).
+
+### Team Fan (KQ-1277) — `team-fan`
+Hover the stack, meet the team.
+
+A team card whose overlapping faces fan into a readable row on hover or keyboard focus: each face springs to its slot on springs.snap a cascade beat after the last, its first name rolls up beneath it and its presence dot pops in on flick, the "+12" bubble flips about its axis to the full count and an invite button springs out to the end; leaving gathers them back in reverse on glide. Pressing a face lifts it on snap while the rest recede on glide, and opens a details disclosure whose measured height glides open with role, presence, local time and Message. The row is a toolbar with a roving tabindex: arrows move, Home and End jump, Enter focuses a person and moves focus into the details, Escape hands it back.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/team-fan`
+
+Props:
+- `members`: TeamMember[] (default defaultTeam) — Everyone on the team (id, name, role, presence, utcOffset, image); the first max are the faces in the stack.
+- `total`: number (default members.length) — The team's size when members is only a page of it; the count bubble reads it.
+- `max`: number (default 6) — Faces in the stack before the count bubble; four under 26rem of container width.
+- `title`: string (default "Platform crew") — The card's heading, and the toolbar's name.
+- `subtitle`: string (default "Basinworks · Design systems") — The line under the heading.
+- `headingLevel`: 2 | 3 | 4 (default 3) — The heading's level.
+- `value / defaultValue`: string | null (default null) — The focused member's id, controlled or initial; null when nobody is focused.
+- `onValueChange`: (id: string | null) => void — Fires from the press that focused a face or let it go.
+- `onInvite`: () => void — The invite button at the end of the fan.
+- `onShowAll`: () => void — The count bubble: show everyone.
+- `onMessage`: (id: string) => void — Message, in a focused person's details.
+- `inviteLabel`: string (default "Invite") — The invite button's label, under it in the fan.
+- `countLabel`: string (default "members") — The word under the flipped count.
+- `spread`: number (default 0.5) — How much air the fan puts between faces, 0 to 1; always clamped to the card's width.
+- `cascade`: number (default 40) — The beat between one face landing and the next, in ms.
+- `focus`: number (default 0.6) — How far the rest of the team recedes behind a focused face, 0 to 1: opacity, scale and colour.
+- `size`: "sm" | "md" | "lg" (default "md") — Faces 28, 36 or 44 px across.
+- `now`: Date | number (default 2 Oct 2026, 13:02 UTC) — The clock each person's local time is read from.
+- `accent`: string (default "var(--accent-bright)") — The focused face's ring and the invite tint; any CSS colour.
+- `sound`: boolean (default false) — A swish as a key or a tap opens the fan (hover opens it silently), a pop as a face is focused.
+- `disabled`: boolean (default false) — Keeps the stack closed and its buttons inert.
+- `className`: string — Classes for the article.
+
+Notes:
+- Keyboard: Tab into the row opens the fan like hover; Left and Right move between faces, the count and Invite, Home and End jump, Enter or Space focuses a person and moves focus into the details, and Escape or Close returns it to their face.
+- On touch the first tap on the stack opens the fan and the next tap on a face focuses that person; a tap outside the card gathers it.
+- Which faces a width shows is decided by a container query, so the server's stack and the client's agree; the fan's slots are then measured from the row, so it never leaves the card.
+- Reduced motion: faces jump to their slots while the row cross-fades, the count bubble cross-fades instead of flipping, and the rest of the team recedes by opacity alone.
+- Pass now from your own clock so each person's local time stays current; the component never reads the time itself.
+
+### Swatch Card (KQ-1278) — `swatch-card`
+Every colour re-dyes the product.
+
+A product card whose drawn tote takes the colour you choose: a swatch floods the bag with the new dye from where that swatch sits, a liquid front whose edge sloshes mid-flood on a tween, while one ring slides to the swatch on springs.snap and the swatch dips and lands on recoil. The price rolls its digit columns on snap, sizes a colour does not come in shrink to struck chips as the rest glide wider, the drawing grows to the chosen size about its base on glide, and Add to bag morphs into a quantity stepper whose buttons slide in from the middle on snap. Colours and sizes are radio groups with a roving tabindex, and focus follows the morph to the stepper and back.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/swatch-card`
+
+Props:
+- `swatches`: ProductSwatch[] (default defaultSwatches) — The colours on offer: id, label, CSS colour, price, and the size ids each comes in.
+- `value / defaultValue`: string (default the first swatch) — The chosen colour id, controlled or initial.
+- `onValueChange`: (id: string) => void — Fires from the swatch press or arrow key that chose a colour.
+- `sizes`: ProductSize[] (default defaultSizes) — The sizes on offer, smallest first: id, label, note, the drawing's scale, and a price difference.
+- `selectedSize / defaultSelectedSize`: string (default the middle size) — The chosen size id, controlled or initial.
+- `onSelectedSizeChange`: (id: string) => void — Fires from the size press, or from a colour press that does not come in the chosen size.
+- `quantity / defaultQuantity`: number (default 0) — How many are in the bag; 0 shows Add to bag.
+- `onQuantityChange`: (quantity: number) => void — Fires from Add to bag, the stepper, or remove, with the new quantity.
+- `maxQuantity`: number (default 9) — The most the stepper allows.
+- `brand`: string (default "Fernworks") — The maker, above the name.
+- `name`: string (default "Harbour tote") — The product's name: the card's heading.
+- `detail`: string (default "Waxed canvas · leather patch") — A line under the name.
+- `format`: (price: number) => string (default whole pounds, en-GB) — How a price is printed.
+- `wipe`: number (default 0.5) — How liquid the dye front is, 0 to 1: a clean circle, or an edge that sloshes as it floods.
+- `wipeDuration`: number (default 560) — How long the dye takes to flood the product, in ms.
+- `shade`: number (default 0.6) — How much the drawing is modelled, 0 to 1: flat colour, or deep folds and highlights.
+- `stepper`: boolean (default true) — Adding morphs into a quantity stepper; off, it becomes an In bag toggle.
+- `addLabel`: string (default "Add to bag") — The add button's text.
+- `inBagLabel`: string (default "in bag") — After the quantity in the stepper, and the toggle's pressed text.
+- `headingLevel`: 2 | 3 | 4 (default 3) — The heading's level.
+- `sound`: boolean (default false) — A plip for each colour pitched by its place in the row, a pop for each change to the bag.
+- `disabled`: boolean (default false) — Locks every choice and dims the card.
+- `className`: string — Classes for the article.
+
+Notes:
+- Keyboard: the colours and the sizes are radio groups; arrow keys move and choose, Home and End jump, and sizes a colour does not come in are skipped. Enter on Add to bag moves focus to the stepper's +, and removing the last one hands it back to Add to bag.
+- Pass each swatch's sizes to say what it comes in; a colour that drops the chosen size moves to the nearest one and reports it through onSelectedSizeChange from the same press.
+- Colours are any CSS colour; the defaults are pigments taken from the theme's tokens at a fixed lightness, so a product looks the same in light and dark.
+- Reduced motion: the new dye fades over the old instead of flooding, the price swaps in place, sizes and the drawing change size at once, and the stepper cross-fades without sliding.
+- A polite live region says the colour and its price after a colour change, and Added to bag, 2 in bag or Removed from bag after a change to the quantity.
+
+### Review Card (KQ-1279) — `review-card`
+The stars fill as the words come in.
+
+A product review that arrives as you read it: the first time it comes into view, the visible lines ink in one at a time under a soft left-to-right edge while the stars fill on the same linear clock, a liquid clipped by the star shapes whose front ripples as it travels and sloshes back on springs.recoil when it lands. A long review folds under a fade and Read more unrolls it to its measured height on the spring you choose (snap, glide or drift), ticking per line; Helpful tallies roll on snap and bump on recoil, and the photos fan out of their seeded deck on snap. Read more is a disclosure that moves focus into the text, Escape rolls it back up and returns focus, and votes are aria-pressed toggles.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/review-card`
+
+Props:
+- `rating`: number (default 4) — The reviewer's rating, 0 to 5; a fraction fills part of a star.
+- `title`: string (default "Carries a whole day, rain and all") — The review's title: the card's heading.
+- `body`: string — The review; a blank line starts a new paragraph.
+- `author`: string (default "Odile M.") — Who wrote it.
+- `authorDetail`: string (default "Verified buyer") — After the author.
+- `date`: Date | number (default 12 Sep 2026) — When it was written.
+- `timeZone`: string (default "UTC") — The zone dates print in, so the server and the browser print the same day.
+- `formatDate`: (date: Date, timeZone: string) => string (default "12 Sep 2026") — How the date is printed.
+- `product`: string (default "Harbour tote · Moss · Daily") — What was bought, above the vote.
+- `photos`: ReviewPhoto[] (default defaultReviewPhotos) — The reviewer's photos: id, alt, and a seed for the procedural scene or an image node.
+- `onPhotoOpen`: (id: string) => void — A thumbnail was pressed.
+- `helpful`: number (default 24) — People who found it helpful, not counting this visitor.
+- `unhelpful`: number (default 2) — People who did not, not counting this visitor.
+- `vote / defaultVote`: "up" | "down" | null (default null) — This visitor's vote, controlled or initial.
+- `onVoteChange`: (vote: "up" | "down" | null) => void — Fires from the vote press, with the new vote or null when undone.
+- `expanded / defaultExpanded`: boolean (default false) — Whether the long review is unrolled, controlled or initial.
+- `onExpandedChange`: (expanded: boolean) => void — Fires from Read more, Show less or Escape.
+- `lines`: number (default 4) — Lines shown while the review is folded.
+- `pace`: number (default 200) — How long each line takes to ink in on view, in ms; the stars take the same time in all.
+- `fill`: number (default 0.5) — How liquid the stars' fill is, 0 to 1: a straight sweep, or a front that ripples and sloshes.
+- `unroll`: "snap" | "glide" | "drift" (default "glide") — The spring that unrolls and rolls up the fold.
+- `fan`: number (default 0.5) — How far the photos fan out on hover, 0 to 1.
+- `starColor`: string (default gold pigment from --warn) — The stars' liquid; any CSS colour, with the outline mixed from it.
+- `revealOnView`: boolean (default true) — Ink the review in the first time it comes into view; off, it starts shown.
+- `headingLevel`: 2 | 3 | 4 (default 3) — The heading's level.
+- `sound`: boolean (default false) — A tick per line as the visitor unrolls the review, a pop for a vote.
+- `disabled`: boolean (default false) — Locks the fold, the votes and the photos.
+- `className`: string — Classes for the article.
+
+Notes:
+- Keyboard: Read more is a button with aria-expanded; opening moves focus into the review text, and Escape there or on the button rolls it back up and returns focus to the button. Tabbing into the photos fans them; votes are toggle buttons.
+- The text is always in the DOM in full; the ink-in is a mask, so assistive technology reads the whole review from the start.
+- Lines are measured from the text itself and re-measured on resize, so the fold always shows exactly lines lines and the sweep never lands between them.
+- Reduced motion: the text and the stars fade in together on view, the fold opens to its height at once, vote counts swap without a bump, and the photos spread without turning.
+- Pass revealOnView={false} for lists where many reviews arrive at once, or remount with a new key to play the reveal again.
+
+### Meeting Card (KQ-1280) — `meeting-card`
+Join when the room lights up.
+
+An upcoming-meeting card that counts down from now: a ring around the start time drains over the last few minutes on a tween per tick, and at the start swells and settles on springs.recoil, sends one ring out and turns into the meeting's elapsed share in the live colour. Attendees light up as each one's join time passes, filling with colour and landing on recoil with a ring going out, and once live the Join button breathes a halo, only while the card is on screen. The agenda is a sheet tucked under the card: dragging its lip pulls it out 1:1 with rubber-banding and a release commits by projection on springs.snap, to open, closed or, row by row, to each detent. The lip is a disclosure button: Enter or Space toggles and moves focus into the agenda, arrow keys pull it out and push it back, Escape closes.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/meeting-card`
+
+Props:
+- `title`: string (default "Design review") — The meeting's name: the card's heading.
+- `place`: string (default "Fern room · video") — Where it happens, after the times.
+- `start`: Date | number (default 2 Oct 2026, 10:30 UTC) — When it starts.
+- `end`: Date | number (default 2 Oct 2026, 11:15 UTC) — When it ends.
+- `now`: Date | number (default 2 Oct 2026, 10:26 UTC) — The clock; update it (every second, say) for a live countdown. The card never reads the time itself.
+- `timeZone`: string (default "UTC") — The zone times print in, so the server and the browser print the same.
+- `attendees`: MeetingAttendee[] (default defaultAttendees) — Who is invited (id, name, joinedAt, image); each lights up once now passes their joinedAt.
+- `agendaItems`: MeetingAgendaItem[] (default defaultAgenda) — The agenda under the card (id, title, minutes, owner); times count from the start.
+- `joined / defaultJoined`: boolean (default false) — Whether the viewer has joined, controlled or initial.
+- `onJoinedChange`: (joined: boolean) => void — Fires from the Join press, with true for joined.
+- `open / defaultOpen`: boolean (default false) — Whether the agenda is pulled out, controlled or initial.
+- `onOpenChange`: (open: boolean) => void — Fires from the drag, press or key that pulled the agenda out or pushed it back.
+- `ring`: number (default 5) — The countdown window the ring spans before the start, in minutes.
+- `glow`: number (default 0.5) — How strongly the Join button breathes once the meeting is live, 0 to 1.
+- `agenda`: "sheet" | "rows" (default "sheet") — How the agenda comes out: in one pull, or a row at a time with a detent at each.
+- `agendaRows`: number (default 3) — Agenda rows shown before the sheet scrolls inside.
+- `joinLabel`: string (default "Join") — The Join button's text.
+- `joinedLabel`: string (default "Joined") — Its text once joined; the button keeps the widest label's width.
+- `endedLabel`: string (default "Ended") — Its text after the end, when it is disabled.
+- `youLabel`: string (default "You") — The viewer's own face, waiting at the end of the row and lit when joined.
+- `accent`: string (default "var(--accent-bright)") — The countdown ring and the Join halo; any CSS colour.
+- `headingLevel`: 2 | 3 | 4 (default 3) — The heading's level.
+- `sound`: boolean (default false) — A chime as the viewer joins, a tick at each agenda detent the viewer pulls past. Nothing sounds on its own.
+- `disabled`: boolean (default false) — Locks Join and the agenda and dims the card.
+- `className`: string — Classes for the article.
+
+Notes:
+- Keyboard: the agenda lip is a button with aria-expanded; Enter or Space toggles it and moves focus into the agenda, ArrowDown and ArrowUp pull it out and push it back (a row at a time with agenda="rows"), Home and End close and open, and Escape closes from the lip or from inside the agenda.
+- Pass now from your own clock and update it; the ring eases to each new value, so ticking every second reads as a clock and ticking faster as a continuous drain.
+- Join breathes only while the meeting is live, the card is on screen and the page is visible, and stops once the viewer joins.
+- Reduced motion: the ring steps with no swell, faces light by colour alone, Join shows a steady halo, and the agenda goes straight to its detent; a drag still follows the finger.
+- A polite live region says when someone joins and when the meeting goes live, once per change, never per tick.
+
 ### Answer Panel (KQ-1291) — `answer-panel`
 Read it while it is still being written.
 

@@ -247,4 +247,44 @@ export const STUDIO_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/invite-flow.demo").then((m) =>
       mod(m.InviteFlowDemo, m.tweaks),
     ),
+  "profile-lift": () =>
+    import("@/registry/demos/profile-lift.demo").then((m) =>
+      mod(m.ProfileLiftDemo, m.tweaks),
+    ),
+  "pricing-plinth": () =>
+    import("@/registry/demos/pricing-plinth.demo").then((m) =>
+      mod(m.PricingPlinthDemo, m.tweaks),
+    ),
+  "place-card": () =>
+    import("@/registry/demos/place-card.demo").then((m) =>
+      mod(m.PlaceCardDemo, m.tweaks),
+    ),
+  "track-card": () =>
+    import("@/registry/demos/track-card.demo").then((m) =>
+      mod(m.TrackCardDemo, m.tweaks),
+    ),
+  "role-card": () =>
+    import("@/registry/demos/role-card.demo").then((m) =>
+      mod(m.RoleCardDemo, m.tweaks),
+    ),
+  "lesson-card": () =>
+    import("@/registry/demos/lesson-card.demo").then((m) =>
+      mod(m.LessonCardDemo, m.tweaks),
+    ),
+  "team-fan": () =>
+    import("@/registry/demos/team-fan.demo").then((m) =>
+      mod(m.TeamFanDemo, m.tweaks),
+    ),
+  "swatch-card": () =>
+    import("@/registry/demos/swatch-card.demo").then((m) =>
+      mod(m.SwatchCardDemo, m.tweaks),
+    ),
+  "review-card": () =>
+    import("@/registry/demos/review-card.demo").then((m) =>
+      mod(m.ReviewCardDemo, m.tweaks),
+    ),
+  "meeting-card": () =>
+    import("@/registry/demos/meeting-card.demo").then((m) =>
+      mod(m.MeetingCardDemo, m.tweaks),
+    ),
 };

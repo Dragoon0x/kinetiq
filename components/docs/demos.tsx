@@ -1380,6 +1380,16 @@ import { SetupWizardDemo } from "@/registry/demos/setup-wizard.demo";
 import { FeedbackWidgetDemo } from "@/registry/demos/feedback-widget.demo";
 import { HelpPanelDemo } from "@/registry/demos/help-panel.demo";
 import { InviteFlowDemo } from "@/registry/demos/invite-flow.demo";
+import { ProfileLiftDemo } from "@/registry/demos/profile-lift.demo";
+import { PricingPlinthDemo } from "@/registry/demos/pricing-plinth.demo";
+import { PlaceCardDemo } from "@/registry/demos/place-card.demo";
+import { TrackCardDemo } from "@/registry/demos/track-card.demo";
+import { RoleCardDemo } from "@/registry/demos/role-card.demo";
+import { LessonCardDemo } from "@/registry/demos/lesson-card.demo";
+import { TeamFanDemo } from "@/registry/demos/team-fan.demo";
+import { SwatchCardDemo } from "@/registry/demos/swatch-card.demo";
+import { ReviewCardDemo } from "@/registry/demos/review-card.demo";
+import { MeetingCardDemo } from "@/registry/demos/meeting-card.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2774,4 +2784,14 @@ export const demos: Record<string, ComponentType> = {
   "feedback-widget": FeedbackWidgetDemo,
   "help-panel": HelpPanelDemo,
   "invite-flow": InviteFlowDemo,
+  "profile-lift": ProfileLiftDemo,
+  "pricing-plinth": PricingPlinthDemo,
+  "place-card": PlaceCardDemo,
+  "track-card": TrackCardDemo,
+  "role-card": RoleCardDemo,
+  "lesson-card": LessonCardDemo,
+  "team-fan": TeamFanDemo,
+  "swatch-card": SwatchCardDemo,
+  "review-card": ReviewCardDemo,
+  "meeting-card": MeetingCardDemo,
 };

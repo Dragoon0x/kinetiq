@@ -33151,6 +33151,298 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "profile-lift",
+      "type": "registry:ui",
+      "title": "Profile Lift",
+      "description": "A profile card whose portrait steps out of its frame: hovering it or moving keyboard focus into it lifts the portrait out of a recessed circular well on the snap spring, growing past the frame's edge while its shadow falls into the empty ring below and softens with the height, as the figures count up from zero and the follow pill docks on the frame's rim on snap; a mouse or pen tilts the card toward itself on glide, the lifted portrait shifting further than the card. Pressing the card grows it into a sheet with the bio, links and followers in common, one shared-layout surface on the glide spring with the portrait, name and figures travelling to their places, and Escape or the close button folds it back the same way. The card and the follow pill are real buttons that Enter and Space press, focus moves to the sheet's close button and back to the card, and under reduced motion nothing tilts or travels: the frame lights, the shadow and pill fade in place and the sheet cross-fades.",
+      "files": [
+        {
+          "path": "registry/ui/profile-lift.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1271"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "pricing-plinth",
+      "type": "registry:ui",
+      "title": "Pricing Plinth",
+      "description": "A pricing table whose plans stand on plinths along a floor: choosing one lifts it on the glide spring while its plinth grows underneath, a spotlight pans across to it from above on the same spring and pools light on its head, the other plans step back, and the chosen plan's features check in one after another with each tick drawn on the flick spring. The Monthly/Yearly switch slides its thumb on snap and re-rolls every price on an odometer whose wheels each go round once more and settle on their new digits on glide, a beat apart, as a save tag swings in on its string on the recoil spring. Plans and billing are real radiogroups where the arrow keys move and choose and Home and End jump, a polite live region speaks the chosen plan and price once, and under reduced motion nothing rises, pans or spins while the light, ring and prices still change.",
+      "files": [
+        {
+          "path": "registry/ui/pricing-plinth.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1272"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "place-card",
+      "type": "registry:ui",
+      "title": "Place Card",
+      "description": "A venue card with a small drawn map: hovering the card or moving keyboard focus into it zooms the map toward the pin on the glide spring, closing in about a point by the door so the pin holds still while streets thin and blocks grow, then draws the walk from you to the door and sets its dashes marching while the pin hops once on the recoil spring; markers and the walk keep their size on screen at any zoom, and the march runs only while the card is looked at, on screen and visible. Under the map a clock dial around the closing time shows the opening hours, a dot at now and an arc to closing whose sweep glides when now moves, read from a now prop in the venue's time zone. Directions opens numbered steps on a measured height that glides open, focus moves to the first step, Up and Down choose a step and light its stretch of the walk with a marker that glides to its start, and Escape closes the list and returns focus to the button.",
+      "files": [
+        {
+          "path": "registry/ui/place-card.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1273"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "track-card",
+      "type": "registry:ui",
+      "title": "Track Card",
+      "description": "A music track card whose waveform is its bottom edge: a dotted baseline at rest that stands up bar by bar on hover, keyboard focus or play, rippling out from where the pointer came in with every bar on its own springs.snap step response, while moving along the card scrubs a ghost playhead that lights the bars up to the pointer and a press or drag on the lane seeks with the playhead gliding on springs.glide. Play slides the record half out of its sleeve on glide and spins it up like a turntable under a sheen that does not turn; Like and Queue throw a copy of the cover on a parabola into the Up next badge, which recoils on springs.recoil and rolls its count on snap when it lands and opens a real disclosure panel on snap. The lane is a slider (arrows five seconds, Page keys thirty, Home and End), Play, Like and Queue are buttons, and Escape closes the panel and hands focus back to the badge.",
+      "files": [
+        {
+          "path": "registry/ui/track-card.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1274"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "role-card",
+      "type": "registry:ui",
+      "title": "Role Card",
+      "description": "A job listing card whose salary band draws itself against the market range on springs.glide when you hover or focus it, the end labels counting as they travel, while the location, remote and employment chips straighten from a loose scatter on springs.snap with a cascade and the company badge flips in real perspective to show the team's size. The top-right corner is paper: pressing it, or dragging it down and left 1:1 and letting go, folds it over along the diagonal in 3D on snap, cutting the card along the crease and showing its shaded back, and unfolding glides it open. Apply morphs into a two-field form inside the card through a shared layout on glide, and a sent application morphs back into Applied as a stamp lands beside it on springs.recoil; the form is a real disclosure that takes focus on arrival and gives it back on Cancel or Escape.",
+      "files": [
+        {
+          "path": "registry/ui/role-card.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1275"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "lesson-card",
+      "type": "registry:ui",
+      "title": "Lesson Card",
+      "description": "A course card made as a small deck: the front card's ring fills to the share of the course done on springs.glide the first time it comes into view, its percentage counting with it, and the streak days dot along its bottom edge, while the next lesson's card sits behind as a sliver and rises out on glide on hover or keyboard focus. Continue flips through: the front card tips back about its bottom edge on an accelerating exit tween, the next comes forward on springs.snap, the one behind moves up a place on glide, and then the ring fills to its new share and today's dot pops in on springs.recoil. The peeking card's strip is a real disclosure button that pins it up, Escape lowers it, Continue's name says where it goes, and focus follows the new front card.",
+      "files": [
+        {
+          "path": "registry/ui/lesson-card.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1276"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "team-fan",
+      "type": "registry:ui",
+      "title": "Team Fan",
+      "description": "A team card whose overlapping faces fan into a readable row on hover or keyboard focus: each face springs to its slot on springs.snap a cascade beat after the last, its first name rolls up beneath it and its presence dot pops in on flick, the \"+12\" bubble flips about its axis to the full count and an invite button springs out to the end; leaving gathers them back in reverse on glide. Pressing a face lifts it on snap while the rest recede on glide, and opens a details disclosure whose measured height glides open with role, presence, local time and Message. The row is a toolbar with a roving tabindex: arrows move, Home and End jump, Enter focuses a person and moves focus into the details, Escape hands it back.",
+      "files": [
+        {
+          "path": "registry/ui/team-fan.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1277"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "swatch-card",
+      "type": "registry:ui",
+      "title": "Swatch Card",
+      "description": "A product card whose drawn tote takes the colour you choose: a swatch floods the bag with the new dye from where that swatch sits, a liquid front whose edge sloshes mid-flood on a tween, while one ring slides to the swatch on springs.snap and the swatch dips and lands on recoil. The price rolls its digit columns on snap, sizes a colour does not come in shrink to struck chips as the rest glide wider, the drawing grows to the chosen size about its base on glide, and Add to bag morphs into a quantity stepper whose buttons slide in from the middle on snap. Colours and sizes are radio groups with a roving tabindex, and focus follows the morph to the stepper and back.",
+      "files": [
+        {
+          "path": "registry/ui/swatch-card.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1278"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "review-card",
+      "type": "registry:ui",
+      "title": "Review Card",
+      "description": "A product review that arrives as you read it: the first time it comes into view, the visible lines ink in one at a time under a soft left-to-right edge while the stars fill on the same linear clock, a liquid clipped by the star shapes whose front ripples as it travels and sloshes back on springs.recoil when it lands. A long review folds under a fade and Read more unrolls it to its measured height on the spring you choose (snap, glide or drift), ticking per line; Helpful tallies roll on snap and bump on recoil, and the photos fan out of their seeded deck on snap. Read more is a disclosure that moves focus into the text, Escape rolls it back up and returns focus, and votes are aria-pressed toggles.",
+      "files": [
+        {
+          "path": "registry/ui/review-card.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1279"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "meeting-card",
+      "type": "registry:ui",
+      "title": "Meeting Card",
+      "description": "An upcoming-meeting card that counts down from now: a ring around the start time drains over the last few minutes on a tween per tick, and at the start swells and settles on springs.recoil, sends one ring out and turns into the meeting's elapsed share in the live colour. Attendees light up as each one's join time passes, filling with colour and landing on recoil with a ring going out, and once live the Join button breathes a halo, only while the card is on screen. The agenda is a sheet tucked under the card: dragging its lip pulls it out 1:1 with rubber-banding and a release commits by projection on springs.snap, to open, closed or, row by row, to each detent. The lip is a disclosure button: Enter or Space toggles and moves focus into the agenda, arrow keys pull it out and push it back, Escape closes.",
+      "files": [
+        {
+          "path": "registry/ui/meeting-card.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1280"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

@@ -13,7 +13,7 @@
     "indexUrl": "https://www.kinetiqui.com/r/registry.json",
     "docsUrl": "https://www.kinetiqui.com",
     "counts": {
-      "components": 1189,
+      "components": 1199,
       "blocks": 152,
       "pages": 28,
       "templates": 10,
@@ -92059,6 +92059,1822 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/plug-in",
         "bun": "bunx --bun shadcn@latest add @kinetiq/plug-in",
         "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/plug-in.json"
+      }
+    },
+    {
+      "slug": "profile-lift",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Profile Lift",
+      "serial": "KQ-1271",
+      "tagline": "The portrait steps out of its frame.",
+      "description": "A profile card whose portrait steps out of its frame: hovering it or moving keyboard focus into it lifts the portrait out of a recessed circular well on the snap spring, growing past the frame's edge while its shadow falls into the empty ring below and softens with the height, as the figures count up from zero and the follow pill docks on the frame's rim on snap; a mouse or pen tilts the card toward itself on glide, the lifted portrait shifting further than the card. Pressing the card grows it into a sheet with the bio, links and followers in common, one shared-layout surface on the glide spring with the portrait, name and figures travelling to their places, and Escape or the close button folds it back the same way. The card and the follow pill are real buttons that Enter and Space press, focus moves to the sheet's close button and back to the card, and under reduced motion nothing tilts or travels: the frame lights, the shadow and pill fade in place and the sheet cross-fades.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "profile",
+        "card",
+        "avatar",
+        "follow",
+        "user card",
+        "hover card",
+        "shared layout"
+      ],
+      "props": [
+        {
+          "name": "name",
+          "type": "string",
+          "defaultValue": "\"Ines Calder\"",
+          "description": "The person: the card's heading, the drawn portrait's seed and every accessible name."
+        },
+        {
+          "name": "handle",
+          "type": "string",
+          "defaultValue": "\"@ines.calder\"",
+          "description": "Shown in the open sheet above the bio."
+        },
+        {
+          "name": "role",
+          "type": "string",
+          "defaultValue": "\"Product designer at Fernworks\"",
+          "description": "The line under the name."
+        },
+        {
+          "name": "portrait",
+          "type": "React.ReactNode",
+          "description": "What fills the portrait disc, such as an img. Defaults to a head-and-shoulders portrait drawn from the name in the accent's hue."
+        },
+        {
+          "name": "bio",
+          "type": "string",
+          "description": "The open sheet's paragraph."
+        },
+        {
+          "name": "figures",
+          "type": "ProfileFigure[]",
+          "defaultValue": "defaultProfileFigures",
+          "description": "The counted row ({ id, label, value }). The first figure is the followers count, which following adds one to."
+        },
+        {
+          "name": "links",
+          "type": "ProfileLink[]",
+          "defaultValue": "defaultProfileLinks",
+          "description": "The open sheet's links ({ id, label, detail?, href })."
+        },
+        {
+          "name": "mutuals",
+          "type": "{ names: string[]; total: number }",
+          "defaultValue": "defaultProfileMutuals",
+          "description": "Followers in common: the named ones shown first, then the rest as a count."
+        },
+        {
+          "name": "following / defaultFollowing",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Whether the viewer follows this person, controlled or initial."
+        },
+        {
+          "name": "onFollowingChange",
+          "type": "(following: boolean) => void",
+          "description": "Fires from the press that changed it, with the new state."
+        },
+        {
+          "name": "expanded / defaultExpanded",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Whether the card is open as the full sheet, controlled or initial."
+        },
+        {
+          "name": "onExpandedChange",
+          "type": "(expanded: boolean) => void",
+          "description": "Fires from the press or the Escape that opened or closed the sheet."
+        },
+        {
+          "name": "followLabel",
+          "type": "string",
+          "defaultValue": "\"Follow\"",
+          "description": "The follow button before following; also the start of its accessible name."
+        },
+        {
+          "name": "followingLabel",
+          "type": "string",
+          "defaultValue": "\"Following\"",
+          "description": "The follow button once following. The pill is always as wide as the longer label."
+        },
+        {
+          "name": "lift",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How far the portrait steps out of its frame, 0 to 1: how high it rises, how much it grows and how deep its shadow falls."
+        },
+        {
+          "name": "tilt",
+          "type": "number",
+          "defaultValue": "6",
+          "description": "How far the card turns toward the pointer, in degrees on each axis (up to 10); 0 holds it flat."
+        },
+        {
+          "name": "stats",
+          "type": "\"count\" | \"still\" | \"off\"",
+          "defaultValue": "\"count\"",
+          "description": "What the figures do as the portrait lifts: count up from zero, stay still, or leave the card."
+        },
+        {
+          "name": "countDuration",
+          "type": "number",
+          "defaultValue": "700",
+          "description": "How long the count-up runs, in ms."
+        },
+        {
+          "name": "formatFigure",
+          "type": "(value: number) => string",
+          "description": "How a figure is written. Defaults to compact en-US, \"2.4K\"."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "defaultValue": "\"md\"",
+          "description": "The portrait: 72, 88 or 104 px across, in a frame 20 to 28 px wider."
+        },
+        {
+          "name": "accent",
+          "type": "string",
+          "defaultValue": "\"var(--accent)\"",
+          "description": "The follow button's fill and the drawn portrait's hue, any CSS colour."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play a swish as the visitor opens or closes the sheet and a pop as they follow or unfollow. Nothing sounds on hover."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Nothing lifts, tilts or opens, and the card is drawn at reduced strength."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the card's outer box."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: Tab reaches the card itself (Enter or Space opens the sheet) and then Follow; focus anywhere inside lifts the portrait exactly as a hover does. In the sheet focus starts on the close button, and Escape anywhere in the card closes it and returns focus to the card.",
+        "Reduced motion is a designed state: no tilt, rise or layout travel. The frame's ring lights, the shadow and the follow pill fade in place, the figures show their values without counting and the sheet cross-fades.",
+        "Pass figures without the viewer: the first figure is treated as the followers count and shows one more while following, rolling to it when the state changes.",
+        "The outer box carries 8 px of padding so the tilted card never draws outside it; the card itself is up to 320 px wide and the sheet grows to about 520 px tall at 316 wide.",
+        "Controlled `expanded` waits for the host: focus moves into the sheet only when it actually arrives, and back to the card only when the card does."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/profile-lift",
+      "registryItemUrl": "https://www.kinetiqui.com/r/profile-lift.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/profile-lift",
+        "npm": "npx shadcn@latest add @kinetiq/profile-lift",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/profile-lift",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/profile-lift",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/profile-lift.json"
+      }
+    },
+    {
+      "slug": "pricing-plinth",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Pricing Plinth",
+      "serial": "KQ-1272",
+      "tagline": "The plan you pick rises to meet you.",
+      "description": "A pricing table whose plans stand on plinths along a floor: choosing one lifts it on the glide spring while its plinth grows underneath, a spotlight pans across to it from above on the same spring and pools light on its head, the other plans step back, and the chosen plan's features check in one after another with each tick drawn on the flick spring. The Monthly/Yearly switch slides its thumb on snap and re-rolls every price on an odometer whose wheels each go round once more and settle on their new digits on glide, a beat apart, as a save tag swings in on its string on the recoil spring. Plans and billing are real radiogroups where the arrow keys move and choose and Home and End jump, a polite live region speaks the chosen plan and price once, and under reduced motion nothing rises, pans or spins while the light, ring and prices still change.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "pricing",
+        "plans",
+        "billing",
+        "odometer",
+        "radiogroup",
+        "upgrade",
+        "spotlight"
+      ],
+      "props": [
+        {
+          "name": "plans",
+          "type": "PricingPlan[]",
+          "defaultValue": "defaultPricingPlans",
+          "description": "The plans, left to right: { id, name, blurb?, monthly, yearly, features }, with monthly and yearly both as prices per month."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string | null",
+          "defaultValue": "the second plan",
+          "description": "The chosen plan's id, controlled or initial; null chooses none and puts the light out."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(id: string) => void",
+          "description": "Fires from the press or the key that chose a plan."
+        },
+        {
+          "name": "cycle / defaultCycle",
+          "type": "\"monthly\" | \"yearly\"",
+          "defaultValue": "\"monthly\"",
+          "description": "The billing cycle, controlled or initial. Changing it re-rolls every price."
+        },
+        {
+          "name": "onCycleChange",
+          "type": "(cycle: \"monthly\" | \"yearly\") => void",
+          "description": "Fires from the switch that changed it."
+        },
+        {
+          "name": "onConfirm",
+          "type": "(id: string, cycle: \"monthly\" | \"yearly\") => void",
+          "description": "The Continue button, with the chosen plan and cycle."
+        },
+        {
+          "name": "rise",
+          "type": "number",
+          "defaultValue": "14",
+          "description": "How high the chosen plan rises on its plinth, in px (up to 28); a hovered plan rises 30% of it."
+        },
+        {
+          "name": "spotlight",
+          "type": "number",
+          "defaultValue": "0.7",
+          "description": "How strong the light on the chosen plan is, 0 to 1: the cone, the pool on its head and the lit plinth. 0 puts the spotlight out."
+        },
+        {
+          "name": "stagger",
+          "type": "number",
+          "defaultValue": "40",
+          "description": "Delay between the odometer's wheels as prices re-roll, in ms."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Plans\"",
+          "description": "The heading, and the plans' accessible name."
+        },
+        {
+          "name": "monthlyLabel",
+          "type": "string",
+          "defaultValue": "\"Monthly\"",
+          "description": "The switch's first option."
+        },
+        {
+          "name": "yearlyLabel",
+          "type": "string",
+          "defaultValue": "\"Yearly\"",
+          "description": "The switch's second option."
+        },
+        {
+          "name": "saveLabel",
+          "type": "string",
+          "defaultValue": "\"Save N%\"",
+          "description": "The tag that swings in for yearly billing, by default the best saving across the plans; an empty string hides it."
+        },
+        {
+          "name": "actionLabel",
+          "type": "(plan: PricingPlan) => string",
+          "defaultValue": "\"Continue with {name}\"",
+          "description": "The Continue button's text for a plan. The button is always as wide as the longest."
+        },
+        {
+          "name": "currency",
+          "type": "string",
+          "defaultValue": "\"USD\"",
+          "description": "ISO 4217 code the prices are in."
+        },
+        {
+          "name": "locale",
+          "type": "string",
+          "defaultValue": "\"en-US\"",
+          "description": "Locale the prices are written in."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "defaultValue": "\"md\"",
+          "description": "The prices' type scale."
+        },
+        {
+          "name": "accent",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "The light, the chosen ring, the tag and the ticks, any CSS colour."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play a click on the switch, a chime as the saving swings in and a snap as a plan lands on its plinth."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Nothing can be chosen or switched, and the table is drawn at reduced strength."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the table's outer box."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: Tab reaches the billing switch and then the chosen plan; in each group the arrow keys move and choose, Home and End jump, and Space or Enter chooses. Tab again reaches Continue.",
+        "Reduced motion keeps every piece of information and drops the travel: no rise, no step back, no pan and no spin. The light and the ring cross-fade to the chosen plan, the wheels land on their digits, the tag fades and the ticks appear by opacity.",
+        "Give yearly prices per month, as the page shows them; the yearly total is worked out for the note under the price and for the spoken sentence. The odometer handles digits being added or dropped (9 to 16) by growing or collapsing a wheel.",
+        "The layout follows the component's own width through a named container query: below 32rem the plans stand as three narrow columns and the chosen plan's features list under the floor; from 32rem each card carries its blurb and features.",
+        "The odometer is hidden from assistive technology; each plan's description carries its price and billing as a sentence, and a polite live region speaks the chosen plan and price once per change."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/pricing-plinth",
+      "registryItemUrl": "https://www.kinetiqui.com/r/pricing-plinth.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/pricing-plinth",
+        "npm": "npx shadcn@latest add @kinetiq/pricing-plinth",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/pricing-plinth",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/pricing-plinth",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/pricing-plinth.json"
+      }
+    },
+    {
+      "slug": "place-card",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Place Card",
+      "serial": "KQ-1273",
+      "tagline": "The map finds the door as you look.",
+      "description": "A venue card with a small drawn map: hovering the card or moving keyboard focus into it zooms the map toward the pin on the glide spring, closing in about a point by the door so the pin holds still while streets thin and blocks grow, then draws the walk from you to the door and sets its dashes marching while the pin hops once on the recoil spring; markers and the walk keep their size on screen at any zoom, and the march runs only while the card is looked at, on screen and visible. Under the map a clock dial around the closing time shows the opening hours, a dot at now and an arc to closing whose sweep glides when now moves, read from a now prop in the venue's time zone. Directions opens numbered steps on a measured height that glides open, focus moves to the first step, Up and Down choose a step and light its stretch of the walk with a marker that glides to its start, and Escape closes the list and returns focus to the button.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "map",
+        "venue",
+        "directions",
+        "opening hours",
+        "location card",
+        "walking route",
+        "place"
+      ],
+      "props": [
+        {
+          "name": "name",
+          "type": "string",
+          "defaultValue": "\"Coldbrook Roasters\"",
+          "description": "The venue: the card's heading and the map's accessible name."
+        },
+        {
+          "name": "kind",
+          "type": "string",
+          "defaultValue": "\"Coffee and bakery\"",
+          "description": "What kind of place it is, under the name."
+        },
+        {
+          "name": "address",
+          "type": "string",
+          "defaultValue": "\"14 Basin Street\"",
+          "description": "Under the name, after the kind."
+        },
+        {
+          "name": "now",
+          "type": "Date | number",
+          "description": "The moment the hours are read at. Without it the card keeps its own clock, read from the first frame after mount and paused while the page is hidden."
+        },
+        {
+          "name": "timeZone",
+          "type": "string",
+          "defaultValue": "\"UTC\"",
+          "description": "The venue's IANA time zone, used to read now, so the server and the browser agree."
+        },
+        {
+          "name": "opensAt",
+          "type": "string",
+          "defaultValue": "\"07:30\"",
+          "description": "Today's opening time, 24-hour HH:MM."
+        },
+        {
+          "name": "closesAt",
+          "type": "string",
+          "defaultValue": "\"22:00\"",
+          "description": "Today's closing time, 24-hour HH:MM; earlier than opensAt means after midnight."
+        },
+        {
+          "name": "map",
+          "type": "PlaceMap",
+          "defaultValue": "defaultPlaceMap",
+          "description": "The neighbourhood: world size, streets, river, parks, blocks, the venue's building, and the walk's path from you (its first point) to the door (its last)."
+        },
+        {
+          "name": "steps",
+          "type": "PlaceStep[]",
+          "defaultValue": "defaultPlaceSteps",
+          "description": "The walk as numbered steps ({ id, text, meters, at }), each starting at a point of map.path."
+        },
+        {
+          "name": "expanded / defaultExpanded",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Whether the directions are open, controlled or initial."
+        },
+        {
+          "name": "onExpandedChange",
+          "type": "(expanded: boolean) => void",
+          "description": "Fires from the press or the Escape that opened or closed the directions."
+        },
+        {
+          "name": "onStepSelect",
+          "type": "(index: number) => void",
+          "description": "A step was chosen from the list, by press or arrow key."
+        },
+        {
+          "name": "zoom",
+          "type": "number",
+          "defaultValue": "1.8",
+          "description": "How far looking at the card zooms the map toward the pin, 1 to 3."
+        },
+        {
+          "name": "route",
+          "type": "\"dashes\" | \"dots\" | \"line\"",
+          "defaultValue": "\"dashes\"",
+          "description": "How the walk is drawn: dashes that march to the door, footstep dots that march, or a still line."
+        },
+        {
+          "name": "hours",
+          "type": "\"12h\" | \"24h\"",
+          "defaultValue": "\"24h\"",
+          "description": "The clock the hours are read on: the dial's 12 or 24 hours and every time on the card."
+        },
+        {
+          "name": "drawDuration",
+          "type": "number",
+          "defaultValue": "700",
+          "description": "How long the walk takes to draw from you to the door, in ms."
+        },
+        {
+          "name": "walkSpeed",
+          "type": "number",
+          "defaultValue": "80",
+          "description": "Walking pace that turns the steps' metres into minutes, in metres a minute."
+        },
+        {
+          "name": "directionsLabel",
+          "type": "string",
+          "defaultValue": "\"Directions\"",
+          "description": "The directions button's text while closed."
+        },
+        {
+          "name": "closeLabel",
+          "type": "string",
+          "defaultValue": "\"Hide directions\"",
+          "description": "The same button's text while the steps are open; the button is always as wide as the longer label."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "defaultValue": "\"md\"",
+          "description": "The map's height: 136, 168 or 200 px."
+        },
+        {
+          "name": "accent",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "The walk, the you marker and the hours arc, any CSS colour."
+        },
+        {
+          "name": "pinColor",
+          "type": "string",
+          "defaultValue": "\"var(--danger)\"",
+          "description": "The pin's pigment, any CSS colour; drawn at a fixed lightness so it reads the same in both themes."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play a swish as the visitor opens or closes the directions and a plip, rising with the step number, as they choose a step."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Nothing zooms or opens, and the card is drawn at reduced strength."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the card."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: Tab reaches Directions, and focus there zooms the map and draws the walk just as a hover does. Enter or Space opens the steps with focus on the first; Up, Down, Home and End choose a step; Escape anywhere in the card closes them and returns focus to the button.",
+        "Reduced motion keeps the information and drops the travel: the map does not zoom, the walk fades in whole and never marches, the pin does not hop, the hours arc and the step marker land without sweeping, and the steps open without sliding.",
+        "Pass now with the venue's timeZone for server rendering: both are read through Intl, so the server and the browser draw the same dial. Without now the card renders its hours alone and starts its own minute clock after mount.",
+        "The march costs nothing when no one is looking: it runs only while the card is hovered, focused or open, on screen (IntersectionObserver) and while the page is visible.",
+        "Bring your own neighbourhood through map: draw it in any world size, and keep the walk within the middle of the world, since the frame crops the world to its own aspect and zooms about a point between the door and the middle of the walk."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/place-card",
+      "registryItemUrl": "https://www.kinetiqui.com/r/place-card.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/place-card",
+        "npm": "npx shadcn@latest add @kinetiq/place-card",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/place-card",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/place-card",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/place-card.json"
+      }
+    },
+    {
+      "slug": "track-card",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Track Card",
+      "serial": "KQ-1274",
+      "tagline": "Hover to see the shape of it.",
+      "description": "A music track card whose waveform is its bottom edge: a dotted baseline at rest that stands up bar by bar on hover, keyboard focus or play, rippling out from where the pointer came in with every bar on its own springs.snap step response, while moving along the card scrubs a ghost playhead that lights the bars up to the pointer and a press or drag on the lane seeks with the playhead gliding on springs.glide. Play slides the record half out of its sleeve on glide and spins it up like a turntable under a sheen that does not turn; Like and Queue throw a copy of the cover on a parabola into the Up next badge, which recoils on springs.recoil and rolls its count on snap when it lands and opens a real disclosure panel on snap. The lane is a slider (arrows five seconds, Page keys thirty, Home and End), Play, Like and Queue are buttons, and Escape closes the panel and hands focus back to the badge.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "music",
+        "track",
+        "waveform",
+        "player",
+        "scrub",
+        "queue",
+        "vinyl"
+      ],
+      "props": [
+        {
+          "name": "track",
+          "type": "{ id: string; title: string; artist: string; duration: number; release?: string }",
+          "defaultValue": "defaultTrack",
+          "description": "The track; its title is the card's heading and duration (seconds) sets the lane's length."
+        },
+        {
+          "name": "art",
+          "type": "React.ReactNode",
+          "description": "Cover art drawn inside the sleeve, such as an <img>. Defaults to procedural art seeded from the track."
+        },
+        {
+          "name": "upNext",
+          "type": "{ id: string; title: string; artist: string; duration: number }[]",
+          "defaultValue": "defaultUpNext",
+          "description": "The tracks already lined up after this one, listed in the Up next panel and counted on the badge."
+        },
+        {
+          "name": "playing / defaultPlaying",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Playback. Playing slides the record out and spins it; uncontrolled, the playhead advances by itself."
+        },
+        {
+          "name": "onPlayingChange",
+          "type": "(playing: boolean) => void",
+          "description": "Fires from the press that changed it, or when the track reaches its end."
+        },
+        {
+          "name": "position / defaultPosition",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "The playhead in seconds. Controlled, the playhead follows the host and glides on a real seek."
+        },
+        {
+          "name": "onPositionChange",
+          "type": "(seconds: number) => void",
+          "description": "Fires on every seek (press, drag, arrow keys), on pause and at the end."
+        },
+        {
+          "name": "liked / defaultLiked",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "The heart."
+        },
+        {
+          "name": "onLikedChange",
+          "type": "(liked: boolean) => void",
+          "description": "Fires from the press that changed it."
+        },
+        {
+          "name": "queued / defaultQueued",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "This track is lined up in Up next."
+        },
+        {
+          "name": "onQueuedChange",
+          "type": "(queued: boolean) => void",
+          "description": "Fires from Queue, from a like that lines the track up, or from Remove in the panel."
+        },
+        {
+          "name": "likeQueues",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Liking a track that is not lined up yet also adds it to Up next, thrown into the badge."
+        },
+        {
+          "name": "bars",
+          "type": "number",
+          "defaultValue": "56",
+          "description": "How many bars the waveform is drawn with: coarse blocks or a dense comb (under 4 px a bar, the gaps close)."
+        },
+        {
+          "name": "spin",
+          "type": "number",
+          "defaultValue": "16",
+          "description": "How fast the record turns while playing, in rpm; 0 holds it still."
+        },
+        {
+          "name": "peek",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How far the record slides out of its sleeve while playing, as a share of the record (0.1 to 0.7)."
+        },
+        {
+          "name": "reveal",
+          "type": "\"hover\" | \"always\"",
+          "defaultValue": "\"hover\"",
+          "description": "When the waveform stands up: on hover, focus, play and scrub, or always."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "defaultValue": "\"md\"",
+          "description": "Sleeve 64 / 72 / 80 px on a narrow card, 96 / 112 / 128 px on a wide one."
+        },
+        {
+          "name": "accent",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "Colour of the played bars, the playhead and the cover art, as any CSS colour."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Ticks for presses and scrub detents, and a blup when a thrown track lands in the badge."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Nothing plays, seeks, reveals or queues."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the card."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: Tab reaches the Up next badge, Play, Like, Queue and the lane; the lane is a slider (ArrowRight or ArrowUp +5 s, ArrowLeft or ArrowDown -5 s, PageUp and PageDown 30 s, Home, End). Keyboard focus anywhere in the card raises the waveform and lets the record peek out, exactly as hover does.",
+        "The badge opens the Up next panel as a disclosure: focus moves into it when it arrives, Escape (caught wherever focus is in the card), the close button, the badge or a press outside close it, and focus returns to the badge.",
+        "Reduced motion: no ripple, slide, spin, throw or recoil. The full waveform cross-fades in over its stubs, the record swaps out in place, and the playhead, the lit bars and the count still change.",
+        "For real playback, control position from your audio element's timeupdate and playing from its play and pause events; the record and the lane follow. Uncontrolled, the card simulates playback, paused while it is off screen or the page is hidden.",
+        "The card lays itself out by its own width: a compact layout under 36rem with an icon-only Play, and a wide one with a 112 px sleeve from 36rem.",
+        "Sound plays only when sound is true and only answers a press, a drag or a key; playback itself is silent."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/track-card",
+      "registryItemUrl": "https://www.kinetiqui.com/r/track-card.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/track-card",
+        "npm": "npx shadcn@latest add @kinetiq/track-card",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/track-card",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/track-card",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/track-card.json"
+      }
+    },
+    {
+      "slug": "role-card",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Role Card",
+      "serial": "KQ-1275",
+      "tagline": "The salary band draws itself.",
+      "description": "A job listing card whose salary band draws itself against the market range on springs.glide when you hover or focus it, the end labels counting as they travel, while the location, remote and employment chips straighten from a loose scatter on springs.snap with a cascade and the company badge flips in real perspective to show the team's size. The top-right corner is paper: pressing it, or dragging it down and left 1:1 and letting go, folds it over along the diagonal in 3D on snap, cutting the card along the crease and showing its shaded back, and unfolding glides it open. Apply morphs into a two-field form inside the card through a shared layout on glide, and a sent application morphs back into Applied as a stamp lands beside it on springs.recoil; the form is a real disclosure that takes focus on arrival and gives it back on Cancel or Escape.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "job",
+        "listing",
+        "salary",
+        "careers",
+        "apply",
+        "save",
+        "card"
+      ],
+      "props": [
+        {
+          "name": "listing",
+          "type": "RoleListing",
+          "defaultValue": "defaultListing",
+          "description": "The role: title, company, team, team size, location, remote, employment, salary band, market range, summary, posted and applicants."
+        },
+        {
+          "name": "saved / defaultSaved",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "The corner is folded down and the role saved."
+        },
+        {
+          "name": "onSavedChange",
+          "type": "(saved: boolean) => void",
+          "description": "Fires from the press or the drag that folded or unfolded the corner."
+        },
+        {
+          "name": "open / defaultOpen",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "The application form is showing."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "description": "Fires from Apply, Cancel, Escape and a sent application."
+        },
+        {
+          "name": "applied / defaultApplied",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "An application has been sent and the card is stamped."
+        },
+        {
+          "name": "onAppliedChange",
+          "type": "(applied: boolean) => void",
+          "description": "Fires when a submission succeeds."
+        },
+        {
+          "name": "onApply",
+          "type": "(application: { email: string; link: string }) => void | Promise<unknown>",
+          "description": "Sends the application. A returned promise shows Sending with the button's width held; a rejection keeps the form open with an error."
+        },
+        {
+          "name": "band",
+          "type": "\"sweep\" | \"center\" | \"ends\"",
+          "defaultValue": "\"sweep\"",
+          "description": "How the salary band draws: sweeping up from its low end, spreading from its midpoint, or closing in from the scale's edges."
+        },
+        {
+          "name": "crease",
+          "type": "number",
+          "defaultValue": "40",
+          "description": "The folding corner's size in px: a small dog-ear or a big fold."
+        },
+        {
+          "name": "expand",
+          "type": "\"inline\" | \"sheet\"",
+          "defaultValue": "\"inline\"",
+          "description": "Where the form opens: growing the card in place (its height glides), or as a sheet over its lower half."
+        },
+        {
+          "name": "reveal",
+          "type": "\"hover\" | \"always\"",
+          "defaultValue": "\"hover\"",
+          "description": "When the band draws, the chips settle and the badge flips: on hover, keyboard focus or a tap, or always."
+        },
+        {
+          "name": "formatMoney",
+          "type": "(amount: number, currency: string) => string",
+          "defaultValue": "\"€62k\" style",
+          "description": "How an amount is written, in the labels, the band and its spoken sentence."
+        },
+        {
+          "name": "applyLabel",
+          "type": "string",
+          "defaultValue": "\"Apply\"",
+          "description": "The Apply button's text."
+        },
+        {
+          "name": "appliedLabel",
+          "type": "string",
+          "defaultValue": "\"Applied\"",
+          "description": "The text once applied, on the button and the stamp."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "defaultValue": "\"md\"",
+          "description": "Badge (36 / 40 / 48 px) and title size; sm also tightens the padding."
+        },
+        {
+          "name": "accent",
+          "type": "string",
+          "defaultValue": "\"var(--accent)\"",
+          "description": "The offered band, the Apply fill and the warm chip icons, as any CSS colour."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Paper for the fold and the form, a click for Send and for the stamp landing."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "No reveal, no fold, no applying."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the card."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: Tab reaches Apply, then the corner; keyboard focus anywhere in the card draws the band, settles the chips and flips the badge. The corner is an aria-pressed button, so Space or Enter folds and unfolds it through the same path as a press.",
+        "Apply is a disclosure: the form takes focus on its email field when it arrives, Cancel and Escape (caught wherever focus is in the card) close it and return focus to Apply, and after a sent application focus lands on Applied.",
+        "Return a promise from onApply to show Sending; reject it to keep the form open with a 'Not sent' line, and the next Send tries again. An invalid email is flagged with aria-invalid and a message without calling onApply.",
+        "Reduced motion: nothing folds, flips, tilts, travels or bounces. The dog-ear swaps in, the badge faces cross-fade, the band fades in whole and the stamp fades in, so every state still shows.",
+        "On touch screens a tap on the card reveals the band, and the corner can be dragged down and left to fold it (touch-action is none on the corner only)."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/role-card",
+      "registryItemUrl": "https://www.kinetiqui.com/r/role-card.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/role-card",
+        "npm": "npx shadcn@latest add @kinetiq/role-card",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/role-card",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/role-card",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/role-card.json"
+      }
+    },
+    {
+      "slug": "lesson-card",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Lesson Card",
+      "serial": "KQ-1276",
+      "tagline": "Progress you can see filling.",
+      "description": "A course card made as a small deck: the front card's ring fills to the share of the course done on springs.glide the first time it comes into view, its percentage counting with it, and the streak days dot along its bottom edge, while the next lesson's card sits behind as a sliver and rises out on glide on hover or keyboard focus. Continue flips through: the front card tips back about its bottom edge on an accelerating exit tween, the next comes forward on springs.snap, the one behind moves up a place on glide, and then the ring fills to its new share and today's dot pops in on springs.recoil. The peeking card's strip is a real disclosure button that pins it up, Escape lowers it, Continue's name says where it goes, and focus follows the new front card.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "course",
+        "lesson",
+        "progress",
+        "ring",
+        "streak",
+        "learning",
+        "deck"
+      ],
+      "props": [
+        {
+          "name": "course",
+          "type": "string",
+          "defaultValue": "\"Pricing for Product Teams\"",
+          "description": "The course: the card's heading."
+        },
+        {
+          "name": "provider",
+          "type": "string",
+          "defaultValue": "\"Fieldline Academy\"",
+          "description": "Who runs it, shown beside Continue."
+        },
+        {
+          "name": "lessons",
+          "type": "{ id: string; title: string; minutes: number }[]",
+          "defaultValue": "defaultLessons",
+          "description": "The course's lessons, in order."
+        },
+        {
+          "name": "lesson / defaultLesson",
+          "type": "number",
+          "defaultValue": "6",
+          "description": "Index of the current lesson; lessons.length means the course is complete. The ring shows lesson / lessons.length."
+        },
+        {
+          "name": "onLessonChange",
+          "type": "(index: number) => void",
+          "description": "Fires from Continue (the next index) and Start again (0)."
+        },
+        {
+          "name": "onContinue",
+          "type": "(lesson: { id: string; title: string; minutes: number }) => void",
+          "description": "Fires from Continue with the lesson just finished."
+        },
+        {
+          "name": "activity",
+          "type": "boolean[]",
+          "defaultValue": "defaultActivity",
+          "description": "Days of activity, oldest first; the last is today. Continue marks today done."
+        },
+        {
+          "name": "ring",
+          "type": "\"thin\" | \"thick\" | \"segmented\"",
+          "defaultValue": "\"thick\"",
+          "description": "The ring: one thin arc, one thick arc, or one segment per lesson filling in turn."
+        },
+        {
+          "name": "peek",
+          "type": "number",
+          "defaultValue": "0.75",
+          "description": "How far the next lesson's card rises from behind on hover, 0 to 1."
+        },
+        {
+          "name": "streak",
+          "type": "number",
+          "defaultValue": "14",
+          "description": "How many days dot along the bottom edge; 0 hides the streak."
+        },
+        {
+          "name": "continueLabel",
+          "type": "string",
+          "defaultValue": "\"Continue\"",
+          "description": "The Continue button's text."
+        },
+        {
+          "name": "finishLabel",
+          "type": "string",
+          "defaultValue": "\"Finish course\"",
+          "description": "Continue's text on the last lesson."
+        },
+        {
+          "name": "restartLabel",
+          "type": "string",
+          "defaultValue": "\"Start again\"",
+          "description": "The button on the complete card."
+        },
+        {
+          "name": "nextLabel",
+          "type": "string",
+          "defaultValue": "\"Up next\"",
+          "description": "Words on the card that peeks from behind."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "defaultValue": "\"md\"",
+          "description": "Ring 48 / 60 / 72 px."
+        },
+        {
+          "name": "accent",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "The ring, the active days and Continue, as any CSS colour."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "A swish for the flip-through and a plip, pitched by the share, when the ring lands."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Nothing continues or peeks."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the card."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: Tab reaches Continue, then the peeking card's strip; keyboard focus in the card raises the next card. Enter on the strip pins it up and Escape (caught wherever focus is in the card) lowers it. After Continue, focus moves to the new front card's button before the old card leaves.",
+        "Only the front card is in the tab and reading order: the cards behind, and the one flipping away, are inert and hidden from assistive technology. The ring is a progressbar whose value is lessons done, and a polite live region speaks one sentence per lesson.",
+        "Reduced motion: the deck re-stacks in place and the new card cross-fades in with no tip, rise or bounce; the ring still fills, on a short tween, and the percentage and streak still update.",
+        "The ring fills the first time the card enters the viewport, so a card further down a page fills when it is reached rather than off screen.",
+        "Control lesson to drive the card from your progress store; a host that moves it plays the same flip-through, and Start again calls onLessonChange(0)."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/lesson-card",
+      "registryItemUrl": "https://www.kinetiqui.com/r/lesson-card.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/lesson-card",
+        "npm": "npx shadcn@latest add @kinetiq/lesson-card",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/lesson-card",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/lesson-card",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/lesson-card.json"
+      }
+    },
+    {
+      "slug": "team-fan",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Team Fan",
+      "serial": "KQ-1277",
+      "tagline": "Hover the stack, meet the team.",
+      "description": "A team card whose overlapping faces fan into a readable row on hover or keyboard focus: each face springs to its slot on springs.snap a cascade beat after the last, its first name rolls up beneath it and its presence dot pops in on flick, the \"+12\" bubble flips about its axis to the full count and an invite button springs out to the end; leaving gathers them back in reverse on glide. Pressing a face lifts it on snap while the rest recede on glide, and opens a details disclosure whose measured height glides open with role, presence, local time and Message. The row is a toolbar with a roving tabindex: arrows move, Home and End jump, Enter focuses a person and moves focus into the details, Escape hands it back.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "team",
+        "avatars",
+        "avatar stack",
+        "members",
+        "presence",
+        "fan",
+        "people"
+      ],
+      "props": [
+        {
+          "name": "members",
+          "type": "TeamMember[]",
+          "defaultValue": "defaultTeam",
+          "description": "Everyone on the team (id, name, role, presence, utcOffset, image); the first max are the faces in the stack."
+        },
+        {
+          "name": "total",
+          "type": "number",
+          "defaultValue": "members.length",
+          "description": "The team's size when members is only a page of it; the count bubble reads it."
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "defaultValue": "6",
+          "description": "Faces in the stack before the count bubble; four under 26rem of container width."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Platform crew\"",
+          "description": "The card's heading, and the toolbar's name."
+        },
+        {
+          "name": "subtitle",
+          "type": "string",
+          "defaultValue": "\"Basinworks · Design systems\"",
+          "description": "The line under the heading."
+        },
+        {
+          "name": "headingLevel",
+          "type": "2 | 3 | 4",
+          "defaultValue": "3",
+          "description": "The heading's level."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string | null",
+          "defaultValue": "null",
+          "description": "The focused member's id, controlled or initial; null when nobody is focused."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(id: string | null) => void",
+          "description": "Fires from the press that focused a face or let it go."
+        },
+        {
+          "name": "onInvite",
+          "type": "() => void",
+          "description": "The invite button at the end of the fan."
+        },
+        {
+          "name": "onShowAll",
+          "type": "() => void",
+          "description": "The count bubble: show everyone."
+        },
+        {
+          "name": "onMessage",
+          "type": "(id: string) => void",
+          "description": "Message, in a focused person's details."
+        },
+        {
+          "name": "inviteLabel",
+          "type": "string",
+          "defaultValue": "\"Invite\"",
+          "description": "The invite button's label, under it in the fan."
+        },
+        {
+          "name": "countLabel",
+          "type": "string",
+          "defaultValue": "\"members\"",
+          "description": "The word under the flipped count."
+        },
+        {
+          "name": "spread",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How much air the fan puts between faces, 0 to 1; always clamped to the card's width."
+        },
+        {
+          "name": "cascade",
+          "type": "number",
+          "defaultValue": "40",
+          "description": "The beat between one face landing and the next, in ms."
+        },
+        {
+          "name": "focus",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How far the rest of the team recedes behind a focused face, 0 to 1: opacity, scale and colour."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "defaultValue": "\"md\"",
+          "description": "Faces 28, 36 or 44 px across."
+        },
+        {
+          "name": "now",
+          "type": "Date | number",
+          "defaultValue": "2 Oct 2026, 13:02 UTC",
+          "description": "The clock each person's local time is read from."
+        },
+        {
+          "name": "accent",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "The focused face's ring and the invite tint; any CSS colour."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "A swish as a key or a tap opens the fan (hover opens it silently), a pop as a face is focused."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Keeps the stack closed and its buttons inert."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the article."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: Tab into the row opens the fan like hover; Left and Right move between faces, the count and Invite, Home and End jump, Enter or Space focuses a person and moves focus into the details, and Escape or Close returns it to their face.",
+        "On touch the first tap on the stack opens the fan and the next tap on a face focuses that person; a tap outside the card gathers it.",
+        "Which faces a width shows is decided by a container query, so the server's stack and the client's agree; the fan's slots are then measured from the row, so it never leaves the card.",
+        "Reduced motion: faces jump to their slots while the row cross-fades, the count bubble cross-fades instead of flipping, and the rest of the team recedes by opacity alone.",
+        "Pass now from your own clock so each person's local time stays current; the component never reads the time itself."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/team-fan",
+      "registryItemUrl": "https://www.kinetiqui.com/r/team-fan.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/team-fan",
+        "npm": "npx shadcn@latest add @kinetiq/team-fan",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/team-fan",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/team-fan",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/team-fan.json"
+      }
+    },
+    {
+      "slug": "swatch-card",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Swatch Card",
+      "serial": "KQ-1278",
+      "tagline": "Every colour re-dyes the product.",
+      "description": "A product card whose drawn tote takes the colour you choose: a swatch floods the bag with the new dye from where that swatch sits, a liquid front whose edge sloshes mid-flood on a tween, while one ring slides to the swatch on springs.snap and the swatch dips and lands on recoil. The price rolls its digit columns on snap, sizes a colour does not come in shrink to struck chips as the rest glide wider, the drawing grows to the chosen size about its base on glide, and Add to bag morphs into a quantity stepper whose buttons slide in from the middle on snap. Colours and sizes are radio groups with a roving tabindex, and focus follows the morph to the stepper and back.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "product card",
+        "swatch",
+        "colour picker",
+        "variant",
+        "add to bag",
+        "quantity stepper",
+        "commerce"
+      ],
+      "props": [
+        {
+          "name": "swatches",
+          "type": "ProductSwatch[]",
+          "defaultValue": "defaultSwatches",
+          "description": "The colours on offer: id, label, CSS colour, price, and the size ids each comes in."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "defaultValue": "the first swatch",
+          "description": "The chosen colour id, controlled or initial."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(id: string) => void",
+          "description": "Fires from the swatch press or arrow key that chose a colour."
+        },
+        {
+          "name": "sizes",
+          "type": "ProductSize[]",
+          "defaultValue": "defaultSizes",
+          "description": "The sizes on offer, smallest first: id, label, note, the drawing's scale, and a price difference."
+        },
+        {
+          "name": "selectedSize / defaultSelectedSize",
+          "type": "string",
+          "defaultValue": "the middle size",
+          "description": "The chosen size id, controlled or initial."
+        },
+        {
+          "name": "onSelectedSizeChange",
+          "type": "(id: string) => void",
+          "description": "Fires from the size press, or from a colour press that does not come in the chosen size."
+        },
+        {
+          "name": "quantity / defaultQuantity",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "How many are in the bag; 0 shows Add to bag."
+        },
+        {
+          "name": "onQuantityChange",
+          "type": "(quantity: number) => void",
+          "description": "Fires from Add to bag, the stepper, or remove, with the new quantity."
+        },
+        {
+          "name": "maxQuantity",
+          "type": "number",
+          "defaultValue": "9",
+          "description": "The most the stepper allows."
+        },
+        {
+          "name": "brand",
+          "type": "string",
+          "defaultValue": "\"Fernworks\"",
+          "description": "The maker, above the name."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "defaultValue": "\"Harbour tote\"",
+          "description": "The product's name: the card's heading."
+        },
+        {
+          "name": "detail",
+          "type": "string",
+          "defaultValue": "\"Waxed canvas · leather patch\"",
+          "description": "A line under the name."
+        },
+        {
+          "name": "format",
+          "type": "(price: number) => string",
+          "defaultValue": "whole pounds, en-GB",
+          "description": "How a price is printed."
+        },
+        {
+          "name": "wipe",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How liquid the dye front is, 0 to 1: a clean circle, or an edge that sloshes as it floods."
+        },
+        {
+          "name": "wipeDuration",
+          "type": "number",
+          "defaultValue": "560",
+          "description": "How long the dye takes to flood the product, in ms."
+        },
+        {
+          "name": "shade",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How much the drawing is modelled, 0 to 1: flat colour, or deep folds and highlights."
+        },
+        {
+          "name": "stepper",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Adding morphs into a quantity stepper; off, it becomes an In bag toggle."
+        },
+        {
+          "name": "addLabel",
+          "type": "string",
+          "defaultValue": "\"Add to bag\"",
+          "description": "The add button's text."
+        },
+        {
+          "name": "inBagLabel",
+          "type": "string",
+          "defaultValue": "\"in bag\"",
+          "description": "After the quantity in the stepper, and the toggle's pressed text."
+        },
+        {
+          "name": "headingLevel",
+          "type": "2 | 3 | 4",
+          "defaultValue": "3",
+          "description": "The heading's level."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "A plip for each colour pitched by its place in the row, a pop for each change to the bag."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Locks every choice and dims the card."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the article."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the colours and the sizes are radio groups; arrow keys move and choose, Home and End jump, and sizes a colour does not come in are skipped. Enter on Add to bag moves focus to the stepper's +, and removing the last one hands it back to Add to bag.",
+        "Pass each swatch's sizes to say what it comes in; a colour that drops the chosen size moves to the nearest one and reports it through onSelectedSizeChange from the same press.",
+        "Colours are any CSS colour; the defaults are pigments taken from the theme's tokens at a fixed lightness, so a product looks the same in light and dark.",
+        "Reduced motion: the new dye fades over the old instead of flooding, the price swaps in place, sizes and the drawing change size at once, and the stepper cross-fades without sliding.",
+        "A polite live region says the colour and its price after a colour change, and Added to bag, 2 in bag or Removed from bag after a change to the quantity."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/swatch-card",
+      "registryItemUrl": "https://www.kinetiqui.com/r/swatch-card.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/swatch-card",
+        "npm": "npx shadcn@latest add @kinetiq/swatch-card",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/swatch-card",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/swatch-card",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/swatch-card.json"
+      }
+    },
+    {
+      "slug": "review-card",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Review Card",
+      "serial": "KQ-1279",
+      "tagline": "The stars fill as the words come in.",
+      "description": "A product review that arrives as you read it: the first time it comes into view, the visible lines ink in one at a time under a soft left-to-right edge while the stars fill on the same linear clock, a liquid clipped by the star shapes whose front ripples as it travels and sloshes back on springs.recoil when it lands. A long review folds under a fade and Read more unrolls it to its measured height on the spring you choose (snap, glide or drift), ticking per line; Helpful tallies roll on snap and bump on recoil, and the photos fan out of their seeded deck on snap. Read more is a disclosure that moves focus into the text, Escape rolls it back up and returns focus, and votes are aria-pressed toggles.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "review",
+        "rating",
+        "stars",
+        "read more",
+        "helpful vote",
+        "testimonial",
+        "commerce"
+      ],
+      "props": [
+        {
+          "name": "rating",
+          "type": "number",
+          "defaultValue": "4",
+          "description": "The reviewer's rating, 0 to 5; a fraction fills part of a star."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Carries a whole day, rain and all\"",
+          "description": "The review's title: the card's heading."
+        },
+        {
+          "name": "body",
+          "type": "string",
+          "description": "The review; a blank line starts a new paragraph."
+        },
+        {
+          "name": "author",
+          "type": "string",
+          "defaultValue": "\"Odile M.\"",
+          "description": "Who wrote it."
+        },
+        {
+          "name": "authorDetail",
+          "type": "string",
+          "defaultValue": "\"Verified buyer\"",
+          "description": "After the author."
+        },
+        {
+          "name": "date",
+          "type": "Date | number",
+          "defaultValue": "12 Sep 2026",
+          "description": "When it was written."
+        },
+        {
+          "name": "timeZone",
+          "type": "string",
+          "defaultValue": "\"UTC\"",
+          "description": "The zone dates print in, so the server and the browser print the same day."
+        },
+        {
+          "name": "formatDate",
+          "type": "(date: Date, timeZone: string) => string",
+          "defaultValue": "\"12 Sep 2026\"",
+          "description": "How the date is printed."
+        },
+        {
+          "name": "product",
+          "type": "string",
+          "defaultValue": "\"Harbour tote · Moss · Daily\"",
+          "description": "What was bought, above the vote."
+        },
+        {
+          "name": "photos",
+          "type": "ReviewPhoto[]",
+          "defaultValue": "defaultReviewPhotos",
+          "description": "The reviewer's photos: id, alt, and a seed for the procedural scene or an image node."
+        },
+        {
+          "name": "onPhotoOpen",
+          "type": "(id: string) => void",
+          "description": "A thumbnail was pressed."
+        },
+        {
+          "name": "helpful",
+          "type": "number",
+          "defaultValue": "24",
+          "description": "People who found it helpful, not counting this visitor."
+        },
+        {
+          "name": "unhelpful",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "People who did not, not counting this visitor."
+        },
+        {
+          "name": "vote / defaultVote",
+          "type": "\"up\" | \"down\" | null",
+          "defaultValue": "null",
+          "description": "This visitor's vote, controlled or initial."
+        },
+        {
+          "name": "onVoteChange",
+          "type": "(vote: \"up\" | \"down\" | null) => void",
+          "description": "Fires from the vote press, with the new vote or null when undone."
+        },
+        {
+          "name": "expanded / defaultExpanded",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Whether the long review is unrolled, controlled or initial."
+        },
+        {
+          "name": "onExpandedChange",
+          "type": "(expanded: boolean) => void",
+          "description": "Fires from Read more, Show less or Escape."
+        },
+        {
+          "name": "lines",
+          "type": "number",
+          "defaultValue": "4",
+          "description": "Lines shown while the review is folded."
+        },
+        {
+          "name": "pace",
+          "type": "number",
+          "defaultValue": "200",
+          "description": "How long each line takes to ink in on view, in ms; the stars take the same time in all."
+        },
+        {
+          "name": "fill",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How liquid the stars' fill is, 0 to 1: a straight sweep, or a front that ripples and sloshes."
+        },
+        {
+          "name": "unroll",
+          "type": "\"snap\" | \"glide\" | \"drift\"",
+          "defaultValue": "\"glide\"",
+          "description": "The spring that unrolls and rolls up the fold."
+        },
+        {
+          "name": "fan",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How far the photos fan out on hover, 0 to 1."
+        },
+        {
+          "name": "starColor",
+          "type": "string",
+          "defaultValue": "gold pigment from --warn",
+          "description": "The stars' liquid; any CSS colour, with the outline mixed from it."
+        },
+        {
+          "name": "revealOnView",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Ink the review in the first time it comes into view; off, it starts shown."
+        },
+        {
+          "name": "headingLevel",
+          "type": "2 | 3 | 4",
+          "defaultValue": "3",
+          "description": "The heading's level."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "A tick per line as the visitor unrolls the review, a pop for a vote."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Locks the fold, the votes and the photos."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the article."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: Read more is a button with aria-expanded; opening moves focus into the review text, and Escape there or on the button rolls it back up and returns focus to the button. Tabbing into the photos fans them; votes are toggle buttons.",
+        "The text is always in the DOM in full; the ink-in is a mask, so assistive technology reads the whole review from the start.",
+        "Lines are measured from the text itself and re-measured on resize, so the fold always shows exactly lines lines and the sweep never lands between them.",
+        "Reduced motion: the text and the stars fade in together on view, the fold opens to its height at once, vote counts swap without a bump, and the photos spread without turning.",
+        "Pass revealOnView={false} for lists where many reviews arrive at once, or remount with a new key to play the reveal again."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/review-card",
+      "registryItemUrl": "https://www.kinetiqui.com/r/review-card.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/review-card",
+        "npm": "npx shadcn@latest add @kinetiq/review-card",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/review-card",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/review-card",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/review-card.json"
+      }
+    },
+    {
+      "slug": "meeting-card",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Meeting Card",
+      "serial": "KQ-1280",
+      "tagline": "Join when the room lights up.",
+      "description": "An upcoming-meeting card that counts down from now: a ring around the start time drains over the last few minutes on a tween per tick, and at the start swells and settles on springs.recoil, sends one ring out and turns into the meeting's elapsed share in the live colour. Attendees light up as each one's join time passes, filling with colour and landing on recoil with a ring going out, and once live the Join button breathes a halo, only while the card is on screen. The agenda is a sheet tucked under the card: dragging its lip pulls it out 1:1 with rubber-banding and a release commits by projection on springs.snap, to open, closed or, row by row, to each detent. The lip is a disclosure button: Enter or Space toggles and moves focus into the agenda, arrow keys pull it out and push it back, Escape closes.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "meeting",
+        "calendar",
+        "countdown",
+        "join call",
+        "attendees",
+        "agenda",
+        "event card"
+      ],
+      "props": [
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Design review\"",
+          "description": "The meeting's name: the card's heading."
+        },
+        {
+          "name": "place",
+          "type": "string",
+          "defaultValue": "\"Fern room · video\"",
+          "description": "Where it happens, after the times."
+        },
+        {
+          "name": "start",
+          "type": "Date | number",
+          "defaultValue": "2 Oct 2026, 10:30 UTC",
+          "description": "When it starts."
+        },
+        {
+          "name": "end",
+          "type": "Date | number",
+          "defaultValue": "2 Oct 2026, 11:15 UTC",
+          "description": "When it ends."
+        },
+        {
+          "name": "now",
+          "type": "Date | number",
+          "defaultValue": "2 Oct 2026, 10:26 UTC",
+          "description": "The clock; update it (every second, say) for a live countdown. The card never reads the time itself."
+        },
+        {
+          "name": "timeZone",
+          "type": "string",
+          "defaultValue": "\"UTC\"",
+          "description": "The zone times print in, so the server and the browser print the same."
+        },
+        {
+          "name": "attendees",
+          "type": "MeetingAttendee[]",
+          "defaultValue": "defaultAttendees",
+          "description": "Who is invited (id, name, joinedAt, image); each lights up once now passes their joinedAt."
+        },
+        {
+          "name": "agendaItems",
+          "type": "MeetingAgendaItem[]",
+          "defaultValue": "defaultAgenda",
+          "description": "The agenda under the card (id, title, minutes, owner); times count from the start."
+        },
+        {
+          "name": "joined / defaultJoined",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Whether the viewer has joined, controlled or initial."
+        },
+        {
+          "name": "onJoinedChange",
+          "type": "(joined: boolean) => void",
+          "description": "Fires from the Join press, with true for joined."
+        },
+        {
+          "name": "open / defaultOpen",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Whether the agenda is pulled out, controlled or initial."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "description": "Fires from the drag, press or key that pulled the agenda out or pushed it back."
+        },
+        {
+          "name": "ring",
+          "type": "number",
+          "defaultValue": "5",
+          "description": "The countdown window the ring spans before the start, in minutes."
+        },
+        {
+          "name": "glow",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How strongly the Join button breathes once the meeting is live, 0 to 1."
+        },
+        {
+          "name": "agenda",
+          "type": "\"sheet\" | \"rows\"",
+          "defaultValue": "\"sheet\"",
+          "description": "How the agenda comes out: in one pull, or a row at a time with a detent at each."
+        },
+        {
+          "name": "agendaRows",
+          "type": "number",
+          "defaultValue": "3",
+          "description": "Agenda rows shown before the sheet scrolls inside."
+        },
+        {
+          "name": "joinLabel",
+          "type": "string",
+          "defaultValue": "\"Join\"",
+          "description": "The Join button's text."
+        },
+        {
+          "name": "joinedLabel",
+          "type": "string",
+          "defaultValue": "\"Joined\"",
+          "description": "Its text once joined; the button keeps the widest label's width."
+        },
+        {
+          "name": "endedLabel",
+          "type": "string",
+          "defaultValue": "\"Ended\"",
+          "description": "Its text after the end, when it is disabled."
+        },
+        {
+          "name": "youLabel",
+          "type": "string",
+          "defaultValue": "\"You\"",
+          "description": "The viewer's own face, waiting at the end of the row and lit when joined."
+        },
+        {
+          "name": "accent",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "The countdown ring and the Join halo; any CSS colour."
+        },
+        {
+          "name": "headingLevel",
+          "type": "2 | 3 | 4",
+          "defaultValue": "3",
+          "description": "The heading's level."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "A chime as the viewer joins, a tick at each agenda detent the viewer pulls past. Nothing sounds on its own."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Locks Join and the agenda and dims the card."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the article."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the agenda lip is a button with aria-expanded; Enter or Space toggles it and moves focus into the agenda, ArrowDown and ArrowUp pull it out and push it back (a row at a time with agenda=\"rows\"), Home and End close and open, and Escape closes from the lip or from inside the agenda.",
+        "Pass now from your own clock and update it; the ring eases to each new value, so ticking every second reads as a clock and ticking faster as a continuous drain.",
+        "Join breathes only while the meeting is live, the card is on screen and the page is visible, and stops once the viewer joins.",
+        "Reduced motion: the ring steps with no swell, faces light by colour alone, Join shows a steady halo, and the agenda goes straight to its detent; a drag still follows the finger.",
+        "A polite live region says when someone joins and when the meeting goes live, once per change, never per tick."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/meeting-card",
+      "registryItemUrl": "https://www.kinetiqui.com/r/meeting-card.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/meeting-card",
+        "npm": "npx shadcn@latest add @kinetiq/meeting-card",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/meeting-card",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/meeting-card",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/meeting-card.json"
       }
     },
     {
