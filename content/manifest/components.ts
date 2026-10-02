@@ -82832,4 +82832,1911 @@ export const components: KinetiqItem[] = [
       "Layout follows the component's own width: under 600px Members and Pending are tabs and each member is a two-line row; from 600px the members are a table with Pending under it; from 1040px the invite field and Pending move into a column on the right.",
     ],
   },
+  {
+    name: "data-grid",
+    type: "registry:ui",
+    title: "Data Grid",
+    description:
+      'A data grid that keeps pace with the hand: rows arrive after a skeleton in a cascade on glide (row by row, on a diagonal wave of cells, or in one fade) and replay from the side you paged toward, a heading press morphs its sort glyph between a double chevron and an arrow on snap while the rows on the page glide to their new seats, and columns resize from a grip that follows the finger 1:1, rubber-bands past its limits and springs back on snap with the release velocity. Shift-click selects a range drawn as one band that stretches from the anchor on snap, editable cells open an editor that lifts out of the cell and land their new value on flick, and the header and first columns stay pinned while the body scrolls. It is a real role="grid" with one roving cell: arrows move, Page keys turn the page, Space selects, Shift with an arrow extends the range, Enter sorts a heading or edits a cell, and Shift with Left or Right resizes a column.',
+    files: [
+      {
+        path: "registry/ui/data-grid.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["studio"],
+    meta: {
+      serial: "KQ-1311",
+    },
+    tagline: "A table that keeps up with you.",
+    keywords: [
+      "table",
+      "data grid",
+      "spreadsheet",
+      "sort",
+      "resize",
+      "selection",
+      "pagination",
+    ],
+    props: [
+      {
+        name: "density",
+        type: '"compact" | "regular" | "roomy"',
+        defaultValue: '"regular"',
+        description:
+          "Row height and type: 32, 40 or 48px rows. Heights glide when it changes.",
+      },
+      {
+        name: "cascade",
+        type: '"rows" | "wave" | "none"',
+        defaultValue: '"rows"',
+        description:
+          "How a page arrives after the skeleton or a page turn: rows rising in order, cells on a diagonal wave from the top-left, or one fade.",
+      },
+      {
+        name: "stripes",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Paint alternate rows, so a wide row is easy to follow across. The pinned cells share the stripe.",
+      },
+      {
+        name: "columns",
+        type: "DataGridColumn[]",
+        defaultValue: "defaultDataGridColumns",
+        description:
+          "The columns in order: id, header, kind (text, number, money, date, status), width and its limits, align, sortable, editable, mono, relative dates, status options and tones, and format, validate and parse functions. The first is the row header and stays pinned.",
+      },
+      {
+        name: "rows / defaultRows",
+        type: "DataGridRow[]",
+        defaultValue: "defaultDataGridRows",
+        description:
+          "The records, each with an id and a field per column. Controlled or uncontrolled; the default is 42 seeded invoices.",
+      },
+      {
+        name: "onRowsChange",
+        type: "(rows: DataGridRow[]) => void",
+        description:
+          "Fires with every row after an edit is committed, or reverted after a failed save.",
+      },
+      {
+        name: "onCellEdit",
+        type: "(edit: DataGridEdit) => void | Promise<unknown>",
+        description:
+          "Fires when an edit is committed, with the row, column, new value and previous value. Return a promise to show the cell saving; a rejection puts the old value back.",
+      },
+      {
+        name: "sort / defaultSort",
+        type: '{ columnId: string; direction: "asc" | "desc" } | null',
+        defaultValue: "null",
+        description:
+          "The sort, or null for the rows' own order. Controlled or uncontrolled.",
+      },
+      {
+        name: "onSortChange",
+        type: "(sort: DataGridSort | null) => void",
+        description:
+          "Fires from the heading press or key that changed the sort: ascending, descending, then off.",
+      },
+      {
+        name: "selected / defaultSelected",
+        type: "string[]",
+        defaultValue: "[]",
+        description: "The selected row ids. Controlled or uncontrolled.",
+      },
+      {
+        name: "onSelectedChange",
+        type: "(ids: string[]) => void",
+        description:
+          "Fires from the click, Shift-click or key that changed the selection.",
+      },
+      {
+        name: "page / defaultPage",
+        type: "number",
+        defaultValue: "0",
+        description: "The page shown, from 0. Controlled or uncontrolled.",
+      },
+      {
+        name: "onPageChange",
+        type: "(page: number) => void",
+        description: "Fires from the button or key that turned the page.",
+      },
+      {
+        name: "pageSize",
+        type: "number",
+        defaultValue: "8",
+        description: "Rows per page.",
+      },
+      {
+        name: "maxHeight",
+        type: "number",
+        defaultValue: "360",
+        description:
+          "Tallest the body grows, in px, before it scrolls under its pinned header.",
+      },
+      {
+        name: "actions",
+        type: "DataGridAction[]",
+        defaultValue: "[]",
+        description:
+          "Buttons offered in the footer while rows are selected: id, label, an optional 14px icon and tone.",
+      },
+      {
+        name: "onAction",
+        type: "(actionId: string, rowIds: string[]) => void",
+        description:
+          "One of the actions was pressed, with the selected row ids.",
+      },
+      {
+        name: "onColumnResize",
+        type: "(columnId: string, width: number) => void",
+        description:
+          "Fires when a column's width settles after a drag, a double-click fit or a key.",
+      },
+      {
+        name: "now",
+        type: "number | Date",
+        defaultValue: "defaultDataGridNow",
+        description: 'Today, for relative dates such as "in 3d" and "5d ago".',
+      },
+      {
+        name: "itemLabel",
+        type: "{ one: string; other: string }",
+        defaultValue: '{ one: "row", other: "rows" }',
+        description:
+          'What one row is called in counts and announcements: "3 invoices selected".',
+      },
+      {
+        name: "locale",
+        type: "string",
+        defaultValue: '"en-US"',
+        description: "The locale for numbers and money.",
+      },
+      {
+        name: "currency",
+        type: "string",
+        defaultValue: '"USD"',
+        description: "The currency for money columns.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the rows have arrived. Loading shows a skeleton of one page; going to ready plays the arrival.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the rows failed to load.",
+      },
+      {
+        name: "emptyLabel",
+        type: "string",
+        defaultValue: '"Nothing here yet"',
+        description: "What an empty grid says.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Receivables"',
+        description: "The heading over the grid.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "The grid's accessible name. Defaults to the title.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play a click for sorts, toggles, page turns and saves, and a tick per row joining a range and per 16px of resize.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Keeps the grid readable and navigable but refuses sorting, selecting, editing, resizing and paging.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer panel.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: one cell is the tab stop. Arrows move, Home and End reach the row's ends, Ctrl+Home and Ctrl+End the page's corners, Page Up and Page Down turn the page. On a heading Enter or Space sorts, Shift+Left or Shift+Right resizes by 16px and Shift+Enter fits the column to its contents (as a double-click on its grip does); in the body Space toggles the row, Shift+Up and Shift+Down extend the range from the anchor, Ctrl or Cmd+A selects the page, and Escape clears a selection.",
+      "Editing: Enter, F2, a double-click or a typed character opens the editor on an editable cell (typing replaces the value). Enter and Tab commit, Escape cancels and hands focus back to the cell. validate returns the message shown under the editor; return a promise from onCellEdit to show the cell saving, and reject it to put the old value back.",
+      "Sorting is an action, not a live view: the order is taken when a heading is pressed or rows come and go, so an edited row stays under the hand that edited it until the next sort.",
+      "Reduced motion: rows and cells fade in without travel, reorders, bands and the page pill settle at once, the sort glyph swaps on a short tween and the editor appears without lifting. Selection, order, widths and saved values still change.",
+      "On a narrow container the pinned column takes at most about half the width so the columns beside it can scroll; the footer turns its page numbers into a compact count.",
+      "Columns and rows are plain data: pass format for custom cells, and keep the default exports (defaultDataGridColumns, defaultDataGridRows) as a template for your own.",
+    ],
+  },
+  {
+    name: "pulse-dashboard",
+    type: "registry:ui",
+    title: "Pulse Dashboard",
+    description:
+      "A KPI dashboard where everything reads one window of days, and a change of window moves it all in one beat: the four tiles' digits roll on snap, units first and the tiles in cascade, while the chart's window glides on glide, so a longer period is a real zoom out — the area is rebuilt every frame from the window, a day per point while they fit and the mean of each sample's share past that — and the y scale and the donut's slices glide with it. Dragging across the chart draws a brush that follows the finger 1:1 and rubber-bands past the ends, and letting go zooms into it as the brush opens out to the plot's edges; pointing at a donut slice pulls it out along its own middle on snap while the hub cross-fades to it. The period is a radio group, the tiles a tablist whose panel is the chart, and the chart a slider over its days: arrows step a day, Page keys a week, Shift with an arrow stretches a brush, Enter zooms to it and Escape lets go of the brush, then the zoom.",
+    files: [
+      {
+        path: "registry/ui/pulse-dashboard.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["studio"],
+    meta: {
+      serial: "KQ-1312",
+    },
+    tagline: "Change the range; watch it all reflow.",
+    keywords: [
+      "dashboard",
+      "kpi",
+      "analytics",
+      "area chart",
+      "donut",
+      "zoom",
+      "metrics",
+    ],
+    props: [
+      {
+        name: "range / defaultRange",
+        type: '"7d" | "30d" | "90d" | "1y"',
+        defaultValue: '"30d"',
+        description:
+          "The period: the last 7, 30 or 90 days, or the last year, up to now. Changing it glides the chart's window, so it zooms out or in. Controlled or uncontrolled.",
+      },
+      {
+        name: "onRangeChange",
+        type: '(range: "7d" | "30d" | "90d" | "1y") => void',
+        description: "Fires from the period switch with the new period.",
+      },
+      {
+        name: "smooth",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How much the chart's line curves, 0 to 1: straight segments at 0, monotone curves at 1 that never overshoot a reading.",
+      },
+      {
+        name: "donut / defaultDonut",
+        type: "string",
+        defaultValue: '"channel"',
+        description:
+          "Which breakdown the donut splits revenue by (an id from breakdowns). A new breakdown sweeps its ring in clockwise. Controlled or uncontrolled.",
+      },
+      {
+        name: "onDonutChange",
+        type: "(id: string) => void",
+        description:
+          "Fires from the breakdown switch with the new breakdown's id.",
+      },
+      {
+        name: "metric / defaultMetric",
+        type: "string",
+        defaultValue: "the first metric",
+        description:
+          "The tile the chart draws. A new metric grows out of the old one's shape. Controlled or uncontrolled.",
+      },
+      {
+        name: "onMetricChange",
+        type: "(id: string) => void",
+        description:
+          "Fires from the tile press or arrow key that chose a metric.",
+      },
+      {
+        name: "onWindowChange",
+        type: "(window: { from: string; to: string; custom: boolean }) => void",
+        description:
+          "Fires whenever the window changes — a period, a zoom or a reset — with both dates included, as YYYY-MM-DD.",
+      },
+      {
+        name: "metrics",
+        type: "PulseMetric[]",
+        defaultValue: "defaultPulseMetrics",
+        description:
+          "The tiles in order (four fit a row): id, label, kind (money, count or percent as a fraction), aggregate (sum or mean), goodWhen (up or down) and one value per day, oldest first. The default is 730 seeded days of a small store.",
+      },
+      {
+        name: "breakdowns",
+        type: "PulseBreakdown[]",
+        defaultValue: "defaultPulseBreakdowns",
+        description:
+          "The donut's splits of revenue: each an id, a label and segments with a daily series aligned with the metrics and an optional colour.",
+      },
+      {
+        name: "now",
+        type: "number | Date",
+        defaultValue: "defaultPulseNow",
+        description:
+          "The date of the last value in every series. Dates are counted back from it.",
+      },
+      {
+        name: "locale",
+        type: "string",
+        defaultValue: '"en-US"',
+        description: "The locale for numbers and money.",
+      },
+      {
+        name: "currency",
+        type: "string",
+        defaultValue: '"USD"',
+        description: "The currency for money metrics.",
+      },
+      {
+        name: "format",
+        type: '(value: number, kind: "money" | "count" | "percent") => string',
+        description:
+          "Formats a value for the tiles, the chart's readout and the spoken sentences. Defaults to whole currency, grouped counts and percentages to two places.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the numbers have arrived: loading shows the dashboard's skeleton, error a retry.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the numbers failed to load.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Pulse"',
+        description: "The dashboard's heading.",
+      },
+      {
+        name: "subtitle",
+        type: "string",
+        description:
+          "A quieter line under the heading, before the window's dates.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "The dashboard's accessible name. Defaults to the title.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play a tick for a period, tile or slice chosen and each week the keyboard crosses, and a swish when a zoom lands or resets.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Shows the numbers but refuses period, metric, breakdown and zoom changes.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer panel.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the period and the breakdown are radio groups and the tiles a tablist (arrows move and select, Home and End jump). The chart is a slider over its days: Left and Right step a day, Page Up and Page Down a week, Home and End the window's ends; Shift with an arrow stretches a brush from the cursor, Enter zooms to it, and Escape lets go of the brush first, then the zoom.",
+      "Pointer: drag across the chart to zoom into the days under the brush, tap or point to read a day, double-click to reset. The legend rows are toggle buttons that pin a slice.",
+      "A zoom is a custom window that the tiles and donut answer too; the period switch shows no selection until a period is chosen again, and onWindowChange reports it with custom set.",
+      "Reduced motion: nothing travels or rolls — the window, axis and slices change at once behind a short fade, the brush still draws, and slices are outlined instead of pulled out. Every number still updates.",
+      "Lays out by its own width: two tiles across with the donut beside its legend on a phone, four across with the chart and donut side by side from 640px, and a taller chart with the legend's amounts from about 1090px. At most 560px tall; it scrolls inside its own box below that.",
+      "Every series is one value per day ending at now, oldest first; percentages are fractions (0.031). Keep defaultPulseMetrics and defaultPulseBreakdowns as templates for your own data.",
+    ],
+  },
+  {
+    name: "funnel-flow",
+    type: "registry:ui",
+    title: "Funnel Flow",
+    description:
+      "A conversion funnel drawn as a flow: stages are bars as long as the people who reached them, ribbons carry the ones who went on, and from each stage a drop-off branch peels away and fades. A seeded pool of particles runs it, and at each stage a particle goes on only if its lane falls inside the share that converted, so the dots split exactly as the people did; pointing at a stage freezes its particles where they are while the rest keep flowing and the details swap in on snap, and the segment switch re-weights every stage and branch on glide while particles already in flight follow their lanes onto the new shapes. The stages are a list of buttons named with full sentences: arrows move between them and freeze each, Enter pins, Escape unpins, and the segment is a radio group.",
+    files: [
+      {
+        path: "registry/ui/funnel-flow.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["studio"],
+    meta: {
+      serial: "KQ-1313",
+    },
+    tagline: "See where they slip away.",
+    keywords: [
+      "funnel",
+      "conversion",
+      "sankey",
+      "flow",
+      "particles",
+      "drop-off",
+      "analytics",
+    ],
+    props: [
+      {
+        name: "particles",
+        type: "number",
+        defaultValue: "100",
+        description:
+          "How many particles run the funnel at once, 20 to 200. The pool is seeded and warmed up, so it is full from the first frame.",
+      },
+      {
+        name: "segment / defaultSegment",
+        type: "string",
+        defaultValue: "the first segment",
+        description:
+          "Which of segments the flow is weighted by. A change glides every stage and branch to its new size. Controlled or uncontrolled.",
+      },
+      {
+        name: "onSegmentChange",
+        type: "(id: string) => void",
+        description: "Fires from the segment switch with the new segment's id.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "How fast the particles run, as a multiple of 64px a second.",
+      },
+      {
+        name: "stages",
+        type: "FunnelStage[]",
+        defaultValue: "defaultFunnelStages",
+        description: "The stages in order, each an id and a label.",
+      },
+      {
+        name: "segments",
+        type: "FunnelSegment[]",
+        defaultValue: "defaultFunnelSegments",
+        description:
+          "The segments: id, label, the people who reached each stage, and optionally the median hours from the stage before and the top reason people left at each stage.",
+      },
+      {
+        name: "stage / defaultStage",
+        type: "string | null",
+        defaultValue: "null",
+        description:
+          "The pinned stage: frozen, with its details shown, until it is unpinned. Controlled or uncontrolled.",
+      },
+      {
+        name: "onStageChange",
+        type: "(id: string | null) => void",
+        description:
+          "Fires from the press or key that pinned or unpinned a stage.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "7",
+        description:
+          "Seeds the particles' lanes and pace, so the same page always draws the same flow.",
+      },
+      {
+        name: "format",
+        type: "(count: number) => string",
+        description:
+          "Formats a count of people. Defaults to grouped digits in locale.",
+      },
+      {
+        name: "locale",
+        type: "string",
+        defaultValue: '"en-US"',
+        description: "The locale for counts.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the numbers have arrived: loading shows the funnel's skeleton, error a retry.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the numbers failed to load.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Conversion"',
+        description: "The heading.",
+      },
+      {
+        name: "subtitle",
+        type: "string",
+        description:
+          "A quieter line under the heading, before the first stage's count.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "The funnel's accessible name. Defaults to the title.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play a swish when the segment changes and a plip when a stage is pinned or the keyboard moves to it, pitched by how many of its people the stage keeps. Particles never sound.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Shows the flow but refuses segment changes and pins.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer panel.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the stages are one tab stop. Arrow keys move between them, Home and End jump, and the stage with focus freezes and shows its details; Enter or Space pins it, Escape unpins. The segment switch is a radio group whose arrows select.",
+      "The particles run only while the funnel is on screen and the page is visible; under reduced motion they never move, and each ribbon and branch holds a still, seeded scatter of dots in the same proportions while the numbers and the freeze still work.",
+      "Bars are drawn relative to the segment's own first stage, so switching segments compares conversion, not size; the counts on each stage say how many people that is.",
+      "Lays out by its own width: on a phone the funnel stands up, labels in a column on the left and losses peeling right; from 560px it lies on its side with the losses below; from about 1090px a table of stages sits beside it. At most 560px tall; it scrolls inside its own box below that.",
+      "Every stage, count, median and reason is data: keep defaultFunnelStages and defaultFunnelSegments as templates for your own.",
+    ],
+  },
+  {
+    name: "status-board",
+    type: "registry:ui",
+    title: "Status Board",
+    description:
+      "A service status board built from records: each service's strip of days grows up out of the baseline in one wave on glide, sweeping across and down the board a cascade apart, every bar coloured by the worst incident that touched it. Point at a strip, scrub it, or step it with the arrow keys and a lens rides to the day on snap with a card of what happened; select an incident and every strip it touched stamps a ring over its days on snap while its updates open on glide. Beside it a seeded p95 latency line advances live from now, gliding left a step per sample and pausing while it is read, over a dot-matrix map whose troubled regions pulse only while the board is on screen.",
+    files: [
+      {
+        path: "registry/ui/status-board.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["studio"],
+    meta: {
+      serial: "KQ-1314",
+    },
+    tagline: "Ninety days, one glance.",
+    keywords: [
+      "status",
+      "uptime",
+      "incidents",
+      "monitoring",
+      "latency",
+      "sla",
+      "dashboard",
+    ],
+    props: [
+      {
+        name: "days",
+        type: "number",
+        defaultValue: "90",
+        description:
+          "Days of history each service shows, 7 to 90. Changing it regrows the strips and recomputes every uptime figure.",
+      },
+      {
+        name: "live",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The latency sparkline takes a new seeded sample every interval while the board is on screen. Off: a snapshot at now.",
+      },
+      {
+        name: "regions",
+        type: "boolean | StatusRegion[]",
+        defaultValue: "true",
+        description:
+          "The regions panel: true for defaultStatusRegions, your own list, or false to leave it out.",
+      },
+      {
+        name: "services",
+        type: "StatusService[]",
+        defaultValue: "defaultStatusServices",
+        description:
+          "One row each: id, name, current status, and minutes of downtime per day ending today.",
+      },
+      {
+        name: "incidents",
+        type: "StatusIncident[]",
+        defaultValue: "defaultStatusIncidents",
+        description:
+          "What went wrong or was planned: title, impact (minor, major, maintenance), services, start, end (omit while open) and updates.",
+      },
+      {
+        name: "now",
+        type: "number | Date",
+        defaultValue: "defaultStatusNow",
+        description:
+          "The board's moment: today's bar, the update time, open incidents and the latency feed all run from it.",
+      },
+      {
+        name: "latency",
+        type: "StatusSample[]",
+        description:
+          "Your own p95 series, oldest first. Omit it for a seeded series that advances from now; pass it and you advance it.",
+      },
+      {
+        name: "latencyWindow",
+        type: "number",
+        defaultValue: "40",
+        description: "Samples across the sparkline.",
+      },
+      {
+        name: "latencyTarget",
+        type: "number",
+        defaultValue: "300",
+        description:
+          "The p95 target in ms: a dashed line, and the reading turns warn above it.",
+      },
+      {
+        name: "interval",
+        type: "number",
+        defaultValue: "2000",
+        description: "Milliseconds between seeded samples while live.",
+      },
+      {
+        name: "incident / defaultIncident",
+        type: "string | null",
+        defaultValue: "null",
+        description:
+          "The selected incident: its days are ringed on every strip it touched and its updates are open. Controlled or uncontrolled.",
+      },
+      {
+        name: "onIncidentChange",
+        type: "(id: string | null) => void",
+        description:
+          "Fires from the click, key or bar that selected or cleared an incident.",
+      },
+      {
+        name: "region / defaultRegion",
+        type: "string | null",
+        defaultValue: "null",
+        description:
+          "The region whose latency the sparkline shows, or null for all regions. Controlled or uncontrolled.",
+      },
+      {
+        name: "onRegionChange",
+        type: "(id: string | null) => void",
+        description:
+          "Fires from the chip, arrow key or map marker that chose a region.",
+      },
+      {
+        name: "onDaySelect",
+        type: "(serviceId: string, date: string) => void",
+        description:
+          "Enter on a day, or a click on its bar, with the service id and the day as YYYY-MM-DD.",
+      },
+      {
+        name: "incidentLimit",
+        type: "number",
+        defaultValue: "3",
+        description:
+          "Incidents listed before Show more; a desktop-wide board, with the room, lists three more.",
+      },
+      {
+        name: "formatDate",
+        type: "(ms: number) => string",
+        description:
+          'Day labels. Defaults to "Sep 24" in UTC, so the server and the browser print the same.',
+      },
+      {
+        name: "formatTime",
+        type: "(ms: number) => string",
+        description:
+          'Clock labels. Defaults to "14:32" in UTC; latency samples add seconds.',
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the status has arrived: a skeleton while loading, a message with Try again on error.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: 'Try again was pressed while status is "error".',
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"System status"',
+        description:
+          "The board's heading; also its accessible name unless label is given.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "The board's accessible name. Defaults to the title.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A tick for each day stepped by key or scrub and for a region choice, a low buzz when you select a major outage. The live feed is always silent.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Read only: days and samples still read out, nothing can be selected and the feed holds still.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the root. It is at most 560px tall and scrolls inside itself; pass a max-height class to change that.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: each strip is a slider over its days with one tab stop for the board — Left and Right step a day, Page keys a week, Home and End the oldest day and today, Up and Down the neighbouring service, Enter selects the day and its incident, Escape clears it. The sparkline is a slider over its samples, the regions a radio group.",
+      'The seeded latency feed only runs while the board is on screen, the page is visible and nobody is reading the line; it pauses ("Paused") while pointed at or focused. Pass latency to drive it yourself — a new last sample glides in the same way.',
+      "Bar colours come from incidents first (the worst impact that touched the service that day), then from downtime nobody filed. Every colour is pigment, the same in light and dark.",
+      "Under reduced motion the bars stand at full height, the lens, card and line step without travel, and troubled regions wear a still halo; uptime, latency and selection still change.",
+      "Lays out by its own width: stacked on a phone (scrolling inside its box), services with the timeline beside a latency and regions column from 40rem, and three columns from 68rem.",
+    ],
+  },
+  {
+    name: "filter-builder",
+    type: "registry:ui",
+    title: "Filter Builder",
+    description:
+      "A query builder over typed rows: rules of field, condition and value in nested All / Any groups, each with a rail down its left edge. Switching a group slides its thumb on snap, re-colours the rail and rolls every and between its rows to or on snap a cascade apart, so the change runs down the group; rules arrive from zero height on glide and leave on the exit ease while the gap closes on glide. Every change re-runs the query and the count rolls to its new figure a digit at a time on snap, chips above summarise the query and lead back to their rows, and the controls are native selects and inputs in groups and radio groups.",
+    files: [
+      {
+        path: "registry/ui/filter-builder.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["studio"],
+    meta: {
+      serial: "KQ-1315",
+    },
+    tagline: "Say exactly which rows you mean.",
+    keywords: [
+      "filter",
+      "query builder",
+      "conditions",
+      "rules",
+      "search",
+      "segment",
+      "table",
+    ],
+    props: [
+      {
+        name: "nesting",
+        type: "number",
+        defaultValue: "2",
+        description:
+          "How deep groups may nest, 0 to 3. At 0 the query is a flat list of rules with no Add group and no inner rails.",
+      },
+      {
+        name: "chips",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "A strip of chips above the builder summarising each top-level rule or group; a chip focuses its row and its × removes it.",
+      },
+      {
+        name: "count",
+        type: '"rows" | "share" | "off"',
+        defaultValue: '"rows"',
+        description:
+          "The result readout: a rolling row count, the share with a meter that glides to it, or none.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "FilterGroup",
+        defaultValue: "defaultFilterQuery",
+        description:
+          "The query: a root group of rules and nested groups. Controlled or uncontrolled.",
+      },
+      {
+        name: "onValueChange",
+        type: "(query: FilterGroup) => void",
+        description:
+          "Fires from the control that changed the query, with the whole new query.",
+      },
+      {
+        name: "fields",
+        type: "FilterField[]",
+        defaultValue: "defaultFilterFields",
+        description:
+          "What can be filtered on: id, label, type (text, number, enum, date, boolean), enum options, number prefix and suffix.",
+      },
+      {
+        name: "rows",
+        type: "FilterRow[]",
+        defaultValue: "defaultFilterRows",
+        description:
+          "The records the count and preview are taken over. The default is 2,400 seeded transactions.",
+      },
+      {
+        name: "matches",
+        type: "number",
+        description: "A count from your server; overrides counting rows.",
+      },
+      {
+        name: "total",
+        type: "number",
+        description: "The total from your server. Defaults to rows.length.",
+      },
+      {
+        name: "now",
+        type: "number | Date",
+        defaultValue: "defaultFilterNow",
+        description: 'Where "in the last N days" counts back from.',
+      },
+      {
+        name: "onApply",
+        type: "(query: FilterGroup) => void",
+        description:
+          "The footer's Show button, and Enter in a value. Without it there is no Show button.",
+      },
+      {
+        name: "applyLabel",
+        type: "string",
+        defaultValue: '"Show"',
+        description: "The Show button's verb; the count follows it.",
+      },
+      {
+        name: "maxRules",
+        type: "number",
+        defaultValue: "12",
+        description:
+          "Rules allowed in the whole query; the Add buttons disable at the limit.",
+      },
+      {
+        name: "noun",
+        type: "{ one: string; other: string }",
+        defaultValue: '{ one: "row", other: "rows" }',
+        description: "What a row is called in the count and its announcement.",
+      },
+      {
+        name: "formatCount",
+        type: "(n: number) => string",
+        description:
+          "Counts as text. Defaults to grouped digits in en-US, so the server and the browser print the same.",
+      },
+      {
+        name: "renderRow",
+        type: "(row: FilterRow) => ReactNode",
+        description:
+          "One row of the desktop preview. Defaults to the first text field, a few others as meta, and the first number on the right.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the count has arrived, for a server count: Counting… while loading, Count unavailable with Try again on error.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: 'Try again was pressed while status is "error".',
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Filters"',
+        description:
+          "The builder's heading; also its accessible name unless label is given.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "The builder's accessible name. Defaults to the title.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A click for each field, condition or match change, a pop for each rule or group added and a lower one for each removed. Typing is silent.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only: the query shows and nothing changes.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the root. It is at most 560px tall and its body scrolls between a fixed header and footer.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: every rule is three native controls and a remove button in tab order; All / Any is a radio group on the arrow keys; Enter in a value applies. A new rule takes focus on its field the moment it arrives, and a removed one hands focus to its neighbour or to the group's Add button.",
+      "Rules without a usable value are drawn dashed and left out of the count (a bad number is marked invalid); a group with nothing left in it lets every row through. matchFilter(query, row, fields, now) is exported to run the same logic on your side.",
+      "The count is announced politely once typing settles (half a second); adding, removing and clearing are announced at once.",
+      "Under reduced motion rows and chips fade without travel, digits swap instead of rolling and joiners swap without the flip; the count, the meter and focus still move.",
+      "Lays out by its own width: rules on two lines on a phone, one line from 40rem, and a preview of the newest matching rows beside the builder from 68rem.",
+    ],
+  },
+  {
+    name: "cohort-grid",
+    type: "registry:ui",
+    title: "Cohort Grid",
+    description:
+      "A cohort retention triangle built from weekly cohorts: cells fill in on snap along the diagonals, the rows or the columns, the whole sweep inside 600ms, and a Users / Revenue switch slides its thumb on snap and recolours the grid in the same order. Pointing at a cell or stepping with the arrow keys lays a row band and a column band through it that ride between cells on snap, while the curve above, sharing the grid's week columns, morphs from the size-weighted average to that cohort on glide and carries on as a dashed projection past the weeks it has lived. It is a real grid with one tab stop: arrows walk the triangle, Home and End reach a row's ends, Enter pins a cohort and Escape lets it go.",
+    files: [
+      {
+        path: "registry/ui/cohort-grid.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["studio"],
+    meta: {
+      serial: "KQ-1316",
+    },
+    tagline: "Who stayed, week by week.",
+    keywords: [
+      "cohort",
+      "retention",
+      "heatmap",
+      "analytics",
+      "churn",
+      "revenue",
+      "growth",
+    ],
+    props: [
+      {
+        name: "cascade",
+        type: '"diagonal" | "rows" | "columns"',
+        defaultValue: '"diagonal"',
+        description:
+          "The order the cells fill in and recolour in. Changing it replays the fill.",
+      },
+      {
+        name: "metric / defaultMetric",
+        type: '"users" | "revenue"',
+        defaultValue: '"users"',
+        description:
+          "What the cells measure: users retained as a share of the cohort, or revenue as a share of week 0 (which can pass 100%). Controlled or uncontrolled.",
+      },
+      {
+        name: "onMetricChange",
+        type: '(metric: "users" | "revenue") => void',
+        description:
+          "Fires from the switch or arrow key that changed the metric.",
+      },
+      {
+        name: "curve",
+        type: '"area" | "line" | "off"',
+        defaultValue: '"area"',
+        description:
+          "The summary curve over the grid: filled, a line, or none.",
+      },
+      {
+        name: "cohorts",
+        type: "Cohort[]",
+        defaultValue: "defaultCohorts",
+        description:
+          "One per week of sign-ups, oldest first: id, start (YYYY-MM-DD), size, and users and revenue per week since.",
+      },
+      {
+        name: "weeks",
+        type: "number",
+        description:
+          "Week columns shown. Defaults to the longest cohort, at most 12.",
+      },
+      {
+        name: "now",
+        type: "number | Date",
+        defaultValue: "defaultCohortNow",
+        description:
+          "Today: the week each cohort is living through is hatched in progress and left out of the averages.",
+      },
+      {
+        name: "selected / defaultSelected",
+        type: "string | null",
+        defaultValue: "null",
+        description:
+          "The pinned cohort: the curve and the side panel hold it when the pointer leaves. Controlled or uncontrolled.",
+      },
+      {
+        name: "onSelectedChange",
+        type: "(id: string | null) => void",
+        description:
+          "Fires from the click or key that pinned or unpinned a cohort.",
+      },
+      {
+        name: "onCellSelect",
+        type: "(cohortId: string, week: number) => void",
+        description: "Enter on a cell, or a click on it.",
+      },
+      {
+        name: "onCrosshairChange",
+        type: "(cell: { cohortId: string; week: number } | null) => void",
+        description:
+          "The crosshair moved to a cell by pointer or key, or left the grid. Use it to link other views.",
+      },
+      {
+        name: "format",
+        type: '(value: number, metric: "users" | "revenue") => string',
+        description:
+          "A cell's value, a share (0.31 is 31%), as text. Defaults to a whole percent.",
+      },
+      {
+        name: "formatMoney",
+        type: "(amount: number) => string",
+        description:
+          "Money in the readouts and the side panel. Defaults to whole US dollars, en-US.",
+      },
+      {
+        name: "formatDate",
+        type: "(iso: string) => string",
+        description: 'Cohort labels. Defaults to "Aug 3", in UTC.',
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the cohorts have arrived: a skeleton triangle while loading, a message with Try again on error.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: 'Try again was pressed while status is "error".',
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Retention"',
+        description:
+          "The grid's heading; also its accessible name unless label is given.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "The grid's accessible name. Defaults to the title.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A tick for each cell you step to or click, pitched by its value, and one for a metric switch.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Read only: cells still read out; nothing pins and the metric is fixed.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the root. It is at most 560px tall and scrolls inside itself.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: the heatmap is a grid with one tab stop. Arrows walk the triangle (Down into a younger cohort lands on its last week), Home and End reach a row\'s ends, Ctrl+Home and Ctrl+End the corners, Page Up and Page Down five cohorts, Enter or Space pins the cohort, Escape unpins it. Every cell is named in full: "Aug 3 cohort, week 4: 31%, 402 of 1,297 users".',
+      "The week a cohort is still living through (from now) is hatched and left out of the averages and the curve, which projects it along the average's shape instead.",
+      "Cells are pigment mixed into the card in oklab — cobalt for users, signal for revenue — so the ramp reads the same in light and dark; strong cells switch to light text.",
+      "Under reduced motion the cells appear together, the recolour is a short fade with no sweep, and the bands and the curve jump to their place; values, the crosshair and the pinned cohort still change.",
+      "Lays out by its own width: on a phone the grid scrolls sideways inside its box with the cohort column held, KPI tiles join from 40rem, and a side panel with the focused cohort and the key from 68rem.",
+    ],
+  },
+  {
+    name: "activity-stream",
+    type: "registry:ui",
+    title: "Activity Stream",
+    description:
+      'A live activity feed where new events gather behind an "N new" pill instead of shoving the list under the reader: the faces behind them land on the pill on recoil and the count rolls on snap. Pressing it scrolls the feed to its top on glide and releases them in a cascade while everything below glides down, each revealed line keeping a wash that fades over two seconds; switching the grouping between person, type and none glides every line to its new seat, and relative times tick on a timer set for the next boundary any line will cross. The list is a role="feed" of articles with one roving tab stop — Up and Down move between lines, Page keys between articles, Home and End to the ends, Enter opens — and the kind chips are toggle buttons.',
+    files: [
+      {
+        path: "registry/ui/activity-stream.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["studio"],
+    meta: {
+      serial: "KQ-1317",
+    },
+    tagline: "Everything that just happened.",
+    keywords: [
+      "activity feed",
+      "notifications",
+      "timeline",
+      "new updates pill",
+      "relative time",
+      "filter chips",
+      "audit log",
+    ],
+    props: [
+      {
+        name: "rate",
+        type: "number",
+        defaultValue: "12",
+        description:
+          "How many events arrive per minute from incoming while live; 0 stops arrivals. Sets how fast the pill fills.",
+      },
+      {
+        name: "group",
+        type: '"actor" | "kind" | "none"',
+        defaultValue: '"actor"',
+        description:
+          "How the feed groups: consecutive events by one person, by one type, or one article per event. Changing it glides every line to its new seat.",
+      },
+      {
+        name: "pill",
+        type: '"avatars" | "count" | "off"',
+        defaultValue: '"avatars"',
+        description:
+          "How new events wait: behind a pill of faces and a rolling count, behind a plain count, or not at all — they slide in at the top as they land.",
+      },
+      {
+        name: "events",
+        type: "ActivityEvent[]",
+        defaultValue: "defaultActivityEvents",
+        description:
+          "The history, in any order: id, actor, kind, action, target, detail and at (Date or ms). Ids added after mount wait behind the pill like arrivals.",
+      },
+      {
+        name: "incoming",
+        type: "ActivityIncoming[]",
+        defaultValue: "defaultActivityIncoming",
+        description:
+          "Events still to come (no time yet), released in order at rate and stamped with the stream's clock; the list loops with fresh ids.",
+      },
+      {
+        name: "actors",
+        type: "ActivityActor[]",
+        defaultValue: "defaultActivityActors",
+        description:
+          "Who can act: id, name, an optional role shown in group headers and an optional tint (any CSS colour) for the avatar.",
+      },
+      {
+        name: "kinds",
+        type: "ActivityKind[]",
+        defaultValue: "defaultActivityKinds",
+        description:
+          "What can happen: id, label, plural and an optional 16px icon. Each kind present becomes a filter chip with its count.",
+      },
+      {
+        name: "now",
+        type: "number | Date",
+        defaultValue: "defaultActivityNow",
+        description:
+          "The time the stream starts from. Relative times are measured from it, never from the wall clock during render.",
+      },
+      {
+        name: "live",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The clock runs on from now in real time and incoming arrives. Off: the clock holds and nothing arrives.",
+      },
+      {
+        name: "filter / defaultFilter",
+        type: "string[]",
+        defaultValue: "[]",
+        description:
+          "The kind ids shown; empty shows everything. Controlled or uncontrolled.",
+      },
+      {
+        name: "onFilterChange",
+        type: "(kinds: string[]) => void",
+        description:
+          "Fires from the chip that changed the filter, with the new kind ids.",
+      },
+      {
+        name: "onReveal",
+        type: "(events: ActivityEvent[]) => void",
+        description:
+          "The pill was pressed: fires with the events it brought into the feed, newest first.",
+      },
+      {
+        name: "onArrive",
+        type: "(event: ActivityEvent) => void",
+        description:
+          "An incoming event arrived, stamped with the stream's clock.",
+      },
+      {
+        name: "onOpen",
+        type: "(event: ActivityEvent) => void",
+        description: "A line was pressed or opened with Enter.",
+      },
+      {
+        name: "groupWindow",
+        type: "number",
+        defaultValue: "30",
+        description:
+          "Consecutive events further apart than this many minutes start a new group.",
+      },
+      {
+        name: "collapseAfter",
+        type: "number",
+        defaultValue: "3",
+        description:
+          "Lines a group shows before a Show N more disclosure, whose height glides open to what its lines measure.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "560",
+        description: "The panel's height in px; the feed scrolls inside it.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the history has arrived: loading shows a skeleton and marks the feed busy, error a retry.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the history failed to load.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Activity"',
+        description: "The panel's heading.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "The panel's accessible name. Defaults to the title.",
+      },
+      {
+        name: "emptyLabel",
+        type: "string",
+        defaultValue: '"No activity yet."',
+        description: "What an empty feed says.",
+      },
+      {
+        name: "formatTime",
+        type: "(at: Date) => string",
+        description:
+          'The absolute time in a line\'s title. Defaults to a fixed, locale-free "30 Sep, 14:05 UTC".',
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play a plip for filter chips and Show more, and a pop when the pill reveals. Arrivals and ticks are always silent.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Shows the feed but refuses filters, reveals and opens; arrivals keep gathering.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer panel.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the feed has one tab stop. Up and Down move between lines and Show more buttons, Page Down and Page Up jump to the next or previous article, Home and End to the ends, Enter opens a line. The pill is a button named with its count; revealing from the keyboard moves focus to the newest revealed line.",
+      "Feed it either way: let the component release a scripted incoming list at rate (looped with fresh ids), or set live={false} and append to events yourself — new ids wait behind the pill exactly like arrivals.",
+      "Times come from now plus the stream's own running clock, so server and browser render the same markup; the clock pauses its updates while the page is hidden or the feed is off screen and catches up when it returns.",
+      "A polite status speaks once when updates start waiting, once per reveal and once per filter change — never per arrival or clock tick.",
+      "Reduced motion: the feed simply lists. Arrivals, reveals and regrouping swap in place, the count changes without rolling and the pill fades; the fresh wash still fades, because what is new is information.",
+      "Lays out by its own width: chips in a scrolling row on a phone, a sidebar of kind filters and people from 640px, and an hourly histogram with each line's detail inline from about 1090px.",
+    ],
+  },
+  {
+    name: "region-map",
+    type: "registry:ui",
+    title: "Region Map",
+    description:
+      "A choropleth of invented regions with the numbers behind every colour. Picking a region leans the map toward it: the camera — centre and scale written into the SVG viewBox — glides on glide to frame it, the region lifts above its neighbours on snap with a flat shadow while the rest dim, and the side panel swaps the ranking for the region's numbers and trend, with Previous and Next travelling region to region by rank. The legend is a slider you scrub: a bracket follows the finger 1:1 and lights only the regions inside the band, then springs onto the class under it on snap with the throw's velocity. The map is a listbox where arrows move to the nearest region in that direction, Enter picks and Escape leans out; the legend takes arrows, Home, End and Escape.",
+    files: [
+      {
+        path: "registry/ui/region-map.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["studio"],
+    meta: {
+      serial: "KQ-1318",
+    },
+    tagline: "Pick a region; the map leans in.",
+    keywords: [
+      "choropleth",
+      "map",
+      "regions",
+      "geography",
+      "legend",
+      "heatmap",
+      "zoom",
+    ],
+    props: [
+      {
+        name: "zoom",
+        type: "number",
+        defaultValue: "2.5",
+        description:
+          "How far the map leans in on a picked region, from 1 (it stays put and only highlights) to 4.",
+      },
+      {
+        name: "legend",
+        type: '"steps" | "ramp"',
+        defaultValue: '"steps"',
+        description:
+          "Stepped classes or a continuous ramp — for the fills, the legend, and how a scrubbed band snaps (to a class, or wherever it is let go).",
+      },
+      {
+        name: "scheme",
+        type: '"cobalt" | "signal" | "heat" | "diverging"',
+        defaultValue: '"cobalt"',
+        description:
+          "The colour scheme: one hue, a warm heat ramp, or a diverging pair around zero for changes. Fills are pigment mixed into the card colour, so both themes read.",
+      },
+      {
+        name: "regions",
+        type: "RegionMapRegion[]",
+        defaultValue: "defaultRegionMapRegions",
+        description:
+          "The regions as SVG paths in the map's viewBox: id, name, d, and an optional box ([x, y, width, height], measured from the path when omitted) and label point. The default is fourteen regions generated once from seeded points.",
+      },
+      {
+        name: "viewBox",
+        type: "[number, number, number, number]",
+        defaultValue: "defaultRegionMapViewBox",
+        description:
+          "The map's extent: what the camera shows when nothing is picked.",
+      },
+      {
+        name: "stats",
+        type: "RegionMapStat[]",
+        defaultValue: "defaultRegionMapStats",
+        description:
+          "What is measured: id, label, kind (count, money, percent as a fraction, or number), an optional unit word and signed for changes. Each becomes a metric option and a row in the details panel.",
+      },
+      {
+        name: "data",
+        type: "RegionMapDatum[]",
+        defaultValue: "defaultRegionMapData",
+        description:
+          "One datum per region: its values per stat id and optional trends (recent readings, oldest first) drawn in the details panel. Regions without a datum read as no data.",
+      },
+      {
+        name: "metric / defaultMetric",
+        type: "string",
+        defaultValue: "the first stat",
+        description:
+          "The stat id the map is coloured and ranked by. Controlled or uncontrolled.",
+      },
+      {
+        name: "onMetricChange",
+        type: "(metric: string) => void",
+        description:
+          "Fires from the metric switch with the new stat id. A band is cleared with it, since it was in the old metric's units.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string | null",
+        defaultValue: "null",
+        description:
+          "The picked region the map leans toward, or null for the whole map. Controlled or uncontrolled; a host change moves the camera the same way a click does.",
+      },
+      {
+        name: "onValueChange",
+        type: "(region: string | null) => void",
+        description:
+          "Fires from the click, key or button that picked a region, or with null when the map leans out.",
+      },
+      {
+        name: "band / defaultBand",
+        type: "[number, number] | null",
+        defaultValue: "null",
+        description:
+          "The [low, high] values the legend highlights; regions outside it fade back. Controlled or uncontrolled.",
+      },
+      {
+        name: "onBandChange",
+        type: "(band: [number, number] | null) => void",
+        description:
+          "Fires when a scrub settles, a tap or key moves the band, or it is cleared.",
+      },
+      {
+        name: "steps",
+        type: "number",
+        defaultValue: "5",
+        description:
+          "Classes in the stepped legend, 3 to 7, laid on round numbers that hold every value.",
+      },
+      {
+        name: "format",
+        type: "(value: number, stat: RegionMapStat) => string",
+        description:
+          "How a value reads in the tooltip, the panel and the spoken text. Defaults to the stat's kind in locale.",
+      },
+      {
+        name: "locale",
+        type: "string",
+        defaultValue: '"en-US"',
+        description: "The locale for numbers and money.",
+      },
+      {
+        name: "currency",
+        type: "string",
+        defaultValue: '"USD"',
+        description: "The currency for money stats.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the numbers have arrived: loading shows a skeleton, error a retry over the map.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the numbers failed to load.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Regions"',
+        description: "The map's heading.",
+      },
+      {
+        name: "subtitle",
+        type: "string",
+        description: "A quieter line under the heading.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "The map's accessible name. Defaults to the title.",
+      },
+      {
+        name: "maxHeight",
+        type: "number",
+        defaultValue: "580",
+        description:
+          "The tallest the surface grows, in px; it scrolls inside itself past that (the phone layout does).",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play a swish whenever the camera moves, panned to the region, and a plip as a scrubbed band crosses into a new class.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Shows the map and its numbers but refuses picks, bands and metric changes.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer panel.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the map is one tab stop (a listbox with an active region). Arrows move to the nearest region in that direction, Home and End to the first and last by rank, Enter or Space picks, Escape leans out — or, with nothing picked, clears the band. The legend is a slider: arrows move the band a class (or a tenth of a ramp), Page keys two, Home and End to the ends, Escape or Delete clears it. The ranking rows take Up, Down, Home and End.",
+      "Bring your own geography: pass regions as SVG paths in your viewBox. Give each a box when you can; without one it is measured from the rendered path once, after mount.",
+      "The default map is generated once from seeded points with arithmetic only — no trigonometry — so the server and every browser draw the same coast to the last digit.",
+      "A polite status speaks once per pick, band and metric change, never while a scrub is moving.",
+      "Reduced motion: the camera cuts instead of travelling, the picked region does not lift (its outline and the dimming still mark it), the panel swaps on opacity and the bracket jumps to its class. Colours, bands and numbers are unchanged.",
+      "Lays out by its own width: stacked with the top five regions on a phone, map and a 15rem panel side by side from 640px, and a wider map with summary figures over a 20rem panel from about 1090px.",
+    ],
+  },
+  {
+    name: "tree-map",
+    type: "registry:ui",
+    title: "Tree Map",
+    description:
+      "A spending treemap you zoom into with a real relayout. Every node has a rectangle in every view — squarified fresh for the plot's shape inside the focus, and the root's layout seen through the camera outside it — so a zoom glides each tile on glide from where it was to where it goes: the chosen category opens out to fill the plot while its children re-squarify into the new shape, siblings fly off past the edges and fade on the exit ease, and grandchildren grow out of their parent's old box; breadcrumbs reverse it. Labels are decided from each tile's final size and fade as they come and go, and a readout names the tile under the pointer. The tiles are buttons with one roving tab stop: arrows move to the nearest tile in that direction, Enter zooms in or selects a leaf, Backspace and Escape zoom out, and focus lands on the tile you came out of.",
+    files: [
+      {
+        path: "registry/ui/tree-map.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["studio"],
+    meta: {
+      serial: "KQ-1319",
+    },
+    tagline: "Zoom into where it adds up.",
+    keywords: [
+      "treemap",
+      "spend",
+      "budget",
+      "hierarchy",
+      "zoom",
+      "breakdown",
+      "squarified",
+    ],
+    props: [
+      {
+        name: "depth",
+        type: "number",
+        defaultValue: "2",
+        description:
+          "How many levels the view draws below the node in focus, 1 to 3: 1 is flat tiles, 2 and 3 frame each tile with a header and nest its children inside.",
+      },
+      {
+        name: "labels",
+        type: '"full" | "name" | "off"',
+        defaultValue: '"full"',
+        description:
+          "Tile labels: name, amount and share where they fit (fewer lines where they do not, none on slivers); the name alone; or none.",
+      },
+      {
+        name: "palette",
+        type: '"category" | "size" | "change"',
+        defaultValue: '"category"',
+        description:
+          "How tiles are coloured: a hue per top-level category shaded by rank, one hue by share of the focus, or warm for spend that grew and green for spend that shrank.",
+      },
+      {
+        name: "data",
+        type: "TreeMapNode",
+        defaultValue: "defaultTreeMapData",
+        description:
+          "The tree: id, name, children, and on leaves a value and an optional previous value. A parent's amount is the sum of its children; color overrides the palette for a branch.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        defaultValue: "the root's id",
+        description:
+          "The id of the node the view is zoomed into. Controlled or uncontrolled; an id that is not a parent falls back to the root.",
+      },
+      {
+        name: "onValueChange",
+        type: "(id: string) => void",
+        description:
+          "Fires from the tile, crumb or key that zoomed, with the new focus id.",
+      },
+      {
+        name: "onSelect",
+        type: "(node: TreeMapNode, path: TreeMapNode[]) => void",
+        description:
+          "A leaf was pressed or chosen with Enter, with the path from the root down to it.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        description:
+          "How an amount reads in tiles, the readout, the table and spoken names. Defaults to whole currency in locale.",
+      },
+      {
+        name: "locale",
+        type: "string",
+        defaultValue: '"en-US"',
+        description: "The locale for amounts and shares.",
+      },
+      {
+        name: "currency",
+        type: "string",
+        defaultValue: '"USD"',
+        description: "The currency for amounts.",
+      },
+      {
+        name: "period",
+        type: "string",
+        defaultValue: '"Q3 2026"',
+        description: "The period the amounts cover, shown beside the total.",
+      },
+      {
+        name: "compareLabel",
+        type: "string",
+        defaultValue: '"last quarter"',
+        description:
+          "What the change is measured against, in the readout and spoken names.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the numbers have arrived: loading shows a skeleton of blocks, error a retry.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the numbers failed to load.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Spend"',
+        description: "The heading.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "The accessible name. Defaults to the title.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play a swish on every zoom (higher in, lower out) and a click for a leaf, a crumb or a keyboard move.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Shows the spend but refuses zooms and selections.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer panel.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the top-level tiles are one tab stop. Arrows move to the nearest tile in that direction, Home and End to the largest and smallest, Enter or Space zooms in (or selects a leaf), Backspace and Escape zoom out — Escape only when there is a level to leave. After a zoom, focus lands on the first tile, or on the tile you came out of.",
+      "A press anywhere inside a top-level tile — on a nested tile too — acts on that tile, so depth 2 and 3 are previews of what a zoom will show.",
+      "The layout is squarified with arithmetic only, from the plot's measured size: the server renders a 2:1 layout and the browser settles to its own shape at once, without animating.",
+      "A polite status speaks each zoom and selection once; the readout under the plot is visual, and every tile carries its full reading in its name.",
+      "Reduced motion: nothing travels — the new view cross-fades in over the old one, leaving tiles fading where they stood. Labels, colours and the readout are unchanged.",
+      "Lays out by its own width: a 4:5 plot with crumbs that scroll on a phone, a 2:1 plot with the palette key from 640px, and a ranked table of the focus's children beside it from about 1090px.",
+    ],
+  },
+  {
+    name: "chart-morph",
+    type: "registry:ui",
+    title: "Chart Morph",
+    description:
+      "A multi-series chart whose type is a shape the data takes, not a different drawing. Each series is one path rebuilt every frame from a few motion values — per point a flat top joined to the next by cubics that are either a notch to the floor or the curve between the points, plus a dot — so bars, line, area and dots are four settings of the same numbers, and a type change moves the points in a left-to-right sweep on glide: bars narrow and their notches rise into the curve, dots swell from the line or bars retract into them. The window, the y scale and each series' visibility glide too, gridlines riding the scale, and a cursor snaps to the nearest point on snap with a ring per series and a readout beside it. The type switch is a radio group, the legend toggle buttons, and the plot a slider: arrows step the cursor, Page keys three, Home and End to the ends, Escape clears it.",
+    files: [
+      {
+        path: "registry/ui/chart-morph.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["studio"],
+    meta: {
+      serial: "KQ-1320",
+    },
+    tagline: "One dataset, any shape.",
+    keywords: [
+      "chart",
+      "bar chart",
+      "line chart",
+      "area chart",
+      "dot plot",
+      "morph",
+      "time series",
+    ],
+    props: [
+      {
+        name: "type / defaultType",
+        type: '"bar" | "line" | "area" | "dot"',
+        defaultValue: '"bar"',
+        description:
+          "The chart type. Changing it morphs the same points into the new shape in a left-to-right sweep. Controlled or uncontrolled.",
+      },
+      {
+        name: "onTypeChange",
+        type: '(type: "bar" | "line" | "area" | "dot") => void',
+        description: "Fires from the type switch with the new type.",
+      },
+      {
+        name: "smooth",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "Curve tension for the line and the area, 0 (straight segments) to 1 (monotone curves that never overshoot a reading); bars round their corners by it.",
+      },
+      {
+        name: "points",
+        type: "number",
+        defaultValue: "12",
+        description:
+          "How many of the latest readings are shown, from 2 to all of them. A change glides the window, so points slide in from the left or out past it.",
+      },
+      {
+        name: "series",
+        type: "ChartMorphSeries[]",
+        defaultValue: "defaultChartMorphSeries",
+        description:
+          "The series: id, label, values (one per label, oldest first) and an optional colour (any CSS colour; defaults to the house pigments).",
+      },
+      {
+        name: "labels",
+        type: "string[]",
+        defaultValue: "defaultChartMorphLabels",
+        description:
+          'One label per reading, oldest first, such as "Sep 2026". The axis shows the first word; the readout and spoken text the whole label.',
+      },
+      {
+        name: "hidden / defaultHidden",
+        type: "string[]",
+        defaultValue: "[]",
+        description:
+          "Series ids toggled off in the legend. A hidden series flattens to the floor and fades while the others re-dodge. Controlled or uncontrolled.",
+      },
+      {
+        name: "onHiddenChange",
+        type: "(hidden: string[]) => void",
+        description:
+          "Fires from the legend with the new hidden ids. The last visible series refuses to hide.",
+      },
+      {
+        name: "onCursorChange",
+        type: "(index: number | null) => void",
+        description:
+          "The point under the cursor changed (an index into labels), or the cursor left.",
+      },
+      {
+        name: "wave",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How far a type change sweeps across the points, 0 (all at once) to 1 (a full left-to-right wave).",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        description:
+          "How a reading prints on the axis, the legend, the readout and in spoken text. Defaults to compact currency in locale.",
+      },
+      {
+        name: "locale",
+        type: "string",
+        defaultValue: '"en-US"',
+        description: "The locale for readings.",
+      },
+      {
+        name: "currency",
+        type: "string",
+        defaultValue: '"USD"',
+        description: "The currency for readings.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Volume"',
+        description: "The chart's heading.",
+      },
+      {
+        name: "subtitle",
+        type: "string",
+        description:
+          "A quieter line under the heading, before the latest total.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "The chart's accessible name. Defaults to the title.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the readings have arrived: loading shows a skeleton of bars, error a retry.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the readings failed to load.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play a swish on a type change, pitched by type, and a tick when the cursor reaches a new point or a series is toggled.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Shows the chart but refuses type, series and cursor changes.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer panel.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the type switch is a radio group (arrows move and select). The legend's series are toggle buttons. The plot is a slider over the visible points: Left and Right step the cursor (the first press lands on the latest point), Page Up and Page Down move three, Home and End jump to the ends, and Escape clears the cursor — only when there is one.",
+      "Every type is the same geometry with different numbers, so a change in the middle of another carries on from the shapes on screen rather than restarting.",
+      "The y scale rounds up to three to five even steps over the visible series in the window; hiding a series or changing points glides it, and each gridline keeps its value as it moves.",
+      "The plot's aria-valuetext reads the cursor's label and every visible series' value; a polite status speaks type and series changes once.",
+      "Reduced motion: types, windows, scales and series change at once behind a 150ms fade of the marks; the cursor and its readout jump. Every value still updates.",
+      "Lays out by its own width: an icon-only type switch and a 200px plot on a phone, a labelled switch and a 300px plot from 640px, and a summary table of each series' total, average and change beside the plot from about 1090px.",
+    ],
+  },
 ];

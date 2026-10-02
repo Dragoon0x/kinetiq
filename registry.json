@@ -32564,6 +32564,300 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "data-grid",
+      "type": "registry:ui",
+      "title": "Data Grid",
+      "description": "A data grid that keeps pace with the hand: rows arrive after a skeleton in a cascade on glide (row by row, on a diagonal wave of cells, or in one fade) and replay from the side you paged toward, a heading press morphs its sort glyph between a double chevron and an arrow on snap while the rows on the page glide to their new seats, and columns resize from a grip that follows the finger 1:1, rubber-bands past its limits and springs back on snap with the release velocity. Shift-click selects a range drawn as one band that stretches from the anchor on snap, editable cells open an editor that lifts out of the cell and land their new value on flick, and the header and first columns stay pinned while the body scrolls. It is a real role=\"grid\" with one roving cell: arrows move, Page keys turn the page, Space selects, Shift with an arrow extends the range, Enter sorts a heading or edits a cell, and Shift with Left or Right resizes a column.",
+      "files": [
+        {
+          "path": "registry/ui/data-grid.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1311"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "pulse-dashboard",
+      "type": "registry:ui",
+      "title": "Pulse Dashboard",
+      "description": "A KPI dashboard where everything reads one window of days, and a change of window moves it all in one beat: the four tiles' digits roll on snap, units first and the tiles in cascade, while the chart's window glides on glide, so a longer period is a real zoom out — the area is rebuilt every frame from the window, a day per point while they fit and the mean of each sample's share past that — and the y scale and the donut's slices glide with it. Dragging across the chart draws a brush that follows the finger 1:1 and rubber-bands past the ends, and letting go zooms into it as the brush opens out to the plot's edges; pointing at a donut slice pulls it out along its own middle on snap while the hub cross-fades to it. The period is a radio group, the tiles a tablist whose panel is the chart, and the chart a slider over its days: arrows step a day, Page keys a week, Shift with an arrow stretches a brush, Enter zooms to it and Escape lets go of the brush, then the zoom.",
+      "files": [
+        {
+          "path": "registry/ui/pulse-dashboard.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1312"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "funnel-flow",
+      "type": "registry:ui",
+      "title": "Funnel Flow",
+      "description": "A conversion funnel drawn as a flow: stages are bars as long as the people who reached them, ribbons carry the ones who went on, and from each stage a drop-off branch peels away and fades. A seeded pool of particles runs it, and at each stage a particle goes on only if its lane falls inside the share that converted, so the dots split exactly as the people did; pointing at a stage freezes its particles where they are while the rest keep flowing and the details swap in on snap, and the segment switch re-weights every stage and branch on glide while particles already in flight follow their lanes onto the new shapes. The stages are a list of buttons named with full sentences: arrows move between them and freeze each, Enter pins, Escape unpins, and the segment is a radio group.",
+      "files": [
+        {
+          "path": "registry/ui/funnel-flow.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1313"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "status-board",
+      "type": "registry:ui",
+      "title": "Status Board",
+      "description": "A service status board built from records: each service's strip of days grows up out of the baseline in one wave on glide, sweeping across and down the board a cascade apart, every bar coloured by the worst incident that touched it. Point at a strip, scrub it, or step it with the arrow keys and a lens rides to the day on snap with a card of what happened; select an incident and every strip it touched stamps a ring over its days on snap while its updates open on glide. Beside it a seeded p95 latency line advances live from now, gliding left a step per sample and pausing while it is read, over a dot-matrix map whose troubled regions pulse only while the board is on screen.",
+      "files": [
+        {
+          "path": "registry/ui/status-board.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1314"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "filter-builder",
+      "type": "registry:ui",
+      "title": "Filter Builder",
+      "description": "A query builder over typed rows: rules of field, condition and value in nested All / Any groups, each with a rail down its left edge. Switching a group slides its thumb on snap, re-colours the rail and rolls every and between its rows to or on snap a cascade apart, so the change runs down the group; rules arrive from zero height on glide and leave on the exit ease while the gap closes on glide. Every change re-runs the query and the count rolls to its new figure a digit at a time on snap, chips above summarise the query and lead back to their rows, and the controls are native selects and inputs in groups and radio groups.",
+      "files": [
+        {
+          "path": "registry/ui/filter-builder.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1315"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "cohort-grid",
+      "type": "registry:ui",
+      "title": "Cohort Grid",
+      "description": "A cohort retention triangle built from weekly cohorts: cells fill in on snap along the diagonals, the rows or the columns, the whole sweep inside 600ms, and a Users / Revenue switch slides its thumb on snap and recolours the grid in the same order. Pointing at a cell or stepping with the arrow keys lays a row band and a column band through it that ride between cells on snap, while the curve above, sharing the grid's week columns, morphs from the size-weighted average to that cohort on glide and carries on as a dashed projection past the weeks it has lived. It is a real grid with one tab stop: arrows walk the triangle, Home and End reach a row's ends, Enter pins a cohort and Escape lets it go.",
+      "files": [
+        {
+          "path": "registry/ui/cohort-grid.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1316"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "activity-stream",
+      "type": "registry:ui",
+      "title": "Activity Stream",
+      "description": "A live activity feed where new events gather behind an \"N new\" pill instead of shoving the list under the reader: the faces behind them land on the pill on recoil and the count rolls on snap. Pressing it scrolls the feed to its top on glide and releases them in a cascade while everything below glides down, each revealed line keeping a wash that fades over two seconds; switching the grouping between person, type and none glides every line to its new seat, and relative times tick on a timer set for the next boundary any line will cross. The list is a role=\"feed\" of articles with one roving tab stop — Up and Down move between lines, Page keys between articles, Home and End to the ends, Enter opens — and the kind chips are toggle buttons.",
+      "files": [
+        {
+          "path": "registry/ui/activity-stream.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1317"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "region-map",
+      "type": "registry:ui",
+      "title": "Region Map",
+      "description": "A choropleth of invented regions with the numbers behind every colour. Picking a region leans the map toward it: the camera — centre and scale written into the SVG viewBox — glides on glide to frame it, the region lifts above its neighbours on snap with a flat shadow while the rest dim, and the side panel swaps the ranking for the region's numbers and trend, with Previous and Next travelling region to region by rank. The legend is a slider you scrub: a bracket follows the finger 1:1 and lights only the regions inside the band, then springs onto the class under it on snap with the throw's velocity. The map is a listbox where arrows move to the nearest region in that direction, Enter picks and Escape leans out; the legend takes arrows, Home, End and Escape.",
+      "files": [
+        {
+          "path": "registry/ui/region-map.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1318"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "tree-map",
+      "type": "registry:ui",
+      "title": "Tree Map",
+      "description": "A spending treemap you zoom into with a real relayout. Every node has a rectangle in every view — squarified fresh for the plot's shape inside the focus, and the root's layout seen through the camera outside it — so a zoom glides each tile on glide from where it was to where it goes: the chosen category opens out to fill the plot while its children re-squarify into the new shape, siblings fly off past the edges and fade on the exit ease, and grandchildren grow out of their parent's old box; breadcrumbs reverse it. Labels are decided from each tile's final size and fade as they come and go, and a readout names the tile under the pointer. The tiles are buttons with one roving tab stop: arrows move to the nearest tile in that direction, Enter zooms in or selects a leaf, Backspace and Escape zoom out, and focus lands on the tile you came out of.",
+      "files": [
+        {
+          "path": "registry/ui/tree-map.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1319"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "chart-morph",
+      "type": "registry:ui",
+      "title": "Chart Morph",
+      "description": "A multi-series chart whose type is a shape the data takes, not a different drawing. Each series is one path rebuilt every frame from a few motion values — per point a flat top joined to the next by cubics that are either a notch to the floor or the curve between the points, plus a dot — so bars, line, area and dots are four settings of the same numbers, and a type change moves the points in a left-to-right sweep on glide: bars narrow and their notches rise into the curve, dots swell from the line or bars retract into them. The window, the y scale and each series' visibility glide too, gridlines riding the scale, and a cursor snaps to the nearest point on snap with a ring per series and a readout beside it. The type switch is a radio group, the legend toggle buttons, and the plot a slider: arrows step the cursor, Page keys three, Home and End to the ends, Escape clears it.",
+      "files": [
+        {
+          "path": "registry/ui/chart-morph.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1320"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

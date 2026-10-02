@@ -1360,6 +1360,16 @@ import { ReviewThreadDemo } from "@/registry/demos/review-thread.demo";
 import { NoticeCenterDemo } from "@/registry/demos/notice-center.demo";
 import { BlockEditorDemo } from "@/registry/demos/block-editor.demo";
 import { MemberRosterDemo } from "@/registry/demos/member-roster.demo";
+import { DataGridDemo } from "@/registry/demos/data-grid.demo";
+import { PulseDashboardDemo } from "@/registry/demos/pulse-dashboard.demo";
+import { FunnelFlowDemo } from "@/registry/demos/funnel-flow.demo";
+import { StatusBoardDemo } from "@/registry/demos/status-board.demo";
+import { FilterBuilderDemo } from "@/registry/demos/filter-builder.demo";
+import { CohortGridDemo } from "@/registry/demos/cohort-grid.demo";
+import { ActivityStreamDemo } from "@/registry/demos/activity-stream.demo";
+import { RegionMapDemo } from "@/registry/demos/region-map.demo";
+import { TreeMapDemo } from "@/registry/demos/tree-map.demo";
+import { ChartMorphDemo } from "@/registry/demos/chart-morph.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2734,4 +2744,14 @@ export const demos: Record<string, ComponentType> = {
   "notice-center": NoticeCenterDemo,
   "block-editor": BlockEditorDemo,
   "member-roster": MemberRosterDemo,
+  "data-grid": DataGridDemo,
+  "pulse-dashboard": PulseDashboardDemo,
+  "funnel-flow": FunnelFlowDemo,
+  "status-board": StatusBoardDemo,
+  "filter-builder": FilterBuilderDemo,
+  "cohort-grid": CohortGridDemo,
+  "activity-stream": ActivityStreamDemo,
+  "region-map": RegionMapDemo,
+  "tree-map": TreeMapDemo,
+  "chart-morph": ChartMorphDemo,
 };

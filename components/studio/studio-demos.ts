@@ -167,4 +167,44 @@ export const STUDIO_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/member-roster.demo").then((m) =>
       mod(m.MemberRosterDemo, m.tweaks),
     ),
+  "data-grid": () =>
+    import("@/registry/demos/data-grid.demo").then((m) =>
+      mod(m.DataGridDemo, m.tweaks),
+    ),
+  "pulse-dashboard": () =>
+    import("@/registry/demos/pulse-dashboard.demo").then((m) =>
+      mod(m.PulseDashboardDemo, m.tweaks),
+    ),
+  "funnel-flow": () =>
+    import("@/registry/demos/funnel-flow.demo").then((m) =>
+      mod(m.FunnelFlowDemo, m.tweaks),
+    ),
+  "status-board": () =>
+    import("@/registry/demos/status-board.demo").then((m) =>
+      mod(m.StatusBoardDemo, m.tweaks),
+    ),
+  "filter-builder": () =>
+    import("@/registry/demos/filter-builder.demo").then((m) =>
+      mod(m.FilterBuilderDemo, m.tweaks),
+    ),
+  "cohort-grid": () =>
+    import("@/registry/demos/cohort-grid.demo").then((m) =>
+      mod(m.CohortGridDemo, m.tweaks),
+    ),
+  "activity-stream": () =>
+    import("@/registry/demos/activity-stream.demo").then((m) =>
+      mod(m.ActivityStreamDemo, m.tweaks),
+    ),
+  "region-map": () =>
+    import("@/registry/demos/region-map.demo").then((m) =>
+      mod(m.RegionMapDemo, m.tweaks),
+    ),
+  "tree-map": () =>
+    import("@/registry/demos/tree-map.demo").then((m) =>
+      mod(m.TreeMapDemo, m.tweaks),
+    ),
+  "chart-morph": () =>
+    import("@/registry/demos/chart-morph.demo").then((m) =>
+      mod(m.ChartMorphDemo, m.tweaks),
+    ),
 };

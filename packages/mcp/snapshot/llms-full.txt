@@ -24269,6 +24269,404 @@ Notes:
 - Nothing changes on a single press: roles and removals wait for a confirm, and the last owner is locked with a title that says why. Fire your API call from onRoleChange or onRemove; in controlled mode, refusing the change simply leaves the row as it was.
 - Layout follows the component's own width: under 600px Members and Pending are tabs and each member is a two-line row; from 600px the members are a table with Pending under it; from 1040px the invite field and Pending move into a column on the right.
 
+### Data Grid (KQ-1311) — `data-grid`
+A table that keeps up with you.
+
+A data grid that keeps pace with the hand: rows arrive after a skeleton in a cascade on glide (row by row, on a diagonal wave of cells, or in one fade) and replay from the side you paged toward, a heading press morphs its sort glyph between a double chevron and an arrow on snap while the rows on the page glide to their new seats, and columns resize from a grip that follows the finger 1:1, rubber-bands past its limits and springs back on snap with the release velocity. Shift-click selects a range drawn as one band that stretches from the anchor on snap, editable cells open an editor that lifts out of the cell and land their new value on flick, and the header and first columns stay pinned while the body scrolls. It is a real role="grid" with one roving cell: arrows move, Page keys turn the page, Space selects, Shift with an arrow extends the range, Enter sorts a heading or edits a cell, and Shift with Left or Right resizes a column.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/data-grid`
+
+Props:
+- `density`: "compact" | "regular" | "roomy" (default "regular") — Row height and type: 32, 40 or 48px rows. Heights glide when it changes.
+- `cascade`: "rows" | "wave" | "none" (default "rows") — How a page arrives after the skeleton or a page turn: rows rising in order, cells on a diagonal wave from the top-left, or one fade.
+- `stripes`: boolean (default false) — Paint alternate rows, so a wide row is easy to follow across. The pinned cells share the stripe.
+- `columns`: DataGridColumn[] (default defaultDataGridColumns) — The columns in order: id, header, kind (text, number, money, date, status), width and its limits, align, sortable, editable, mono, relative dates, status options and tones, and format, validate and parse functions. The first is the row header and stays pinned.
+- `rows / defaultRows`: DataGridRow[] (default defaultDataGridRows) — The records, each with an id and a field per column. Controlled or uncontrolled; the default is 42 seeded invoices.
+- `onRowsChange`: (rows: DataGridRow[]) => void — Fires with every row after an edit is committed, or reverted after a failed save.
+- `onCellEdit`: (edit: DataGridEdit) => void | Promise<unknown> — Fires when an edit is committed, with the row, column, new value and previous value. Return a promise to show the cell saving; a rejection puts the old value back.
+- `sort / defaultSort`: { columnId: string; direction: "asc" | "desc" } | null (default null) — The sort, or null for the rows' own order. Controlled or uncontrolled.
+- `onSortChange`: (sort: DataGridSort | null) => void — Fires from the heading press or key that changed the sort: ascending, descending, then off.
+- `selected / defaultSelected`: string[] (default []) — The selected row ids. Controlled or uncontrolled.
+- `onSelectedChange`: (ids: string[]) => void — Fires from the click, Shift-click or key that changed the selection.
+- `page / defaultPage`: number (default 0) — The page shown, from 0. Controlled or uncontrolled.
+- `onPageChange`: (page: number) => void — Fires from the button or key that turned the page.
+- `pageSize`: number (default 8) — Rows per page.
+- `maxHeight`: number (default 360) — Tallest the body grows, in px, before it scrolls under its pinned header.
+- `actions`: DataGridAction[] (default []) — Buttons offered in the footer while rows are selected: id, label, an optional 14px icon and tone.
+- `onAction`: (actionId: string, rowIds: string[]) => void — One of the actions was pressed, with the selected row ids.
+- `onColumnResize`: (columnId: string, width: number) => void — Fires when a column's width settles after a drag, a double-click fit or a key.
+- `now`: number | Date (default defaultDataGridNow) — Today, for relative dates such as "in 3d" and "5d ago".
+- `itemLabel`: { one: string; other: string } (default { one: "row", other: "rows" }) — What one row is called in counts and announcements: "3 invoices selected".
+- `locale`: string (default "en-US") — The locale for numbers and money.
+- `currency`: string (default "USD") — The currency for money columns.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the rows have arrived. Loading shows a skeleton of one page; going to ready plays the arrival.
+- `onRetry`: () => void — Try again was pressed after the rows failed to load.
+- `emptyLabel`: string (default "Nothing here yet") — What an empty grid says.
+- `title`: string (default "Receivables") — The heading over the grid.
+- `label`: string — The grid's accessible name. Defaults to the title.
+- `sound`: boolean (default false) — Play a click for sorts, toggles, page turns and saves, and a tick per row joining a range and per 16px of resize.
+- `disabled`: boolean (default false) — Keeps the grid readable and navigable but refuses sorting, selecting, editing, resizing and paging.
+- `className`: string — Classes for the outer panel.
+
+Notes:
+- Keyboard: one cell is the tab stop. Arrows move, Home and End reach the row's ends, Ctrl+Home and Ctrl+End the page's corners, Page Up and Page Down turn the page. On a heading Enter or Space sorts, Shift+Left or Shift+Right resizes by 16px and Shift+Enter fits the column to its contents (as a double-click on its grip does); in the body Space toggles the row, Shift+Up and Shift+Down extend the range from the anchor, Ctrl or Cmd+A selects the page, and Escape clears a selection.
+- Editing: Enter, F2, a double-click or a typed character opens the editor on an editable cell (typing replaces the value). Enter and Tab commit, Escape cancels and hands focus back to the cell. validate returns the message shown under the editor; return a promise from onCellEdit to show the cell saving, and reject it to put the old value back.
+- Sorting is an action, not a live view: the order is taken when a heading is pressed or rows come and go, so an edited row stays under the hand that edited it until the next sort.
+- Reduced motion: rows and cells fade in without travel, reorders, bands and the page pill settle at once, the sort glyph swaps on a short tween and the editor appears without lifting. Selection, order, widths and saved values still change.
+- On a narrow container the pinned column takes at most about half the width so the columns beside it can scroll; the footer turns its page numbers into a compact count.
+- Columns and rows are plain data: pass format for custom cells, and keep the default exports (defaultDataGridColumns, defaultDataGridRows) as a template for your own.
+
+### Pulse Dashboard (KQ-1312) — `pulse-dashboard`
+Change the range; watch it all reflow.
+
+A KPI dashboard where everything reads one window of days, and a change of window moves it all in one beat: the four tiles' digits roll on snap, units first and the tiles in cascade, while the chart's window glides on glide, so a longer period is a real zoom out — the area is rebuilt every frame from the window, a day per point while they fit and the mean of each sample's share past that — and the y scale and the donut's slices glide with it. Dragging across the chart draws a brush that follows the finger 1:1 and rubber-bands past the ends, and letting go zooms into it as the brush opens out to the plot's edges; pointing at a donut slice pulls it out along its own middle on snap while the hub cross-fades to it. The period is a radio group, the tiles a tablist whose panel is the chart, and the chart a slider over its days: arrows step a day, Page keys a week, Shift with an arrow stretches a brush, Enter zooms to it and Escape lets go of the brush, then the zoom.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/pulse-dashboard`
+
+Props:
+- `range / defaultRange`: "7d" | "30d" | "90d" | "1y" (default "30d") — The period: the last 7, 30 or 90 days, or the last year, up to now. Changing it glides the chart's window, so it zooms out or in. Controlled or uncontrolled.
+- `onRangeChange`: (range: "7d" | "30d" | "90d" | "1y") => void — Fires from the period switch with the new period.
+- `smooth`: number (default 0.6) — How much the chart's line curves, 0 to 1: straight segments at 0, monotone curves at 1 that never overshoot a reading.
+- `donut / defaultDonut`: string (default "channel") — Which breakdown the donut splits revenue by (an id from breakdowns). A new breakdown sweeps its ring in clockwise. Controlled or uncontrolled.
+- `onDonutChange`: (id: string) => void — Fires from the breakdown switch with the new breakdown's id.
+- `metric / defaultMetric`: string (default the first metric) — The tile the chart draws. A new metric grows out of the old one's shape. Controlled or uncontrolled.
+- `onMetricChange`: (id: string) => void — Fires from the tile press or arrow key that chose a metric.
+- `onWindowChange`: (window: { from: string; to: string; custom: boolean }) => void — Fires whenever the window changes — a period, a zoom or a reset — with both dates included, as YYYY-MM-DD.
+- `metrics`: PulseMetric[] (default defaultPulseMetrics) — The tiles in order (four fit a row): id, label, kind (money, count or percent as a fraction), aggregate (sum or mean), goodWhen (up or down) and one value per day, oldest first. The default is 730 seeded days of a small store.
+- `breakdowns`: PulseBreakdown[] (default defaultPulseBreakdowns) — The donut's splits of revenue: each an id, a label and segments with a daily series aligned with the metrics and an optional colour.
+- `now`: number | Date (default defaultPulseNow) — The date of the last value in every series. Dates are counted back from it.
+- `locale`: string (default "en-US") — The locale for numbers and money.
+- `currency`: string (default "USD") — The currency for money metrics.
+- `format`: (value: number, kind: "money" | "count" | "percent") => string — Formats a value for the tiles, the chart's readout and the spoken sentences. Defaults to whole currency, grouped counts and percentages to two places.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the numbers have arrived: loading shows the dashboard's skeleton, error a retry.
+- `onRetry`: () => void — Try again was pressed after the numbers failed to load.
+- `title`: string (default "Pulse") — The dashboard's heading.
+- `subtitle`: string — A quieter line under the heading, before the window's dates.
+- `label`: string — The dashboard's accessible name. Defaults to the title.
+- `sound`: boolean (default false) — Play a tick for a period, tile or slice chosen and each week the keyboard crosses, and a swish when a zoom lands or resets.
+- `disabled`: boolean (default false) — Shows the numbers but refuses period, metric, breakdown and zoom changes.
+- `className`: string — Classes for the outer panel.
+
+Notes:
+- Keyboard: the period and the breakdown are radio groups and the tiles a tablist (arrows move and select, Home and End jump). The chart is a slider over its days: Left and Right step a day, Page Up and Page Down a week, Home and End the window's ends; Shift with an arrow stretches a brush from the cursor, Enter zooms to it, and Escape lets go of the brush first, then the zoom.
+- Pointer: drag across the chart to zoom into the days under the brush, tap or point to read a day, double-click to reset. The legend rows are toggle buttons that pin a slice.
+- A zoom is a custom window that the tiles and donut answer too; the period switch shows no selection until a period is chosen again, and onWindowChange reports it with custom set.
+- Reduced motion: nothing travels or rolls — the window, axis and slices change at once behind a short fade, the brush still draws, and slices are outlined instead of pulled out. Every number still updates.
+- Lays out by its own width: two tiles across with the donut beside its legend on a phone, four across with the chart and donut side by side from 640px, and a taller chart with the legend's amounts from about 1090px. At most 560px tall; it scrolls inside its own box below that.
+- Every series is one value per day ending at now, oldest first; percentages are fractions (0.031). Keep defaultPulseMetrics and defaultPulseBreakdowns as templates for your own data.
+
+### Funnel Flow (KQ-1313) — `funnel-flow`
+See where they slip away.
+
+A conversion funnel drawn as a flow: stages are bars as long as the people who reached them, ribbons carry the ones who went on, and from each stage a drop-off branch peels away and fades. A seeded pool of particles runs it, and at each stage a particle goes on only if its lane falls inside the share that converted, so the dots split exactly as the people did; pointing at a stage freezes its particles where they are while the rest keep flowing and the details swap in on snap, and the segment switch re-weights every stage and branch on glide while particles already in flight follow their lanes onto the new shapes. The stages are a list of buttons named with full sentences: arrows move between them and freeze each, Enter pins, Escape unpins, and the segment is a radio group.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/funnel-flow`
+
+Props:
+- `particles`: number (default 100) — How many particles run the funnel at once, 20 to 200. The pool is seeded and warmed up, so it is full from the first frame.
+- `segment / defaultSegment`: string (default the first segment) — Which of segments the flow is weighted by. A change glides every stage and branch to its new size. Controlled or uncontrolled.
+- `onSegmentChange`: (id: string) => void — Fires from the segment switch with the new segment's id.
+- `speed`: number (default 1) — How fast the particles run, as a multiple of 64px a second.
+- `stages`: FunnelStage[] (default defaultFunnelStages) — The stages in order, each an id and a label.
+- `segments`: FunnelSegment[] (default defaultFunnelSegments) — The segments: id, label, the people who reached each stage, and optionally the median hours from the stage before and the top reason people left at each stage.
+- `stage / defaultStage`: string | null (default null) — The pinned stage: frozen, with its details shown, until it is unpinned. Controlled or uncontrolled.
+- `onStageChange`: (id: string | null) => void — Fires from the press or key that pinned or unpinned a stage.
+- `seed`: number (default 7) — Seeds the particles' lanes and pace, so the same page always draws the same flow.
+- `format`: (count: number) => string — Formats a count of people. Defaults to grouped digits in locale.
+- `locale`: string (default "en-US") — The locale for counts.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the numbers have arrived: loading shows the funnel's skeleton, error a retry.
+- `onRetry`: () => void — Try again was pressed after the numbers failed to load.
+- `title`: string (default "Conversion") — The heading.
+- `subtitle`: string — A quieter line under the heading, before the first stage's count.
+- `label`: string — The funnel's accessible name. Defaults to the title.
+- `sound`: boolean (default false) — Play a swish when the segment changes and a plip when a stage is pinned or the keyboard moves to it, pitched by how many of its people the stage keeps. Particles never sound.
+- `disabled`: boolean (default false) — Shows the flow but refuses segment changes and pins.
+- `className`: string — Classes for the outer panel.
+
+Notes:
+- Keyboard: the stages are one tab stop. Arrow keys move between them, Home and End jump, and the stage with focus freezes and shows its details; Enter or Space pins it, Escape unpins. The segment switch is a radio group whose arrows select.
+- The particles run only while the funnel is on screen and the page is visible; under reduced motion they never move, and each ribbon and branch holds a still, seeded scatter of dots in the same proportions while the numbers and the freeze still work.
+- Bars are drawn relative to the segment's own first stage, so switching segments compares conversion, not size; the counts on each stage say how many people that is.
+- Lays out by its own width: on a phone the funnel stands up, labels in a column on the left and losses peeling right; from 560px it lies on its side with the losses below; from about 1090px a table of stages sits beside it. At most 560px tall; it scrolls inside its own box below that.
+- Every stage, count, median and reason is data: keep defaultFunnelStages and defaultFunnelSegments as templates for your own.
+
+### Status Board (KQ-1314) — `status-board`
+Ninety days, one glance.
+
+A service status board built from records: each service's strip of days grows up out of the baseline in one wave on glide, sweeping across and down the board a cascade apart, every bar coloured by the worst incident that touched it. Point at a strip, scrub it, or step it with the arrow keys and a lens rides to the day on snap with a card of what happened; select an incident and every strip it touched stamps a ring over its days on snap while its updates open on glide. Beside it a seeded p95 latency line advances live from now, gliding left a step per sample and pausing while it is read, over a dot-matrix map whose troubled regions pulse only while the board is on screen.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/status-board`
+
+Props:
+- `days`: number (default 90) — Days of history each service shows, 7 to 90. Changing it regrows the strips and recomputes every uptime figure.
+- `live`: boolean (default true) — The latency sparkline takes a new seeded sample every interval while the board is on screen. Off: a snapshot at now.
+- `regions`: boolean | StatusRegion[] (default true) — The regions panel: true for defaultStatusRegions, your own list, or false to leave it out.
+- `services`: StatusService[] (default defaultStatusServices) — One row each: id, name, current status, and minutes of downtime per day ending today.
+- `incidents`: StatusIncident[] (default defaultStatusIncidents) — What went wrong or was planned: title, impact (minor, major, maintenance), services, start, end (omit while open) and updates.
+- `now`: number | Date (default defaultStatusNow) — The board's moment: today's bar, the update time, open incidents and the latency feed all run from it.
+- `latency`: StatusSample[] — Your own p95 series, oldest first. Omit it for a seeded series that advances from now; pass it and you advance it.
+- `latencyWindow`: number (default 40) — Samples across the sparkline.
+- `latencyTarget`: number (default 300) — The p95 target in ms: a dashed line, and the reading turns warn above it.
+- `interval`: number (default 2000) — Milliseconds between seeded samples while live.
+- `incident / defaultIncident`: string | null (default null) — The selected incident: its days are ringed on every strip it touched and its updates are open. Controlled or uncontrolled.
+- `onIncidentChange`: (id: string | null) => void — Fires from the click, key or bar that selected or cleared an incident.
+- `region / defaultRegion`: string | null (default null) — The region whose latency the sparkline shows, or null for all regions. Controlled or uncontrolled.
+- `onRegionChange`: (id: string | null) => void — Fires from the chip, arrow key or map marker that chose a region.
+- `onDaySelect`: (serviceId: string, date: string) => void — Enter on a day, or a click on its bar, with the service id and the day as YYYY-MM-DD.
+- `incidentLimit`: number (default 3) — Incidents listed before Show more; a desktop-wide board, with the room, lists three more.
+- `formatDate`: (ms: number) => string — Day labels. Defaults to "Sep 24" in UTC, so the server and the browser print the same.
+- `formatTime`: (ms: number) => string — Clock labels. Defaults to "14:32" in UTC; latency samples add seconds.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the status has arrived: a skeleton while loading, a message with Try again on error.
+- `onRetry`: () => void — Try again was pressed while status is "error".
+- `title`: string (default "System status") — The board's heading; also its accessible name unless label is given.
+- `label`: string — The board's accessible name. Defaults to the title.
+- `sound`: boolean (default false) — A tick for each day stepped by key or scrub and for a region choice, a low buzz when you select a major outage. The live feed is always silent.
+- `disabled`: boolean (default false) — Read only: days and samples still read out, nothing can be selected and the feed holds still.
+- `className`: string — Classes for the root. It is at most 560px tall and scrolls inside itself; pass a max-height class to change that.
+
+Notes:
+- Keyboard: each strip is a slider over its days with one tab stop for the board — Left and Right step a day, Page keys a week, Home and End the oldest day and today, Up and Down the neighbouring service, Enter selects the day and its incident, Escape clears it. The sparkline is a slider over its samples, the regions a radio group.
+- The seeded latency feed only runs while the board is on screen, the page is visible and nobody is reading the line; it pauses ("Paused") while pointed at or focused. Pass latency to drive it yourself — a new last sample glides in the same way.
+- Bar colours come from incidents first (the worst impact that touched the service that day), then from downtime nobody filed. Every colour is pigment, the same in light and dark.
+- Under reduced motion the bars stand at full height, the lens, card and line step without travel, and troubled regions wear a still halo; uptime, latency and selection still change.
+- Lays out by its own width: stacked on a phone (scrolling inside its box), services with the timeline beside a latency and regions column from 40rem, and three columns from 68rem.
+
+### Filter Builder (KQ-1315) — `filter-builder`
+Say exactly which rows you mean.
+
+A query builder over typed rows: rules of field, condition and value in nested All / Any groups, each with a rail down its left edge. Switching a group slides its thumb on snap, re-colours the rail and rolls every and between its rows to or on snap a cascade apart, so the change runs down the group; rules arrive from zero height on glide and leave on the exit ease while the gap closes on glide. Every change re-runs the query and the count rolls to its new figure a digit at a time on snap, chips above summarise the query and lead back to their rows, and the controls are native selects and inputs in groups and radio groups.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/filter-builder`
+
+Props:
+- `nesting`: number (default 2) — How deep groups may nest, 0 to 3. At 0 the query is a flat list of rules with no Add group and no inner rails.
+- `chips`: boolean (default true) — A strip of chips above the builder summarising each top-level rule or group; a chip focuses its row and its × removes it.
+- `count`: "rows" | "share" | "off" (default "rows") — The result readout: a rolling row count, the share with a meter that glides to it, or none.
+- `value / defaultValue`: FilterGroup (default defaultFilterQuery) — The query: a root group of rules and nested groups. Controlled or uncontrolled.
+- `onValueChange`: (query: FilterGroup) => void — Fires from the control that changed the query, with the whole new query.
+- `fields`: FilterField[] (default defaultFilterFields) — What can be filtered on: id, label, type (text, number, enum, date, boolean), enum options, number prefix and suffix.
+- `rows`: FilterRow[] (default defaultFilterRows) — The records the count and preview are taken over. The default is 2,400 seeded transactions.
+- `matches`: number — A count from your server; overrides counting rows.
+- `total`: number — The total from your server. Defaults to rows.length.
+- `now`: number | Date (default defaultFilterNow) — Where "in the last N days" counts back from.
+- `onApply`: (query: FilterGroup) => void — The footer's Show button, and Enter in a value. Without it there is no Show button.
+- `applyLabel`: string (default "Show") — The Show button's verb; the count follows it.
+- `maxRules`: number (default 12) — Rules allowed in the whole query; the Add buttons disable at the limit.
+- `noun`: { one: string; other: string } (default { one: "row", other: "rows" }) — What a row is called in the count and its announcement.
+- `formatCount`: (n: number) => string — Counts as text. Defaults to grouped digits in en-US, so the server and the browser print the same.
+- `renderRow`: (row: FilterRow) => ReactNode — One row of the desktop preview. Defaults to the first text field, a few others as meta, and the first number on the right.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the count has arrived, for a server count: Counting… while loading, Count unavailable with Try again on error.
+- `onRetry`: () => void — Try again was pressed while status is "error".
+- `title`: string (default "Filters") — The builder's heading; also its accessible name unless label is given.
+- `label`: string — The builder's accessible name. Defaults to the title.
+- `sound`: boolean (default false) — A click for each field, condition or match change, a pop for each rule or group added and a lower one for each removed. Typing is silent.
+- `disabled`: boolean (default false) — Read only: the query shows and nothing changes.
+- `className`: string — Classes for the root. It is at most 560px tall and its body scrolls between a fixed header and footer.
+
+Notes:
+- Keyboard: every rule is three native controls and a remove button in tab order; All / Any is a radio group on the arrow keys; Enter in a value applies. A new rule takes focus on its field the moment it arrives, and a removed one hands focus to its neighbour or to the group's Add button.
+- Rules without a usable value are drawn dashed and left out of the count (a bad number is marked invalid); a group with nothing left in it lets every row through. matchFilter(query, row, fields, now) is exported to run the same logic on your side.
+- The count is announced politely once typing settles (half a second); adding, removing and clearing are announced at once.
+- Under reduced motion rows and chips fade without travel, digits swap instead of rolling and joiners swap without the flip; the count, the meter and focus still move.
+- Lays out by its own width: rules on two lines on a phone, one line from 40rem, and a preview of the newest matching rows beside the builder from 68rem.
+
+### Cohort Grid (KQ-1316) — `cohort-grid`
+Who stayed, week by week.
+
+A cohort retention triangle built from weekly cohorts: cells fill in on snap along the diagonals, the rows or the columns, the whole sweep inside 600ms, and a Users / Revenue switch slides its thumb on snap and recolours the grid in the same order. Pointing at a cell or stepping with the arrow keys lays a row band and a column band through it that ride between cells on snap, while the curve above, sharing the grid's week columns, morphs from the size-weighted average to that cohort on glide and carries on as a dashed projection past the weeks it has lived. It is a real grid with one tab stop: arrows walk the triangle, Home and End reach a row's ends, Enter pins a cohort and Escape lets it go.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/cohort-grid`
+
+Props:
+- `cascade`: "diagonal" | "rows" | "columns" (default "diagonal") — The order the cells fill in and recolour in. Changing it replays the fill.
+- `metric / defaultMetric`: "users" | "revenue" (default "users") — What the cells measure: users retained as a share of the cohort, or revenue as a share of week 0 (which can pass 100%). Controlled or uncontrolled.
+- `onMetricChange`: (metric: "users" | "revenue") => void — Fires from the switch or arrow key that changed the metric.
+- `curve`: "area" | "line" | "off" (default "area") — The summary curve over the grid: filled, a line, or none.
+- `cohorts`: Cohort[] (default defaultCohorts) — One per week of sign-ups, oldest first: id, start (YYYY-MM-DD), size, and users and revenue per week since.
+- `weeks`: number — Week columns shown. Defaults to the longest cohort, at most 12.
+- `now`: number | Date (default defaultCohortNow) — Today: the week each cohort is living through is hatched in progress and left out of the averages.
+- `selected / defaultSelected`: string | null (default null) — The pinned cohort: the curve and the side panel hold it when the pointer leaves. Controlled or uncontrolled.
+- `onSelectedChange`: (id: string | null) => void — Fires from the click or key that pinned or unpinned a cohort.
+- `onCellSelect`: (cohortId: string, week: number) => void — Enter on a cell, or a click on it.
+- `onCrosshairChange`: (cell: { cohortId: string; week: number } | null) => void — The crosshair moved to a cell by pointer or key, or left the grid. Use it to link other views.
+- `format`: (value: number, metric: "users" | "revenue") => string — A cell's value, a share (0.31 is 31%), as text. Defaults to a whole percent.
+- `formatMoney`: (amount: number) => string — Money in the readouts and the side panel. Defaults to whole US dollars, en-US.
+- `formatDate`: (iso: string) => string — Cohort labels. Defaults to "Aug 3", in UTC.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the cohorts have arrived: a skeleton triangle while loading, a message with Try again on error.
+- `onRetry`: () => void — Try again was pressed while status is "error".
+- `title`: string (default "Retention") — The grid's heading; also its accessible name unless label is given.
+- `label`: string — The grid's accessible name. Defaults to the title.
+- `sound`: boolean (default false) — A tick for each cell you step to or click, pitched by its value, and one for a metric switch.
+- `disabled`: boolean (default false) — Read only: cells still read out; nothing pins and the metric is fixed.
+- `className`: string — Classes for the root. It is at most 560px tall and scrolls inside itself.
+
+Notes:
+- Keyboard: the heatmap is a grid with one tab stop. Arrows walk the triangle (Down into a younger cohort lands on its last week), Home and End reach a row's ends, Ctrl+Home and Ctrl+End the corners, Page Up and Page Down five cohorts, Enter or Space pins the cohort, Escape unpins it. Every cell is named in full: "Aug 3 cohort, week 4: 31%, 402 of 1,297 users".
+- The week a cohort is still living through (from now) is hatched and left out of the averages and the curve, which projects it along the average's shape instead.
+- Cells are pigment mixed into the card in oklab — cobalt for users, signal for revenue — so the ramp reads the same in light and dark; strong cells switch to light text.
+- Under reduced motion the cells appear together, the recolour is a short fade with no sweep, and the bands and the curve jump to their place; values, the crosshair and the pinned cohort still change.
+- Lays out by its own width: on a phone the grid scrolls sideways inside its box with the cohort column held, KPI tiles join from 40rem, and a side panel with the focused cohort and the key from 68rem.
+
+### Activity Stream (KQ-1317) — `activity-stream`
+Everything that just happened.
+
+A live activity feed where new events gather behind an "N new" pill instead of shoving the list under the reader: the faces behind them land on the pill on recoil and the count rolls on snap. Pressing it scrolls the feed to its top on glide and releases them in a cascade while everything below glides down, each revealed line keeping a wash that fades over two seconds; switching the grouping between person, type and none glides every line to its new seat, and relative times tick on a timer set for the next boundary any line will cross. The list is a role="feed" of articles with one roving tab stop — Up and Down move between lines, Page keys between articles, Home and End to the ends, Enter opens — and the kind chips are toggle buttons.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/activity-stream`
+
+Props:
+- `rate`: number (default 12) — How many events arrive per minute from incoming while live; 0 stops arrivals. Sets how fast the pill fills.
+- `group`: "actor" | "kind" | "none" (default "actor") — How the feed groups: consecutive events by one person, by one type, or one article per event. Changing it glides every line to its new seat.
+- `pill`: "avatars" | "count" | "off" (default "avatars") — How new events wait: behind a pill of faces and a rolling count, behind a plain count, or not at all — they slide in at the top as they land.
+- `events`: ActivityEvent[] (default defaultActivityEvents) — The history, in any order: id, actor, kind, action, target, detail and at (Date or ms). Ids added after mount wait behind the pill like arrivals.
+- `incoming`: ActivityIncoming[] (default defaultActivityIncoming) — Events still to come (no time yet), released in order at rate and stamped with the stream's clock; the list loops with fresh ids.
+- `actors`: ActivityActor[] (default defaultActivityActors) — Who can act: id, name, an optional role shown in group headers and an optional tint (any CSS colour) for the avatar.
+- `kinds`: ActivityKind[] (default defaultActivityKinds) — What can happen: id, label, plural and an optional 16px icon. Each kind present becomes a filter chip with its count.
+- `now`: number | Date (default defaultActivityNow) — The time the stream starts from. Relative times are measured from it, never from the wall clock during render.
+- `live`: boolean (default true) — The clock runs on from now in real time and incoming arrives. Off: the clock holds and nothing arrives.
+- `filter / defaultFilter`: string[] (default []) — The kind ids shown; empty shows everything. Controlled or uncontrolled.
+- `onFilterChange`: (kinds: string[]) => void — Fires from the chip that changed the filter, with the new kind ids.
+- `onReveal`: (events: ActivityEvent[]) => void — The pill was pressed: fires with the events it brought into the feed, newest first.
+- `onArrive`: (event: ActivityEvent) => void — An incoming event arrived, stamped with the stream's clock.
+- `onOpen`: (event: ActivityEvent) => void — A line was pressed or opened with Enter.
+- `groupWindow`: number (default 30) — Consecutive events further apart than this many minutes start a new group.
+- `collapseAfter`: number (default 3) — Lines a group shows before a Show N more disclosure, whose height glides open to what its lines measure.
+- `height`: number (default 560) — The panel's height in px; the feed scrolls inside it.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the history has arrived: loading shows a skeleton and marks the feed busy, error a retry.
+- `onRetry`: () => void — Try again was pressed after the history failed to load.
+- `title`: string (default "Activity") — The panel's heading.
+- `label`: string — The panel's accessible name. Defaults to the title.
+- `emptyLabel`: string (default "No activity yet.") — What an empty feed says.
+- `formatTime`: (at: Date) => string — The absolute time in a line's title. Defaults to a fixed, locale-free "30 Sep, 14:05 UTC".
+- `sound`: boolean (default false) — Play a plip for filter chips and Show more, and a pop when the pill reveals. Arrivals and ticks are always silent.
+- `disabled`: boolean (default false) — Shows the feed but refuses filters, reveals and opens; arrivals keep gathering.
+- `className`: string — Classes for the outer panel.
+
+Notes:
+- Keyboard: the feed has one tab stop. Up and Down move between lines and Show more buttons, Page Down and Page Up jump to the next or previous article, Home and End to the ends, Enter opens a line. The pill is a button named with its count; revealing from the keyboard moves focus to the newest revealed line.
+- Feed it either way: let the component release a scripted incoming list at rate (looped with fresh ids), or set live={false} and append to events yourself — new ids wait behind the pill exactly like arrivals.
+- Times come from now plus the stream's own running clock, so server and browser render the same markup; the clock pauses its updates while the page is hidden or the feed is off screen and catches up when it returns.
+- A polite status speaks once when updates start waiting, once per reveal and once per filter change — never per arrival or clock tick.
+- Reduced motion: the feed simply lists. Arrivals, reveals and regrouping swap in place, the count changes without rolling and the pill fades; the fresh wash still fades, because what is new is information.
+- Lays out by its own width: chips in a scrolling row on a phone, a sidebar of kind filters and people from 640px, and an hourly histogram with each line's detail inline from about 1090px.
+
+### Region Map (KQ-1318) — `region-map`
+Pick a region; the map leans in.
+
+A choropleth of invented regions with the numbers behind every colour. Picking a region leans the map toward it: the camera — centre and scale written into the SVG viewBox — glides on glide to frame it, the region lifts above its neighbours on snap with a flat shadow while the rest dim, and the side panel swaps the ranking for the region's numbers and trend, with Previous and Next travelling region to region by rank. The legend is a slider you scrub: a bracket follows the finger 1:1 and lights only the regions inside the band, then springs onto the class under it on snap with the throw's velocity. The map is a listbox where arrows move to the nearest region in that direction, Enter picks and Escape leans out; the legend takes arrows, Home, End and Escape.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/region-map`
+
+Props:
+- `zoom`: number (default 2.5) — How far the map leans in on a picked region, from 1 (it stays put and only highlights) to 4.
+- `legend`: "steps" | "ramp" (default "steps") — Stepped classes or a continuous ramp — for the fills, the legend, and how a scrubbed band snaps (to a class, or wherever it is let go).
+- `scheme`: "cobalt" | "signal" | "heat" | "diverging" (default "cobalt") — The colour scheme: one hue, a warm heat ramp, or a diverging pair around zero for changes. Fills are pigment mixed into the card colour, so both themes read.
+- `regions`: RegionMapRegion[] (default defaultRegionMapRegions) — The regions as SVG paths in the map's viewBox: id, name, d, and an optional box ([x, y, width, height], measured from the path when omitted) and label point. The default is fourteen regions generated once from seeded points.
+- `viewBox`: [number, number, number, number] (default defaultRegionMapViewBox) — The map's extent: what the camera shows when nothing is picked.
+- `stats`: RegionMapStat[] (default defaultRegionMapStats) — What is measured: id, label, kind (count, money, percent as a fraction, or number), an optional unit word and signed for changes. Each becomes a metric option and a row in the details panel.
+- `data`: RegionMapDatum[] (default defaultRegionMapData) — One datum per region: its values per stat id and optional trends (recent readings, oldest first) drawn in the details panel. Regions without a datum read as no data.
+- `metric / defaultMetric`: string (default the first stat) — The stat id the map is coloured and ranked by. Controlled or uncontrolled.
+- `onMetricChange`: (metric: string) => void — Fires from the metric switch with the new stat id. A band is cleared with it, since it was in the old metric's units.
+- `value / defaultValue`: string | null (default null) — The picked region the map leans toward, or null for the whole map. Controlled or uncontrolled; a host change moves the camera the same way a click does.
+- `onValueChange`: (region: string | null) => void — Fires from the click, key or button that picked a region, or with null when the map leans out.
+- `band / defaultBand`: [number, number] | null (default null) — The [low, high] values the legend highlights; regions outside it fade back. Controlled or uncontrolled.
+- `onBandChange`: (band: [number, number] | null) => void — Fires when a scrub settles, a tap or key moves the band, or it is cleared.
+- `steps`: number (default 5) — Classes in the stepped legend, 3 to 7, laid on round numbers that hold every value.
+- `format`: (value: number, stat: RegionMapStat) => string — How a value reads in the tooltip, the panel and the spoken text. Defaults to the stat's kind in locale.
+- `locale`: string (default "en-US") — The locale for numbers and money.
+- `currency`: string (default "USD") — The currency for money stats.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the numbers have arrived: loading shows a skeleton, error a retry over the map.
+- `onRetry`: () => void — Try again was pressed after the numbers failed to load.
+- `title`: string (default "Regions") — The map's heading.
+- `subtitle`: string — A quieter line under the heading.
+- `label`: string — The map's accessible name. Defaults to the title.
+- `maxHeight`: number (default 580) — The tallest the surface grows, in px; it scrolls inside itself past that (the phone layout does).
+- `sound`: boolean (default false) — Play a swish whenever the camera moves, panned to the region, and a plip as a scrubbed band crosses into a new class.
+- `disabled`: boolean (default false) — Shows the map and its numbers but refuses picks, bands and metric changes.
+- `className`: string — Classes for the outer panel.
+
+Notes:
+- Keyboard: the map is one tab stop (a listbox with an active region). Arrows move to the nearest region in that direction, Home and End to the first and last by rank, Enter or Space picks, Escape leans out — or, with nothing picked, clears the band. The legend is a slider: arrows move the band a class (or a tenth of a ramp), Page keys two, Home and End to the ends, Escape or Delete clears it. The ranking rows take Up, Down, Home and End.
+- Bring your own geography: pass regions as SVG paths in your viewBox. Give each a box when you can; without one it is measured from the rendered path once, after mount.
+- The default map is generated once from seeded points with arithmetic only — no trigonometry — so the server and every browser draw the same coast to the last digit.
+- A polite status speaks once per pick, band and metric change, never while a scrub is moving.
+- Reduced motion: the camera cuts instead of travelling, the picked region does not lift (its outline and the dimming still mark it), the panel swaps on opacity and the bracket jumps to its class. Colours, bands and numbers are unchanged.
+- Lays out by its own width: stacked with the top five regions on a phone, map and a 15rem panel side by side from 640px, and a wider map with summary figures over a 20rem panel from about 1090px.
+
+### Tree Map (KQ-1319) — `tree-map`
+Zoom into where it adds up.
+
+A spending treemap you zoom into with a real relayout. Every node has a rectangle in every view — squarified fresh for the plot's shape inside the focus, and the root's layout seen through the camera outside it — so a zoom glides each tile on glide from where it was to where it goes: the chosen category opens out to fill the plot while its children re-squarify into the new shape, siblings fly off past the edges and fade on the exit ease, and grandchildren grow out of their parent's old box; breadcrumbs reverse it. Labels are decided from each tile's final size and fade as they come and go, and a readout names the tile under the pointer. The tiles are buttons with one roving tab stop: arrows move to the nearest tile in that direction, Enter zooms in or selects a leaf, Backspace and Escape zoom out, and focus lands on the tile you came out of.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/tree-map`
+
+Props:
+- `depth`: number (default 2) — How many levels the view draws below the node in focus, 1 to 3: 1 is flat tiles, 2 and 3 frame each tile with a header and nest its children inside.
+- `labels`: "full" | "name" | "off" (default "full") — Tile labels: name, amount and share where they fit (fewer lines where they do not, none on slivers); the name alone; or none.
+- `palette`: "category" | "size" | "change" (default "category") — How tiles are coloured: a hue per top-level category shaded by rank, one hue by share of the focus, or warm for spend that grew and green for spend that shrank.
+- `data`: TreeMapNode (default defaultTreeMapData) — The tree: id, name, children, and on leaves a value and an optional previous value. A parent's amount is the sum of its children; color overrides the palette for a branch.
+- `value / defaultValue`: string (default the root's id) — The id of the node the view is zoomed into. Controlled or uncontrolled; an id that is not a parent falls back to the root.
+- `onValueChange`: (id: string) => void — Fires from the tile, crumb or key that zoomed, with the new focus id.
+- `onSelect`: (node: TreeMapNode, path: TreeMapNode[]) => void — A leaf was pressed or chosen with Enter, with the path from the root down to it.
+- `format`: (value: number) => string — How an amount reads in tiles, the readout, the table and spoken names. Defaults to whole currency in locale.
+- `locale`: string (default "en-US") — The locale for amounts and shares.
+- `currency`: string (default "USD") — The currency for amounts.
+- `period`: string (default "Q3 2026") — The period the amounts cover, shown beside the total.
+- `compareLabel`: string (default "last quarter") — What the change is measured against, in the readout and spoken names.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the numbers have arrived: loading shows a skeleton of blocks, error a retry.
+- `onRetry`: () => void — Try again was pressed after the numbers failed to load.
+- `title`: string (default "Spend") — The heading.
+- `label`: string — The accessible name. Defaults to the title.
+- `sound`: boolean (default false) — Play a swish on every zoom (higher in, lower out) and a click for a leaf, a crumb or a keyboard move.
+- `disabled`: boolean (default false) — Shows the spend but refuses zooms and selections.
+- `className`: string — Classes for the outer panel.
+
+Notes:
+- Keyboard: the top-level tiles are one tab stop. Arrows move to the nearest tile in that direction, Home and End to the largest and smallest, Enter or Space zooms in (or selects a leaf), Backspace and Escape zoom out — Escape only when there is a level to leave. After a zoom, focus lands on the first tile, or on the tile you came out of.
+- A press anywhere inside a top-level tile — on a nested tile too — acts on that tile, so depth 2 and 3 are previews of what a zoom will show.
+- The layout is squarified with arithmetic only, from the plot's measured size: the server renders a 2:1 layout and the browser settles to its own shape at once, without animating.
+- A polite status speaks each zoom and selection once; the readout under the plot is visual, and every tile carries its full reading in its name.
+- Reduced motion: nothing travels — the new view cross-fades in over the old one, leaving tiles fading where they stood. Labels, colours and the readout are unchanged.
+- Lays out by its own width: a 4:5 plot with crumbs that scroll on a phone, a 2:1 plot with the palette key from 640px, and a ranked table of the focus's children beside it from about 1090px.
+
+### Chart Morph (KQ-1320) — `chart-morph`
+One dataset, any shape.
+
+A multi-series chart whose type is a shape the data takes, not a different drawing. Each series is one path rebuilt every frame from a few motion values — per point a flat top joined to the next by cubics that are either a notch to the floor or the curve between the points, plus a dot — so bars, line, area and dots are four settings of the same numbers, and a type change moves the points in a left-to-right sweep on glide: bars narrow and their notches rise into the curve, dots swell from the line or bars retract into them. The window, the y scale and each series' visibility glide too, gridlines riding the scale, and a cursor snaps to the nearest point on snap with a ring per series and a readout beside it. The type switch is a radio group, the legend toggle buttons, and the plot a slider: arrows step the cursor, Page keys three, Home and End to the ends, Escape clears it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/chart-morph`
+
+Props:
+- `type / defaultType`: "bar" | "line" | "area" | "dot" (default "bar") — The chart type. Changing it morphs the same points into the new shape in a left-to-right sweep. Controlled or uncontrolled.
+- `onTypeChange`: (type: "bar" | "line" | "area" | "dot") => void — Fires from the type switch with the new type.
+- `smooth`: number (default 0.5) — Curve tension for the line and the area, 0 (straight segments) to 1 (monotone curves that never overshoot a reading); bars round their corners by it.
+- `points`: number (default 12) — How many of the latest readings are shown, from 2 to all of them. A change glides the window, so points slide in from the left or out past it.
+- `series`: ChartMorphSeries[] (default defaultChartMorphSeries) — The series: id, label, values (one per label, oldest first) and an optional colour (any CSS colour; defaults to the house pigments).
+- `labels`: string[] (default defaultChartMorphLabels) — One label per reading, oldest first, such as "Sep 2026". The axis shows the first word; the readout and spoken text the whole label.
+- `hidden / defaultHidden`: string[] (default []) — Series ids toggled off in the legend. A hidden series flattens to the floor and fades while the others re-dodge. Controlled or uncontrolled.
+- `onHiddenChange`: (hidden: string[]) => void — Fires from the legend with the new hidden ids. The last visible series refuses to hide.
+- `onCursorChange`: (index: number | null) => void — The point under the cursor changed (an index into labels), or the cursor left.
+- `wave`: number (default 0.5) — How far a type change sweeps across the points, 0 (all at once) to 1 (a full left-to-right wave).
+- `format`: (value: number) => string — How a reading prints on the axis, the legend, the readout and in spoken text. Defaults to compact currency in locale.
+- `locale`: string (default "en-US") — The locale for readings.
+- `currency`: string (default "USD") — The currency for readings.
+- `title`: string (default "Volume") — The chart's heading.
+- `subtitle`: string — A quieter line under the heading, before the latest total.
+- `label`: string — The chart's accessible name. Defaults to the title.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the readings have arrived: loading shows a skeleton of bars, error a retry.
+- `onRetry`: () => void — Try again was pressed after the readings failed to load.
+- `sound`: boolean (default false) — Play a swish on a type change, pitched by type, and a tick when the cursor reaches a new point or a series is toggled.
+- `disabled`: boolean (default false) — Shows the chart but refuses type, series and cursor changes.
+- `className`: string — Classes for the outer panel.
+
+Notes:
+- Keyboard: the type switch is a radio group (arrows move and select). The legend's series are toggle buttons. The plot is a slider over the visible points: Left and Right step the cursor (the first press lands on the latest point), Page Up and Page Down move three, Home and End jump to the ends, and Escape clears the cursor — only when there is one.
+- Every type is the same geometry with different numbers, so a change in the middle of another carries on from the shapes on screen rather than restarting.
+- The y scale rounds up to three to five even steps over the visible series in the window; hiding a series or changing points glides it, and each gridline keeps its value as it moves.
+- The plot's aria-valuetext reads the cursor's label and every visible series' value; a polite status speaks type and series changes once.
+- Reduced motion: types, windows, scales and series change at once behind a 150ms fade of the marks; the cursor and its readout jump. Every value still updates.
+- Lays out by its own width: an icon-only type switch and a 200px plot on a phone, a labelled switch and a 300px plot from 640px, and a summary table of each series' total, average and change beside the plot from about 1090px.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 
