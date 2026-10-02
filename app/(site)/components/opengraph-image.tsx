@@ -1,6 +1,7 @@
 import { catalogComponents } from "@/content/manifest";
 import {
   catalogStats,
+  formatCount,
   indexCard,
   OG_SIZE,
   renderCard,
@@ -8,7 +9,7 @@ import {
 
 const card = () =>
   indexCard({
-    eyebrow: ["INDEX", `${catalogComponents.length} INSTRUMENTS`],
+    eyebrow: ["INDEX", `${formatCount(catalogComponents.length)} INSTRUMENTS`],
     title: "Components",
     tagline:
       "Animated React components that share one physics vocabulary. Five calibrated springs, one install command each.",

@@ -1,6 +1,6 @@
 import { catalogComponents } from "@/content/manifest";
 import { SHOWCASES } from "@/content/showcases";
-import { indexCard, OG_SIZE, renderCard } from "@/lib/og-template";
+import { formatCount, indexCard, OG_SIZE, renderCard } from "@/lib/og-template";
 
 const card = () =>
   indexCard({
@@ -12,7 +12,7 @@ const card = () =>
     accent: "coral",
     stats: [
       { value: String(SHOWCASES.length), label: "ROOMS" },
-      { value: String(catalogComponents.length), label: "INSTRUMENTS" },
+      { value: formatCount(catalogComponents.length), label: "INSTRUMENTS" },
       { value: "5", label: "SPRINGS" },
     ],
   });

@@ -278,12 +278,15 @@ export function indexCard({
 }
 
 /** The catalog's headline numbers, shared by the home and index cards. */
+/** A count as the site prints it: 1,229, not 1229. */
+export const formatCount = (n: number) => n.toLocaleString("en-US");
+
 export function catalogStats(): Stat[] {
   return [
-    { value: String(catalogComponents.length), label: "INSTRUMENTS" },
-    { value: String(catalogBlocks.length), label: "SECTIONS" },
+    { value: formatCount(catalogComponents.length), label: "INSTRUMENTS" },
+    { value: formatCount(catalogBlocks.length), label: "SECTIONS" },
     {
-      value: String(catalogPages.length + catalogTemplates.length),
+      value: formatCount(catalogPages.length + catalogTemplates.length),
       label: "PAGES AND SITES",
     },
   ];
@@ -293,7 +296,7 @@ export function homeCard(): OgCard {
   return {
     eyebrow: ["KINETIQ", "REACT MOTION LIBRARY"],
     title: siteConfig.tagline,
-    tagline: `${catalogComponents.length} animated React components on five calibrated springs. Copy the source. Own the code.`,
+    tagline: `${formatCount(catalogComponents.length)} animated React components on five calibrated springs. Copy the source. Own the code.`,
     accent: "cobalt",
     trace: { kind: "all" },
     pill: ["MIT", "OPEN SOURCE"],

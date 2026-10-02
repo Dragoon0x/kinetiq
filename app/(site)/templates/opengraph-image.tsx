@@ -1,5 +1,5 @@
 import { catalogBlocks, catalogTemplates } from "@/content/manifest";
-import { indexCard, OG_SIZE, renderCard } from "@/lib/og-template";
+import { formatCount, indexCard, OG_SIZE, renderCard } from "@/lib/og-template";
 
 const card = () =>
   indexCard({
@@ -11,7 +11,10 @@ const card = () =>
     accent: "amber",
     stats: [
       { value: String(catalogTemplates.length), label: "SITES" },
-      { value: String(catalogBlocks.length), label: "SECTIONS TO DRAW ON" },
+      {
+        value: formatCount(catalogBlocks.length),
+        label: "SECTIONS TO DRAW ON",
+      },
       { value: "5", label: "SPRINGS" },
     ],
   });

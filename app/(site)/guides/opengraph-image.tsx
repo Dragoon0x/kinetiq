@@ -1,6 +1,6 @@
 import { guides } from "@/content/guides";
 import { catalogComponents } from "@/content/manifest";
-import { indexCard, OG_SIZE, renderCard } from "@/lib/og-template";
+import { formatCount, indexCard, OG_SIZE, renderCard } from "@/lib/og-template";
 
 const card = () =>
   indexCard({
@@ -12,7 +12,10 @@ const card = () =>
     stats: [
       { value: String(guides.length), label: "CHAPTERS" },
       { value: "5", label: "SPRINGS" },
-      { value: String(catalogComponents.length), label: "INSTRUMENTS COVERED" },
+      {
+        value: formatCount(catalogComponents.length),
+        label: "INSTRUMENTS COVERED",
+      },
     ],
   });
 
