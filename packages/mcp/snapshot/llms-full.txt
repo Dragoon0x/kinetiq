@@ -26260,6 +26260,414 @@ Notes:
 - Designs are procedural SVG in token pigments at fixed lightness, so a card looks the same in both themes; pass your own designOptions with any of the six arts and a tint token.
 - The root is capped at 560px and scrolls inside itself; from 40rem the card is a sticky column beside the form, and from 68rem the form splits into amount and delivery beside the message.
 
+### AI Workspace (KQ-1341) — `ai-workspace`
+A whole assistant, in one screen.
+
+A whole assistant screen built from thread-view, prompt-dock and pin-press: a dated, searchable conversation sidebar, a thread whose replies stream in word by word while Send folds into Stop, and an artifact the reply writes line by line in a pane that slides in beside the thread on glide, its column and the thread's edge one motion value, each new line rising 4px on glide; split, overlay and canvas set how the pane arrives, a split divider follows the pointer 1:1 and settles on glide, and pinned conversations glide to the top. Below 640px it becomes a stack of conversations, thread and artifact pushed on glide with the screen beneath shifting and dimming. The sidebar is a roving list (arrows, Home, End), the divider a separator the arrow keys move, Preview and Source a tablist, and Escape closes the pane or goes back.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/ai-workspace`
+
+Props:
+- `density`: "compact" | "cozy" | "roomy" (default "cozy") — How tightly the thread and the sidebar are set: passed to the thread, and the sidebar's rows follow.
+- `pane`: "split" | "overlay" | "canvas" (default "split") — How the artifact arrives: a column sharing the stage with the thread (with a draggable divider, the sidebar folding when the three cannot fit), a sheet sliding over the thread's edge, or a canvas that gives the artifact the stage.
+- `theme`: "page" | "light" | "dark" (default "page") — Wear the page's theme, or force light or dark inside the workspace.
+- `conversations / defaultConversations`: AiConversation[] (default defaultAiConversations) — Every conversation: a title, its thread-view messages, whether it is pinned, and the latest artifact it produced. Controlled or uncontrolled.
+- `onConversationsChange`: (conversations: AiConversation[]) => void — Fires from the send, stream, pin, edit or reaction that changed them, with all of them. A streamed reply is reported whole when it starts and again when it finishes.
+- `conversation / defaultConversation`: string (default the first conversation) — The open conversation's id. Controlled or uncontrolled.
+- `onConversationChange`: (id: string) => void — Fires from the row, New chat or key that opened another conversation.
+- `artifactOpen / defaultArtifactOpen`: boolean (default false) — Whether the artifact pane is open. Controlled or uncontrolled.
+- `onArtifactOpenChange`: (open: boolean) => void — Fires from the strip, the Artifact button, Close, Escape, or a reply that started writing an artifact.
+- `respond`: (prompt: string, conversation: AiConversation) => AiReply | Promise<AiReply> (default defaultAiRespond) — Answers a prompt with text and, optionally, an artifact. A promise shows the reply thinking until it settles; a rejection shows it failed, with Retry.
+- `onSend`: (text: string, conversationId: string) => void — A prompt was sent, from the dock or by editing a sent turn.
+- `onStop`: (conversationId: string) => void — Stop, or Escape in the dock, cut a reply short where it stood.
+- `onCopy`: (text: string, artifact: AiArtifact) => void — The artifact was copied.
+- `models`: DockModel[] (default defaultModels) — The models the dock's pill switches between.
+- `model`: string (default the first model) — The selected model's id; its name signs replies and heads the thread.
+- `onModelChange`: (id: string) => void — The visitor switched models in the dock.
+- `user`: { name: string; plan?: string } (default { name: "Rae Okafor", plan: "Team plan" }) — Who is signed in, at the foot of the sidebar; prompts are sent under this name.
+- `workspace`: string (default "Fieldline") — The workspace's name, at the head of the sidebar.
+- `now`: Date | number (default defaultAiNow) — The moment the sidebar's groups (Today, Yesterday, Previous 7 days) and times count from, so server and browser agree.
+- `stream`: number (default 240) — How fast a reply streams in, in characters a second.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the conversations have arrived: loading draws placeholders, error offers Try again.
+- `onRetry`: () => void — Try again was pressed after the conversations failed to load.
+- `label`: string (default "Assistant") — The screen's accessible name.
+- `sound`: boolean (default false) — Play the ticks and the pane's swish, only for the visitor's own actions. The composed pieces play theirs too.
+- `disabled`: boolean (default false) — Read only: nothing can be sent, pinned or opened.
+- `className`: string — Classes for the root. It is 560px tall by default; pass a height class to change it.
+
+Notes:
+- Keyboard: the sidebar is one tab stop whose arrows, Home and End move between conversations and Enter opens one; the divider is a separator that ← and → move 32px and Home and End send to its limits; Preview and Source are a tablist; Escape closes the artifact pane, or on a phone goes back a screen.
+- Streams are driven by `respond`, never by the clock during render: the reply is reported whole when it starts and again when it settles, and the timer that reveals it pauses while the page is hidden. Pass your own `respond` (sync or a promise) to answer from a real backend, or drive `conversations` yourself and mark a message `status: "streaming"`.
+- Layout follows the component's own width, not the viewport: a stack below 640px, a sidebar and thread with the pane per `pane` from 640px, and all three side by side from 1040px when they fit.
+- Under reduced motion nothing slides: columns, the overlay and phone screens swap with a short cross-fade and artifact lines fade in place, while the stream, the writing bar, counts and checks still show.
+- Composes thread-view (with its composer off), prompt-dock and pin-press; install them with it. The artifact is the latest one a conversation produced; keep a history in your own data if you need versions.
+
+### Mail Client (KQ-1342) — `mail-client`
+Three panes, zero clutter.
+
+A complete three-pane mail screen built around mail-inbox and bin-lid: mailboxes whose current-folder pill travels on snap, the inbox list with its swipe triage, and a reading pane where a thread arrives from 4px on glide, earlier messages open on a measured glide, a quick reply grows on glide and lands on snap, Archive and Snooze leave an Undo toast that lands on recoil, and Delete drops the thread in the bin until its undo ring drains. `folders` keeps the mailboxes as a pane, an icon rail or a drawer that slides over the list on glide; below 640px the panes become a stack whose pushes slide in on glide over a dimming, shifting screen, and a swipe from a pushed screen's left edge follows the finger 1:1 and goes back when the projected throw passes halfway. Back, Alt+← and Escape go back, / searches, c composes, and the list keeps its own j, k, x, e, b, s, u and z.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/mail-client`
+
+Props:
+- `density`: "compact" | "cozy" | "roomy" (default "cozy") — Row height and type size in the list, and the reading pane's type.
+- `preview`: number (default 1) — Lines of message preview under each subject in the list, 0 to 2.
+- `folders`: "pane" | "rail" | "drawer" (default "pane") — How the mailboxes live beside the list on wide screens: a labelled pane, a 60px icon rail with badges, or a drawer behind the menu button. A phone always stacks them.
+- `threads / defaultThreads`: MailThread[] (default defaultMailClientThreads) — Every thread in every folder (mail-inbox's type). Controlled or uncontrolled.
+- `onThreadsChange`: (threads: MailThread[]) => void — Fires from the swipe, key, button, reply or delete that changed the threads, with all of them.
+- `folder / defaultFolder`: "inbox" | "snoozed" | "archive" (default "inbox") — The folder on screen. Controlled or uncontrolled.
+- `onFolderChange`: (folder: MailFolder) => void — A mailbox was chosen.
+- `open / defaultOpen`: string | null (default null) — The thread in the reading pane. Controlled or uncontrolled.
+- `onOpenChange`: (id: string | null) => void — Fires from the row, the arrows, the back swipe or the action that opened or closed a thread.
+- `account`: MailPerson (default defaultMailClientAccount) — Whose mail it is: shown at the head of the mailboxes, and the sender of replies.
+- `storage`: { used: number; total: number } (default { used: 6.2e9, total: 15e9 }) — The mailbox's storage in bytes, for the meter under the mailboxes.
+- `now`: Date | number (default defaultMailClientNow) — The moment times are read against, so server and browser agree.
+- `zoneOffset`: number (default 0) — Minutes east of UTC that times are shown in.
+- `onSend`: (draft: MailDraft) => void — A reply (with its threadId) or a new message from Compose was sent.
+- `onArchive`: (ids: string[]) => void — Threads sent to the archive, from the list or the reading pane.
+- `onSnooze`: (ids: string[], until: number) => void — Threads snoozed, and until when (epoch ms).
+- `onDelete`: (ids: string[]) => void — Threads deleted, once the bin's undo window ran out.
+- `onStarChange`: (id: string, starred: boolean) => void — A thread was starred or unstarred.
+- `onReadChange`: (ids: string[], unread: boolean) => void — Threads marked read by opening them, or unread from the list or the pane.
+- `status`: "ready" | "loading" | "error" (default "ready") — Loading draws placeholder rows; error offers Retry.
+- `onRetry`: () => void — Retry was pressed after the mail failed to load.
+- `label`: string (default "Mail") — The screen's accessible name.
+- `sound`: boolean (default false) — Play the slides, stars and sends, only for the visitor's own actions; the list and the bin play theirs too.
+- `disabled`: boolean (default false) — Read only: nothing can be moved, sent or deleted.
+- `className`: string — Classes for the root. It is 560px tall by default; pass a height class to change it.
+
+Notes:
+- Keyboard: / goes to search and c to Compose from anywhere outside a field; the list keeps mail-inbox's keys (j k move, Enter opens, x selects, e archives, b snoozes, s stars, u unread, z undo); Escape closes the reading pane on a wide screen and goes back a screen on a phone, as does Alt+←. Compose and the drawer trap focus and give it back when they close.
+- Layout follows the component's own width: a stack of Mailboxes, Inbox and Message below 640px, three panes from 640px, a wider list from 1040px. `folders` only changes the wide layouts; a phone always stacks.
+- The list is mail-inbox held to its list: the screen hands it the filtered threads (search and label), merges its changes back by id, and keeps `open` itself so an opened row goes to the reading pane. Install mail-inbox and bin-lid with it.
+- Archiving, snoozing or deleting from the reading pane opens the next thread on a wide screen and returns to the list on a phone. Delete is bin-lid: `onDelete` only fires once its undo ring has drained.
+- Under reduced motion screens, the drawer and compose cross-fade, the edge swipe is off (Back, Alt+← and Escape remain), and messages fade in place, while counts, stars, read state and toasts still change.
+
+### Music App (KQ-1343) — `music-app`
+Library, now playing, queue.
+
+A complete music screen built with repeat-coil, mute-cone and follow-knot: a library of procedural covers and album pages that push in on glide, and a mini player (a bar, a pill or a corner card) that is one shared surface with the full player, growing from its box to the whole screen while the cover becomes the disc's label and the title and Play travel, all on glide; a downward drag on the grab bar follows 1:1 and, projected past a third of the height, folds it back. The disc (a record, a silver disc, or a sleeve the record slides half out of on glide) spins up like a motor on Play and coasts down under friction on Pause, its angle and the playing position integrated by one frame loop that runs only while something moves and the screen is visible; Up next follows a dragged row 1:1 while the others glide out of its way and settle it with its release velocity. The scrubber is a slider (arrows 5 s, Page keys 30 s, Home and End), the queue is one tab stop (arrows move, Alt+arrows reorder, Enter plays, Delete removes), and Escape closes the queue sheet, then the player.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/music-app`
+
+Props:
+- `disc`: "vinyl" | "cd" | "cover" (default "vinyl") — The turning artwork in the player: a record under a fixed sheen with the cover as its label, a silver disc printed with the cover, or the square sleeve with the record sliding half out of it while it plays.
+- `queue`: "panel" | "sheet" (default "panel") — Where Up next lives: a panel beside the library on desktop and beside the player on tablet, or a sheet behind a button. A phone always uses the sheet.
+- `mini`: "bar" | "pill" | "card" (default "bar") — The mini player's shape, and the shape the full player grows from: a bar along the bottom with a progress line, a floating pill with a progress ring, or a card in the corner.
+- `albums`: MusicAlbum[] (default defaultMusicAlbums) — The library: albums with an artist, a year, procedural cover art and their tracks.
+- `track / defaultTrack`: string (default the first album's first track) — The current track's id. Controlled or uncontrolled.
+- `onTrackChange`: (id: string) => void — Fires from the press, the queue or the end of a track that moved to another.
+- `playing / defaultPlaying`: boolean (default false) — Whether it is playing. Nothing plays until asked. Controlled or uncontrolled.
+- `onPlayingChange`: (playing: boolean) => void — Play or Pause was pressed, or the queue ran out.
+- `upNext / defaultUpNext`: string[] (default defaultMusicUpNext) — The queue after the current track, as track ids. Controlled or uncontrolled.
+- `onUpNextChange`: (ids: string[]) => void — Fires from the drag, key, remove, clear, shuffle or track change that changed the queue.
+- `expanded / defaultExpanded`: boolean (default false) — Whether the full player is open. Controlled or uncontrolled.
+- `onExpandedChange`: (expanded: boolean) => void — The mini player was pressed, or the player was closed by its button, a downward drag or Escape.
+- `repeat / defaultRepeat`: "off" | "all" | "one" (default "off") — Repeat mode, shown by repeat-coil. Controlled or uncontrolled.
+- `onRepeatChange`: (mode: RepeatMode) => void — The repeat button changed mode.
+- `volume / defaultVolume`: number (default 70) — Volume 0 to 100, shown and set by mute-cone. Controlled or uncontrolled.
+- `onVolumeChange`: (volume: number) => void — The volume was dragged or keyed.
+- `muted / defaultMuted`: boolean (default false) — Whether it is muted. Controlled or uncontrolled.
+- `onMutedChange`: (muted: boolean) => void — Mute was toggled.
+- `following / defaultFollowing`: string[] (default ["Coldbrook Quartet"]) — The artists the listener follows, by name, toggled with follow-knot on album pages. Controlled or uncontrolled.
+- `onFollowingChange`: (artists: string[]) => void — An artist was followed or unfollowed.
+- `defaultPosition`: number (default 0) — Where the first track starts, in seconds.
+- `onSeek`: (seconds: number) => void — The visitor moved the playhead: a scrub, a press on the track, a key, or Previous.
+- `status`: "ready" | "loading" | "error" (default "ready") — Loading draws placeholder covers; error offers Try again.
+- `onRetry`: () => void — Try again was pressed after the library failed to load.
+- `label`: string (default "Music") — The screen's accessible name.
+- `sound`: boolean (default false) — Play the presses, the ticks of a scrub and the queue, only for the visitor's own actions; the composed pieces play theirs too.
+- `disabled`: boolean (default false) — Nothing plays, moves or opens.
+- `className`: string — Classes for the root. It is 560px tall by default; pass a height class to change it.
+
+Notes:
+- Keyboard: the full player is a dialog within the screen (focus moves in, Tab cycles, Escape closes the queue sheet and then the player, focus returns to the mini player); the scrubber is a slider (arrows 5 s, Page Up and Page Down 30 s, Home and End); Up next is one tab stop whose arrows move, Alt+arrows reorder, Enter plays and Delete removes, each move announced.
+- Playback is simulated, with no audio: the position advances from one frame loop that also turns the disc, and it runs only while playing (or while the disc coasts down), while the screen is on screen and the page is visible. The position is reported only when the visitor moves it (`onSeek`); a track that ends moves on through the queue, honouring repeat.
+- Layout follows the component's own width: two-column covers and a stacked player below 640px; from 640px the player lays its disc beside the controls when it has 560px, and with `queue="panel"` Up next sits beside the player, and from 1040px beside the library too.
+- Under reduced motion the player cross-fades in and out instead of growing, the disc stands still, the sleeve's record is simply out, and queue rows swap at once; the time, the progress, the bars and every count still move.
+- Composes repeat-coil, mute-cone and follow-knot; install them with it. Covers are procedural pigments turned from the accent's hue, so they read in both themes without image files.
+
+### Bank App (KQ-1344) — `bank-app`
+Money, made calm.
+
+A complete mobile banking home framed as a phone: a balance card whose digits are wheels that roll down into dots on snap (or frost over, or are wiped out by a bar on glide) when the composed eye shuts, quick actions, a day-grouped activity list that filters with rows closing up on glide, a detail screen pushed on glide and dragged back 1:1 with a projected release, and a send sheet with an amount pad whose characters rise in on snap, with the composed settle button as Send. Wide, the phone unfolds into two panes. Rows rove with the arrow keys, Escape steps back, the sheet is a trapped dialog that digits type into from anywhere.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/bank-app`
+
+Props:
+- `account`: BankAccount (default defaultBankAccount) — The account on the card: name, last four digits, opening balance and currency. The balance shown is the opening figure plus every transaction in the list.
+- `transactions / defaultTransactions`: BankTransaction[] (default — / defaultBankTransactions) — The account's activity, any order; shown newest first, grouped by day.
+- `onTransactionsChange`: (transactions: BankTransaction[]) => void — Fires with every transaction once a payment made in the sheet has landed.
+- `contacts`: BankContact[] (default defaultBankContacts) — Who money can be sent to or asked from.
+- `owner`: string (default "Ada") — The first name in the greeting.
+- `bank`: string (default "Coldbrook Bank") — The bank's name, over the greeting and in the accessible name.
+- `now`: Date | number (default defaultBankNow) — The current moment: the status bar's clock, Today and Yesterday.
+- `zoneOffset`: number (default 0) — Minutes east of UTC that times are shown in, so server and browser agree.
+- `hidden / defaultHidden`: boolean (default — / false) — Privacy: true hides the balance.
+- `onHiddenChange`: (hidden: boolean) => void — Fires from the eye that hid or showed the balance.
+- `balance`: "roll" | "frost" | "redact" (default "roll") — How the balance hides: its digits roll down into dots, frost over, or a bar wipes across them.
+- `sheet`: "bottom" | "full" | "float" (default "bottom") — How the send sheet presents: rising while home recedes behind it, covering the screen, or as a floating card.
+- `density`: "compact" | "cozy" | "roomy" (default "cozy") — Row height 48, 56 or 64px, with avatars, paddings and the balance to match.
+- `onSend`: (payment: BankPayment) => Promise<unknown> | unknown — Sends, requests or adds the money. A returned promise holds the button until it settles; a rejection leaves the sheet open on Retry.
+- `onTransactionOpen`: (id: string | null) => void — A transaction's detail opened (its id) or closed (null).
+- `locale`: string (default "en-US") — The locale for amounts.
+- `format`: (amount: number, currency: string) => string (default Intl.NumberFormat) — Formats an amount (always positive) for the card, the rows and the sheet.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the activity has arrived: skeleton rows, or a message with Try again.
+- `onRetry`: () => void — Try again was pressed after the activity failed to load.
+- `label`: string (default bank) — The screen's accessible name.
+- `sound`: boolean (default false) — Play the pad's ticks and the navigation; the composed eye and Send button play their own.
+- `disabled`: boolean (default false) — Greys the screen out and makes it inert.
+- `className`: string — Classes for the outer wrapper.
+
+Notes:
+- Keyboard: Tab reaches the eye, the three actions, the filter (arrows choose) and the activity, whose rows rove with Up, Down, Home and End; Enter opens a row and its heading takes focus. Escape or Back returns focus to the row.
+- The send sheet is a modal dialog with a trapped Tab: digits, the decimal point and Backspace type into the amount from anywhere in it, the pad is one tab stop that arrows move through, and Escape closes it and hands focus back to the button that opened it.
+- The balance is account.opening plus the list (pending credits excluded), so a host that controls transactions only has to append the new one in onTransactionsChange for the balance to roll.
+- Reduced motion: the wheels swap, frost and redact appear by opacity, the detail and the sheet cross-fade in place, and a refused key flashes the figure in danger instead of shaking; every amount still changes and is announced.
+- It lays out by its own width: a 360px phone below 640px, and above it the phone unfolds into two panes, home and the month's summary or the chosen transaction.
+
+### Project Tracker (KQ-1345) — `project-tracker`
+Plan it, board it, ship it.
+
+A complete project screen: a projects sidebar with the composed pin, a view switch whose thumb slides on snap, and the tasks as a list, a board or a timeline — switching is one morph, each task's plate gliding from row to card to date bar on glide while its title glides without stretching. Board cards are carried 1:1 to another column and fly into their slot; timeline bars slide along their row and land on the projected day on snap with the release velocity. A task opens in a drawer (over, pushing or rising) with every field editable and the composed watch and delete buttons; arrows rove the tasks, Shift with Left or Right moves a card a column or a bar's due date, Space ticks, Escape closes.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/project-tracker`
+
+Props:
+- `projects`: TrackerProject[] (default defaultTrackerProjects) — The projects in the sidebar: id, name and the three-letter key that prefixes task numbers.
+- `people`: TrackerPerson[] (default defaultTrackerPeople) — Everyone a task can be assigned to.
+- `tasks / defaultTasks`: TrackerTask[] (default — / defaultTrackerTasks) — Every project's tasks: status, priority, assignee, start and due dates, tag, description, subtasks and watchers.
+- `onTasksChange`: (tasks: TrackerTask[]) => void — Fires with every task after any change: a status, a drop, a date, an edit, a new task or a deletion.
+- `project / defaultProject`: string (default — / first project) — The project on screen.
+- `onProjectChange`: (id: string) => void — Fires from the sidebar row or key that chose a project.
+- `view / defaultView`: "list" | "board" | "timeline" (default — / "list") — The tasks as a list grouped by status, a board of status columns, or bars on a timeline.
+- `onViewChange`: (view: TrackerView) => void — Fires from the view switch with the new view.
+- `task / defaultTask`: string | null (default — / null) — The task open in the drawer; null closes it.
+- `onTaskChange`: (id: string | null) => void — Fires from the row, card, bar or key that opened a task, and with null when the drawer closes.
+- `pinned / defaultPinned`: string[] (default — / ["field"]) — Pinned project ids, shown first in the sidebar.
+- `onPinnedChange`: (ids: string[]) => void — Fires from the pin with every pinned id.
+- `onTaskCreate`: (task: TrackerTask) => void — A task was made with New task.
+- `onTaskUpdate`: (task: TrackerTask, previous: TrackerTask) => void — A task changed, with what it was before.
+- `onTaskDelete`: (task: TrackerTask) => void — A task was deleted, after its undo window.
+- `now`: Date | number (default defaultTrackerNow) — Today: the timeline's line, and what is due or late.
+- `drawer`: "overlay" | "push" | "sheet" (default "overlay") — How the task drawer presents: over the work from the right, pushing the work aside, or rising from the bottom.
+- `density`: "compact" | "cozy" | "roomy" (default "cozy") — Row height 32, 40 or 48px, with card padding and the timeline's rows and days to match.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the tasks have arrived: skeleton rows, or a message with Try again.
+- `onRetry`: () => void — Try again was pressed after the tasks failed to load.
+- `label`: string (default "Project tracker") — The screen's accessible name.
+- `sound`: boolean (default false) — Play the swishes and clicks; the composed pin, watch and delete buttons play their own.
+- `disabled`: boolean (default false) — Greys the screen out and makes it inert.
+- `className`: string — Classes for the screen's frame.
+
+Notes:
+- Keyboard: the sidebar rows rove with Up and Down; the view switch is a radiogroup. In every view one task is the tab stop: arrows move between tasks (Left and Right cross board columns), Enter opens the drawer and its title field takes focus.
+- Every pointer move has a key: Space ticks a list task, Shift with Left or Right moves a board card a column, Left and Right move a timeline bar a day and Shift with them changes its due date. Each change is announced once.
+- The drawer is a modal dialog with a trapped Tab for overlay and sheet, and a non-modal region for push (which acts as overlay below 640px). Escape closes it and focus goes back to the task, or to the first task left after a delete.
+- Reduced motion: no plate travels — each view fades in with every task in place, drags still follow the pointer but land at once, and the drawer and the phone screens cross-fade.
+- Deleting runs through the composed delete button's undo window; closing the drawer during the window deletes at once, since the undo is no longer on screen.
+
+### Analytics Console (KQ-1346) — `analytics-console`
+The numbers, arranged.
+
+A complete store analytics screen where every panel reads one query — store, window and filters. Change the period on the composed KPI panel, or brush its chart, and the console moves in one beat: source bars glide to new lengths in cascade on glide while their figures count, the device split re-divides, countries re-rank by gliding to new rows, the hours heatmap re-tints on a diagonal wave, and the composed pages table refetches into its own cascade. The four charts re-arrange per grid and width on glide; filter chips open real menus (arrows, Enter, Escape back to the chip) and below 900px the stores fold into a draggable drawer.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/analytics-console`
+
+Props:
+- `sites`: ConsoleSite[] (default defaultConsoleSites) — The stores in the sidebar: id, name and host.
+- `site / defaultSite`: string (default — / first store) — The store on screen.
+- `onSiteChange`: (id: string) => void — Fires from the sidebar row or key that chose a store.
+- `views`: ConsoleView[] (default defaultConsoleViews) — Saved sets of filters in the sidebar; a press applies one at once.
+- `dimensions`: ConsoleDimension[] (default defaultConsoleDimensions) — What the filters bar can split by: device, channel and country, each with its options and shares.
+- `filters / defaultFilters`: ConsoleFilters (default — / {}) — A dimension's id to the option chosen for it; absent means all.
+- `onFiltersChange`: (filters: ConsoleFilters) => void — Fires from the chip, view or Clear that changed the filters.
+- `range / defaultRange`: "7d" | "30d" | "90d" | "1y" (default — / "30d") — The period: the last 7, 30 or 90 days, or the last year.
+- `onRangeChange`: (range: ConsoleRange) => void — Fires from the KPI panel's period switch with the new period.
+- `onWindowChange`: (window: ConsoleWindow) => void — Fires whenever the window changes: a period, a brush zoom on the chart or its reset.
+- `data`: (query: ConsoleQuery) => ConsoleData (default defaultConsoleData) — Answers a store, a window of days and filters with the KPI series, the breakdowns, the window's bars and hours, and its top pages.
+- `now`: Date | number (default defaultConsoleNow) — The last day of data.
+- `grid`: "bento" | "even" | "stack" (default "bento") — How the four charts are arranged: one doubled up, evenly, or one under another.
+- `density`: "compact" | "regular" | "roomy" (default "regular") — The table's rows (32, 40 or 48px), the panels' padding, the bars and the gaps.
+- `locale`: string (default "en-US") — The locale for numbers and money.
+- `currency`: string (default "USD") — The currency for money.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the numbers have arrived: skeletons everywhere, or a message with Try again.
+- `onRetry`: () => void — Try again was pressed after the numbers failed to load.
+- `label`: string (default "Analytics") — The console's accessible name.
+- `sound`: boolean (default false) — Play the ticks and swishes; the composed KPI panel and table play their own.
+- `disabled`: boolean (default false) — Greys the console out and makes it inert.
+- `className`: string — Classes for the console's frame.
+
+Notes:
+- Everything reads one query, so a host only answers data(query): metrics and breakdowns are whole daily series (the KPI panel windows them), everything else is for the window it is asked about. Memoise it if it is expensive; it is called again when the store, window or filters change.
+- Keyboard: filter chips open a menu with Enter or Down; arrows, Home and End move, Enter chooses, Escape closes and returns focus to the chip. Stores and saved views rove with Up and Down. The KPI panel's period switch and chart keys (arrows, Shift to brush, Enter to zoom) drive the whole console.
+- Below 900px the stores fold into a modal drawer that can be dragged back out; Escape or Close returns focus to the menu button.
+- Reduced motion: bars, splits and tints take their new values at once behind a short fade, figures swap without counting, panels reflow in place, and the drawer and menus fade; every number still changes and each new query is announced once.
+
+### Team Chat (KQ-1347) — `team-chat`
+Channels, threads, people.
+
+A complete team chat screen built around three Studio toggles: channels whose current pill travels on snap, a message stream whose action bar rises 4px on snap with pin-press in it, drawn reactions that hop and land on recoil while a ring flares and the count rolls, and a thread panel that arrives on glide — docked, over the stream or pushed — with its replies cascading in and follow-knot in its header, while mute-cone mutes the channel. Below 640px the panes become a stack whose pushes slide on glide and whose left edge takes a 1:1 back-swipe that commits by projection. Up and Down walk the messages, Enter opens a thread, Alt+Up and Alt+Down switch channel, and Escape closes the thread or goes back.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/team-chat`
+
+Props:
+- `thread`: "dock" | "overlay" | "full" (default "dock") — How the thread panel arrives on wide screens: docked beside the stream (which narrows, and on a tablet the channel list folds to a rail), over it above a scrim as a modal dialog, or pushed like a phone screen. A phone always pushes.
+- `presence`: "dot" | "ring" | "off" (default "dot") — How presence is drawn on avatars: a corner dot, a ring, or not drawn. It is always spoken, and the header still counts who is active.
+- `density`: "compact" | "cozy" | "roomy" (default "cozy") — Avatar size, type and spacing in the stream; compact sets each run's name inline with its first line.
+- `people`: ChatPerson[] (default defaultChatPeople) — Everyone in the workspace, with their presence and an optional status line.
+- `me`: string (default "noor") — The viewer's person id: the author of what they send and whose reactions show as theirs.
+- `channels / defaultChannels`: ChatChannel[] (default defaultChatChannels) — Channels and direct messages in sidebar order, with unread and mention counts and muted state; controlled or uncontrolled.
+- `onChannelsChange`: (channels: ChatChannel[]) => void — Fires from the visit, mute or read that changed a channel, with all of them.
+- `messages / defaultMessages`: ChatMessage[] (default defaultChatMessages) — Every channel's messages and thread replies as one flat list; a reply carries its parent's id.
+- `onMessagesChange`: (messages: ChatMessage[]) => void — Fires from the send, reaction or pin that changed the list, with all of it.
+- `channel / defaultChannel`: string (default "field-ops", else the first) — The open channel's id.
+- `onChannelChange`: (id: string) => void — Fires from the row, Alt+arrow or phone push that opened a channel.
+- `openThread / defaultOpenThread`: string | null (default null) — The open thread: its first message's id, or null.
+- `onOpenThreadChange`: (id: string | null) => void — Fires from Reply in thread, a thread summary, Enter on a message, Close, Back, Escape or the back-swipe.
+- `following / defaultFollowing`: string[] (default []) — The threads the viewer follows, by their first messages' ids.
+- `onFollowingChange`: (ids: string[]) => void — Fires from the thread's Follow button, or from a reply that followed the thread.
+- `typing`: string[] — Person ids writing in the open channel right now; shown over the composer with three dots that rest while the page is hidden.
+- `now`: Date | number (default defaultTeamChatNow) — The moment day dividers are read against, and what a sent message is stamped with. Never read from the clock during render.
+- `zoneOffset`: number (default 0) — Minutes east of UTC that times are shown in, so server and browser agree.
+- `workspace`: string (default "Fieldline") — The workspace's name over the channel list.
+- `onSend`: (message: ChatMessage) => void — A message or thread reply was sent; it is already in the list.
+- `onReact`: (messageId: string, kind: ChatReactionKind, added: boolean) => void — The viewer added or took back a reaction.
+- `onPinChange`: (messageId: string, pinned: boolean) => void — A message was pinned or unpinned from its action bar.
+- `onMuteChange`: (channelId: string, muted: boolean) => void — The channel header's mute toggle changed.
+- `status`: "ready" | "loading" | "error" (default "ready") — Loading draws placeholder rows; error offers Try again.
+- `onRetry`: () => void — Try again was pressed in the error state.
+- `label`: string (default "Team chat") — The screen's accessible name.
+- `sound`: boolean (default false) — Play a pop for reactions, sends and channel picks and a swish for threads and stack moves; the composed toggles play their own. Off unless asked for.
+- `disabled`: boolean (default false) — Read only: nothing can be sent, reacted to, pinned or muted.
+- `className`: string — Classes for the root. It is 560px tall by default; pass a height class to change it.
+
+Notes:
+- Messages are a list of articles with one tab stop: Up and Down walk them, Home and End jump, Enter opens the message's thread, and Tab reaches its action bar (React, Reply in thread, Pin). The reaction picker is a menu: arrows move, Enter chooses, Escape returns focus to React.
+- Alt+Up and Alt+Down switch channel from anywhere; Escape closes the thread (in dock mode only when focus is inside it), and on a phone goes back a screen, as do Back and Alt+Left.
+- Under reduced motion nothing travels or hops: the thread panel and stack screens cross-fade, the channel pill jumps and the edge swipe is off, while counts, pins, mutes, unread state and the typing line all still change.
+- Data is flat and typed: pass people, channels and messages (replies carry `parent`) controlled or uncontrolled, and stream incoming messages by appending to `messages`; `typing` drives the typing line.
+- The screen measures its own width: below 640px it is a Channels → Channel → Thread stack, from 640px the channel list sits beside the stream, and from 1040px it widens to 232px with a 340px docked thread.
+
+### Notes App (KQ-1348) — `notes-app`
+Write it down, find it later.
+
+A complete notes screen built around block-editor, pin-press and bin-lid: tags whose current pill travels on snap, a list whose pinned note lifts on snap and glides to the top — under a Pinned heading or floated over the rest — while the rows between close the gap on glide, search that washes the words it found and grows from its magnifier on snap, and an editor that cross-fades in from 4px on glide with the note's own title and tags over the blocks. Deleting drops the note in the bin until its undo ring drains. Below 640px the list and the note become a stack whose pushes slide on glide and whose left edge takes a 1:1 back-swipe that commits by projection; the list is one tab stop with Up, Down, Home and End, slash searches, and Escape clears the search or goes back.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/notes-app`
+
+Props:
+- `pin`: "section" | "float" | "off" (default "section") — Where pinned notes go: under a Pinned heading, floated to the top of one list with a pin glyph, or pinning is off (no pin button, plain recency order).
+- `search`: "field" | "expand" | "off" (default "field") — How search lives over the list: an open field, a magnifier that grows into the field and folds back when emptied and left, or no search.
+- `density`: "compact" | "cozy" | "roomy" (default "cozy") — Row height and how much each row says: title and date, one snippet line, or two lines and the tags.
+- `notes / defaultNotes`: NoteRecord[] (default defaultNotes) — Every note: title, block-editor blocks, tags, pinned and when it was last edited.
+- `onNotesChange`: (notes: NoteRecord[]) => void — Fires from the edit, pin, tag, creation or deletion that changed the notes, with all of them.
+- `note / defaultNote`: string | null (default the most recently edited) — The open note's id.
+- `onNoteChange`: (id: string | null) => void — Fires from the row, the new note or the deletion that changed the open note.
+- `tag / defaultTag`: string | null (default null) — The tag the list is filtered to, or null for every note.
+- `onTagChange`: (tag: string | null) => void — Fires from the sidebar row or chip that changed the filter.
+- `query / defaultQuery`: string (default "") — The search text; it matches titles, every block and tags.
+- `onQueryChange`: (query: string) => void — Fires with every edit of the search field, Clear and Escape.
+- `now`: Date | number (default defaultNotesNow) — The moment dates are read against, and what an edit is stamped with. Never read from the clock during render.
+- `zoneOffset`: number (default 0) — Minutes east of UTC that times are shown in, so server and browser agree.
+- `onCreate`: (note: NoteRecord) => void — A new note was made; it is already in the list and open with its title focused.
+- `onDelete`: (note: NoteRecord) => void — A note was thrown away, once its undo window ran out.
+- `onPinChange`: (id: string, pinned: boolean) => void — The editor's pin was pressed.
+- `status`: "ready" | "loading" | "error" (default "ready") — Loading draws placeholder rows and lines; error offers Try again.
+- `onRetry`: () => void — Try again was pressed in the error state.
+- `label`: string (default "Notes") — The screen's accessible name.
+- `sound`: boolean (default false) — Play a tick for list steps and tag picks and a click for new notes, tags and screen moves; the composed pieces play their own. Off unless asked for.
+- `disabled`: boolean (default false) — Read only: nothing can be written, pinned, tagged or deleted.
+- `className`: string — Classes for the root. It is 560px tall by default; pass a height class to change it.
+
+Notes:
+- The list is one tab stop: Up and Down move between notes, Home and End jump, Enter opens one; ArrowDown from the search field lands on the first result, and slash focuses search from anywhere that is not a field.
+- Escape clears the search, then folds an expanding search back to its magnifier; on a phone it goes back to the list, as do Back, Alt+Left and the edge swipe. The bin's own Escape undoes a deletion while its ring drains.
+- In the note, Enter in the title jumps into the body; the tag field takes Enter or a comma to add (words are lower-cased and joined with hyphens) and Backspace when empty to remove the last tag.
+- Under reduced motion rows swap places at once, the search field appears at its width, the editor and stack screens cross-fade, and every pin, tag, count and highlight still changes.
+- Notes are plain data: pass `notes` controlled and persist from `onNotesChange`; every edit stamps `updated` with `now`, which also orders the list, so a host that ticks `now` keeps edits honest.
+
+### Calendar App (KQ-1349) — `calendar-app`
+Month, week, and the day ahead.
+
+A complete calendar screen built around week-planner and meeting-card: a month grid and the week that morph into each other — the week you are in is a row of the month, so Week grows that row to fill the grid on glide while the other weeks fold away, then the planner cross-fades in over it, and Month runs it back — with a view switch whose pill travels on snap, months that slide in from 16px, a sidebar of mini month, calendars and the day ahead, and an event drawer that docks on glide, slides over or rises as a sheet you can pull down 1:1. Everything is read against `now`. The month is a real grid: arrows, Home, End and Page keys move the day, Enter steps into its events and Escape steps back out.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/calendar-app`
+
+Props:
+- `view / defaultView`: "month" | "week" (default "month") — The month, or the focused day's week; changing it runs the morph.
+- `onViewChange`: (view: CalendarView) => void — Fires from the switch, a day's number or Show in week.
+- `drawer`: "side" | "over" | "sheet" (default "side") — How the event drawer arrives: docked at the right (the calendar narrows), over the calendar above a scrim, or as a sheet from the bottom that pulls down. A phone always uses the sheet.
+- `density`: "compact" | "cozy" | "roomy" (default "cozy") — Month chips (two plain, three with times on wide grids, or three filled) and week-planner's hour height.
+- `events / defaultEvents`: CalendarEvent[] (default defaultCalendarEvents) — Week-planner events with optional attendees, agenda and notes; an event with attendees opens as a meeting card.
+- `onEventsChange`: (events: CalendarEvent[]) => void — Fires from the drag, edit, creation or deletion that changed the events, with all of them.
+- `calendars`: WeekCalendar[] (default defaultCalendarCalendars) — The calendars events belong to, with their tints (CSS colours, never hex).
+- `hidden / defaultHidden`: string[] (default []) — Calendar ids whose events are hidden everywhere.
+- `onHiddenChange`: (ids: string[]) => void — Fires from the calendar checkboxes.
+- `day / defaultDay`: Date | number (default the day of `now`) — The focused day: the month and the week shown, and the day the agenda reads.
+- `onDayChange`: (day: number) => void — Fires with the new day's midnight from the grid, the mini month, the arrows, Today or the planner.
+- `selected / defaultSelected`: string | null (default null) — The event in the drawer, or null for a closed drawer.
+- `onSelectedChange`: (id: string | null) => void — Fires from a chip, an agenda row, a planner event, Close, Escape, the scrim or the pull.
+- `now`: Date | number (default defaultCalendarNow) — The current moment: today, the now line, the agenda's Now and countdowns, and the meeting card's ring. Never read from the clock during render.
+- `zoneOffset`: number (default 0) — Minutes east of UTC that dates and times are drawn in, so server and browser agree.
+- `weekStartsOn`: 0 | 1 (default 1) — 1 starts weeks on Monday, 0 on Sunday.
+- `onCreate`: (event: CalendarEvent) => void — An event was drawn or added in the week.
+- `onDelete`: (event: CalendarEvent) => void — An event was deleted from the drawer or the week.
+- `onJoinedChange`: (id: string, joined: boolean) => void — The viewer joined or left a meeting from its card.
+- `status`: "ready" | "loading" | "error" (default "ready") — Loading draws placeholder chips; error offers Try again.
+- `onRetry`: () => void — Try again was pressed in the error state.
+- `label`: string (default "Calendar") — The screen's accessible name.
+- `sound`: boolean (default false) — Play a swish for the morph, the drawer and the sidebar and a tick for each step of the day cursor; the composed pieces play their own. Off unless asked for.
+- `disabled`: boolean (default false) — Read only: nothing can be moved, made or deleted.
+- `className`: string — Classes for the root. It is 560px tall by default; pass a height class to change it.
+
+Notes:
+- The month is one tab stop: arrows move a day or a week, Home and End go to the week's ends, Page Up and Page Down change month, Enter steps into the day's events (Up and Down walk them, Enter opens one) and Escape steps back to the day. The view switch is a radio group; arrows flip it.
+- The drawer is a dialog in over and sheet modes, trapping focus; focus moves to its heading and back to the chip, row or planner event that opened it, and Escape, Close and the scrim shut it. The sheet's handle pulls it down 1:1 and a release past 40% or a flick closes it.
+- Under reduced motion the morph is a cross-fade with no rows growing, the drawers and sidebar fade in place and the sheet does not follow a drag, while every date, chip, count and countdown still changes.
+- Hiding a calendar filters it from the month, the week, the mini month's dots and the agenda; week-planner's changes are merged back by id so the hidden events and any attendees or notes survive an edit.
+- Below 640px the sidebar becomes a drawer, the month shows dots with the focused day's agenda under it, and the week is week-planner's one-day mode; from 1040px the sidebar is docked.
+
+### Storefront (KQ-1350) — `storefront`
+A shop that wants to be browsed.
+
+A complete store home built around cart-drawer, product-grid and product-detail: the whole store is the bag's page, so the bag slides over it on glide and pulls shut; a hero, a category rail and product rails that scroll-snap and glide a page at a time; a category, a card or See all pushes product-grid's shelf in from the right on glide, and the hero pushes product-detail's page. Quick add throws a dot in the product's glaze to the bag on a true arc — x steady, y thrown up and falling — and when it lands the badge bumps on recoil, its count rolls and the button draws a check on flick. Rails take Left, Right, Home and End, pushed screens go back with Back, Alt+Left, Escape or a 1:1 swipe from their left edge that commits by projection.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/storefront`
+
+Props:
+- `rails`: number (default 2) — How many collections show as rails on the home, 1 to 3.
+- `hero`: "banner" | "split" | "off" (default "banner") — The hero: a banner with the copy over the still life, a split with the copy beside it (a banner on a phone), or none, so the category rail leads.
+- `density`: "compact" | "regular" | "roomy" (default "regular") — Rail card widths (132, 160 or 196px; narrower on a phone) and how much each says — price only, a rating, or the rating and its glazes; also the shelf's density.
+- `products`: ProductGridItem[] (default defaultProducts) — The catalogue, in product-grid's shape: categories come from it and every rail, tile and shelf reads it.
+- `colors`: ProductGridColor[] (default defaultProductColors) — The glazes products come in, as pigments that read in both themes.
+- `collections`: StoreCollection[] (default defaultStoreCollections) — The rails in order: a title, a line, product ids, and how See all sorts and filters the shelf.
+- `featured`: ProductInfo (default defaultProduct) — The product the hero opens as a full product page; its glazes paint the hero's still life.
+- `heroCopy`: StoreHero (default defaultStoreHero) — The hero's eyebrow, title, line and button words.
+- `items / defaultItems`: CartLine[] (default []) — The lines in the bag, in cart-drawer's shape.
+- `onItemsChange`: (items: CartLine[]) => void — Fires from the quick add, shelf, product page or bag that changed the lines, with all of them.
+- `cartOpen / defaultCartOpen`: boolean (default false) — Whether the bag is open over the store.
+- `onCartOpenChange`: (open: boolean) => void — Fires from the Bag button and from the bag's close, Escape, scrim or pull.
+- `screen / defaultScreen`: "home" | "product" | `category:${string}` | `collection:${string}` (default "home") — The screen on show: home, the featured product, or the shelf for a category or a collection.
+- `onScreenChange`: (screen: StoreScreen) => void — Fires from a tile, a card, See all, the hero, Back, Alt+Left, Escape or the back-swipe.
+- `onAdd`: (line: CartLine) => void — Something went in the bag from the store, with the line as it now stands.
+- `onCheckout`: (items: CartLine[], total: number) => void | Promise<void> — Checkout was pressed in the bag; a promise holds its button pending.
+- `now`: Date | number (default defaultStoreNow) — The moment the product page's delivery estimate counts from. Never read from the clock during render.
+- `format`: (amount: number) => string (default euros, en-IE) — Money everywhere: rails, shelf, product page and bag.
+- `storeName`: string (default "Fernworks Supply") — The store's name in the top bar.
+- `status`: "ready" | "loading" | "error" (default "ready") — Loading draws placeholder cards; error offers Try again. Passed on to the shelf.
+- `onRetry`: () => void — Try again was pressed in the error state.
+- `label`: string (default "Store") — The screen's accessible name.
+- `sound`: boolean (default false) — Play a pop as a quick add lands and a category opens, and a swish for pushes, pops and the bag; the composed pieces play their own. Off unless asked for.
+- `disabled`: boolean (default false) — Browse only: nothing can be added or bought.
+- `className`: string — Classes for the root. It is 560px tall by default; pass a height class to change it.
+
+Notes:
+- Each rail is one tab stop: Left and Right move between cards, Home and End jump, Enter opens the card's shelf with its quick view open, and Tab reaches the card's quick add. The rail's arrow buttons glide it a page at a time.
+- Pushed screens (a category, a collection, the featured product) go back with Back, Alt+Left, Escape when nothing inside used it, or a 1:1 swipe from their left edge; focus moves to the arriving screen's heading and back to what pushed it.
+- The badge counts what has landed: a quick add's count joins it when its dot reaches the bag, so the number and the bump arrive together. Adds from the shelf and the product page bump it at once.
+- Under reduced motion nothing flies or slides: screens cross-fade, rails jump-scroll, the badge's count changes in place and the quick add's check appears.
+- The catalogue is product-grid's: pass `products`, `colors` and `collections`, and the bag's lines (cart-drawer's `CartLine`) controlled through `items` to persist them.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

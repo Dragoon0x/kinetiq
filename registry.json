@@ -34037,6 +34037,332 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "ai-workspace",
+      "type": "registry:ui",
+      "title": "AI Workspace",
+      "description": "A whole assistant screen built from thread-view, prompt-dock and pin-press: a dated, searchable conversation sidebar, a thread whose replies stream in word by word while Send folds into Stop, and an artifact the reply writes line by line in a pane that slides in beside the thread on glide, its column and the thread's edge one motion value, each new line rising 4px on glide; split, overlay and canvas set how the pane arrives, a split divider follows the pointer 1:1 and settles on glide, and pinned conversations glide to the top. Below 640px it becomes a stack of conversations, thread and artifact pushed on glide with the screen beneath shifting and dimming. The sidebar is a roving list (arrows, Home, End), the divider a separator the arrow keys move, Preview and Source a tablist, and Escape closes the pane or goes back.",
+      "files": [
+        {
+          "path": "registry/ui/ai-workspace.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json",
+        "https://www.kinetiqui.com/r/pin-press.json",
+        "https://www.kinetiqui.com/r/prompt-dock.json",
+        "https://www.kinetiqui.com/r/thread-view.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1341"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "mail-client",
+      "type": "registry:ui",
+      "title": "Mail Client",
+      "description": "A complete three-pane mail screen built around mail-inbox and bin-lid: mailboxes whose current-folder pill travels on snap, the inbox list with its swipe triage, and a reading pane where a thread arrives from 4px on glide, earlier messages open on a measured glide, a quick reply grows on glide and lands on snap, Archive and Snooze leave an Undo toast that lands on recoil, and Delete drops the thread in the bin until its undo ring drains. `folders` keeps the mailboxes as a pane, an icon rail or a drawer that slides over the list on glide; below 640px the panes become a stack whose pushes slide in on glide over a dimming, shifting screen, and a swipe from a pushed screen's left edge follows the finger 1:1 and goes back when the projected throw passes halfway. Back, Alt+← and Escape go back, / searches, c composes, and the list keeps its own j, k, x, e, b, s, u and z.",
+      "files": [
+        {
+          "path": "registry/ui/mail-client.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json",
+        "https://www.kinetiqui.com/r/bin-lid.json",
+        "https://www.kinetiqui.com/r/mail-inbox.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1342"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "music-app",
+      "type": "registry:ui",
+      "title": "Music App",
+      "description": "A complete music screen built with repeat-coil, mute-cone and follow-knot: a library of procedural covers and album pages that push in on glide, and a mini player (a bar, a pill or a corner card) that is one shared surface with the full player, growing from its box to the whole screen while the cover becomes the disc's label and the title and Play travel, all on glide; a downward drag on the grab bar follows 1:1 and, projected past a third of the height, folds it back. The disc (a record, a silver disc, or a sleeve the record slides half out of on glide) spins up like a motor on Play and coasts down under friction on Pause, its angle and the playing position integrated by one frame loop that runs only while something moves and the screen is visible; Up next follows a dragged row 1:1 while the others glide out of its way and settle it with its release velocity. The scrubber is a slider (arrows 5 s, Page keys 30 s, Home and End), the queue is one tab stop (arrows move, Alt+arrows reorder, Enter plays, Delete removes), and Escape closes the queue sheet, then the player.",
+      "files": [
+        {
+          "path": "registry/ui/music-app.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json",
+        "https://www.kinetiqui.com/r/follow-knot.json",
+        "https://www.kinetiqui.com/r/mute-cone.json",
+        "https://www.kinetiqui.com/r/repeat-coil.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1343"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "bank-app",
+      "type": "registry:ui",
+      "title": "Bank App",
+      "description": "A complete mobile banking home framed as a phone: a balance card whose digits are wheels that roll down into dots on snap (or frost over, or are wiped out by a bar on glide) when the composed eye shuts, quick actions, a day-grouped activity list that filters with rows closing up on glide, a detail screen pushed on glide and dragged back 1:1 with a projected release, and a send sheet with an amount pad whose characters rise in on snap, with the composed settle button as Send. Wide, the phone unfolds into two panes. Rows rove with the arrow keys, Escape steps back, the sheet is a trapped dialog that digits type into from anywhere.",
+      "files": [
+        {
+          "path": "registry/ui/bank-app.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json",
+        "https://www.kinetiqui.com/r/eye-lid.json",
+        "https://www.kinetiqui.com/r/settle-button.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1344"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "project-tracker",
+      "type": "registry:ui",
+      "title": "Project Tracker",
+      "description": "A complete project screen: a projects sidebar with the composed pin, a view switch whose thumb slides on snap, and the tasks as a list, a board or a timeline — switching is one morph, each task's plate gliding from row to card to date bar on glide while its title glides without stretching. Board cards are carried 1:1 to another column and fly into their slot; timeline bars slide along their row and land on the projected day on snap with the release velocity. A task opens in a drawer (over, pushing or rising) with every field editable and the composed watch and delete buttons; arrows rove the tasks, Shift with Left or Right moves a card a column or a bar's due date, Space ticks, Escape closes.",
+      "files": [
+        {
+          "path": "registry/ui/project-tracker.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json",
+        "https://www.kinetiqui.com/r/bin-lid.json",
+        "https://www.kinetiqui.com/r/follow-knot.json",
+        "https://www.kinetiqui.com/r/pin-press.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1345"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "analytics-console",
+      "type": "registry:ui",
+      "title": "Analytics Console",
+      "description": "A complete store analytics screen where every panel reads one query — store, window and filters. Change the period on the composed KPI panel, or brush its chart, and the console moves in one beat: source bars glide to new lengths in cascade on glide while their figures count, the device split re-divides, countries re-rank by gliding to new rows, the hours heatmap re-tints on a diagonal wave, and the composed pages table refetches into its own cascade. The four charts re-arrange per grid and width on glide; filter chips open real menus (arrows, Enter, Escape back to the chip) and below 900px the stores fold into a draggable drawer.",
+      "files": [
+        {
+          "path": "registry/ui/analytics-console.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json",
+        "https://www.kinetiqui.com/r/data-grid.json",
+        "https://www.kinetiqui.com/r/pulse-dashboard.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1346"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "team-chat",
+      "type": "registry:ui",
+      "title": "Team Chat",
+      "description": "A complete team chat screen built around three Studio toggles: channels whose current pill travels on snap, a message stream whose action bar rises 4px on snap with pin-press in it, drawn reactions that hop and land on recoil while a ring flares and the count rolls, and a thread panel that arrives on glide — docked, over the stream or pushed — with its replies cascading in and follow-knot in its header, while mute-cone mutes the channel. Below 640px the panes become a stack whose pushes slide on glide and whose left edge takes a 1:1 back-swipe that commits by projection. Up and Down walk the messages, Enter opens a thread, Alt+Up and Alt+Down switch channel, and Escape closes the thread or goes back.",
+      "files": [
+        {
+          "path": "registry/ui/team-chat.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json",
+        "https://www.kinetiqui.com/r/follow-knot.json",
+        "https://www.kinetiqui.com/r/mute-cone.json",
+        "https://www.kinetiqui.com/r/pin-press.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1347"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "notes-app",
+      "type": "registry:ui",
+      "title": "Notes App",
+      "description": "A complete notes screen built around block-editor, pin-press and bin-lid: tags whose current pill travels on snap, a list whose pinned note lifts on snap and glides to the top — under a Pinned heading or floated over the rest — while the rows between close the gap on glide, search that washes the words it found and grows from its magnifier on snap, and an editor that cross-fades in from 4px on glide with the note's own title and tags over the blocks. Deleting drops the note in the bin until its undo ring drains. Below 640px the list and the note become a stack whose pushes slide on glide and whose left edge takes a 1:1 back-swipe that commits by projection; the list is one tab stop with Up, Down, Home and End, slash searches, and Escape clears the search or goes back.",
+      "files": [
+        {
+          "path": "registry/ui/notes-app.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json",
+        "https://www.kinetiqui.com/r/bin-lid.json",
+        "https://www.kinetiqui.com/r/block-editor.json",
+        "https://www.kinetiqui.com/r/pin-press.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1348"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "calendar-app",
+      "type": "registry:ui",
+      "title": "Calendar App",
+      "description": "A complete calendar screen built around week-planner and meeting-card: a month grid and the week that morph into each other — the week you are in is a row of the month, so Week grows that row to fill the grid on glide while the other weeks fold away, then the planner cross-fades in over it, and Month runs it back — with a view switch whose pill travels on snap, months that slide in from 16px, a sidebar of mini month, calendars and the day ahead, and an event drawer that docks on glide, slides over or rises as a sheet you can pull down 1:1. Everything is read against `now`. The month is a real grid: arrows, Home, End and Page keys move the day, Enter steps into its events and Escape steps back out.",
+      "files": [
+        {
+          "path": "registry/ui/calendar-app.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json",
+        "https://www.kinetiqui.com/r/meeting-card.json",
+        "https://www.kinetiqui.com/r/week-planner.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1349"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "storefront",
+      "type": "registry:ui",
+      "title": "Storefront",
+      "description": "A complete store home built around cart-drawer, product-grid and product-detail: the whole store is the bag's page, so the bag slides over it on glide and pulls shut; a hero, a category rail and product rails that scroll-snap and glide a page at a time; a category, a card or See all pushes product-grid's shelf in from the right on glide, and the hero pushes product-detail's page. Quick add throws a dot in the product's glaze to the bag on a true arc — x steady, y thrown up and falling — and when it lands the badge bumps on recoil, its count rolls and the button draws a check on flick. Rails take Left, Right, Home and End, pushed screens go back with Back, Alt+Left, Escape or a 1:1 swipe from their left edge that commits by projection.",
+      "files": [
+        {
+          "path": "registry/ui/storefront.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json",
+        "https://www.kinetiqui.com/r/cart-drawer.json",
+        "https://www.kinetiqui.com/r/product-detail.json",
+        "https://www.kinetiqui.com/r/product-grid.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1350"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

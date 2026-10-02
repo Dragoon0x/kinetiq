@@ -367,4 +367,44 @@ export const STUDIO_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/gift-builder.demo").then((m) =>
       mod(m.GiftBuilderDemo, m.tweaks),
     ),
+  "ai-workspace": () =>
+    import("@/registry/demos/ai-workspace.demo").then((m) =>
+      mod(m.AiWorkspaceDemo, m.tweaks),
+    ),
+  "mail-client": () =>
+    import("@/registry/demos/mail-client.demo").then((m) =>
+      mod(m.MailClientDemo, m.tweaks),
+    ),
+  "music-app": () =>
+    import("@/registry/demos/music-app.demo").then((m) =>
+      mod(m.MusicAppDemo, m.tweaks),
+    ),
+  "bank-app": () =>
+    import("@/registry/demos/bank-app.demo").then((m) =>
+      mod(m.BankAppDemo, m.tweaks),
+    ),
+  "project-tracker": () =>
+    import("@/registry/demos/project-tracker.demo").then((m) =>
+      mod(m.ProjectTrackerDemo, m.tweaks),
+    ),
+  "analytics-console": () =>
+    import("@/registry/demos/analytics-console.demo").then((m) =>
+      mod(m.AnalyticsConsoleDemo, m.tweaks),
+    ),
+  "team-chat": () =>
+    import("@/registry/demos/team-chat.demo").then((m) =>
+      mod(m.TeamChatDemo, m.tweaks),
+    ),
+  "notes-app": () =>
+    import("@/registry/demos/notes-app.demo").then((m) =>
+      mod(m.NotesAppDemo, m.tweaks),
+    ),
+  "calendar-app": () =>
+    import("@/registry/demos/calendar-app.demo").then((m) =>
+      mod(m.CalendarAppDemo, m.tweaks),
+    ),
+  storefront: () =>
+    import("@/registry/demos/storefront.demo").then((m) =>
+      mod(m.StorefrontDemo, m.tweaks),
+    ),
 };

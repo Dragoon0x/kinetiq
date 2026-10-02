@@ -13,7 +13,7 @@
     "indexUrl": "https://www.kinetiqui.com/r/registry.json",
     "docsUrl": "https://www.kinetiqui.com",
     "counts": {
-      "components": 1219,
+      "components": 1229,
       "blocks": 152,
       "pages": 28,
       "templates": 10,
@@ -104652,6 +104652,1934 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/gift-builder",
         "bun": "bunx --bun shadcn@latest add @kinetiq/gift-builder",
         "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/gift-builder.json"
+      }
+    },
+    {
+      "slug": "ai-workspace",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "AI Workspace",
+      "serial": "KQ-1341",
+      "tagline": "A whole assistant, in one screen.",
+      "description": "A whole assistant screen built from thread-view, prompt-dock and pin-press: a dated, searchable conversation sidebar, a thread whose replies stream in word by word while Send folds into Stop, and an artifact the reply writes line by line in a pane that slides in beside the thread on glide, its column and the thread's edge one motion value, each new line rising 4px on glide; split, overlay and canvas set how the pane arrives, a split divider follows the pointer 1:1 and settles on glide, and pinned conversations glide to the top. Below 640px it becomes a stack of conversations, thread and artifact pushed on glide with the screen beneath shifting and dimming. The sidebar is a roving list (arrows, Home, End), the divider a separator the arrow keys move, Preview and Source a tablist, and Escape closes the pane or goes back.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "assistant",
+        "chat",
+        "ai",
+        "artifact",
+        "streaming",
+        "workspace",
+        "screen"
+      ],
+      "props": [
+        {
+          "name": "density",
+          "type": "\"compact\" | \"cozy\" | \"roomy\"",
+          "defaultValue": "\"cozy\"",
+          "description": "How tightly the thread and the sidebar are set: passed to the thread, and the sidebar's rows follow."
+        },
+        {
+          "name": "pane",
+          "type": "\"split\" | \"overlay\" | \"canvas\"",
+          "defaultValue": "\"split\"",
+          "description": "How the artifact arrives: a column sharing the stage with the thread (with a draggable divider, the sidebar folding when the three cannot fit), a sheet sliding over the thread's edge, or a canvas that gives the artifact the stage."
+        },
+        {
+          "name": "theme",
+          "type": "\"page\" | \"light\" | \"dark\"",
+          "defaultValue": "\"page\"",
+          "description": "Wear the page's theme, or force light or dark inside the workspace."
+        },
+        {
+          "name": "conversations / defaultConversations",
+          "type": "AiConversation[]",
+          "defaultValue": "defaultAiConversations",
+          "description": "Every conversation: a title, its thread-view messages, whether it is pinned, and the latest artifact it produced. Controlled or uncontrolled."
+        },
+        {
+          "name": "onConversationsChange",
+          "type": "(conversations: AiConversation[]) => void",
+          "description": "Fires from the send, stream, pin, edit or reaction that changed them, with all of them. A streamed reply is reported whole when it starts and again when it finishes."
+        },
+        {
+          "name": "conversation / defaultConversation",
+          "type": "string",
+          "defaultValue": "the first conversation",
+          "description": "The open conversation's id. Controlled or uncontrolled."
+        },
+        {
+          "name": "onConversationChange",
+          "type": "(id: string) => void",
+          "description": "Fires from the row, New chat or key that opened another conversation."
+        },
+        {
+          "name": "artifactOpen / defaultArtifactOpen",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Whether the artifact pane is open. Controlled or uncontrolled."
+        },
+        {
+          "name": "onArtifactOpenChange",
+          "type": "(open: boolean) => void",
+          "description": "Fires from the strip, the Artifact button, Close, Escape, or a reply that started writing an artifact."
+        },
+        {
+          "name": "respond",
+          "type": "(prompt: string, conversation: AiConversation) => AiReply | Promise<AiReply>",
+          "defaultValue": "defaultAiRespond",
+          "description": "Answers a prompt with text and, optionally, an artifact. A promise shows the reply thinking until it settles; a rejection shows it failed, with Retry."
+        },
+        {
+          "name": "onSend",
+          "type": "(text: string, conversationId: string) => void",
+          "description": "A prompt was sent, from the dock or by editing a sent turn."
+        },
+        {
+          "name": "onStop",
+          "type": "(conversationId: string) => void",
+          "description": "Stop, or Escape in the dock, cut a reply short where it stood."
+        },
+        {
+          "name": "onCopy",
+          "type": "(text: string, artifact: AiArtifact) => void",
+          "description": "The artifact was copied."
+        },
+        {
+          "name": "models",
+          "type": "DockModel[]",
+          "defaultValue": "defaultModels",
+          "description": "The models the dock's pill switches between."
+        },
+        {
+          "name": "model",
+          "type": "string",
+          "defaultValue": "the first model",
+          "description": "The selected model's id; its name signs replies and heads the thread."
+        },
+        {
+          "name": "onModelChange",
+          "type": "(id: string) => void",
+          "description": "The visitor switched models in the dock."
+        },
+        {
+          "name": "user",
+          "type": "{ name: string; plan?: string }",
+          "defaultValue": "{ name: \"Rae Okafor\", plan: \"Team plan\" }",
+          "description": "Who is signed in, at the foot of the sidebar; prompts are sent under this name."
+        },
+        {
+          "name": "workspace",
+          "type": "string",
+          "defaultValue": "\"Fieldline\"",
+          "description": "The workspace's name, at the head of the sidebar."
+        },
+        {
+          "name": "now",
+          "type": "Date | number",
+          "defaultValue": "defaultAiNow",
+          "description": "The moment the sidebar's groups (Today, Yesterday, Previous 7 days) and times count from, so server and browser agree."
+        },
+        {
+          "name": "stream",
+          "type": "number",
+          "defaultValue": "240",
+          "description": "How fast a reply streams in, in characters a second."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the conversations have arrived: loading draws placeholders, error offers Try again."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after the conversations failed to load."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Assistant\"",
+          "description": "The screen's accessible name."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play the ticks and the pane's swish, only for the visitor's own actions. The composed pieces play theirs too."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Read only: nothing can be sent, pinned or opened."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the root. It is 560px tall by default; pass a height class to change it."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the sidebar is one tab stop whose arrows, Home and End move between conversations and Enter opens one; the divider is a separator that ← and → move 32px and Home and End send to its limits; Preview and Source are a tablist; Escape closes the artifact pane, or on a phone goes back a screen.",
+        "Streams are driven by `respond`, never by the clock during render: the reply is reported whole when it starts and again when it settles, and the timer that reveals it pauses while the page is hidden. Pass your own `respond` (sync or a promise) to answer from a real backend, or drive `conversations` yourself and mark a message `status: \"streaming\"`.",
+        "Layout follows the component's own width, not the viewport: a stack below 640px, a sidebar and thread with the pane per `pane` from 640px, and all three side by side from 1040px when they fit.",
+        "Under reduced motion nothing slides: columns, the overlay and phone screens swap with a short cross-fade and artifact lines fade in place, while the stream, the writing bar, counts and checks still show.",
+        "Composes thread-view (with its composer off), prompt-dock and pin-press; install them with it. The artifact is the latest one a conversation produced; keep a history in your own data if you need versions."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json",
+        "https://www.kinetiqui.com/r/pin-press.json",
+        "https://www.kinetiqui.com/r/prompt-dock.json",
+        "https://www.kinetiqui.com/r/thread-view.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/ai-workspace",
+      "registryItemUrl": "https://www.kinetiqui.com/r/ai-workspace.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/ai-workspace",
+        "npm": "npx shadcn@latest add @kinetiq/ai-workspace",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/ai-workspace",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/ai-workspace",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/ai-workspace.json"
+      }
+    },
+    {
+      "slug": "mail-client",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Mail Client",
+      "serial": "KQ-1342",
+      "tagline": "Three panes, zero clutter.",
+      "description": "A complete three-pane mail screen built around mail-inbox and bin-lid: mailboxes whose current-folder pill travels on snap, the inbox list with its swipe triage, and a reading pane where a thread arrives from 4px on glide, earlier messages open on a measured glide, a quick reply grows on glide and lands on snap, Archive and Snooze leave an Undo toast that lands on recoil, and Delete drops the thread in the bin until its undo ring drains. `folders` keeps the mailboxes as a pane, an icon rail or a drawer that slides over the list on glide; below 640px the panes become a stack whose pushes slide in on glide over a dimming, shifting screen, and a swipe from a pushed screen's left edge follows the finger 1:1 and goes back when the projected throw passes halfway. Back, Alt+← and Escape go back, / searches, c composes, and the list keeps its own j, k, x, e, b, s, u and z.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "mail",
+        "email",
+        "inbox",
+        "reading pane",
+        "three pane",
+        "stack navigation",
+        "screen"
+      ],
+      "props": [
+        {
+          "name": "density",
+          "type": "\"compact\" | \"cozy\" | \"roomy\"",
+          "defaultValue": "\"cozy\"",
+          "description": "Row height and type size in the list, and the reading pane's type."
+        },
+        {
+          "name": "preview",
+          "type": "number",
+          "defaultValue": "1",
+          "description": "Lines of message preview under each subject in the list, 0 to 2."
+        },
+        {
+          "name": "folders",
+          "type": "\"pane\" | \"rail\" | \"drawer\"",
+          "defaultValue": "\"pane\"",
+          "description": "How the mailboxes live beside the list on wide screens: a labelled pane, a 60px icon rail with badges, or a drawer behind the menu button. A phone always stacks them."
+        },
+        {
+          "name": "threads / defaultThreads",
+          "type": "MailThread[]",
+          "defaultValue": "defaultMailClientThreads",
+          "description": "Every thread in every folder (mail-inbox's type). Controlled or uncontrolled."
+        },
+        {
+          "name": "onThreadsChange",
+          "type": "(threads: MailThread[]) => void",
+          "description": "Fires from the swipe, key, button, reply or delete that changed the threads, with all of them."
+        },
+        {
+          "name": "folder / defaultFolder",
+          "type": "\"inbox\" | \"snoozed\" | \"archive\"",
+          "defaultValue": "\"inbox\"",
+          "description": "The folder on screen. Controlled or uncontrolled."
+        },
+        {
+          "name": "onFolderChange",
+          "type": "(folder: MailFolder) => void",
+          "description": "A mailbox was chosen."
+        },
+        {
+          "name": "open / defaultOpen",
+          "type": "string | null",
+          "defaultValue": "null",
+          "description": "The thread in the reading pane. Controlled or uncontrolled."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(id: string | null) => void",
+          "description": "Fires from the row, the arrows, the back swipe or the action that opened or closed a thread."
+        },
+        {
+          "name": "account",
+          "type": "MailPerson",
+          "defaultValue": "defaultMailClientAccount",
+          "description": "Whose mail it is: shown at the head of the mailboxes, and the sender of replies."
+        },
+        {
+          "name": "storage",
+          "type": "{ used: number; total: number }",
+          "defaultValue": "{ used: 6.2e9, total: 15e9 }",
+          "description": "The mailbox's storage in bytes, for the meter under the mailboxes."
+        },
+        {
+          "name": "now",
+          "type": "Date | number",
+          "defaultValue": "defaultMailClientNow",
+          "description": "The moment times are read against, so server and browser agree."
+        },
+        {
+          "name": "zoneOffset",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Minutes east of UTC that times are shown in."
+        },
+        {
+          "name": "onSend",
+          "type": "(draft: MailDraft) => void",
+          "description": "A reply (with its threadId) or a new message from Compose was sent."
+        },
+        {
+          "name": "onArchive",
+          "type": "(ids: string[]) => void",
+          "description": "Threads sent to the archive, from the list or the reading pane."
+        },
+        {
+          "name": "onSnooze",
+          "type": "(ids: string[], until: number) => void",
+          "description": "Threads snoozed, and until when (epoch ms)."
+        },
+        {
+          "name": "onDelete",
+          "type": "(ids: string[]) => void",
+          "description": "Threads deleted, once the bin's undo window ran out."
+        },
+        {
+          "name": "onStarChange",
+          "type": "(id: string, starred: boolean) => void",
+          "description": "A thread was starred or unstarred."
+        },
+        {
+          "name": "onReadChange",
+          "type": "(ids: string[], unread: boolean) => void",
+          "description": "Threads marked read by opening them, or unread from the list or the pane."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Loading draws placeholder rows; error offers Retry."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Retry was pressed after the mail failed to load."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Mail\"",
+          "description": "The screen's accessible name."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play the slides, stars and sends, only for the visitor's own actions; the list and the bin play theirs too."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Read only: nothing can be moved, sent or deleted."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the root. It is 560px tall by default; pass a height class to change it."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: / goes to search and c to Compose from anywhere outside a field; the list keeps mail-inbox's keys (j k move, Enter opens, x selects, e archives, b snoozes, s stars, u unread, z undo); Escape closes the reading pane on a wide screen and goes back a screen on a phone, as does Alt+←. Compose and the drawer trap focus and give it back when they close.",
+        "Layout follows the component's own width: a stack of Mailboxes, Inbox and Message below 640px, three panes from 640px, a wider list from 1040px. `folders` only changes the wide layouts; a phone always stacks.",
+        "The list is mail-inbox held to its list: the screen hands it the filtered threads (search and label), merges its changes back by id, and keeps `open` itself so an opened row goes to the reading pane. Install mail-inbox and bin-lid with it.",
+        "Archiving, snoozing or deleting from the reading pane opens the next thread on a wide screen and returns to the list on a phone. Delete is bin-lid: `onDelete` only fires once its undo ring has drained.",
+        "Under reduced motion screens, the drawer and compose cross-fade, the edge swipe is off (Back, Alt+← and Escape remain), and messages fade in place, while counts, stars, read state and toasts still change."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json",
+        "https://www.kinetiqui.com/r/bin-lid.json",
+        "https://www.kinetiqui.com/r/mail-inbox.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/mail-client",
+      "registryItemUrl": "https://www.kinetiqui.com/r/mail-client.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/mail-client",
+        "npm": "npx shadcn@latest add @kinetiq/mail-client",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/mail-client",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/mail-client",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/mail-client.json"
+      }
+    },
+    {
+      "slug": "music-app",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Music App",
+      "serial": "KQ-1343",
+      "tagline": "Library, now playing, queue.",
+      "description": "A complete music screen built with repeat-coil, mute-cone and follow-knot: a library of procedural covers and album pages that push in on glide, and a mini player (a bar, a pill or a corner card) that is one shared surface with the full player, growing from its box to the whole screen while the cover becomes the disc's label and the title and Play travel, all on glide; a downward drag on the grab bar follows 1:1 and, projected past a third of the height, folds it back. The disc (a record, a silver disc, or a sleeve the record slides half out of on glide) spins up like a motor on Play and coasts down under friction on Pause, its angle and the playing position integrated by one frame loop that runs only while something moves and the screen is visible; Up next follows a dragged row 1:1 while the others glide out of its way and settle it with its release velocity. The scrubber is a slider (arrows 5 s, Page keys 30 s, Home and End), the queue is one tab stop (arrows move, Alt+arrows reorder, Enter plays, Delete removes), and Escape closes the queue sheet, then the player.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "music",
+        "player",
+        "now playing",
+        "queue",
+        "vinyl",
+        "mini player",
+        "screen"
+      ],
+      "props": [
+        {
+          "name": "disc",
+          "type": "\"vinyl\" | \"cd\" | \"cover\"",
+          "defaultValue": "\"vinyl\"",
+          "description": "The turning artwork in the player: a record under a fixed sheen with the cover as its label, a silver disc printed with the cover, or the square sleeve with the record sliding half out of it while it plays."
+        },
+        {
+          "name": "queue",
+          "type": "\"panel\" | \"sheet\"",
+          "defaultValue": "\"panel\"",
+          "description": "Where Up next lives: a panel beside the library on desktop and beside the player on tablet, or a sheet behind a button. A phone always uses the sheet."
+        },
+        {
+          "name": "mini",
+          "type": "\"bar\" | \"pill\" | \"card\"",
+          "defaultValue": "\"bar\"",
+          "description": "The mini player's shape, and the shape the full player grows from: a bar along the bottom with a progress line, a floating pill with a progress ring, or a card in the corner."
+        },
+        {
+          "name": "albums",
+          "type": "MusicAlbum[]",
+          "defaultValue": "defaultMusicAlbums",
+          "description": "The library: albums with an artist, a year, procedural cover art and their tracks."
+        },
+        {
+          "name": "track / defaultTrack",
+          "type": "string",
+          "defaultValue": "the first album's first track",
+          "description": "The current track's id. Controlled or uncontrolled."
+        },
+        {
+          "name": "onTrackChange",
+          "type": "(id: string) => void",
+          "description": "Fires from the press, the queue or the end of a track that moved to another."
+        },
+        {
+          "name": "playing / defaultPlaying",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Whether it is playing. Nothing plays until asked. Controlled or uncontrolled."
+        },
+        {
+          "name": "onPlayingChange",
+          "type": "(playing: boolean) => void",
+          "description": "Play or Pause was pressed, or the queue ran out."
+        },
+        {
+          "name": "upNext / defaultUpNext",
+          "type": "string[]",
+          "defaultValue": "defaultMusicUpNext",
+          "description": "The queue after the current track, as track ids. Controlled or uncontrolled."
+        },
+        {
+          "name": "onUpNextChange",
+          "type": "(ids: string[]) => void",
+          "description": "Fires from the drag, key, remove, clear, shuffle or track change that changed the queue."
+        },
+        {
+          "name": "expanded / defaultExpanded",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Whether the full player is open. Controlled or uncontrolled."
+        },
+        {
+          "name": "onExpandedChange",
+          "type": "(expanded: boolean) => void",
+          "description": "The mini player was pressed, or the player was closed by its button, a downward drag or Escape."
+        },
+        {
+          "name": "repeat / defaultRepeat",
+          "type": "\"off\" | \"all\" | \"one\"",
+          "defaultValue": "\"off\"",
+          "description": "Repeat mode, shown by repeat-coil. Controlled or uncontrolled."
+        },
+        {
+          "name": "onRepeatChange",
+          "type": "(mode: RepeatMode) => void",
+          "description": "The repeat button changed mode."
+        },
+        {
+          "name": "volume / defaultVolume",
+          "type": "number",
+          "defaultValue": "70",
+          "description": "Volume 0 to 100, shown and set by mute-cone. Controlled or uncontrolled."
+        },
+        {
+          "name": "onVolumeChange",
+          "type": "(volume: number) => void",
+          "description": "The volume was dragged or keyed."
+        },
+        {
+          "name": "muted / defaultMuted",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Whether it is muted. Controlled or uncontrolled."
+        },
+        {
+          "name": "onMutedChange",
+          "type": "(muted: boolean) => void",
+          "description": "Mute was toggled."
+        },
+        {
+          "name": "following / defaultFollowing",
+          "type": "string[]",
+          "defaultValue": "[\"Coldbrook Quartet\"]",
+          "description": "The artists the listener follows, by name, toggled with follow-knot on album pages. Controlled or uncontrolled."
+        },
+        {
+          "name": "onFollowingChange",
+          "type": "(artists: string[]) => void",
+          "description": "An artist was followed or unfollowed."
+        },
+        {
+          "name": "defaultPosition",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Where the first track starts, in seconds."
+        },
+        {
+          "name": "onSeek",
+          "type": "(seconds: number) => void",
+          "description": "The visitor moved the playhead: a scrub, a press on the track, a key, or Previous."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Loading draws placeholder covers; error offers Try again."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after the library failed to load."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Music\"",
+          "description": "The screen's accessible name."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play the presses, the ticks of a scrub and the queue, only for the visitor's own actions; the composed pieces play theirs too."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Nothing plays, moves or opens."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the root. It is 560px tall by default; pass a height class to change it."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the full player is a dialog within the screen (focus moves in, Tab cycles, Escape closes the queue sheet and then the player, focus returns to the mini player); the scrubber is a slider (arrows 5 s, Page Up and Page Down 30 s, Home and End); Up next is one tab stop whose arrows move, Alt+arrows reorder, Enter plays and Delete removes, each move announced.",
+        "Playback is simulated, with no audio: the position advances from one frame loop that also turns the disc, and it runs only while playing (or while the disc coasts down), while the screen is on screen and the page is visible. The position is reported only when the visitor moves it (`onSeek`); a track that ends moves on through the queue, honouring repeat.",
+        "Layout follows the component's own width: two-column covers and a stacked player below 640px; from 640px the player lays its disc beside the controls when it has 560px, and with `queue=\"panel\"` Up next sits beside the player, and from 1040px beside the library too.",
+        "Under reduced motion the player cross-fades in and out instead of growing, the disc stands still, the sleeve's record is simply out, and queue rows swap at once; the time, the progress, the bars and every count still move.",
+        "Composes repeat-coil, mute-cone and follow-knot; install them with it. Covers are procedural pigments turned from the accent's hue, so they read in both themes without image files."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json",
+        "https://www.kinetiqui.com/r/follow-knot.json",
+        "https://www.kinetiqui.com/r/mute-cone.json",
+        "https://www.kinetiqui.com/r/repeat-coil.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/music-app",
+      "registryItemUrl": "https://www.kinetiqui.com/r/music-app.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/music-app",
+        "npm": "npx shadcn@latest add @kinetiq/music-app",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/music-app",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/music-app",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/music-app.json"
+      }
+    },
+    {
+      "slug": "bank-app",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Bank App",
+      "serial": "KQ-1344",
+      "tagline": "Money, made calm.",
+      "description": "A complete mobile banking home framed as a phone: a balance card whose digits are wheels that roll down into dots on snap (or frost over, or are wiped out by a bar on glide) when the composed eye shuts, quick actions, a day-grouped activity list that filters with rows closing up on glide, a detail screen pushed on glide and dragged back 1:1 with a projected release, and a send sheet with an amount pad whose characters rise in on snap, with the composed settle button as Send. Wide, the phone unfolds into two panes. Rows rove with the arrow keys, Escape steps back, the sheet is a trapped dialog that digits type into from anywhere.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "banking",
+        "wallet",
+        "balance",
+        "send money",
+        "amount pad",
+        "transactions",
+        "mobile screen"
+      ],
+      "props": [
+        {
+          "name": "account",
+          "type": "BankAccount",
+          "defaultValue": "defaultBankAccount",
+          "description": "The account on the card: name, last four digits, opening balance and currency. The balance shown is the opening figure plus every transaction in the list."
+        },
+        {
+          "name": "transactions / defaultTransactions",
+          "type": "BankTransaction[]",
+          "defaultValue": "— / defaultBankTransactions",
+          "description": "The account's activity, any order; shown newest first, grouped by day."
+        },
+        {
+          "name": "onTransactionsChange",
+          "type": "(transactions: BankTransaction[]) => void",
+          "description": "Fires with every transaction once a payment made in the sheet has landed."
+        },
+        {
+          "name": "contacts",
+          "type": "BankContact[]",
+          "defaultValue": "defaultBankContacts",
+          "description": "Who money can be sent to or asked from."
+        },
+        {
+          "name": "owner",
+          "type": "string",
+          "defaultValue": "\"Ada\"",
+          "description": "The first name in the greeting."
+        },
+        {
+          "name": "bank",
+          "type": "string",
+          "defaultValue": "\"Coldbrook Bank\"",
+          "description": "The bank's name, over the greeting and in the accessible name."
+        },
+        {
+          "name": "now",
+          "type": "Date | number",
+          "defaultValue": "defaultBankNow",
+          "description": "The current moment: the status bar's clock, Today and Yesterday."
+        },
+        {
+          "name": "zoneOffset",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Minutes east of UTC that times are shown in, so server and browser agree."
+        },
+        {
+          "name": "hidden / defaultHidden",
+          "type": "boolean",
+          "defaultValue": "— / false",
+          "description": "Privacy: true hides the balance."
+        },
+        {
+          "name": "onHiddenChange",
+          "type": "(hidden: boolean) => void",
+          "description": "Fires from the eye that hid or showed the balance."
+        },
+        {
+          "name": "balance",
+          "type": "\"roll\" | \"frost\" | \"redact\"",
+          "defaultValue": "\"roll\"",
+          "description": "How the balance hides: its digits roll down into dots, frost over, or a bar wipes across them."
+        },
+        {
+          "name": "sheet",
+          "type": "\"bottom\" | \"full\" | \"float\"",
+          "defaultValue": "\"bottom\"",
+          "description": "How the send sheet presents: rising while home recedes behind it, covering the screen, or as a floating card."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"cozy\" | \"roomy\"",
+          "defaultValue": "\"cozy\"",
+          "description": "Row height 48, 56 or 64px, with avatars, paddings and the balance to match."
+        },
+        {
+          "name": "onSend",
+          "type": "(payment: BankPayment) => Promise<unknown> | unknown",
+          "description": "Sends, requests or adds the money. A returned promise holds the button until it settles; a rejection leaves the sheet open on Retry."
+        },
+        {
+          "name": "onTransactionOpen",
+          "type": "(id: string | null) => void",
+          "description": "A transaction's detail opened (its id) or closed (null)."
+        },
+        {
+          "name": "locale",
+          "type": "string",
+          "defaultValue": "\"en-US\"",
+          "description": "The locale for amounts."
+        },
+        {
+          "name": "format",
+          "type": "(amount: number, currency: string) => string",
+          "defaultValue": "Intl.NumberFormat",
+          "description": "Formats an amount (always positive) for the card, the rows and the sheet."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the activity has arrived: skeleton rows, or a message with Try again."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after the activity failed to load."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "bank",
+          "description": "The screen's accessible name."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play the pad's ticks and the navigation; the composed eye and Send button play their own."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Greys the screen out and makes it inert."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the outer wrapper."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: Tab reaches the eye, the three actions, the filter (arrows choose) and the activity, whose rows rove with Up, Down, Home and End; Enter opens a row and its heading takes focus. Escape or Back returns focus to the row.",
+        "The send sheet is a modal dialog with a trapped Tab: digits, the decimal point and Backspace type into the amount from anywhere in it, the pad is one tab stop that arrows move through, and Escape closes it and hands focus back to the button that opened it.",
+        "The balance is account.opening plus the list (pending credits excluded), so a host that controls transactions only has to append the new one in onTransactionsChange for the balance to roll.",
+        "Reduced motion: the wheels swap, frost and redact appear by opacity, the detail and the sheet cross-fade in place, and a refused key flashes the figure in danger instead of shaking; every amount still changes and is announced.",
+        "It lays out by its own width: a 360px phone below 640px, and above it the phone unfolds into two panes, home and the month's summary or the chosen transaction."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json",
+        "https://www.kinetiqui.com/r/eye-lid.json",
+        "https://www.kinetiqui.com/r/settle-button.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/bank-app",
+      "registryItemUrl": "https://www.kinetiqui.com/r/bank-app.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/bank-app",
+        "npm": "npx shadcn@latest add @kinetiq/bank-app",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/bank-app",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/bank-app",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/bank-app.json"
+      }
+    },
+    {
+      "slug": "project-tracker",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Project Tracker",
+      "serial": "KQ-1345",
+      "tagline": "Plan it, board it, ship it.",
+      "description": "A complete project screen: a projects sidebar with the composed pin, a view switch whose thumb slides on snap, and the tasks as a list, a board or a timeline — switching is one morph, each task's plate gliding from row to card to date bar on glide while its title glides without stretching. Board cards are carried 1:1 to another column and fly into their slot; timeline bars slide along their row and land on the projected day on snap with the release velocity. A task opens in a drawer (over, pushing or rising) with every field editable and the composed watch and delete buttons; arrows rove the tasks, Shift with Left or Right moves a card a column or a bar's due date, Space ticks, Escape closes.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "project management",
+        "kanban",
+        "timeline",
+        "gantt",
+        "tasks",
+        "view switch",
+        "drawer"
+      ],
+      "props": [
+        {
+          "name": "projects",
+          "type": "TrackerProject[]",
+          "defaultValue": "defaultTrackerProjects",
+          "description": "The projects in the sidebar: id, name and the three-letter key that prefixes task numbers."
+        },
+        {
+          "name": "people",
+          "type": "TrackerPerson[]",
+          "defaultValue": "defaultTrackerPeople",
+          "description": "Everyone a task can be assigned to."
+        },
+        {
+          "name": "tasks / defaultTasks",
+          "type": "TrackerTask[]",
+          "defaultValue": "— / defaultTrackerTasks",
+          "description": "Every project's tasks: status, priority, assignee, start and due dates, tag, description, subtasks and watchers."
+        },
+        {
+          "name": "onTasksChange",
+          "type": "(tasks: TrackerTask[]) => void",
+          "description": "Fires with every task after any change: a status, a drop, a date, an edit, a new task or a deletion."
+        },
+        {
+          "name": "project / defaultProject",
+          "type": "string",
+          "defaultValue": "— / first project",
+          "description": "The project on screen."
+        },
+        {
+          "name": "onProjectChange",
+          "type": "(id: string) => void",
+          "description": "Fires from the sidebar row or key that chose a project."
+        },
+        {
+          "name": "view / defaultView",
+          "type": "\"list\" | \"board\" | \"timeline\"",
+          "defaultValue": "— / \"list\"",
+          "description": "The tasks as a list grouped by status, a board of status columns, or bars on a timeline."
+        },
+        {
+          "name": "onViewChange",
+          "type": "(view: TrackerView) => void",
+          "description": "Fires from the view switch with the new view."
+        },
+        {
+          "name": "task / defaultTask",
+          "type": "string | null",
+          "defaultValue": "— / null",
+          "description": "The task open in the drawer; null closes it."
+        },
+        {
+          "name": "onTaskChange",
+          "type": "(id: string | null) => void",
+          "description": "Fires from the row, card, bar or key that opened a task, and with null when the drawer closes."
+        },
+        {
+          "name": "pinned / defaultPinned",
+          "type": "string[]",
+          "defaultValue": "— / [\"field\"]",
+          "description": "Pinned project ids, shown first in the sidebar."
+        },
+        {
+          "name": "onPinnedChange",
+          "type": "(ids: string[]) => void",
+          "description": "Fires from the pin with every pinned id."
+        },
+        {
+          "name": "onTaskCreate",
+          "type": "(task: TrackerTask) => void",
+          "description": "A task was made with New task."
+        },
+        {
+          "name": "onTaskUpdate",
+          "type": "(task: TrackerTask, previous: TrackerTask) => void",
+          "description": "A task changed, with what it was before."
+        },
+        {
+          "name": "onTaskDelete",
+          "type": "(task: TrackerTask) => void",
+          "description": "A task was deleted, after its undo window."
+        },
+        {
+          "name": "now",
+          "type": "Date | number",
+          "defaultValue": "defaultTrackerNow",
+          "description": "Today: the timeline's line, and what is due or late."
+        },
+        {
+          "name": "drawer",
+          "type": "\"overlay\" | \"push\" | \"sheet\"",
+          "defaultValue": "\"overlay\"",
+          "description": "How the task drawer presents: over the work from the right, pushing the work aside, or rising from the bottom."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"cozy\" | \"roomy\"",
+          "defaultValue": "\"cozy\"",
+          "description": "Row height 32, 40 or 48px, with card padding and the timeline's rows and days to match."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the tasks have arrived: skeleton rows, or a message with Try again."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after the tasks failed to load."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Project tracker\"",
+          "description": "The screen's accessible name."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play the swishes and clicks; the composed pin, watch and delete buttons play their own."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Greys the screen out and makes it inert."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the screen's frame."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the sidebar rows rove with Up and Down; the view switch is a radiogroup. In every view one task is the tab stop: arrows move between tasks (Left and Right cross board columns), Enter opens the drawer and its title field takes focus.",
+        "Every pointer move has a key: Space ticks a list task, Shift with Left or Right moves a board card a column, Left and Right move a timeline bar a day and Shift with them changes its due date. Each change is announced once.",
+        "The drawer is a modal dialog with a trapped Tab for overlay and sheet, and a non-modal region for push (which acts as overlay below 640px). Escape closes it and focus goes back to the task, or to the first task left after a delete.",
+        "Reduced motion: no plate travels — each view fades in with every task in place, drags still follow the pointer but land at once, and the drawer and the phone screens cross-fade.",
+        "Deleting runs through the composed delete button's undo window; closing the drawer during the window deletes at once, since the undo is no longer on screen."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json",
+        "https://www.kinetiqui.com/r/bin-lid.json",
+        "https://www.kinetiqui.com/r/follow-knot.json",
+        "https://www.kinetiqui.com/r/pin-press.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/project-tracker",
+      "registryItemUrl": "https://www.kinetiqui.com/r/project-tracker.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/project-tracker",
+        "npm": "npx shadcn@latest add @kinetiq/project-tracker",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/project-tracker",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/project-tracker",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/project-tracker.json"
+      }
+    },
+    {
+      "slug": "analytics-console",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Analytics Console",
+      "serial": "KQ-1346",
+      "tagline": "The numbers, arranged.",
+      "description": "A complete store analytics screen where every panel reads one query — store, window and filters. Change the period on the composed KPI panel, or brush its chart, and the console moves in one beat: source bars glide to new lengths in cascade on glide while their figures count, the device split re-divides, countries re-rank by gliding to new rows, the hours heatmap re-tints on a diagonal wave, and the composed pages table refetches into its own cascade. The four charts re-arrange per grid and width on glide; filter chips open real menus (arrows, Enter, Escape back to the chip) and below 900px the stores fold into a draggable drawer.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "analytics",
+        "dashboard",
+        "kpi",
+        "filters",
+        "charts",
+        "heatmap",
+        "top pages"
+      ],
+      "props": [
+        {
+          "name": "sites",
+          "type": "ConsoleSite[]",
+          "defaultValue": "defaultConsoleSites",
+          "description": "The stores in the sidebar: id, name and host."
+        },
+        {
+          "name": "site / defaultSite",
+          "type": "string",
+          "defaultValue": "— / first store",
+          "description": "The store on screen."
+        },
+        {
+          "name": "onSiteChange",
+          "type": "(id: string) => void",
+          "description": "Fires from the sidebar row or key that chose a store."
+        },
+        {
+          "name": "views",
+          "type": "ConsoleView[]",
+          "defaultValue": "defaultConsoleViews",
+          "description": "Saved sets of filters in the sidebar; a press applies one at once."
+        },
+        {
+          "name": "dimensions",
+          "type": "ConsoleDimension[]",
+          "defaultValue": "defaultConsoleDimensions",
+          "description": "What the filters bar can split by: device, channel and country, each with its options and shares."
+        },
+        {
+          "name": "filters / defaultFilters",
+          "type": "ConsoleFilters",
+          "defaultValue": "— / {}",
+          "description": "A dimension's id to the option chosen for it; absent means all."
+        },
+        {
+          "name": "onFiltersChange",
+          "type": "(filters: ConsoleFilters) => void",
+          "description": "Fires from the chip, view or Clear that changed the filters."
+        },
+        {
+          "name": "range / defaultRange",
+          "type": "\"7d\" | \"30d\" | \"90d\" | \"1y\"",
+          "defaultValue": "— / \"30d\"",
+          "description": "The period: the last 7, 30 or 90 days, or the last year."
+        },
+        {
+          "name": "onRangeChange",
+          "type": "(range: ConsoleRange) => void",
+          "description": "Fires from the KPI panel's period switch with the new period."
+        },
+        {
+          "name": "onWindowChange",
+          "type": "(window: ConsoleWindow) => void",
+          "description": "Fires whenever the window changes: a period, a brush zoom on the chart or its reset."
+        },
+        {
+          "name": "data",
+          "type": "(query: ConsoleQuery) => ConsoleData",
+          "defaultValue": "defaultConsoleData",
+          "description": "Answers a store, a window of days and filters with the KPI series, the breakdowns, the window's bars and hours, and its top pages."
+        },
+        {
+          "name": "now",
+          "type": "Date | number",
+          "defaultValue": "defaultConsoleNow",
+          "description": "The last day of data."
+        },
+        {
+          "name": "grid",
+          "type": "\"bento\" | \"even\" | \"stack\"",
+          "defaultValue": "\"bento\"",
+          "description": "How the four charts are arranged: one doubled up, evenly, or one under another."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"regular\" | \"roomy\"",
+          "defaultValue": "\"regular\"",
+          "description": "The table's rows (32, 40 or 48px), the panels' padding, the bars and the gaps."
+        },
+        {
+          "name": "locale",
+          "type": "string",
+          "defaultValue": "\"en-US\"",
+          "description": "The locale for numbers and money."
+        },
+        {
+          "name": "currency",
+          "type": "string",
+          "defaultValue": "\"USD\"",
+          "description": "The currency for money."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the numbers have arrived: skeletons everywhere, or a message with Try again."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after the numbers failed to load."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Analytics\"",
+          "description": "The console's accessible name."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play the ticks and swishes; the composed KPI panel and table play their own."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Greys the console out and makes it inert."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the console's frame."
+        }
+      ],
+      "usageNotes": [
+        "Everything reads one query, so a host only answers data(query): metrics and breakdowns are whole daily series (the KPI panel windows them), everything else is for the window it is asked about. Memoise it if it is expensive; it is called again when the store, window or filters change.",
+        "Keyboard: filter chips open a menu with Enter or Down; arrows, Home and End move, Enter chooses, Escape closes and returns focus to the chip. Stores and saved views rove with Up and Down. The KPI panel's period switch and chart keys (arrows, Shift to brush, Enter to zoom) drive the whole console.",
+        "Below 900px the stores fold into a modal drawer that can be dragged back out; Escape or Close returns focus to the menu button.",
+        "Reduced motion: bars, splits and tints take their new values at once behind a short fade, figures swap without counting, panels reflow in place, and the drawer and menus fade; every number still changes and each new query is announced once."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json",
+        "https://www.kinetiqui.com/r/data-grid.json",
+        "https://www.kinetiqui.com/r/pulse-dashboard.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/analytics-console",
+      "registryItemUrl": "https://www.kinetiqui.com/r/analytics-console.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/analytics-console",
+        "npm": "npx shadcn@latest add @kinetiq/analytics-console",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/analytics-console",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/analytics-console",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/analytics-console.json"
+      }
+    },
+    {
+      "slug": "team-chat",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Team Chat",
+      "serial": "KQ-1347",
+      "tagline": "Channels, threads, people.",
+      "description": "A complete team chat screen built around three Studio toggles: channels whose current pill travels on snap, a message stream whose action bar rises 4px on snap with pin-press in it, drawn reactions that hop and land on recoil while a ring flares and the count rolls, and a thread panel that arrives on glide — docked, over the stream or pushed — with its replies cascading in and follow-knot in its header, while mute-cone mutes the channel. Below 640px the panes become a stack whose pushes slide on glide and whose left edge takes a 1:1 back-swipe that commits by projection. Up and Down walk the messages, Enter opens a thread, Alt+Up and Alt+Down switch channel, and Escape closes the thread or goes back.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "chat",
+        "team chat",
+        "channels",
+        "threads",
+        "reactions",
+        "presence",
+        "screen"
+      ],
+      "props": [
+        {
+          "name": "thread",
+          "type": "\"dock\" | \"overlay\" | \"full\"",
+          "defaultValue": "\"dock\"",
+          "description": "How the thread panel arrives on wide screens: docked beside the stream (which narrows, and on a tablet the channel list folds to a rail), over it above a scrim as a modal dialog, or pushed like a phone screen. A phone always pushes."
+        },
+        {
+          "name": "presence",
+          "type": "\"dot\" | \"ring\" | \"off\"",
+          "defaultValue": "\"dot\"",
+          "description": "How presence is drawn on avatars: a corner dot, a ring, or not drawn. It is always spoken, and the header still counts who is active."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"cozy\" | \"roomy\"",
+          "defaultValue": "\"cozy\"",
+          "description": "Avatar size, type and spacing in the stream; compact sets each run's name inline with its first line."
+        },
+        {
+          "name": "people",
+          "type": "ChatPerson[]",
+          "defaultValue": "defaultChatPeople",
+          "description": "Everyone in the workspace, with their presence and an optional status line."
+        },
+        {
+          "name": "me",
+          "type": "string",
+          "defaultValue": "\"noor\"",
+          "description": "The viewer's person id: the author of what they send and whose reactions show as theirs."
+        },
+        {
+          "name": "channels / defaultChannels",
+          "type": "ChatChannel[]",
+          "defaultValue": "defaultChatChannels",
+          "description": "Channels and direct messages in sidebar order, with unread and mention counts and muted state; controlled or uncontrolled."
+        },
+        {
+          "name": "onChannelsChange",
+          "type": "(channels: ChatChannel[]) => void",
+          "description": "Fires from the visit, mute or read that changed a channel, with all of them."
+        },
+        {
+          "name": "messages / defaultMessages",
+          "type": "ChatMessage[]",
+          "defaultValue": "defaultChatMessages",
+          "description": "Every channel's messages and thread replies as one flat list; a reply carries its parent's id."
+        },
+        {
+          "name": "onMessagesChange",
+          "type": "(messages: ChatMessage[]) => void",
+          "description": "Fires from the send, reaction or pin that changed the list, with all of it."
+        },
+        {
+          "name": "channel / defaultChannel",
+          "type": "string",
+          "defaultValue": "\"field-ops\", else the first",
+          "description": "The open channel's id."
+        },
+        {
+          "name": "onChannelChange",
+          "type": "(id: string) => void",
+          "description": "Fires from the row, Alt+arrow or phone push that opened a channel."
+        },
+        {
+          "name": "openThread / defaultOpenThread",
+          "type": "string | null",
+          "defaultValue": "null",
+          "description": "The open thread: its first message's id, or null."
+        },
+        {
+          "name": "onOpenThreadChange",
+          "type": "(id: string | null) => void",
+          "description": "Fires from Reply in thread, a thread summary, Enter on a message, Close, Back, Escape or the back-swipe."
+        },
+        {
+          "name": "following / defaultFollowing",
+          "type": "string[]",
+          "defaultValue": "[]",
+          "description": "The threads the viewer follows, by their first messages' ids."
+        },
+        {
+          "name": "onFollowingChange",
+          "type": "(ids: string[]) => void",
+          "description": "Fires from the thread's Follow button, or from a reply that followed the thread."
+        },
+        {
+          "name": "typing",
+          "type": "string[]",
+          "description": "Person ids writing in the open channel right now; shown over the composer with three dots that rest while the page is hidden."
+        },
+        {
+          "name": "now",
+          "type": "Date | number",
+          "defaultValue": "defaultTeamChatNow",
+          "description": "The moment day dividers are read against, and what a sent message is stamped with. Never read from the clock during render."
+        },
+        {
+          "name": "zoneOffset",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Minutes east of UTC that times are shown in, so server and browser agree."
+        },
+        {
+          "name": "workspace",
+          "type": "string",
+          "defaultValue": "\"Fieldline\"",
+          "description": "The workspace's name over the channel list."
+        },
+        {
+          "name": "onSend",
+          "type": "(message: ChatMessage) => void",
+          "description": "A message or thread reply was sent; it is already in the list."
+        },
+        {
+          "name": "onReact",
+          "type": "(messageId: string, kind: ChatReactionKind, added: boolean) => void",
+          "description": "The viewer added or took back a reaction."
+        },
+        {
+          "name": "onPinChange",
+          "type": "(messageId: string, pinned: boolean) => void",
+          "description": "A message was pinned or unpinned from its action bar."
+        },
+        {
+          "name": "onMuteChange",
+          "type": "(channelId: string, muted: boolean) => void",
+          "description": "The channel header's mute toggle changed."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Loading draws placeholder rows; error offers Try again."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed in the error state."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Team chat\"",
+          "description": "The screen's accessible name."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play a pop for reactions, sends and channel picks and a swish for threads and stack moves; the composed toggles play their own. Off unless asked for."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Read only: nothing can be sent, reacted to, pinned or muted."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the root. It is 560px tall by default; pass a height class to change it."
+        }
+      ],
+      "usageNotes": [
+        "Messages are a list of articles with one tab stop: Up and Down walk them, Home and End jump, Enter opens the message's thread, and Tab reaches its action bar (React, Reply in thread, Pin). The reaction picker is a menu: arrows move, Enter chooses, Escape returns focus to React.",
+        "Alt+Up and Alt+Down switch channel from anywhere; Escape closes the thread (in dock mode only when focus is inside it), and on a phone goes back a screen, as do Back and Alt+Left.",
+        "Under reduced motion nothing travels or hops: the thread panel and stack screens cross-fade, the channel pill jumps and the edge swipe is off, while counts, pins, mutes, unread state and the typing line all still change.",
+        "Data is flat and typed: pass people, channels and messages (replies carry `parent`) controlled or uncontrolled, and stream incoming messages by appending to `messages`; `typing` drives the typing line.",
+        "The screen measures its own width: below 640px it is a Channels → Channel → Thread stack, from 640px the channel list sits beside the stream, and from 1040px it widens to 232px with a 340px docked thread."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json",
+        "https://www.kinetiqui.com/r/follow-knot.json",
+        "https://www.kinetiqui.com/r/mute-cone.json",
+        "https://www.kinetiqui.com/r/pin-press.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/team-chat",
+      "registryItemUrl": "https://www.kinetiqui.com/r/team-chat.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/team-chat",
+        "npm": "npx shadcn@latest add @kinetiq/team-chat",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/team-chat",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/team-chat",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/team-chat.json"
+      }
+    },
+    {
+      "slug": "notes-app",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Notes App",
+      "serial": "KQ-1348",
+      "tagline": "Write it down, find it later.",
+      "description": "A complete notes screen built around block-editor, pin-press and bin-lid: tags whose current pill travels on snap, a list whose pinned note lifts on snap and glides to the top — under a Pinned heading or floated over the rest — while the rows between close the gap on glide, search that washes the words it found and grows from its magnifier on snap, and an editor that cross-fades in from 4px on glide with the note's own title and tags over the blocks. Deleting drops the note in the bin until its undo ring drains. Below 640px the list and the note become a stack whose pushes slide on glide and whose left edge takes a 1:1 back-swipe that commits by projection; the list is one tab stop with Up, Down, Home and End, slash searches, and Escape clears the search or goes back.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "notes",
+        "note taking",
+        "editor",
+        "search",
+        "tags",
+        "pin",
+        "screen"
+      ],
+      "props": [
+        {
+          "name": "pin",
+          "type": "\"section\" | \"float\" | \"off\"",
+          "defaultValue": "\"section\"",
+          "description": "Where pinned notes go: under a Pinned heading, floated to the top of one list with a pin glyph, or pinning is off (no pin button, plain recency order)."
+        },
+        {
+          "name": "search",
+          "type": "\"field\" | \"expand\" | \"off\"",
+          "defaultValue": "\"field\"",
+          "description": "How search lives over the list: an open field, a magnifier that grows into the field and folds back when emptied and left, or no search."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"cozy\" | \"roomy\"",
+          "defaultValue": "\"cozy\"",
+          "description": "Row height and how much each row says: title and date, one snippet line, or two lines and the tags."
+        },
+        {
+          "name": "notes / defaultNotes",
+          "type": "NoteRecord[]",
+          "defaultValue": "defaultNotes",
+          "description": "Every note: title, block-editor blocks, tags, pinned and when it was last edited."
+        },
+        {
+          "name": "onNotesChange",
+          "type": "(notes: NoteRecord[]) => void",
+          "description": "Fires from the edit, pin, tag, creation or deletion that changed the notes, with all of them."
+        },
+        {
+          "name": "note / defaultNote",
+          "type": "string | null",
+          "defaultValue": "the most recently edited",
+          "description": "The open note's id."
+        },
+        {
+          "name": "onNoteChange",
+          "type": "(id: string | null) => void",
+          "description": "Fires from the row, the new note or the deletion that changed the open note."
+        },
+        {
+          "name": "tag / defaultTag",
+          "type": "string | null",
+          "defaultValue": "null",
+          "description": "The tag the list is filtered to, or null for every note."
+        },
+        {
+          "name": "onTagChange",
+          "type": "(tag: string | null) => void",
+          "description": "Fires from the sidebar row or chip that changed the filter."
+        },
+        {
+          "name": "query / defaultQuery",
+          "type": "string",
+          "defaultValue": "\"\"",
+          "description": "The search text; it matches titles, every block and tags."
+        },
+        {
+          "name": "onQueryChange",
+          "type": "(query: string) => void",
+          "description": "Fires with every edit of the search field, Clear and Escape."
+        },
+        {
+          "name": "now",
+          "type": "Date | number",
+          "defaultValue": "defaultNotesNow",
+          "description": "The moment dates are read against, and what an edit is stamped with. Never read from the clock during render."
+        },
+        {
+          "name": "zoneOffset",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Minutes east of UTC that times are shown in, so server and browser agree."
+        },
+        {
+          "name": "onCreate",
+          "type": "(note: NoteRecord) => void",
+          "description": "A new note was made; it is already in the list and open with its title focused."
+        },
+        {
+          "name": "onDelete",
+          "type": "(note: NoteRecord) => void",
+          "description": "A note was thrown away, once its undo window ran out."
+        },
+        {
+          "name": "onPinChange",
+          "type": "(id: string, pinned: boolean) => void",
+          "description": "The editor's pin was pressed."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Loading draws placeholder rows and lines; error offers Try again."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed in the error state."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Notes\"",
+          "description": "The screen's accessible name."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play a tick for list steps and tag picks and a click for new notes, tags and screen moves; the composed pieces play their own. Off unless asked for."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Read only: nothing can be written, pinned, tagged or deleted."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the root. It is 560px tall by default; pass a height class to change it."
+        }
+      ],
+      "usageNotes": [
+        "The list is one tab stop: Up and Down move between notes, Home and End jump, Enter opens one; ArrowDown from the search field lands on the first result, and slash focuses search from anywhere that is not a field.",
+        "Escape clears the search, then folds an expanding search back to its magnifier; on a phone it goes back to the list, as do Back, Alt+Left and the edge swipe. The bin's own Escape undoes a deletion while its ring drains.",
+        "In the note, Enter in the title jumps into the body; the tag field takes Enter or a comma to add (words are lower-cased and joined with hyphens) and Backspace when empty to remove the last tag.",
+        "Under reduced motion rows swap places at once, the search field appears at its width, the editor and stack screens cross-fade, and every pin, tag, count and highlight still changes.",
+        "Notes are plain data: pass `notes` controlled and persist from `onNotesChange`; every edit stamps `updated` with `now`, which also orders the list, so a host that ticks `now` keeps edits honest."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json",
+        "https://www.kinetiqui.com/r/bin-lid.json",
+        "https://www.kinetiqui.com/r/block-editor.json",
+        "https://www.kinetiqui.com/r/pin-press.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/notes-app",
+      "registryItemUrl": "https://www.kinetiqui.com/r/notes-app.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/notes-app",
+        "npm": "npx shadcn@latest add @kinetiq/notes-app",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/notes-app",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/notes-app",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/notes-app.json"
+      }
+    },
+    {
+      "slug": "calendar-app",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Calendar App",
+      "serial": "KQ-1349",
+      "tagline": "Month, week, and the day ahead.",
+      "description": "A complete calendar screen built around week-planner and meeting-card: a month grid and the week that morph into each other — the week you are in is a row of the month, so Week grows that row to fill the grid on glide while the other weeks fold away, then the planner cross-fades in over it, and Month runs it back — with a view switch whose pill travels on snap, months that slide in from 16px, a sidebar of mini month, calendars and the day ahead, and an event drawer that docks on glide, slides over or rises as a sheet you can pull down 1:1. Everything is read against `now`. The month is a real grid: arrows, Home, End and Page keys move the day, Enter steps into its events and Escape steps back out.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "calendar",
+        "month view",
+        "week view",
+        "agenda",
+        "schedule",
+        "events",
+        "screen"
+      ],
+      "props": [
+        {
+          "name": "view / defaultView",
+          "type": "\"month\" | \"week\"",
+          "defaultValue": "\"month\"",
+          "description": "The month, or the focused day's week; changing it runs the morph."
+        },
+        {
+          "name": "onViewChange",
+          "type": "(view: CalendarView) => void",
+          "description": "Fires from the switch, a day's number or Show in week."
+        },
+        {
+          "name": "drawer",
+          "type": "\"side\" | \"over\" | \"sheet\"",
+          "defaultValue": "\"side\"",
+          "description": "How the event drawer arrives: docked at the right (the calendar narrows), over the calendar above a scrim, or as a sheet from the bottom that pulls down. A phone always uses the sheet."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"cozy\" | \"roomy\"",
+          "defaultValue": "\"cozy\"",
+          "description": "Month chips (two plain, three with times on wide grids, or three filled) and week-planner's hour height."
+        },
+        {
+          "name": "events / defaultEvents",
+          "type": "CalendarEvent[]",
+          "defaultValue": "defaultCalendarEvents",
+          "description": "Week-planner events with optional attendees, agenda and notes; an event with attendees opens as a meeting card."
+        },
+        {
+          "name": "onEventsChange",
+          "type": "(events: CalendarEvent[]) => void",
+          "description": "Fires from the drag, edit, creation or deletion that changed the events, with all of them."
+        },
+        {
+          "name": "calendars",
+          "type": "WeekCalendar[]",
+          "defaultValue": "defaultCalendarCalendars",
+          "description": "The calendars events belong to, with their tints (CSS colours, never hex)."
+        },
+        {
+          "name": "hidden / defaultHidden",
+          "type": "string[]",
+          "defaultValue": "[]",
+          "description": "Calendar ids whose events are hidden everywhere."
+        },
+        {
+          "name": "onHiddenChange",
+          "type": "(ids: string[]) => void",
+          "description": "Fires from the calendar checkboxes."
+        },
+        {
+          "name": "day / defaultDay",
+          "type": "Date | number",
+          "defaultValue": "the day of `now`",
+          "description": "The focused day: the month and the week shown, and the day the agenda reads."
+        },
+        {
+          "name": "onDayChange",
+          "type": "(day: number) => void",
+          "description": "Fires with the new day's midnight from the grid, the mini month, the arrows, Today or the planner."
+        },
+        {
+          "name": "selected / defaultSelected",
+          "type": "string | null",
+          "defaultValue": "null",
+          "description": "The event in the drawer, or null for a closed drawer."
+        },
+        {
+          "name": "onSelectedChange",
+          "type": "(id: string | null) => void",
+          "description": "Fires from a chip, an agenda row, a planner event, Close, Escape, the scrim or the pull."
+        },
+        {
+          "name": "now",
+          "type": "Date | number",
+          "defaultValue": "defaultCalendarNow",
+          "description": "The current moment: today, the now line, the agenda's Now and countdowns, and the meeting card's ring. Never read from the clock during render."
+        },
+        {
+          "name": "zoneOffset",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Minutes east of UTC that dates and times are drawn in, so server and browser agree."
+        },
+        {
+          "name": "weekStartsOn",
+          "type": "0 | 1",
+          "defaultValue": "1",
+          "description": "1 starts weeks on Monday, 0 on Sunday."
+        },
+        {
+          "name": "onCreate",
+          "type": "(event: CalendarEvent) => void",
+          "description": "An event was drawn or added in the week."
+        },
+        {
+          "name": "onDelete",
+          "type": "(event: CalendarEvent) => void",
+          "description": "An event was deleted from the drawer or the week."
+        },
+        {
+          "name": "onJoinedChange",
+          "type": "(id: string, joined: boolean) => void",
+          "description": "The viewer joined or left a meeting from its card."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Loading draws placeholder chips; error offers Try again."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed in the error state."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Calendar\"",
+          "description": "The screen's accessible name."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play a swish for the morph, the drawer and the sidebar and a tick for each step of the day cursor; the composed pieces play their own. Off unless asked for."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Read only: nothing can be moved, made or deleted."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the root. It is 560px tall by default; pass a height class to change it."
+        }
+      ],
+      "usageNotes": [
+        "The month is one tab stop: arrows move a day or a week, Home and End go to the week's ends, Page Up and Page Down change month, Enter steps into the day's events (Up and Down walk them, Enter opens one) and Escape steps back to the day. The view switch is a radio group; arrows flip it.",
+        "The drawer is a dialog in over and sheet modes, trapping focus; focus moves to its heading and back to the chip, row or planner event that opened it, and Escape, Close and the scrim shut it. The sheet's handle pulls it down 1:1 and a release past 40% or a flick closes it.",
+        "Under reduced motion the morph is a cross-fade with no rows growing, the drawers and sidebar fade in place and the sheet does not follow a drag, while every date, chip, count and countdown still changes.",
+        "Hiding a calendar filters it from the month, the week, the mini month's dots and the agenda; week-planner's changes are merged back by id so the hidden events and any attendees or notes survive an edit.",
+        "Below 640px the sidebar becomes a drawer, the month shows dots with the focused day's agenda under it, and the week is week-planner's one-day mode; from 1040px the sidebar is docked."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json",
+        "https://www.kinetiqui.com/r/meeting-card.json",
+        "https://www.kinetiqui.com/r/week-planner.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/calendar-app",
+      "registryItemUrl": "https://www.kinetiqui.com/r/calendar-app.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/calendar-app",
+        "npm": "npx shadcn@latest add @kinetiq/calendar-app",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/calendar-app",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/calendar-app",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/calendar-app.json"
+      }
+    },
+    {
+      "slug": "storefront",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Storefront",
+      "serial": "KQ-1350",
+      "tagline": "A shop that wants to be browsed.",
+      "description": "A complete store home built around cart-drawer, product-grid and product-detail: the whole store is the bag's page, so the bag slides over it on glide and pulls shut; a hero, a category rail and product rails that scroll-snap and glide a page at a time; a category, a card or See all pushes product-grid's shelf in from the right on glide, and the hero pushes product-detail's page. Quick add throws a dot in the product's glaze to the bag on a true arc — x steady, y thrown up and falling — and when it lands the badge bumps on recoil, its count rolls and the button draws a check on flick. Rails take Left, Right, Home and End, pushed screens go back with Back, Alt+Left, Escape or a 1:1 swipe from their left edge that commits by projection.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "store",
+        "shop",
+        "ecommerce",
+        "product rails",
+        "quick add",
+        "cart",
+        "screen"
+      ],
+      "props": [
+        {
+          "name": "rails",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "How many collections show as rails on the home, 1 to 3."
+        },
+        {
+          "name": "hero",
+          "type": "\"banner\" | \"split\" | \"off\"",
+          "defaultValue": "\"banner\"",
+          "description": "The hero: a banner with the copy over the still life, a split with the copy beside it (a banner on a phone), or none, so the category rail leads."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"regular\" | \"roomy\"",
+          "defaultValue": "\"regular\"",
+          "description": "Rail card widths (132, 160 or 196px; narrower on a phone) and how much each says — price only, a rating, or the rating and its glazes; also the shelf's density."
+        },
+        {
+          "name": "products",
+          "type": "ProductGridItem[]",
+          "defaultValue": "defaultProducts",
+          "description": "The catalogue, in product-grid's shape: categories come from it and every rail, tile and shelf reads it."
+        },
+        {
+          "name": "colors",
+          "type": "ProductGridColor[]",
+          "defaultValue": "defaultProductColors",
+          "description": "The glazes products come in, as pigments that read in both themes."
+        },
+        {
+          "name": "collections",
+          "type": "StoreCollection[]",
+          "defaultValue": "defaultStoreCollections",
+          "description": "The rails in order: a title, a line, product ids, and how See all sorts and filters the shelf."
+        },
+        {
+          "name": "featured",
+          "type": "ProductInfo",
+          "defaultValue": "defaultProduct",
+          "description": "The product the hero opens as a full product page; its glazes paint the hero's still life."
+        },
+        {
+          "name": "heroCopy",
+          "type": "StoreHero",
+          "defaultValue": "defaultStoreHero",
+          "description": "The hero's eyebrow, title, line and button words."
+        },
+        {
+          "name": "items / defaultItems",
+          "type": "CartLine[]",
+          "defaultValue": "[]",
+          "description": "The lines in the bag, in cart-drawer's shape."
+        },
+        {
+          "name": "onItemsChange",
+          "type": "(items: CartLine[]) => void",
+          "description": "Fires from the quick add, shelf, product page or bag that changed the lines, with all of them."
+        },
+        {
+          "name": "cartOpen / defaultCartOpen",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Whether the bag is open over the store."
+        },
+        {
+          "name": "onCartOpenChange",
+          "type": "(open: boolean) => void",
+          "description": "Fires from the Bag button and from the bag's close, Escape, scrim or pull."
+        },
+        {
+          "name": "screen / defaultScreen",
+          "type": "\"home\" | \"product\" | `category:${string}` | `collection:${string}`",
+          "defaultValue": "\"home\"",
+          "description": "The screen on show: home, the featured product, or the shelf for a category or a collection."
+        },
+        {
+          "name": "onScreenChange",
+          "type": "(screen: StoreScreen) => void",
+          "description": "Fires from a tile, a card, See all, the hero, Back, Alt+Left, Escape or the back-swipe."
+        },
+        {
+          "name": "onAdd",
+          "type": "(line: CartLine) => void",
+          "description": "Something went in the bag from the store, with the line as it now stands."
+        },
+        {
+          "name": "onCheckout",
+          "type": "(items: CartLine[], total: number) => void | Promise<void>",
+          "description": "Checkout was pressed in the bag; a promise holds its button pending."
+        },
+        {
+          "name": "now",
+          "type": "Date | number",
+          "defaultValue": "defaultStoreNow",
+          "description": "The moment the product page's delivery estimate counts from. Never read from the clock during render."
+        },
+        {
+          "name": "format",
+          "type": "(amount: number) => string",
+          "defaultValue": "euros, en-IE",
+          "description": "Money everywhere: rails, shelf, product page and bag."
+        },
+        {
+          "name": "storeName",
+          "type": "string",
+          "defaultValue": "\"Fernworks Supply\"",
+          "description": "The store's name in the top bar."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Loading draws placeholder cards; error offers Try again. Passed on to the shelf."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed in the error state."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Store\"",
+          "description": "The screen's accessible name."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play a pop as a quick add lands and a category opens, and a swish for pushes, pops and the bag; the composed pieces play their own. Off unless asked for."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Browse only: nothing can be added or bought."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the root. It is 560px tall by default; pass a height class to change it."
+        }
+      ],
+      "usageNotes": [
+        "Each rail is one tab stop: Left and Right move between cards, Home and End jump, Enter opens the card's shelf with its quick view open, and Tab reaches the card's quick add. The rail's arrow buttons glide it a page at a time.",
+        "Pushed screens (a category, a collection, the featured product) go back with Back, Alt+Left, Escape when nothing inside used it, or a 1:1 swipe from their left edge; focus moves to the arriving screen's heading and back to what pushed it.",
+        "The badge counts what has landed: a quick add's count joins it when its dot reaches the bag, so the number and the bump arrive together. Adds from the shelf and the product page bump it at once.",
+        "Under reduced motion nothing flies or slides: screens cross-fade, rails jump-scroll, the badge's count changes in place and the quick add's check appears.",
+        "The catalogue is product-grid's: pass `products`, `colors` and `collections`, and the bag's lines (cart-drawer's `CartLine`) controlled through `items` to persist them."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json",
+        "https://www.kinetiqui.com/r/cart-drawer.json",
+        "https://www.kinetiqui.com/r/product-detail.json",
+        "https://www.kinetiqui.com/r/product-grid.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/storefront",
+      "registryItemUrl": "https://www.kinetiqui.com/r/storefront.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/storefront",
+        "npm": "npx shadcn@latest add @kinetiq/storefront",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/storefront",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/storefront",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/storefront.json"
       }
     },
     {

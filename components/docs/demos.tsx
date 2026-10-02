@@ -1410,6 +1410,16 @@ import { ReturnFlowDemo } from "@/registry/demos/return-flow.demo";
 import { SubscriptionManagerDemo } from "@/registry/demos/subscription-manager.demo";
 import { RatingsSummaryDemo } from "@/registry/demos/ratings-summary.demo";
 import { GiftBuilderDemo } from "@/registry/demos/gift-builder.demo";
+import { AiWorkspaceDemo } from "@/registry/demos/ai-workspace.demo";
+import { MailClientDemo } from "@/registry/demos/mail-client.demo";
+import { MusicAppDemo } from "@/registry/demos/music-app.demo";
+import { BankAppDemo } from "@/registry/demos/bank-app.demo";
+import { ProjectTrackerDemo } from "@/registry/demos/project-tracker.demo";
+import { AnalyticsConsoleDemo } from "@/registry/demos/analytics-console.demo";
+import { TeamChatDemo } from "@/registry/demos/team-chat.demo";
+import { NotesAppDemo } from "@/registry/demos/notes-app.demo";
+import { CalendarAppDemo } from "@/registry/demos/calendar-app.demo";
+import { StorefrontDemo } from "@/registry/demos/storefront.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2834,4 +2844,14 @@ export const demos: Record<string, ComponentType> = {
   "subscription-manager": SubscriptionManagerDemo,
   "ratings-summary": RatingsSummaryDemo,
   "gift-builder": GiftBuilderDemo,
+  "ai-workspace": AiWorkspaceDemo,
+  "mail-client": MailClientDemo,
+  "music-app": MusicAppDemo,
+  "bank-app": BankAppDemo,
+  "project-tracker": ProjectTrackerDemo,
+  "analytics-console": AnalyticsConsoleDemo,
+  "team-chat": TeamChatDemo,
+  "notes-app": NotesAppDemo,
+  "calendar-app": CalendarAppDemo,
+  storefront: StorefrontDemo,
 };
