@@ -1370,6 +1370,16 @@ import { ActivityStreamDemo } from "@/registry/demos/activity-stream.demo";
 import { RegionMapDemo } from "@/registry/demos/region-map.demo";
 import { TreeMapDemo } from "@/registry/demos/tree-map.demo";
 import { ChartMorphDemo } from "@/registry/demos/chart-morph.demo";
+import { SetupChecklistDemo } from "@/registry/demos/setup-checklist.demo";
+import { SignInDemo } from "@/registry/demos/sign-in.demo";
+import { UpgradeWallDemo } from "@/registry/demos/upgrade-wall.demo";
+import { BillingPanelDemo } from "@/registry/demos/billing-panel.demo";
+import { SettingsFormDemo } from "@/registry/demos/settings-form.demo";
+import { IntegrationHubDemo } from "@/registry/demos/integration-hub.demo";
+import { SetupWizardDemo } from "@/registry/demos/setup-wizard.demo";
+import { FeedbackWidgetDemo } from "@/registry/demos/feedback-widget.demo";
+import { HelpPanelDemo } from "@/registry/demos/help-panel.demo";
+import { InviteFlowDemo } from "@/registry/demos/invite-flow.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2754,4 +2764,14 @@ export const demos: Record<string, ComponentType> = {
   "region-map": RegionMapDemo,
   "tree-map": TreeMapDemo,
   "chart-morph": ChartMorphDemo,
+  "setup-checklist": SetupChecklistDemo,
+  "sign-in": SignInDemo,
+  "upgrade-wall": UpgradeWallDemo,
+  "billing-panel": BillingPanelDemo,
+  "settings-form": SettingsFormDemo,
+  "integration-hub": IntegrationHubDemo,
+  "setup-wizard": SetupWizardDemo,
+  "feedback-widget": FeedbackWidgetDemo,
+  "help-panel": HelpPanelDemo,
+  "invite-flow": InviteFlowDemo,
 };

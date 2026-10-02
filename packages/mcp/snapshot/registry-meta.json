@@ -13,7 +13,7 @@
     "indexUrl": "https://www.kinetiqui.com/r/registry.json",
     "docsUrl": "https://www.kinetiqui.com",
     "counts": {
-      "components": 1179,
+      "components": 1189,
       "blocks": 152,
       "pages": 28,
       "templates": 10,
@@ -97310,6 +97310,1921 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/chart-morph",
         "bun": "bunx --bun shadcn@latest add @kinetiq/chart-morph",
         "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/chart-morph.json"
+      }
+    },
+    {
+      "slug": "setup-checklist",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Setup Checklist",
+      "serial": "KQ-1321",
+      "tagline": "Getting started, one step at a time.",
+      "description": "An onboarding checklist whose steps open into their own inline action — a field, a choice or one button — on glide to a measured height, while the open step is lifted out as a raised card that travels between rows on glide, placed from the rows' own motion values so it tracks them exactly as they open and close. Finishing a step fills its disc on snap, draws its check on flick and fills the progress ring's share on glide; a beat later the next unfinished step slides into focus, and the last one lands the all-set state with seeded sparks and a check stamped on recoil before Dismiss folds the list into one line. The headers are an accordion: Up and Down move, Enter and Space open, Escape closes a step and returns focus to its header.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "onboarding",
+        "checklist",
+        "getting started",
+        "progress ring",
+        "setup",
+        "accordion",
+        "steps"
+      ],
+      "props": [
+        {
+          "name": "steps",
+          "type": "SetupStep[]",
+          "defaultValue": "defaultSetupSteps",
+          "description": "The steps in order: title, description, minutes, optional flag and the inline action (button, field or choice) each opens into."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "SetupProgress",
+          "defaultValue": "{}",
+          "description": "Which steps are done or skipped, by id. Controlled or uncontrolled."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: SetupProgress) => void",
+          "description": "Fires from the action, Skip or key that finished a step, with the whole new progress."
+        },
+        {
+          "name": "open / defaultOpen",
+          "type": "string | null",
+          "defaultValue": "the first unfinished step",
+          "description": "The open step, or null for none. Controlled or uncontrolled."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(id: string | null) => void",
+          "description": "Fires when a header press, a key or the advance after a finished step opens another."
+        },
+        {
+          "name": "dismissed / defaultDismissed",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Folds the checklist away into a one-line bar with a Show button. Controlled or uncontrolled."
+        },
+        {
+          "name": "onDismissedChange",
+          "type": "(dismissed: boolean) => void",
+          "description": "Fires from Dismiss, Skip setup for now, and the bar's Show."
+        },
+        {
+          "name": "onAction",
+          "type": "(stepId: string, input?: string) => void | Promise<void>",
+          "description": "Runs a step's action with the field's text or the chosen option's id. A returned promise holds the button pending; a rejection's message is shown on the step. Without it, actions finish at once."
+        },
+        {
+          "name": "onSkip",
+          "type": "(stepId: string) => void",
+          "description": "An optional step was skipped. A skipped step counts as finished and can still be done later."
+        },
+        {
+          "name": "ring",
+          "type": "\"arc\" | \"segments\" | \"ticks\"",
+          "defaultValue": "\"arc\"",
+          "description": "How progress is drawn: one round stroke, one arc per step, or a dial of forty ticks."
+        },
+        {
+          "name": "expand",
+          "type": "\"lift\" | \"inline\"",
+          "defaultValue": "\"lift\"",
+          "description": "The open step as a raised card that travels between steps, or flush in the list with an accent bar that travels."
+        },
+        {
+          "name": "celebrate",
+          "type": "\"burst\" | \"stamp\" | \"quiet\"",
+          "defaultValue": "\"burst\"",
+          "description": "The all-set moment: seeded sparks with a stamped check, the whole ring landing on recoil, or colour alone."
+        },
+        {
+          "name": "advance",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Finishing a step opens the next unfinished one and moves keyboard focus to it."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Get started\"",
+          "description": "The heading and the region's accessible name."
+        },
+        {
+          "name": "subtitle",
+          "type": "string",
+          "description": "The line under the heading."
+        },
+        {
+          "name": "doneTitle",
+          "type": "string",
+          "defaultValue": "\"You're all set\"",
+          "description": "The heading once every step is finished."
+        },
+        {
+          "name": "doneBody",
+          "type": "string",
+          "description": "The line under it."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Loading draws placeholder rows; error offers Retry."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "The Retry button of the error state."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "The region's accessible name, when it should differ from the title."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play a plip as a step you finished checks off, rising with progress, and a chime when your action finishes the list. Off unless asked for."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Shows the checklist but takes no presses or keys."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the root. It is content-sized; give it a height and it scrolls inside, bringing each newly opened step into view."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the step headers are an accordion. Up and Down move between them, Home and End jump, Enter or Space opens and closes, Escape inside an open step closes it and returns focus to its header. Choice actions are a radiogroup: arrows select. After a step finishes, focus follows the advance to the next step's header, or to Dismiss when the list is done.",
+        "Reduced motion: nothing glides or bounces. Bodies open at once, the lift moves at once, no sparks and no stamp, and the check appears whole — but the ring still takes its new share on a short tween and the count still changes, because progress is the information.",
+        "Actions are yours: return a promise from onAction and the step's button holds a pending label at its own width until it settles; reject with an Error and its message is shown on the step as an alert. Email fields are checked before onAction is called.",
+        "Layout follows the component's own width: under 640px the ring sits beside the title above the list; from 640px a summary column holds a large ring and Skip setup for now; from 960px an open step lays its description and its action side by side.",
+        "Progress is controlled through value / onValueChange as a map of step id to \"done\" or \"skipped\", so it persists however your app stores onboarding state. Announcements are made from the value the host renders, so a host that refuses a change is never announced."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/setup-checklist",
+      "registryItemUrl": "https://www.kinetiqui.com/r/setup-checklist.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/setup-checklist",
+        "npm": "npx shadcn@latest add @kinetiq/setup-checklist",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/setup-checklist",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/setup-checklist",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/setup-checklist.json"
+      }
+    },
+    {
+      "slug": "sign-in",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Sign In",
+      "serial": "KQ-1322",
+      "tagline": "In, by whichever way you like.",
+      "description": "An authentication card: email first under generic single sign-on buttons, then a choice of method, a code or a password slides in from 16px on glide while the card's height glides to the new step and the step pips widen on snap. The code is one real input drawn as cells — a ring slides on snap to the cell the next digit lands in, digits land on snap, a paste fills them all, and a full code verifies itself under a travelling wave — while a refused field shakes on a symmetric tween, never a spring, and an accepted sign-in flies the button that finished it into the welcome's avatar on glide. Every step is a real form: Enter submits, Escape goes back a step, and focus moves to each step's first field as it arrives.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "sign in",
+        "login",
+        "authentication",
+        "one-time code",
+        "magic link",
+        "single sign-on",
+        "password"
+      ],
+      "props": [
+        {
+          "name": "steps",
+          "type": "\"choose\" | \"code\" | \"password\"",
+          "defaultValue": "\"choose\"",
+          "description": "What follows the email: a choice of method, straight to an emailed code, or straight to a password."
+        },
+        {
+          "name": "shake",
+          "type": "number",
+          "defaultValue": "8",
+          "description": "How far a refused field shakes, in px; 0 for no shake."
+        },
+        {
+          "name": "cells",
+          "type": "number",
+          "defaultValue": "6",
+          "description": "How many digits the sign-in code has, 4 to 8."
+        },
+        {
+          "name": "brand",
+          "type": "string",
+          "defaultValue": "\"Fernworks\"",
+          "description": "The product's name, in the heading and the accessible name."
+        },
+        {
+          "name": "mark",
+          "type": "React.ReactNode",
+          "description": "The product's mark, 32px. Defaults to the brand's initial on a tile."
+        },
+        {
+          "name": "providers",
+          "type": "SignInProvider[]",
+          "defaultValue": "defaultSignInProviders",
+          "description": "Single sign-on buttons above the email field, each with a label and an icon; an empty list hides them."
+        },
+        {
+          "name": "aside",
+          "type": "SignInAside | null",
+          "defaultValue": "defaultSignInAside",
+          "description": "The brand panel beside the form from 640px wide: heading, line, points, and a quote from 960px. Null for none."
+        },
+        {
+          "name": "email / defaultEmail",
+          "type": "string",
+          "defaultValue": "\"\"",
+          "description": "The email address. Controlled or uncontrolled."
+        },
+        {
+          "name": "onEmailChange",
+          "type": "(email: string) => void",
+          "description": "Fires as the email is typed."
+        },
+        {
+          "name": "step / defaultStep",
+          "type": "\"email\" | \"method\" | \"code\" | \"password\" | \"welcome\"",
+          "defaultValue": "\"email\"",
+          "description": "The step on show. Controlled or uncontrolled."
+        },
+        {
+          "name": "onStepChange",
+          "type": "(step: SignInStep) => void",
+          "description": "Fires from the press or key that moved the flow, before the new step shows."
+        },
+        {
+          "name": "onEmailSubmit",
+          "type": "(email: string) => void | Promise<void>",
+          "description": "Checks the email before the next step; reject with an Error to refuse it with your message."
+        },
+        {
+          "name": "onSendCode",
+          "type": "(email: string) => void | Promise<void>",
+          "description": "Sends the code and its link; called again by Resend."
+        },
+        {
+          "name": "onVerifyCode",
+          "type": "(email: string, code: string) => void | Promise<SignInAccount | void>",
+          "description": "Checks a complete code. Reject to refuse it; resolve with the account to welcome it by name."
+        },
+        {
+          "name": "onVerifyPassword",
+          "type": "(email: string, password: string) => void | Promise<SignInAccount | void>",
+          "description": "Checks a password, the same way."
+        },
+        {
+          "name": "onProvider",
+          "type": "(providerId: string) => void | Promise<SignInAccount | void>",
+          "description": "Runs a single sign-on button, the same way."
+        },
+        {
+          "name": "onSuccess",
+          "type": "(account: SignInAccount) => void",
+          "description": "Fires the moment a sign-in is accepted, with the account."
+        },
+        {
+          "name": "onForgotPassword",
+          "type": "(email: string) => void",
+          "description": "The Forgot password link on the password step."
+        },
+        {
+          "name": "onCreateAccount",
+          "type": "() => void",
+          "description": "The Create an account link under the email step."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play a click on presses, a buzz on a refusal and a chime as the welcome lands. Off unless asked for."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Shows the card but takes no input."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "The group's accessible name. Defaults to \"Sign in to\" and the brand."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the root. The card is content-sized and lays itself out by its own width."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: every step is a real form, so Tab moves through it and Enter submits. Escape goes back a step. Focus moves to each step's first control as it arrives — the email field, the first method, the code input, the password — and to the welcome heading at the end.",
+        "The code is a single input with autocomplete=\"one-time-code\" drawn as cells, so a paste (even \"123-456\"), an SMS autofill and Backspace all behave natively; a press on a filled cell selects that digit so the next one replaces it. A full code verifies itself.",
+        "Reduced motion: panels cross-fade in place and the height changes at once, nothing shakes and nothing flies — the danger border and the message still say what was refused, and the welcome fades in with its avatar already in place.",
+        "Every network step is your callback. Reject with an Error and its message is shown under the field as an alert; resolve a verifying callback with { name, email } and the welcome greets them by first name. The card never invents an account.",
+        "Layout follows the component's own width: under 640px the card stands alone; from 640px a brand panel sits beside it; from 960px the panel widens and shows its quote."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/sign-in",
+      "registryItemUrl": "https://www.kinetiqui.com/r/sign-in.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/sign-in",
+        "npm": "npx shadcn@latest add @kinetiq/sign-in",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/sign-in",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/sign-in",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/sign-in.json"
+      }
+    },
+    {
+      "slug": "upgrade-wall",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Upgrade Wall",
+      "serial": "KQ-1323",
+      "tagline": "What you get, and when you pay.",
+      "description": "A paywall whose comparison shows what the chosen plan unlocks: those rows light in a cascade and their locks lift open on snap, and a plan change re-lights only the rows that changed while the chosen column's cells roll and, in the all-plans view, a band slides across to the new column on snap. Plan and billing are radiogroups with pills that slide on snap, every price rolls digit by digit, and the trial is drawn as a track from today to the first charge whose span sweeps in on glide, ticking off each day, with the reminder above it. The purchase button holds its width through pending, success and error — success stamps its check on recoil and turns the track and the unlocked rows green — and the plan and billing groups take arrow keys while the comparison is a real table.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "paywall",
+        "pricing",
+        "upgrade",
+        "plan comparison",
+        "free trial",
+        "billing",
+        "checkout"
+      ],
+      "props": [
+        {
+          "name": "timeline",
+          "type": "\"track\" | \"list\" | \"none\"",
+          "defaultValue": "\"track\"",
+          "description": "The trial drawn as a track from today to the first charge, as a vertical list of the same three moments, or no trial at all (billed today)."
+        },
+        {
+          "name": "compare",
+          "type": "\"table\" | \"unlocks\" | \"all\"",
+          "defaultValue": "\"table\"",
+          "description": "The current plan against the chosen one, only what the chosen plan unlocks, or every plan side by side with a band behind the chosen column."
+        },
+        {
+          "name": "cycle",
+          "type": "\"both\" | \"monthly\" | \"yearly\"",
+          "defaultValue": "\"both\"",
+          "description": "The billing cycles offered: both behind a switch with the yearly saving, or only one."
+        },
+        {
+          "name": "plans",
+          "type": "UpgradePlan[]",
+          "defaultValue": "defaultUpgradePlans",
+          "description": "The plans, the current one included: name, tagline, monthly and yearly per-seat price, current flag and badge."
+        },
+        {
+          "name": "features",
+          "type": "UpgradeFeature[]",
+          "defaultValue": "defaultUpgradeFeatures",
+          "description": "The comparison rows, each with a value per plan: included, not included, or a short amount."
+        },
+        {
+          "name": "current",
+          "type": "string",
+          "defaultValue": "the plan marked current",
+          "description": "The id of the plan the account is on now."
+        },
+        {
+          "name": "plan / defaultPlan",
+          "type": "string",
+          "defaultValue": "the first plan with a badge",
+          "description": "The chosen plan. Controlled or uncontrolled."
+        },
+        {
+          "name": "onPlanChange",
+          "type": "(plan: string) => void",
+          "description": "Fires from the press or arrow key that chose a plan."
+        },
+        {
+          "name": "billing / defaultBilling",
+          "type": "\"monthly\" | \"yearly\"",
+          "defaultValue": "\"yearly\"",
+          "description": "The billing cycle when both are offered. Controlled or uncontrolled."
+        },
+        {
+          "name": "onBillingChange",
+          "type": "(billing: UpgradeBilling) => void",
+          "description": "Fires from the press or arrow key that switched billing."
+        },
+        {
+          "name": "seats",
+          "type": "number",
+          "defaultValue": "3",
+          "description": "Seats the per-seat price is multiplied by."
+        },
+        {
+          "name": "trialDays",
+          "type": "number",
+          "defaultValue": "14",
+          "description": "Length of the free trial, in days; the track has a tick for each."
+        },
+        {
+          "name": "reminderDays",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "How many days before the first charge the reminder goes out."
+        },
+        {
+          "name": "now",
+          "type": "Date | number",
+          "defaultValue": "defaultUpgradeNow",
+          "description": "Today, for the dates on the timeline. Days are UTC days, so server and client print the same dates."
+        },
+        {
+          "name": "format",
+          "type": "(amount: number) => string",
+          "defaultValue": "euros through Intl.NumberFormat",
+          "description": "Prints every amount: prices, totals and the first charge."
+        },
+        {
+          "name": "state",
+          "type": "\"idle\" | \"pending\" | \"success\" | \"error\"",
+          "description": "Controlled purchase state. Without it the wall follows the promise onPurchase returns."
+        },
+        {
+          "name": "onStateChange",
+          "type": "(state: UpgradeState) => void",
+          "description": "Fires from the press that started a purchase, and again when it settles."
+        },
+        {
+          "name": "onPurchase",
+          "type": "(selection: UpgradeSelection) => void | Promise<void>",
+          "description": "Starts the purchase with the plan, billing, seats, trial, amount and first-charge date. Return a promise to hold the button pending; reject with an Error to show its message."
+        },
+        {
+          "name": "onDismiss",
+          "type": "() => void",
+          "description": "The Not now button in the corner. Hidden without it."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Upgrade to keep your dashboards live\"",
+          "description": "The heading and the region's accessible name."
+        },
+        {
+          "name": "subtitle",
+          "type": "string",
+          "description": "The line under it: why the wall is here."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Loading draws placeholders; error offers Retry."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "The Retry button of the error state."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play a click on plan and billing changes and a chime when your purchase lands. Off unless asked for."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Shows the wall but takes no input."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "The region's accessible name, when it should differ from the title."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the root. It is h-[560px] by default; pass a height to change it — the columns scroll inside."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the plan and the billing cycle are radiogroups with one tab stop each — arrows move and choose, Home and End jump. The comparison is a real table with row and column headers that say Included and Not included in words; the timeline is read as three sentences.",
+        "Reduced motion: nothing rolls, slides, sweeps or stamps. Prices and cells swap in place, the pills and the column band move at once, the trial track appears drawn and success is a colour change with the check whole — every price, date and state still changes.",
+        "The purchase is yours: onPurchase receives the plan, billing, seats, whether a trial comes first, the amount and the first-charge date. Return a promise and the button holds Starting trial… at its own width, announced politely; reject with an Error and its message appears under the button, and a plan or billing change clears it. Or drive the button yourself through state and onStateChange.",
+        "Layout follows the component's own width: under 640px one scrolling column with the price and the button in a footer; from 640px the summary (price, timeline, button) gets its own column; from 960px the plan switch becomes plan cards with prices.",
+        "Dates on the timeline come from now, trialDays and reminderDays, printed as UTC days. Amounts go through format, so a different currency or locale is one function."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/upgrade-wall",
+      "registryItemUrl": "https://www.kinetiqui.com/r/upgrade-wall.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/upgrade-wall",
+        "npm": "npx shadcn@latest add @kinetiq/upgrade-wall",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/upgrade-wall",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/upgrade-wall",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/upgrade-wall.json"
+      }
+    },
+    {
+      "slug": "billing-panel",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Billing Panel",
+      "serial": "KQ-1324",
+      "tagline": "Cards, invoices and the next bill.",
+      "description": "A billing settings panel built from data: the cards on file are a deck that sits in a pile and fans out like a hand, unfolds into wallet strips, or lies flat, every pose a glide from one function of the deck's measured width; Make default lifts the chosen card, slides it to the front on glide and the Default tag slides across to it on snap. The next bill rolls digit by digit on snap as you drag the projected-usage slider 1:1 — it rubber-bands against what has already been used and lands on its step with the throw's velocity — and invoices download through a promise with a turning ring and a check drawn on flick. The deck is a tablist (arrows open the pile and move, Escape folds it), the projection a slider (arrows, Page keys, Home and End).",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "billing",
+        "payment method",
+        "invoice",
+        "estimate",
+        "usage",
+        "subscription",
+        "card"
+      ],
+      "props": [
+        {
+          "name": "methods",
+          "type": "BillingMethod[]",
+          "defaultValue": "defaultBillingMethods",
+          "description": "The cards on file: id, issuer, kind, last four, expiry, holder, an invented network mark and a tint (any CSS colour, kept at a fixed lightness)."
+        },
+        {
+          "name": "primaryMethod / defaultPrimaryMethod",
+          "type": "string",
+          "description": "The id of the default card — the one charged. Controlled or uncontrolled; defaults to the first method."
+        },
+        {
+          "name": "onPrimaryMethodChange",
+          "type": "(id: string) => void",
+          "description": "Fires from Make default with the new default's id. A controlled host that refuses it leaves the deck as it was."
+        },
+        {
+          "name": "expanded / defaultExpanded",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Whether the deck is fanned open. Controlled or uncontrolled; ignored when stack is \"none\"."
+        },
+        {
+          "name": "onExpandedChange",
+          "type": "(expanded: boolean) => void",
+          "description": "Fires from the press, arrow key or Escape that opened or folded the deck."
+        },
+        {
+          "name": "onAddMethod",
+          "type": "() => void",
+          "description": "Add was pressed. Without it there is no Add button."
+        },
+        {
+          "name": "onRemoveMethod",
+          "type": "(id: string) => void",
+          "description": "Remove was pressed on a card that is not the default. Without it there is no Remove button; remove the card from methods to see it leave."
+        },
+        {
+          "name": "plan",
+          "type": "BillingPlan",
+          "defaultValue": "defaultBillingPlan",
+          "description": "The plan: name, price per cycle, the next bill's date (YYYY-MM-DD) and the cycle's length in days."
+        },
+        {
+          "name": "meter",
+          "type": "BillingMeter",
+          "defaultValue": "defaultBillingMeter",
+          "description": "The metered part of the bill: name and unit, used so far, included, the slider's max and step, and tier prices per 1,000 units above the allowance."
+        },
+        {
+          "name": "taxRate",
+          "type": "number",
+          "defaultValue": "0.08",
+          "description": "Tax on plan and usage, 0 to 1."
+        },
+        {
+          "name": "usage / defaultUsage",
+          "type": "number",
+          "description": "The projected usage for this cycle: the slider's value. Controlled or uncontrolled; defaults to the pace so far carried to the cycle's end."
+        },
+        {
+          "name": "onUsageChange",
+          "type": "(usage: number) => void",
+          "description": "Fires from the drag or key that moved the projection, once per step it lands on."
+        },
+        {
+          "name": "invoices",
+          "type": "BillingInvoice[]",
+          "defaultValue": "defaultBillingInvoices",
+          "description": "Past invoices, newest first: number, date, amount, status (paid, open, failed, refunded) and an optional description line."
+        },
+        {
+          "name": "onDownload",
+          "type": "(invoice: BillingInvoice) => void | Promise<unknown>",
+          "description": "Download was pressed. Return a promise and the row waits with a turning ring, then shows a check (or the error, and retries on the next press)."
+        },
+        {
+          "name": "onChangePlan",
+          "type": "() => void",
+          "description": "Change plan was pressed. Without it there is no button."
+        },
+        {
+          "name": "now",
+          "type": "number | Date",
+          "defaultValue": "defaultBillingNow",
+          "description": "Today: how far into the cycle the bill is, which sets the pace and the days left."
+        },
+        {
+          "name": "format",
+          "type": "(amount: number) => string",
+          "description": "Money everywhere in the panel. Defaults to currency in locale."
+        },
+        {
+          "name": "formatUsage",
+          "type": "(units: number) => string",
+          "description": "Usage counts. Defaults to compact: 182k, 1.2M."
+        },
+        {
+          "name": "formatDate",
+          "type": "(date: string) => string",
+          "description": "Invoice dates from YYYY-MM-DD. Defaults to \"Sep 1, 2026\"."
+        },
+        {
+          "name": "locale",
+          "type": "string",
+          "defaultValue": "\"en-US\"",
+          "description": "The default money format's locale. Fixed, so the server and the browser print the same."
+        },
+        {
+          "name": "currency",
+          "type": "string",
+          "defaultValue": "\"USD\"",
+          "description": "The default money format's currency."
+        },
+        {
+          "name": "stack",
+          "type": "\"fan\" | \"wallet\" | \"none\"",
+          "defaultValue": "\"fan\"",
+          "description": "How the cards sit: a pile that fans out like a hand, a pile that unfolds into strips, or a flat grid."
+        },
+        {
+          "name": "estimate",
+          "type": "\"total\" | \"itemized\"",
+          "defaultValue": "\"itemized\"",
+          "description": "How the next bill reads: one rolling total with a caption, or the total plus plan, usage and tax lines (each rolling) over a bar that re-proportions on glide."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"regular\" | \"comfortable\"",
+          "defaultValue": "\"regular\"",
+          "description": "Padding, invoice row height and how much each row says: one line, two, or two plus its description."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the billing data has arrived: a skeleton while loading, a message with Try again on error."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed while status is \"error\"."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Billing\"",
+          "description": "The panel's heading; also its accessible name unless label is given."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "The panel's accessible name. Defaults to the title."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "A click for each press (deck, card, Make default, Remove, Add, Download, Back to pace) and a tick, pitched by usage, for each step the projection crosses."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Read only: nothing opens, moves or downloads."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the root. It is 560px tall and scrolls inside itself; pass a height class to change it."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the deck is a tablist — Arrow keys open a closed pile and move through the cards (Left and Right in the fan and grid, Up and Down in the wallet), Home and End jump, Escape folds it back and returns focus to the front card. Make default and Remove act on the selected card. The projection is a slider: arrows one step, Page keys ten, Home to what is already used, End to the max.",
+        "The deck's poses come from its measured width, so the same component fans across a phone column or a desktop sidebar; every card and the Default tag stay inside the deck's own box.",
+        "Every amount goes through format and rolls digit by digit; the widest amount the meter can produce is reserved, so a new digit never shifts the layout. estimateBill(plan, meter, taxRate, usage) is exported to print the same total elsewhere.",
+        "Under reduced motion cards change pose without travel or a lift, digits change without rolling and the thumb follows without springs or rubber-band; the totals, the Default tag and the download states still change, because they are the information.",
+        "Lays out by its own width: one column on a phone (scrolling inside its box), cards and the next bill side by side from 40rem with invoices below, and three columns from 68rem."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/billing-panel",
+      "registryItemUrl": "https://www.kinetiqui.com/r/billing-panel.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/billing-panel",
+        "npm": "npx shadcn@latest add @kinetiq/billing-panel",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/billing-panel",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/billing-panel",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/billing-panel.json"
+      }
+    },
+    {
+      "slug": "settings-form",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Settings Form",
+      "serial": "KQ-1325",
+      "tagline": "Change what you want; keep what you did.",
+      "description": "A settings form built from typed sections that knows what you changed: a changed field grows an edge bar on snap with a bloom of accent washing into its row, and a save bar slides up on snap counting the changes, its digit rolling as fields change and come back. Discard plays every change backwards — text un-types and re-types, a switch's knob slides home, a choice's indicator slides back, a select's label rolls back down, a range's thumb glides home — newest edit first; Save waits on a promise, then confirms field by field with a check drawn on flick while the count rolls down, and fields the save refuses shake and keep their message. Enter and Ctrl/⌘+S save, Escape takes a changed text field back, every field has its Revert, and each control is native or a real widget.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "settings",
+        "form",
+        "dirty state",
+        "save bar",
+        "discard",
+        "undo",
+        "preferences"
+      ],
+      "props": [
+        {
+          "name": "sections",
+          "type": "SettingsSection[]",
+          "defaultValue": "defaultSettingsSections",
+          "description": "The form: sections with a title, a line of help and fields — text (with prefix and validate), textarea, switch, choice, select or range — each with its own defaultValue."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "SettingsValues",
+          "description": "The saved values, by field id: what the draft is compared against. Controlled or uncontrolled; fields left out use their own defaultValue (settingsValuesOf builds the full set)."
+        },
+        {
+          "name": "defaultDraft",
+          "type": "SettingsValues",
+          "description": "Edits to start from over the saved values — a draft restored from an earlier visit. They count as changes: the fields glow and the bar is up from the first render."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(values: SettingsValues) => void",
+          "description": "Fires when a save lands, with every saved value. Fields the save refused keep their old value."
+        },
+        {
+          "name": "onDraftChange",
+          "type": "(draft: SettingsValues, dirty: string[]) => void",
+          "description": "Fires on every change to the draft — edits, reverts and each field a rewind brings back — with the ids that differ from what is saved."
+        },
+        {
+          "name": "onSave",
+          "type": "(changes: SettingsChange[], draft: SettingsValues) => void | { errors?: Record<string, string> } | Promise<…>",
+          "description": "Save was pressed (or Ctrl/⌘+S, or Enter in a text field). A promise holds the bar in Saving; resolve with { errors } to refuse some fields with a message, reject to keep everything changed."
+        },
+        {
+          "name": "onDiscard",
+          "type": "(changes: SettingsChange[]) => void",
+          "description": "Discard was pressed, with the changes being undone, in the order they will rewind."
+        },
+        {
+          "name": "glow",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How far and how bright a changed field's edge glows into its row, 0 to 1. 0 keeps only the edge bar."
+        },
+        {
+          "name": "bar",
+          "type": "\"dock\" | \"float\" | \"inline\"",
+          "defaultValue": "\"dock\"",
+          "description": "Where the save bar lives: docked to the panel's bottom edge, a floating pill above it, or in the flow at the form's end."
+        },
+        {
+          "name": "rewind",
+          "type": "\"sequence\" | \"together\" | \"instant\"",
+          "defaultValue": "\"sequence\"",
+          "description": "How Discard undoes: each field plays its change backwards newest edit first, all fields at once, or every value swaps back at once with only the glow fading."
+        },
+        {
+          "name": "rewindDuration",
+          "type": "number",
+          "defaultValue": "520",
+          "description": "The longest one field's rewind may take, in ms. Short text rewinds faster."
+        },
+        {
+          "name": "confirmStagger",
+          "type": "number",
+          "defaultValue": "110",
+          "description": "Time between fields confirming after a save, in ms."
+        },
+        {
+          "name": "savedHold",
+          "type": "number",
+          "defaultValue": "1400",
+          "description": "How long \"All changes saved\" stays before the bar leaves, in ms."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Settings\"",
+          "description": "The panel's heading; also its accessible name unless label is given. Focus lands here when the bar leaves with focus inside it."
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "description": "A line under the heading."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "The panel's accessible name. Defaults to the title."
+        },
+        {
+          "name": "saveLabel",
+          "type": "string",
+          "defaultValue": "\"Save\"",
+          "description": "The Save button's text."
+        },
+        {
+          "name": "discardLabel",
+          "type": "string",
+          "defaultValue": "\"Discard\"",
+          "description": "The Discard button's text."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the saved values have arrived: a skeleton while loading, a message with Try again on error."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed while status is \"error\"."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Clicks for Save, Discard and Revert, a softer falling click as each rewound field lands, and a pop for each field a save you started confirms."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Read only: every control is disabled and no bar appears."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the root. It is 560px tall and scrolls inside itself, the dock and float bars sticky to its bottom; pass a height class to change it."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: every control is native or a real widget — inputs, textarea, select, role=\"switch\" buttons, a radiogroup with roving radios, a role=\"slider\" with arrows, Page keys, Home and End. Enter in a text field and Ctrl/⌘+S save; Escape in a changed text field rewinds that field; each changed field has a Revert button named for it.",
+        "The draft lives in the form; the saved values can be yours (value + onValueChange). onSave receives the changes and the whole draft; resolve with { errors: { slug: \"That address is taken.\" } } and those fields shake, show the message and stay changed while the rest confirm.",
+        "Validation runs per text field through validate(value); a field with a message cannot be saved — Save shakes it and moves focus there.",
+        "Under reduced motion nothing travels: values swap back at once, the glow fades in and out, the bar fades in place, and fields still confirm one by one with a static check, because what was saved is the information.",
+        "Lays out by its own width: label above control on a phone; label and help beside the control from 40rem; from 68rem a section nav with a changed count per section and a Changes panel listing each change with its own Revert."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/settings-form",
+      "registryItemUrl": "https://www.kinetiqui.com/r/settings-form.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/settings-form",
+        "npm": "npx shadcn@latest add @kinetiq/settings-form",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/settings-form",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/settings-form",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/settings-form.json"
+      }
+    },
+    {
+      "slug": "integration-hub",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Integration Hub",
+      "serial": "KQ-1326",
+      "tagline": "Connect the tools you already use.",
+      "description": "A directory of integrations built from data, each with a seeded glyph and a connect switch that does not flip at once: its knob waits halfway on snap while the permissions step slides in as a sheet — from the side or the bottom on glide, or a dialog rising in the centre on snap — listing required scopes locked and the rest as checkboxes, and completes its travel when onConnect's promise lands. Connected cards read their sync (synced, syncing, paused, needing attention) with the time since the last one, and the search filters as you type: cards that stay glide to their new cells, cards that go fade and shrink on the exit ease, and returning ones rise on snap. The sheet is a modal dialog with a focus trap, Escape and focus returned to its opener; categories are a radiogroup, \"/\" jumps to the search and Escape clears it.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "integrations",
+        "connect",
+        "permissions",
+        "oauth scopes",
+        "sync status",
+        "marketplace",
+        "search filter"
+      ],
+      "props": [
+        {
+          "name": "integrations",
+          "type": "Integration[]",
+          "defaultValue": "defaultIntegrations",
+          "description": "The directory: id, name, category, a line of description, the maker, the scopes it asks for (required or optional), a glyph tint and mark, and its sync while connected."
+        },
+        {
+          "name": "connected / defaultConnected",
+          "type": "string[]",
+          "defaultValue": "defaultIntegrationConnected",
+          "description": "The ids that are connected. Controlled or uncontrolled."
+        },
+        {
+          "name": "onConnectedChange",
+          "type": "(ids: string[]) => void",
+          "description": "Fires when a connect or disconnect lands, with every connected id."
+        },
+        {
+          "name": "onConnect",
+          "type": "(id: string, scopes: string[]) => void | Promise<unknown>",
+          "description": "Allow and connect was pressed, with the scopes granted (required plus the optional ones left ticked). A promise holds the sheet in Connecting…; a rejection shows the error in the sheet."
+        },
+        {
+          "name": "onDisconnect",
+          "type": "(id: string) => void | Promise<unknown>",
+          "description": "Disconnect was confirmed. A promise holds the sheet until it lands."
+        },
+        {
+          "name": "onSync",
+          "type": "(id: string) => void | Promise<unknown>",
+          "description": "Sync now was pressed on a connected card. A promise keeps it syncing until it lands, then it reads synced just now."
+        },
+        {
+          "name": "query / defaultQuery",
+          "type": "string",
+          "defaultValue": "\"\"",
+          "description": "The search text. Controlled or uncontrolled."
+        },
+        {
+          "name": "onQueryChange",
+          "type": "(query: string) => void",
+          "description": "Fires on every keystroke in the search, on Clear and on Escape."
+        },
+        {
+          "name": "category / defaultCategory",
+          "type": "string",
+          "defaultValue": "\"all\"",
+          "description": "The category filter: \"all\", \"connected\", or a category's name in lower-case with dashes. Controlled or uncontrolled."
+        },
+        {
+          "name": "onCategoryChange",
+          "type": "(category: string) => void",
+          "description": "Fires when a category is chosen by click or arrow key."
+        },
+        {
+          "name": "grid",
+          "type": "\"cards\" | \"compact\" | \"list\"",
+          "defaultValue": "\"cards\"",
+          "description": "The directory's layout: cards with a description and a sync footer, compact tiles, or a list of rows."
+        },
+        {
+          "name": "sheet",
+          "type": "\"side\" | \"bottom\" | \"center\"",
+          "defaultValue": "\"side\"",
+          "description": "Where the permissions step comes from: a side sheet or a bottom sheet sliding in on glide, or a dialog rising in the centre on snap."
+        },
+        {
+          "name": "status",
+          "type": "\"dot\" | \"pill\" | \"bar\"",
+          "defaultValue": "\"pill\"",
+          "description": "How a connected card reads its sync: a coloured dot with words, a tinted pill with the last sync time, or a stripe down the card's edge that pulses while it syncs."
+        },
+        {
+          "name": "now",
+          "type": "number | Date",
+          "defaultValue": "defaultIntegrationNow",
+          "description": "Now, for \"Last sync 4 min ago\". Pass a ticking value to keep the times fresh."
+        },
+        {
+          "name": "formatAgo",
+          "type": "(ms: number) => string",
+          "description": "How long ago, from a span in ms. Defaults to just now, 4 min ago, 2 h ago, yesterday."
+        },
+        {
+          "name": "account",
+          "type": "string",
+          "defaultValue": "\"dana@fieldline.app\"",
+          "description": "The account the permissions step says it signs in as."
+        },
+        {
+          "name": "appName",
+          "type": "string",
+          "defaultValue": "\"Fieldline\"",
+          "description": "Your product's name in the permissions step: \"Fieldline will be able to\"."
+        },
+        {
+          "name": "loading",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "The directory has not arrived: a skeleton of cards."
+        },
+        {
+          "name": "error",
+          "type": "string | null",
+          "description": "The directory failed to load: this message, with Try again when onRetry is given."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after an error."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Integrations\"",
+          "description": "The panel's heading; also its accessible name unless label is given."
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "defaultValue": "\"Connect the tools you already use.\"",
+          "description": "A line under the heading."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "The panel's accessible name. Defaults to the title."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "A clack for each switch press and category choice, a pop for Allow and connect, Disconnect and Sync now."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Read only: nothing connects, syncs or filters."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the root. It is 560px tall with the directory scrolling inside and the sheet laid over it; pass a height class to change it."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: each switch is a real role=\"switch\" named \"Connect Basinworks Drive\" — Space or Enter opens the step to confirm; the sheet is a modal dialog with focus on arrival, Tab kept inside, Escape and the backdrop cancelling, and focus returned to whatever opened it. Categories are a radiogroup on the arrow keys; \"/\" jumps to the search and Escape clears it.",
+        "Nothing flips until the host agrees: the knob waits halfway while the sheet is open and only completes when onConnect (or onDisconnect) lands. A connected card in error offers Reconnect, which reopens the permissions step.",
+        "Glyphs are procedural (a seeded mark on a pigment tile from the integration's tint), so the directory renders the same on the server and in the browser; never pass a real brand's logo.",
+        "Under reduced motion cards swap to their new cells and fade, the sheet fades in place, the knob moves without a spring and the sync icon does not turn; the connected state, the times and the counts still change.",
+        "Lays out by its own width: a scrolling row of category chips over one column on a phone, two columns of cards from 34rem of directory, and a category sidebar beside three columns from 68rem."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/integration-hub",
+      "registryItemUrl": "https://www.kinetiqui.com/r/integration-hub.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/integration-hub",
+        "npm": "npx shadcn@latest add @kinetiq/integration-hub",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/integration-hub",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/integration-hub",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/integration-hub.json"
+      }
+    },
+    {
+      "slug": "setup-wizard",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Setup Wizard",
+      "serial": "KQ-1327",
+      "tagline": "Four steps, never lost.",
+      "description": "A multi-step setup flow whose rail is also its record: the fill follows the step on glide, and a valid Next lifts the step's answer off the panel and flies it to that step's place on the rail, x on glide and y on snap so the path bows, where it stays. A Next the step cannot take leans the rail toward the next node on flick and pulls it back on snap while each field says why; panels swap by direction by 16px on snap inside a box that glides to the measured height, and the review lists every answer with an Edit link that returns straight to it. The rail is a list of buttons, the panel a real form where Enter is Next, choices are native radio groups moved with the arrow keys, and the new panel's heading takes focus as it arrives.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "wizard",
+        "onboarding",
+        "multi-step form",
+        "stepper",
+        "validation",
+        "review step",
+        "progress rail"
+      ],
+      "props": [
+        {
+          "name": "steps",
+          "type": "WizardStep[]",
+          "defaultValue": "defaultWizardSteps",
+          "description": "The steps before the review: id, title, description, fields (text, email, url, choice, segmented or toggle with their rules) and an optional summary for the rail."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "WizardValues",
+          "defaultValue": "— / defaultWizardValues",
+          "description": "Every answer, by field id."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(values: WizardValues) => void",
+          "description": "Fires from the keystroke, pick or switch that changed an answer, with every answer."
+        },
+        {
+          "name": "step / defaultStep",
+          "type": "number",
+          "defaultValue": "— / 0",
+          "description": "The step on screen; steps.length is the review. Controlled, the wizard asks through onStepChange and waits."
+        },
+        {
+          "name": "onStepChange",
+          "type": "(index: number) => void",
+          "description": "Fires from Next, Back, Edit or a rail node with the step asked for."
+        },
+        {
+          "name": "onInvalid",
+          "type": "(step: number, fieldIds: string[]) => void",
+          "description": "A Next or a rail jump was held, with the fields that need attention."
+        },
+        {
+          "name": "onSubmit",
+          "type": "(values: WizardValues) => void | Promise<void>",
+          "description": "Runs from the review's button. A promise holds it pending; a rejection's message is shown in an alert."
+        },
+        {
+          "name": "onRestart",
+          "type": "() => void",
+          "description": "Start over was pressed on the finished state."
+        },
+        {
+          "name": "rail",
+          "type": "\"side\" | \"top\" | \"bar\"",
+          "defaultValue": "\"side\"",
+          "description": "Beside the panel with each answer kept under its step, across the top with answers under the labels, or a slim segmented bar."
+        },
+        {
+          "name": "validate",
+          "type": "\"next\" | \"blur\" | \"live\"",
+          "defaultValue": "\"next\"",
+          "description": "When a field's message shows: after a held Next, when the field is left, or as you type (with a tick on valid fields)."
+        },
+        {
+          "name": "direction",
+          "type": "\"horizontal\" | \"vertical\" | \"depth\"",
+          "defaultValue": "\"horizontal\"",
+          "description": "The axis panels travel on between steps."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Set up your workspace\"",
+          "description": "The heading and accessible name."
+        },
+        {
+          "name": "subtitle",
+          "type": "string",
+          "description": "A line under the heading."
+        },
+        {
+          "name": "reviewTitle",
+          "type": "string",
+          "defaultValue": "\"Review\"",
+          "description": "The review step's heading and rail label."
+        },
+        {
+          "name": "submitLabel",
+          "type": "string",
+          "defaultValue": "\"Create workspace\"",
+          "description": "The review's button."
+        },
+        {
+          "name": "pendingLabel",
+          "type": "string",
+          "defaultValue": "\"Working…\"",
+          "description": "The button while onSubmit is pending; the button keeps its width."
+        },
+        {
+          "name": "doneTitle",
+          "type": "string | ((values: WizardValues) => string)",
+          "defaultValue": "\"<name> is ready\"",
+          "description": "The finished state's heading."
+        },
+        {
+          "name": "doneBody",
+          "type": "string",
+          "description": "The finished state's line."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Loading draws placeholder rows; error offers Retry."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "The Retry button of the error state."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "The region's accessible name when it should differ from the title."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "A swish on each step change and clicks on choices, Edit and a held Next."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Shows the wizard but takes no input."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the region; give it a max height and it scrolls inside itself."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: Enter in any text field is Next; choices and segments are native radio groups (arrows move and select); rail nodes are buttons that jump to any step already reached, validating the way forward first.",
+        "A held Next leans the rail, shows every field's message and moves focus to the first one; a polite status names the fields. Step changes are announced and the new panel's heading takes focus.",
+        "Fields validate from data: required, minLength, pattern, a validate(value, values) function, and the email and url shapes. The validate prop only decides when messages show.",
+        "Edit on the review jumps back to that step; its button becomes Back to review and returns straight there once the step stands.",
+        "Reduced motion: panels cross-fade in place, answers appear on the rail without flying, a held Next flashes the next node instead of leaning, and progress and messages still show.",
+        "The region lays out by its own width: a side rail from 40rem, paired half fields once the panel is 36rem wide, and a compact top rail on phones."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/setup-wizard",
+      "registryItemUrl": "https://www.kinetiqui.com/r/setup-wizard.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/setup-wizard",
+        "npm": "npx shadcn@latest add @kinetiq/setup-wizard",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/setup-wizard",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/setup-wizard",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/setup-wizard.json"
+      }
+    },
+    {
+      "slug": "feedback-widget",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Feedback Widget",
+      "serial": "KQ-1328",
+      "tagline": "Tell us, in ten seconds.",
+      "description": "A feedback widget docked to the edge of a page: its tab opens a panel on glide with a row of drawn faces that wake as the pointer or focus reaches them, the mouth curving into its mood on snap and the pigment rising from grey, the chosen one landing on recoil; a press slid along the row scrubs through them. A choice glides open a text box whose question answers the mood and an optional screenshot that flashes the page and flies its frame into the panel on glide; Send folds the note in half about its crease on glide, tucks it into the tab on the exit ease, and the tab lands on recoil to say thanks. The faces are a radio group (arrows move and choose), Tab stays inside the panel, and Escape closes it and returns focus to the tab.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "feedback",
+        "rating",
+        "faces",
+        "survey",
+        "screenshot",
+        "docked tab",
+        "nps"
+      ],
+      "props": [
+        {
+          "name": "open / defaultOpen",
+          "type": "boolean",
+          "defaultValue": "— / false",
+          "description": "The panel is open."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "description": "Fires from the tab, the close button, Escape or a finished send."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "FeedbackDraft",
+          "defaultValue": "— / emptyFeedback",
+          "description": "The draft: rating (1 to the number of faces, or null), message and screenshot."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(draft: FeedbackDraft) => void",
+          "description": "Fires from the face, keystroke or attachment that changed the draft, and with an empty draft after a send."
+        },
+        {
+          "name": "onSubmit",
+          "type": "(feedback: FeedbackDraft & { scale: number }) => void | Promise<void>",
+          "description": "Sends the feedback. A promise holds Send pending; a rejection's message is shown and Send retries."
+        },
+        {
+          "name": "onCapture",
+          "type": "() => FeedbackShot | Promise<FeedbackShot>",
+          "description": "Takes the screenshot (name and an image src). Without it a drawn sketch of the page is attached."
+        },
+        {
+          "name": "faces",
+          "type": "\"five\" | \"three\" | \"two\"",
+          "defaultValue": "\"five\"",
+          "description": "How many faces the rating offers."
+        },
+        {
+          "name": "dock",
+          "type": "\"right\" | \"left\" | \"bottom\"",
+          "defaultValue": "\"right\"",
+          "description": "The edge the tab sits on; the panel opens beside it (above it for bottom)."
+        },
+        {
+          "name": "steps",
+          "type": "\"guided\" | \"single\" | \"quick\"",
+          "defaultValue": "\"guided\"",
+          "description": "Faces first and the rest after a choice, everything at once, or faces only where a choice sends."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"How is it going?\"",
+          "description": "The panel's question and accessible name."
+        },
+        {
+          "name": "prompts",
+          "type": "Partial<FeedbackPrompts>",
+          "defaultValue": "defaultFeedbackPrompts",
+          "description": "What the text box asks after a low, middling or high rating."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "defaultValue": "\"A sentence or two is plenty.\"",
+          "description": "The text box's hint."
+        },
+        {
+          "name": "maxLength",
+          "type": "number",
+          "defaultValue": "280",
+          "description": "The longest message; the counter turns warn in the last 10%."
+        },
+        {
+          "name": "screenshot",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Offer to attach a screenshot."
+        },
+        {
+          "name": "tabLabel",
+          "type": "string",
+          "defaultValue": "\"Feedback\"",
+          "description": "The tab's word."
+        },
+        {
+          "name": "sentLabel",
+          "type": "string",
+          "defaultValue": "\"Thanks\"",
+          "description": "What the tab and the folded note say once it is sent."
+        },
+        {
+          "name": "thanksHold",
+          "type": "number",
+          "defaultValue": "1600",
+          "description": "How long the tab says thanks, in ms; it waits while the page is hidden."
+        },
+        {
+          "name": "fixed",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Dock to the viewport instead of the page passed as children."
+        },
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "description": "The page the widget docks to."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "The panel's accessible name when it should differ from the title."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "A pop for each face chosen (pitched by rating) and for the note landing in the tab; a swish as the panel opens, closes and folds."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Shows the tab but takes no input."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the root, which wraps the page."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the tab is a button; the panel takes focus on the first (or chosen) face, keeps Tab inside, and Escape closes it and returns focus to the tab. Faces are a radio group: arrows move and choose, Home and End jump; Ctrl or Cmd with Enter sends from the text box.",
+        "In the quick layout a choice sends, so arrows only move between faces there and Space or Enter chooses.",
+        "Pass onCapture to attach a real screenshot ({ name, src }); without it a drawn sketch of the page stands in, so the flow can be shown anywhere.",
+        "Reduced motion: the panel fades where it sits, faces wake by colour without a spring, the capture fades in, and sending shows a short Sent line before the panel fades, while the tab still says thanks.",
+        "The root wraps its children and clips to them; pass fixed to dock to the viewport. feedbackScales names each rating for a host's own status or analytics."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/feedback-widget",
+      "registryItemUrl": "https://www.kinetiqui.com/r/feedback-widget.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/feedback-widget",
+        "npm": "npx shadcn@latest add @kinetiq/feedback-widget",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/feedback-widget",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/feedback-widget",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/feedback-widget.json"
+      }
+    },
+    {
+      "slug": "help-panel",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Help Panel",
+      "serial": "KQ-1329",
+      "tagline": "Answers before you ask.",
+      "description": "A support panel that grows out of a corner launcher: one surface carried from the launcher's circle to the panel's box on glide, shrinking back into it on the exit ease, while the launcher's mark turns into a cross on snap. Inside, views move by direction (a push arrives from 16px right on snap, Back reverses): search with articles suggested for the page before you type and live results with the matched words marked, an article with a helpful vote, a contact form, and a handoff to a live chat where the agent joins, a typing indicator waves and replies arrive on snap, or to a ticket. The search is a combobox over a listbox (Down and Up move, Enter opens), the dialog keeps Tab inside, and Escape steps back a view, clears the search, then closes and returns focus to the launcher.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "help",
+        "support",
+        "live chat",
+        "knowledge base",
+        "search",
+        "contact form",
+        "launcher"
+      ],
+      "props": [
+        {
+          "name": "articles",
+          "type": "HelpArticle[]",
+          "defaultValue": "defaultHelpArticles",
+          "description": "The help centre: id, title, summary, body paragraphs, tags, reading time, views and when it changed."
+        },
+        {
+          "name": "context",
+          "type": "string",
+          "defaultValue": "\"routes\"",
+          "description": "The page the visitor is on, matched against articles' tags for suggestions."
+        },
+        {
+          "name": "contextLabel",
+          "type": "string",
+          "defaultValue": "\"Routes\"",
+          "description": "How that page is named in \"Suggested for …\"."
+        },
+        {
+          "name": "open / defaultOpen",
+          "type": "boolean",
+          "defaultValue": "— / false",
+          "description": "The panel is open."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "description": "Fires from the launcher, the close button or Escape."
+        },
+        {
+          "name": "corner",
+          "type": "\"bottom-right\" | \"bottom-left\" | \"top-right\"",
+          "defaultValue": "\"bottom-right\"",
+          "description": "The corner the launcher sits in; the panel grows out of it."
+        },
+        {
+          "name": "suggest",
+          "type": "\"page\" | \"popular\" | \"off\"",
+          "defaultValue": "\"page\"",
+          "description": "What waits under the search before anything is typed: articles for this page, the most read, or nothing."
+        },
+        {
+          "name": "handoff",
+          "type": "\"chat\" | \"ticket\" | \"instant\"",
+          "defaultValue": "\"chat\"",
+          "description": "Where contacting support leads: a live chat after the form, a ticket after the form, or straight to the chat."
+        },
+        {
+          "name": "greeting",
+          "type": "string",
+          "defaultValue": "\"How can we help?\"",
+          "description": "The line under the visitor's name on the home view."
+        },
+        {
+          "name": "user",
+          "type": "HelpUser",
+          "defaultValue": "defaultHelpUser",
+          "description": "Who is asking: names the greeting and fills the form's email."
+        },
+        {
+          "name": "agent",
+          "type": "HelpAgent",
+          "defaultValue": "defaultHelpAgent",
+          "description": "Who answers the chat: name, role, initials and usual reply time."
+        },
+        {
+          "name": "replies",
+          "type": "string[]",
+          "defaultValue": "defaultHelpReplies",
+          "description": "Uncontrolled chat: what the agent says to each of your messages, in order; {name} and {topic} are filled in."
+        },
+        {
+          "name": "messages",
+          "type": "HelpMessage[]",
+          "description": "Controlled chat: the conversation. When given, the panel shows it and scripts nothing."
+        },
+        {
+          "name": "agentTyping",
+          "type": "boolean",
+          "description": "Controlled chat: the agent is typing."
+        },
+        {
+          "name": "onSend",
+          "type": "(text: string) => void",
+          "description": "You sent a chat message."
+        },
+        {
+          "name": "onArticleOpen",
+          "type": "(article: HelpArticle) => void",
+          "description": "An article was opened from a list."
+        },
+        {
+          "name": "onHelpful",
+          "type": "(articleId: string, helpful: boolean) => void",
+          "description": "Yes or No on \"Was this helpful?\"."
+        },
+        {
+          "name": "onContactSubmit",
+          "type": "(form: HelpContactForm) => void | Promise<void>",
+          "description": "Sends the contact form (topic, message, email). A promise holds Send pending; a rejection's message is shown."
+        },
+        {
+          "name": "onHandoff",
+          "type": "(kind: \"chat\" | \"ticket\") => void",
+          "description": "Support took over: a chat started or a ticket was opened."
+        },
+        {
+          "name": "onViewChange",
+          "type": "(view: HelpView) => void",
+          "description": "The view on screen changed: home, article, contact, chat or ticket."
+        },
+        {
+          "name": "topics",
+          "type": "string[]",
+          "defaultValue": "[\"Routes\", \"Billing\", \"Account\", \"Something else\"]",
+          "description": "The contact form's topic chips."
+        },
+        {
+          "name": "now",
+          "type": "Date | number",
+          "description": "The clock chat messages are stamped with; without it, the time each one arrives."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Loading draws placeholder articles; error offers Retry."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "The Retry button of the error state."
+        },
+        {
+          "name": "fixed",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Sit in a corner of the viewport instead of the page passed as children."
+        },
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "description": "The page the launcher sits on."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Help\"",
+          "description": "The panel's accessible name and kicker."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "A swish as you open, close and move between views; a pop when you send, vote or send the form. The agent makes no sound."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Shows the launcher but takes no input."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the root, which wraps the page."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the launcher is a button for the dialog; opening focuses the search. Down and Up walk the suggestions or results, Enter opens one, Escape steps back a view, then clears the search, then closes and returns focus to the launcher. Tab stays inside the panel.",
+        "The chat is a list whose new agent messages are announced politely, once each; the composer is a real textarea (Enter sends, Shift+Enter breaks the line) and your last message says whether it was read.",
+        "Uncontrolled, the agent is scripted by replies, with timed steps that wait while the page is hidden; pass messages and agentTyping to drive a real conversation, and onSend to receive yours.",
+        "Reduced motion: the panel fades where it sits instead of growing from the launcher, views cross-fade, and the typing dots dim in turn instead of bouncing.",
+        "The panel lays out by the page's width (up to 22.5rem, 23.75rem from 64rem) and never leaves the root, which clips to its children; pass fixed to sit in the viewport's corner."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/help-panel",
+      "registryItemUrl": "https://www.kinetiqui.com/r/help-panel.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/help-panel",
+        "npm": "npx shadcn@latest add @kinetiq/help-panel",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/help-panel",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/help-panel",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/help-panel.json"
+      }
+    },
+    {
+      "slug": "invite-flow",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Invite Flow",
+      "serial": "KQ-1330",
+      "tagline": "Bring the team in.",
+      "description": "An invite form whose addresses become chips as you type a separator, or several at once from a pasted list: each pops in on snap a cascade step after the last, and one that is not an address, is already a member or is past the seats left shakes on a five-key tween once it lands and stays tinted with the reason in its name. Every invitee gets a role (in its chip, in a list with a segmented control sliding on snap, or once for everyone) and the note is optional; Send folds each chip into an envelope where it sits on flick, closes the flap and flies it out across the right edge, x on the exit ease and y on the enter ease so the path rises first, then the count rolls up on snap in a summary of who was invited as what. The chips are a list with roving focus (arrows move, Delete removes, Enter fixes or opens a role listbox) and Ctrl or Cmd with Enter sends from anywhere.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "invite",
+        "email chips",
+        "team",
+        "roles",
+        "paste emails",
+        "seats",
+        "onboarding"
+      ],
+      "props": [
+        {
+          "name": "value / defaultValue",
+          "type": "Invitee[]",
+          "defaultValue": "— / defaultInvitees",
+          "description": "Every address entered, valid or not, with its role."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(invitees: Invitee[]) => void",
+          "description": "Fires from the keystroke, paste, role pick or removal that changed the list, and with [] after a send."
+        },
+        {
+          "name": "message / defaultMessage",
+          "type": "string",
+          "defaultValue": "— / \"\"",
+          "description": "The note sent with the invites."
+        },
+        {
+          "name": "onMessageChange",
+          "type": "(message: string) => void",
+          "description": "Fires as the note is typed."
+        },
+        {
+          "name": "roleOptions",
+          "type": "InviteRole[]",
+          "defaultValue": "defaultInviteRoles",
+          "description": "The roles an invitee can have: id, label and a one-line description."
+        },
+        {
+          "name": "defaultRole",
+          "type": "string",
+          "defaultValue": "\"member\"",
+          "description": "The role a new address starts with."
+        },
+        {
+          "name": "members",
+          "type": "string[]",
+          "description": "Addresses already in the workspace; entered again, they are flagged."
+        },
+        {
+          "name": "seats",
+          "type": "number",
+          "description": "Seats left; addresses past it are flagged. Omit for no limit."
+        },
+        {
+          "name": "onSend",
+          "type": "(invites: Invitee[], message: string) => void | Promise<void>",
+          "description": "Sends the invites. A promise holds Send pending; a rejection's message is shown and nothing leaves."
+        },
+        {
+          "name": "onDone",
+          "type": "() => void",
+          "description": "Invite more was pressed on the summary."
+        },
+        {
+          "name": "inviteLink",
+          "type": "string",
+          "defaultValue": "\"fieldline.app/join/fernworks\"",
+          "description": "The shareable join link offered on the summary."
+        },
+        {
+          "name": "onCopyLink",
+          "type": "(link: string) => void",
+          "description": "The link was copied."
+        },
+        {
+          "name": "chips",
+          "type": "\"avatar\" | \"email\" | \"name\"",
+          "defaultValue": "\"avatar\"",
+          "description": "How a chip shows its person: a tinted initial and the address, the address alone, or a name read from it."
+        },
+        {
+          "name": "roles",
+          "type": "\"chip\" | \"list\" | \"single\"",
+          "defaultValue": "\"chip\"",
+          "description": "Where roles are picked: in each chip, in a list under the field, or once for everyone."
+        },
+        {
+          "name": "send",
+          "type": "\"envelopes\" | \"batch\" | \"fade\"",
+          "defaultValue": "\"envelopes\"",
+          "description": "How Send looks: chips fold into envelopes and fly out, gather on Send into one envelope, or tick and fade."
+        },
+        {
+          "name": "workspace",
+          "type": "string",
+          "defaultValue": "\"Fernworks\"",
+          "description": "The workspace's name, in the heading and the messages."
+        },
+        {
+          "name": "sender",
+          "type": "string",
+          "defaultValue": "\"Dana Kim\"",
+          "description": "Who the note is from, shown under it."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "defaultValue": "\"Add emails, or paste a list\"",
+          "description": "The empty field's hint."
+        },
+        {
+          "name": "maxLength",
+          "type": "number",
+          "defaultValue": "400",
+          "description": "The longest note, in characters."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Loading draws placeholder chips; error offers Retry."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "The Retry button of the error state."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "The region's accessible name when it should differ from the heading."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "A pop for each chip you add (rising a semitone each) and each role change; a swish for each envelope leaving."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Shows the form but takes no input."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the region; give it a max height and it scrolls inside itself."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: Enter, Tab, comma or semicolon turns the text into a chip; Backspace in an empty box, or Left at its start, moves into the chips. There, Left and Right move, Home and End jump, Delete removes, Enter fixes an invalid chip or opens its role listbox (Alt+Down too), and Right past the last returns to the box. Ctrl or Cmd with Enter sends from anywhere.",
+        "Paste a whole list: commas, semicolons and line breaks separate, spaces separate addresses, and \"Name <address>\" keeps the address. A duplicate is not added; the chip already there pulses.",
+        "Send is refused while any chip needs fixing: the invalid chips shake again, the reason is announced and focus goes to the first of them.",
+        "Reduced motion: chips appear without popping, problems show by tint and words without shaking, and Send cross-fades to the summary with each chip checked; the count still lands on the number sent.",
+        "The region lays out by its own width: two columns from 40rem (about 200px tall, so it fits a 232px card) and one column on phones, where it scrolls inside a capped height."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/invite-flow",
+      "registryItemUrl": "https://www.kinetiqui.com/r/invite-flow.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/invite-flow",
+        "npm": "npx shadcn@latest add @kinetiq/invite-flow",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/invite-flow",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/invite-flow",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/invite-flow.json"
       }
     },
     {

@@ -207,4 +207,44 @@ export const STUDIO_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/chart-morph.demo").then((m) =>
       mod(m.ChartMorphDemo, m.tweaks),
     ),
+  "setup-checklist": () =>
+    import("@/registry/demos/setup-checklist.demo").then((m) =>
+      mod(m.SetupChecklistDemo, m.tweaks),
+    ),
+  "sign-in": () =>
+    import("@/registry/demos/sign-in.demo").then((m) =>
+      mod(m.SignInDemo, m.tweaks),
+    ),
+  "upgrade-wall": () =>
+    import("@/registry/demos/upgrade-wall.demo").then((m) =>
+      mod(m.UpgradeWallDemo, m.tweaks),
+    ),
+  "billing-panel": () =>
+    import("@/registry/demos/billing-panel.demo").then((m) =>
+      mod(m.BillingPanelDemo, m.tweaks),
+    ),
+  "settings-form": () =>
+    import("@/registry/demos/settings-form.demo").then((m) =>
+      mod(m.SettingsFormDemo, m.tweaks),
+    ),
+  "integration-hub": () =>
+    import("@/registry/demos/integration-hub.demo").then((m) =>
+      mod(m.IntegrationHubDemo, m.tweaks),
+    ),
+  "setup-wizard": () =>
+    import("@/registry/demos/setup-wizard.demo").then((m) =>
+      mod(m.SetupWizardDemo, m.tweaks),
+    ),
+  "feedback-widget": () =>
+    import("@/registry/demos/feedback-widget.demo").then((m) =>
+      mod(m.FeedbackWidgetDemo, m.tweaks),
+    ),
+  "help-panel": () =>
+    import("@/registry/demos/help-panel.demo").then((m) =>
+      mod(m.HelpPanelDemo, m.tweaks),
+    ),
+  "invite-flow": () =>
+    import("@/registry/demos/invite-flow.demo").then((m) =>
+      mod(m.InviteFlowDemo, m.tweaks),
+    ),
 };

@@ -32858,6 +32858,299 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "setup-checklist",
+      "type": "registry:ui",
+      "title": "Setup Checklist",
+      "description": "An onboarding checklist whose steps open into their own inline action — a field, a choice or one button — on glide to a measured height, while the open step is lifted out as a raised card that travels between rows on glide, placed from the rows' own motion values so it tracks them exactly as they open and close. Finishing a step fills its disc on snap, draws its check on flick and fills the progress ring's share on glide; a beat later the next unfinished step slides into focus, and the last one lands the all-set state with seeded sparks and a check stamped on recoil before Dismiss folds the list into one line. The headers are an accordion: Up and Down move, Enter and Space open, Escape closes a step and returns focus to its header.",
+      "files": [
+        {
+          "path": "registry/ui/setup-checklist.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1321"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "sign-in",
+      "type": "registry:ui",
+      "title": "Sign In",
+      "description": "An authentication card: email first under generic single sign-on buttons, then a choice of method, a code or a password slides in from 16px on glide while the card's height glides to the new step and the step pips widen on snap. The code is one real input drawn as cells — a ring slides on snap to the cell the next digit lands in, digits land on snap, a paste fills them all, and a full code verifies itself under a travelling wave — while a refused field shakes on a symmetric tween, never a spring, and an accepted sign-in flies the button that finished it into the welcome's avatar on glide. Every step is a real form: Enter submits, Escape goes back a step, and focus moves to each step's first field as it arrives.",
+      "files": [
+        {
+          "path": "registry/ui/sign-in.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1322"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "upgrade-wall",
+      "type": "registry:ui",
+      "title": "Upgrade Wall",
+      "description": "A paywall whose comparison shows what the chosen plan unlocks: those rows light in a cascade and their locks lift open on snap, and a plan change re-lights only the rows that changed while the chosen column's cells roll and, in the all-plans view, a band slides across to the new column on snap. Plan and billing are radiogroups with pills that slide on snap, every price rolls digit by digit, and the trial is drawn as a track from today to the first charge whose span sweeps in on glide, ticking off each day, with the reminder above it. The purchase button holds its width through pending, success and error — success stamps its check on recoil and turns the track and the unlocked rows green — and the plan and billing groups take arrow keys while the comparison is a real table.",
+      "files": [
+        {
+          "path": "registry/ui/upgrade-wall.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1323"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "billing-panel",
+      "type": "registry:ui",
+      "title": "Billing Panel",
+      "description": "A billing settings panel built from data: the cards on file are a deck that sits in a pile and fans out like a hand, unfolds into wallet strips, or lies flat, every pose a glide from one function of the deck's measured width; Make default lifts the chosen card, slides it to the front on glide and the Default tag slides across to it on snap. The next bill rolls digit by digit on snap as you drag the projected-usage slider 1:1 — it rubber-bands against what has already been used and lands on its step with the throw's velocity — and invoices download through a promise with a turning ring and a check drawn on flick. The deck is a tablist (arrows open the pile and move, Escape folds it), the projection a slider (arrows, Page keys, Home and End).",
+      "files": [
+        {
+          "path": "registry/ui/billing-panel.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1324"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "settings-form",
+      "type": "registry:ui",
+      "title": "Settings Form",
+      "description": "A settings form built from typed sections that knows what you changed: a changed field grows an edge bar on snap with a bloom of accent washing into its row, and a save bar slides up on snap counting the changes, its digit rolling as fields change and come back. Discard plays every change backwards — text un-types and re-types, a switch's knob slides home, a choice's indicator slides back, a select's label rolls back down, a range's thumb glides home — newest edit first; Save waits on a promise, then confirms field by field with a check drawn on flick while the count rolls down, and fields the save refuses shake and keep their message. Enter and Ctrl/⌘+S save, Escape takes a changed text field back, every field has its Revert, and each control is native or a real widget.",
+      "files": [
+        {
+          "path": "registry/ui/settings-form.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1325"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "integration-hub",
+      "type": "registry:ui",
+      "title": "Integration Hub",
+      "description": "A directory of integrations built from data, each with a seeded glyph and a connect switch that does not flip at once: its knob waits halfway on snap while the permissions step slides in as a sheet — from the side or the bottom on glide, or a dialog rising in the centre on snap — listing required scopes locked and the rest as checkboxes, and completes its travel when onConnect's promise lands. Connected cards read their sync (synced, syncing, paused, needing attention) with the time since the last one, and the search filters as you type: cards that stay glide to their new cells, cards that go fade and shrink on the exit ease, and returning ones rise on snap. The sheet is a modal dialog with a focus trap, Escape and focus returned to its opener; categories are a radiogroup, \"/\" jumps to the search and Escape clears it.",
+      "files": [
+        {
+          "path": "registry/ui/integration-hub.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1326"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "setup-wizard",
+      "type": "registry:ui",
+      "title": "Setup Wizard",
+      "description": "A multi-step setup flow whose rail is also its record: the fill follows the step on glide, and a valid Next lifts the step's answer off the panel and flies it to that step's place on the rail, x on glide and y on snap so the path bows, where it stays. A Next the step cannot take leans the rail toward the next node on flick and pulls it back on snap while each field says why; panels swap by direction by 16px on snap inside a box that glides to the measured height, and the review lists every answer with an Edit link that returns straight to it. The rail is a list of buttons, the panel a real form where Enter is Next, choices are native radio groups moved with the arrow keys, and the new panel's heading takes focus as it arrives.",
+      "files": [
+        {
+          "path": "registry/ui/setup-wizard.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1327"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "feedback-widget",
+      "type": "registry:ui",
+      "title": "Feedback Widget",
+      "description": "A feedback widget docked to the edge of a page: its tab opens a panel on glide with a row of drawn faces that wake as the pointer or focus reaches them, the mouth curving into its mood on snap and the pigment rising from grey, the chosen one landing on recoil; a press slid along the row scrubs through them. A choice glides open a text box whose question answers the mood and an optional screenshot that flashes the page and flies its frame into the panel on glide; Send folds the note in half about its crease on glide, tucks it into the tab on the exit ease, and the tab lands on recoil to say thanks. The faces are a radio group (arrows move and choose), Tab stays inside the panel, and Escape closes it and returns focus to the tab.",
+      "files": [
+        {
+          "path": "registry/ui/feedback-widget.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1328"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "help-panel",
+      "type": "registry:ui",
+      "title": "Help Panel",
+      "description": "A support panel that grows out of a corner launcher: one surface carried from the launcher's circle to the panel's box on glide, shrinking back into it on the exit ease, while the launcher's mark turns into a cross on snap. Inside, views move by direction (a push arrives from 16px right on snap, Back reverses): search with articles suggested for the page before you type and live results with the matched words marked, an article with a helpful vote, a contact form, and a handoff to a live chat where the agent joins, a typing indicator waves and replies arrive on snap, or to a ticket. The search is a combobox over a listbox (Down and Up move, Enter opens), the dialog keeps Tab inside, and Escape steps back a view, clears the search, then closes and returns focus to the launcher.",
+      "files": [
+        {
+          "path": "registry/ui/help-panel.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1329"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "invite-flow",
+      "type": "registry:ui",
+      "title": "Invite Flow",
+      "description": "An invite form whose addresses become chips as you type a separator, or several at once from a pasted list: each pops in on snap a cascade step after the last, and one that is not an address, is already a member or is past the seats left shakes on a five-key tween once it lands and stays tinted with the reason in its name. Every invitee gets a role (in its chip, in a list with a segmented control sliding on snap, or once for everyone) and the note is optional; Send folds each chip into an envelope where it sits on flick, closes the flap and flies it out across the right edge, x on the exit ease and y on the enter ease so the path rises first, then the count rolls up on snap in a summary of who was invited as what. The chips are a list with roving focus (arrows move, Delete removes, Enter fixes or opens a role listbox) and Ctrl or Cmd with Enter sends from anywhere.",
+      "files": [
+        {
+          "path": "registry/ui/invite-flow.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1330"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
