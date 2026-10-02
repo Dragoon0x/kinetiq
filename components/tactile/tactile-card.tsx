@@ -89,10 +89,15 @@ export const TactileCard = React.memo(function TactileCard({
   item,
   sound,
   onOpen,
+  fillCols,
+  fillRows,
 }: {
   item: TactileItem;
   sound: boolean;
   onOpen: (item: TactileItem, from: HTMLElement) => void;
+  /** A span from grid-fill.ts that closes a gap; overrides the aspect's classes. */
+  fillCols?: number;
+  fillRows?: number;
 }) {
   const motionSafe = useMotionSafe();
   const room = useRoom();
@@ -129,6 +134,14 @@ export const TactileCard = React.memo(function TactileCard({
         "group/card relative flex min-w-0 flex-col overflow-clip rounded-4 border border-hairline bg-surface-1 transition-colors [contain:paint] hover:border-hairline-strong",
         SPAN[item.aspect],
       )}
+      style={
+        fillCols && fillRows
+          ? {
+              gridColumn: `span ${fillCols} / span ${fillCols}`,
+              gridRow: `span ${fillRows} / span ${fillRows}`,
+            }
+          : undefined
+      }
     >
       <div className="flex h-11 shrink-0 items-center justify-between gap-2 pr-2 pl-4">
         <span className="inline-flex min-w-0 items-center gap-2 font-mono text-[10px] tracking-[0.08em] text-ink-3 uppercase">

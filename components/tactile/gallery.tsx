@@ -16,6 +16,7 @@ import {
 } from "@/registry/lib/tweaks";
 import { cn } from "@/registry/lib/utils";
 
+import { fillGrid, useGridColumns } from "./grid-fill";
 import { GroupGlyph } from "./group-glyph";
 import { RoomProvider, type Room } from "./room";
 import { useSoundPref } from "./sound-pref";
@@ -182,6 +183,17 @@ function Gallery({ room, items }: { room: Room; items: TactileItem[] }) {
           b.serial.localeCompare(a.serial, undefined, { numeric: true }),
         );
   }, [items, query, sort, group]);
+
+  // Grow a few cards so the filtered wall has no empty cells at this width.
+  const columns = useGridColumns();
+  const fills = React.useMemo(
+    () =>
+      fillGrid(
+        filtered.map((item) => item.aspect),
+        columns,
+      ),
+    [filtered, columns],
+  );
 
   const shownItem = items.find((i) => i.name === shown) ?? null;
   const values: TweakState = {
@@ -423,12 +435,14 @@ function Gallery({ room, items }: { room: Room; items: TactileItem[] }) {
       <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6">
         {filtered.length > 0 ? (
           <div className="grid [grid-auto-flow:dense] auto-rows-[340px] grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-            {filtered.map((item) => (
+            {filtered.map((item, index) => (
               <TactileCard
                 key={item.name}
                 item={item}
                 sound={sound}
                 onOpen={openItem}
+                fillCols={fills[index]?.[0]}
+                fillRows={fills[index]?.[1]}
               />
             ))}
           </div>
