@@ -23121,6 +23121,376 @@ Notes:
 - Reduced motion fades the tag in hanging still and fades it out, with the counter cross-fading and no swing, fall, nudge or bump.
 - Pass format for other currencies or decimals; the tag's width follows the printed string, so the same price always draws the same tag on the server and the client.
 
+### Answer Panel (KQ-1291) — `answer-panel`
+Read it while it is still being written.
+
+An AI answer you can read while it is written: thoughts arrive one at a time on snap, then the answer streams token by token behind a caret, its numbered citation pills scaling in on snap where each claim is made and lifting their source card on snap when hovered or focused. When the text is done the Thinking block collapses on glide into a one-line summary, the actions and follow-ups rise in a cascade, a pressed thumb lands on recoil, and Regenerate rewinds the text on the move ease before writing again. Tab reaches every pill, thumb and follow-up; focusing a pill opens its card, Enter opens the source and Escape closes the card.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/answer-panel`
+
+Props:
+- `question`: string (default defaultQuestion) — What was asked; names the panel.
+- `answer`: string (default defaultAnswer) — The answer. Blank lines split paragraphs, "- " starts a bullet, and [n] cites sources[n - 1].
+- `sources`: AnswerSource[] (default defaultSources) — The sources the answer can cite, in citation order: title, site, snippet, meta.
+- `thoughts`: AnswerThought[] (default defaultThoughts) — The steps taken before writing, each with its duration in ms.
+- `suggestions`: string[] (default defaultSuggestions) — Follow-up questions offered once the answer is done.
+- `model`: string (default "Fernworks Model 3") — The model that wrote it, printed in the action row.
+- `status / defaultStatus`: "thinking" | "streaming" | "done" | "error" (default — / "thinking") — The lifecycle. Controlled, the panel asks for the next status and waits for the host.
+- `onStatusChange`: (status: AnswerStatus) => void — Fires when the panel moves on: thinking finished, text finished, or Regenerate pressed.
+- `speed`: number (default 32) — Tokens per second the answer is written at; thoughts hold longer when it is slow.
+- `citations`: "pill" | "number" | "none" (default "pill") — Citation markers as numbered pills, bare superscript numbers, or not at all.
+- `followups`: "list" | "chips" | "none" (default "list") — Follow-ups as full-width rows, wrapping chips, or not at all.
+- `feedback / defaultFeedback`: "up" | "down" | null (default — / null) — The visitor's rating of the answer.
+- `onFeedbackChange`: (feedback: AnswerFeedback) => void — Fires from the thumb that changed it, and with null when Regenerate clears it.
+- `onFeedbackReason`: (reason: string) => void — The reason picked after Not helpful.
+- `reasons`: string[] (default ["Inaccurate", "Out of date", "Missed the question", "Too long"]) — Reasons offered after Not helpful.
+- `onRegenerate`: () => void — Regenerate or Retry was pressed. Swap `answer` here; the old text rewinds first.
+- `onFollowup`: (text: string) => void — A follow-up was chosen.
+- `onSourceOpen`: (source: AnswerSource) => void — A citation or a listed source was opened.
+- `onCopy`: (text: string) => void — Copy was pressed, with the plain text sent to the clipboard (markers out, sources listed after).
+- `errorMessage`: string (default "The answer stopped partway.") — What the error line says.
+- `sound`: boolean (default false) — Play the thumbs, the copy, the disclosure and the rewind. The stream itself is silent.
+- `disabled`: boolean (default false) — Disables the actions, feedback and follow-ups; the answer still reads.
+- `className`: string — Give the panel a height (h-[32rem]) and its body scrolls inside it.
+
+Notes:
+- Keyboard: Tab reaches the Thinking disclosure, each citation pill, the actions, thumbs, reasons and follow-ups. Focusing a pill opens its source card (described by it); Enter opens the source, Escape closes the card.
+- Drive it live by controlling `status` and appending to `answer` as chunks arrive: the panel paces bursty chunks into a steady stream, and setting `status="done"` flushes the rest quickly. Uncontrolled, it plays `thoughts` and `answer` by itself.
+- The body follows the caret only while the reader is at the bottom; scrolling up keeps their place and shows a Jump to latest pill.
+- Reduced motion: tokens still arrive (without fades), the caret does not blink, cards and pills appear on opacity, lists open at once and Regenerate clears instantly before re-streaming.
+- Pacing runs on requestAnimationFrame only while the panel is on screen and the page is visible; a polite status announces each phase once, never per token.
+
+### Agent Run (KQ-1292) — `agent-run`
+Watch the plan; approve the risky step.
+
+An agent's run watched as it happens: steps move from pending to running to done or failed with live durations, nodes filling and ticking on flick, tool calls opening to a measured height on glide, and a time and cost meter whose digits run with the clock. A risky step halts the run behind an inline gate that glides open; holding Approve sweeps a linear fill, drains on the exit ease if let go early, and lands on recoil before the gate folds into a stamp. The timeline scrubs 1:1 and rubber-bands against its ends and any undecided gate, springing back on glide; arrow keys move the playhead and the plan, Space or Enter held approves.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/agent-run`
+
+Props:
+- `run`: AgentRunData (default defaultRun) — The run log: title, agent, model, budget in cents, and each step's title, tool, ms, cost, input, output, error and gate.
+- `now`: number — Controlled clock in ms since the run started. The host owns time; scrubs and Replay ask through onNowChange.
+- `defaultNow`: number (default 0) — Where the console's own clock starts.
+- `onNowChange`: (ms: number) => void — A scrub, a seek, a key or Replay asked for a new time.
+- `playing / defaultPlaying`: boolean (default — / true) — Whether the console's own clock runs. It also pauses by itself off screen and in a hidden tab.
+- `onPlayingChange`: (playing: boolean) => void — Play, Pause, Replay or the run reaching its end.
+- `speed`: number (default 1) — How fast the console's clock runs, as a multiple of real time.
+- `detail`: "compact" | "standard" | "full" (default "standard") — Titles only, a one-line call under each step, or every call opened.
+- `approval`: "hold" | "click" | "auto" (default "hold") — Approve a gated step with a press and hold, a plain click, or let policy approve it without pausing.
+- `holdMs`: number (default 700) — How long the approve button has to be held.
+- `onDecision`: (stepId: string, decision: "approved" | "denied") => void — A gated step was approved or denied.
+- `onStateChange`: (state: AgentRunState, step: AgentStep | null) => void — The run moved on (running, paused, waiting, finished, failed, stopped) from its own clock, a scrub, a decision or play and pause.
+- `onReplay`: () => void — Replay was pressed: decisions clear and the clock rewinds to zero.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the run log is there yet: skeleton rows while loading, a Retry when it failed, and an empty plan says so.
+- `onRetry`: () => void — Retry on the error state.
+- `formatCost`: (cents: number) => string (default Intl US dollars) — How a cost in cents is shown in the meter and the log.
+- `label`: string (default run.title) — The console's accessible name.
+- `sound`: boolean (default false) — Play the approval chime, scrub ticks and control clicks. The run playing on its own is silent.
+- `disabled`: boolean (default false) — Disables the controls, the gate and the timeline.
+- `className`: string — Give the console a height (h-[34rem]) and the plan scrolls inside it.
+
+Notes:
+- Keyboard: the plan is one tab stop; Up and Down move between steps, Home and End jump, Enter or Space opens a step's call. The approve button charges while Space or Enter is held; assistive technology that clicks it gets a 'Press again' confirm instead.
+- The timeline is a slider: arrows move the playhead a second, Shift with an arrow jumps step to step, Page keys five seconds, Home and End to the start and to the furthest point the run can reach.
+- Drive it live by passing `now` (ms since start) and appending steps to `run`; a gated step with no decision holds the run until onDecision answers. Uncontrolled, it replays the log on its own clock.
+- Reduced motion: the clock still runs and every state still changes; nothing spins, panels open at once, seeks and Replay jump, and the hold still fills because the fill is the feedback.
+- Only step boundaries re-render: durations, meters and the playhead are motion values. The plan and the activity log scroll their own boxes, never the page.
+
+### Prompt Dock (KQ-1293) — `prompt-dock`
+Everything you need, around the box you type in.
+
+A prompt box with its context around it: a tray of pinned files and snippets that collapses into a count as each chip's icon flies into a stack on glide, files dropped on the dock flying from the drop point into the tray (x on glide, y on snap, so the path bows), and an @ menu whose chosen row flies in the same way. A model pill opens in place into every model with a highlight sliding on snap, the token meter fills and warms toward the limit and bumps on recoil as it crosses 90% and the limit, and Send's arrow folds into a stop square on snap while a reply is written. The box is a real textarea and combobox: arrows walk the @ menu, Enter or Tab attaches, Escape closes it or stops a reply, and Backspace in an empty box removes the last chip.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/prompt-dock`
+
+Props:
+- `value / defaultValue`: string (default — / "") — The prompt text.
+- `onValueChange`: (text: string) => void — Fires from the keystroke, the @ choice or the send that changed the text.
+- `context / defaultContext`: DockItem[] (default — / defaultContext) — The items in the tray: id, kind, name, tokens and an optional detail.
+- `onContextChange`: (items: DockItem[]) => void — Fires from the drop, the attach, the @ choice or the remove that changed the tray.
+- `sources`: DockItem[] (default defaultSources) — What the @ menu offers, filtered as you type.
+- `models`: DockModel[] (default defaultModels) — The models the pill switches between: id, name, short name, note.
+- `model`: string (default the first model) — The selected model's id. A new value slides the pill to it; the visitor's own switch is reported through onModelChange.
+- `onModelChange`: (id: string) => void — The visitor chose a model.
+- `tray`: "open" | "count" | "auto" (default "open") — The tray starts open, starts collapsed into a count, or collapses itself while there is text in the box.
+- `limit`: number (default 8000) — The context budget in tokens: the meter warms toward it and Send stops past it.
+- `generating / defaultGenerating`: boolean (default — / false) — A reply is being written, so Send is Stop. Uncontrolled, Send turns it on and Stop off.
+- `onGeneratingChange`: (generating: boolean) => void — Send or Stop changed it.
+- `onSend`: (message: { text, context, model }) => void — Send or Enter, with what was sent. The box clears.
+- `onStop`: () => void — Stop was pressed, or Escape while a reply is written.
+- `onFilesAdd`: (files: File[]) => void — Files dropped on the dock or picked with Attach.
+- `accept`: string — File types the Attach picker offers, as for an input's accept.
+- `placeholder`: string (default "Ask anything, or type @ to add context") — The empty box's hint.
+- `maxRows`: number (default 6) — How many lines the box grows to before it scrolls.
+- `label`: string (default "Prompt") — The dock's and the box's accessible name.
+- `sound`: boolean (default false) — Play the chip landings, the switches, Stop and the send.
+- `disabled`: boolean (default false) — Disables the box, the tray, the picker and Send.
+- `className`: string — Classes for the dock's outer box.
+
+Notes:
+- Keyboard: type @ (or press the @ button) to open the menu; Up and Down move, Enter or Tab attaches, Escape closes. Enter sends, Shift+Enter breaks the line, Escape stops a reply, and Backspace in an empty box removes the last chip.
+- The model pill opens a horizontal listbox: Left and Right move, Home and End jump, Enter chooses, Escape returns focus to the pill. The tray toggle keeps focus as it collapses and opens.
+- Drops and Attach report the raw files through onFilesAdd and add a chip each, with tokens estimated from size; give `context` and `onContextChange` to own the list.
+- Reduced motion: nothing flies or slides; chips appear in their slots, the model label swaps, the send icon changes at once, nothing spins, and the token meter still fills and warms.
+- The dock's height is measured and glides; every flyer flies inside the dock's own box.
+
+### Thread View (KQ-1294) — `thread-view`
+A conversation you can branch.
+
+A complete assistant thread over a tree of messages: runs from one author share an avatar, each message's toolbar rises into place on snap, copy morphs into a check on flick and a reaction lands on recoil. Editing a sent message forks the thread, and the version switcher slides the message and every reply under it — the old branch out on the exit ease, the new one in on glide — while its counter rolls on snap and the edited bubble's measured height glides. Scrolled up, a pill counts the replies that land and glides the log to the newest on glide; End does the same, Enter sends or saves, Shift+Enter breaks a line and Escape cancels an edit.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/thread-view`
+
+Props:
+- `messages / defaultMessages`: ThreadMessage[] (default defaultThreadMessages) — Every version of every turn as one flat list: messages that share a parentId are versions of one turn. Controlled or uncontrolled.
+- `onMessagesChange`: (messages: ThreadMessage[]) => void — Fires from the send, edit or reaction that changed the list, with the whole new list.
+- `leaf / defaultLeaf`: string — Any message on the branch to show. The thread runs from the first turn through it, then on down the newest replies. Defaults to the newest version of every turn.
+- `onLeafChange`: (leaf: string) => void — Fires when a version switch, a send or an edit moves the visible branch.
+- `density`: "compact" | "cozy" | "roomy" (default "cozy") — How tightly the thread is set: type size, bubble padding, avatar size and the gap between runs.
+- `branches`: boolean (default true) — Edits keep every version, with a switcher to move between them. Off: the data still forks, but an edit reads as a replacement.
+- `toolbar`: "hover" | "always" | "off" (default "hover") — Each message's actions: a pill on hover, focus or tap, a row always shown, or none for a read-only transcript.
+- `onSend`: (text: string, message: ThreadMessage) => void — A message was sent from the composer. It is already in the list; stream the reply in as a child of message.id.
+- `onEdit`: (original: ThreadMessage, version: ThreadMessage) => void — A message was edited: version is the new sibling of original and the branch now shows it.
+- `onCopy`: (text: string, messageId: string) => void — A message or one of its code blocks was copied to the clipboard.
+- `onReact`: (messageId: string, reaction: "up" | "down" | null) => void — A reply was marked good or bad, or the mark was cleared.
+- `onRetry`: (messageId: string) => void — Retry was pressed on a reply whose status is "error".
+- `onReload`: () => void — Try again was pressed while status is "error".
+- `now`: number | Date — The moment relative times count from. Defaults to the newest message's time, so the thread renders the same on the server and in the browser.
+- `author`: string — The name new messages are sent under. Defaults to the newest user message's author, else "You".
+- `title`: string (default "Basin export retries") — The thread's name in the header; also its accessible name unless label is given.
+- `model`: string (default "Fernworks Model 3") — The model answering, shown in the header and the composer's placeholder.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the thread's data has arrived: a skeleton while loading, a message with Try again on error.
+- `composer`: boolean (default true) — Show the composer: a textarea that grows to five lines, Enter to send, Shift+Enter for a new line.
+- `placeholder`: string — The composer's placeholder. Defaults to "Message" and the model's name.
+- `suggestions`: string[] — Prompts offered while the thread is empty; pressing one fills the composer.
+- `label`: string — The thread's accessible name. Defaults to the title.
+- `sound`: boolean (default false) — A pop for a send, a saved edit or a reaction; a tick for a version switch, a copy and the jump to the latest.
+- `disabled`: boolean (default false) — Read only: nothing can be sent, edited or reacted to.
+- `className`: string — Classes for the root. It is 560px tall by default; pass a height class to change it.
+
+Notes:
+- Keyboard: Tab reaches each message's tools (the hover pill shows while focus is inside), Enter on Edit opens the editor, Enter saves and Escape cancels with focus back on Edit; the version switcher's Previous and Next say which version is shown; End in the focused log glides to the newest message.
+- Streaming is the host's: append an assistant message with status "streaming", grow its text as tokens arrive and clear the status when done. The log stays on its floor while you are there, and the live region announces each finished reply once, never per token.
+- Under reduced motion nothing travels: version swaps, arrivals, the toolbar and the pill cross-fade, the jump to the latest is instant and the caret holds still, while counts, checks and reactions still show.
+- Lays out by its own width: a phone layout below 30rem (tools on tap, wider bubbles), and from 60rem a rail listing the visible turns, with fork counts, that glides the log to each one.
+- Times are relative to now, never the clock, and new messages are stamped after the newest one — pass at yourself through onMessagesChange if you need wall-clock times.
+
+### Usage Ledger (KQ-1295) — `usage-ledger`
+Where the tokens went.
+
+An AI usage panel built from daily records: each day is a column stacked by model, by kind or as one total that grows up from the baseline on glide, the whole period sweeping in inside 360ms, while the month's spend sweeps round a budget gauge on drift toward its projected month end. The daily alert is a line you drag: it follows the finger 1:1 with a magnetic pull onto round numbers, rubber-bands past the plot, re-colours every day above it to warn as it passes, and springs onto its value on snap with the release velocity. The plot is a slider over the days (arrows step, Home and End jump, Enter selects), the line's grip a slider over the threshold (arrows one step, Page keys four), and the period a radio group.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/usage-ledger`
+
+Props:
+- `threshold / defaultThreshold`: number (default 1500000) — The daily alert in tokens: the line you drag. Days above it turn warn. Controlled or uncontrolled.
+- `onThresholdChange`: (threshold: number) => void — Fires from the drag or key that moved the line, once for each round value it lands on.
+- `stack`: "model" | "kind" | "total" (default "model") — What each day's column is split by: each model, input / output / cached, or one total. The legend follows.
+- `range / defaultRange`: "7d" | "30d" | "90d" (default "30d") — The period shown: the last 7, 30 or 90 days up to now. Controlled or uncontrolled.
+- `onRangeChange`: (range: "7d" | "30d" | "90d") => void — Fires from the period control with the new period.
+- `thresholdStep`: number — The round number the line snaps to. Defaults to a nice twelfth of the axis (250k on a 3M axis).
+- `models`: UsageModel[] (default defaultUsageModels) — The models billed: id, name, an optional colour, and a price per million input, output and cached tokens.
+- `days`: UsageDay[] (default defaultUsageDays) — One record per day (date as YYYY-MM-DD), with tokens per model id. The default is ninety seeded days.
+- `now`: number | Date — Today: where the period ends and the month's spend is counted to. Defaults to the last day in days.
+- `budget`: number (default 330) — The monthly budget. The gauge shows the month's spend against it and where the month is heading.
+- `onDaySelect`: (date: string) => void — Enter on the focused day, or a click on a column.
+- `format`: (amount: number) => string — Money in the gauge and its caption. Defaults to US dollars in locale.
+- `formatTokens`: (tokens: number) => string — Token counts on the axis, the grip, the readouts and the legend. Defaults to compact: 820k, 1.5M.
+- `formatDate`: (date: string) => string — Day labels from a YYYY-MM-DD date. Defaults to "Sep 14".
+- `locale`: string (default "en-US") — The locale of the default money format. Fixed, so the server and the browser print the same.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the usage has arrived: a skeleton while loading, a message with Try again on error.
+- `onRetry`: () => void — Try again was pressed while status is "error".
+- `title`: string (default "Usage") — The panel's heading; also its accessible name unless label is given.
+- `label`: string — The panel's accessible name. Defaults to the title.
+- `sound`: boolean (default false) — A detent for each round value the line lands on, pitched by height; a tick for each day the keyboard steps and for a period change.
+- `disabled`: boolean (default false) — Read only: the line, the days and the period cannot be moved.
+- `className`: string — Classes for the root. It is 560px tall and scrolls inside itself; pass a height class to change it.
+
+Notes:
+- Keyboard: the plot is a slider over the days — Left and Right step a day, Page keys a week, Home and End jump, Enter fires onDaySelect, Escape clears the readout; the alert grip is a vertical slider — Up and Down one round step, Page keys four, Home and End the ends; the period is a radio group on the arrow keys.
+- The threshold reports once per round value it lands on, from the drag or key that moved it. A controlled host that refuses a value sees the line spring back to its own value on release.
+- Under reduced motion the columns, the gauge and the sparklines appear drawn, and the line follows the finger without springs or rubber-band; it still snaps, and the days still change colour, because that is the information.
+- Lays out by its own width: one column on a phone (scrolling inside its box), the gauge beside the chart from 40rem, and the legend as a third column from 68rem.
+- Bars are pigment: each series takes a token's hue at a fixed lightness, so a model reads the same colour in light and dark. Pass a model colour as a CSS colour string to override it.
+
+### Side by Side (KQ-1296) — `side-by-side`
+Two models, one prompt, you decide.
+
+Two models answer one prompt in parallel columns, each streaming at its own pace — its time to first token, then its token rate, scaled by speed — with a live clock, a progress hairline and a Done stamp that lands on flick. Once both finish, a highlighter sweeps across what each says that the other does not, in reading order within 600ms, and the stats tally beneath them with bars that grow on glide. The vote puck drags 1:1, rubber-bands past the ends and settles on snap at the stop the throw was heading for, the preferred column takes its hue as a badge lands on recoil, and the reason you pick moves into the summary on glide; the stops are a radio group on the arrow keys, and on a phone the answers become two tabs.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/side-by-side`
+
+Props:
+- `speed`: number (default 1) — Playback speed of both streams as a multiple of real time. The clocks and stats still read in the models' real time.
+- `diff`: "phrases" | "sentences" | "off" (default "phrases") — What is marked once both finish: runs of two or more words the other answer never uses, whole sentences with under half their words in common, or nothing.
+- `vote`: "pick" | "scale" (default "pick") — The vote bar: three stops (A better, tie, B better), or five with much better at each end.
+- `prompt`: string (default defaultComparisonPrompt) — The prompt both models answered, shown above the columns.
+- `answers`: [ComparisonAnswer, ComparisonAnswer] (default defaultComparisonAnswers) — The two answers: id, model, text, latencyMs and tokensPerSecond. Set an answer's status to drive its column yourself as text arrives; leave it unset and the column plays the text in at its own pace.
+- `autoPlay`: boolean (default true) — Start streaming when the surface first scrolls into view. Off: both answers show complete, with their marks.
+- `value / defaultValue`: ComparisonVote | null (default null) — The vote: choice ("a", "b" or "tie"), margin (1 or 2) and an optional reason. Controlled or uncontrolled.
+- `onValueChange`: (vote: ComparisonVote | null) => void — Fires from the drag, key or press that changed the vote or its reason.
+- `reasons`: string[] — Why a winner won, offered after a vote for a side. Defaults to More accurate, Clearer, More concise, Safer advice.
+- `onRerun`: () => void — Run again was pressed: both streams replay from the start and an uncontrolled vote clears.
+- `onRetry`: (answerId: string) => void — Retry was pressed on a column whose answer has status "error".
+- `onFinish`: (answerId: string, stats: ComparisonStats) => void — A column finished playing, with its first-token time, total time, token count and rate.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the run has data yet: skeleton columns while loading, a message with Run again on error.
+- `labels`: { a: string; b: string } (default { a: "A", b: "B" }) — The two columns' short names, used on their badges, the stats and the vote stops.
+- `label`: string (default "Model comparison") — The surface's accessible name.
+- `sound`: boolean (default false) — A tick for each stop the puck crosses and each reason picked; a chime when a vote lands, pitched by side.
+- `disabled`: boolean (default false) — Read only: no vote, no reason, no re-run.
+- `className`: string — Classes for the root. It is 560px tall by default; pass a height class to change it.
+
+Notes:
+- Keyboard: the vote stops are a radio group — Left and Right move and vote, Home and End jump — enabled once both answers finish; reason chips are a second radio group; each answer's text box is focusable and scrolls with the arrow keys; on a phone the two answers are tabs on the arrow keys.
+- The live region speaks each column's finish once and the number of marked differences once, never per token.
+- Under reduced motion the text still streams (it is the data) but without the per-token fade, the highlights appear without the sweep, and the puck follows the finger without springs or rubber-band; the vote, the badge and the reason still land.
+- Lays out by its own width: two tabs over one answer below 30rem (the whole surface scrolls), two columns with the stats and the vote beneath from 30rem, and a third column holding the stats and the vote from 64rem.
+- Playback runs only while the surface is in view and the page is visible, and the clock carries on from where it stood when it resumes.
+
+### Artifact Pane (KQ-1297) — `artifact-pane`
+The thing it made, beside the chat.
+
+A generated file beside the conversation that made it. Switching versions applies the diff in place: shared lines keep their element, dropped lines are struck and fold away on the exit ease, and new lines open on glide under a wash that sweeps across them in a cascade, on the Preview block by block and on the Code tab line by line, while the change count rolls on snap and the Preview / Code panels slide 16px on glide. Dock folds the pane into a chip in the thread: a ghost of its frame flies into the chip on glide, homing on its live box while the pane's column closes, and lands on recoil; the tabs and version pills take arrow keys, and Escape anywhere in the pane docks it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/artifact-pane`
+
+Props:
+- `versions`: "pills" | "stepper" | "timeline" (default "pills") — How the version history is offered: a segmented control whose indicator slides on snap, Previous and Next around a rolling readout, or a strip of dots under the header whose rail fills on glide.
+- `diff`: "flash" | "hold" | "off" (default "flash") — What a version switch shows: marks that flash and fold away, marks that stay (with a Changes toggle) until cleared, or a plain swap.
+- `dock`: "inline" | "pinned" (default "inline") — Where the docked pane lands: as a card inside the message that made the shown version, or on a bar pinned to the foot of the conversation.
+- `artifact`: Artifact (default defaultArtifact) — The file and every version of it, oldest first: title, filename, kind ("document" renders its Markdown, "code" shows a preview node when a version has one) and versions with summary, time and source.
+- `conversation`: ArtifactTurn[] (default defaultArtifactConversation) — The turns beside it. An assistant turn with a version id carries a chip that opens that version.
+- `version / defaultVersion`: string (default the newest version) — The shown version's id. Uncontrolled, an appended version is followed when the reader was on the newest one.
+- `onVersionChange`: (id: string) => void — Fires from the control, chip or arrow key that chose another version.
+- `tab / defaultTab`: "preview" | "code" (default "preview") — The shown view. A code artifact whose version has no preview shows Code only.
+- `onTabChange`: (tab: "preview" | "code") => void — Fires from the tab or arrow key that switched the view.
+- `open / defaultOpen`: boolean (default true) — Whether the pane is open beside the conversation or docked into it as a chip. Controlled or uncontrolled; a host change flies the same way a press does.
+- `onOpenChange`: (open: boolean) => void — Fires from the Dock button, the chip, a version chip or Escape, with the new state.
+- `status`: "ready" | "writing" | "error" (default "ready") — A new version is being written (a badge, a running hairline and a typing row in the thread), or the last revision failed (a strip with Retry).
+- `onRetry`: () => void — Retry was pressed after a failed revision.
+- `onCopy`: (text: string, version: ArtifactVersion) => void — The shown version's source was copied to the clipboard.
+- `onDownload`: (file: ArtifactFile) => void | false — The shown version is being saved, as { name, text, type }. Return false to save it yourself; otherwise the pane saves it through the browser.
+- `now`: number | Date (default the newest version's time) — The moment relative times count from, so the surface renders the same on the server and in the browser.
+- `label`: string — The surface's accessible name. Defaults to the artifact's title and "the conversation".
+- `sound`: boolean (default false) — A swish when the visitor docks or opens the pane, a click on copy, download, tabs and versions.
+- `disabled`: boolean (default false) — Read only: versions, tabs, copy, download and dock do nothing; the panels still scroll.
+- `className`: string — Classes for the root. It is 540px tall by default; pass a height class to change it.
+
+Notes:
+- Keyboard: Tab reaches the version chips, Copy, Download, Dock, the tabs and the version control; Left and Right (or Home and End) move the tabs and the version pills or dots with selection following focus; Escape anywhere in the pane docks it, and focus lands on the chip, then back on Dock when the chip opens it.
+- Versions are whole sources: the pane computes a line diff between whatever was shown and whatever is chosen, so jumping from v1 to v4 shows the full change. Append a version to `artifact.versions` while `status` is "writing" and set `version` to it to play the new diff.
+- Under reduced motion the diff marks still show, because they are information, but lines appear and leave without folding, panels cross-fade without travel, and docking cross-fades the pane and the chip with no flight.
+- Lays out by its own width: under 40rem the conversation fills the box and the open pane covers it as a sheet; from 40rem the two sit side by side; from 60rem the thread widens, turns show their times and Copy and Download are labelled.
+- Relative times count from `now`, never the clock. A Markdown document renders headings, paragraphs, "- " lists, **bold**, `code` and {template_variables} as chips.
+
+### Voice Mode (KQ-1298) — `voice-mode`
+Talk; watch it listen.
+
+A voice call with an assistant, drawn around an orb that breathes with whoever is talking: one level, smoothed each frame with a fast attack and a slower release, ripples a blob, pushes a ring of dots or trails two rings, while the orb's resting size moves between listening, thinking and speaking on snap, shrinks away on glide when the call ends, and its pigment cross-fades with the state. The conversation plays from data at speaking pace, the caller's words arriving in light ink and firming as each line settles and every new line rising 8px on snap, and Interrupt halts the reply mid-word, tracked to the character. Mute, Interrupt and End are real buttons (Mute a toggle with aria-pressed), and each finished line is announced once, never per word.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/voice-mode`
+
+Props:
+- `orb`: "blob" | "rings" | "dots" (default "blob") — How the orb draws the voice: a closed curve rippling on three seeded harmonics, a disc with two rings trailing the level on slower smoothings, or 28 dots each pushed out on its own phase.
+- `captions`: "transcript" | "live" | "off" (default "transcript") — What is shown of the words: the conversation as lines (beside the orb from 40rem), only the current utterance large under the orb, or nothing (lines are still announced).
+- `level`: number (default 0.6) — How far the orb swells with the voice, 0 to 1. At 0 it stays round and only its colour changes.
+- `turns`: VoiceTurn[] (default defaultVoiceTurns) — The conversation, { id, role: "user" | "assistant", text }, played in order at speaking pace. Append turns as they are transcribed and the call carries on from where it is.
+- `live / defaultLive`: boolean (default true) — Whether the call is on. Turning it back on starts the conversation from the top.
+- `onLiveChange`: (live: boolean) => void — Fires from End and Call again.
+- `muted / defaultMuted`: boolean (default false) — The microphone is muted: the orb greys and stills, and the caller's turn waits until it is unmuted.
+- `onMutedChange`: (muted: boolean) => void — Fires from the Mute button.
+- `onInterrupt`: (turn: VoiceTurn, spoken: string) => void — The reply was cut off, with the part of it already said (empty when it was cut while thinking). Stop your speech output here.
+- `onPhaseChange`: (phase: "connecting" | "listening" | "thinking" | "speaking" | "ended") => void — The call moved between listening, thinking, speaking and ended.
+- `meter`: () => number — Reads the live input level, 0 to 1, each frame while listening, for example from an analyser on the microphone. Without it a seeded voice is simulated; nothing is ever recorded.
+- `pace`: number (default 2.6) — Speaking pace in words a second. Longer words take longer and punctuation adds a breath.
+- `agent`: string (default "Coldbrook Assist") — Who is on the other end: the header, the speaker names and the announcements.
+- `status`: "ready" | "connecting" | "error" (default "ready") — The line is still connecting (a faint orb with a turning arc), or the microphone could not be reached (a message with Retry).
+- `onRetry`: () => void — Retry was pressed after an error.
+- `label`: string — The surface's accessible name. Defaults to "Voice call with" and the agent.
+- `sound`: boolean (default false) — A blup when the visitor interrupts, a click on Mute, End and Call again. The call itself is silent.
+- `disabled`: boolean (default false) — The controls do nothing; the call still plays.
+- `className`: string — Classes for the root. It is 540px tall by default; pass a height class to change it.
+
+Notes:
+- Keyboard: Mute, Interrupt and End are buttons in that order; Interrupt is aria-disabled (never disabled) outside speaking and thinking, so focus is never dropped, and End becomes Call again in place with focus kept on it.
+- The call plays only while the surface is on screen and the page is visible: the word timer, the clock and the orb's frame loop all stop otherwise, and stop for good when the call ends.
+- Under reduced motion the orb keeps its round shape and size; the level shows as the strength of its halo and the state as its colour. Words still arrive and Interrupt still cuts them mid-word, because the conversation is information.
+- To drive it from a real session, append each transcribed turn to `turns`, pass `meter` reading your microphone analyser, and stop your speech output in `onInterrupt`.
+- Lays out by its own width: one column under 40rem; with the transcript, two columns from 40rem (orb and controls beside the lines), and from 60rem the speaker sits beside each line.
+
+### Source Search (KQ-1299) — `source-search`
+Choose what the answer stands on.
+
+A retrieval surface where you choose what an answer is grounded on. The query scores the sources as you type: rows that stay glide to their new rank, new rows rise 8px on snap in a cascade, leaving rows fade on the exit ease, every relevance bar or ring eases to its score on glide, and facet counts roll on snap. Checking a result flies a ghost chip from its title into the tray, x on glide and y on a softer spring so it travels on a shallow curve while homing on its slot, landing on recoil as the tray's count and the Answer button's count roll; checkboxes are native with Up and Down between them, the tray's remove buttons are a roving toolbar where Delete removes, and Escape clears the query.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/source-search`
+
+Props:
+- `relevance`: "bar" | "ring" | "off" (default "bar") — How each result's score is shown: a bar that fills from the left, a ring gauge whose arc sweeps, or not at all (the rank still carries it).
+- `facets`: "chips" | "rail" | "off" (default "chips") — How the filters are offered: toggle chips under the query, a column of checkboxes beside the results (chips below 40rem), or none. Within a group facets OR, across groups they AND.
+- `tray`: "chips" | "stack" | "count" (default "chips") — How the chosen sources sit in the tray: numbered chips with titles, a fanned stack of small numbered cards that spreads on hover or focus, or one count with a dot per source.
+- `sources`: SearchSource[] (default defaultSearchSources) — Everything that can be found: { id, title, site, snippet, kind: "doc" | "ticket" | "code" | "thread", space?, updated, relevance }.
+- `query / defaultQuery`: string (default defaultSearchQuery) — The search text. Controlled or uncontrolled.
+- `onQueryChange`: (query: string) => void — Fires on every keystroke in the query and when it is cleared.
+- `onSearch`: (query: string) => void — Enter was pressed in the query: run your search here.
+- `matching`: boolean (default true) — Score and filter sources against the query in the browser (relevance times the share of query words found, title words counting double). Turn off when the host searches and passes ranked results.
+- `selected / defaultSelected`: string[] (default []) — The ids in the tray, in tray order. Controlled or uncontrolled.
+- `onSelectedChange`: (ids: string[]) => void — Fires from the checkbox, the chip's remove button, Delete or Clear that changed the tray.
+- `filters / defaultFilters`: string[] (default []) — Active facets as "kind:doc", "updated:week" | "updated:month" | "updated:older", "space:<name>".
+- `onFiltersChange`: (filters: string[]) => void — Fires from the chip or checkbox that changed the filters.
+- `max`: number (default 6) — The most sources the tray holds. When full, further checkboxes are aria-disabled and the tray says so.
+- `onAnswer`: (sources: SearchSource[], query: string) => void — Answer was pressed, with the tray's sources in order and the query.
+- `onOpen`: (source: SearchSource) => void — A result's title was pressed. Without it, titles are plain text.
+- `status`: "ready" | "searching" | "error" (default "ready") — The host is searching (skeleton rows) or the search failed (a message with Retry).
+- `onRetry`: () => void — Retry was pressed after a failed search.
+- `now`: number | Date (default the newest source's time) — The moment "updated" times and the age facets count from, so results render the same everywhere.
+- `placeholder`: string (default "Search docs, tickets and code") — The query's placeholder.
+- `label`: string (default "Source search") — The surface's accessible name.
+- `sound`: boolean (default false) — A tick when the visitor checks, unchecks, filters or answers (rising with the tray's count), a pop when a flown chip lands.
+- `disabled`: boolean (default false) — Read only: nothing can be searched, filtered or chosen.
+- `className`: string — Classes for the root. It is 540px tall by default; pass a height class to change it.
+
+Notes:
+- Keyboard: ArrowDown in the query enters the results; Up and Down move between the native checkboxes and Space toggles; the tray's remove buttons are one tab stop with Left, Right, Home and End between them and Delete or Backspace to remove (focus moves to the next chip, then to Answer); Escape in a non-empty query clears it.
+- Counts follow the landings: the tray's count and the Answer button's count change when a flown chip lands, not when the box is checked, so the number never runs ahead of what the reader sees.
+- Under reduced motion nothing flies or slides: chips fade into the tray, rows re-rank and leave at once, scores are drawn at their values and skeletons hold still.
+- With your own search, pass ranked `sources`, set `matching={false}`, drive `status` while it runs, and use `onSearch` for Enter; the tray keeps any chosen id that is still in `sources`.
+- Lays out by its own width: under 40rem the facets are one scrolling chip row and the tray scrolls sideways above a full-width Answer; from 40rem the rail sits beside the results and tray chips wrap; from 60rem results show their updated time beside the score.
+
+### Agent Inbox (KQ-1300) — `agent-inbox`
+What your agents need you to look at.
+
+A review queue for work agents have finished: each card carries the change (summary, area, a diff summary with its proportion bar, checks and risk) and two decisions. A card follows the finger 1:1 sideways while the decision it is heading for shows underneath and arms on snap past the threshold; the release is projected, so a flick commits and a short throw springs home on snap with its velocity, an approved card leaves on the exit ease while the cards under it close the gap on glide, and sending back opens a note on glide first. Checkboxes select several and a toolbar slides down over the header on snap, the header's counts roll on snap as the queue empties into an inbox-zero state whose check draws on flick and whose badge lands on recoil; the cards are a roving list where Up and Down move, A approves, R sends back, X selects, Enter opens the files and Escape closes a note.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/agent-inbox`
+
+Props:
+- `swipe`: "both" | "approve" | "off" (default "both") — What a sideways swipe does: right approves and left sends back, only right approves (left rubber-bands), or nothing (buttons and keys only).
+- `batch`: boolean (default true) — Cards carry checkboxes, and a toolbar slides in to approve or send back several at once.
+- `density`: "compact" | "cozy" | "roomy" (default "cozy") — How much each card says: one line with icon actions, a summary and the diff bar with labelled actions, or a two-line summary with every file and the risk spelled out.
+- `tasks / defaultTasks`: InboxTask[] (default defaultInboxTasks) — Every task, waiting and decided: { id, title, agent, area, summary, files: { path, added, removed }[], checks?, risk?, at, status?, note?, decidedAt? }. Controlled or uncontrolled.
+- `onTasksChange`: (tasks: InboxTask[]) => void — Fires from the swipe, button, key or undo that changed a task, with the whole new list.
+- `onApprove`: (tasks: InboxTask[]) => void — Tasks were approved: one, or a batch.
+- `onReturn`: (tasks: InboxTask[], note: string) => void — Tasks were sent back with this note.
+- `onUndo`: (task: InboxTask) => void — A decision was undone; the task is waiting again.
+- `threshold`: number (default 0.4) — How far a card must travel to commit, as a share of its width, 0.2 to 0.8. A flick that would carry it that far commits too.
+- `notes`: string[] (default ["Add tests", "Smaller change", "Wrong place"]) — Quick notes offered when sending back; pressing one fills the note.
+- `now`: number | Date (default the newest task's time) — The moment relative times count from, and the time decisions are stamped with.
+- `status`: "ready" | "loading" | "error" (default "ready") — The queue is loading (skeleton cards) or failed to load (a message with Retry).
+- `onRetry`: () => void — Retry was pressed after the queue failed to load.
+- `title`: string (default "Review queue") — The queue's name, shown in the header.
+- `label`: string — The surface's accessible name. Defaults to the title.
+- `sound`: boolean (default false) — A swish for every decision the visitor makes (up for approve, down for send back), and a chime when their decision empties the queue.
+- `disabled`: boolean (default false) — Read only: nothing can be decided, selected or undone.
+- `className`: string — Classes for the root. It is 540px tall by default; pass a height class to change it.
+
+Notes:
+- Keyboard: the cards are one tab stop with Up, Down, Home and End between them; A approves, R opens the send-back note (Enter sends it, Escape closes it and returns to the card), X or Space selects, and Enter opens the file list. Approve and Send back are also real buttons on every card, and the batch toolbar takes Left and Right.
+- Focus never drops: when a card leaves, focus moves to the card that took its place, and to the inbox-zero heading when the queue empties.
+- Under reduced motion a drag still follows the finger, because the visitor is moving it, but nothing else travels: cards fade out and back, the list closes at once, counts swap without rolling, the toolbar fades in place and the inbox-zero check is drawn.
+- Sending back always needs a note: a left swipe springs the card home and opens the note rather than deciding on its own.
+- Lays out by its own width: under 40rem the actions sit as a full-width row under each card and the header counts wrap; from 40rem the actions sit at the card's right; from 60rem a Reviewed column logs every decision with its note, with Undo on the newest.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

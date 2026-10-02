@@ -47,4 +47,44 @@ export const STUDIO_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/wish-tag.demo").then((m) =>
       mod(m.WishTagDemo, m.tweaks),
     ),
+  "answer-panel": () =>
+    import("@/registry/demos/answer-panel.demo").then((m) =>
+      mod(m.AnswerPanelDemo, m.tweaks),
+    ),
+  "agent-run": () =>
+    import("@/registry/demos/agent-run.demo").then((m) =>
+      mod(m.AgentRunDemo, m.tweaks),
+    ),
+  "prompt-dock": () =>
+    import("@/registry/demos/prompt-dock.demo").then((m) =>
+      mod(m.PromptDockDemo, m.tweaks),
+    ),
+  "thread-view": () =>
+    import("@/registry/demos/thread-view.demo").then((m) =>
+      mod(m.ThreadViewDemo, m.tweaks),
+    ),
+  "usage-ledger": () =>
+    import("@/registry/demos/usage-ledger.demo").then((m) =>
+      mod(m.UsageLedgerDemo, m.tweaks),
+    ),
+  "side-by-side": () =>
+    import("@/registry/demos/side-by-side.demo").then((m) =>
+      mod(m.SideBySideDemo, m.tweaks),
+    ),
+  "artifact-pane": () =>
+    import("@/registry/demos/artifact-pane.demo").then((m) =>
+      mod(m.ArtifactPaneDemo, m.tweaks),
+    ),
+  "voice-mode": () =>
+    import("@/registry/demos/voice-mode.demo").then((m) =>
+      mod(m.VoiceModeDemo, m.tweaks),
+    ),
+  "source-search": () =>
+    import("@/registry/demos/source-search.demo").then((m) =>
+      mod(m.SourceSearchDemo, m.tweaks),
+    ),
+  "agent-inbox": () =>
+    import("@/registry/demos/agent-inbox.demo").then((m) =>
+      mod(m.AgentInboxDemo, m.tweaks),
+    ),
 };

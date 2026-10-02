@@ -31689,6 +31689,300 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "answer-panel",
+      "type": "registry:ui",
+      "title": "Answer Panel",
+      "description": "An AI answer you can read while it is written: thoughts arrive one at a time on snap, then the answer streams token by token behind a caret, its numbered citation pills scaling in on snap where each claim is made and lifting their source card on snap when hovered or focused. When the text is done the Thinking block collapses on glide into a one-line summary, the actions and follow-ups rise in a cascade, a pressed thumb lands on recoil, and Regenerate rewinds the text on the move ease before writing again. Tab reaches every pill, thumb and follow-up; focusing a pill opens its card, Enter opens the source and Escape closes the card.",
+      "files": [
+        {
+          "path": "registry/ui/answer-panel.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1291"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "agent-run",
+      "type": "registry:ui",
+      "title": "Agent Run",
+      "description": "An agent's run watched as it happens: steps move from pending to running to done or failed with live durations, nodes filling and ticking on flick, tool calls opening to a measured height on glide, and a time and cost meter whose digits run with the clock. A risky step halts the run behind an inline gate that glides open; holding Approve sweeps a linear fill, drains on the exit ease if let go early, and lands on recoil before the gate folds into a stamp. The timeline scrubs 1:1 and rubber-bands against its ends and any undecided gate, springing back on glide; arrow keys move the playhead and the plan, Space or Enter held approves.",
+      "files": [
+        {
+          "path": "registry/ui/agent-run.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1292"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "prompt-dock",
+      "type": "registry:ui",
+      "title": "Prompt Dock",
+      "description": "A prompt box with its context around it: a tray of pinned files and snippets that collapses into a count as each chip's icon flies into a stack on glide, files dropped on the dock flying from the drop point into the tray (x on glide, y on snap, so the path bows), and an @ menu whose chosen row flies in the same way. A model pill opens in place into every model with a highlight sliding on snap, the token meter fills and warms toward the limit and bumps on recoil as it crosses 90% and the limit, and Send's arrow folds into a stop square on snap while a reply is written. The box is a real textarea and combobox: arrows walk the @ menu, Enter or Tab attaches, Escape closes it or stops a reply, and Backspace in an empty box removes the last chip.",
+      "files": [
+        {
+          "path": "registry/ui/prompt-dock.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1293"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "thread-view",
+      "type": "registry:ui",
+      "title": "Thread View",
+      "description": "A complete assistant thread over a tree of messages: runs from one author share an avatar, each message's toolbar rises into place on snap, copy morphs into a check on flick and a reaction lands on recoil. Editing a sent message forks the thread, and the version switcher slides the message and every reply under it — the old branch out on the exit ease, the new one in on glide — while its counter rolls on snap and the edited bubble's measured height glides. Scrolled up, a pill counts the replies that land and glides the log to the newest on glide; End does the same, Enter sends or saves, Shift+Enter breaks a line and Escape cancels an edit.",
+      "files": [
+        {
+          "path": "registry/ui/thread-view.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1294"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "usage-ledger",
+      "type": "registry:ui",
+      "title": "Usage Ledger",
+      "description": "An AI usage panel built from daily records: each day is a column stacked by model, by kind or as one total that grows up from the baseline on glide, the whole period sweeping in inside 360ms, while the month's spend sweeps round a budget gauge on drift toward its projected month end. The daily alert is a line you drag: it follows the finger 1:1 with a magnetic pull onto round numbers, rubber-bands past the plot, re-colours every day above it to warn as it passes, and springs onto its value on snap with the release velocity. The plot is a slider over the days (arrows step, Home and End jump, Enter selects), the line's grip a slider over the threshold (arrows one step, Page keys four), and the period a radio group.",
+      "files": [
+        {
+          "path": "registry/ui/usage-ledger.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1295"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "side-by-side",
+      "type": "registry:ui",
+      "title": "Side by Side",
+      "description": "Two models answer one prompt in parallel columns, each streaming at its own pace — its time to first token, then its token rate, scaled by speed — with a live clock, a progress hairline and a Done stamp that lands on flick. Once both finish, a highlighter sweeps across what each says that the other does not, in reading order within 600ms, and the stats tally beneath them with bars that grow on glide. The vote puck drags 1:1, rubber-bands past the ends and settles on snap at the stop the throw was heading for, the preferred column takes its hue as a badge lands on recoil, and the reason you pick moves into the summary on glide; the stops are a radio group on the arrow keys, and on a phone the answers become two tabs.",
+      "files": [
+        {
+          "path": "registry/ui/side-by-side.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1296"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "artifact-pane",
+      "type": "registry:ui",
+      "title": "Artifact Pane",
+      "description": "A generated file beside the conversation that made it. Switching versions applies the diff in place: shared lines keep their element, dropped lines are struck and fold away on the exit ease, and new lines open on glide under a wash that sweeps across them in a cascade, on the Preview block by block and on the Code tab line by line, while the change count rolls on snap and the Preview / Code panels slide 16px on glide. Dock folds the pane into a chip in the thread: a ghost of its frame flies into the chip on glide, homing on its live box while the pane's column closes, and lands on recoil; the tabs and version pills take arrow keys, and Escape anywhere in the pane docks it.",
+      "files": [
+        {
+          "path": "registry/ui/artifact-pane.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1297"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "voice-mode",
+      "type": "registry:ui",
+      "title": "Voice Mode",
+      "description": "A voice call with an assistant, drawn around an orb that breathes with whoever is talking: one level, smoothed each frame with a fast attack and a slower release, ripples a blob, pushes a ring of dots or trails two rings, while the orb's resting size moves between listening, thinking and speaking on snap, shrinks away on glide when the call ends, and its pigment cross-fades with the state. The conversation plays from data at speaking pace, the caller's words arriving in light ink and firming as each line settles and every new line rising 8px on snap, and Interrupt halts the reply mid-word, tracked to the character. Mute, Interrupt and End are real buttons (Mute a toggle with aria-pressed), and each finished line is announced once, never per word.",
+      "files": [
+        {
+          "path": "registry/ui/voice-mode.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1298"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "source-search",
+      "type": "registry:ui",
+      "title": "Source Search",
+      "description": "A retrieval surface where you choose what an answer is grounded on. The query scores the sources as you type: rows that stay glide to their new rank, new rows rise 8px on snap in a cascade, leaving rows fade on the exit ease, every relevance bar or ring eases to its score on glide, and facet counts roll on snap. Checking a result flies a ghost chip from its title into the tray, x on glide and y on a softer spring so it travels on a shallow curve while homing on its slot, landing on recoil as the tray's count and the Answer button's count roll; checkboxes are native with Up and Down between them, the tray's remove buttons are a roving toolbar where Delete removes, and Escape clears the query.",
+      "files": [
+        {
+          "path": "registry/ui/source-search.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1299"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "agent-inbox",
+      "type": "registry:ui",
+      "title": "Agent Inbox",
+      "description": "A review queue for work agents have finished: each card carries the change (summary, area, a diff summary with its proportion bar, checks and risk) and two decisions. A card follows the finger 1:1 sideways while the decision it is heading for shows underneath and arms on snap past the threshold; the release is projected, so a flick commits and a short throw springs home on snap with its velocity, an approved card leaves on the exit ease while the cards under it close the gap on glide, and sending back opens a note on glide first. Checkboxes select several and a toolbar slides down over the header on snap, the header's counts roll on snap as the queue empties into an inbox-zero state whose check draws on flick and whose badge lands on recoil; the cards are a roving list where Up and Down move, A approves, R sends back, X selects, Enter opens the files and Escape closes a note.",
+      "files": [
+        {
+          "path": "registry/ui/agent-inbox.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1300"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

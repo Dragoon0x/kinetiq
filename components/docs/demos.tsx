@@ -1330,6 +1330,16 @@ import { RepeatCoilDemo } from "@/registry/demos/repeat-coil.demo";
 import { LatchLockDemo } from "@/registry/demos/latch-lock.demo";
 import { EyeLidDemo } from "@/registry/demos/eye-lid.demo";
 import { WishTagDemo } from "@/registry/demos/wish-tag.demo";
+import { AnswerPanelDemo } from "@/registry/demos/answer-panel.demo";
+import { AgentRunDemo } from "@/registry/demos/agent-run.demo";
+import { PromptDockDemo } from "@/registry/demos/prompt-dock.demo";
+import { ThreadViewDemo } from "@/registry/demos/thread-view.demo";
+import { UsageLedgerDemo } from "@/registry/demos/usage-ledger.demo";
+import { SideBySideDemo } from "@/registry/demos/side-by-side.demo";
+import { ArtifactPaneDemo } from "@/registry/demos/artifact-pane.demo";
+import { VoiceModeDemo } from "@/registry/demos/voice-mode.demo";
+import { SourceSearchDemo } from "@/registry/demos/source-search.demo";
+import { AgentInboxDemo } from "@/registry/demos/agent-inbox.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2674,4 +2684,14 @@ export const demos: Record<string, ComponentType> = {
   "latch-lock": LatchLockDemo,
   "eye-lid": EyeLidDemo,
   "wish-tag": WishTagDemo,
+  "answer-panel": AnswerPanelDemo,
+  "agent-run": AgentRunDemo,
+  "prompt-dock": PromptDockDemo,
+  "thread-view": ThreadViewDemo,
+  "usage-ledger": UsageLedgerDemo,
+  "side-by-side": SideBySideDemo,
+  "artifact-pane": ArtifactPaneDemo,
+  "voice-mode": VoiceModeDemo,
+  "source-search": SourceSearchDemo,
+  "agent-inbox": AgentInboxDemo,
 };
