@@ -177,14 +177,17 @@ export function Segmented({
   };
 
   return (
-    <div className="flex h-9 items-center justify-between gap-3">
+    // A group too wide to sit beside its label wraps under it instead of
+    // spilling past the panel; one still wider than the row wraps its own
+    // segments (never scrolls: a scroller would clip the focus outline).
+    <div className="flex min-h-9 flex-wrap items-center justify-between gap-x-3 gap-y-1.5">
       <span id={`${id}-label`} className="text-xs text-ink-2">
         {label}
       </span>
       <div
         role="radiogroup"
         aria-labelledby={`${id}-label`}
-        className="relative flex rounded-2 bg-surface-2 p-0.5"
+        className="relative flex max-w-full flex-wrap rounded-2 bg-surface-2 p-0.5"
       >
         {options.map((option, index) => {
           const checked = option.value === value;

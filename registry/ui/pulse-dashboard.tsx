@@ -1802,7 +1802,7 @@ export function PulseDashboard({
             aria-label={`Revenue by ${breakdown?.label.toLowerCase() ?? "segment"}`}
             className="flex min-w-0 flex-col gap-3 rounded-3 border border-hairline bg-surface-1 p-3"
           >
-            <div className="flex h-7 items-center justify-between gap-2">
+            <div className="flex flex-wrap items-center justify-between gap-x-2 gap-y-1.5">
               <p className="shrink-0 text-[13px] font-medium whitespace-nowrap">
                 Revenue by
               </p>
