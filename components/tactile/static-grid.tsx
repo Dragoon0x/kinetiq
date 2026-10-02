@@ -9,7 +9,10 @@ const SPAN = {
   square: "",
   wide: "sm:col-span-2",
   tall: "row-span-2",
-  large: "row-span-2 sm:col-span-2",
+  // A large card takes the whole row on the three-column grid: beside it a
+  // single column would sit empty, since only tall and square cards fill
+  // that hole and the app sets have far more large cards than those.
+  large: "row-span-2 sm:col-span-2 lg:col-span-3 2xl:col-span-2",
 } as const;
 
 /**
