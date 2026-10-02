@@ -1340,6 +1340,16 @@ import { ArtifactPaneDemo } from "@/registry/demos/artifact-pane.demo";
 import { VoiceModeDemo } from "@/registry/demos/voice-mode.demo";
 import { SourceSearchDemo } from "@/registry/demos/source-search.demo";
 import { AgentInboxDemo } from "@/registry/demos/agent-inbox.demo";
+import { LaunchPadDemo } from "@/registry/demos/launch-pad.demo";
+import { SettleButtonDemo } from "@/registry/demos/settle-button.demo";
+import { DownloadTrayDemo } from "@/registry/demos/download-tray.demo";
+import { BinLidDemo } from "@/registry/demos/bin-lid.demo";
+import { UploadOrbitDemo } from "@/registry/demos/upload-orbit.demo";
+import { PublishPressDemo } from "@/registry/demos/publish-press.demo";
+import { RefreshWindDemo } from "@/registry/demos/refresh-wind.demo";
+import { GateButtonDemo } from "@/registry/demos/gate-button.demo";
+import { RewindUndoDemo } from "@/registry/demos/rewind-undo.demo";
+import { PlugInDemo } from "@/registry/demos/plug-in.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2694,4 +2704,14 @@ export const demos: Record<string, ComponentType> = {
   "voice-mode": VoiceModeDemo,
   "source-search": SourceSearchDemo,
   "agent-inbox": AgentInboxDemo,
+  "launch-pad": LaunchPadDemo,
+  "settle-button": SettleButtonDemo,
+  "download-tray": DownloadTrayDemo,
+  "bin-lid": BinLidDemo,
+  "upload-orbit": UploadOrbitDemo,
+  "publish-press": PublishPressDemo,
+  "refresh-wind": RefreshWindDemo,
+  "gate-button": GateButtonDemo,
+  "rewind-undo": RewindUndoDemo,
+  "plug-in": PlugInDemo,
 };

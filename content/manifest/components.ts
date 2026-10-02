@@ -79089,4 +79089,1882 @@ export const components: KinetiqItem[] = [
       "Lays out by its own width: under 40rem the actions sit as a full-width row under each card and the header counts wrap; from 40rem the actions sit at the card's right; from 60rem a Reviewed column logs every decision with its note, with Undo on the newest.",
     ],
   },
+  {
+    name: "launch-pad",
+    type: "registry:ui",
+    title: "Launch Pad",
+    description:
+      "A deploy button with a launch pad in its left cap: a press arms a countdown ring that drains one segment per second, linearly, while the label's digit rolls on springs.snap, and a second press or Escape aborts. At zero the rocket squats and climbs out through the roof on an accelerating exit ease with exhaust billowing along the floor, the label lifts off after it, and a progress line runs while the onLaunch promise is pending; a resolve drops a flag into the pad on springs.recoil and unfurls it on springs.snap, a reject brings the rocket back nose-down on springs.glide and shakes the button with the error and a retry. Enter and Space press it, Escape aborts the count, and every change is spoken once in a polite live region.",
+    files: [
+      {
+        path: "registry/ui/launch-pad.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["studio"],
+    meta: {
+      serial: "KQ-1261",
+    },
+    tagline: "Three, two, one — shipped.",
+    keywords: [
+      "deploy",
+      "launch",
+      "countdown",
+      "async button",
+      "rocket",
+      "release",
+      "abort",
+    ],
+    props: [
+      {
+        name: "onLaunch",
+        type: "() => Promise<unknown> | unknown",
+        description:
+          "The deploy itself, called at zero. A returned promise keeps the rocket in flight until it settles: resolve lands the flag, reject shows the error.",
+      },
+      {
+        name: "state",
+        type: '"idle" | "countdown" | "pending" | "success" | "error"',
+        description:
+          "Controlled state. Omit it and the countdown and the promise drive the pad.",
+      },
+      {
+        name: "onStateChange",
+        type: "(state: LaunchPadState, error?: unknown) => void",
+        description:
+          "Every change of state — a press, the count reaching zero, the promise settling, a hold running out — with the rejection on error. A controlled pad waits for the host to apply it.",
+      },
+      {
+        name: "onAbort",
+        type: "() => void",
+        description:
+          "A press or Escape during the countdown called the launch off.",
+      },
+      {
+        name: "countdown",
+        type: "number",
+        defaultValue: "3",
+        description:
+          "Seconds counted down before lift-off, 0 to 9; each is one segment of the ring. 0 launches on the press.",
+      },
+      {
+        name: "thrust",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How hard it launches, 0 to 1: a quicker climb, a longer flame, more exhaust.",
+      },
+      {
+        name: "shake",
+        type: "number",
+        defaultValue: "6",
+        description:
+          "How far a failure shakes the button, in px. 0 keeps it still.",
+      },
+      {
+        name: "progress",
+        type: "number",
+        description:
+          "Known progress of the deploy, 0 to 1. Omit it for an estimate that approaches 92% and never claims the finish.",
+      },
+      {
+        name: "eta",
+        type: "number",
+        defaultValue: "2400",
+        description:
+          "How long a deploy usually takes, in ms; paces the estimated progress line.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Deploy"',
+        description: "The idle label.",
+      },
+      {
+        name: "abortLabel",
+        type: "string",
+        defaultValue: '"Abort"',
+        description:
+          "Shown before the seconds while counting down, when a press aborts.",
+      },
+      {
+        name: "pendingLabel",
+        type: "string",
+        defaultValue: '"Deploying"',
+        description: "The label while the deploy is in flight.",
+      },
+      {
+        name: "version",
+        type: "string",
+        defaultValue: '"v2.4.1"',
+        description:
+          "The version that goes live, read out in the success label.",
+      },
+      {
+        name: "successLabel",
+        type: "string",
+        defaultValue: '"Live · {version}"',
+        description: "The label once live.",
+      },
+      {
+        name: "errorLabel",
+        type: "string",
+        defaultValue: '"Checks failed"',
+        description:
+          "What failed, shown before the retry. A rejection's own message replaces it and truncates with a title.",
+      },
+      {
+        name: "retryLabel",
+        type: "string",
+        defaultValue: '"Retry"',
+        description: "The word after the error that says a press tries again.",
+      },
+      {
+        name: "successHold",
+        type: "number",
+        defaultValue: "2600",
+        description:
+          "How long Live holds before the pad resets, in ms; 0 keeps it. Counts only while the page is visible.",
+      },
+      {
+        name: "errorHold",
+        type: "number",
+        defaultValue: "0",
+        description:
+          "How long a failure holds before the pad resets, in ms; 0 keeps it until retried.",
+      },
+      {
+        name: "size",
+        type: '"sm" | "md" | "lg"',
+        defaultValue: '"md"',
+        description:
+          "36, 44 or 52px tall; the rocket, flag and ring scale with it.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--primary)"',
+        description: "The button's face while idle, counting and in flight.",
+      },
+      {
+        name: "flame",
+        type: "string",
+        defaultValue: '"oklch(from var(--warn) 0.8 c h)"',
+        description: "The exhaust flame's colour.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play the countdown ticks, the lift-off, the landing chime and the failure buzz — only for a launch the visitor started.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Takes the button out of use.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer wrapper.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: Enter or Space presses through the native click; during the countdown a second press or Escape aborts (Escape is handled with preventDefault). In flight and while Live, the button stays focusable but is aria-disabled, and pending is aria-busy.",
+      "Reduced motion: nothing travels or bounces — the ring still drains because it is the time left, the digit swaps, the rocket fades out and back, the progress line still fills, the flag and the tilted rocket appear in place, and the button never shakes; colours still change.",
+      "Controlled use: pass state and apply what onStateChange reports. The pad calls onLaunch at zero and reports pending, then success or error when the promise settles; a host that refuses a change simply leaves the pad where it is.",
+      "The countdown is an abort window, so it pauses while the page is hidden instead of launching behind the visitor's back; the success and error holds pause too.",
+      "The button reserves the width of its longest built-in label, so neighbours never move between states; a longer rejection message truncates with a title.",
+      "Sound plays only for a sequence the visitor started with a press; a host driving state on its own is silent.",
+    ],
+  },
+  {
+    name: "settle-button",
+    type: "registry:ui",
+    title: "Settle Button",
+    description:
+      "A pay button laid out like a checkout bar, the amount on an odometer with one wheel per digit: a press sweeps a fill in the paid colour in behind the text, and as its front crosses each digit that wheel rolls down to zero, closing in on the last digit exponentially and holding there while the onPay promise is pending. Resolved, the characters fold away in a cascade on the exit ease, Pay rolls to Paid on springs.snap and a check is stamped where the last digit stood on springs.recoil, its stroke drawn on springs.flick; declined, the fill retreats on springs.glide, the wheels roll back up and the face tints to danger. Enter and Space press it through the native click, and each change is spoken once in a polite live region.",
+    files: [
+      {
+        path: "registry/ui/settle-button.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["studio"],
+    meta: {
+      serial: "KQ-1262",
+    },
+    tagline: "The amount runs down to paid.",
+    keywords: [
+      "pay button",
+      "checkout",
+      "odometer",
+      "payment",
+      "currency",
+      "async button",
+      "invoice",
+    ],
+    props: [
+      {
+        name: "amount",
+        type: "number",
+        description: "What is owed, in major units — dollars, not cents.",
+      },
+      {
+        name: "currency",
+        type: "string",
+        defaultValue: '"USD"',
+        description:
+          "ISO 4217 code: sets the sign, the separators and how many places roll.",
+      },
+      {
+        name: "locale",
+        type: "string",
+        defaultValue: "the currency's home locale",
+        description:
+          "The formatting locale. USD en-US, EUR de-DE, GBP en-GB, JPY ja-JP, otherwise en-US — fixed, so the server and the browser format alike.",
+      },
+      {
+        name: "format",
+        type: "(amount: number) => string",
+        defaultValue: "Intl.NumberFormat",
+        description:
+          "Formats the amount for the label and the spoken text; every digit in its output becomes a wheel.",
+      },
+      {
+        name: "onPay",
+        type: "() => Promise<unknown> | unknown",
+        description:
+          "Takes the payment. A returned promise holds the meter short of zero until it settles.",
+      },
+      {
+        name: "state",
+        type: '"idle" | "pending" | "success" | "error"',
+        description:
+          "Controlled state. Omit it and the press and the promise drive the button.",
+      },
+      {
+        name: "onStateChange",
+        type: "(state: SettleState, error?: unknown) => void",
+        description:
+          "Every change of state — the press, the promise, a hold running out — with the rejection on error.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "1",
+        description: "How fast the amount runs down, 0.5 to 2 times.",
+      },
+      {
+        name: "stamp",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How hard the check is stamped, 0 to 1: 0 only draws it, 1 slams it down with an ink ring.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Pay"',
+        description: "The word before the amount.",
+      },
+      {
+        name: "pendingLabel",
+        type: "string",
+        defaultValue: '"Paying"',
+        description: "The word while the payment is in flight.",
+      },
+      {
+        name: "paidLabel",
+        type: "string",
+        defaultValue: '"Paid"',
+        description: "The word once paid.",
+      },
+      {
+        name: "retryLabel",
+        type: "string",
+        defaultValue: '"Retry"',
+        description: "The word after a failure, when a press tries again.",
+      },
+      {
+        name: "errorLabel",
+        type: "string",
+        defaultValue: '"Payment declined"',
+        description:
+          "What failed, spoken and shown as the button's title. A rejection's own message replaces it.",
+      },
+      {
+        name: "successHold",
+        type: "number",
+        defaultValue: "0",
+        description:
+          "How long Paid holds before the amount rolls back up, in ms; 0 keeps it paid. Counts only while the page is visible.",
+      },
+      {
+        name: "errorHold",
+        type: "number",
+        defaultValue: "2400",
+        description:
+          "How long the failure tint holds, in ms; 0 keeps it until the next press.",
+      },
+      {
+        name: "size",
+        type: '"sm" | "md" | "lg"',
+        defaultValue: '"md"',
+        description: "36, 44 or 52px tall.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--primary)"',
+        description: "The unpaid face.",
+      },
+      {
+        name: "fill",
+        type: "string",
+        defaultValue: '"oklch(from var(--success) 0.55 c h)"',
+        description: "The paid colour that sweeps in behind the digits.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play a tick as each digit reaches zero, the stamp's chime and the decline's buzz — only for a payment the visitor pressed.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Takes the button out of use.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer wrapper.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: Enter or Space presses through the native click. In flight and once paid the button stays focusable but is aria-disabled, and in flight it is aria-busy; its name is one sentence, such as "Pay $1,284.50".',
+      "Reduced motion: the fill still sweeps because it is the progress, but each digit swaps to zero as the front passes it instead of rolling, the fold is a fade and the check appears without the stamp's bounce or ink ring; the danger tint still shows a decline.",
+      "Amounts go through Intl.NumberFormat in a fixed locale (or your format function), so the server and the browser render the same digits; the figures are mono and tabular, and leading digits dim to ghost zeros rather than collapsing, so nothing shifts.",
+      "Controlled use: pass state and apply what onStateChange reports. The button calls onPay on the press and reports pending, then success or error when the promise settles.",
+      "A new amount while idle rolls up from zeros, so a host can swap to the next invoice after successHold and the button shows it arriving.",
+    ],
+  },
+  {
+    name: "download-tray",
+    type: "registry:ui",
+    title: "Download Tray",
+    description:
+      "A download button with a tray hidden behind its bottom edge: a press dips the arrow and drops it under gravity through the label row and out of the button, while the tray slides out on the chosen spring (glide, snap or recoil) to catch it, the arrow landing with a squash on springs.recoil and the progress drawn along the tray's lip. At 100% the tray slides shut, the file size is stamped into the caption on springs.recoil, and the arrow rises back on springs.glide and flips into a check on springs.snap; pressing during the download cancels and pulls the arrow back up on springs.snap. Enter and Space press it, Escape cancels, the open tray is a progressbar, and each change is spoken once in a polite live region.",
+    files: [
+      {
+        path: "registry/ui/download-tray.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["studio"],
+    meta: {
+      serial: "KQ-1263",
+    },
+    tagline: "The file drops in, the tray slides shut.",
+    keywords: [
+      "download",
+      "progress",
+      "file",
+      "async button",
+      "cancel",
+      "tray",
+      "export",
+    ],
+    props: [
+      {
+        name: "bytes",
+        type: "number",
+        description:
+          "The file's size in bytes: the readout's total and the size stamped when the tray shuts.",
+      },
+      {
+        name: "fileName",
+        type: "string",
+        description:
+          "The file's name, shown in the caption under the button at rest and spoken when the download starts.",
+      },
+      {
+        name: "kind",
+        type: "string",
+        description:
+          'A short type tag before the size in the caption, such as "PDF".',
+      },
+      {
+        name: "formatBytes",
+        type: "(bytes: number) => string",
+        defaultValue: "decimal units, one place",
+        description: 'Formats a byte count, as in "8.4 MB".',
+      },
+      {
+        name: "onDownload",
+        type: "() => Promise<unknown> | unknown",
+        description:
+          "Starts the download. A returned promise holds the tray open near the end until it settles; a rejection shows the error.",
+      },
+      {
+        name: "onCancel",
+        type: "() => void",
+        description: "A press or Escape during the download cancelled it.",
+      },
+      {
+        name: "state",
+        type: '"idle" | "pending" | "success" | "error"',
+        description:
+          "Controlled state. Omit it and the press, the progress and the promise drive the tray.",
+      },
+      {
+        name: "onStateChange",
+        type: "(state: DownloadTrayState, error?: unknown) => void",
+        description:
+          "Every change of state — the press, the finish, a cancel, the promise, a hold — with the rejection on error.",
+      },
+      {
+        name: "value",
+        type: "number",
+        description:
+          "Controlled progress from your own transfer, 0 to 1; reaching 1 finishes. Omit it to simulate from duration.",
+      },
+      {
+        name: "duration",
+        type: "number",
+        defaultValue: "2400",
+        description: "How long the simulated download takes, in ms.",
+      },
+      {
+        name: "tray",
+        type: '"glide" | "snap" | "recoil"',
+        defaultValue: '"glide"',
+        description:
+          "The spring the tray slides out and shuts on: glide slides, snap clicks out with one overshoot, recoil bounces.",
+      },
+      {
+        name: "progress",
+        type: '"line" | "ticks" | "bytes"',
+        defaultValue: '"line"',
+        description:
+          "How progress is drawn along the tray's lip: a line, a row of ticks, or a line with the bytes received.",
+      },
+      {
+        name: "size",
+        type: '"sm" | "md" | "lg"',
+        defaultValue: '"md"',
+        description: "Button 36, 40 or 48px tall over a 24, 28 or 32px well.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Download"',
+        description: "The idle label.",
+      },
+      {
+        name: "cancelLabel",
+        type: "string",
+        defaultValue: '"Cancel"',
+        description: "The label during the download, when a press cancels.",
+      },
+      {
+        name: "successLabel",
+        type: "string",
+        defaultValue: '"Downloaded"',
+        description: "The label once the file is in.",
+      },
+      {
+        name: "retryLabel",
+        type: "string",
+        defaultValue: '"Retry"',
+        description: "The label after a failure, when a press tries again.",
+      },
+      {
+        name: "savedLabel",
+        type: "string",
+        defaultValue: '"Saved"',
+        description: "The word stamped beside the size when the tray shuts.",
+      },
+      {
+        name: "errorLabel",
+        type: "string",
+        defaultValue: '"Download failed"',
+        description:
+          "What failed, shown under the button. A rejection's own message replaces it.",
+      },
+      {
+        name: "successHold",
+        type: "number",
+        defaultValue: "0",
+        description:
+          "How long Downloaded holds before the button resets, in ms; 0 keeps it. Counts only while the page is visible.",
+      },
+      {
+        name: "errorHold",
+        type: "number",
+        defaultValue: "0",
+        description:
+          "How long a failure holds before the button resets, in ms; 0 keeps it until retried.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description: "The arrow, the check and the progress on the lip.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play the arrow landing in the tray and the tray shutting — only for a download the visitor pressed.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Takes the button out of use.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer wrapper.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: Enter or Space presses through the native click; during the download a second press or Escape cancels (Escape is handled with preventDefault). The caption is the button's description, and the open tray is a progressbar whose value moves in 5% steps.",
+      "Reduced motion: nothing falls, slides or flips — the arrow fades from its slot and appears in the tray, the tray fades in place over a caption that hides first, the lip still fills, and the check cross-fades in with the size.",
+      "Progress: pass value from your own transfer (0 to 1), or let it simulate over duration. If onDownload returns a promise, a simulated download waits near the end until the promise settles, so the tray never claims a finish the file has not reached.",
+      "The tray lives inside the component's own box — it slides out of a well under the button that holds the file's caption at rest — so it never overlaps the content around it and nothing shifts when it opens.",
+      "Pressing Downloaded downloads again; set successHold to have it return to Download on its own.",
+    ],
+  },
+  {
+    name: "bin-lid",
+    type: "registry:ui",
+    title: "Bin Lid",
+    description:
+      "A delete button whose bin lid lifts on its hinge on the snap spring when the pointer or keyboard focus arrives; pressing folds the label into a paper sheet that is lobbed into the bin on a true ballistic arc and tumbles out of sight behind its front wall, the lid falls shut on an accelerating tween, and the bin squashes and recovers on snap while dust puffs from both ends of the lid. The button's corners then glide into an undo pill and a ring round the bin drains linearly over the undo window; undo, by a press or Escape, flies the paper back out along the same arc and unfolds it into the label, and when the ring empties onDelete fires, with a spinning ring while its promise is pending and the paper thrown back out with a shake if it fails. It is a native button whose Enter and Space press through the native click, its width never changes, and a polite live region speaks each change once.",
+    files: [
+      {
+        path: "registry/ui/bin-lid.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["studio"],
+    meta: {
+      serial: "KQ-1264",
+    },
+    tagline: "Thrown away, with a window to fish it out.",
+    keywords: [
+      "delete",
+      "undo",
+      "bin",
+      "trash",
+      "destructive",
+      "button",
+      "undo window",
+    ],
+    props: [
+      {
+        name: "onDelete",
+        type: "() => void | Promise<unknown>",
+        description:
+          "Fires once the undo window runs out. Return a promise and the button shows the deletion pending until it settles, then Deleted or the error.",
+      },
+      {
+        name: "onUndo",
+        type: "() => void",
+        description:
+          "The visitor fished it back out, with a press or Escape, before the window ran out.",
+      },
+      {
+        name: "state",
+        type: '"idle" | "armed" | "pending" | "success" | "error"',
+        description:
+          "Controlled state. Every move the button wants to make goes through onStateChange and waits for this; the choreography follows the shown state, so a host's change plays it too.",
+      },
+      {
+        name: "onStateChange",
+        type: '(state: "idle" | "armed" | "pending" | "success" | "error") => void',
+        description:
+          "Each state the button moves to, from the press, the timer or the promise that caused it.",
+      },
+      {
+        name: "window",
+        type: "number",
+        defaultValue: "5000",
+        description:
+          "How long the undo window stays open, in ms: the time the ring takes to drain. It pauses while the page is hidden.",
+      },
+      {
+        name: "arc",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How high the paper is lobbed into the bin and how much it tumbles, 0 to 1. The apex is kept inside the component's frame.",
+      },
+      {
+        name: "puff",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How much dust the slammed lid pushes out of its ends, 0 to 1: count, reach and size. 0 slams clean.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Delete"',
+        description: "The text at rest.",
+      },
+      {
+        name: "undoLabel",
+        type: "string",
+        defaultValue: '"Undo"',
+        description: "The text while the undo window is open.",
+      },
+      {
+        name: "pendingLabel",
+        type: "string",
+        defaultValue: '"Deleting"',
+        description: "The text while onDelete is settling.",
+      },
+      {
+        name: "successLabel",
+        type: "string",
+        defaultValue: '"Deleted"',
+        description: "The text once it is gone.",
+      },
+      {
+        name: "errorLabel",
+        type: "string",
+        defaultValue: '"Retry"',
+        description:
+          "The text after onDelete failed; a press throws it away again.",
+      },
+      {
+        name: "itemName",
+        type: "string",
+        description:
+          'What is being thrown away. Joins the accessible name ("Delete Q3 forecast draft") and the spoken sentences.',
+      },
+      {
+        name: "successHold",
+        type: "number",
+        defaultValue: "1800",
+        description:
+          "How long Deleted holds before the button is ready again, in ms.",
+      },
+      {
+        name: "errorHold",
+        type: "number",
+        defaultValue: "2600",
+        description:
+          "How long the error holds before the button rests again, in ms.",
+      },
+      {
+        name: "iconOnly",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "The bin alone in a square button (a circle as the undo pill) that keeps its accessible name.",
+      },
+      {
+        name: "size",
+        type: '"sm" | "md" | "lg"',
+        defaultValue: '"md"',
+        description:
+          "32, 40 or 48 px tall; the bin, the paper and the dust scale with it.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--danger)"',
+        description:
+          "The destructive colour for the text, outline, bin and ring. Any CSS colour.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play the paper as it is thrown, the thud of the lid and the pop as it comes back out, only in answer to a press or key. No audio context exists unless this is on.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Dims and disables the button.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Merged onto the root's classes (the button and the 12 px frame its lob and dust stay inside).",
+      },
+    ],
+    usageNotes: [
+      "A native button named by its current label (with itemName at rest): Enter or Space presses it through the native click, a press during the undo window restores, Escape restores too (handled where focus is, with preventDefault), and presses are ignored while pending or after success. A polite live region speaks one sentence per change: moved to the bin with the window in seconds, restored, deleting, deleted, or not deleted.",
+      "Under reduced motion nothing flies, swings, squashes or puffs and the corners do not morph: the labels cross-fade, the ring still drains because the window is information, pending shows a still dashed ring, and an error changes the outline colour instead of shaking.",
+      "onDelete only runs when the window has run out, so an undo never needs a server round trip; return a promise to keep the button pending until the deletion is confirmed, and a rejection brings the item back with Retry.",
+      "Every label is stacked in one grid cell, so the button keeps the width of the longest through every state and nothing beside it moves.",
+      "The undo countdown and the success and error holds pause while the page is hidden, and nothing animates at rest.",
+    ],
+  },
+  {
+    name: "upload-orbit",
+    type: "registry:ui",
+    title: "Upload Orbit",
+    description:
+      "An upload button over a real file input whose files orbit it while they go up: chosen or dropped files become dots that pop into a waiting line on the top edge on the snap spring, step out on the glide spring, and then sit round the button's perimeter at their progress, walked by arc length so one lap is the whole file, chasing each reported value on a critically damped spring while a softer spring drags a fading comet tail behind them. A finished dot completes its lap and hops into the count in the label, where the badge recoils on the recoil spring and the digit rolls on snap; a failed dot leaves along its tangent, falls and fades red while a red counter appears on the badge. Click, Enter or Space opens the system picker and files can be dropped anywhere on it; Escape cancels what is in flight, and after a batch with failures a press queues them again.",
+    files: [
+      {
+        path: "registry/ui/upload-orbit.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["studio"],
+    meta: {
+      serial: "KQ-1265",
+    },
+    tagline: "The file circles until it lands.",
+    keywords: [
+      "upload",
+      "file input",
+      "drag and drop",
+      "progress",
+      "queue",
+      "button",
+      "files",
+    ],
+    props: [
+      {
+        name: "onUpload",
+        type: "(file: File, progress: (share: number) => void, signal: AbortSignal) => Promise<unknown>",
+        description:
+          "Uploads one file: report progress from 0 to 1 as it goes and settle the promise when it is done or failed. Called for at most queue files at once; the signal aborts on Escape or unmount.",
+      },
+      {
+        name: "files",
+        type: "UploadOrbitFile[]",
+        description:
+          'Controlled list of files ({ id, name, size?, progress, status: "queued" | "uploading" | "done" | "error", error? }). The button reports every list it wants through onFilesChange and draws this one.',
+      },
+      {
+        name: "onFilesChange",
+        type: "(files: UploadOrbitFile[]) => void",
+        description:
+          "Every new list: files added, progress, completions, failures, retries.",
+      },
+      {
+        name: "onSelect",
+        type: "(files: File[]) => void",
+        description:
+          "The files the visitor chose or dropped that passed accept and maxSize.",
+      },
+      {
+        name: "accept",
+        type: "string",
+        description:
+          'What the picker offers and a drop accepts, as for a file input ("image/*,.pdf"). Refused files fall off at once and cannot be retried.',
+      },
+      {
+        name: "multiple",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Take several files at a time; off, only the first of a drop is taken.",
+      },
+      {
+        name: "maxSize",
+        type: "number",
+        description:
+          "The largest file accepted, in bytes. Larger ones fall off at once.",
+      },
+      {
+        name: "tail",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How far each dot's comet tail trails it while it moves, 0 to 1, capped at 35% of the lap. 0 draws no tail.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How quickly a dot runs to its reported progress, 0 to 1: a lazy glide that smooths a chunky connection, or a tight follow that dashes.",
+      },
+      {
+        name: "queue",
+        type: "number",
+        defaultValue: "2",
+        description:
+          "How many files fly at once, 1 to 4; the rest wait in line as smaller dots.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Upload"',
+        description: "The text at rest.",
+      },
+      {
+        name: "pendingLabel",
+        type: "string",
+        defaultValue: '"Uploading"',
+        description: "The text while files are queued, in flight or landing.",
+      },
+      {
+        name: "successLabel",
+        type: "string",
+        defaultValue: '"Uploaded"',
+        description: "The text once a batch has landed.",
+      },
+      {
+        name: "errorLabel",
+        type: "string",
+        defaultValue: '"Retry"',
+        description:
+          "The text after a batch with failures that can be retried; a press queues them again.",
+      },
+      {
+        name: "state",
+        type: '"idle" | "pending" | "success" | "error"',
+        description:
+          "Controlled button state. Without it, the state follows the files: pending until the last finished dot has landed.",
+      },
+      {
+        name: "onStateChange",
+        type: '(state: "idle" | "pending" | "success" | "error") => void',
+        description:
+          "Each state the button moves to, from the change that caused it.",
+      },
+      {
+        name: "successHold",
+        type: "number",
+        defaultValue: "1600",
+        description: "How long Uploaded holds before the button rests, in ms.",
+      },
+      {
+        name: "errorHold",
+        type: "number",
+        defaultValue: "4000",
+        description: "How long Retry holds before the button rests, in ms.",
+      },
+      {
+        name: "size",
+        type: '"sm" | "md" | "lg"',
+        defaultValue: '"md"',
+        description:
+          "32, 40 or 48 px tall; the dots, their spacing and the orbit scale with it.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "The orbit's colour: dots, tails and the lit track. Any CSS colour.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play a pop for the drop or pick and a rising plip as each dot takes its place, only in answer to the visitor. Landings and failures are silent.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Dims the button and refuses picks and drops.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Merged onto the root's classes (the button and the 12 px frame its orbit stays inside).",
+      },
+      {
+        name: "ref",
+        type: "React.Ref<UploadOrbitHandle>",
+        description:
+          "An imperative handle: add(files) queues files as if dropped, open() opens the picker, cancel() stops everything in flight, retry() queues the failed files again.",
+      },
+    ],
+    usageNotes: [
+      "The button is the keyboard path to the same end state as a drop: Enter or Space opens the native picker (the input itself is hidden and out of the tab order), Escape cancels everything queued or in flight while it is busy, and after a batch with failures a press retries them. The button is described by a sentence with the counts, aria-busy while pending.",
+      "A polite live region speaks per arrival, never per progress tick: files added, each file uploaded with its place in the batch, each failure with its reason, and cancellations.",
+      "Under reduced motion there is no glide, tail, hop or fall: queued dots sit at their slots, a flying dot jumps to each reported progress, a finished one fades into the badge (the count still moves) and a failed one turns red and fades in place.",
+      "Uncontrolled, onUpload runs the uploads with at most queue in flight and gets an AbortSignal for cancels and unmounts; controlled, pass files and onFilesChange and the button draws your list, starting any queued files you added on the next frame.",
+      "The count in the label moves only when a dot lands, and the button stays pending until the last finished dot has landed, so the words never run ahead of the picture.",
+    ],
+  },
+  {
+    name: "publish-press",
+    type: "registry:ui",
+    title: "Publish Press",
+    description:
+      "A publish button drawn as a sheet of paper, printed by a roller: a press sets an inked roller down at the start of the label, it bobs in place on a mirrored tween while the action is pending, and on success it rolls across the label on a symmetric move tween, inking the new word behind it through a clip that follows its track while the old label smears into a dragged, skewed band that dries away; the roller is a cylinder seen face on whose ribs turn at distance over radius, so a bigger drum turns slower. The ink is printed through a halftone screen whose dots grow with the ink load and starts wet and solid, drying back to its screen over the success hold; with a schedule set, a date stamp hovers while pending and slams down on the recoil spring instead, and pressing a published or scheduled button lifts the ink off in four strips on the exit ease in a cascade. It is a native button: Enter or Space presses it, Escape cancels while pending, and a failure leaves Retry.",
+    files: [
+      {
+        path: "registry/ui/publish-press.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["studio"],
+    meta: {
+      serial: "KQ-1266",
+    },
+    tagline: "A roller inks it live.",
+    keywords: [
+      "publish",
+      "schedule",
+      "unpublish",
+      "async button",
+      "roller",
+      "stamp",
+      "status",
+    ],
+    props: [
+      {
+        name: "value / defaultValue",
+        type: '"draft" | "published" | "scheduled"',
+        defaultValue: '"draft"',
+        description:
+          "The document's status, controlled or initial. A controlled press reports through onValueChange and prints once the host answers.",
+      },
+      {
+        name: "onValueChange",
+        type: '(value: "draft" | "published" | "scheduled") => void',
+        description:
+          "Each status the document moves to, once its action has succeeded.",
+      },
+      {
+        name: "onPublish",
+        type: "(at: Date | null, signal: AbortSignal) => void | Promise<unknown>",
+        description:
+          "Publishes now (at is null) or schedules for at. Return a promise and the roller bobs until it settles; the signal aborts on Escape.",
+      },
+      {
+        name: "onUnpublish",
+        type: "(signal: AbortSignal) => void | Promise<unknown>",
+        description: "Takes a published or scheduled document back to draft.",
+      },
+      {
+        name: "schedule",
+        type: "Date | number | null",
+        description:
+          "When set, a press schedules for this moment and stamps the date instead of rolling; the draft label becomes scheduleLabel.",
+      },
+      {
+        name: "formatDate",
+        type: "(date: Date) => string",
+        defaultValue: 'UTC "Oct 9 · 09:00"',
+        description:
+          'How the stamped date reads. The default prints "Oct 9 · 09:00" from UTC parts so server and browser agree; pass your own for the reader\'s zone.',
+      },
+      {
+        name: "state",
+        type: '"idle" | "pending" | "success" | "error"',
+        description:
+          "Controlled action state. Every move goes through onStateChange and waits for this.",
+      },
+      {
+        name: "onStateChange",
+        type: '(state: "idle" | "pending" | "success" | "error") => void',
+        description:
+          "Each action state, from the press, the answer or the timer that caused it.",
+      },
+      {
+        name: "ink",
+        type: "number",
+        defaultValue: "0.7",
+        description:
+          "How much ink the roller carries, 0 to 1: a pale, speckled halftone print or a dense, solid one.",
+      },
+      {
+        name: "roller",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How big and heavy the roller is, 0 to 1: a quick small brayer or a slow wide drum whose ribs turn slower.",
+      },
+      {
+        name: "smudge",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How much the old label smears as the roller drags over it, 0 to 1: the band's width, drag, skew and strength. 0 wipes clean.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Publish"',
+        description: "The text on a draft.",
+      },
+      {
+        name: "scheduleLabel",
+        type: "string",
+        defaultValue: '"Schedule"',
+        description: "The text on a draft when schedule is set.",
+      },
+      {
+        name: "pendingLabel",
+        type: "string",
+        defaultValue: '"Publishing"',
+        description: "The text while publishing.",
+      },
+      {
+        name: "publishedLabel",
+        type: "string",
+        defaultValue: '"Published"',
+        description: "The word the roller inks.",
+      },
+      {
+        name: "errorLabel",
+        type: "string",
+        defaultValue: '"Retry"',
+        description: "The text after an action failed; a press tries it again.",
+      },
+      {
+        name: "inkColor",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "The ink: the printed word, the stamp and the roller. Any CSS colour.",
+      },
+      {
+        name: "successHold",
+        type: "number",
+        defaultValue: "1400",
+        description:
+          "How long fresh ink stays wet before it dries and the button rests, in ms.",
+      },
+      {
+        name: "errorHold",
+        type: "number",
+        defaultValue: "2600",
+        description: "How long the error holds before the button rests, in ms.",
+      },
+      {
+        name: "size",
+        type: '"sm" | "md" | "lg"',
+        defaultValue: '"md"',
+        description:
+          "32, 40 or 48 px tall; the roller and the strips scale with it.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play the thock of the roller setting down and the stamp landing, and the swish of the roll and the peel, only within the press's own beat. No audio context exists unless this is on.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Dims and disables the button.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Merged onto the root's classes.",
+      },
+    ],
+    usageNotes: [
+      "A native button named by what it shows (Publish, Publishing, Published, Scheduled for the date, Retry) and described by what a press will do: Enter or Space presses it, a press on a published or scheduled document unpublishes it, Escape cancels a pending action (handled where focus is, with preventDefault), and a polite live region speaks each change once.",
+      "Under reduced motion nothing rolls, bobs, drops, smears or peels: the roller stands still at the start of the label while pending, the ink and the stamp fade in dry, and they fade out as one when unpublished. Labels, value and timings are unchanged.",
+      "The label only changes once the action succeeds: pending keeps the old words with the roller waiting on them, and a refusal lifts the roller away and leaves Retry, so the button never claims something the server has not done.",
+      "Every face, the stamped date included, is stacked in one grid cell, so the button keeps one width through every state; everything it draws stays inside the button.",
+      "The bob runs only while pending and pauses on a hidden page, and the wet-ink and error holds pause there too; at rest nothing animates.",
+    ],
+  },
+  {
+    name: "refresh-wind",
+    type: "registry:ui",
+    title: "Refresh Wind",
+    description:
+      "A refresh button you wind like a clock spring: drag around it, or press and hold, and the arrow turns back with the finger while its stroke coils into a tightening spiral and a ring of notches lights and ticks with the tension; let go and a per-frame integrator whips it forward from rest on the spring, then lets it coast on the stored energy against friction and air drag while the refresh runs, settling to a steady cruise if the work outlasts the energy and, once it has answered, decaying exactly onto the nearest upright. A plain press does one turn, and on success the Updated 2 min ago stamp rolls to just now on the snap spring while the notches flash and fade. It is a native button: Enter and Space refresh, Shift+Enter winds a full turn (again for another) and lets go, and Escape cancels a refresh in flight.",
+    files: [
+      {
+        path: "registry/ui/refresh-wind.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["studio"],
+    meta: {
+      serial: "KQ-1267",
+    },
+    tagline: "Wind it up, let it spin.",
+    keywords: [
+      "refresh",
+      "reload",
+      "spinner",
+      "wind up",
+      "clock spring",
+      "last updated",
+      "async button",
+    ],
+    props: [
+      {
+        name: "onRefresh",
+        type: "(signal: AbortSignal) => void | Promise<unknown>",
+        description:
+          "Runs the refresh. Return a promise and the arrow keeps turning until it settles; the signal aborts on Escape.",
+      },
+      {
+        name: "state",
+        type: '"idle" | "pending" | "success" | "error"',
+        description:
+          "Controlled action state. Every move goes through onStateChange and waits for this.",
+      },
+      {
+        name: "onStateChange",
+        type: '(state: "idle" | "pending" | "success" | "error") => void',
+        description:
+          "Each action state, from the press, the answer or the timer that caused it.",
+      },
+      {
+        name: "updatedAt / defaultUpdatedAt",
+        type: "Date | number | null",
+        defaultValue: "null",
+        description:
+          "The time of the last successful refresh, controlled or initial. The stamp is written from it.",
+      },
+      {
+        name: "onUpdatedAtChange",
+        type: "(updatedAt: Date) => void",
+        description:
+          "The moment of each successful refresh: the now prop's value, or the clock when none is given.",
+      },
+      {
+        name: "now",
+        type: "Date | number",
+        defaultValue: "a clock started on mount",
+        description:
+          "The time the stamp is read against. Pass it for a relative stamp that renders on the server; without it the phrase arrives after mount and a shared 30-second clock keeps it current while the page is visible.",
+      },
+      {
+        name: "onWind",
+        type: "(turns: number) => void",
+        description:
+          "Fires when a wind is let go, with the turns of spring it stored.",
+      },
+      {
+        name: "friction",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How quickly the released spin slows, 0 to 1: 0 coasts for seconds, 1 stops within a turn or two.",
+      },
+      {
+        name: "wind",
+        type: "number",
+        defaultValue: "2",
+        description:
+          "Turns of spring the button holds: how far a full wind goes back, how tight the coil gets and how long the spin runs.",
+      },
+      {
+        name: "stamp",
+        type: '"relative" | "clock" | "off"',
+        defaultValue: '"relative"',
+        description:
+          "The stamp beside the button: Updated 2 min ago, Updated 09:40, or none (an icon-only button whose stamp is its accessible description).",
+      },
+      {
+        name: "formatStamp",
+        type: "(updatedAt: Date, now: Date) => string",
+        defaultValue: "relative, or a UTC clock",
+        description:
+          "Writes the stamp from the last refresh and the current time; pass one for the reader's own time zone or language.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Refresh"',
+        description: "The button's accessible name.",
+      },
+      {
+        name: "pendingLabel",
+        type: "string",
+        defaultValue: '"Refreshing"',
+        description: "The name and the stamp while refreshing.",
+      },
+      {
+        name: "errorLabel",
+        type: "string",
+        defaultValue: '"Couldn\'t refresh"',
+        description: "The stamp after a failed refresh; a press retries.",
+      },
+      {
+        name: "emptyLabel",
+        type: "string",
+        defaultValue: '"Not updated yet"',
+        description: "The stamp before the first refresh.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description: "The coil and the tension notches. Any CSS colour.",
+      },
+      {
+        name: "successHold",
+        type: "number",
+        defaultValue: "1400",
+        description:
+          "How long the success flash holds before the button rests, in ms.",
+      },
+      {
+        name: "errorHold",
+        type: "number",
+        defaultValue: "2600",
+        description: "How long a failure holds before the button rests, in ms.",
+      },
+      {
+        name: "size",
+        type: '"sm" | "md" | "lg"',
+        defaultValue: '"md"',
+        description:
+          "32, 40 or 48 px across; the coil and the notch ring scale with it.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play a tick for every notch the wind lights and the whir of the spin while it spends the spring's energy. No audio context exists unless this is on.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Dims the button and lets go of any wind without firing it.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Merged onto the root's classes.",
+      },
+    ],
+    usageNotes: [
+      "A native button named by its label and described by the stamp and the gesture: Enter and Space refresh with one turn, Shift+Enter winds a full turn (press it again during the wind for another, up to wind) and lets go, and Escape cancels a refresh in flight (handled where focus is, with preventDefault). A polite live region speaks Refreshing, the new stamp, a failure or a cancel once each.",
+      "The wind is a real drag through the shared gesture kit: it follows the pointer's angle round the button 1:1, rubber-bands past empty and past full, and takes the pointer only after a few pixels, so a plain press is still a click. The button is touch-action none, since the wind is two-dimensional.",
+      "Under reduced motion nothing spins or whips: the coil and the notches still show the tension while winding, the arrow stays upright, a refresh in flight shows the notch ring steady at half strength, and the stamp swaps by cross-fade.",
+      "The spin is integrated per frame only while it moves and stops at rest; the whir only spends the energy the visitor wound in and fades as the spin falls to cruising speed. A host that sets state to pending on its own gets the cruise without a sound.",
+      "The stamp's width is the widest of its phrases stacked in one cell, so the row never shifts when it rolls to just now or to the error. Pass now for server rendering; the default clock is shared by every instance and pauses on a hidden page.",
+    ],
+  },
+  {
+    name: "gate-button",
+    type: "registry:ui",
+    title: "Gate Button",
+    description:
+      "A submit button that shows its own readiness: a padlock at its left wears a segmented arc, one segment per requirement, and each requirement the form meets is drawn along the arc on the flick spring. When the last is met the shackle pops open, lifting on the recoil spring and swinging about its long leg on snap, and the button warms as an accent bloom grows out of the padlock across the face on glide; pressed, the padlock gives way to three dots bouncing in a wave while the request runs, then the dots run together and a check draws on flick as the label rolls to Sent. Locked, it stays focusable: hover or keyboard focus lists what is missing, Enter or Space is refused with a rattle and the first missing item flagged, and Escape closes the list or cancels a send.",
+    files: [
+      {
+        path: "registry/ui/gate-button.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["studio"],
+    meta: {
+      serial: "KQ-1268",
+    },
+    tagline: "Locked until the form is ready.",
+    keywords: [
+      "submit",
+      "form validation",
+      "requirements",
+      "padlock",
+      "disabled button",
+      "checklist",
+      "async button",
+    ],
+    props: [
+      {
+        name: "requirements",
+        type: "{ id: string; label: string; met: boolean }[]",
+        defaultValue: "defaultRequirements",
+        description:
+          "What the form needs before it can be sent; one arc segment each. With none, the button is ready.",
+      },
+      {
+        name: "onSubmit",
+        type: "(signal: AbortSignal) => void | Promise<unknown>",
+        description:
+          "Sends the form. Return a promise and the dots bounce until it settles; the signal aborts on Escape.",
+      },
+      {
+        name: "state",
+        type: '"idle" | "pending" | "success" | "error"',
+        description:
+          "Controlled action state. Every move goes through onStateChange and waits for this.",
+      },
+      {
+        name: "onStateChange",
+        type: '(state: "idle" | "pending" | "success" | "error") => void',
+        description:
+          "Each action state, from the press, the answer or the timer that caused it.",
+      },
+      {
+        name: "onLockedPress",
+        type: "(missing: { id: string; label: string; met: boolean }[]) => void",
+        description:
+          "A press while locked, with what is still missing: scroll to the first field, flag it.",
+      },
+      {
+        name: "segments",
+        type: '"arc" | "ring" | "pips"',
+        defaultValue: '"arc"',
+        description:
+          "How the padlock wears the requirements: an arc open at the foot, a closed ring, or one pip each.",
+      },
+      {
+        name: "warm",
+        type: "number",
+        defaultValue: "0.7",
+        description:
+          "How strongly the button warms once it is ready, 0 to 1: an accent outline at 0, a solid accent fill with light text at 1.",
+      },
+      {
+        name: "hint",
+        type: '"list" | "next" | "off"',
+        defaultValue: '"list"',
+        description:
+          "What hovering or focusing the locked button shows: every requirement ticked or not, only the next one missing, or nothing (the description still names them).",
+      },
+      {
+        name: "hintTitle",
+        type: "string",
+        defaultValue: '"Still needed"',
+        description: "The list's heading, also used in the spoken description.",
+      },
+      {
+        name: "hintSide",
+        type: '"top" | "bottom"',
+        defaultValue: '"top"',
+        description: "Which side of the button the hint opens on.",
+      },
+      {
+        name: "hintAlign",
+        type: '"start" | "center" | "end"',
+        defaultValue: '"end"',
+        description:
+          "Which edge of the button the hint lines up with; end suits a form footer's right-hand button.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Submit request"',
+        description: "The button's text.",
+      },
+      {
+        name: "pendingLabel",
+        type: "string",
+        defaultValue: '"Sending"',
+        description: "The text while sending.",
+      },
+      {
+        name: "successLabel",
+        type: "string",
+        defaultValue: '"Sent"',
+        description: "The text once sent.",
+      },
+      {
+        name: "errorLabel",
+        type: "string",
+        defaultValue: '"Retry"',
+        description: "The text after a failed send; a press tries again.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent)"',
+        description: "The met segments and the warm fill. Any CSS colour.",
+      },
+      {
+        name: "successHold",
+        type: "number",
+        defaultValue: "1600",
+        description: "How long Sent holds before the button rests, in ms.",
+      },
+      {
+        name: "errorHold",
+        type: "number",
+        defaultValue: "2600",
+        description: "How long the error holds before the button rests, in ms.",
+      },
+      {
+        name: "size",
+        type: '"sm" | "md" | "lg"',
+        defaultValue: '"md"',
+        description: "32, 40 or 48 px tall; the padlock scales with it.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play a click for each requirement the visitor meets, the shackle's snap, a dull click on a refused press and a chime when sent. Requirements met by the host alone are silent. No audio context exists unless this is on.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Dims and disables the button; no hint opens.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Merged onto the root's classes.",
+      },
+    ],
+    usageNotes: [
+      "Locked is aria-disabled, never disabled, so the button stays in the tab order, its hint opens on keyboard focus as well as hover, and its description says what is missing (Locked. Still needed: Team chosen, Data policy accepted.) whether or not the hint is shown.",
+      "A refused press rattles the padlock, keeps the hint open for a couple of seconds (for touch, which cannot hover), flags the first missing item and calls onLockedPress with the missing list, so the form can scroll to or highlight the field. A polite live region speaks progress, Ready to submit, Sending, Sent, a failure and a cancel once each.",
+      "Escape is handled where focus is, with preventDefault: it cancels a send in flight (the signal aborts) or closes an open hint.",
+      "Under reduced motion nothing lifts, swings, rattles or bounces: the shackle swaps open, the warm fill fades in, the segments fill quickly, the pending dots pulse in opacity and the check appears whole.",
+      "Every label is stacked in one cell, so the button keeps its width from Submit request to Sending, Sent and Retry; the bloom, dots and check are all drawn inside the button. The hint is an overlay anchored to the button by hintSide and hintAlign.",
+    ],
+  },
+  {
+    name: "rewind-undo",
+    type: "registry:ui",
+    title: "Rewind Undo",
+    description:
+      "Undo and redo as a tape deck: the Undo button carries a reel holding the applied history, the Redo button a reel holding what has been rewound, and the tape between them reads out each step. A press rewinds one step as both reels turn the same way on a spring as heavy as the spool, each by the tape's length over its own radius so a nearly empty reel visibly spins faster, while the undone action's name is pulled out onto the tape on the snap spring and struck through on flick; holding scrubs back with steps that come faster and faster, the reels spinning up and the names flicking past, and Redo slides in on glide once there is something to redo. Both are native buttons in a named group: Enter or Space steps and, held, scrubs exactly as a held pointer does, Escape cancels a step the host is still applying, and optional shortcuts bind Cmd or Ctrl+Z and Shift+Cmd+Z or Ctrl+Y outside text fields.",
+    files: [
+      {
+        path: "registry/ui/rewind-undo.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["studio"],
+    meta: {
+      serial: "KQ-1269",
+    },
+    tagline: "Spool back through what you did.",
+    keywords: [
+      "undo",
+      "redo",
+      "history",
+      "toolbar",
+      "keyboard shortcut",
+      "scrub",
+      "tape reel",
+    ],
+    props: [
+      {
+        name: "history",
+        type: "{ id: string; label: string }[]",
+        defaultValue: "defaultHistory",
+        description:
+          "Everything done so far, oldest first: the tape. Each label names its step on the tape and in the buttons' names.",
+      },
+      {
+        name: "index / defaultIndex",
+        type: "number",
+        defaultValue: "history.length",
+        description:
+          "How many steps of history are applied, controlled or initial.",
+      },
+      {
+        name: "onIndexChange",
+        type: "(index: number) => void",
+        description:
+          "Each new position, from the press, the hold or the shortcut that moved it.",
+      },
+      {
+        name: "onUndo",
+        type: "(step: { id: string; label: string }, signal: AbortSignal) => void | Promise<unknown>",
+        description:
+          "Undoes one step. Return a promise and the step waits on it (the reels tug, the name is faint) and commits once it settles; the signal aborts on Escape.",
+      },
+      {
+        name: "onRedo",
+        type: "(step: { id: string; label: string }, signal: AbortSignal) => void | Promise<unknown>",
+        description: "Redoes one step, the same way.",
+      },
+      {
+        name: "state",
+        type: '"idle" | "pending" | "success" | "error"',
+        description:
+          "Controlled action state. Every move goes through onStateChange and waits for this.",
+      },
+      {
+        name: "onStateChange",
+        type: '(state: "idle" | "pending" | "success" | "error") => void',
+        description:
+          "Each action state, from the press, the answer or the timer that caused it.",
+      },
+      {
+        name: "steps",
+        type: "number",
+        defaultValue: "6",
+        description:
+          "Steps one turn of a half-full reel holds, 3 to 12; also the reel's spokes. Fewer means bigger turns per press.",
+      },
+      {
+        name: "spool",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "Reel weight, 0 to 1: a light reel snaps to each step, a heavy one carries past and settles back.",
+      },
+      {
+        name: "hold",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How hard a held press speeds up the scrub, 0 to 1: 0 keeps a steady pace, 1 races to the end.",
+      },
+      {
+        name: "holdDelay",
+        type: "number",
+        defaultValue: "380",
+        description:
+          "How long a press is held before it starts to scrub, in ms.",
+      },
+      {
+        name: "shortcuts",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Bind Cmd or Ctrl+Z to undo and Shift+Cmd+Z or Ctrl+Y to redo, from anywhere on the page outside inputs, text areas and editable content.",
+      },
+      {
+        name: "undoLabel",
+        type: "string",
+        defaultValue: '"Undo"',
+        description:
+          "The Undo button's word; its accessible name adds the step it would undo.",
+      },
+      {
+        name: "redoLabel",
+        type: "string",
+        defaultValue: '"Redo"',
+        description:
+          "The Redo button's word; its accessible name adds the step it would redo.",
+      },
+      {
+        name: "readoutLabels",
+        type: "{ undid?: string; redid?: string; last?: string; empty?: string; failed?: string }",
+        defaultValue:
+          '{ undid: "Undid", redid: "Redid", last: "Last", empty: "Nothing to undo", failed: "Failed" }',
+        description: "The words on the tape between the reels.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description: "The tape on the reels. Any CSS colour.",
+      },
+      {
+        name: "successHold",
+        type: "number",
+        defaultValue: "2200",
+        description:
+          "How long a step's name stays on the tape before it rests on the last step, in ms.",
+      },
+      {
+        name: "errorHold",
+        type: "number",
+        defaultValue: "2600",
+        description: "How long a failure holds before it rests, in ms.",
+      },
+      {
+        name: "size",
+        type: '"sm" | "md" | "lg"',
+        defaultValue: '"md"',
+        description: "32, 40 or 48 px tall; the reels scale with it.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play a click per step pitched by its place in history, a dull click at either end, and the reels' whir while a hold scrubs. No audio context exists unless this is on.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Dims and disables both buttons and the shortcuts.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Merged onto the group's classes.",
+      },
+    ],
+    usageNotes: [
+      "A role=group named History holding two native buttons named Undo and Redo plus the step they would take (Undo Removed column). Enter or Space steps on key-down and, held, scrubs exactly as a held pointer does; a pointer steps on release, so a scroll that merely starts on the button never undoes. Undo at the start stays focusable as aria-disabled, and Redo, while there is nothing to redo, is inert and out of the tab order; if it leaves while focused, focus moves to Undo.",
+      "A polite live region speaks each committed step once (Undid Removed column.), a whole scrub once on release (Undid 5 steps. Last: Renamed sheet.), a step in progress, a failure and a cancel, never once per scrubbed step.",
+      "Under reduced motion the reels do not turn and Redo does not slide: the tape on each reel changes at once, names cross-fade, the strike appears whole, and a held press still scrubs at the same pace.",
+      "When the tape is too narrow for its longest line the buttons drop their words and keep their names, with hysteresis so the switch never flickers; the tape truncates a long name with a title. The deck keeps one width as Redo comes and goes, since its slot is part of the deck.",
+      "With shortcuts on, keystrokes in text fields are left alone so native text undo still works there; a host that keeps its own undo bindings should leave shortcuts off and drive index instead, and the reels and tape follow its changes the same way.",
+    ],
+  },
+  {
+    name: "plug-in",
+    type: "registry:ui",
+    title: "Plug In",
+    description:
+      "A connect button with a plug on a cable: pressed, the plug lifts level and slides to the socket in the button's edge on the glide spring while its weighted cable first dips and then straightens, and while the connection is pending the plug works at the socket mouth in a seeded, uneven jiggle. When the integration answers, the plug seats on the snap spring with a clack, a seeded burst of sparks flies from the seam with a pop, the lamp lights and the label rolls to Connected; pressing again pulls the plug out on a tween and the cable recoils on the recoil spring's two bounces. The plug can be pushed in or pulled out by hand, following 1:1 and committing by where the throw would land, and the button is a native button in a group named for the integration: Enter and Space press it and Escape cancels a connection in flight.",
+    files: [
+      {
+        path: "registry/ui/plug-in.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["studio"],
+    meta: {
+      serial: "KQ-1270",
+    },
+    tagline: "Connected, with a spark.",
+    keywords: [
+      "connect",
+      "integration",
+      "plug",
+      "cable",
+      "settings",
+      "toggle button",
+      "async button",
+    ],
+    props: [
+      {
+        name: "connected / defaultConnected",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Whether the integration is connected, controlled or initial. A controlled press reports through onConnectedChange and seats the plug once the host answers.",
+      },
+      {
+        name: "onConnectedChange",
+        type: "(connected: boolean) => void",
+        description: "Each change, once its action has succeeded.",
+      },
+      {
+        name: "onConnect",
+        type: "(signal: AbortSignal) => void | Promise<unknown>",
+        description:
+          "Connects. Return a promise and the plug works at the socket until it settles; the signal aborts on Escape.",
+      },
+      {
+        name: "onDisconnect",
+        type: "(signal: AbortSignal) => void | Promise<unknown>",
+        description:
+          "Disconnects, the same way; the plug tugs at the socket while it waits.",
+      },
+      {
+        name: "state",
+        type: '"idle" | "pending" | "success" | "error"',
+        description:
+          "Controlled action state. Every move goes through onStateChange and waits for this.",
+      },
+      {
+        name: "onStateChange",
+        type: '(state: "idle" | "pending" | "success" | "error") => void',
+        description:
+          "Each action state, from the press, the answer or the timer that caused it.",
+      },
+      {
+        name: "slack",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "Spare cable, 0 to 1: a nearly taut line, or a deep loop that dips and swings when the plug moves.",
+      },
+      {
+        name: "spark",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "The contact's burst, 0 to 1: how many sparks and how far they fly. 0 is a clean connection.",
+      },
+      {
+        name: "jiggle",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How hard the plug works at the socket while it connects, 0 to 1.",
+      },
+      {
+        name: "name",
+        type: "string",
+        defaultValue: '"Integration"',
+        description: "What is being connected: the group's accessible name.",
+      },
+      {
+        name: "icon",
+        type: "ReactNode",
+        defaultValue: "a block glyph",
+        description:
+          "The integration's mark on the tile the cable comes from, 16px.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Connect"',
+        description: "The button's text while disconnected.",
+      },
+      {
+        name: "pendingLabel",
+        type: "string",
+        defaultValue: '"Connecting"',
+        description: "The text while connecting.",
+      },
+      {
+        name: "connectedLabel",
+        type: "string",
+        defaultValue: '"Connected"',
+        description: "The text once connected.",
+      },
+      {
+        name: "disconnectLabel",
+        type: "string",
+        defaultValue: '"Disconnect"',
+        description:
+          "What a connected button shows, in danger ink, on hover or keyboard focus: what a press will do.",
+      },
+      {
+        name: "errorLabel",
+        type: "string",
+        defaultValue: '"Retry"',
+        description: "The text after a failure; a press tries again.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--success)"',
+        description:
+          "The live cable, the lamp and the connected face's tint. Any CSS colour.",
+      },
+      {
+        name: "successHold",
+        type: "number",
+        defaultValue: "1400",
+        description:
+          "How long the contact holds as success before the button rests, in ms.",
+      },
+      {
+        name: "errorHold",
+        type: "number",
+        defaultValue: "2600",
+        description: "How long a failure holds before the button rests, in ms.",
+      },
+      {
+        name: "size",
+        type: '"sm" | "md" | "lg"',
+        defaultValue: '"md"',
+        description:
+          "32, 40 or 48 px tall; the tile, cable, plug and sparks scale with it.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play the clack of the plug seating and pulling out and the pop of the spark, only within a few seconds of the visitor's press or push. No audio context exists unless this is on.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Dims and disables the button and the plug handle.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Merged onto the group's classes.",
+      },
+    ],
+    usageNotes: [
+      "A role=group named by name holding a native button named by its visible label and, when connected, described as Press to disconnect. Enter and Space press it; Escape cancels a connect or disconnect in flight (handled where focus is, with preventDefault). A polite live region speaks Connecting, Connected, Disconnected, a failure and a cancel once each.",
+      "The plug handle is a decorative, aria-hidden drag through the shared gesture kit, touch-action pan-y so the page still scrolls: it follows the hand 1:1, rubber-bands at the rest and at the socket, and commits by projecting the release; a short or slow push springs back. The button reaches every state the hand can.",
+      "Under reduced motion nothing slides, jiggles or recoils: the plug swaps between its rest, socket-mouth and seated poses, the cable takes its sag at once, and the contact is a still flash that fades; the lamp, label and live region still carry the state.",
+      "The label never claims Connected before the host has answered, and a pointer still resting on the button after it connects does not preview Disconnect until it leaves and comes back. Every label is stacked in one cell, so the control keeps one width; the cable, plug and sparks are drawn inside its own box.",
+      "The jiggle and the holds pause on a hidden page; at rest nothing animates.",
+    ],
+  },
 ];

@@ -23121,6 +23121,395 @@ Notes:
 - Reduced motion fades the tag in hanging still and fades it out, with the counter cross-fading and no swing, fall, nudge or bump.
 - Pass format for other currencies or decimals; the tag's width follows the printed string, so the same price always draws the same tag on the server and the client.
 
+### Launch Pad (KQ-1261) — `launch-pad`
+Three, two, one — shipped.
+
+A deploy button with a launch pad in its left cap: a press arms a countdown ring that drains one segment per second, linearly, while the label's digit rolls on springs.snap, and a second press or Escape aborts. At zero the rocket squats and climbs out through the roof on an accelerating exit ease with exhaust billowing along the floor, the label lifts off after it, and a progress line runs while the onLaunch promise is pending; a resolve drops a flag into the pad on springs.recoil and unfurls it on springs.snap, a reject brings the rocket back nose-down on springs.glide and shakes the button with the error and a retry. Enter and Space press it, Escape aborts the count, and every change is spoken once in a polite live region.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/launch-pad`
+
+Props:
+- `onLaunch`: () => Promise<unknown> | unknown — The deploy itself, called at zero. A returned promise keeps the rocket in flight until it settles: resolve lands the flag, reject shows the error.
+- `state`: "idle" | "countdown" | "pending" | "success" | "error" — Controlled state. Omit it and the countdown and the promise drive the pad.
+- `onStateChange`: (state: LaunchPadState, error?: unknown) => void — Every change of state — a press, the count reaching zero, the promise settling, a hold running out — with the rejection on error. A controlled pad waits for the host to apply it.
+- `onAbort`: () => void — A press or Escape during the countdown called the launch off.
+- `countdown`: number (default 3) — Seconds counted down before lift-off, 0 to 9; each is one segment of the ring. 0 launches on the press.
+- `thrust`: number (default 0.6) — How hard it launches, 0 to 1: a quicker climb, a longer flame, more exhaust.
+- `shake`: number (default 6) — How far a failure shakes the button, in px. 0 keeps it still.
+- `progress`: number — Known progress of the deploy, 0 to 1. Omit it for an estimate that approaches 92% and never claims the finish.
+- `eta`: number (default 2400) — How long a deploy usually takes, in ms; paces the estimated progress line.
+- `label`: string (default "Deploy") — The idle label.
+- `abortLabel`: string (default "Abort") — Shown before the seconds while counting down, when a press aborts.
+- `pendingLabel`: string (default "Deploying") — The label while the deploy is in flight.
+- `version`: string (default "v2.4.1") — The version that goes live, read out in the success label.
+- `successLabel`: string (default "Live · {version}") — The label once live.
+- `errorLabel`: string (default "Checks failed") — What failed, shown before the retry. A rejection's own message replaces it and truncates with a title.
+- `retryLabel`: string (default "Retry") — The word after the error that says a press tries again.
+- `successHold`: number (default 2600) — How long Live holds before the pad resets, in ms; 0 keeps it. Counts only while the page is visible.
+- `errorHold`: number (default 0) — How long a failure holds before the pad resets, in ms; 0 keeps it until retried.
+- `size`: "sm" | "md" | "lg" (default "md") — 36, 44 or 52px tall; the rocket, flag and ring scale with it.
+- `accent`: string (default "var(--primary)") — The button's face while idle, counting and in flight.
+- `flame`: string (default "oklch(from var(--warn) 0.8 c h)") — The exhaust flame's colour.
+- `sound`: boolean (default false) — Play the countdown ticks, the lift-off, the landing chime and the failure buzz — only for a launch the visitor started.
+- `disabled`: boolean (default false) — Takes the button out of use.
+- `className`: string — Classes for the outer wrapper.
+
+Notes:
+- Keyboard: Enter or Space presses through the native click; during the countdown a second press or Escape aborts (Escape is handled with preventDefault). In flight and while Live, the button stays focusable but is aria-disabled, and pending is aria-busy.
+- Reduced motion: nothing travels or bounces — the ring still drains because it is the time left, the digit swaps, the rocket fades out and back, the progress line still fills, the flag and the tilted rocket appear in place, and the button never shakes; colours still change.
+- Controlled use: pass state and apply what onStateChange reports. The pad calls onLaunch at zero and reports pending, then success or error when the promise settles; a host that refuses a change simply leaves the pad where it is.
+- The countdown is an abort window, so it pauses while the page is hidden instead of launching behind the visitor's back; the success and error holds pause too.
+- The button reserves the width of its longest built-in label, so neighbours never move between states; a longer rejection message truncates with a title.
+- Sound plays only for a sequence the visitor started with a press; a host driving state on its own is silent.
+
+### Settle Button (KQ-1262) — `settle-button`
+The amount runs down to paid.
+
+A pay button laid out like a checkout bar, the amount on an odometer with one wheel per digit: a press sweeps a fill in the paid colour in behind the text, and as its front crosses each digit that wheel rolls down to zero, closing in on the last digit exponentially and holding there while the onPay promise is pending. Resolved, the characters fold away in a cascade on the exit ease, Pay rolls to Paid on springs.snap and a check is stamped where the last digit stood on springs.recoil, its stroke drawn on springs.flick; declined, the fill retreats on springs.glide, the wheels roll back up and the face tints to danger. Enter and Space press it through the native click, and each change is spoken once in a polite live region.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/settle-button`
+
+Props:
+- `amount`: number — What is owed, in major units — dollars, not cents.
+- `currency`: string (default "USD") — ISO 4217 code: sets the sign, the separators and how many places roll.
+- `locale`: string (default the currency's home locale) — The formatting locale. USD en-US, EUR de-DE, GBP en-GB, JPY ja-JP, otherwise en-US — fixed, so the server and the browser format alike.
+- `format`: (amount: number) => string (default Intl.NumberFormat) — Formats the amount for the label and the spoken text; every digit in its output becomes a wheel.
+- `onPay`: () => Promise<unknown> | unknown — Takes the payment. A returned promise holds the meter short of zero until it settles.
+- `state`: "idle" | "pending" | "success" | "error" — Controlled state. Omit it and the press and the promise drive the button.
+- `onStateChange`: (state: SettleState, error?: unknown) => void — Every change of state — the press, the promise, a hold running out — with the rejection on error.
+- `speed`: number (default 1) — How fast the amount runs down, 0.5 to 2 times.
+- `stamp`: number (default 0.6) — How hard the check is stamped, 0 to 1: 0 only draws it, 1 slams it down with an ink ring.
+- `label`: string (default "Pay") — The word before the amount.
+- `pendingLabel`: string (default "Paying") — The word while the payment is in flight.
+- `paidLabel`: string (default "Paid") — The word once paid.
+- `retryLabel`: string (default "Retry") — The word after a failure, when a press tries again.
+- `errorLabel`: string (default "Payment declined") — What failed, spoken and shown as the button's title. A rejection's own message replaces it.
+- `successHold`: number (default 0) — How long Paid holds before the amount rolls back up, in ms; 0 keeps it paid. Counts only while the page is visible.
+- `errorHold`: number (default 2400) — How long the failure tint holds, in ms; 0 keeps it until the next press.
+- `size`: "sm" | "md" | "lg" (default "md") — 36, 44 or 52px tall.
+- `accent`: string (default "var(--primary)") — The unpaid face.
+- `fill`: string (default "oklch(from var(--success) 0.55 c h)") — The paid colour that sweeps in behind the digits.
+- `sound`: boolean (default false) — Play a tick as each digit reaches zero, the stamp's chime and the decline's buzz — only for a payment the visitor pressed.
+- `disabled`: boolean (default false) — Takes the button out of use.
+- `className`: string — Classes for the outer wrapper.
+
+Notes:
+- Keyboard: Enter or Space presses through the native click. In flight and once paid the button stays focusable but is aria-disabled, and in flight it is aria-busy; its name is one sentence, such as "Pay $1,284.50".
+- Reduced motion: the fill still sweeps because it is the progress, but each digit swaps to zero as the front passes it instead of rolling, the fold is a fade and the check appears without the stamp's bounce or ink ring; the danger tint still shows a decline.
+- Amounts go through Intl.NumberFormat in a fixed locale (or your format function), so the server and the browser render the same digits; the figures are mono and tabular, and leading digits dim to ghost zeros rather than collapsing, so nothing shifts.
+- Controlled use: pass state and apply what onStateChange reports. The button calls onPay on the press and reports pending, then success or error when the promise settles.
+- A new amount while idle rolls up from zeros, so a host can swap to the next invoice after successHold and the button shows it arriving.
+
+### Download Tray (KQ-1263) — `download-tray`
+The file drops in, the tray slides shut.
+
+A download button with a tray hidden behind its bottom edge: a press dips the arrow and drops it under gravity through the label row and out of the button, while the tray slides out on the chosen spring (glide, snap or recoil) to catch it, the arrow landing with a squash on springs.recoil and the progress drawn along the tray's lip. At 100% the tray slides shut, the file size is stamped into the caption on springs.recoil, and the arrow rises back on springs.glide and flips into a check on springs.snap; pressing during the download cancels and pulls the arrow back up on springs.snap. Enter and Space press it, Escape cancels, the open tray is a progressbar, and each change is spoken once in a polite live region.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/download-tray`
+
+Props:
+- `bytes`: number — The file's size in bytes: the readout's total and the size stamped when the tray shuts.
+- `fileName`: string — The file's name, shown in the caption under the button at rest and spoken when the download starts.
+- `kind`: string — A short type tag before the size in the caption, such as "PDF".
+- `formatBytes`: (bytes: number) => string (default decimal units, one place) — Formats a byte count, as in "8.4 MB".
+- `onDownload`: () => Promise<unknown> | unknown — Starts the download. A returned promise holds the tray open near the end until it settles; a rejection shows the error.
+- `onCancel`: () => void — A press or Escape during the download cancelled it.
+- `state`: "idle" | "pending" | "success" | "error" — Controlled state. Omit it and the press, the progress and the promise drive the tray.
+- `onStateChange`: (state: DownloadTrayState, error?: unknown) => void — Every change of state — the press, the finish, a cancel, the promise, a hold — with the rejection on error.
+- `value`: number — Controlled progress from your own transfer, 0 to 1; reaching 1 finishes. Omit it to simulate from duration.
+- `duration`: number (default 2400) — How long the simulated download takes, in ms.
+- `tray`: "glide" | "snap" | "recoil" (default "glide") — The spring the tray slides out and shuts on: glide slides, snap clicks out with one overshoot, recoil bounces.
+- `progress`: "line" | "ticks" | "bytes" (default "line") — How progress is drawn along the tray's lip: a line, a row of ticks, or a line with the bytes received.
+- `size`: "sm" | "md" | "lg" (default "md") — Button 36, 40 or 48px tall over a 24, 28 or 32px well.
+- `label`: string (default "Download") — The idle label.
+- `cancelLabel`: string (default "Cancel") — The label during the download, when a press cancels.
+- `successLabel`: string (default "Downloaded") — The label once the file is in.
+- `retryLabel`: string (default "Retry") — The label after a failure, when a press tries again.
+- `savedLabel`: string (default "Saved") — The word stamped beside the size when the tray shuts.
+- `errorLabel`: string (default "Download failed") — What failed, shown under the button. A rejection's own message replaces it.
+- `successHold`: number (default 0) — How long Downloaded holds before the button resets, in ms; 0 keeps it. Counts only while the page is visible.
+- `errorHold`: number (default 0) — How long a failure holds before the button resets, in ms; 0 keeps it until retried.
+- `accent`: string (default "var(--accent-bright)") — The arrow, the check and the progress on the lip.
+- `sound`: boolean (default false) — Play the arrow landing in the tray and the tray shutting — only for a download the visitor pressed.
+- `disabled`: boolean (default false) — Takes the button out of use.
+- `className`: string — Classes for the outer wrapper.
+
+Notes:
+- Keyboard: Enter or Space presses through the native click; during the download a second press or Escape cancels (Escape is handled with preventDefault). The caption is the button's description, and the open tray is a progressbar whose value moves in 5% steps.
+- Reduced motion: nothing falls, slides or flips — the arrow fades from its slot and appears in the tray, the tray fades in place over a caption that hides first, the lip still fills, and the check cross-fades in with the size.
+- Progress: pass value from your own transfer (0 to 1), or let it simulate over duration. If onDownload returns a promise, a simulated download waits near the end until the promise settles, so the tray never claims a finish the file has not reached.
+- The tray lives inside the component's own box — it slides out of a well under the button that holds the file's caption at rest — so it never overlaps the content around it and nothing shifts when it opens.
+- Pressing Downloaded downloads again; set successHold to have it return to Download on its own.
+
+### Bin Lid (KQ-1264) — `bin-lid`
+Thrown away, with a window to fish it out.
+
+A delete button whose bin lid lifts on its hinge on the snap spring when the pointer or keyboard focus arrives; pressing folds the label into a paper sheet that is lobbed into the bin on a true ballistic arc and tumbles out of sight behind its front wall, the lid falls shut on an accelerating tween, and the bin squashes and recovers on snap while dust puffs from both ends of the lid. The button's corners then glide into an undo pill and a ring round the bin drains linearly over the undo window; undo, by a press or Escape, flies the paper back out along the same arc and unfolds it into the label, and when the ring empties onDelete fires, with a spinning ring while its promise is pending and the paper thrown back out with a shake if it fails. It is a native button whose Enter and Space press through the native click, its width never changes, and a polite live region speaks each change once.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/bin-lid`
+
+Props:
+- `onDelete`: () => void | Promise<unknown> — Fires once the undo window runs out. Return a promise and the button shows the deletion pending until it settles, then Deleted or the error.
+- `onUndo`: () => void — The visitor fished it back out, with a press or Escape, before the window ran out.
+- `state`: "idle" | "armed" | "pending" | "success" | "error" — Controlled state. Every move the button wants to make goes through onStateChange and waits for this; the choreography follows the shown state, so a host's change plays it too.
+- `onStateChange`: (state: "idle" | "armed" | "pending" | "success" | "error") => void — Each state the button moves to, from the press, the timer or the promise that caused it.
+- `window`: number (default 5000) — How long the undo window stays open, in ms: the time the ring takes to drain. It pauses while the page is hidden.
+- `arc`: number (default 0.6) — How high the paper is lobbed into the bin and how much it tumbles, 0 to 1. The apex is kept inside the component's frame.
+- `puff`: number (default 0.6) — How much dust the slammed lid pushes out of its ends, 0 to 1: count, reach and size. 0 slams clean.
+- `label`: string (default "Delete") — The text at rest.
+- `undoLabel`: string (default "Undo") — The text while the undo window is open.
+- `pendingLabel`: string (default "Deleting") — The text while onDelete is settling.
+- `successLabel`: string (default "Deleted") — The text once it is gone.
+- `errorLabel`: string (default "Retry") — The text after onDelete failed; a press throws it away again.
+- `itemName`: string — What is being thrown away. Joins the accessible name ("Delete Q3 forecast draft") and the spoken sentences.
+- `successHold`: number (default 1800) — How long Deleted holds before the button is ready again, in ms.
+- `errorHold`: number (default 2600) — How long the error holds before the button rests again, in ms.
+- `iconOnly`: boolean (default false) — The bin alone in a square button (a circle as the undo pill) that keeps its accessible name.
+- `size`: "sm" | "md" | "lg" (default "md") — 32, 40 or 48 px tall; the bin, the paper and the dust scale with it.
+- `accent`: string (default "var(--danger)") — The destructive colour for the text, outline, bin and ring. Any CSS colour.
+- `sound`: boolean (default false) — Play the paper as it is thrown, the thud of the lid and the pop as it comes back out, only in answer to a press or key. No audio context exists unless this is on.
+- `disabled`: boolean (default false) — Dims and disables the button.
+- `className`: string — Merged onto the root's classes (the button and the 12 px frame its lob and dust stay inside).
+
+Notes:
+- A native button named by its current label (with itemName at rest): Enter or Space presses it through the native click, a press during the undo window restores, Escape restores too (handled where focus is, with preventDefault), and presses are ignored while pending or after success. A polite live region speaks one sentence per change: moved to the bin with the window in seconds, restored, deleting, deleted, or not deleted.
+- Under reduced motion nothing flies, swings, squashes or puffs and the corners do not morph: the labels cross-fade, the ring still drains because the window is information, pending shows a still dashed ring, and an error changes the outline colour instead of shaking.
+- onDelete only runs when the window has run out, so an undo never needs a server round trip; return a promise to keep the button pending until the deletion is confirmed, and a rejection brings the item back with Retry.
+- Every label is stacked in one grid cell, so the button keeps the width of the longest through every state and nothing beside it moves.
+- The undo countdown and the success and error holds pause while the page is hidden, and nothing animates at rest.
+
+### Upload Orbit (KQ-1265) — `upload-orbit`
+The file circles until it lands.
+
+An upload button over a real file input whose files orbit it while they go up: chosen or dropped files become dots that pop into a waiting line on the top edge on the snap spring, step out on the glide spring, and then sit round the button's perimeter at their progress, walked by arc length so one lap is the whole file, chasing each reported value on a critically damped spring while a softer spring drags a fading comet tail behind them. A finished dot completes its lap and hops into the count in the label, where the badge recoils on the recoil spring and the digit rolls on snap; a failed dot leaves along its tangent, falls and fades red while a red counter appears on the badge. Click, Enter or Space opens the system picker and files can be dropped anywhere on it; Escape cancels what is in flight, and after a batch with failures a press queues them again.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/upload-orbit`
+
+Props:
+- `onUpload`: (file: File, progress: (share: number) => void, signal: AbortSignal) => Promise<unknown> — Uploads one file: report progress from 0 to 1 as it goes and settle the promise when it is done or failed. Called for at most queue files at once; the signal aborts on Escape or unmount.
+- `files`: UploadOrbitFile[] — Controlled list of files ({ id, name, size?, progress, status: "queued" | "uploading" | "done" | "error", error? }). The button reports every list it wants through onFilesChange and draws this one.
+- `onFilesChange`: (files: UploadOrbitFile[]) => void — Every new list: files added, progress, completions, failures, retries.
+- `onSelect`: (files: File[]) => void — The files the visitor chose or dropped that passed accept and maxSize.
+- `accept`: string — What the picker offers and a drop accepts, as for a file input ("image/*,.pdf"). Refused files fall off at once and cannot be retried.
+- `multiple`: boolean (default true) — Take several files at a time; off, only the first of a drop is taken.
+- `maxSize`: number — The largest file accepted, in bytes. Larger ones fall off at once.
+- `tail`: number (default 0.6) — How far each dot's comet tail trails it while it moves, 0 to 1, capped at 35% of the lap. 0 draws no tail.
+- `speed`: number (default 0.5) — How quickly a dot runs to its reported progress, 0 to 1: a lazy glide that smooths a chunky connection, or a tight follow that dashes.
+- `queue`: number (default 2) — How many files fly at once, 1 to 4; the rest wait in line as smaller dots.
+- `label`: string (default "Upload") — The text at rest.
+- `pendingLabel`: string (default "Uploading") — The text while files are queued, in flight or landing.
+- `successLabel`: string (default "Uploaded") — The text once a batch has landed.
+- `errorLabel`: string (default "Retry") — The text after a batch with failures that can be retried; a press queues them again.
+- `state`: "idle" | "pending" | "success" | "error" — Controlled button state. Without it, the state follows the files: pending until the last finished dot has landed.
+- `onStateChange`: (state: "idle" | "pending" | "success" | "error") => void — Each state the button moves to, from the change that caused it.
+- `successHold`: number (default 1600) — How long Uploaded holds before the button rests, in ms.
+- `errorHold`: number (default 4000) — How long Retry holds before the button rests, in ms.
+- `size`: "sm" | "md" | "lg" (default "md") — 32, 40 or 48 px tall; the dots, their spacing and the orbit scale with it.
+- `accent`: string (default "var(--accent-bright)") — The orbit's colour: dots, tails and the lit track. Any CSS colour.
+- `sound`: boolean (default false) — Play a pop for the drop or pick and a rising plip as each dot takes its place, only in answer to the visitor. Landings and failures are silent.
+- `disabled`: boolean (default false) — Dims the button and refuses picks and drops.
+- `className`: string — Merged onto the root's classes (the button and the 12 px frame its orbit stays inside).
+- `ref`: React.Ref<UploadOrbitHandle> — An imperative handle: add(files) queues files as if dropped, open() opens the picker, cancel() stops everything in flight, retry() queues the failed files again.
+
+Notes:
+- The button is the keyboard path to the same end state as a drop: Enter or Space opens the native picker (the input itself is hidden and out of the tab order), Escape cancels everything queued or in flight while it is busy, and after a batch with failures a press retries them. The button is described by a sentence with the counts, aria-busy while pending.
+- A polite live region speaks per arrival, never per progress tick: files added, each file uploaded with its place in the batch, each failure with its reason, and cancellations.
+- Under reduced motion there is no glide, tail, hop or fall: queued dots sit at their slots, a flying dot jumps to each reported progress, a finished one fades into the badge (the count still moves) and a failed one turns red and fades in place.
+- Uncontrolled, onUpload runs the uploads with at most queue in flight and gets an AbortSignal for cancels and unmounts; controlled, pass files and onFilesChange and the button draws your list, starting any queued files you added on the next frame.
+- The count in the label moves only when a dot lands, and the button stays pending until the last finished dot has landed, so the words never run ahead of the picture.
+
+### Publish Press (KQ-1266) — `publish-press`
+A roller inks it live.
+
+A publish button drawn as a sheet of paper, printed by a roller: a press sets an inked roller down at the start of the label, it bobs in place on a mirrored tween while the action is pending, and on success it rolls across the label on a symmetric move tween, inking the new word behind it through a clip that follows its track while the old label smears into a dragged, skewed band that dries away; the roller is a cylinder seen face on whose ribs turn at distance over radius, so a bigger drum turns slower. The ink is printed through a halftone screen whose dots grow with the ink load and starts wet and solid, drying back to its screen over the success hold; with a schedule set, a date stamp hovers while pending and slams down on the recoil spring instead, and pressing a published or scheduled button lifts the ink off in four strips on the exit ease in a cascade. It is a native button: Enter or Space presses it, Escape cancels while pending, and a failure leaves Retry.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/publish-press`
+
+Props:
+- `value / defaultValue`: "draft" | "published" | "scheduled" (default "draft") — The document's status, controlled or initial. A controlled press reports through onValueChange and prints once the host answers.
+- `onValueChange`: (value: "draft" | "published" | "scheduled") => void — Each status the document moves to, once its action has succeeded.
+- `onPublish`: (at: Date | null, signal: AbortSignal) => void | Promise<unknown> — Publishes now (at is null) or schedules for at. Return a promise and the roller bobs until it settles; the signal aborts on Escape.
+- `onUnpublish`: (signal: AbortSignal) => void | Promise<unknown> — Takes a published or scheduled document back to draft.
+- `schedule`: Date | number | null — When set, a press schedules for this moment and stamps the date instead of rolling; the draft label becomes scheduleLabel.
+- `formatDate`: (date: Date) => string (default UTC "Oct 9 · 09:00") — How the stamped date reads. The default prints "Oct 9 · 09:00" from UTC parts so server and browser agree; pass your own for the reader's zone.
+- `state`: "idle" | "pending" | "success" | "error" — Controlled action state. Every move goes through onStateChange and waits for this.
+- `onStateChange`: (state: "idle" | "pending" | "success" | "error") => void — Each action state, from the press, the answer or the timer that caused it.
+- `ink`: number (default 0.7) — How much ink the roller carries, 0 to 1: a pale, speckled halftone print or a dense, solid one.
+- `roller`: number (default 0.5) — How big and heavy the roller is, 0 to 1: a quick small brayer or a slow wide drum whose ribs turn slower.
+- `smudge`: number (default 0.5) — How much the old label smears as the roller drags over it, 0 to 1: the band's width, drag, skew and strength. 0 wipes clean.
+- `label`: string (default "Publish") — The text on a draft.
+- `scheduleLabel`: string (default "Schedule") — The text on a draft when schedule is set.
+- `pendingLabel`: string (default "Publishing") — The text while publishing.
+- `publishedLabel`: string (default "Published") — The word the roller inks.
+- `errorLabel`: string (default "Retry") — The text after an action failed; a press tries it again.
+- `inkColor`: string (default "var(--accent-bright)") — The ink: the printed word, the stamp and the roller. Any CSS colour.
+- `successHold`: number (default 1400) — How long fresh ink stays wet before it dries and the button rests, in ms.
+- `errorHold`: number (default 2600) — How long the error holds before the button rests, in ms.
+- `size`: "sm" | "md" | "lg" (default "md") — 32, 40 or 48 px tall; the roller and the strips scale with it.
+- `sound`: boolean (default false) — Play the thock of the roller setting down and the stamp landing, and the swish of the roll and the peel, only within the press's own beat. No audio context exists unless this is on.
+- `disabled`: boolean (default false) — Dims and disables the button.
+- `className`: string — Merged onto the root's classes.
+
+Notes:
+- A native button named by what it shows (Publish, Publishing, Published, Scheduled for the date, Retry) and described by what a press will do: Enter or Space presses it, a press on a published or scheduled document unpublishes it, Escape cancels a pending action (handled where focus is, with preventDefault), and a polite live region speaks each change once.
+- Under reduced motion nothing rolls, bobs, drops, smears or peels: the roller stands still at the start of the label while pending, the ink and the stamp fade in dry, and they fade out as one when unpublished. Labels, value and timings are unchanged.
+- The label only changes once the action succeeds: pending keeps the old words with the roller waiting on them, and a refusal lifts the roller away and leaves Retry, so the button never claims something the server has not done.
+- Every face, the stamped date included, is stacked in one grid cell, so the button keeps one width through every state; everything it draws stays inside the button.
+- The bob runs only while pending and pauses on a hidden page, and the wet-ink and error holds pause there too; at rest nothing animates.
+
+### Refresh Wind (KQ-1267) — `refresh-wind`
+Wind it up, let it spin.
+
+A refresh button you wind like a clock spring: drag around it, or press and hold, and the arrow turns back with the finger while its stroke coils into a tightening spiral and a ring of notches lights and ticks with the tension; let go and a per-frame integrator whips it forward from rest on the spring, then lets it coast on the stored energy against friction and air drag while the refresh runs, settling to a steady cruise if the work outlasts the energy and, once it has answered, decaying exactly onto the nearest upright. A plain press does one turn, and on success the Updated 2 min ago stamp rolls to just now on the snap spring while the notches flash and fade. It is a native button: Enter and Space refresh, Shift+Enter winds a full turn (again for another) and lets go, and Escape cancels a refresh in flight.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/refresh-wind`
+
+Props:
+- `onRefresh`: (signal: AbortSignal) => void | Promise<unknown> — Runs the refresh. Return a promise and the arrow keeps turning until it settles; the signal aborts on Escape.
+- `state`: "idle" | "pending" | "success" | "error" — Controlled action state. Every move goes through onStateChange and waits for this.
+- `onStateChange`: (state: "idle" | "pending" | "success" | "error") => void — Each action state, from the press, the answer or the timer that caused it.
+- `updatedAt / defaultUpdatedAt`: Date | number | null (default null) — The time of the last successful refresh, controlled or initial. The stamp is written from it.
+- `onUpdatedAtChange`: (updatedAt: Date) => void — The moment of each successful refresh: the now prop's value, or the clock when none is given.
+- `now`: Date | number (default a clock started on mount) — The time the stamp is read against. Pass it for a relative stamp that renders on the server; without it the phrase arrives after mount and a shared 30-second clock keeps it current while the page is visible.
+- `onWind`: (turns: number) => void — Fires when a wind is let go, with the turns of spring it stored.
+- `friction`: number (default 0.5) — How quickly the released spin slows, 0 to 1: 0 coasts for seconds, 1 stops within a turn or two.
+- `wind`: number (default 2) — Turns of spring the button holds: how far a full wind goes back, how tight the coil gets and how long the spin runs.
+- `stamp`: "relative" | "clock" | "off" (default "relative") — The stamp beside the button: Updated 2 min ago, Updated 09:40, or none (an icon-only button whose stamp is its accessible description).
+- `formatStamp`: (updatedAt: Date, now: Date) => string (default relative, or a UTC clock) — Writes the stamp from the last refresh and the current time; pass one for the reader's own time zone or language.
+- `label`: string (default "Refresh") — The button's accessible name.
+- `pendingLabel`: string (default "Refreshing") — The name and the stamp while refreshing.
+- `errorLabel`: string (default "Couldn't refresh") — The stamp after a failed refresh; a press retries.
+- `emptyLabel`: string (default "Not updated yet") — The stamp before the first refresh.
+- `accent`: string (default "var(--accent-bright)") — The coil and the tension notches. Any CSS colour.
+- `successHold`: number (default 1400) — How long the success flash holds before the button rests, in ms.
+- `errorHold`: number (default 2600) — How long a failure holds before the button rests, in ms.
+- `size`: "sm" | "md" | "lg" (default "md") — 32, 40 or 48 px across; the coil and the notch ring scale with it.
+- `sound`: boolean (default false) — Play a tick for every notch the wind lights and the whir of the spin while it spends the spring's energy. No audio context exists unless this is on.
+- `disabled`: boolean (default false) — Dims the button and lets go of any wind without firing it.
+- `className`: string — Merged onto the root's classes.
+
+Notes:
+- A native button named by its label and described by the stamp and the gesture: Enter and Space refresh with one turn, Shift+Enter winds a full turn (press it again during the wind for another, up to wind) and lets go, and Escape cancels a refresh in flight (handled where focus is, with preventDefault). A polite live region speaks Refreshing, the new stamp, a failure or a cancel once each.
+- The wind is a real drag through the shared gesture kit: it follows the pointer's angle round the button 1:1, rubber-bands past empty and past full, and takes the pointer only after a few pixels, so a plain press is still a click. The button is touch-action none, since the wind is two-dimensional.
+- Under reduced motion nothing spins or whips: the coil and the notches still show the tension while winding, the arrow stays upright, a refresh in flight shows the notch ring steady at half strength, and the stamp swaps by cross-fade.
+- The spin is integrated per frame only while it moves and stops at rest; the whir only spends the energy the visitor wound in and fades as the spin falls to cruising speed. A host that sets state to pending on its own gets the cruise without a sound.
+- The stamp's width is the widest of its phrases stacked in one cell, so the row never shifts when it rolls to just now or to the error. Pass now for server rendering; the default clock is shared by every instance and pauses on a hidden page.
+
+### Gate Button (KQ-1268) — `gate-button`
+Locked until the form is ready.
+
+A submit button that shows its own readiness: a padlock at its left wears a segmented arc, one segment per requirement, and each requirement the form meets is drawn along the arc on the flick spring. When the last is met the shackle pops open, lifting on the recoil spring and swinging about its long leg on snap, and the button warms as an accent bloom grows out of the padlock across the face on glide; pressed, the padlock gives way to three dots bouncing in a wave while the request runs, then the dots run together and a check draws on flick as the label rolls to Sent. Locked, it stays focusable: hover or keyboard focus lists what is missing, Enter or Space is refused with a rattle and the first missing item flagged, and Escape closes the list or cancels a send.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/gate-button`
+
+Props:
+- `requirements`: { id: string; label: string; met: boolean }[] (default defaultRequirements) — What the form needs before it can be sent; one arc segment each. With none, the button is ready.
+- `onSubmit`: (signal: AbortSignal) => void | Promise<unknown> — Sends the form. Return a promise and the dots bounce until it settles; the signal aborts on Escape.
+- `state`: "idle" | "pending" | "success" | "error" — Controlled action state. Every move goes through onStateChange and waits for this.
+- `onStateChange`: (state: "idle" | "pending" | "success" | "error") => void — Each action state, from the press, the answer or the timer that caused it.
+- `onLockedPress`: (missing: { id: string; label: string; met: boolean }[]) => void — A press while locked, with what is still missing: scroll to the first field, flag it.
+- `segments`: "arc" | "ring" | "pips" (default "arc") — How the padlock wears the requirements: an arc open at the foot, a closed ring, or one pip each.
+- `warm`: number (default 0.7) — How strongly the button warms once it is ready, 0 to 1: an accent outline at 0, a solid accent fill with light text at 1.
+- `hint`: "list" | "next" | "off" (default "list") — What hovering or focusing the locked button shows: every requirement ticked or not, only the next one missing, or nothing (the description still names them).
+- `hintTitle`: string (default "Still needed") — The list's heading, also used in the spoken description.
+- `hintSide`: "top" | "bottom" (default "top") — Which side of the button the hint opens on.
+- `hintAlign`: "start" | "center" | "end" (default "end") — Which edge of the button the hint lines up with; end suits a form footer's right-hand button.
+- `label`: string (default "Submit request") — The button's text.
+- `pendingLabel`: string (default "Sending") — The text while sending.
+- `successLabel`: string (default "Sent") — The text once sent.
+- `errorLabel`: string (default "Retry") — The text after a failed send; a press tries again.
+- `accent`: string (default "var(--accent)") — The met segments and the warm fill. Any CSS colour.
+- `successHold`: number (default 1600) — How long Sent holds before the button rests, in ms.
+- `errorHold`: number (default 2600) — How long the error holds before the button rests, in ms.
+- `size`: "sm" | "md" | "lg" (default "md") — 32, 40 or 48 px tall; the padlock scales with it.
+- `sound`: boolean (default false) — Play a click for each requirement the visitor meets, the shackle's snap, a dull click on a refused press and a chime when sent. Requirements met by the host alone are silent. No audio context exists unless this is on.
+- `disabled`: boolean (default false) — Dims and disables the button; no hint opens.
+- `className`: string — Merged onto the root's classes.
+
+Notes:
+- Locked is aria-disabled, never disabled, so the button stays in the tab order, its hint opens on keyboard focus as well as hover, and its description says what is missing (Locked. Still needed: Team chosen, Data policy accepted.) whether or not the hint is shown.
+- A refused press rattles the padlock, keeps the hint open for a couple of seconds (for touch, which cannot hover), flags the first missing item and calls onLockedPress with the missing list, so the form can scroll to or highlight the field. A polite live region speaks progress, Ready to submit, Sending, Sent, a failure and a cancel once each.
+- Escape is handled where focus is, with preventDefault: it cancels a send in flight (the signal aborts) or closes an open hint.
+- Under reduced motion nothing lifts, swings, rattles or bounces: the shackle swaps open, the warm fill fades in, the segments fill quickly, the pending dots pulse in opacity and the check appears whole.
+- Every label is stacked in one cell, so the button keeps its width from Submit request to Sending, Sent and Retry; the bloom, dots and check are all drawn inside the button. The hint is an overlay anchored to the button by hintSide and hintAlign.
+
+### Rewind Undo (KQ-1269) — `rewind-undo`
+Spool back through what you did.
+
+Undo and redo as a tape deck: the Undo button carries a reel holding the applied history, the Redo button a reel holding what has been rewound, and the tape between them reads out each step. A press rewinds one step as both reels turn the same way on a spring as heavy as the spool, each by the tape's length over its own radius so a nearly empty reel visibly spins faster, while the undone action's name is pulled out onto the tape on the snap spring and struck through on flick; holding scrubs back with steps that come faster and faster, the reels spinning up and the names flicking past, and Redo slides in on glide once there is something to redo. Both are native buttons in a named group: Enter or Space steps and, held, scrubs exactly as a held pointer does, Escape cancels a step the host is still applying, and optional shortcuts bind Cmd or Ctrl+Z and Shift+Cmd+Z or Ctrl+Y outside text fields.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/rewind-undo`
+
+Props:
+- `history`: { id: string; label: string }[] (default defaultHistory) — Everything done so far, oldest first: the tape. Each label names its step on the tape and in the buttons' names.
+- `index / defaultIndex`: number (default history.length) — How many steps of history are applied, controlled or initial.
+- `onIndexChange`: (index: number) => void — Each new position, from the press, the hold or the shortcut that moved it.
+- `onUndo`: (step: { id: string; label: string }, signal: AbortSignal) => void | Promise<unknown> — Undoes one step. Return a promise and the step waits on it (the reels tug, the name is faint) and commits once it settles; the signal aborts on Escape.
+- `onRedo`: (step: { id: string; label: string }, signal: AbortSignal) => void | Promise<unknown> — Redoes one step, the same way.
+- `state`: "idle" | "pending" | "success" | "error" — Controlled action state. Every move goes through onStateChange and waits for this.
+- `onStateChange`: (state: "idle" | "pending" | "success" | "error") => void — Each action state, from the press, the answer or the timer that caused it.
+- `steps`: number (default 6) — Steps one turn of a half-full reel holds, 3 to 12; also the reel's spokes. Fewer means bigger turns per press.
+- `spool`: number (default 0.5) — Reel weight, 0 to 1: a light reel snaps to each step, a heavy one carries past and settles back.
+- `hold`: number (default 0.5) — How hard a held press speeds up the scrub, 0 to 1: 0 keeps a steady pace, 1 races to the end.
+- `holdDelay`: number (default 380) — How long a press is held before it starts to scrub, in ms.
+- `shortcuts`: boolean (default false) — Bind Cmd or Ctrl+Z to undo and Shift+Cmd+Z or Ctrl+Y to redo, from anywhere on the page outside inputs, text areas and editable content.
+- `undoLabel`: string (default "Undo") — The Undo button's word; its accessible name adds the step it would undo.
+- `redoLabel`: string (default "Redo") — The Redo button's word; its accessible name adds the step it would redo.
+- `readoutLabels`: { undid?: string; redid?: string; last?: string; empty?: string; failed?: string } (default { undid: "Undid", redid: "Redid", last: "Last", empty: "Nothing to undo", failed: "Failed" }) — The words on the tape between the reels.
+- `accent`: string (default "var(--accent-bright)") — The tape on the reels. Any CSS colour.
+- `successHold`: number (default 2200) — How long a step's name stays on the tape before it rests on the last step, in ms.
+- `errorHold`: number (default 2600) — How long a failure holds before it rests, in ms.
+- `size`: "sm" | "md" | "lg" (default "md") — 32, 40 or 48 px tall; the reels scale with it.
+- `sound`: boolean (default false) — Play a click per step pitched by its place in history, a dull click at either end, and the reels' whir while a hold scrubs. No audio context exists unless this is on.
+- `disabled`: boolean (default false) — Dims and disables both buttons and the shortcuts.
+- `className`: string — Merged onto the group's classes.
+
+Notes:
+- A role=group named History holding two native buttons named Undo and Redo plus the step they would take (Undo Removed column). Enter or Space steps on key-down and, held, scrubs exactly as a held pointer does; a pointer steps on release, so a scroll that merely starts on the button never undoes. Undo at the start stays focusable as aria-disabled, and Redo, while there is nothing to redo, is inert and out of the tab order; if it leaves while focused, focus moves to Undo.
+- A polite live region speaks each committed step once (Undid Removed column.), a whole scrub once on release (Undid 5 steps. Last: Renamed sheet.), a step in progress, a failure and a cancel, never once per scrubbed step.
+- Under reduced motion the reels do not turn and Redo does not slide: the tape on each reel changes at once, names cross-fade, the strike appears whole, and a held press still scrubs at the same pace.
+- When the tape is too narrow for its longest line the buttons drop their words and keep their names, with hysteresis so the switch never flickers; the tape truncates a long name with a title. The deck keeps one width as Redo comes and goes, since its slot is part of the deck.
+- With shortcuts on, keystrokes in text fields are left alone so native text undo still works there; a host that keeps its own undo bindings should leave shortcuts off and drive index instead, and the reels and tape follow its changes the same way.
+
+### Plug In (KQ-1270) — `plug-in`
+Connected, with a spark.
+
+A connect button with a plug on a cable: pressed, the plug lifts level and slides to the socket in the button's edge on the glide spring while its weighted cable first dips and then straightens, and while the connection is pending the plug works at the socket mouth in a seeded, uneven jiggle. When the integration answers, the plug seats on the snap spring with a clack, a seeded burst of sparks flies from the seam with a pop, the lamp lights and the label rolls to Connected; pressing again pulls the plug out on a tween and the cable recoils on the recoil spring's two bounces. The plug can be pushed in or pulled out by hand, following 1:1 and committing by where the throw would land, and the button is a native button in a group named for the integration: Enter and Space press it and Escape cancels a connection in flight.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/plug-in`
+
+Props:
+- `connected / defaultConnected`: boolean (default false) — Whether the integration is connected, controlled or initial. A controlled press reports through onConnectedChange and seats the plug once the host answers.
+- `onConnectedChange`: (connected: boolean) => void — Each change, once its action has succeeded.
+- `onConnect`: (signal: AbortSignal) => void | Promise<unknown> — Connects. Return a promise and the plug works at the socket until it settles; the signal aborts on Escape.
+- `onDisconnect`: (signal: AbortSignal) => void | Promise<unknown> — Disconnects, the same way; the plug tugs at the socket while it waits.
+- `state`: "idle" | "pending" | "success" | "error" — Controlled action state. Every move goes through onStateChange and waits for this.
+- `onStateChange`: (state: "idle" | "pending" | "success" | "error") => void — Each action state, from the press, the answer or the timer that caused it.
+- `slack`: number (default 0.5) — Spare cable, 0 to 1: a nearly taut line, or a deep loop that dips and swings when the plug moves.
+- `spark`: number (default 0.6) — The contact's burst, 0 to 1: how many sparks and how far they fly. 0 is a clean connection.
+- `jiggle`: number (default 0.5) — How hard the plug works at the socket while it connects, 0 to 1.
+- `name`: string (default "Integration") — What is being connected: the group's accessible name.
+- `icon`: ReactNode (default a block glyph) — The integration's mark on the tile the cable comes from, 16px.
+- `label`: string (default "Connect") — The button's text while disconnected.
+- `pendingLabel`: string (default "Connecting") — The text while connecting.
+- `connectedLabel`: string (default "Connected") — The text once connected.
+- `disconnectLabel`: string (default "Disconnect") — What a connected button shows, in danger ink, on hover or keyboard focus: what a press will do.
+- `errorLabel`: string (default "Retry") — The text after a failure; a press tries again.
+- `accent`: string (default "var(--success)") — The live cable, the lamp and the connected face's tint. Any CSS colour.
+- `successHold`: number (default 1400) — How long the contact holds as success before the button rests, in ms.
+- `errorHold`: number (default 2600) — How long a failure holds before the button rests, in ms.
+- `size`: "sm" | "md" | "lg" (default "md") — 32, 40 or 48 px tall; the tile, cable, plug and sparks scale with it.
+- `sound`: boolean (default false) — Play the clack of the plug seating and pulling out and the pop of the spark, only within a few seconds of the visitor's press or push. No audio context exists unless this is on.
+- `disabled`: boolean (default false) — Dims and disables the button and the plug handle.
+- `className`: string — Merged onto the group's classes.
+
+Notes:
+- A role=group named by name holding a native button named by its visible label and, when connected, described as Press to disconnect. Enter and Space press it; Escape cancels a connect or disconnect in flight (handled where focus is, with preventDefault). A polite live region speaks Connecting, Connected, Disconnected, a failure and a cancel once each.
+- The plug handle is a decorative, aria-hidden drag through the shared gesture kit, touch-action pan-y so the page still scrolls: it follows the hand 1:1, rubber-bands at the rest and at the socket, and commits by projecting the release; a short or slow push springs back. The button reaches every state the hand can.
+- Under reduced motion nothing slides, jiggles or recoils: the plug swaps between its rest, socket-mouth and seated poses, the cable takes its sag at once, and the contact is a still flash that fades; the lamp, label and live region still carry the state.
+- The label never claims Connected before the host has answered, and a pointer still resting on the button after it connects does not preview Disconnect until it leaves and comes back. Every label is stacked in one cell, so the control keeps one width; the cable, plug and sparks are drawn inside its own box.
+- The jiggle and the holds pause on a hidden page; at rest nothing animates.
+
 ### Answer Panel (KQ-1291) — `answer-panel`
 Read it while it is still being written.
 

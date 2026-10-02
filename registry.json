@@ -31983,6 +31983,290 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "launch-pad",
+      "type": "registry:ui",
+      "title": "Launch Pad",
+      "description": "A deploy button with a launch pad in its left cap: a press arms a countdown ring that drains one segment per second, linearly, while the label's digit rolls on springs.snap, and a second press or Escape aborts. At zero the rocket squats and climbs out through the roof on an accelerating exit ease with exhaust billowing along the floor, the label lifts off after it, and a progress line runs while the onLaunch promise is pending; a resolve drops a flag into the pad on springs.recoil and unfurls it on springs.snap, a reject brings the rocket back nose-down on springs.glide and shakes the button with the error and a retry. Enter and Space press it, Escape aborts the count, and every change is spoken once in a polite live region.",
+      "files": [
+        {
+          "path": "registry/ui/launch-pad.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1261"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "settle-button",
+      "type": "registry:ui",
+      "title": "Settle Button",
+      "description": "A pay button laid out like a checkout bar, the amount on an odometer with one wheel per digit: a press sweeps a fill in the paid colour in behind the text, and as its front crosses each digit that wheel rolls down to zero, closing in on the last digit exponentially and holding there while the onPay promise is pending. Resolved, the characters fold away in a cascade on the exit ease, Pay rolls to Paid on springs.snap and a check is stamped where the last digit stood on springs.recoil, its stroke drawn on springs.flick; declined, the fill retreats on springs.glide, the wheels roll back up and the face tints to danger. Enter and Space press it through the native click, and each change is spoken once in a polite live region.",
+      "files": [
+        {
+          "path": "registry/ui/settle-button.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1262"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "download-tray",
+      "type": "registry:ui",
+      "title": "Download Tray",
+      "description": "A download button with a tray hidden behind its bottom edge: a press dips the arrow and drops it under gravity through the label row and out of the button, while the tray slides out on the chosen spring (glide, snap or recoil) to catch it, the arrow landing with a squash on springs.recoil and the progress drawn along the tray's lip. At 100% the tray slides shut, the file size is stamped into the caption on springs.recoil, and the arrow rises back on springs.glide and flips into a check on springs.snap; pressing during the download cancels and pulls the arrow back up on springs.snap. Enter and Space press it, Escape cancels, the open tray is a progressbar, and each change is spoken once in a polite live region.",
+      "files": [
+        {
+          "path": "registry/ui/download-tray.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1263"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "bin-lid",
+      "type": "registry:ui",
+      "title": "Bin Lid",
+      "description": "A delete button whose bin lid lifts on its hinge on the snap spring when the pointer or keyboard focus arrives; pressing folds the label into a paper sheet that is lobbed into the bin on a true ballistic arc and tumbles out of sight behind its front wall, the lid falls shut on an accelerating tween, and the bin squashes and recovers on snap while dust puffs from both ends of the lid. The button's corners then glide into an undo pill and a ring round the bin drains linearly over the undo window; undo, by a press or Escape, flies the paper back out along the same arc and unfolds it into the label, and when the ring empties onDelete fires, with a spinning ring while its promise is pending and the paper thrown back out with a shake if it fails. It is a native button whose Enter and Space press through the native click, its width never changes, and a polite live region speaks each change once.",
+      "files": [
+        {
+          "path": "registry/ui/bin-lid.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1264"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "upload-orbit",
+      "type": "registry:ui",
+      "title": "Upload Orbit",
+      "description": "An upload button over a real file input whose files orbit it while they go up: chosen or dropped files become dots that pop into a waiting line on the top edge on the snap spring, step out on the glide spring, and then sit round the button's perimeter at their progress, walked by arc length so one lap is the whole file, chasing each reported value on a critically damped spring while a softer spring drags a fading comet tail behind them. A finished dot completes its lap and hops into the count in the label, where the badge recoils on the recoil spring and the digit rolls on snap; a failed dot leaves along its tangent, falls and fades red while a red counter appears on the badge. Click, Enter or Space opens the system picker and files can be dropped anywhere on it; Escape cancels what is in flight, and after a batch with failures a press queues them again.",
+      "files": [
+        {
+          "path": "registry/ui/upload-orbit.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1265"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "publish-press",
+      "type": "registry:ui",
+      "title": "Publish Press",
+      "description": "A publish button drawn as a sheet of paper, printed by a roller: a press sets an inked roller down at the start of the label, it bobs in place on a mirrored tween while the action is pending, and on success it rolls across the label on a symmetric move tween, inking the new word behind it through a clip that follows its track while the old label smears into a dragged, skewed band that dries away; the roller is a cylinder seen face on whose ribs turn at distance over radius, so a bigger drum turns slower. The ink is printed through a halftone screen whose dots grow with the ink load and starts wet and solid, drying back to its screen over the success hold; with a schedule set, a date stamp hovers while pending and slams down on the recoil spring instead, and pressing a published or scheduled button lifts the ink off in four strips on the exit ease in a cascade. It is a native button: Enter or Space presses it, Escape cancels while pending, and a failure leaves Retry.",
+      "files": [
+        {
+          "path": "registry/ui/publish-press.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1266"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "refresh-wind",
+      "type": "registry:ui",
+      "title": "Refresh Wind",
+      "description": "A refresh button you wind like a clock spring: drag around it, or press and hold, and the arrow turns back with the finger while its stroke coils into a tightening spiral and a ring of notches lights and ticks with the tension; let go and a per-frame integrator whips it forward from rest on the spring, then lets it coast on the stored energy against friction and air drag while the refresh runs, settling to a steady cruise if the work outlasts the energy and, once it has answered, decaying exactly onto the nearest upright. A plain press does one turn, and on success the Updated 2 min ago stamp rolls to just now on the snap spring while the notches flash and fade. It is a native button: Enter and Space refresh, Shift+Enter winds a full turn (again for another) and lets go, and Escape cancels a refresh in flight.",
+      "files": [
+        {
+          "path": "registry/ui/refresh-wind.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1267"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "gate-button",
+      "type": "registry:ui",
+      "title": "Gate Button",
+      "description": "A submit button that shows its own readiness: a padlock at its left wears a segmented arc, one segment per requirement, and each requirement the form meets is drawn along the arc on the flick spring. When the last is met the shackle pops open, lifting on the recoil spring and swinging about its long leg on snap, and the button warms as an accent bloom grows out of the padlock across the face on glide; pressed, the padlock gives way to three dots bouncing in a wave while the request runs, then the dots run together and a check draws on flick as the label rolls to Sent. Locked, it stays focusable: hover or keyboard focus lists what is missing, Enter or Space is refused with a rattle and the first missing item flagged, and Escape closes the list or cancels a send.",
+      "files": [
+        {
+          "path": "registry/ui/gate-button.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1268"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "rewind-undo",
+      "type": "registry:ui",
+      "title": "Rewind Undo",
+      "description": "Undo and redo as a tape deck: the Undo button carries a reel holding the applied history, the Redo button a reel holding what has been rewound, and the tape between them reads out each step. A press rewinds one step as both reels turn the same way on a spring as heavy as the spool, each by the tape's length over its own radius so a nearly empty reel visibly spins faster, while the undone action's name is pulled out onto the tape on the snap spring and struck through on flick; holding scrubs back with steps that come faster and faster, the reels spinning up and the names flicking past, and Redo slides in on glide once there is something to redo. Both are native buttons in a named group: Enter or Space steps and, held, scrubs exactly as a held pointer does, Escape cancels a step the host is still applying, and optional shortcuts bind Cmd or Ctrl+Z and Shift+Cmd+Z or Ctrl+Y outside text fields.",
+      "files": [
+        {
+          "path": "registry/ui/rewind-undo.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1269"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "plug-in",
+      "type": "registry:ui",
+      "title": "Plug In",
+      "description": "A connect button with a plug on a cable: pressed, the plug lifts level and slides to the socket in the button's edge on the glide spring while its weighted cable first dips and then straightens, and while the connection is pending the plug works at the socket mouth in a seeded, uneven jiggle. When the integration answers, the plug seats on the snap spring with a clack, a seeded burst of sparks flies from the seam with a pop, the lamp lights and the label rolls to Connected; pressing again pulls the plug out on a tween and the cable recoils on the recoil spring's two bounces. The plug can be pushed in or pulled out by hand, following 1:1 and committing by where the throw would land, and the button is a native button in a group named for the integration: Enter and Space press it and Escape cancels a connection in flight.",
+      "files": [
+        {
+          "path": "registry/ui/plug-in.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1270"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
