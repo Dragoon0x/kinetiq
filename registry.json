@@ -33739,6 +33739,304 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "product-detail",
+      "type": "registry:ui",
+      "title": "Product Detail",
+      "description": "The buying half of a product page, where every choice shows on the piece: the pictures sit in a strip that follows the finger 1:1, rubber-bands at the ends and commits by projection on glide, and a loupe follows the pointer 1:1 to show the glaze at lens power. Choosing a colour floods the new glaze across the picture from the edge nearest the picker on drift, a size grows or settles the piece from its foot on glide, the price rolls its digits on snap, and Add to bag becomes the stepper in the same box as the fill contracts onto the count on glide while − and + scale in on snap. Colours and sizes are radio groups moved with the arrow keys, the pictures a tablist whose panel takes Enter to open the loupe and arrows to move it, and a buy bar docks at the bottom of the scroll box whenever the buy row is out of it.",
+      "files": [
+        {
+          "path": "registry/ui/product-detail.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1331"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "cart-drawer",
+      "type": "registry:ui",
+      "title": "Cart Drawer",
+      "description": "A bag that slides over the page it belongs to: the panel arrives from the right edge on glide over a fading scrim and can be pulled shut by its header, 1:1 with a rubber-banded overpull and a release or flick that closes on glide with the throw's velocity. Each line's face slides over a tray of actions — Save and Remove, or in full mode a pull right through that removes it — a removed line leaves on the exit ease while its height closes on glide and Undo keeps it for six seconds, steppers roll their counts on snap, and the totals roll, count or cross-fade as anything changes. A bar fills toward free delivery on glide with a van on its leading edge, and when the visitor carries the subtotal over the threshold the bar turns success, flecks spray from its end and the news lands on recoil; Escape closes a tray then the drawer, and every swipe has a button that does the same thing.",
+      "files": [
+        {
+          "path": "registry/ui/cart-drawer.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1332"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "checkout-flow",
+      "type": "registry:ui",
+      "title": "Checkout Flow",
+      "description": "A four-step checkout beside a sticky order summary: a step bar whose pill slides to the current stop on snap, with reached stops drawing a check on flick, and steps that either swap by direction 16px on snap inside a box that glides to each panel's measured height, or stand as sections that fold to a summary line as you finish them. A Continue the step cannot take shakes its head on a short tween, never a spring; delivery choices move the selection on snap and roll the summary's figures, and the payment step draws a generic card where every typed digit drops into its slot on flick and an outline travels on snap to the part the focused field writes. Place order holds pending while the order is placed, then the button itself becomes the confirmation as a shared layout carries its box out on glide, a check draws and the order number lands on recoil; every step is a real form where Enter continues, delivery is a native radio group, and each new step's heading takes focus as it arrives.",
+      "files": [
+        {
+          "path": "registry/ui/checkout-flow.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1333"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "order-tracker",
+      "type": "registry:ui",
+      "title": "Order Tracker",
+      "description": "An order tracking surface where one progress value drives everything: the live dot rides the shipment's path between stages on glide as `now` advances, the path fills behind it through a sweeping clip, and on the map strip the van rides its route while the strip pans to keep it centred; reaching the door lands a check on recoil. Grab the dot and it scrubs the history 1:1 — fill, van and a time chip rewinding with it, ticking at every scan — then settles on the nearest scan with the release velocity, while the delivery window rolls digit by digit on snap and Change opens a measured disclosure on glide. The path is a slider: arrow keys step through the scans, Home goes to the first, End and Escape come back to now.",
+      "files": [
+        {
+          "path": "registry/ui/order-tracker.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1334"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "product-grid",
+      "type": "registry:ui",
+      "title": "Product Grid",
+      "description": "A filterable product grid whose shelf moves instead of snapping: when a facet chip or the sort changes, cards that stay travel to their new cells on glide, leaving cards shrink and fade on the exit ease and arriving ones scale in — together, as a wave timed by each card's new position, or as a cross-fade — while every chip's count and the result total roll on snap. A card's quick view grows out of the card itself: the dialog's rounded clip opens from the card's box while the product art flies to its place on the same glide progress, or it rises as a sheet or slides in from the side. Facets are roving-focus toggle groups, sort is a listbox, and the quick view is a modal dialog that traps focus, closes on Escape and gives focus back to its card.",
+      "files": [
+        {
+          "path": "registry/ui/product-grid.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1335"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "bundle-builder",
+      "type": "registry:ui",
+      "title": "Bundle Builder",
+      "description": "A bundle builder where picking a product sends its bag flying into the next empty compartment — a thrown arc, a straight glide or a lift and a drop — and the landing is the event: the bag squashes and recovers on recoil, the box dips and the lid hops, and only then do the lid's savings and the totals roll on snap. Bags can also be dragged 1:1 and thrown at the box, gliding in with the release velocity; taking one out flies it home to its shelf while the bags beside it slide over on glide, and the lid, hinged in perspective, closes in on snap as the box fills. Every product has a real toggle and every filled compartment a real remove button, so the keyboard reaches each end state, and landings are announced with the new total.",
+      "files": [
+        {
+          "path": "registry/ui/bundle-builder.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1336"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "return-flow",
+      "type": "registry:ui",
+      "title": "Return Flow",
+      "description": "A returns flow built from data that ends as paper in your hand: pick the items (each tick draws on flick), give each a reason as chips, rows or tiles, choose where the refund goes while its digits roll on snap, and the label feeds out of a printer slot in 3px steps like a stepper motor. Pull it down and a rip runs along the perforation from the left while the label pivots about its unripped corner; past the line it comes free and lands on recoil, and released early it swings back on snap with the throw's velocity. Paged, the steps move by direction inside a box that glides to each panel's measured height under a rail whose pill slides on snap; every pick, reason and card is a real checkbox or radiogroup, and Tear off does by key what the pull does by hand.",
+      "files": [
+        {
+          "path": "registry/ui/return-flow.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1337"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "subscription-manager",
+      "type": "registry:ui",
+      "title": "Subscription Manager",
+      "description": "A subscription whose schedule is a row of dots you can push around: every upcoming delivery is a dot keyed by its place in the schedule, so skipping hollows it and slides the Next flag to the box that will ship on snap, a new cadence keeps the next box where it is and sends every later dot to its new day on glide, and a pause draws a hatched band across the days it covers. The strip of days drags 1:1, rubber-bands and coasts on glide with the throw's velocity (or turns month pages by direction), the cadence is chips or a detent slider that reshapes the dots live, and the next box swaps by dragging a coffee off the shelf onto a slot, both products flying from where they were on glide. Dots are toggle buttons with roving arrows, the cadence a radiogroup or slider, and a held product is placed with the arrows and Enter.",
+      "files": [
+        {
+          "path": "registry/ui/subscription-manager.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1338"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "ratings-summary",
+      "type": "registry:ui",
+      "title": "Ratings Summary",
+      "description": "A product's ratings where the distribution is the filter: the average rolls up on snap, the stars fill from the left on glide and the five bars grow on a cascade, and pressing a bar filters the reviews below, which reflow rather than reload — leavers fade on the exit ease, the rest travel to their new places on glide and newcomers arrive from 8px inside a height that glides with them. One star at a time slides a wash between bars on snap, several toggle with checks; helpful votes roll their count and pop the thumb, and photos from reviews open in a viewer over the component's own frame, growing out of their thumbnail on glide and swiped 1:1 with a projected release. Bars are toggle buttons with roving arrows, the viewer a dialog that keeps Tab inside and gives focus back to its thumbnail.",
+      "files": [
+        {
+          "path": "registry/ui/ratings-summary.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1339"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "gift-builder",
+      "type": "registry:ui",
+      "title": "Gift Builder",
+      "description": "A gift card you build by looking at it: the amount rolls onto the card's face digit by digit on snap, a design wipes across it as a circle growing on glide from the side its swatch sits on (or slides in 1:1 under your thumb when you swipe the card itself, committing by projection), and writing the message turns the card over on glide — side to side, or top over bottom — while each new run of characters inks onto the back and the type shrinks on glide to fit. Add to bag runs your promise and, when it lands, a paper band wraps across the card on glide and the seal lands on recoil. Amount, design, send day and the card's face are radiogroups, a slider and a toggle with full keyboard paths, and the card turns to follow the fields focus is in.",
+      "files": [
+        {
+          "path": "registry/ui/gift-builder.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1340"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

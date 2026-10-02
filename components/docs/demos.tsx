@@ -1400,6 +1400,16 @@ import { SearchExpandDemo } from "@/registry/demos/search-expand.demo";
 import { ZoomTimelineDemo } from "@/registry/demos/zoom-timeline.demo";
 import { SnapBoardDemo } from "@/registry/demos/snap-board.demo";
 import { CollapseHeaderDemo } from "@/registry/demos/collapse-header.demo";
+import { ProductDetailDemo } from "@/registry/demos/product-detail.demo";
+import { CartDrawerDemo } from "@/registry/demos/cart-drawer.demo";
+import { CheckoutFlowDemo } from "@/registry/demos/checkout-flow.demo";
+import { OrderTrackerDemo } from "@/registry/demos/order-tracker.demo";
+import { ProductGridDemo } from "@/registry/demos/product-grid.demo";
+import { BundleBuilderDemo } from "@/registry/demos/bundle-builder.demo";
+import { ReturnFlowDemo } from "@/registry/demos/return-flow.demo";
+import { SubscriptionManagerDemo } from "@/registry/demos/subscription-manager.demo";
+import { RatingsSummaryDemo } from "@/registry/demos/ratings-summary.demo";
+import { GiftBuilderDemo } from "@/registry/demos/gift-builder.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2814,4 +2824,14 @@ export const demos: Record<string, ComponentType> = {
   "zoom-timeline": ZoomTimelineDemo,
   "snap-board": SnapBoardDemo,
   "collapse-header": CollapseHeaderDemo,
+  "product-detail": ProductDetailDemo,
+  "cart-drawer": CartDrawerDemo,
+  "checkout-flow": CheckoutFlowDemo,
+  "order-tracker": OrderTrackerDemo,
+  "product-grid": ProductGridDemo,
+  "bundle-builder": BundleBuilderDemo,
+  "return-flow": ReturnFlowDemo,
+  "subscription-manager": SubscriptionManagerDemo,
+  "ratings-summary": RatingsSummaryDemo,
+  "gift-builder": GiftBuilderDemo,
 };

@@ -90360,4 +90360,2069 @@ export const components: KinetiqItem[] = [
       "Every per-frame value is a motion value read from the scroll; React hears only when the title docks or re-expands and when the actions finish folding, and nothing runs while the page is still.",
     ],
   },
+  {
+    name: "product-detail",
+    type: "registry:ui",
+    title: "Product Detail",
+    description:
+      "The buying half of a product page, where every choice shows on the piece: the pictures sit in a strip that follows the finger 1:1, rubber-bands at the ends and commits by projection on glide, and a loupe follows the pointer 1:1 to show the glaze at lens power. Choosing a colour floods the new glaze across the picture from the edge nearest the picker on drift, a size grows or settles the piece from its foot on glide, the price rolls its digits on snap, and Add to bag becomes the stepper in the same box as the fill contracts onto the count on glide while − and + scale in on snap. Colours and sizes are radio groups moved with the arrow keys, the pictures a tablist whose panel takes Enter to open the loupe and arrows to move it, and a buy bar docks at the bottom of the scroll box whenever the buy row is out of it.",
+    files: [
+      {
+        path: "registry/ui/product-detail.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["studio"],
+    meta: {
+      serial: "KQ-1331",
+    },
+    tagline: "Look closer, then make it yours.",
+    keywords: [
+      "product page",
+      "product detail",
+      "variant picker",
+      "zoom loupe",
+      "add to cart",
+      "quantity stepper",
+      "delivery estimate",
+    ],
+    props: [
+      {
+        name: "product",
+        type: "ProductInfo",
+        defaultValue: "defaultProduct",
+        description:
+          "The product: brand, name, price, rating, colours, sizes, pictures (render functions of a colour and size), unavailable combinations and detail sections.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "ProductSelection",
+        defaultValue: "— / the first colour with the featured size",
+        description:
+          "Controlled or initial colour and size, as { colour, size } ids.",
+      },
+      {
+        name: "onValueChange",
+        type: "(selection: ProductSelection) => void",
+        description:
+          "Fires from the swatch, tile or size the visitor chose, with the new selection.",
+      },
+      {
+        name: "quantity / defaultQuantity",
+        type: "number",
+        defaultValue: "— / 0",
+        description:
+          "The count in the bag for the selected variant; 0 shows Add to bag.",
+      },
+      {
+        name: "onQuantityChange",
+        type: "(quantity: number, selection: ProductSelection) => void",
+        description:
+          "Fires from Add to bag and the stepper with the new count and the variant it is for.",
+      },
+      {
+        name: "onAdd",
+        type: "(selection: ProductSelection) => void | Promise<void>",
+        description:
+          "Add to bag was pressed. A promise holds the button pending; a rejection's message is shown under it.",
+      },
+      {
+        name: "onNotify",
+        type: "(selection: ProductSelection) => void",
+        description: "Notify me was pressed on a sold-out variant.",
+      },
+      {
+        name: "view / defaultView",
+        type: "number",
+        defaultValue: "— / 0",
+        description: "Controlled or initial picture index.",
+      },
+      {
+        name: "onViewChange",
+        type: "(index: number) => void",
+        description:
+          "Fires from the drag, thumbnail or key that changed the picture.",
+      },
+      {
+        name: "estimate",
+        type: "(postcode: string, now: number) => DeliveryEstimate | null | Promise<DeliveryEstimate | null>",
+        defaultValue: "defaultEstimate",
+        description:
+          "Answers a postcode with a delivery estimate; null means no delivery there.",
+      },
+      {
+        name: "defaultPostcode",
+        type: "string",
+        defaultValue: '""',
+        description:
+          "A postcode already known; its estimate shows from the start.",
+      },
+      {
+        name: "onEstimate",
+        type: "(postcode: string, estimate: DeliveryEstimate | null) => void",
+        description: "Fires with each checked postcode and its answer.",
+      },
+      {
+        name: "now",
+        type: "Date | number",
+        defaultValue: "2 Oct 2026, 09:30 UTC",
+        description:
+          "The moment estimates count from; never read from the clock during render.",
+      },
+      {
+        name: "maxQuantity",
+        type: "number",
+        defaultValue: "10",
+        description:
+          "The most one variant can have in the bag; never more than its stock.",
+      },
+      {
+        name: "lens",
+        type: "number",
+        defaultValue: "2.5",
+        description: "The loupe's power, 1.5 to 4.",
+      },
+      {
+        name: "variants",
+        type: '"swatches" | "tiles" | "chips"',
+        defaultValue: '"swatches"',
+        description:
+          "How colours are offered: glaze dots, little pictures of the piece in each colour, or named pills (sizes become pills too).",
+      },
+      {
+        name: "sticky",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Dock a buy bar at the bottom of the scroll box while the buy row is out of it, and pin the pictures beside the details.",
+      },
+      {
+        name: "format",
+        type: "(amount: number) => string",
+        defaultValue: "euros",
+        description: "Formats an amount for display.",
+      },
+      {
+        name: "addLabel",
+        type: "string",
+        defaultValue: '"Add to bag"',
+        description: "The buy button's words.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description: "Loading draws placeholders; error offers Retry.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "The Retry button of the error state.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          "The region's accessible name when it should differ from the product's name.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A plip on each pick and when the loupe opens, a pop on Add to bag and the stepper.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Shows the product but takes no input.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the region; give it a max height and it scrolls inside itself, which is what the docked bar answers to.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the thumbnails are a tablist (arrows, Home, End); the picture panel takes Left and Right to change picture, Enter to open the loupe, arrows (Shift for further) to move it and Escape to put it away. Colours and sizes are radio groups whose arrow keys move and choose.",
+      "Pictures are render functions of { colour, size }, drawn again inside the loupe at its power, so vector art stays sharp; give a size a scale and the piece grows from its foot when it is chosen.",
+      "Add to bag morphs into the stepper in the same box and focus moves to + as it arrives; − at one runs the morph backwards and returns focus to Add to bag.",
+      "The docked bar watches the buy row against the component's own scroll box: cap the region's height (max-h) so it scrolls, or the bar never needs to show.",
+      "Reduced motion: the glaze and the pictures cross-fade, sizes swap without growing, the loupe fades (it still follows the pointer), the price swaps digits; every choice is still shown and announced.",
+      "Delivery dates come from estimate(postcode, now), counted from the now prop, so server and browser render the same words.",
+    ],
+  },
+  {
+    name: "cart-drawer",
+    type: "registry:ui",
+    title: "Cart Drawer",
+    description:
+      "A bag that slides over the page it belongs to: the panel arrives from the right edge on glide over a fading scrim and can be pulled shut by its header, 1:1 with a rubber-banded overpull and a release or flick that closes on glide with the throw's velocity. Each line's face slides over a tray of actions — Save and Remove, or in full mode a pull right through that removes it — a removed line leaves on the exit ease while its height closes on glide and Undo keeps it for six seconds, steppers roll their counts on snap, and the totals roll, count or cross-fade as anything changes. A bar fills toward free delivery on glide with a van on its leading edge, and when the visitor carries the subtotal over the threshold the bar turns success, flecks spray from its end and the news lands on recoil; Escape closes a tray then the drawer, and every swipe has a button that does the same thing.",
+    files: [
+      {
+        path: "registry/ui/cart-drawer.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["studio"],
+    meta: {
+      serial: "KQ-1332",
+    },
+    tagline: "Everything in the bag, in one pull.",
+    keywords: [
+      "cart",
+      "shopping bag",
+      "slide-over",
+      "swipe to remove",
+      "free shipping",
+      "quantity stepper",
+      "upsell",
+    ],
+    props: [
+      {
+        name: "items / defaultItems",
+        type: "CartLine[]",
+        defaultValue: "— / defaultCartItems",
+        description:
+          "Controlled or initial lines: name, variant, unit price, compare-at price, quantity, max, and a thumbnail or drawn art.",
+      },
+      {
+        name: "onItemsChange",
+        type: "(items: CartLine[]) => void",
+        description:
+          "Fires from the stepper, swipe, button, Undo or upsell that changed the bag, with every line.",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "boolean",
+        defaultValue: "— / false",
+        description: "Controlled or initial: the drawer is open.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(open: boolean) => void",
+        description:
+          "Fires from the close button, Escape, the scrim or the pull that closed it.",
+      },
+      {
+        name: "upsells",
+        type: "CartUpsell[]",
+        defaultValue: "defaultCartUpsells",
+        description:
+          "Things that pair with the bag, offered in a sideways row; ones already in the bag are left out.",
+      },
+      {
+        name: "onUpsellAdd",
+        type: "(upsell: CartUpsell) => void",
+        description:
+          "An upsell was added; it is already at the top of the lines.",
+      },
+      {
+        name: "onRemove",
+        type: "(line: CartLine) => void",
+        description:
+          "A line left the bag: swiped, removed, or stepped below one.",
+      },
+      {
+        name: "onUndo",
+        type: "(line: CartLine) => void",
+        description: "Undo put a removed line back where it was.",
+      },
+      {
+        name: "onSaveForLater",
+        type: "(line: CartLine) => void",
+        description:
+          "Save for later was chosen from a line's tray; it has left the bag.",
+      },
+      {
+        name: "onCheckout",
+        type: "(items: CartLine[], total: number) => void | Promise<void>",
+        description:
+          "Checkout was pressed. A promise holds the button pending; a rejection's message is shown.",
+      },
+      {
+        name: "threshold",
+        type: "number",
+        defaultValue: "60",
+        description:
+          "The subtotal that earns free delivery, in the currency's major unit.",
+      },
+      {
+        name: "shipping",
+        type: "number",
+        defaultValue: "4.95",
+        description: "Delivery under the threshold.",
+      },
+      {
+        name: "swipe",
+        type: '"reveal" | "full" | "off"',
+        defaultValue: '"reveal"',
+        description:
+          "How a line is pulled away: open a tray of actions, pull right through to remove, or not at all.",
+      },
+      {
+        name: "totals",
+        type: '"roll" | "count" | "fade"',
+        defaultValue: '"roll"',
+        description:
+          "How changing figures move: digits that roll, figures that count through the cents, or a cross-fade.",
+      },
+      {
+        name: "format",
+        type: "(amount: number) => string",
+        defaultValue: "euros",
+        description: "Formats an amount for display.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Your bag"',
+        description: "The drawer's heading and accessible name.",
+      },
+      {
+        name: "checkoutLabel",
+        type: "string",
+        defaultValue: '"Checkout"',
+        description: "The checkout button's words.",
+      },
+      {
+        name: "emptyTitle",
+        type: "string",
+        defaultValue: '"Your bag is empty"',
+        description: "The empty bag's heading.",
+      },
+      {
+        name: "emptyBody",
+        type: "string",
+        description: "The empty bag's line.",
+      },
+      {
+        name: "onContinue",
+        type: "() => void",
+        description:
+          "Continue shopping was pressed on the empty bag (it also closes the drawer).",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description: "Loading draws placeholder lines; error offers Retry.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "The Retry button of the error state.",
+      },
+      {
+        name: "children",
+        type: "ReactNode",
+        description:
+          "The page the drawer opens over; it is inert while the drawer is open.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          "The dialog's accessible name when it should differ from the title.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Pops on the steppers and upsells, a brighter one when free delivery unlocks and a low one as a full swipe arms; swishes as the drawer and lines come and go.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Shows the bag but takes no input.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the box the drawer lives in; give it a height.",
+      },
+    ],
+    usageNotes: [
+      "The drawer lives inside its own box over the children you pass, so it can sit in a page section or fill the viewport (give the box h-dvh and fixed positioning).",
+      "Keyboard: opening from your trigger moves focus to the close button and closing returns it; Escape closes an open tray first, then the drawer. Every swipe has a button: each line has Remove and a stepper, and − at one takes the line out.",
+      "Focus on a removed line moves to Undo, and Undo hands it back to the restored line. The Undo clock pauses while the page is hidden.",
+      "Free delivery only celebrates a change the visitor made — a bag loaded over the threshold, or a host update, unlocks quietly.",
+      "Reduced motion: the panel fades in place, lines appear and leave on opacity, swipes still follow the finger but release without a spring, and no flecks fly; the bar still fills and every change is announced.",
+      "Money is in the currency's major unit (9.5 is €9.50) and rounded to cents at every sum; pass format for another currency.",
+    ],
+  },
+  {
+    name: "checkout-flow",
+    type: "registry:ui",
+    title: "Checkout Flow",
+    description:
+      "A four-step checkout beside a sticky order summary: a step bar whose pill slides to the current stop on snap, with reached stops drawing a check on flick, and steps that either swap by direction 16px on snap inside a box that glides to each panel's measured height, or stand as sections that fold to a summary line as you finish them. A Continue the step cannot take shakes its head on a short tween, never a spring; delivery choices move the selection on snap and roll the summary's figures, and the payment step draws a generic card where every typed digit drops into its slot on flick and an outline travels on snap to the part the focused field writes. Place order holds pending while the order is placed, then the button itself becomes the confirmation as a shared layout carries its box out on glide, a check draws and the order number lands on recoil; every step is a real form where Enter continues, delivery is a native radio group, and each new step's heading takes focus as it arrives.",
+    files: [
+      {
+        path: "registry/ui/checkout-flow.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["studio"],
+    meta: {
+      serial: "KQ-1333",
+    },
+    tagline: "Four steps to yours.",
+    keywords: [
+      "checkout",
+      "payment form",
+      "card input",
+      "order summary",
+      "multi-step",
+      "place order",
+      "shipping address",
+    ],
+    props: [
+      {
+        name: "items",
+        type: "CheckoutItem[]",
+        defaultValue: "defaultCheckoutItems",
+        description:
+          "What is being bought: name, variant, unit price, quantity, and a thumbnail or drawn art.",
+      },
+      {
+        name: "deliveryOptions",
+        type: "CheckoutDeliveryOption[]",
+        defaultValue: "defaultDeliveryOptions",
+        description:
+          "How it can get there: label, working days from now, price, an optional note and verb.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "CheckoutValues",
+        defaultValue: "— / defaultCheckoutValues",
+        description:
+          "Every answer: the address, the delivery id, the card (digits only) and whether billing matches delivery.",
+      },
+      {
+        name: "onValueChange",
+        type: "(values: CheckoutValues) => void",
+        description:
+          "Fires from the keystroke or choice that changed an answer, with every answer.",
+      },
+      {
+        name: "step / defaultStep",
+        type: "number",
+        defaultValue: "— / 0",
+        description:
+          "Controlled or initial step: 0 address, 1 delivery, 2 payment, 3 review.",
+      },
+      {
+        name: "onStepChange",
+        type: "(step: number) => void",
+        description:
+          "Fires from Continue, Back, Edit or the step bar with the step asked for.",
+      },
+      {
+        name: "onInvalid",
+        type: "(step: number, fields: string[]) => void",
+        description:
+          "A Continue (or Place order) was held, with the step and the fields that need attention.",
+      },
+      {
+        name: "onPlaceOrder",
+        type: "(values: CheckoutValues, total: number) => void | Promise<{ orderId?: string } | void>",
+        description:
+          "Place order was pressed. A promise holds it pending; resolve with an order id to show it, reject to show why.",
+      },
+      {
+        name: "state",
+        type: '"idle" | "pending" | "confirmed" | "error"',
+        description: "Controlled place-order state.",
+      },
+      {
+        name: "onStateChange",
+        type: "(state: CheckoutState) => void",
+        description: "Fires as the order goes pending, confirmed or refused.",
+      },
+      {
+        name: "onContinueShopping",
+        type: "() => void",
+        description: "Continue shopping was pressed on the confirmation.",
+      },
+      {
+        name: "now",
+        type: "Date | number",
+        defaultValue: "2 Oct 2026, 09:30 UTC",
+        description:
+          "The moment delivery dates and card expiry count from; never read from the clock during render.",
+      },
+      {
+        name: "steps",
+        type: '"slide" | "stack"',
+        defaultValue: '"slide"',
+        description:
+          "One step at a time sliding by direction, or every step stacked as sections that fold.",
+      },
+      {
+        name: "summary",
+        type: '"side" | "bar" | "off"',
+        defaultValue: '"side"',
+        description:
+          "The order summary as a sticky column beside the form (a bar on phones), a collapsible bar at every width, or only on the review.",
+      },
+      {
+        name: "format",
+        type: '"groups" | "mask" | "plain"',
+        defaultValue: '"groups"',
+        description:
+          "How the card number formats as it is typed: spaced groups with the caret kept, a guide whose bullets fill in place, or plain digits.",
+      },
+      {
+        name: "formatPrice",
+        type: "(amount: number) => string",
+        defaultValue: "euros",
+        description: "Formats an amount for display.",
+      },
+      {
+        name: "testCard",
+        type: "CheckoutCard",
+        description:
+          "A test card the payment step offers to fill in one press, for sandbox checkouts.",
+      },
+      {
+        name: "countries",
+        type: "string[]",
+        defaultValue: "defaultCountries",
+        description: "The countries offered for delivery.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Checkout"',
+        description: "The heading and accessible name.",
+      },
+      {
+        name: "placeLabel",
+        type: "string",
+        defaultValue: '"Place order"',
+        description: "The final button's words; the total follows them.",
+      },
+      {
+        name: "pendingLabel",
+        type: "string",
+        defaultValue: '"Placing order…"',
+        description:
+          "The final button while the order is placed; the button keeps its width.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description: "Loading draws placeholders; error offers Retry.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "The Retry button of the error state.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          "The region's accessible name when it should differ from the title.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Clicks on step changes, choices and Edit, a low click on a refused Continue, a chime when the order is confirmed.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Shows the checkout but takes no input.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the region; give it a max height and it scrolls inside itself with the summary pinned.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: Enter in any field continues; delivery is a native radio group; the step bar's reached stops are buttons; Edit on the review returns to that step and its button becomes Back to review.",
+      "A held Continue shakes the panel on a tween, shows every field's message and moves focus to the first one; a polite status names the fields. Each new step's heading, and the confirmation's, takes focus as it arrives when focus was already inside.",
+      "The card number keeps the caret on the same digit as you edit in the middle, and Backspace over a group's space takes the digit before it; the number must pass the checksum and the expiry must be after now.",
+      "The card face is decoration (aria-hidden): the fields are the truth, with cc-number, cc-name, cc-exp and cc-csc autocomplete tokens, and shipping tokens on the address.",
+      "Reduced motion: panels cross-fade in place, the refusal does not shake (messages and danger borders still show), digits appear without dropping, and the Place order morph becomes a cross-fade.",
+      "Control the order with state and onStateChange when the payment answer arrives somewhere else (a webhook, a redirect).",
+    ],
+  },
+  {
+    name: "order-tracker",
+    type: "registry:ui",
+    title: "Order Tracker",
+    description:
+      "An order tracking surface where one progress value drives everything: the live dot rides the shipment's path between stages on glide as `now` advances, the path fills behind it through a sweeping clip, and on the map strip the van rides its route while the strip pans to keep it centred; reaching the door lands a check on recoil. Grab the dot and it scrubs the history 1:1 — fill, van and a time chip rewinding with it, ticking at every scan — then settles on the nearest scan with the release velocity, while the delivery window rolls digit by digit on snap and Change opens a measured disclosure on glide. The path is a slider: arrow keys step through the scans, Home goes to the first, End and Escape come back to now.",
+    files: [
+      {
+        path: "registry/ui/order-tracker.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["studio"],
+    meta: {
+      serial: "KQ-1334",
+    },
+    tagline: "Where it is, right now.",
+    keywords: [
+      "order tracking",
+      "shipment",
+      "delivery",
+      "eta",
+      "map",
+      "parcel",
+      "timeline",
+    ],
+    props: [
+      {
+        name: "path",
+        type: '"rail" | "road" | "arc"',
+        defaultValue: '"road"',
+        description:
+          "The progress track's shape: a straight rail, a winding road whose bends the stages ride, or one long arc.",
+      },
+      {
+        name: "eta",
+        type: '"window" | "countdown" | "day"',
+        defaultValue: '"window"',
+        description:
+          "How the arrival reads: the delivery window, a countdown to it that rolls as `now` advances, or the weekday.",
+      },
+      {
+        name: "map",
+        type: '"streets" | "dots" | "none"',
+        defaultValue: '"streets"',
+        description:
+          "The map strip: seeded streets, blocks, a river and parks; a dot grid with the route only; or no strip.",
+      },
+      {
+        name: "order",
+        type: "OrderTrackerOrder",
+        defaultValue: "defaultOrderTrackerOrder",
+        description:
+          "The order's number, store, carrier and tracking number, the map's origin, waypoint and destination labels, and the full address.",
+      },
+      {
+        name: "stages",
+        type: "OrderStage[]",
+        defaultValue: "defaultOrderStages",
+        description:
+          "The shipment's stages in order: label, when it was reached (or is expected), whether it has been reached, where, and where along the map's route it happens.",
+      },
+      {
+        name: "scans",
+        type: "OrderScan[]",
+        defaultValue: "defaultOrderScans",
+        description:
+          "Every carrier scan: time, text, the stage it belongs to, place, and a warn tone for hold-ups. Past scans are the marks the dot can stop on.",
+      },
+      {
+        name: "items",
+        type: "OrderItem[]",
+        defaultValue: "defaultOrderItems",
+        description:
+          "What is in the parcel: name, variant, quantity, unit price, a pigment and a thumbnail kind.",
+      },
+      {
+        name: "shipping",
+        type: "number",
+        defaultValue: "0",
+        description: "Shipping charged; 0 reads Free.",
+      },
+      {
+        name: "tax",
+        type: "number",
+        description: "Tax charged. Defaults to 8% of the items.",
+      },
+      {
+        name: "now",
+        type: "number | Date",
+        defaultValue: "defaultOrderTrackerNow",
+        description:
+          "The tracker's moment: where the dot sits between stages and what the countdown reads. Never read from the clock during render.",
+      },
+      {
+        name: "delivery / defaultDelivery",
+        type: "OrderWindow",
+        description:
+          "The delivery window (start and end, ms). Controlled or uncontrolled; defaults to the first of windows.",
+      },
+      {
+        name: "onDeliveryChange",
+        type: "(window: OrderWindow) => void",
+        description:
+          "Fires from the choice in Change with the new window. A controlled host that refuses it keeps the readout where it was.",
+      },
+      {
+        name: "windows",
+        type: "OrderWindow[]",
+        defaultValue: "defaultOrderWindows",
+        description:
+          "Windows the visitor may move delivery to. Empty hides Change.",
+      },
+      {
+        name: "onHelp",
+        type: "() => void",
+        description:
+          "Get help was pressed. Without it there is no Get help button.",
+      },
+      {
+        name: "onScanSelect",
+        type: "(scanId: string | null) => void",
+        description:
+          "A scan was previewed by drag, key or list (its id), or the preview went back to now (null).",
+      },
+      {
+        name: "format",
+        type: "(amount: number) => string",
+        description:
+          "Money. Defaults to Intl currency formatting in locale and currency.",
+      },
+      {
+        name: "formatTime",
+        type: "(ms: number) => string",
+        description:
+          'Times. Defaults to a 12-hour UTC clock, "2:40 PM", so server and browser agree.',
+      },
+      {
+        name: "formatDate",
+        type: "(ms: number) => string",
+        description: 'Dates. Defaults to "Thu, Oct 1" in UTC.',
+      },
+      {
+        name: "formatDay",
+        type: "(ms: number) => string",
+        description:
+          'The weekday the day view shows large. Defaults to "Thursday" in UTC.',
+      },
+      {
+        name: "locale",
+        type: "string",
+        defaultValue: '"en-US"',
+        description: "Locale for the default money format.",
+      },
+      {
+        name: "currency",
+        type: "string",
+        defaultValue: '"USD"',
+        description: "Currency for the default money format.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether tracking has arrived: a skeleton while loading, a message and Try again on error.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after tracking failed to load.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Track order"',
+        description: "The surface's heading.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "The region's accessible name. Defaults to the title.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Ticks for each scan crossed while scrubbing or stepped with a key, a plip as the dot lands back at now, as a window is chosen and as the tracking number is copied. Nothing sounds on its own.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Read only: the history cannot be scrubbed, the map not panned, the window not changed.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the root, which is at most 560px tall and scrolls inside itself.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the path is a slider — Left and Right step through past scans, Page keys move three, Home goes to the first, End and Escape return to now. The map strip pans with Left, Right, Home and End, and R recentres it. Change opens on click or Down; arrows move between windows and Enter chooses.",
+      "Pass `now` and advance it yourself (a timer, a socket): the dot glides forward on its own spring. A stage counts as reached when `reached` is true or, if omitted, when its time has passed — set `reached: false` on the last stage until the carrier confirms delivery.",
+      "Reduced motion: the dot, the van and the pan move without travel, the halo holds still, digits swap and the disclosure opens at once; the fill, the readout and the ETA still change because they are the information.",
+      "Layout follows the container: one column at phone width (it scrolls inside its 560px box), map and scans beside the items from 40rem, three columns from 60rem.",
+      "All times are formatted in UTC by default so the server render matches the browser's; pass formatTime, formatDate and formatDay for a local clock.",
+    ],
+  },
+  {
+    name: "product-grid",
+    type: "registry:ui",
+    title: "Product Grid",
+    description:
+      "A filterable product grid whose shelf moves instead of snapping: when a facet chip or the sort changes, cards that stay travel to their new cells on glide, leaving cards shrink and fade on the exit ease and arriving ones scale in — together, as a wave timed by each card's new position, or as a cross-fade — while every chip's count and the result total roll on snap. A card's quick view grows out of the card itself: the dialog's rounded clip opens from the card's box while the product art flies to its place on the same glide progress, or it rises as a sheet or slides in from the side. Facets are roving-focus toggle groups, sort is a listbox, and the quick view is a modal dialog that traps focus, closes on Escape and gives focus back to its card.",
+    files: [
+      {
+        path: "registry/ui/product-grid.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["studio"],
+    meta: {
+      serial: "KQ-1335",
+    },
+    tagline: "Filter, and the shelf rearranges.",
+    keywords: [
+      "product grid",
+      "shop",
+      "filters",
+      "facets",
+      "sort",
+      "quick view",
+      "catalog",
+    ],
+    props: [
+      {
+        name: "reflow",
+        type: '"glide" | "wave" | "fade"',
+        defaultValue: '"glide"',
+        description:
+          "How the shelf rearranges: every card glides together, a wave delayed by each card's new position (kept under 600ms), or a cross-fade with no travel.",
+      },
+      {
+        name: "quickview",
+        type: '"morph" | "sheet" | "side"',
+        defaultValue: '"morph"',
+        description:
+          "How the quick view arrives: grown out of the card, risen as a bottom sheet, or slid in as a side panel (a sheet below 40rem).",
+      },
+      {
+        name: "density",
+        type: '"compact" | "regular" | "roomy"',
+        defaultValue: '"regular"',
+        description:
+          "Columns and how much each card says: compact drops the rating for more columns, roomy adds the description and lays phone cards out sideways.",
+      },
+      {
+        name: "products",
+        type: "ProductGridItem[]",
+        defaultValue: "defaultProducts",
+        description:
+          "The shelf: id, name, category, price, compareAt, colour ids, rating, reviews, badge, stock, when it arrived, description and the drawn shape that stands in for its photograph.",
+      },
+      {
+        name: "colors",
+        type: "ProductGridColor[]",
+        defaultValue: "defaultProductColors",
+        description:
+          "The glazes products come in: id, name and a pigment tint (any CSS colour, ideally at a fixed lightness).",
+      },
+      {
+        name: "priceBands",
+        type: "ProductGridPriceBand[]",
+        defaultValue: "defaultPriceBands",
+        description:
+          "The price chips: id, label, inclusive min and exclusive max (omit it for no ceiling).",
+      },
+      {
+        name: "filters / defaultFilters",
+        type: "ProductGridFilters",
+        description:
+          "Categories, colour ids, a price band id and in-stock-only. Controlled or uncontrolled; defaults to nothing set.",
+      },
+      {
+        name: "onFiltersChange",
+        type: "(filters: ProductGridFilters) => void",
+        description:
+          "Fires from the chip, or Clear filters, that changed the filters, with the whole new set.",
+      },
+      {
+        name: "sort / defaultSort",
+        type: '"featured" | "price-asc" | "price-desc" | "newest" | "rating"',
+        defaultValue: '"featured"',
+        description: "The order of the shelf. Controlled or uncontrolled.",
+      },
+      {
+        name: "onSortChange",
+        type: "(sort: ProductGridSort) => void",
+        description: "Fires from the sort menu's choice.",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "string | null",
+        defaultValue: "null",
+        description:
+          "The product whose quick view is open. Controlled or uncontrolled.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(id: string | null) => void",
+        description:
+          "Fires as a quick view is opened from a card (its id) or closed by Escape, Close or the scrim (null).",
+      },
+      {
+        name: "onAddToCart",
+        type: "(id: string, options: { color: string; qty: number }) => void",
+        description:
+          "Quick add on a card (the default colour, one) or Add to bag in the quick view (the chosen colour and quantity).",
+      },
+      {
+        name: "onOpen",
+        type: "(id: string) => void",
+        description:
+          "View details in the quick view. Without it there is no link.",
+      },
+      {
+        name: "pageSize",
+        type: "number",
+        defaultValue: "12",
+        description:
+          "Cards shown before Show more. A new filter or sort starts from the first page.",
+      },
+      {
+        name: "format",
+        type: "(amount: number) => string",
+        description:
+          "Money. Defaults to Intl currency formatting in locale and currency.",
+      },
+      {
+        name: "locale",
+        type: "string",
+        defaultValue: '"en-US"',
+        description: "Locale for the default money format.",
+      },
+      {
+        name: "currency",
+        type: "string",
+        defaultValue: '"USD"',
+        description: "Currency for the default money format.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the shelf has arrived: skeleton cards while loading, a message and Try again on error.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the shelf failed to load.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Kitchen"',
+        description: "The shelf's heading.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "The region's accessible name. Defaults to the title.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A click for every chip, sort choice, glaze, stepper and add; a swish as a quick view opens (higher) and closes (lower).",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Browse only: nothing can be filtered, sorted, opened or added.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the root; its scroller is at most 560px tall and the quick view covers the root's visible box.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: each facet is one tab stop — arrows move between its chips, Space or Enter toggles. Sort opens with Enter, Space or an arrow; arrows move, Enter chooses and Escape closes, back on the button. In a quick view Tab cycles inside it, arrows choose a glaze and Escape closes it, returning focus to the card.",
+      "Reduced motion: the shelf rearranges on opacity alone, every quick view fades in place, checks appear without drawing and digits swap; counts and order still change.",
+      "Counts on chips are what that chip would leave given the other facets, so a reader can see a dead end before pressing it. `matchProducts(products, filters, priceBands)` runs the same test on your side.",
+      "Only cards new to the shelf play an entrance; a card that merely moves never does, so sorting a page of fifty reads as one movement.",
+      "Layout follows the container: chips in one scrolling row and two columns on a phone, a facet sidebar from 40rem, wider grids from 60rem.",
+    ],
+  },
+  {
+    name: "bundle-builder",
+    type: "registry:ui",
+    title: "Bundle Builder",
+    description:
+      "A bundle builder where picking a product sends its bag flying into the next empty compartment — a thrown arc, a straight glide or a lift and a drop — and the landing is the event: the bag squashes and recovers on recoil, the box dips and the lid hops, and only then do the lid's savings and the totals roll on snap. Bags can also be dragged 1:1 and thrown at the box, gliding in with the release velocity; taking one out flies it home to its shelf while the bags beside it slide over on glide, and the lid, hinged in perspective, closes in on snap as the box fills. Every product has a real toggle and every filled compartment a real remove button, so the keyboard reaches each end state, and landings are announced with the new total.",
+    files: [
+      {
+        path: "registry/ui/bundle-builder.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["studio"],
+    meta: {
+      serial: "KQ-1336",
+    },
+    tagline: "Pick three, save more.",
+    keywords: [
+      "bundle",
+      "box builder",
+      "discount",
+      "commerce",
+      "drag and drop",
+      "savings",
+      "cart",
+    ],
+    props: [
+      {
+        name: "slots",
+        type: "number",
+        defaultValue: "3",
+        description:
+          "Compartments in the box, 2 to 5. A box that shrinks lets go of the bags that no longer fit.",
+      },
+      {
+        name: "fly",
+        type: '"arc" | "direct" | "drop"',
+        defaultValue: '"arc"',
+        description:
+          "How a picked bag travels: a thrown arc that turns with its direction, a straight glide, or a lift over the compartment and a fall into it with a bigger squash.",
+      },
+      {
+        name: "savings",
+        type: '"flat" | "tiered" | "free"',
+        defaultValue: '"flat"',
+        description:
+          "The deal the lid shows: percent off a full box, a discount that climbs with every bag to percent, or the cheapest bag free once the box is full.",
+      },
+      {
+        name: "products",
+        type: "BundleProduct[]",
+        defaultValue: "defaultBundleProducts",
+        description:
+          "The shelf: id, name, tasting notes, price, a label tint, roast 1 to 5, and stock (0 is sold out).",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string[]",
+        defaultValue: "[]",
+        description:
+          "The picked ids in compartment order. Controlled or uncontrolled.",
+      },
+      {
+        name: "onValueChange",
+        type: "(ids: string[]) => void",
+        description:
+          "Fires from the press, tap, drop or remove that changed the box. A controlled host that refuses a pick sees the bag fly home instead of landing.",
+      },
+      {
+        name: "percent",
+        type: "number",
+        defaultValue: "15",
+        description:
+          "The full box's discount for flat, and the top of the ladder for tiered, in percent.",
+      },
+      {
+        name: "onSubmit",
+        type: "(ids: string[]) => void | Promise<unknown>",
+        description:
+          "The full box was added to the cart. A returned promise shows a pending ring, then Added with a check on flick, or Try again if it rejects.",
+      },
+      {
+        name: "submitLabel",
+        type: "string",
+        defaultValue: '"Add box to cart"',
+        description: "The submit button's words; the total follows them.",
+      },
+      {
+        name: "format",
+        type: "(amount: number) => string",
+        description:
+          "Money. Defaults to Intl currency formatting in locale and currency.",
+      },
+      {
+        name: "locale",
+        type: "string",
+        defaultValue: '"en-US"',
+        description: "Locale for the default money format.",
+      },
+      {
+        name: "currency",
+        type: "string",
+        defaultValue: '"USD"',
+        description: "Currency for the default money format.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the shelf has arrived: a skeleton while loading, a message and Try again on error.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the shelf failed to load.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Tasting box"',
+        description: "The builder's heading.",
+      },
+      {
+        name: "subtitle",
+        type: "string",
+        description:
+          "The line under the heading. Defaults to the offer in words, from slots, savings and percent.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "The region's accessible name. Defaults to the title.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A pop as a bag leaves the shelf or the box, a thock timed to its landing (higher as the box fills), softer and lower when it lands home or a full box refuses it.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Look only: nothing can be picked, dragged, removed or added to the cart.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the root; its scroller is at most 560px tall and flights are clipped to the root.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: each product's round toggle adds it (Space or Enter) and shows pressed while it is in the box; each filled compartment has a Remove button, and removing moves focus to the bag that slides into its place, or back to the product when the box is empty. Add box to cart stays focusable through pending and success.",
+      "Drag works on touch too: the bag art is touch-pan-y, so a vertical swipe still scrolls the shelf and a sideways start picks the bag up. A throw counts if its projected landing is on the box.",
+      "Reduced motion: nothing flies, squashes, tilts or shakes — bags appear in and leave their compartments in place, a refused drop flashes the box's outline — while totals, the lid's message and the announcements change exactly as before.",
+      "Totals and the lid change when a bag lands, not when it is pressed, so the money never runs ahead of the box; `bundleTotals(products, ids, { slots, savings, percent })` gives you the same sums.",
+      "Layout follows the container: on a phone the box rides sticky above a two-column shelf; from 40rem the box is a sticky column beside the shelf.",
+    ],
+  },
+  {
+    name: "return-flow",
+    type: "registry:ui",
+    title: "Return Flow",
+    description:
+      "A returns flow built from data that ends as paper in your hand: pick the items (each tick draws on flick), give each a reason as chips, rows or tiles, choose where the refund goes while its digits roll on snap, and the label feeds out of a printer slot in 3px steps like a stepper motor. Pull it down and a rip runs along the perforation from the left while the label pivots about its unripped corner; past the line it comes free and lands on recoil, and released early it swings back on snap with the throw's velocity. Paged, the steps move by direction inside a box that glides to each panel's measured height under a rail whose pill slides on snap; every pick, reason and card is a real checkbox or radiogroup, and Tear off does by key what the pull does by hand.",
+    files: [
+      {
+        path: "registry/ui/return-flow.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["studio"],
+    meta: {
+      serial: "KQ-1337",
+    },
+    tagline: "Send it back, easily.",
+    keywords: [
+      "return",
+      "refund",
+      "shipping label",
+      "rma",
+      "order",
+      "commerce",
+      "tear",
+    ],
+    props: [
+      {
+        name: "print",
+        type: '"label" | "qr"',
+        defaultValue: '"label"',
+        description:
+          "What comes out of the slot: a shipping label with carrier band, addresses and a seeded barcode, or a printer-free slip with a large QR and a short counter code.",
+      },
+      {
+        name: "steps",
+        type: '"paged" | "inline"',
+        defaultValue: '"paged"',
+        description:
+          "Four pages (Items, Reason, Refund, Label) under a step rail with Back and Continue, or one page where reasons unfold under each picked item and the printer arrives at the end.",
+      },
+      {
+        name: "reasons",
+        type: '"chips" | "rows" | "tiles"',
+        defaultValue: '"chips"',
+        description:
+          "How a reason is picked: wrapping pills whose check slides in, rows with a detail line and a growing dot, or two- and three-up icon tiles. Each is a radiogroup.",
+      },
+      {
+        name: "order",
+        type: "ReturnOrder",
+        defaultValue: "defaultReturnOrder",
+        description:
+          "The order: id, merchant, delivered date (ms), return window in days, the payment a refund goes back to, both addresses and the items (name, variant, price, quantity, kind, tint, returnable).",
+      },
+      {
+        name: "reasonOptions",
+        type: "ReturnReason[]",
+        defaultValue: "defaultReturnReasons",
+        description:
+          "The reasons on offer. A reason with note opens a Tell us more field; one with waivesFee (a fault) drops the return fee.",
+      },
+      {
+        name: "methods",
+        type: "RefundMethod[]",
+        defaultValue: "defaultRefundMethods",
+        description:
+          "Where the money goes. bonus adds credit as a share of the items; fee: false waives the return fee.",
+      },
+      {
+        name: "dropoffs",
+        type: "ReturnDropoff[]",
+        defaultValue: "defaultReturnDropoffs",
+        description: "How the parcel leaves; a fee is taken off the refund.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "ReturnSelection",
+        defaultValue: "nothing picked, the first method and drop-off",
+        description:
+          "The selection: one line per picked item (quantity, reason, note) plus the refund method and drop-off. Controlled or uncontrolled.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: ReturnSelection) => void",
+        description:
+          "Fires from the pick, stepper, reason, note or card that changed the selection.",
+      },
+      {
+        name: "step / defaultStep",
+        type: "number",
+        defaultValue: "0",
+        description:
+          "The page, 0 to 2 while editing; the label page (3) shows whenever the label state is ready.",
+      },
+      {
+        name: "onStepChange",
+        type: "(step: number) => void",
+        description:
+          "Fires from Continue, Back or a rail stop, and with 3 when the label is made.",
+      },
+      {
+        name: "onCreateLabel",
+        type: "(selection: ReturnSelection, refund: ReturnRefund) => void | Promise<ReturnShippingLabel | void>",
+        description:
+          "Make the label. A promise holds the button pending with its width kept; resolve with your label to print it, reject to show the error.",
+      },
+      {
+        name: "state",
+        type: '"idle" | "pending" | "ready" | "error"',
+        description:
+          "Controlled label state. Ready prints the label; only a print the visitor started makes sound.",
+      },
+      {
+        name: "onStateChange",
+        type: "(state: ReturnLabelState) => void",
+        description: "Fires as the label is requested, made or refused.",
+      },
+      {
+        name: "shippingLabel",
+        type: "ReturnShippingLabel",
+        defaultValue: "one made from the order, seeded",
+        description:
+          "The label to print: carrier, tracking, RMA, counter code and drop-by date (ms).",
+      },
+      {
+        name: "onTear",
+        type: "() => void",
+        description: "The label was torn off, by a pull or by Tear off.",
+      },
+      {
+        name: "onDownload",
+        type: "() => void",
+        description:
+          "Download on a torn label. Without it there is no Download button.",
+      },
+      {
+        name: "onEmail",
+        type: "() => void",
+        description:
+          "Email it on a torn label. Without it there is no Email button.",
+      },
+      {
+        name: "onStartOver",
+        type: "() => void",
+        description:
+          "Start over was pressed: the selection and the label are cleared and the flow returns to its first page.",
+      },
+      {
+        name: "returnFee",
+        type: "number",
+        defaultValue: "4.95",
+        description:
+          "The return fee, taken off the refund unless the method or a fault reason waives it.",
+      },
+      {
+        name: "now",
+        type: "number | Date",
+        defaultValue: "defaultReturnNow",
+        description:
+          "The flow's moment: the days-left pill and the default drop-by date count from it, never the wall clock.",
+      },
+      {
+        name: "formatPrice",
+        type: "(amount: number) => string",
+        defaultValue: "US dollars",
+        description: "Turns amounts into text everywhere they appear.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Start a return"',
+        description:
+          "The heading, and the region's name unless label is given.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the order has arrived: loading shows skeleton rows, error a message with Try again.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the order failed to load.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          "The region's accessible name, when the visible title is not enough.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Clicks for picks, reasons and steps, soft paper bursts as a visitor-started label feeds and a louder paper when it tears.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only: everything shows, nothing can be changed.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the root. It is at most 560px tall and scrolls inside itself.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: items are checkboxes (Space toggles), reasons, methods and drop-offs are radiogroups (arrows move and choose, Home and End jump), Continue and Back move pages and focus lands on each new page's heading. Tear off reaches the torn label without a pull, and focus moves to its heading.",
+      "Reduced motion: panels cross-fade in place, figures swap and ticks appear whole; the label fades in already printed and a press on it or on Tear off swaps to the torn state with its teeth showing.",
+      "A Continue the page cannot take shakes once (a refusal never bounces), says why under the footer and focuses the first item or reason that needs attention.",
+      "Pass onCreateLabel a promise to hold the button pending; resolve with your carrier's ReturnShippingLabel to print it. Without a label the component seeds one from the order id, so server and client print the same barcode.",
+      "refundFor(order, selection, reasons, methods, dropoffs, fee) is exported, so a host can show the same refund the component does.",
+      "The root is capped at 560px and scrolls inside itself; at 40rem it adds a Your return summary column, and at 68rem the step rail moves to a vertical list with a live line under each stop.",
+    ],
+  },
+  {
+    name: "subscription-manager",
+    type: "registry:ui",
+    title: "Subscription Manager",
+    description:
+      "A subscription whose schedule is a row of dots you can push around: every upcoming delivery is a dot keyed by its place in the schedule, so skipping hollows it and slides the Next flag to the box that will ship on snap, a new cadence keeps the next box where it is and sends every later dot to its new day on glide, and a pause draws a hatched band across the days it covers. The strip of days drags 1:1, rubber-bands and coasts on glide with the throw's velocity (or turns month pages by direction), the cadence is chips or a detent slider that reshapes the dots live, and the next box swaps by dragging a coffee off the shelf onto a slot, both products flying from where they were on glide. Dots are toggle buttons with roving arrows, the cadence a radiogroup or slider, and a held product is placed with the arrows and Enter.",
+    files: [
+      {
+        path: "registry/ui/subscription-manager.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["studio"],
+    meta: {
+      serial: "KQ-1338",
+    },
+    tagline: "Skip, swap, or pause.",
+    keywords: [
+      "subscription",
+      "delivery schedule",
+      "skip",
+      "pause",
+      "frequency",
+      "swap",
+      "commerce",
+    ],
+    props: [
+      {
+        name: "calendar",
+        type: '"strip" | "month"',
+        defaultValue: '"strip"',
+        description:
+          "How the schedule is drawn: a strip of days that drags, coasts and rubber-bands, or month pages (two side by side from 40rem) whose dots hop between days on a cadence change.",
+      },
+      {
+        name: "frequency",
+        type: '"chips" | "slider"',
+        defaultValue: '"chips"',
+        description:
+          "How the cadence is chosen: a radiogroup of the common cadences with a sliding pill, or a detent slider from 1 to maxCadence weeks that reshapes the dots live as the thumb crosses each detent.",
+      },
+      {
+        name: "swap",
+        type: '"shelf" | "menu"',
+        defaultValue: '"shelf"',
+        description:
+          "How the next box is changed: drag (or pick up and place) a product from a shelf of alternatives onto a slot, or a Swap button on each slot that opens a listbox with the price difference.",
+      },
+      {
+        name: "plan",
+        type: "SubscriptionPlan",
+        defaultValue: "defaultSubscriptionPlan",
+        description:
+          "The merchant, plan name, the anchor delivery date (ms), per-box shipping, the payment it is charged to and how many days before a delivery it is charged.",
+      },
+      {
+        name: "products",
+        type: "SubscriptionProduct[]",
+        defaultValue: "defaultSubscriptionProducts",
+        description:
+          "Everything that can go in a box: name, detail, price, a packaging drawing (beans, tin, tea) and a tint.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "SubscriptionValue",
+        defaultValue: "defaultSubscriptionValue",
+        description:
+          "The cadence in weeks, the skipped dates (YYYY-MM-DD), the resume date of a pause or null, and the product ids in the next box. Controlled or uncontrolled.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: SubscriptionValue) => void",
+        description:
+          "Fires from the press, drag or key that changed the plan. A cadence change also drops skips that fall off the new schedule.",
+      },
+      {
+        name: "onSkip",
+        type: "(date: string, skipped: boolean) => void",
+        description: "A delivery was skipped or brought back.",
+      },
+      {
+        name: "onSwap",
+        type: "(slot: number, fromId: string, toId: string) => void",
+        description: "A slot's product was swapped.",
+      },
+      {
+        name: "onPause",
+        type: "(until: string | null) => void",
+        description: "Paused until a date, or resumed with null.",
+      },
+      {
+        name: "onCadenceChange",
+        type: "(weeks: number) => void",
+        description:
+          "The cadence changed: once per chip, once per detent the slider crosses.",
+      },
+      {
+        name: "cadences",
+        type: "number[]",
+        defaultValue: "[1, 2, 4]",
+        description: "The chips' cadences, in weeks.",
+      },
+      {
+        name: "maxCadence",
+        type: "number",
+        defaultValue: "8",
+        description: "The slider's longest cadence, in weeks.",
+      },
+      {
+        name: "horizon",
+        type: "number",
+        defaultValue: "10",
+        description:
+          "Weeks of schedule shown on the strip and across the month pages.",
+      },
+      {
+        name: "freeShippingOver",
+        type: "number",
+        defaultValue: "40",
+        description:
+          "Boxes at or over this amount ship free; the total rolls as a swap crosses it.",
+      },
+      {
+        name: "now",
+        type: "number | Date",
+        defaultValue: "defaultSubscriptionNow",
+        description:
+          "Today on the calendar and the base for the pause choices, never the wall clock.",
+      },
+      {
+        name: "formatPrice",
+        type: "(amount: number) => string",
+        defaultValue: "US dollars",
+        description: "Turns amounts into text.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Subscription"',
+        description:
+          "The heading, and the region's name unless label is given.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the plan has arrived: loading shows skeleton panels, error a message with Try again.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the plan failed to load.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          "The region's accessible name, when the visible title is not enough.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Clicks for skips, detents, pick-ups and pauses; a swish when a swap lands or a cadence chip sends the dots travelling.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Read only: the schedule and box still show, nothing changes.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the root. It is at most 560px tall and scrolls inside itself.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: Tab reaches the next delivery's dot, Left and Right walk deliveries, Home and End jump, Space or Enter skips or brings one back. On the shelf, Space or Enter picks a product up, the arrows choose a slot, Enter puts it there and Escape puts it back; in menu mode ArrowDown opens the list and Escape returns focus to Swap.",
+      "Pick a date turns the calendar's days into a radiogroup (Left and Right a day, Up and Down a week); the hatched band previews the pause as you move and Enter picks the resume day.",
+      "A cadence change keeps the next box on its day and moves the rest; skips that no longer fall on the schedule are dropped from the value it reports.",
+      "Reduced motion: dots jump to their days, the strip stops without coasting, the band appears whole and swaps happen in place, while every skip, pause and total still shows.",
+      "scheduleOf(plan, value, now, horizon) is exported so a host can show the same next box the component does.",
+      "The root is capped at 560px and scrolls inside itself; at 40rem the schedule spans the top, and at 68rem the layout becomes three columns with the calendar in the middle.",
+    ],
+  },
+  {
+    name: "ratings-summary",
+    type: "registry:ui",
+    title: "Ratings Summary",
+    description:
+      "A product's ratings where the distribution is the filter: the average rolls up on snap, the stars fill from the left on glide and the five bars grow on a cascade, and pressing a bar filters the reviews below, which reflow rather than reload — leavers fade on the exit ease, the rest travel to their new places on glide and newcomers arrive from 8px inside a height that glides with them. One star at a time slides a wash between bars on snap, several toggle with checks; helpful votes roll their count and pop the thumb, and photos from reviews open in a viewer over the component's own frame, growing out of their thumbnail on glide and swiped 1:1 with a projected release. Bars are toggle buttons with roving arrows, the viewer a dialog that keeps Tab inside and gives focus back to its thumbnail.",
+    files: [
+      {
+        path: "registry/ui/ratings-summary.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["studio"],
+    meta: {
+      serial: "KQ-1339",
+    },
+    tagline: "What everyone thought, at a glance.",
+    keywords: [
+      "ratings",
+      "reviews",
+      "stars",
+      "histogram",
+      "filter",
+      "helpful",
+      "commerce",
+    ],
+    props: [
+      {
+        name: "bars",
+        type: '"rows" | "columns"',
+        defaultValue: '"rows"',
+        description:
+          "How the distribution is drawn: horizontal bars with star and count, or a five-column histogram rising from a baseline.",
+      },
+      {
+        name: "filter",
+        type: '"single" | "multi"',
+        defaultValue: '"single"',
+        description:
+          "One star at a time, with a cobalt wash that slides between bars (pressing the chosen bar again clears it), or several stars toggled together, each with a check.",
+      },
+      {
+        name: "photos",
+        type: '"strip" | "grid" | "off"',
+        defaultValue: '"strip"',
+        description:
+          "Photos from reviews as one scrolling strip of thumbnails, a mosaic with a +N tile (its own column from 68rem), or left out along with the thumbnails on each review.",
+      },
+      {
+        name: "reviews",
+        type: "Review[]",
+        defaultValue: "defaultReviews",
+        description:
+          "The page of reviews: author, rating, title, body, date (ms), verified, helpful count, variant and photos (alt, tint, scene).",
+      },
+      {
+        name: "distribution",
+        type: "number[]",
+        defaultValue: "defaultRatingDistribution",
+        description:
+          "Ratings per star for the whole product, 1★ first. Counted from reviews when you pass your own reviews without it.",
+      },
+      {
+        name: "productName",
+        type: "string",
+        defaultValue: '"Ridge Trail Runner"',
+        description: "The product, shown under the heading.",
+      },
+      {
+        name: "stars / defaultStars",
+        type: "number[]",
+        defaultValue: "[]",
+        description:
+          "The star filter: the ratings shown, empty for all. Controlled or uncontrolled.",
+      },
+      {
+        name: "onStarsChange",
+        type: "(stars: number[]) => void",
+        description:
+          "Fires from the bar, key or Clear that changed the filter.",
+      },
+      {
+        name: "sort / defaultSort",
+        type: '"helpful" | "newest" | "highest" | "lowest"',
+        defaultValue: '"helpful"',
+        description:
+          "The list's order. Controlled or uncontrolled; a change reorders the list with a layout glide.",
+      },
+      {
+        name: "onSortChange",
+        type: "(sort: RatingsSort) => void",
+        description: "Fires when the visitor picks an order.",
+      },
+      {
+        name: "voted / defaultVoted",
+        type: "string[]",
+        defaultValue: "[]",
+        description:
+          "The reviews this visitor marked helpful. Controlled or uncontrolled.",
+      },
+      {
+        name: "onVotedChange",
+        type: "(voted: string[]) => void",
+        description: "Fires with every helpful mark after a vote.",
+      },
+      {
+        name: "onVote",
+        type: "(id: string, voted: boolean) => void",
+        description: "A review was marked helpful or unmarked.",
+      },
+      {
+        name: "pageSize",
+        type: "number",
+        defaultValue: "5",
+        description:
+          "Reviews shown before Show more; each press adds this many, cascading in.",
+      },
+      {
+        name: "onPhotoOpen",
+        type: "(photoId: string, reviewId: string) => void",
+        description: "A photo was opened in the viewer.",
+      },
+      {
+        name: "now",
+        type: "number | Date",
+        defaultValue: "defaultRatingsNow",
+        description:
+          "The moment relative dates count from, never the wall clock.",
+      },
+      {
+        name: "formatDate",
+        type: "(ms: number, now: number) => string",
+        defaultValue: '"3 days ago", then "Sep 12"',
+        description: "Review dates to text.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Ratings & reviews"',
+        description:
+          "The heading, and the region's name unless label is given.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the reviews have arrived: loading shows skeletons, error a message with Try again.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the reviews failed to load.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          "The region's accessible name, when the visible title is not enough.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Ticks pitched by star for bars, and for photos in the viewer; a pop for a helpful vote.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Read only: the reviews still read, nothing can be filtered, voted or opened.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the root. It is at most 560px tall and scrolls inside itself.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the bars are one Tab stop — Up and Down (Left and Right for columns) move, Home and End jump, Space or Enter toggles. The photo strip roves with Left and Right. The viewer moves with Left and Right, keeps Tab inside, closes on Escape and gives focus back to the thumbnail; See review closes it and focuses that review, clearing a filter that hid it.",
+      "Pass distribution for the whole product and reviews for one page of them: the bars and the average describe every rating, the list only the written ones, and a filter that matches none of this page says how many people rated without writing.",
+      "Reduced motion: the bars, stars and average appear whole, the filter wash jumps, the list swaps without travel and the viewer opens on a fade.",
+      "Photos are procedural and seeded by id (sky, ground, the product in its tint at fixed lightness), so server and client draw the same picture in both themes; replace PhotoArt with real images if you have them.",
+      "The root is capped at 560px with a header and its own scroll area; the viewer covers that frame, not the page. From 40rem the summary is a sticky left column, and from 68rem the photo grid gets its own column.",
+    ],
+  },
+  {
+    name: "gift-builder",
+    type: "registry:ui",
+    title: "Gift Builder",
+    description:
+      "A gift card you build by looking at it: the amount rolls onto the card's face digit by digit on snap, a design wipes across it as a circle growing on glide from the side its swatch sits on (or slides in 1:1 under your thumb when you swipe the card itself, committing by projection), and writing the message turns the card over on glide — side to side, or top over bottom — while each new run of characters inks onto the back and the type shrinks on glide to fit. Add to bag runs your promise and, when it lands, a paper band wraps across the card on glide and the seal lands on recoil. Amount, design, send day and the card's face are radiogroups, a slider and a toggle with full keyboard paths, and the card turns to follow the fields focus is in.",
+    files: [
+      {
+        path: "registry/ui/gift-builder.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["studio"],
+    meta: {
+      serial: "KQ-1340",
+    },
+    tagline: "Choose, write, wrap.",
+    keywords: [
+      "gift card",
+      "amount",
+      "design picker",
+      "message",
+      "flip card",
+      "checkout",
+      "commerce",
+    ],
+    props: [
+      {
+        name: "flip",
+        type: '"turn" | "tumble" | "none"',
+        defaultValue: '"turn"',
+        description:
+          "How the card shows its back: turned side to side about the vertical axis, tumbled top over bottom, or laid beside the front with no turning, both faces updating live.",
+      },
+      {
+        name: "designs",
+        type: '"swatches" | "tiles" | "swipe"',
+        defaultValue: '"swatches"',
+        description:
+          "How a design is picked: round swatches or miniature cards (the new design wipes across from the picker's side), or by swiping the card itself with dots as the radiogroup.",
+      },
+      {
+        name: "amount",
+        type: '"chips" | "slider"',
+        defaultValue: '"chips"',
+        description:
+          "How the amount is set: preset chips with a sliding pill and a Custom field, or a logarithmic detent slider that is drawn to the presets and settles on its step with the release velocity.",
+      },
+      {
+        name: "designOptions",
+        type: "GiftDesign[]",
+        defaultValue: "defaultGiftDesigns",
+        description:
+          "The designs on offer: id, name, art (meadow, confetti, linen, night, bloom, tide) and a tint drawn at fixed lightness.",
+      },
+      {
+        name: "amounts",
+        type: "number[]",
+        defaultValue: "[25, 50, 100, 150]",
+        description:
+          "The preset amounts: chips, or the slider's labelled detents.",
+      },
+      {
+        name: "min",
+        type: "number",
+        defaultValue: "10",
+        description:
+          "The smallest amount, for the slider and the custom field.",
+      },
+      {
+        name: "max",
+        type: "number",
+        defaultValue: "500",
+        description: "The largest amount.",
+      },
+      {
+        name: "step",
+        type: "number",
+        defaultValue: "5",
+        description: "The slider's step; arrows move one, Page keys five.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "GiftValue",
+        defaultValue: "defaultGiftValue",
+        description:
+          "The gift: amount, design id, to, from, message, recipient email and the send day (YYYY-MM-DD, or null to send now). Controlled or uncontrolled.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: GiftValue) => void",
+        description:
+          "Fires from the chip, key, drag, swipe or field that changed the gift.",
+      },
+      {
+        name: "side / defaultSide",
+        type: '"front" | "back"',
+        defaultValue: '"front"',
+        description:
+          "The face the card shows. Controlled or uncontrolled; ignored when flip is none.",
+      },
+      {
+        name: "onSideChange",
+        type: "(side: GiftSide) => void",
+        description:
+          "Fires when the visitor moves to the message (back), the amount or design (front), or turns the card with Show back.",
+      },
+      {
+        name: "onSubmit",
+        type: "(value: GiftValue) => void | Promise<void>",
+        description:
+          "Buy it. A promise holds Add to bag pending with its width kept; reject with an Error to show its message in an alert.",
+      },
+      {
+        name: "state",
+        type: '"idle" | "pending" | "done" | "error"',
+        description:
+          "Controlled purchase state; done wraps the card and shows the confirmation.",
+      },
+      {
+        name: "onStateChange",
+        type: "(state: GiftState) => void",
+        description: "Fires as the purchase is asked for, done or refused.",
+      },
+      {
+        name: "onReset",
+        type: "() => void",
+        description: "Make another was pressed after a purchase.",
+      },
+      {
+        name: "brand",
+        type: "string",
+        defaultValue: '"Fernworks"',
+        description: "The shop on the card's face, back and seal.",
+      },
+      {
+        name: "maxMessage",
+        type: "number",
+        defaultValue: "180",
+        description:
+          "The message's limit; the counter turns warn in the last twenty characters.",
+      },
+      {
+        name: "scheduleDays",
+        type: "number",
+        defaultValue: "14",
+        description: "Days ahead a send can be scheduled.",
+      },
+      {
+        name: "now",
+        type: "number | Date",
+        defaultValue: "defaultGiftNow",
+        description:
+          "The builder's moment: send days count from it, never the wall clock.",
+      },
+      {
+        name: "formatPrice",
+        type: "(amount: number) => string",
+        defaultValue: "US dollars, whole when whole",
+        description:
+          "Amounts to text, on the card, the chips, the slider and the button.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Send a gift card"',
+        description:
+          "The heading, and the region's name unless label is given.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the designs have arrived: loading shows skeletons, error a message with Try again.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after loading failed.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          "The region's accessible name, when the visible title is not enough.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Paper when the visitor turns the card and as the band wraps; a swish when a design arrives or the amount moves.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Read only: the card and the answers show, nothing changes.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the root. It is at most 560px tall and scrolls inside itself.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: amount chips, designs, Send now or Schedule and the send days are radiogroups (arrows choose, Home and End jump); the slider takes arrows, Page keys, Home and End; Show back turns the card by hand. Tabbing into To, From, Message or the email turns the card to its back, and into the amount or design to its front.",
+      "Add to bag validates first: a missing name or a bad email shakes the form once (a refusal never bounces), shows each message under its field and focuses the first one. On success focus moves to the Added to bag heading.",
+      "Reduced motion: the card never tilts or turns — its faces cross-fade — designs cross-fade instead of wiping or sliding, digits swap, characters appear without inking and the band and seal appear in place.",
+      "Designs are procedural SVG in token pigments at fixed lightness, so a card looks the same in both themes; pass your own designOptions with any of the six arts and a tint token.",
+      "The root is capped at 560px and scrolls inside itself; from 40rem the card is a sticky column beside the form, and from 68rem the form splits into amount and delivery beside the message.",
+    ],
+  },
 ];

@@ -327,4 +327,44 @@ export const STUDIO_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/collapse-header.demo").then((m) =>
       mod(m.CollapseHeaderDemo, m.tweaks),
     ),
+  "product-detail": () =>
+    import("@/registry/demos/product-detail.demo").then((m) =>
+      mod(m.ProductDetailDemo, m.tweaks),
+    ),
+  "cart-drawer": () =>
+    import("@/registry/demos/cart-drawer.demo").then((m) =>
+      mod(m.CartDrawerDemo, m.tweaks),
+    ),
+  "checkout-flow": () =>
+    import("@/registry/demos/checkout-flow.demo").then((m) =>
+      mod(m.CheckoutFlowDemo, m.tweaks),
+    ),
+  "order-tracker": () =>
+    import("@/registry/demos/order-tracker.demo").then((m) =>
+      mod(m.OrderTrackerDemo, m.tweaks),
+    ),
+  "product-grid": () =>
+    import("@/registry/demos/product-grid.demo").then((m) =>
+      mod(m.ProductGridDemo, m.tweaks),
+    ),
+  "bundle-builder": () =>
+    import("@/registry/demos/bundle-builder.demo").then((m) =>
+      mod(m.BundleBuilderDemo, m.tweaks),
+    ),
+  "return-flow": () =>
+    import("@/registry/demos/return-flow.demo").then((m) =>
+      mod(m.ReturnFlowDemo, m.tweaks),
+    ),
+  "subscription-manager": () =>
+    import("@/registry/demos/subscription-manager.demo").then((m) =>
+      mod(m.SubscriptionManagerDemo, m.tweaks),
+    ),
+  "ratings-summary": () =>
+    import("@/registry/demos/ratings-summary.demo").then((m) =>
+      mod(m.RatingsSummaryDemo, m.tweaks),
+    ),
+  "gift-builder": () =>
+    import("@/registry/demos/gift-builder.demo").then((m) =>
+      mod(m.GiftBuilderDemo, m.tweaks),
+    ),
 };
