@@ -88614,4 +88614,1750 @@ export const components: KinetiqItem[] = [
       "A polite live region says when someone joins and when the meeting goes live, once per change, never per tick.",
     ],
   },
+  {
+    name: "pane-stack",
+    type: "registry:ui",
+    title: "Pane Stack",
+    description:
+      "Nested navigation that keeps the way back in view: opening a row slides its pane in from the right on springs.glide, and the pane it covers is pushed and compresses into a narrow labelled tab along the left edge, its content clipped rather than squashed while the tab face takes over. One motion value is the stack's position, so every pane edge, the staircase of covered tabs and the fold of tabs that no longer fit (with a count) are functions of it; a tab, Escape or a 1:1 swipe of the open pane to the right goes back, the throw projected and carried on glide with its release velocity. Rows are a list with one tab stop (arrows move, Enter, Space or ArrowRight open, ArrowLeft goes back), the tabs are a nav with their own stop, and focus moves into each new pane and back onto the row you came from.",
+    files: [
+      {
+        path: "registry/ui/pane-stack.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["studio"],
+    meta: {
+      serial: "KQ-1281",
+    },
+    tagline: "Go deeper; the way back stays in view.",
+    keywords: [
+      "drill down",
+      "nested navigation",
+      "breadcrumb",
+      "column navigation",
+      "back stack",
+      "hierarchy",
+      "settings tree",
+    ],
+    props: [
+      {
+        name: "root",
+        type: "PaneStackNode",
+        defaultValue: "defaultPaneTree",
+        description:
+          "The tree to navigate: each node has an id, title, optional description, meta, icon, content and children. defaultPaneTree is a Fieldline workspace seven levels deep.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        defaultValue: "the root's id",
+        description: "The open pane's id, controlled or initial.",
+      },
+      {
+        name: "onValueChange",
+        type: "(id: string, path: string[]) => void",
+        description:
+          "Fires from the press, key or swipe that asked to open a pane, with its id and the ids from the root to it.",
+      },
+      {
+        name: "onSelect",
+        type: "(id: string) => void",
+        description:
+          "A row with nothing inside it (no children, no content) was chosen.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Navigation"',
+        description: "The container's accessible name.",
+      },
+      {
+        name: "depth",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How far covered panes recede, 0 to 1: tabs step in from top and bottom, shade toward the page and take the open pane's shadow. 0 is flat.",
+      },
+      {
+        name: "compress",
+        type: "number",
+        defaultValue: "40",
+        description:
+          "Width of a covered pane's tab in px (28 to 64); from 36 up the tab shows its level's icon.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "Tempo of every slide, 0.5 to 1.5: the glide spring sped up or slowed down with its damping ratio kept.",
+      },
+      {
+        name: "minPaneWidth",
+        type: "number",
+        defaultValue: "200",
+        description:
+          "The narrowest the open pane gets, in px; past it the oldest tabs fold under the first, which carries a count.",
+      },
+      {
+        name: "swipeBack",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Drag the open pane to the right to go back a level.",
+      },
+      {
+        name: "backLabel",
+        type: "(title: string) => string",
+        defaultValue: "(title) => `Back to ${title}`",
+        description: "A tab's accessible name, from its pane's title.",
+      },
+      {
+        name: "emptyLabel",
+        type: "string",
+        defaultValue: '"Nothing in here yet"',
+        description: "What a pane with no content and no children says.",
+      },
+      {
+        name: "height",
+        type: "number | string",
+        defaultValue: "440",
+        description: "The container's height, in px or any CSS length.",
+      },
+      {
+        name: "size",
+        type: '"sm" | "md" | "lg"',
+        defaultValue: '"md"',
+        description:
+          "Row height 36, 44 or 52 px; small rows drop the description line.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "The trail back (the row you came from), the chosen row and the fold badge; any CSS colour.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A swish for each push and pop, a click for a tab, a chosen row and the swipe's half-way detent.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Inert and dimmed: no presses, keys or swipes.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the container.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: rows are one tab stop (Up, Down, Home, End move; Enter, Space or ArrowRight open; ArrowLeft or Backspace go back); the tabs are a nav with their own stop (arrows walk them, Enter goes back to that level, ArrowRight past the last returns to the pane). Escape goes back a level and is left alone at the root, so a dialog around the stack can still close on it.",
+      "Focus moves into each new pane as it arrives (its first row, else its heading) and back onto the row that led down when you return, but only when focus was already inside the stack.",
+      "Rows open when their node has children or content; a node with neither is a leaf, and choosing it fires onSelect and marks it with aria-current.",
+      "Controlled: pass value and onValueChange; a host that refuses the change keeps the stack where it is, and a host jump to a far branch slides in from the shared ancestor.",
+      "Reduced motion jumps the stack and fades the arriving pane in; the swipe still follows the finger and drops to its result.",
+      "Widths are CSS on the container's own width, so server markup is exact; the fold of extra tabs waits for the first measurement.",
+    ],
+  },
+  {
+    name: "float-panel",
+    type: "registry:ui",
+    title: "Float Panel",
+    description:
+      "A floating inspector over a workspace: dragged by its title bar it follows 1:1, a magnet pulls it flush to an edge on springs.flick, pushed into a side it docks full height on springs.snap with the throw's velocity while the workspace glides aside, and carried into a corner it collapses into a pill that grows back into the panel when pressed. Its edges resize it 1:1 and a release springs to the nearest preset width on snap; with storageKey each key remembers its own place. The title bar is a button whose arrows nudge, Alt with an arrow docks, floats or collapses, Enter docks or floats and Escape collapses; the edge is a separator with arrow, Home and End keys.",
+    files: [
+      {
+        path: "registry/ui/float-panel.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["studio"],
+    meta: {
+      serial: "KQ-1282",
+    },
+    tagline: "An inspector that docks where you leave it.",
+    keywords: [
+      "inspector",
+      "floating panel",
+      "dockable",
+      "properties panel",
+      "resizable sidebar",
+      "palette",
+      "window",
+    ],
+    props: [
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Inspector"',
+        description:
+          "The title bar's text, the pill's label and the panel's accessible name.",
+      },
+      {
+        name: "icon",
+        type: "ReactNode",
+        defaultValue: "a sliders icon",
+        description:
+          "16px, drawn in currentColor, in the title bar and on the pill.",
+      },
+      {
+        name: "children",
+        type: "ReactNode",
+        description:
+          "The inspector's body; it scrolls when it is taller than the room.",
+      },
+      {
+        name: "workspace",
+        type: "ReactNode",
+        defaultValue: "a dotted canvas",
+        description:
+          "What the panel floats over; a docked panel takes room from it.",
+      },
+      {
+        name: "placement / defaultPlacement",
+        type: "FloatPanelPlacement",
+        defaultValue: '{ mode: "float", x: 1, y: 0, width: 280 }',
+        description:
+          'Floating at shares of the free room ({ mode: "float", x, y, width }), docked to a side ({ mode: "dock", side, width }) or collapsed to a corner ({ mode: "pill", corner }); controlled or initial.',
+      },
+      {
+        name: "onPlacementChange",
+        type: "(placement: FloatPanelPlacement) => void",
+        description:
+          "Fires from the drag, key or button that moved, docked, collapsed or resized it.",
+      },
+      {
+        name: "storageKey",
+        type: "string",
+        description:
+          "Remember the placement under this key in local storage; each key keeps its own place, read the same way on the server and in the browser.",
+      },
+      {
+        name: "magnet",
+        type: "number",
+        defaultValue: "24",
+        description:
+          "How close an edge has to come, in px, before the panel snaps flush to it; 0 turns the magnet off.",
+      },
+      {
+        name: "collapse",
+        type: "number",
+        defaultValue: "64",
+        description:
+          "How close to a corner, in px, a drag has to come to collapse the panel into a pill there; 0 never collapses by drag.",
+      },
+      {
+        name: "widths",
+        type: "number | number[]",
+        defaultValue: "3",
+        description:
+          "Preset widths a resize springs to: a count spread evenly between minWidth and maxWidth (0 resizes freely), or the widths in px.",
+      },
+      {
+        name: "minWidth",
+        type: "number",
+        defaultValue: "220",
+        description: "Narrowest the panel can be, in px.",
+      },
+      {
+        name: "maxWidth",
+        type: "number",
+        defaultValue: "380",
+        description:
+          "Widest the panel can be, in px; the container caps it too.",
+      },
+      {
+        name: "nudge",
+        type: "number",
+        defaultValue: "8",
+        description:
+          "How far one arrow key moves the panel, in px; Shift moves four times as far.",
+      },
+      {
+        name: "reserve",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "A docked panel takes its room from the workspace instead of covering it, while at least 240 px of workspace remain.",
+      },
+      {
+        name: "badge",
+        type: "ReactNode",
+        description: "Shown on the pill after the title: a count, a dot.",
+      },
+      {
+        name: "height",
+        type: "number | string",
+        defaultValue: "440",
+        description: "The container's height, in px or any CSS length.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Workspace"',
+        description: "The workspace region's accessible name.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "The dock and pill ghosts, the preset guides, the grip and the width readout; any CSS colour.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A snap when the magnet catches and when a width lands on a preset, a thock when it docks, collapses, expands or a pill lands.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Inert and dimmed: no drags, keys or buttons.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the container.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the title bar is a button. Arrows nudge it with the same magnet (an arrow away from a dock lifts it off), Alt+Left and Alt+Right dock it, Alt+Up floats it, Alt+Down collapses it to the nearest bottom corner, and Enter or Space docks or floats it. Escape inside the panel collapses it and focus moves to the pill; Enter on the pill opens it and focus returns to the title bar; arrows move the pill between corners.",
+      'The resize edge is a role="separator" with aria-valuenow in px: Left and Right step between presets (16 px when free), Home and End go to the minimum and maximum.',
+      "Controlled: pass placement and onPlacementChange; the panel moves when the host's value changes and returns if the host refuses. Floating positions are shares of the room, so they survive the container being resized.",
+      "With storageKey the placement and the place a pill reopens to are kept per key; a key change glides the panel to that key's place.",
+      "Reduced motion jumps the panel to each place and cross-fades the pill and the body; drags still follow the finger and the magnet still catches.",
+      "Give the workspace content that reflows: a docked panel narrows it on glide when reserve is on.",
+    ],
+  },
+  {
+    name: "tab-strip",
+    type: "registry:ui",
+    title: "Tab Strip",
+    description:
+      "A document tab strip whose tabs share one width that narrows as more open; the ones that no longer fit go into an overflow menu carrying their count, which rolls on springs.snap, and the active tab always stays in view. Every tab's slot and width are motion values on springs.glide, so a closing tab collapses while the rest are pulled left with no gap and a new tab grows out of the plus; a dragged tab lifts, leans into its speed and follows the finger 1:1 while its neighbours make room on the reorder spring. The panel cross-fades with a slide toward the side of the tab you moved to and its height glides to the new one; the tablist's arrows move and select, Shift with an arrow moves a tab, Delete closes one, and the overflow is a real menu button.",
+    files: [
+      {
+        path: "registry/ui/tab-strip.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["studio"],
+    meta: {
+      serial: "KQ-1283",
+    },
+    tagline: "Open as many as you like.",
+    keywords: [
+      "tabs",
+      "document tabs",
+      "editor tabs",
+      "reorder",
+      "overflow menu",
+      "closable tabs",
+      "tablist",
+    ],
+    props: [
+      {
+        name: "tabs / defaultTabs",
+        type: "TabStripTab[]",
+        defaultValue: "defaultStripTabs",
+        description:
+          "The open tabs in order, controlled or initial: id, title, optional icon, content, dirty and pinned. defaultStripTabs is four Fernworks documents.",
+      },
+      {
+        name: "onTabsChange",
+        type: "(tabs: TabStripTab[]) => void",
+        description:
+          "Fires with the whole list after a close, a new tab or a reorder.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        defaultValue: "the first tab's id",
+        description: "The active tab's id, controlled or initial.",
+      },
+      {
+        name: "onValueChange",
+        type: "(id: string) => void",
+        description:
+          "Fires from the press, key or menu choice that made a tab active, and when closing the active tab hands over to its neighbour.",
+      },
+      {
+        name: "onCreate",
+        type: "() => TabStripTab | void",
+        defaultValue: 'an empty "Untitled n"',
+        description:
+          "Makes the tab the plus opens; return nothing to open none.",
+      },
+      {
+        name: "onClose",
+        type: "(id: string) => void",
+        description: "A tab was closed, by its button, Delete or the shortcut.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Documents"',
+        description: "The tablist's accessible name.",
+      },
+      {
+        name: "width",
+        type: "number",
+        defaultValue: "168",
+        description:
+          "How wide a tab is while there is room, in px; past that they all narrow together.",
+      },
+      {
+        name: "minWidth",
+        type: "number",
+        defaultValue: "96",
+        description:
+          "Narrowest a tab gets before the ones that no longer fit go into the overflow menu, in px.",
+      },
+      {
+        name: "reorder",
+        type: '"glide" | "snap" | "off"',
+        defaultValue: '"glide"',
+        description:
+          "How the other tabs make room for a dragged one: smoothly, with one crisp overshoot, or not at all (dragging off).",
+      },
+      {
+        name: "slide",
+        type: "number",
+        defaultValue: "12",
+        description:
+          "How far the panel slides as it changes, in px, toward the side of the tab you moved to; 0 cross-fades in place.",
+      },
+      {
+        name: "maxTabs",
+        type: "number",
+        defaultValue: "12",
+        description: "The plus is disabled at this many open tabs.",
+      },
+      {
+        name: "closable",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Close buttons on tabs and Delete to close; pinned tabs never close.",
+      },
+      {
+        name: "shortcuts",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Ctrl or Cmd with W closes the active tab and with T opens one, where the browser passes those keys on.",
+      },
+      {
+        name: "newLabel",
+        type: "string",
+        defaultValue: '"New tab"',
+        description: "The plus button's accessible name.",
+      },
+      {
+        name: "size",
+        type: '"sm" | "md" | "lg"',
+        defaultValue: '"md"',
+        description: "Strip height 32, 36 or 40 px.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "The active tab's rule and the unsaved dot; any CSS colour.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A click for each tab chosen (pitched by its slot) and each slot a dragged tab takes, a pop as a new tab grows and a lower one as a tab closes.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Disables the tabs, the plus and the menu.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the strip and its panel.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the tablist is one tab stop; Left and Right move and select (wrapping among the tabs in view), Home and End jump, Shift with an arrow moves the focused tab a slot, Delete or Backspace closes it and focus lands on the tab that takes over. The plus and the overflow menu button follow in the tab order; the menu opens on ArrowDown, Enter or Space, moves with arrows, chooses with Enter and closes on Escape with focus back on its button.",
+      "Close buttons are siblings of their tab, never nested inside it, and are out of the tab order: Delete is the keyboard path. A tab with dirty shows a dot that turns into the close button on hover and is announced as unsaved.",
+      "Controlled: pass tabs with onTabsChange and value with onValueChange. Closing the active tab reports the neighbour that takes over in the same press.",
+      "The active tab is always in view: choosing a tab from the overflow menu brings it into the last slot and the tab it replaces collapses into the menu. While the menu is open the panel grows to hold it, so it never leaves the strip's box.",
+      "Reduced motion changes places and sizes at once and cross-fades panels on opacity alone; a drag still follows the finger and drops into place.",
+      "shortcuts only helps where the browser passes Ctrl or Cmd with W and T on (installed apps, embedded views); in an ordinary tab the browser keeps them.",
+    ],
+  },
+  {
+    name: "bridge-menu",
+    type: "registry:ui",
+    title: "Bridge Menu",
+    description:
+      "A navigation bar with one mega-menu panel for every trigger: moving from one trigger to the next, the same panel slides across and resizes to the new content on springs.glide while that content crossfades in from the side the pointer came from, and a notch on the panel's edge and a pill behind the trigger move on springs.snap so they arrive first. A safe triangle from the last point on the open trigger to the panel's top edge (the bridge) holds the menu open while the pointer heads diagonally across other triggers, until it reaches the panel, leaves the triangle or rests, and bridge=\"show\" draws it. The triggers are disclosure buttons in one tab stop: Left and Right move along the bar with the open panel following, Enter or Space opens, Down moves into the panel and Escape comes back to the trigger.",
+    files: [
+      {
+        path: "registry/ui/bridge-menu.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["studio"],
+    meta: {
+      serial: "KQ-1284",
+    },
+    tagline: "The panel follows the pointer across.",
+    keywords: [
+      "mega menu",
+      "navigation",
+      "dropdown",
+      "safe triangle",
+      "header",
+      "site nav",
+      "hover intent",
+    ],
+    props: [
+      {
+        name: "items",
+        type: "BridgeMenuItem[]",
+        defaultValue: "defaultBridgeMenuItems",
+        description:
+          "The bar's items in order. An item with sections (and an optional feature card) or custom content has a panel; an item with only an href is a plain link in the bar.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string | null",
+        defaultValue: "null",
+        description:
+          "The open menu's id, or null when closed, controlled or initial.",
+      },
+      {
+        name: "onValueChange",
+        type: "(id: string | null) => void",
+        description:
+          "Fires from the hover, press or key that opened, switched or closed a menu.",
+      },
+      {
+        name: "onSelect",
+        type: "(link: BridgeMenuLink, itemId: string, event: React.MouseEvent) => void",
+        description:
+          "A link in a panel (or a plain link in the bar) was chosen; the menu closes after it. Call event.preventDefault() to stay on the page.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Main"',
+        description: "The navigation landmark's accessible name.",
+      },
+      {
+        name: "travel",
+        type: "number",
+        defaultValue: "16",
+        description:
+          "How far the content slides in the direction of travel as it crossfades, in px. 0 is a plain crossfade.",
+      },
+      {
+        name: "bridge",
+        type: '"off" | "on" | "show"',
+        defaultValue: '"on"',
+        description:
+          "The safe triangle that keeps a menu open while the pointer crosses other triggers on its way to the panel; show draws it as a translucent wedge.",
+      },
+      {
+        name: "delay",
+        type: "number",
+        defaultValue: "120",
+        description:
+          "How long the pointer rests on a trigger before a closed menu opens, and inside the bridge before it gives way, in ms.",
+      },
+      {
+        name: "closeDelay",
+        type: "number",
+        defaultValue: "260",
+        description:
+          "How long a menu stays open after the pointer leaves the bar and the panel, in ms.",
+      },
+      {
+        name: "align",
+        type: '"center" | "start"',
+        defaultValue: '"center"',
+        description:
+          "The panel centred under its trigger, or starting at it; either way it is held inside the bar.",
+      },
+      {
+        name: "offset",
+        type: "number",
+        defaultValue: "6",
+        description: "The gap between the bar and the panel, in px.",
+      },
+      {
+        name: "notch",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Draw a notch on the panel's top edge pointing at the open trigger.",
+      },
+      {
+        name: "scrim",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Dim the page under the bar while a menu is open.",
+      },
+      {
+        name: "size",
+        type: '"sm" | "md" | "lg"',
+        defaultValue: '"md"',
+        description: "Bar height 32, 40 or 48px, with trigger text to match.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "Any CSS colour for the open trigger's rule, the bridge and link icons on hover.",
+      },
+      {
+        name: "start",
+        type: "React.ReactNode",
+        description: "Content before the triggers, such as a brand mark.",
+      },
+      {
+        name: "end",
+        type: "React.ReactNode",
+        description: "Content at the bar's end, such as sign-in actions.",
+      },
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The page under the bar. With it, the panel floats over the page, its height is capped to the room there, and it never leaves the component's box.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A swish when a press or a key opens or closes a menu, and a tick when a key moves the panel between triggers or within it. Hover-driven changes are silent, so a pointer passing over the bar never starts audio.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Shows the bar closed and ignores hovers, presses and keys.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the root element.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the bar is one tab stop (Left and Right move with wrapping, Home and End jump, and while a menu is open the panel follows the focused trigger); Enter or Space toggles a menu, Down or Up opens it and moves focus to its first or last link, and Escape closes it, keeping focus on the trigger. Inside a panel, Up and Down walk the links, Left and Right move to the nearest link in the column beside, and Escape returns to the trigger.",
+      "The panel follows its trigger in the document, so Tab from an open trigger walks straight into the panel; focus leaving the menu closes it, and focus inside a panel that is about to switch or close is moved to the trigger first so it is never dropped.",
+      "Pass the page under the bar as children: the panel floats over it, the page dims while a menu is open, and the panel's height is capped to the room above the page's bottom, with a fade at its foot while its content scrolls.",
+      'Under reduced motion the panel jumps to its trigger\'s place and size and content swaps by opacity alone; the bridge still holds, and bridge="show" still draws it.',
+      "Touch never hovers: taps toggle menus and a tap on the page closes them. A press within 400ms of a hover opening the menu keeps it open instead of closing it.",
+    ],
+  },
+  {
+    name: "list-detail",
+    type: "registry:ui",
+    title: "List Detail",
+    description:
+      "A master list whose chosen row becomes the page: the row's avatar, title, subtitle and meta are measured and fly to their places in the detail header, scaling from the row's size to the header's, while the body streams in below a block at a time on springs.glide. Stacked, the row's own surface grows from its rectangle to fill the box on glide as the list fades beneath it, and Back runs the morph in reverse until the parts land on their row; side by side, the parts fly across between the panes while the previous header flies home as a ghost and a selection rule slides down the list on springs.snap, and with morph=\"arc\" each part's x runs on snap and its y on glide so it travels a curve. The list is a listbox with one tab stop (arrows and Home or End move, Enter or Space choose), and stacked, focus moves to the detail's heading and Escape or Back returns it to the row.",
+    files: [
+      {
+        path: "registry/ui/list-detail.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["studio"],
+    meta: {
+      serial: "KQ-1285",
+    },
+    tagline: "The row becomes the page.",
+    keywords: [
+      "master detail",
+      "list detail",
+      "shared element",
+      "directory",
+      "split view",
+      "morph",
+      "drill in",
+    ],
+    props: [
+      {
+        name: "items",
+        type: "ListDetailItem[]",
+        defaultValue: "defaultListDetailItems",
+        description:
+          "The list in order: id, title, subtitle, meta, avatar (initials, tint, icon), badge and the detail's blocks (text, fields, list, actions). defaultListDetailItems is the seven-person Fernworks team.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string | null",
+        defaultValue: "null",
+        description:
+          "The chosen item's id, or null for none, controlled or initial.",
+      },
+      {
+        name: "onValueChange",
+        type: "(id: string | null) => void",
+        description:
+          "Fires from the press, key or Back that changed the choice.",
+      },
+      {
+        name: "onAction",
+        type: "(actionId: string, itemId: string) => void",
+        description: "An action button in the detail was pressed.",
+      },
+      {
+        name: "onLayoutChange",
+        type: '(layout: "split" | "stack") => void',
+        description:
+          "Fires when the layout moves between stacked and side by side, whether a resize or the split prop moved it, and once when first measured.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"People"',
+        description:
+          "The list's name: its heading, the listbox's accessible name and the Back button's text.",
+      },
+      {
+        name: "morph",
+        type: '"glide" | "arc" | "fade"',
+        defaultValue: '"arc"',
+        description:
+          "How the row's parts travel to the header: straight on glide, on a curve (x on snap, y on glide, cascaded), or not at all (a fade).",
+      },
+      {
+        name: "stream",
+        type: "number",
+        defaultValue: "50",
+        description:
+          "The wait between one body block arriving and the next, in ms; the total is held under 600ms, and 0 brings the body in at once.",
+      },
+      {
+        name: "split",
+        type: '"auto" | "stack" | "rail"',
+        defaultValue: '"auto"',
+        description:
+          "How list and detail share the box: side by side from 36rem of container width and stacked below it, always stacked, or always side by side with the list as a narrow rail of avatars (each named and titled).",
+      },
+      {
+        name: "listWidth",
+        type: "number",
+        defaultValue: "280",
+        description:
+          "The list's width side by side, in px (at least 200); a rail is always 72px.",
+      },
+      {
+        name: "height",
+        type: "number | string",
+        defaultValue: "480",
+        description:
+          "The component's height, in px or any CSS length; the list and the detail scroll inside it.",
+      },
+      {
+        name: "emptyLabel",
+        type: "string",
+        defaultValue: '"Choose someone to see their details."',
+        description:
+          "What the detail pane says side by side with nothing chosen.",
+      },
+      {
+        name: "renderDetail",
+        type: "(item: ListDetailItem) => React.ReactNode",
+        description:
+          "Replaces the block body with your own detail; the header still morphs.",
+      },
+      {
+        name: "size",
+        type: '"sm" | "md" | "lg"',
+        defaultValue: '"md"',
+        description: "Row height 48, 56 or 64px.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "Any CSS colour for the selection rule and the chosen row's wash.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A click when a row is chosen, pitched by its place in the list, and a swish as the page opens or goes back.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Ignores choices and dims the component.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the root element.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the list is a listbox with one tab stop (Up, Down, Home and End move; Enter or Space choose). Stacked, choosing moves focus to the detail's heading and Back, Escape or Alt+ArrowLeft return focus to the row once the list is live again; side by side, focus stays on the row and Escape inside the detail goes back to the chosen row. Every Escape it handles calls preventDefault.",
+      'The static layout is container-query CSS (@container/list-detail), so the server render is already right at any width; a ResizeObserver tells the component which choreography to run and reports it through onLayoutChange. With split="rail" the list is a column of avatars at every width: the avatar flies to the header and the rest of the header fades in.',
+      "Boxes are measured from the offset chain rather than the screen, so an interrupted flight never skews where the next one lands; a part flying home hides its row's own copy until it lands, so nothing doubles.",
+      "Under reduced motion nothing flies or grows: the header and body fade in place in order, the list and detail cross-fade, and the selection rule jumps; the choice, focus moves and announcements are unchanged.",
+      'A polite status region speaks each change once, frozen from the new value as it happens: "Showing Ines Okafor, Design lead." or "Back to People."',
+    ],
+  },
+  {
+    name: "push-sheet",
+    type: "registry:ui",
+    title: "Push Sheet",
+    description:
+      "A bottom sheet that pushes its page back: as the sheet rises on springs.glide, the page behind scales down about its top centre, drops a few pixels, rounds its corners and dims like a card behind another in a stack, and a sheet opened from a sheet steps the one beneath it back the same way. Every layer's look is a function of how far the sheets above it have risen, so the grabber and title bar drag the top sheet 1:1 with everything behind following, rubber-banded past the top stop, and a release projects the throw to the nearest stop (half and full by default) carried on glide with its velocity, or sends the sheet away at its own speed. Each sheet is a modal dialog with focus moved in and trapped, Escape closes it and returns focus to its opener, and its grabber is a slider whose arrows move between stops.",
+    files: [
+      {
+        path: "registry/ui/push-sheet.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["studio"],
+    meta: {
+      serial: "KQ-1286",
+    },
+    tagline: "The page steps back to make room.",
+    keywords: [
+      "bottom sheet",
+      "modal",
+      "drawer",
+      "snap points",
+      "nested sheets",
+      "stacked dialog",
+      "drag to dismiss",
+    ],
+    props: [
+      {
+        name: "sheets",
+        type: "PushSheetItem[]",
+        description:
+          "Every sheet that can open: id, title, description, content (a node or a function of the stack's controls) and optional snaps of its own.",
+      },
+      {
+        name: "children",
+        type: "React.ReactNode | ((api: PushSheetApi) => React.ReactNode)",
+        description:
+          "The page under the sheets. As a function it receives { open, close, snapTo, stack }.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string[]",
+        defaultValue: "[]",
+        description:
+          "The open sheets' ids, bottom first, controlled or initial (at most four).",
+      },
+      {
+        name: "onValueChange",
+        type: "(stack: string[]) => void",
+        description:
+          "Fires from the call, drag, key or button that opened or closed a sheet, with the new stack.",
+      },
+      {
+        name: "onSnapChange",
+        type: "(id: string, snap: number) => void",
+        description:
+          "A sheet came to rest on a stop after a drag, a key or snapTo, given as a share of its full height.",
+      },
+      {
+        name: "push",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How far a covered layer steps back, 0 to 1: 0 only dims it; 1 shrinks it 6% per level, drops it 16px and rounds it fully.",
+      },
+      {
+        name: "snaps",
+        type: '"half-full" | "full" | "thirds" | number[]',
+        defaultValue: '"half-full"',
+        description:
+          "Where a sheet stops: half and full height, full only, thirds, or your own shares of the full height.",
+      },
+      {
+        name: "dim",
+        type: "number",
+        defaultValue: "0.35",
+        description:
+          "How dark a fully covered layer gets, 0 to 0.8; a second level darkens it by half again.",
+      },
+      {
+        name: "openAt",
+        type: '"lowest" | "highest"',
+        defaultValue: '"lowest"',
+        description: "Where a new sheet comes to rest.",
+      },
+      {
+        name: "inset",
+        type: "number",
+        defaultValue: "28",
+        description:
+          "The gap above a sheet at full height, in px, where the layer behind peeks out.",
+      },
+      {
+        name: "width",
+        type: "number",
+        defaultValue: "560",
+        description:
+          "A sheet's widest, in px; it is centred when the box is wider.",
+      },
+      {
+        name: "radius",
+        type: "number",
+        defaultValue: "16",
+        description:
+          "The sheets' top corners and the pushed page's corners, in px.",
+      },
+      {
+        name: "dismissible",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Whether a drag down, Escape, a press on the page behind and ArrowDown at the lowest stop close the top sheet.",
+      },
+      {
+        name: "height",
+        type: "number | string",
+        defaultValue: "520",
+        description:
+          "The box's height, in px or any CSS length; everything stays inside it.",
+      },
+      {
+        name: "backdrop",
+        type: "string",
+        defaultValue: '"color-mix(in oklab, var(--background) 45%, black)"',
+        description: "Any CSS colour shown behind the pushed page.",
+      },
+      {
+        name: "closeLabel",
+        type: "string",
+        defaultValue: '"Close"',
+        description: "The close button's accessible name.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A swish as a sheet opens or is sent away, and a thock when it lands on a stop, louder for a harder throw and lower for a higher stop.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Ignores opens, drags and keys and dims the box.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the root element.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: each sheet is a modal dialog. Focus moves to its first control when it arrives, Tab and Shift+Tab stay inside the top sheet, Escape closes it (calling preventDefault) and focus returns to whatever opened it. The grabber is a vertical slider: Up and Page Up go to the next stop, Down and Page Down to the one below (from the lowest it closes the sheet when dismissible), Home and End jump, and Enter or Space toggle between the lowest and highest stops.",
+      'Open and close sheets from inside the page or a sheet with the function form of children and content: (api) => <button onClick={() => api.open("send")} />. api.close(id) closes that sheet and everything above it.',
+      "Focus reaching a control below a sheet's fold raises the sheet to its top stop, so a focused control is always on screen; the body also keeps room under its end equal to what is below the box, so its last line can always be scrolled into view.",
+      "Under reduced motion sheets fade in at their stop and fade out, stops change on a short tween, and the page neither scales nor moves, but it still dims and rounds its corners, because what is covered is information.",
+      "Controlled: a drag that sends a sheet away springs it back to its stop while asking the host; if the host takes the close, the exit carries on from there, and if it refuses, the sheet simply stays.",
+    ],
+  },
+  {
+    name: "search-expand",
+    type: "registry:ui",
+    title: "Search Expand",
+    description:
+      "An app header whose search icon grows into a field on the glide spring while the bar gives way to it frame by frame: the nav items nearest the field squeeze to their icons, then tuck into a More button that grows in with the first and squeezes on flick and snap as each lands, and the brand name steps aside before the last item goes — one motion value drives it all, and both rest states are rounded to whole items. The results panel then grows down out of the field itself on glide, its shell easing from a pill to a card with the matches rising in a cascade and a highlight that moves on snap, and Escape, a choice or blur unwinds it in reverse: the panel retracts on the exit ease before the field narrows and the items come back. The field is a combobox that `/` opens from anywhere, arrows move through results and Enter chooses; More is a menu button whose menu holds whatever is tucked.",
+    files: [
+      {
+        path: "registry/ui/search-expand.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["studio"],
+    meta: {
+      serial: "KQ-1287",
+    },
+    tagline: "The search makes its own room.",
+    keywords: [
+      "search",
+      "header",
+      "navigation",
+      "overflow menu",
+      "combobox",
+      "app bar",
+      "command",
+    ],
+    props: [
+      {
+        name: "nav",
+        type: "SearchExpandItem[]",
+        defaultValue: "defaultSearchNav",
+        description:
+          "The bar's navigation in order (id, label, icon). The items nearest the search give way first.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        defaultValue: "the first item's id",
+        description:
+          "The current page. It carries the wash pill, which moves on snap; tucked, it hands over to a dot on More.",
+      },
+      {
+        name: "onValueChange",
+        type: "(id: string) => void",
+        description:
+          "Fires from the press or the More menu choice that asked for a page.",
+      },
+      {
+        name: "index",
+        type: "SearchExpandEntry[]",
+        defaultValue: "defaultSearchIndex",
+        description:
+          "What the search searches: id, title, group, meta, icon, keywords. Results are grouped in the order groups first appear here.",
+      },
+      {
+        name: "recent",
+        type: "string[]",
+        defaultValue: "defaultSearchRecent",
+        description:
+          "Searches offered while the field is empty; choosing one fills the field.",
+      },
+      {
+        name: "onSelect",
+        type: "(entry: SearchExpandEntry) => void",
+        description:
+          "A result was chosen by a press or Enter. The search closes after it.",
+      },
+      {
+        name: "onQueryChange",
+        type: "(query: string) => void",
+        description: "Every edit of the field, with its text.",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Whether the search is open. Controlled, every request goes through onOpenChange and the bar follows the host.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(open: boolean) => void",
+        description:
+          "Fires from the press, key or blur that asked to open or close it.",
+      },
+      {
+        name: "onTuckChange",
+        type: "(ids: string[]) => void",
+        description:
+          "The ids tucked into More once the bar settles, whenever that set changes.",
+      },
+      {
+        name: "width",
+        type: "number",
+        defaultValue: "320",
+        description:
+          "How wide the open field grows, in px. A wider field squeezes and tucks more of the nav; it never takes more than the bar can spare.",
+      },
+      {
+        name: "results",
+        type: "number",
+        defaultValue: "5",
+        description: "How many results the panel lists at most.",
+      },
+      {
+        name: "tuck",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How much of the nav squeezes to its icons before anything tucks into More, 0 to 1: 0 tucks items whole, 1 squeezes every one first.",
+      },
+      {
+        name: "brand",
+        type: "React.ReactNode",
+        defaultValue: "a Fernworks mark",
+        description: "The brand mark, about 24px, always shown.",
+      },
+      {
+        name: "brandName",
+        type: "string",
+        defaultValue: '"Fernworks"',
+        description:
+          "The product name beside the mark; it steps aside just before the last nav item tucks.",
+      },
+      {
+        name: "actions",
+        type: "React.ReactNode",
+        description:
+          "The account slot at the bar's far end: an avatar, a button.",
+      },
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The page under the bar. The results panel and the More menu float over it and never reach past its bottom.",
+      },
+      {
+        name: "placeholder",
+        type: "string",
+        defaultValue: '"Search"',
+        description:
+          "The field's placeholder, and the search button's accessible name.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Primary"',
+        description: "The navigation's accessible name.",
+      },
+      {
+        name: "moreLabel",
+        type: "string",
+        defaultValue: '"More"',
+        description:
+          "The More button's name; its accessible name adds the count and whether the current page is inside.",
+      },
+      {
+        name: "emptyLabel",
+        type: "(query: string) => string",
+        defaultValue: "(q) => `No matches for “q”`",
+        description: "The row shown when nothing matches.",
+      },
+      {
+        name: "shortcut",
+        type: "string | null",
+        defaultValue: '"/"',
+        description:
+          "The key that opens the search from anywhere on the page that is not typing; null for none.",
+      },
+      {
+        name: "maxPanelHeight",
+        type: "number",
+        defaultValue: "320",
+        description:
+          "The panel's tallest, in px, when nothing sits under the bar to bound it; past it the panel scrolls inside itself.",
+      },
+      {
+        name: "size",
+        type: '"sm" | "md" | "lg"',
+        defaultValue: '"md"',
+        description:
+          "Bar height 40, 48 or 56 px; the field and the items scale with it.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "The current-page pill, the result highlight, the matched letters and More's dot. Any CSS colour.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A swish as the visitor opens or closes the field, and clicks for choices, for each item landing in More and, softly, for arrow keys. Nothing plays unless the visitor did something.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Dims the bar and disables the search, the nav and the shortcut.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Merged onto the root (a container-query box holding the bar and the page).",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: `/` anywhere that is not typing opens the search with focus in the field; arrow keys move through the results (the input keeps focus, with aria-activedescendant), Enter chooses, and Escape closes with preventDefault and puts focus back on the search button. Tab leaving the field closes it too, except into More and its menu.",
+      "More is a menu button (ArrowDown, Enter or Space open it) whose menuitemradio rows move with arrows, Home and End; Escape and Tab close it with focus back on More. Tucked items are inert in the bar, so Tab never lands on something invisible.",
+      "Give the bar a page as children inside a box of fixed height: the panel and the menu are capped by the room under the bar and scroll inside themselves, so nothing draws past the component's box.",
+      "Under reduced motion the field and panel fade in at their final size and the bar jumps to its squeezed layout; the More count, the current-page dot, the highlight and every announcement still change.",
+      "The live region speaks the result count once typing settles (250 ms) and the choice made, never a sentence per keystroke.",
+    ],
+  },
+  {
+    name: "zoom-timeline",
+    type: "registry:ui",
+    title: "Zoom Timeline",
+    description:
+      "A horizontal timeline with semantic zoom from years to minutes: Ctrl or Cmd with the wheel zooms about the pointer on the flick spring, a pinch zooms 1:1 about the fingers, and + and - step on glide, while each tick label fades in as the room around it grows (quarters before months, Mondays before days, every third hour before every hour) and the unit above becomes a row of context labels pinned to the left edge. Markers closer than the cluster radius merge into counted bubbles, and each member springs in and out on snap as you zoom, so a bubble visibly splits into its events; dragging pans 1:1 with rubber-banded ends, and a throw coasts on a critically damped spring whose time constant is the projection's, carrying the release velocity. Markers are one roving list: arrows step and pan to keep them in view, Enter selects an event or opens a bubble, Page Up and Page Down pan a screen.",
+    files: [
+      {
+        path: "registry/ui/zoom-timeline.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["studio"],
+    meta: {
+      serial: "KQ-1288",
+    },
+    tagline: "Years to minutes in one scroll.",
+    keywords: [
+      "timeline",
+      "semantic zoom",
+      "clustering",
+      "events",
+      "pan",
+      "history",
+      "schedule",
+    ],
+    props: [
+      {
+        name: "events",
+        type: "ZoomTimelineEvent[]",
+        defaultValue: "defaultTimelineEvents",
+        description:
+          "The events to place: id, at (ms, an ISO string or a Date), title, detail and tone (default, success, warn or danger).",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string | null",
+        defaultValue: "null",
+        description:
+          "The selected event. Its marker fills on flick and the readout row cross-fades to its title, time and detail.",
+      },
+      {
+        name: "onValueChange",
+        type: "(id: string | null) => void",
+        description:
+          "Fires from the press or key that selected an event, or cleared it (Escape) with null.",
+      },
+      {
+        name: "onViewChange",
+        type: "(view: ZoomTimelineView) => void",
+        description:
+          "The view once a gesture, step or coast settles: start and end in ms, the axis unit, and how many events and bubbles are in view.",
+      },
+      {
+        name: "defaultCenter",
+        type: "number | string | Date",
+        defaultValue: "the middle of the events",
+        description: "Where the view opens.",
+      },
+      {
+        name: "defaultUnit",
+        type: '"year" | "month" | "day" | "hour" | "minute"',
+        defaultValue: "the ladder's second unit",
+        description: "The unit the view opens on.",
+      },
+      {
+        name: "levels",
+        type: '"years-minutes" | "years-days" | "months-hours" | "days-minutes"',
+        defaultValue: '"years-minutes"',
+        description:
+          "The zoom ladder: how far out and in the view can go. Changing it re-frames the view on its opening unit.",
+      },
+      {
+        name: "cluster",
+        type: "number",
+        defaultValue: "28",
+        description:
+          "How close markers get, in px, before they merge into a counted bubble (with 10% hysteresis); 0 never merges.",
+      },
+      {
+        name: "momentum",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How far a throw coasts, 0 to 1: 0 stops almost under the finger, 1 glides a long way.",
+      },
+      {
+        name: "now",
+        type: "number | string | Date",
+        description:
+          "Draws a now line there. Passed in, never read from the clock, so the server and the browser agree.",
+      },
+      {
+        name: "utcOffset",
+        type: "number",
+        defaultValue: "0",
+        description:
+          "Minutes added to UTC for every label and readout, e.g. 60 for UTC+1.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Timeline"',
+        description: "The timeline's accessible name.",
+      },
+      {
+        name: "formatTime",
+        type: "(ms: number, unit: ZoomTimelineUnit) => string",
+        defaultValue: '"14 Mar 2026 14:20"',
+        description:
+          "The readout's and every accessible name's time; the default drops the time at midnight.",
+      },
+      {
+        name: "zoomControls",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Show the zoom out, unit and zoom in controls in the readout row.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "200",
+        description:
+          "Total height in px: a 36px readout row, the marker lane and a 52px axis with its context row.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description: "Selection, bubbles and the now line. Any CSS colour.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A tick each time the axis changes unit during a visitor's zoom and softly as arrow keys step, and a whoosh for a fast throw or a zoom step. Nothing plays on its own.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Dims the timeline and stops every gesture and control.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Merged onto the root (a rounded, clipped container-query box).",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the markers (free events and bubbles, in time order) are one tab stop; Left and Right step between them and glide the view to keep them in sight, Home and End jump, + and - zoom about the focused marker, Enter or Space selects an event or opens a bubble (focus follows its first member once it has split out), Page Up and Page Down pan a screen, and Escape clears a selection with preventDefault.",
+      "Only Ctrl or Cmd with the wheel (and a trackpad pinch) zooms, and a horizontal or Shift wheel pans; a plain vertical wheel is left to the page. The viewport is touch-pan-y, so a vertical swipe still scrolls the page while a horizontal one pans and two fingers pinch.",
+      "Times are UTC (plus utcOffset) and labels are formatted by hand, never from the locale, so the server render and the hydrated page match; the server lays out the axis for 1600px and the browser corrects it once measured.",
+      "Under reduced motion steps and pans jump, a throw stops under the finger and bubbles swap in place; labels still cross-fade by spacing because which labels are legible is information.",
+      "Every per-frame value — ticks, labels, markers, bubbles — is a motion value; React re-renders only when a bubble forms or splits or the axis changes unit, and nothing runs while the view is still.",
+    ],
+  },
+  {
+    name: "snap-board",
+    type: "registry:ui",
+    title: "Snap Board",
+    description:
+      "A dashboard layout editor on a grid of columns and rows: a widget dragged by its header lifts on the flick spring and follows the finger 1:1, rubber-banding past the board's edges, and each time the cell under it changes a detent clicks, the ghost moves to the landing cell on snap and every widget in the way glides aside on glide. Let go, it flies to the ghost with the throw's own velocity and lands with a thock, and the layout is reported once; the corner resizes the same way, and push decides whether the others float back up, stay where they land or trade places. Every grip is a button: Space or Enter picks a widget up, arrows move it a cell (the widget snapping along with its ghost), Shift and arrows resize it, Enter drops and Escape puts everything back.",
+    files: [
+      {
+        path: "registry/ui/snap-board.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["studio"],
+    meta: {
+      serial: "KQ-1289",
+    },
+    tagline: "Drag a widget; the others make way.",
+    keywords: [
+      "dashboard",
+      "grid layout",
+      "drag and drop",
+      "resize",
+      "widgets",
+      "layout editor",
+      "reorder",
+    ],
+    props: [
+      {
+        name: "widgets",
+        type: "SnapBoardWidget[]",
+        defaultValue: "defaultBoardWidgets",
+        description:
+          "The widgets on the board: id, title, icon, content, and min and max size in cells. Content sits in a container-query box so it can lay itself out for the size it is given.",
+      },
+      {
+        name: "layout / defaultLayout",
+        type: "SnapBoardItem[]",
+        defaultValue: "defaultBoardLayout(columns)",
+        description:
+          "One item per widget: id, x and y of its top-left cell, w and h in cells. Anything wider than the columns or overlapping is clamped and settled.",
+      },
+      {
+        name: "onLayoutChange",
+        type: "(layout: SnapBoardItem[]) => void",
+        description:
+          "Fires from the drop, resize or key that changed the layout, with all of it. A drop that changes nothing is not reported.",
+      },
+      {
+        name: "onMove",
+        type: "(id: string, moved: string[]) => void",
+        description:
+          "A drop that changed the layout: the widget dropped and the ids of the others that made way.",
+      },
+      {
+        name: "onDragChange",
+        type: "(drag: SnapBoardDrag | null) => void",
+        description:
+          "A widget picked up by pointer or key, its landing cell (id, mode and item) each time it changes, and null when it is put down.",
+      },
+      {
+        name: "columns",
+        type: "number",
+        defaultValue: "12",
+        description:
+          "The grid's columns. Column guides fade in under the widgets while one is held.",
+      },
+      {
+        name: "push",
+        type: '"compact" | "free" | "swap"',
+        defaultValue: '"compact"',
+        description:
+          "How the others make way: pushed and floated back up into any gap, pushed and left where they land, or the widget under the drop trades places with the dragged one.",
+      },
+      {
+        name: "ghost",
+        type: '"outline" | "tint" | "none"',
+        defaultValue: '"outline"',
+        description:
+          "The landing preview: a dashed accent outline, an accent wash with a solid edge, or nothing but the others making way.",
+      },
+      {
+        name: "rowHeight",
+        type: "number",
+        defaultValue: "44",
+        description: "One row's height, px.",
+      },
+      {
+        name: "gap",
+        type: "number",
+        defaultValue: "8",
+        description: "The space between cells, px.",
+      },
+      {
+        name: "maxHeight",
+        type: "number | string",
+        description:
+          "The tallest the board gets before it scrolls inside itself, px or any CSS length.",
+      },
+      {
+        name: "editable",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Off: no grips and no corners, a plain dashboard.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Dashboard layout"',
+        description: "The board's accessible name.",
+      },
+      {
+        name: "moveLabel",
+        type: "(title: string) => string",
+        defaultValue: "(title) => `Move ${title}`",
+        description: "Each grip's accessible name.",
+      },
+      {
+        name: "resizeLabel",
+        type: "(title: string) => string",
+        defaultValue: "(title) => `Resize ${title}`",
+        description: "Each corner's accessible name.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "The ghost, the picked-up ring, the column guides and the default widgets' charts. Any CSS colour.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A detent click at every cell the target crosses and a thock on every drop (louder for a longer flight). Nothing sounds when the host changes the layout.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Dims the board and stops every drag, resize and key.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Merged onto the root (the labelled region that clips the board).",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: each widget's grip is a button (aria-pressed while held). Space or Enter picks it up; arrow keys move it a cell and the widget snaps along with its ghost while the others make way; Shift with arrows resizes (the corner button picks up in resize mode); Enter or Space drops; Escape puts everything back with preventDefault; Tab or blur drops it where it is. Each step is spoken once in a polite live region.",
+      "A drag is tracked in the board's own frame, so the widget stays under the finger even if the board grows or the page scrolls; only the header and the corner are touch-none, so the widget bodies still scroll the page.",
+      'With push="compact" a widget dragged down onto another by that one\'s height hops it above, so any order is reachable; "free" leaves gaps where you leave them; "swap" trades places with the widget under the drop when it fits.',
+      "Under reduced motion nothing lifts, flies or glides: widgets and the ghost jump to their cells (the dragged one still follows the finger), the board's height jumps; the layout and every announcement are unchanged.",
+      "Before the board is measured (and on the server) widgets are placed with the same geometry as CSS percentages, so the first paint is already the final layout.",
+    ],
+  },
+  {
+    name: "collapse-header",
+    type: "registry:ui",
+    title: "Collapse Header",
+    description:
+      "A scroll container with a large header whose title is one heading floating over the page: as you scroll it moves 1:1 with the page toward the toolbar, easing across to its docked place beside the back button (or centred) and down to toolbar size, while the cover parallaxes and fades behind it and the actions fold into the overflow button as they slide up to meet the bar. Past the threshold the title lets go of the scroll and docks by itself on the snap spring; docked, the header stays compact however you scroll until you come back to the very top, where it re-expands on glide. The scroll area is a focusable region, so arrow, Page, Home and End keys reach the same states, and the overflow button is a menu button whose menu holds the folded actions.",
+    files: [
+      {
+        path: "registry/ui/collapse-header.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["studio"],
+    meta: {
+      serial: "KQ-1290",
+    },
+    tagline: "The title docks as you scroll.",
+    keywords: [
+      "header",
+      "large title",
+      "collapsing toolbar",
+      "parallax",
+      "scroll",
+      "app bar",
+      "overflow menu",
+    ],
+    props: [
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Basin Road survey"',
+        description:
+          "The heading that docks in the toolbar. Large it may wrap to two lines; docked it is always one clean line.",
+      },
+      {
+        name: "subtitle",
+        type: "string",
+        description: "The line under the title; it scrolls away with the page.",
+      },
+      {
+        name: "eyebrow",
+        type: "string",
+        description: "A small label above the title.",
+      },
+      {
+        name: "cover",
+        type: "React.ReactNode",
+        defaultValue: "a procedural ridge drawing",
+        description:
+          "Fills the cover; the default is drawn in the accent and mixed toward the page, so it reads in both themes.",
+      },
+      {
+        name: "actions",
+        type: "CollapseHeaderAction[]",
+        defaultValue: "defaultHeaderActions",
+        description:
+          "The row of actions under the title (id, label, icon); they fold into the overflow menu as they reach the toolbar.",
+      },
+      {
+        name: "onAction",
+        type: "(id: string) => void",
+        description: "An action pressed, inline or from the overflow menu.",
+      },
+      {
+        name: "onBack",
+        type: "() => void",
+        description:
+          "The back button. Without it the button is still drawn, for the docked title to sit beside.",
+      },
+      {
+        name: "backLabel",
+        type: "string",
+        defaultValue: '"Back"',
+        description: "The back button's accessible name.",
+      },
+      {
+        name: "overflowLabel",
+        type: "string",
+        defaultValue: '"More actions"',
+        description: "The overflow button's and its menu's accessible name.",
+      },
+      {
+        name: "onDockChange",
+        type: "(docked: boolean) => void",
+        description:
+          "Fires from the scroll that docked the title (true) or re-expanded the header at the top (false).",
+      },
+      {
+        name: "parallax",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How much slower than the page the cover moves, 0 to 1: 0 scrolls with the page, 1 stays put behind it.",
+      },
+      {
+        name: "dock",
+        type: '"start" | "center"',
+        defaultValue: '"start"',
+        description:
+          "Where the title docks in the toolbar: beside the back button, or centred.",
+      },
+      {
+        name: "threshold",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How far through its travel (0.3 to 1) the title lets go of the scroll and docks by itself on the snap spring; 1 never lets go early.",
+      },
+      {
+        name: "coverHeight",
+        type: "number",
+        defaultValue: "168",
+        description:
+          "The cover's height in px; a fifth taller when the header is 560px wide or more.",
+      },
+      {
+        name: "height",
+        type: "number | string",
+        defaultValue: "520",
+        description:
+          "The container's height, px or any CSS length. It scrolls inside itself.",
+      },
+      {
+        name: "size",
+        type: '"sm" | "md" | "lg"',
+        defaultValue: '"md"',
+        description: "The large title: 24, 28 or 34 px. It docks at 17 px.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "The cover drawing and the docked toolbar's rule. Any CSS colour.",
+      },
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description: "The page under the header.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A swish as the visitor's scroll docks the title (higher) and as it re-expands the header at the top (lower). Nothing else plays.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          'Merged onto the root (a rounded, clipped container-query box that carries data-state="expanded" or "docked").',
+      },
+    ],
+    usageNotes: [
+      "The scroll area is a focusable region labelled by the title: arrow keys, Page Up and Page Down, Space, Home and End scroll it, so docking (scroll down) and re-expanding (Home) have the same keyboard path as a finger. The toolbar comes first in the DOM, so Tab meets the back button before the page.",
+      "The overflow button is inert until the actions have folded into it; it is a menu button (Enter, Space or ArrowDown open it) whose items move with arrows, Home and End, and Escape or Tab close it with focus back on the button. Focus on an action that folds moves to the overflow button, and back to the first action when they unfold.",
+      'There is one h2 throughout: the floating title is the heading, and the one-line docked copy inside it is aria-hidden. A polite live region says "Title docked" and "Header expanded" once per change.',
+      "Under reduced motion nothing flies or parallaxes: the title scrolls with the page and a docked copy cross-fades into the toolbar when the threshold is passed, the actions cross-fade as the overflow button fades in, and the cover only fades.",
+      "Every per-frame value is a motion value read from the scroll; React hears only when the title docks or re-expands and when the actions finish folding, and nothing runs while the page is still.",
+    ],
+  },
 ];

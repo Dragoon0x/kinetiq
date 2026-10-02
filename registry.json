@@ -33443,6 +33443,302 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "pane-stack",
+      "type": "registry:ui",
+      "title": "Pane Stack",
+      "description": "Nested navigation that keeps the way back in view: opening a row slides its pane in from the right on springs.glide, and the pane it covers is pushed and compresses into a narrow labelled tab along the left edge, its content clipped rather than squashed while the tab face takes over. One motion value is the stack's position, so every pane edge, the staircase of covered tabs and the fold of tabs that no longer fit (with a count) are functions of it; a tab, Escape or a 1:1 swipe of the open pane to the right goes back, the throw projected and carried on glide with its release velocity. Rows are a list with one tab stop (arrows move, Enter, Space or ArrowRight open, ArrowLeft goes back), the tabs are a nav with their own stop, and focus moves into each new pane and back onto the row you came from.",
+      "files": [
+        {
+          "path": "registry/ui/pane-stack.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1281"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "float-panel",
+      "type": "registry:ui",
+      "title": "Float Panel",
+      "description": "A floating inspector over a workspace: dragged by its title bar it follows 1:1, a magnet pulls it flush to an edge on springs.flick, pushed into a side it docks full height on springs.snap with the throw's velocity while the workspace glides aside, and carried into a corner it collapses into a pill that grows back into the panel when pressed. Its edges resize it 1:1 and a release springs to the nearest preset width on snap; with storageKey each key remembers its own place. The title bar is a button whose arrows nudge, Alt with an arrow docks, floats or collapses, Enter docks or floats and Escape collapses; the edge is a separator with arrow, Home and End keys.",
+      "files": [
+        {
+          "path": "registry/ui/float-panel.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1282"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "tab-strip",
+      "type": "registry:ui",
+      "title": "Tab Strip",
+      "description": "A document tab strip whose tabs share one width that narrows as more open; the ones that no longer fit go into an overflow menu carrying their count, which rolls on springs.snap, and the active tab always stays in view. Every tab's slot and width are motion values on springs.glide, so a closing tab collapses while the rest are pulled left with no gap and a new tab grows out of the plus; a dragged tab lifts, leans into its speed and follows the finger 1:1 while its neighbours make room on the reorder spring. The panel cross-fades with a slide toward the side of the tab you moved to and its height glides to the new one; the tablist's arrows move and select, Shift with an arrow moves a tab, Delete closes one, and the overflow is a real menu button.",
+      "files": [
+        {
+          "path": "registry/ui/tab-strip.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1283"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "bridge-menu",
+      "type": "registry:ui",
+      "title": "Bridge Menu",
+      "description": "A navigation bar with one mega-menu panel for every trigger: moving from one trigger to the next, the same panel slides across and resizes to the new content on springs.glide while that content crossfades in from the side the pointer came from, and a notch on the panel's edge and a pill behind the trigger move on springs.snap so they arrive first. A safe triangle from the last point on the open trigger to the panel's top edge (the bridge) holds the menu open while the pointer heads diagonally across other triggers, until it reaches the panel, leaves the triangle or rests, and bridge=\"show\" draws it. The triggers are disclosure buttons in one tab stop: Left and Right move along the bar with the open panel following, Enter or Space opens, Down moves into the panel and Escape comes back to the trigger.",
+      "files": [
+        {
+          "path": "registry/ui/bridge-menu.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1284"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "list-detail",
+      "type": "registry:ui",
+      "title": "List Detail",
+      "description": "A master list whose chosen row becomes the page: the row's avatar, title, subtitle and meta are measured and fly to their places in the detail header, scaling from the row's size to the header's, while the body streams in below a block at a time on springs.glide. Stacked, the row's own surface grows from its rectangle to fill the box on glide as the list fades beneath it, and Back runs the morph in reverse until the parts land on their row; side by side, the parts fly across between the panes while the previous header flies home as a ghost and a selection rule slides down the list on springs.snap, and with morph=\"arc\" each part's x runs on snap and its y on glide so it travels a curve. The list is a listbox with one tab stop (arrows and Home or End move, Enter or Space choose), and stacked, focus moves to the detail's heading and Escape or Back returns it to the row.",
+      "files": [
+        {
+          "path": "registry/ui/list-detail.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1285"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "push-sheet",
+      "type": "registry:ui",
+      "title": "Push Sheet",
+      "description": "A bottom sheet that pushes its page back: as the sheet rises on springs.glide, the page behind scales down about its top centre, drops a few pixels, rounds its corners and dims like a card behind another in a stack, and a sheet opened from a sheet steps the one beneath it back the same way. Every layer's look is a function of how far the sheets above it have risen, so the grabber and title bar drag the top sheet 1:1 with everything behind following, rubber-banded past the top stop, and a release projects the throw to the nearest stop (half and full by default) carried on glide with its velocity, or sends the sheet away at its own speed. Each sheet is a modal dialog with focus moved in and trapped, Escape closes it and returns focus to its opener, and its grabber is a slider whose arrows move between stops.",
+      "files": [
+        {
+          "path": "registry/ui/push-sheet.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1286"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "search-expand",
+      "type": "registry:ui",
+      "title": "Search Expand",
+      "description": "An app header whose search icon grows into a field on the glide spring while the bar gives way to it frame by frame: the nav items nearest the field squeeze to their icons, then tuck into a More button that grows in with the first and squeezes on flick and snap as each lands, and the brand name steps aside before the last item goes — one motion value drives it all, and both rest states are rounded to whole items. The results panel then grows down out of the field itself on glide, its shell easing from a pill to a card with the matches rising in a cascade and a highlight that moves on snap, and Escape, a choice or blur unwinds it in reverse: the panel retracts on the exit ease before the field narrows and the items come back. The field is a combobox that `/` opens from anywhere, arrows move through results and Enter chooses; More is a menu button whose menu holds whatever is tucked.",
+      "files": [
+        {
+          "path": "registry/ui/search-expand.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1287"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "zoom-timeline",
+      "type": "registry:ui",
+      "title": "Zoom Timeline",
+      "description": "A horizontal timeline with semantic zoom from years to minutes: Ctrl or Cmd with the wheel zooms about the pointer on the flick spring, a pinch zooms 1:1 about the fingers, and + and - step on glide, while each tick label fades in as the room around it grows (quarters before months, Mondays before days, every third hour before every hour) and the unit above becomes a row of context labels pinned to the left edge. Markers closer than the cluster radius merge into counted bubbles, and each member springs in and out on snap as you zoom, so a bubble visibly splits into its events; dragging pans 1:1 with rubber-banded ends, and a throw coasts on a critically damped spring whose time constant is the projection's, carrying the release velocity. Markers are one roving list: arrows step and pan to keep them in view, Enter selects an event or opens a bubble, Page Up and Page Down pan a screen.",
+      "files": [
+        {
+          "path": "registry/ui/zoom-timeline.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1288"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "snap-board",
+      "type": "registry:ui",
+      "title": "Snap Board",
+      "description": "A dashboard layout editor on a grid of columns and rows: a widget dragged by its header lifts on the flick spring and follows the finger 1:1, rubber-banding past the board's edges, and each time the cell under it changes a detent clicks, the ghost moves to the landing cell on snap and every widget in the way glides aside on glide. Let go, it flies to the ghost with the throw's own velocity and lands with a thock, and the layout is reported once; the corner resizes the same way, and push decides whether the others float back up, stay where they land or trade places. Every grip is a button: Space or Enter picks a widget up, arrows move it a cell (the widget snapping along with its ghost), Shift and arrows resize it, Enter drops and Escape puts everything back.",
+      "files": [
+        {
+          "path": "registry/ui/snap-board.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1289"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "collapse-header",
+      "type": "registry:ui",
+      "title": "Collapse Header",
+      "description": "A scroll container with a large header whose title is one heading floating over the page: as you scroll it moves 1:1 with the page toward the toolbar, easing across to its docked place beside the back button (or centred) and down to toolbar size, while the cover parallaxes and fades behind it and the actions fold into the overflow button as they slide up to meet the bar. Past the threshold the title lets go of the scroll and docks by itself on the snap spring; docked, the header stays compact however you scroll until you come back to the very top, where it re-expands on glide. The scroll area is a focusable region, so arrow, Page, Home and End keys reach the same states, and the overflow button is a menu button whose menu holds the folded actions.",
+      "files": [
+        {
+          "path": "registry/ui/collapse-header.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1290"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

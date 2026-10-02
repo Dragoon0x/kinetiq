@@ -1390,6 +1390,16 @@ import { TeamFanDemo } from "@/registry/demos/team-fan.demo";
 import { SwatchCardDemo } from "@/registry/demos/swatch-card.demo";
 import { ReviewCardDemo } from "@/registry/demos/review-card.demo";
 import { MeetingCardDemo } from "@/registry/demos/meeting-card.demo";
+import { PaneStackDemo } from "@/registry/demos/pane-stack.demo";
+import { FloatPanelDemo } from "@/registry/demos/float-panel.demo";
+import { TabStripDemo } from "@/registry/demos/tab-strip.demo";
+import { BridgeMenuDemo } from "@/registry/demos/bridge-menu.demo";
+import { ListDetailDemo } from "@/registry/demos/list-detail.demo";
+import { PushSheetDemo } from "@/registry/demos/push-sheet.demo";
+import { SearchExpandDemo } from "@/registry/demos/search-expand.demo";
+import { ZoomTimelineDemo } from "@/registry/demos/zoom-timeline.demo";
+import { SnapBoardDemo } from "@/registry/demos/snap-board.demo";
+import { CollapseHeaderDemo } from "@/registry/demos/collapse-header.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2794,4 +2804,14 @@ export const demos: Record<string, ComponentType> = {
   "swatch-card": SwatchCardDemo,
   "review-card": ReviewCardDemo,
   "meeting-card": MeetingCardDemo,
+  "pane-stack": PaneStackDemo,
+  "float-panel": FloatPanelDemo,
+  "tab-strip": TabStripDemo,
+  "bridge-menu": BridgeMenuDemo,
+  "list-detail": ListDetailDemo,
+  "push-sheet": PushSheetDemo,
+  "search-expand": SearchExpandDemo,
+  "zoom-timeline": ZoomTimelineDemo,
+  "snap-board": SnapBoardDemo,
+  "collapse-header": CollapseHeaderDemo,
 };

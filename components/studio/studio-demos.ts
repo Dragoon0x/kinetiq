@@ -287,4 +287,44 @@ export const STUDIO_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/meeting-card.demo").then((m) =>
       mod(m.MeetingCardDemo, m.tweaks),
     ),
+  "pane-stack": () =>
+    import("@/registry/demos/pane-stack.demo").then((m) =>
+      mod(m.PaneStackDemo, m.tweaks),
+    ),
+  "float-panel": () =>
+    import("@/registry/demos/float-panel.demo").then((m) =>
+      mod(m.FloatPanelDemo, m.tweaks),
+    ),
+  "tab-strip": () =>
+    import("@/registry/demos/tab-strip.demo").then((m) =>
+      mod(m.TabStripDemo, m.tweaks),
+    ),
+  "bridge-menu": () =>
+    import("@/registry/demos/bridge-menu.demo").then((m) =>
+      mod(m.BridgeMenuDemo, m.tweaks),
+    ),
+  "list-detail": () =>
+    import("@/registry/demos/list-detail.demo").then((m) =>
+      mod(m.ListDetailDemo, m.tweaks),
+    ),
+  "push-sheet": () =>
+    import("@/registry/demos/push-sheet.demo").then((m) =>
+      mod(m.PushSheetDemo, m.tweaks),
+    ),
+  "search-expand": () =>
+    import("@/registry/demos/search-expand.demo").then((m) =>
+      mod(m.SearchExpandDemo, m.tweaks),
+    ),
+  "zoom-timeline": () =>
+    import("@/registry/demos/zoom-timeline.demo").then((m) =>
+      mod(m.ZoomTimelineDemo, m.tweaks),
+    ),
+  "snap-board": () =>
+    import("@/registry/demos/snap-board.demo").then((m) =>
+      mod(m.SnapBoardDemo, m.tweaks),
+    ),
+  "collapse-header": () =>
+    import("@/registry/demos/collapse-header.demo").then((m) =>
+      mod(m.CollapseHeaderDemo, m.tweaks),
+    ),
 };
