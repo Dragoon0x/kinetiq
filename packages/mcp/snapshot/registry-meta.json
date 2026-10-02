@@ -13,7 +13,7 @@
     "indexUrl": "https://www.kinetiqui.com/r/registry.json",
     "docsUrl": "https://www.kinetiqui.com",
     "counts": {
-      "components": 1159,
+      "components": 1169,
       "blocks": 152,
       "pages": 28,
       "templates": 10,
@@ -93725,6 +93725,1784 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/agent-inbox",
         "bun": "bunx --bun shadcn@latest add @kinetiq/agent-inbox",
         "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/agent-inbox.json"
+      }
+    },
+    {
+      "slug": "app-shell",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "App Shell",
+      "serial": "KQ-1301",
+      "tagline": "The frame every screen lives in.",
+      "description": "The frame a product's screens live in: a sidebar whose width is one motion value on glide, so its labels tuck away row by row and leave a 56px icon rail with tooltips, its edge dragged 1:1 and committed by projection with the release velocity; below 640px it becomes a drawer that slides over a scrim on glide and can be pushed back out. A pill under the current row travels on snap, pages change by slide, fade or zoom with the last crumb cross-fading in the same beat, and search is a combobox over the pages. Arrow keys walk the sidebar, [ or Cmd/Ctrl+B folds it, 1–9 change page and / goes to search.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "sidebar",
+        "layout",
+        "navigation",
+        "drawer",
+        "breadcrumbs",
+        "shell",
+        "dashboard"
+      ],
+      "props": [
+        {
+          "name": "pages",
+          "type": "AppShellPage[]",
+          "defaultValue": "defaultShellPages",
+          "description": "The destinations in sidebar order, each with its label, icon, optional badge and section, crumbs, heading, summary, search keywords and content."
+        },
+        {
+          "name": "page / defaultPage",
+          "type": "string",
+          "defaultValue": "the first page",
+          "description": "The current page's id. Controlled or uncontrolled."
+        },
+        {
+          "name": "onPageChange",
+          "type": "(id: string) => void",
+          "description": "Fires from the row, crumb, shortcut or search result that chose a page."
+        },
+        {
+          "name": "collapsed / defaultCollapsed",
+          "type": "boolean",
+          "defaultValue": "open from 1024px, folded below",
+          "description": "The sidebar folded to its rail (or hidden without rail). Controlled or uncontrolled; left unset it follows the shell's width."
+        },
+        {
+          "name": "onCollapsedChange",
+          "type": "(collapsed: boolean) => void",
+          "description": "Fires from the toggle, the edge drag, the edge's arrow keys or the shortcut, with the new fold."
+        },
+        {
+          "name": "rail",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Fold to a 56px icon rail whose labels become tooltips. Off: the sidebar slides away entirely and the content takes the width."
+        },
+        {
+          "name": "transition",
+          "type": "\"slide\" | \"fade\" | \"zoom\"",
+          "defaultValue": "\"slide\"",
+          "description": "How the content changes page: rising 16px in the direction of travel through the nav, a cross-fade, or settling from 0.98 scale."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"cozy\" | \"roomy\"",
+          "defaultValue": "\"cozy\"",
+          "description": "Row heights (28/32/36px), the top bar (44/48/56px), paddings and the heading size."
+        },
+        {
+          "name": "workspace",
+          "type": "AppShellWorkspace",
+          "defaultValue": "defaultShellWorkspace",
+          "description": "The product at the top of the sidebar: name, detail line and an optional 28px mark."
+        },
+        {
+          "name": "user",
+          "type": "AppShellUser",
+          "defaultValue": "defaultShellUser",
+          "description": "Who is signed in, at the foot of the sidebar."
+        },
+        {
+          "name": "navLabel",
+          "type": "string",
+          "defaultValue": "\"Main\"",
+          "description": "The sidebar navigation's accessible name."
+        },
+        {
+          "name": "searchPlaceholder",
+          "type": "string",
+          "defaultValue": "\"Search \" + workspace name",
+          "description": "The search field's placeholder and accessible name."
+        },
+        {
+          "name": "onSearch",
+          "type": "(query: string) => void",
+          "description": "Enter in search when no page matches, with the query."
+        },
+        {
+          "name": "shortcuts",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "[ or Cmd/Ctrl+B folds the sidebar, 1–9 go to a page and / focuses search, while focus is in the shell or it is hovered with nothing focused; never while typing."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "The content area's state: a skeleton while loading, a message with Retry on error. The sidebar keeps working."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "The error state's Retry button."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "workspace name",
+          "description": "The shell's accessible name."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "A swish as the visitor folds or opens the sidebar or drawer, a click pitched by place as they choose a page."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the root. It is 560px tall by default; pass a height (h-full, h-dvh) to fill a screen."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the sidebar is one tab stop — Up and Down walk the pages, Home and End jump, Enter or Space open. The edge is a separator: Left folds, Right opens, Enter toggles. In the drawer Tab is trapped and Escape closes it, handing focus back to the menu button.",
+        "Reduced motion: widths and the drawer change at once, pages cross-fade on opacity whatever transition says, the pill and tooltips appear in place; every change is still announced in the polite status.",
+        "The shell arranges itself by its own measured width — drawer below 640px, rail from 640px, open from 1024px — and server-renders that arrangement with container queries, so the first paint already matches.",
+        "Page content is yours: anything in a page's content renders in a scrolling region named by the page heading, and it reads --shell-row, --shell-pad and --shell-gap if it wants to follow density.",
+        "Search finds pages by label, heading, summary and keywords; give a page the names of its records (ids, people, sites) as keywords and a search for one lands on the page that holds it, with focus on its heading."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/app-shell",
+      "registryItemUrl": "https://www.kinetiqui.com/r/app-shell.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/app-shell",
+        "npm": "npx shadcn@latest add @kinetiq/app-shell",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/app-shell",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/app-shell",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/app-shell.json"
+      }
+    },
+    {
+      "slug": "command-center",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Command Center",
+      "serial": "KQ-1302",
+      "tagline": "Every action, one keystroke away.",
+      "description": "A command palette that lives inside its frame: Cmd+K or Ctrl+K, pressed anywhere in the frame, lands it from 8px above on snap over a fading scrim, and it leaves on the exit ease. Commands are a tree — choosing one with sub-commands slides its page in on glide (or raises it over its parent like a sheet) while a chip with the parent's name pops into the field on snap and the list's measured height glides to the new page's; Backspace slides back. Fuzzy matching lights the letters it found across the whole tree, a pill follows the highlight on snap, Recent leads an empty field and a preview pane follows the highlight from 640px; the field is a combobox where arrows move, Enter runs or opens and Escape clears, then goes back, then closes.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "command palette",
+        "command menu",
+        "search",
+        "fuzzy",
+        "shortcuts",
+        "launcher"
+      ],
+      "props": [
+        {
+          "name": "commands",
+          "type": "CommandItem[]",
+          "defaultValue": "defaultCommands",
+          "description": "The command tree: each command has a label, group, icon, keywords, shortcut, hint, preview, placeholder and tone, and may hold children that open as a page of their own."
+        },
+        {
+          "name": "open / defaultOpen",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "The palette is open. Controlled or uncontrolled; opening by default never takes focus."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "description": "Fires from the shortcut, trigger, Escape, scrim or run that opened or closed it."
+        },
+        {
+          "name": "recent / defaultRecent",
+          "type": "string[]",
+          "defaultValue": "defaultCommandRecent",
+          "description": "Ids of recently run commands, newest first. Controlled or uncontrolled."
+        },
+        {
+          "name": "onRecentChange",
+          "type": "(ids: string[]) => void",
+          "description": "Fires with the new list whenever a run changes it."
+        },
+        {
+          "name": "onRun",
+          "type": "(command: CommandItem, path: CommandItem[]) => void",
+          "description": "A command was run, with the pages it was reached through."
+        },
+        {
+          "name": "nesting",
+          "type": "\"slide\" | \"stack\" | \"flat\"",
+          "defaultValue": "\"slide\"",
+          "description": "How sub-commands open: a page sliding in from the side, a sheet rising over its receding parent, or no pages at all with every sub-command listed under its parent's heading."
+        },
+        {
+          "name": "preview",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "A pane beside the list previews the highlighted command — its facts, a sentence, or the choices it opens — where the frame is 640px or wider."
+        },
+        {
+          "name": "fuzzy",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Letters match in order anywhere, scored for word starts and runs, and light up. Off: the query must appear as typed."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "defaultValue": "\"Search or run a command…\"",
+          "description": "The field's placeholder on the first page; each sub-page uses its command's own placeholder."
+        },
+        {
+          "name": "shortcut",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Cmd+K or Ctrl+K, pressed while focus is anywhere in the frame, opens and closes the palette; the key press is consumed there."
+        },
+        {
+          "name": "trigger",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Show the search trigger along the top of the frame."
+        },
+        {
+          "name": "triggerLabel",
+          "type": "string",
+          "defaultValue": "\"Search or run a command\"",
+          "description": "The trigger's text."
+        },
+        {
+          "name": "maxRecent",
+          "type": "number",
+          "defaultValue": "5",
+          "description": "How many recent commands are kept."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Commands still arriving show skeleton rows and a spinner in the field; a failed fetch shows a line with Retry."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "The error state's Retry button."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Command menu\"",
+          "description": "The palette's accessible name."
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "defaultValue": "a Basinworks invoices screen",
+          "description": "The app behind the palette, inert while it is open."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "A tick pitched down the list as the highlight moves, a swish as pages and the palette open and close. Typing is silent."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the frame. It is 560px tall by default."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: Up and Down move (wrapping), Page Up and Page Down jump five, Enter runs or opens, Tab or ArrowRight at the end of the text opens a command's page, Backspace or ArrowLeft in an empty field goes back, and Escape clears, then goes back, then closes — every key handled with preventDefault where focus is.",
+        "Reduced motion: the palette, its pages and the preview cross-fade on opacity, the list's height and the pill jump, and the run flash and choice check still show.",
+        "Give every command a stable id: recents are ids, and with nothing typed Recent leads with each command's path shown, so a deep command runs in one keystroke.",
+        "Searching at the top level reaches the whole tree; a deep result shows its path with the matched letters lit in it and runs directly, without opening its pages.",
+        "keepOpen commands behave as a choice among their siblings: running one leaves the palette open and moves the check to it, which suits settings like a theme."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/command-center",
+      "registryItemUrl": "https://www.kinetiqui.com/r/command-center.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/command-center",
+        "npm": "npx shadcn@latest add @kinetiq/command-center",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/command-center",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/command-center",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/command-center.json"
+      }
+    },
+    {
+      "slug": "swim-board",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Swim Board",
+      "serial": "KQ-1303",
+      "tagline": "Pick it up, carry it over.",
+      "description": "A kanban board with swimlanes. A dragged card comes up into a carried copy 1:1 under the pointer, scaled on flick and leaning into its horizontal speed up to tilt degrees on a glide-tuned spring; the cell under it opens a gap of the card's exact height on glide while the cards below slide down, and on release it flies into the gap on snap with the release velocity and straightens as it lands. A move past a column's work-in-progress limit shakes its header on a five-beat tween and turns it warn (or is refused, the gap staying home), lanes group by priority or owner and fold on glide, and moving a card between lanes rewrites that field. Space picks a focused card up, arrows carry it a place or a column at a time, Enter drops and Escape puts it back, every step announced.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "kanban",
+        "board",
+        "drag and drop",
+        "swimlanes",
+        "wip limit",
+        "sprint",
+        "tasks"
+      ],
+      "props": [
+        {
+          "name": "cards / defaultCards",
+          "type": "SwimCard[]",
+          "defaultValue": "defaultSwimCards",
+          "description": "Every card in board order — a cell lists its cards in the order they appear here. Each has a title, column, priority, owner, and optional tag and points. Controlled or uncontrolled."
+        },
+        {
+          "name": "onCardsChange",
+          "type": "(cards: SwimCard[], move: SwimMove) => void",
+          "description": "Fires from the drop that moved a card, with every card and the move (from and to as column, lane and index, and whether it came from the pointer or the keyboard)."
+        },
+        {
+          "name": "columns",
+          "type": "SwimColumn[]",
+          "defaultValue": "defaultSwimColumns",
+          "description": "The columns left to right, each with an optional work-in-progress limit."
+        },
+        {
+          "name": "people",
+          "type": "SwimPerson[]",
+          "defaultValue": "defaultSwimPeople",
+          "description": "Everyone a card can belong to; owner lanes follow this order."
+        },
+        {
+          "name": "onMove",
+          "type": "(move: SwimMove) => void",
+          "description": "A card was dropped somewhere new."
+        },
+        {
+          "name": "onCardOpen",
+          "type": "(id: string) => void",
+          "description": "A card was tapped, clicked, or had Enter pressed on it while not picked up."
+        },
+        {
+          "name": "onLaneToggle",
+          "type": "(lane: string, collapsed: boolean) => void",
+          "description": "A lane was folded or unfolded, with its new state."
+        },
+        {
+          "name": "tilt",
+          "type": "number",
+          "defaultValue": "6",
+          "description": "How far a carried card leans into its travel, in degrees: its angle is the pointer's horizontal speed, clamped to this. 0 keeps it level."
+        },
+        {
+          "name": "limit",
+          "type": "\"warn\" | \"block\" | \"off\"",
+          "defaultValue": "\"warn\"",
+          "description": "Work-in-progress limits: a move past one shakes the header and turns it warn, is refused with the card going home, or limits are hidden."
+        },
+        {
+          "name": "lanes",
+          "type": "\"priority\" | \"owner\" | \"none\"",
+          "defaultValue": "\"priority\"",
+          "description": "What the rows group by. Moving a card between lanes rewrites that field on the card."
+        },
+        {
+          "name": "collapsedLanes / defaultCollapsedLanes",
+          "type": "string[]",
+          "defaultValue": "[]",
+          "description": "Folded lanes by id. Controlled (with onLaneToggle) or uncontrolled."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Sprint 14\"",
+          "description": "The board's heading."
+        },
+        {
+          "name": "subtitle",
+          "type": "string",
+          "defaultValue": "\"Fernworks Field app\"",
+          "description": "A quieter line beside the heading, from 480px."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Skeleton cards while loading; a message with Retry on error."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "The error state's Retry button."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "title",
+          "description": "The board's accessible name."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "A click as a card comes up or a lane folds, a thock pitched by column as it lands — duller when a drop is refused."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Cards can still be read and walked with the arrow keys, but not carried or opened."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the root. It is 560px tall by default; the lanes scroll inside it."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the board is one tab stop for cards (plus each lane's fold button). Arrows walk between cards, Space picks the focused card up, arrows then carry it a place at a time (crossing into the next lane past either end) or a column at a time, Enter or Space drops it and Escape puts it back; every pick-up, step, refusal and drop is announced.",
+        "Reduced motion: the carried card follows the pointer but never leans, the gap opens at once, landings and keyboard steps are instant and nothing shakes — the warn colour, Over limit, counts and announcements still show.",
+        "On touch screens a card is carried by its grip (the six dots at its corner), so a finger anywhere else on a card scrolls the board; on a phone the columns scroll sideways and the column chips above jump to one, and holding a card near an edge scrolls the board under it.",
+        "Controlled boards stay honest: the drop is reported with onCardsChange and the card flies to wherever the host's next cards put it — the new place if it accepted the move, home if it did not.",
+        "Moving a card between lanes rewrites the field the lanes group by (priority or owner) in the cards you get back."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/swim-board",
+      "registryItemUrl": "https://www.kinetiqui.com/r/swim-board.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/swim-board",
+        "npm": "npx shadcn@latest add @kinetiq/swim-board",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/swim-board",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/swim-board",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/swim-board.json"
+      }
+    },
+    {
+      "slug": "mail-inbox",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Mail Inbox",
+      "serial": "KQ-1304",
+      "tagline": "Triage with a flick.",
+      "description": "An inbox built for triage: a row's face follows the finger 1:1 and reveals its action from the edge it leaves, archive on a green pigment and snooze on an amber one, arming with a pop on snap at the commit line; a release past it (or a throw, by projection) runs the row out on glide with its release velocity before its height closes, and a short one springs home on snap. Selecting a thread slides a batch toolbar down over the header on snap with a rolling count, opening one fades its unread dot and glides its messages open under the row (or into a reading pane when the inbox is wide), and every archive leaves an Undo toast that lands on recoil. j and k move, x selects, Enter opens, e archives, b snoozes, s stars, u toggles unread, z undoes and Escape backs out.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "mail",
+        "inbox",
+        "swipe",
+        "archive",
+        "snooze",
+        "triage",
+        "email"
+      ],
+      "props": [
+        {
+          "name": "swipe",
+          "type": "\"full\" | \"reveal\" | \"off\"",
+          "defaultValue": "\"full\"",
+          "description": "How a swipe commits: past 42% of the row, resting open on its action (a long swipe still commits), or not at all, leaving the hover tools and keys."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"cozy\" | \"roomy\"",
+          "defaultValue": "\"cozy\"",
+          "description": "Row height and type size: single-line compact rows, cozy, or roomy with larger avatars."
+        },
+        {
+          "name": "preview",
+          "type": "number",
+          "defaultValue": "1",
+          "description": "Lines of message preview under the subject, 0 to 2."
+        },
+        {
+          "name": "threads / defaultThreads",
+          "type": "MailThread[]",
+          "defaultValue": "defaultMailThreads",
+          "description": "Every thread in every folder, each a subject and its messages oldest first. Controlled or uncontrolled."
+        },
+        {
+          "name": "onThreadsChange",
+          "type": "(threads: MailThread[]) => void",
+          "description": "Fires from the swipe, key or button that changed the threads, with all of them."
+        },
+        {
+          "name": "folder / defaultFolder",
+          "type": "\"inbox\" | \"snoozed\" | \"archive\"",
+          "defaultValue": "\"inbox\"",
+          "description": "The folder on screen. Controlled or uncontrolled."
+        },
+        {
+          "name": "onFolderChange",
+          "type": "(folder: MailFolder) => void",
+          "description": "Fires when a folder is chosen on the rail or the folder chips."
+        },
+        {
+          "name": "selected / defaultSelected",
+          "type": "string[]",
+          "defaultValue": "[]",
+          "description": "Selected thread ids. A selection brings in the batch toolbar."
+        },
+        {
+          "name": "onSelectedChange",
+          "type": "(ids: string[]) => void",
+          "description": "Fires from the checkbox, x, select-all or batch action that changed the selection."
+        },
+        {
+          "name": "open / defaultOpen",
+          "type": "string | null",
+          "defaultValue": "null",
+          "description": "The open thread: expanded under its row, or in the reading pane once the inbox is 68rem wide."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(id: string | null) => void",
+          "description": "Fires when a thread opens or closes."
+        },
+        {
+          "name": "swipeActions",
+          "type": "{ right: MailAction | null; left: MailAction | null }",
+          "defaultValue": "{ right: \"archive\", left: \"snooze\" }",
+          "description": "Which action each swipe direction runs; null leaves that direction rubber-banding. In the archive or snoozed folder the action that would send a thread where it is moves it back to the inbox."
+        },
+        {
+          "name": "now",
+          "type": "Date | number",
+          "defaultValue": "defaultMailNow",
+          "description": "The moment times are read against (09:12, Yesterday, Tue, 25 Sep). Never read from the clock during render."
+        },
+        {
+          "name": "zoneOffset",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Minutes east of UTC that times are shown in, so the server and the browser draw the same inbox."
+        },
+        {
+          "name": "snoozeUntil",
+          "type": "(now: number) => number",
+          "description": "When a snooze ends, from now. Defaults to the next day at 08:00."
+        },
+        {
+          "name": "account",
+          "type": "MailPerson",
+          "description": "Whose inbox it is: shown on the rail, and their messages read as \"me\"."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Mail\"",
+          "description": "The inbox's accessible name."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Loading draws placeholder rows; error offers Retry."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Retry was pressed on the error state."
+        },
+        {
+          "name": "onArchive",
+          "type": "(ids: string[]) => void",
+          "description": "Threads were sent to the archive, by swipe, key, hover tool or batch."
+        },
+        {
+          "name": "onSnooze",
+          "type": "(ids: string[], until: number) => void",
+          "description": "Threads were snoozed, and until when."
+        },
+        {
+          "name": "onRestore",
+          "type": "(ids: string[]) => void",
+          "description": "Threads were moved back to the inbox from the archive or a snooze."
+        },
+        {
+          "name": "onReadChange",
+          "type": "(ids: string[], unread: boolean) => void",
+          "description": "Threads were marked read by opening them, or toggled with u or the mail tool."
+        },
+        {
+          "name": "onStarChange",
+          "type": "(id: string, starred: boolean) => void",
+          "description": "A thread was starred or unstarred."
+        },
+        {
+          "name": "onReply",
+          "type": "(threadId: string) => void",
+          "description": "Reply was pressed on an open thread."
+        },
+        {
+          "name": "onCompose",
+          "type": "() => void",
+          "description": "Compose was pressed on the rail."
+        },
+        {
+          "name": "onUndo",
+          "type": "(ids: string[]) => void",
+          "description": "The last archive or snooze was undone from the toast or with z."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play a pop when a swipe arms, a pick or a star lands, and a swish as rows leave. Off unless asked for."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Makes the whole inbox inert."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the root; it is 560px tall by default and lays out by its own width."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the rows are one tab stop. j and k (or the arrows) move, Home and End jump, x selects, Enter or o opens, e archives, b snoozes, s stars, u toggles unread, z undoes, Ctrl or Cmd with A selects all, and Escape clears the selection, closes the open thread or a revealed row.",
+        "Reduced motion: the row still follows the finger, but it fades rather than flies when it commits and every settle is a short tween; the toolbar, toast and pane cross-fade, and read state, counts and selections still change.",
+        "Data: pass threads (with folder, unread, starred, labels, snoozedUntil) and keep them in your store through onThreadsChange; the specific callbacks (onArchive, onSnooze, onRestore, onReadChange) say what happened. A controlled host that keeps a thread where it was gets its row back.",
+        "Layout follows the inbox's own width: one column with folder chips under 40rem, a rail with folders and label filters from 40rem, and a reading pane from 68rem.",
+        "Times come from now and zoneOffset, never the machine's clock or locale, so the server and the browser render the same markup.",
+        "Touch: rows are touch-pan-y, so a vertical swipe still scrolls the list and a horizontal one throws the row."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/mail-inbox",
+      "registryItemUrl": "https://www.kinetiqui.com/r/mail-inbox.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/mail-inbox",
+        "npm": "npx shadcn@latest add @kinetiq/mail-inbox",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/mail-inbox",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/mail-inbox",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/mail-inbox.json"
+      }
+    },
+    {
+      "slug": "week-planner",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Week Planner",
+      "serial": "KQ-1305",
+      "tagline": "Draw an event where it belongs.",
+      "description": "A week drawn on its hours. Pressing empty time and dragging rubber-bands a block out of the pressed slot, its far edge 1:1 under the pointer with a snapped line and a live time label, ticking at every new slot; on release the edge springs onto the snapped time on snap with the pointer's velocity and the event thocks down with its title ready to type. Events drag across time and days and stretch from either edge the same way, landing on snap with the release velocity while a dashed placeholder shows the landing and overlapping events re-divide their columns on glide; a now line moves through today on drift. The grid is one tab stop with a slot cursor (arrows, Shift for a range, Enter to create), and each event moves with the arrows, stretches with Shift, renames with Enter and goes with Delete.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "calendar",
+        "week",
+        "schedule",
+        "events",
+        "drag",
+        "planner",
+        "time"
+      ],
+      "props": [
+        {
+          "name": "snap",
+          "type": "number",
+          "defaultValue": "15",
+          "description": "Minutes every drag, resize and cursor step snaps to; also the gutter's tick marks."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"cozy\" | \"roomy\"",
+          "defaultValue": "\"cozy\"",
+          "description": "Height of an hour (40, 52 or 68px), with type and padding to match. A change glides every event to its new place."
+        },
+        {
+          "name": "now",
+          "type": "Date | number",
+          "defaultValue": "defaultWeekPlannerNow",
+          "description": "The current moment, which draws the now line and shades time already gone: a Date or epoch ms, or a number from 0 to 24 read as that hour of today (13.5 is 13:30)."
+        },
+        {
+          "name": "events / defaultEvents",
+          "type": "WeekEvent[]",
+          "defaultValue": "defaultWeekEvents",
+          "description": "Events with epoch-ms start and end, a title, an optional calendar id and location. Controlled or uncontrolled."
+        },
+        {
+          "name": "onEventsChange",
+          "type": "(events: WeekEvent[]) => void",
+          "description": "Fires from the drag, key or field that changed the events, with all of them."
+        },
+        {
+          "name": "calendars",
+          "type": "WeekCalendar[]",
+          "defaultValue": "defaultWeekCalendars",
+          "description": "The calendars events belong to, each with a label and a tint (a CSS colour token)."
+        },
+        {
+          "name": "day / defaultDay",
+          "type": "Date | number",
+          "defaultValue": "today",
+          "description": "The focused day: its week is shown, and on a phone the day itself. Controlled or uncontrolled."
+        },
+        {
+          "name": "onDayChange",
+          "type": "(day: number) => void",
+          "description": "Fires with the new day's midnight (epoch ms) from the arrows, the day strip, the headers or the keys."
+        },
+        {
+          "name": "selected / defaultSelected",
+          "type": "string | null",
+          "defaultValue": "null",
+          "description": "The selected event, shown with a stronger tint and, from 68rem, in the details panel."
+        },
+        {
+          "name": "onSelectedChange",
+          "type": "(id: string | null) => void",
+          "description": "Fires when an event is picked, created or let go."
+        },
+        {
+          "name": "today",
+          "type": "Date | number",
+          "defaultValue": "the date of now",
+          "description": "The date marked as today; an hour-form now falls on it."
+        },
+        {
+          "name": "hours",
+          "type": "[number, number]",
+          "defaultValue": "[7, 21]",
+          "description": "The hours the grid draws. Events outside are clipped to them."
+        },
+        {
+          "name": "workHours",
+          "type": "[number, number]",
+          "defaultValue": "[9, 18]",
+          "description": "Working hours, drawn on the lighter ground; the keyboard cursor starts at their first hour when now is elsewhere."
+        },
+        {
+          "name": "weekStartsOn",
+          "type": "0 | 1",
+          "defaultValue": "1",
+          "description": "1 starts weeks on Monday, 0 on Sunday."
+        },
+        {
+          "name": "zoneOffset",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Minutes east of UTC that times are drawn in, never the machine's own zone, so the server and the browser draw the same week."
+        },
+        {
+          "name": "defaultDuration",
+          "type": "number",
+          "defaultValue": "30",
+          "description": "Minutes an event made with Enter or New lasts when no range is selected."
+        },
+        {
+          "name": "newTitle",
+          "type": "string",
+          "defaultValue": "\"New event\"",
+          "description": "A new event's title, selected in its field so typing replaces it."
+        },
+        {
+          "name": "defaultCalendar",
+          "type": "string",
+          "description": "The calendar new events join. Defaults to the first calendar."
+        },
+        {
+          "name": "onCreate",
+          "type": "(event: WeekEvent) => void",
+          "description": "An event was drawn, made with Enter, or added with New."
+        },
+        {
+          "name": "onUpdate",
+          "type": "(event: WeekEvent, previous: WeekEvent) => void",
+          "description": "An event moved, was resized, renamed or changed calendar."
+        },
+        {
+          "name": "onDelete",
+          "type": "(event: WeekEvent) => void",
+          "description": "An event was removed with Delete, its close button or the details panel."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Week\"",
+          "description": "The planner's accessible name."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Loading covers the hours with a note; error offers Retry."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Retry was pressed on the error state."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play a tick at every new slot a drag or key reaches and a thock when an event lands. Off unless asked for."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Makes the whole planner inert."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the root; it is 560px tall by default and lays out by its own width."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the grid is one tab stop with a slot cursor. Up and Down move it a snap step, Left and Right a day, Page Up and Page Down an hour, Home and End the first and last slot, t jumps to now; Shift with Up or Down selects a range and Enter (or n) creates an event over it. Events are tab stops: Up and Down move them, Shift changes their end, Left and Right move a day, Enter or F2 renames, Delete removes, Escape returns to the grid.",
+        "Reduced motion: drags still follow the pointer, but landings, column re-divisions, week changes and the now line move at once; the placeholder, the snapped label and every time readout still show.",
+        "Times are absolute (epoch ms) and drawn in zoneOffset, never the machine's zone, so server and browser agree. now can be an hour of today, which keeps a fixed demo readable.",
+        "Layout follows the planner's own width: one day with a day strip under 40rem, the whole week from 40rem (drags cross days), and a details panel with a title field, calendar radio group and duration stepper from 68rem.",
+        "Touch: the hours scroll with touch-pan-y; a finger rests 300ms before it draws a new event or lifts one, so a swipe still scrolls.",
+        "Overlapping events share their day side by side and widen into free columns; a controlled host that refuses a move gets the event back where it was."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/week-planner",
+      "registryItemUrl": "https://www.kinetiqui.com/r/week-planner.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/week-planner",
+        "npm": "npx shadcn@latest add @kinetiq/week-planner",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/week-planner",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/week-planner",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/week-planner.json"
+      }
+    },
+    {
+      "slug": "file-browser",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "File Browser",
+      "serial": "KQ-1306",
+      "tagline": "Lasso, drag, drop into folders.",
+      "description": "A file manager you work with your hands: grid and list are the same items laid out twice, so the toggle morphs every tile into its row through motion's layout on the spring you choose, and folders slide in from the side you travel on that spring. Press empty space and drag to lasso (items join as the rectangle touches them, or only once inside); drag a selection and it lifts into a stack that follows the pointer, a folder's lid opens as the hover charges until it springs open with you still carrying, a drop on a folder shrinks the stack into it while it bumps on recoil, and a drop into the open folder lands the files on their measured places. Uploads run as rows whose progress glides and each turns into its tile when it resolves; the items are a multi-select listbox where arrows move, Shift extends, Enter opens, Backspace goes up, Ctrl or Cmd with X and V cut and paste, and Delete removes with Undo.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "files",
+        "file manager",
+        "drag and drop",
+        "lasso",
+        "upload",
+        "folders",
+        "grid"
+      ],
+      "props": [
+        {
+          "name": "view / defaultView",
+          "type": "\"grid\" | \"list\"",
+          "defaultValue": "\"grid\"",
+          "description": "The layout. Changing view morphs every item into the other layout; the toggle also switches it and reports through onViewChange."
+        },
+        {
+          "name": "onViewChange",
+          "type": "(view: FileBrowserView) => void",
+          "description": "Fires from the grid and list toggle with the new layout."
+        },
+        {
+          "name": "lasso",
+          "type": "\"touch\" | \"contain\" | \"off\"",
+          "defaultValue": "\"touch\"",
+          "description": "How the lasso picks: items it touches, only items wholly inside it, or no lasso (empty space just clears)."
+        },
+        {
+          "name": "spring",
+          "type": "\"snap\" | \"glide\" | \"recoil\"",
+          "defaultValue": "\"glide\"",
+          "description": "The spring under the grid and list morph, the folder slide and every landing: crisp, settled or bouncy."
+        },
+        {
+          "name": "files / defaultFiles",
+          "type": "FileItem[]",
+          "defaultValue": "defaultFiles",
+          "description": "Every item in every folder as one flat list linked by parentId. Controlled or uncontrolled."
+        },
+        {
+          "name": "onFilesChange",
+          "type": "(files: FileItem[]) => void",
+          "description": "Fires from the drop, paste, move, upload or delete that changed the items, with all of them."
+        },
+        {
+          "name": "folder / defaultFolder",
+          "type": "string",
+          "defaultValue": "rootId",
+          "description": "The open folder's id. Controlled or uncontrolled."
+        },
+        {
+          "name": "onFolderChange",
+          "type": "(folder: string) => void",
+          "description": "Fires from a crumb, the tree, Enter, Backspace or a folder springing open under a drag."
+        },
+        {
+          "name": "selected / defaultSelected",
+          "type": "string[]",
+          "defaultValue": "[]",
+          "description": "Selected item ids. A selection brings in the selection bar with Move to and Delete."
+        },
+        {
+          "name": "onSelectedChange",
+          "type": "(ids: string[]) => void",
+          "description": "Fires from the press, lasso or key that changed the selection."
+        },
+        {
+          "name": "rootId",
+          "type": "string",
+          "defaultValue": "\"root\"",
+          "description": "The id top-level items carry as parentId."
+        },
+        {
+          "name": "rootLabel",
+          "type": "string",
+          "defaultValue": "\"Files\"",
+          "description": "The top level's name in the breadcrumb and the tree."
+        },
+        {
+          "name": "openDelay",
+          "type": "number",
+          "defaultValue": "700",
+          "description": "How long, in ms, a dragged stack hovers a folder (a tile, a crumb or a tree row) before it springs open."
+        },
+        {
+          "name": "upload",
+          "type": "(file: File, progress: (fraction: number) => void, signal: AbortSignal) => Promise<Partial<FileItem> | void>",
+          "description": "Stores an uploaded file, reporting progress and honouring the signal; resolves with anything the stored item should carry. Without it a seeded local simulation runs, for demos."
+        },
+        {
+          "name": "accept",
+          "type": "string",
+          "description": "File types uploads take, as an input's accept (\".pdf,image/*\"). Others are listed with the reason."
+        },
+        {
+          "name": "maxSize",
+          "type": "number",
+          "defaultValue": "26214400",
+          "description": "The largest file an upload takes, in bytes (25 MB)."
+        },
+        {
+          "name": "quota",
+          "type": "number",
+          "defaultValue": "16106127360",
+          "description": "Storage shown on the meter under the tree, in bytes (15 GB)."
+        },
+        {
+          "name": "now",
+          "type": "Date | number",
+          "defaultValue": "defaultFilesNow",
+          "description": "The moment modified dates are read against (Today, 09:12; 28 Sep). Never read from the clock during render."
+        },
+        {
+          "name": "zoneOffset",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Minutes east of UTC that dates are shown in, so the server and the browser agree."
+        },
+        {
+          "name": "onOpen",
+          "type": "(item: FileItem) => void",
+          "description": "A file was opened by double-click, Enter or Open in the details panel."
+        },
+        {
+          "name": "onMove",
+          "type": "(ids: string[], folderId: string) => void",
+          "description": "Items moved into a folder by drop, paste or Move to (and back, by Undo)."
+        },
+        {
+          "name": "onDelete",
+          "type": "(ids: string[]) => void",
+          "description": "Items were removed, with everything inside a removed folder."
+        },
+        {
+          "name": "onUploadComplete",
+          "type": "(item: FileItem) => void",
+          "description": "An upload resolved and landed as an item."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Files\"",
+          "description": "The browser's accessible name."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Loading draws placeholder tiles; error offers Retry."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Retry was pressed on the error state."
+        },
+        {
+          "name": "ref",
+          "type": "React.Ref<FileBrowserHandle>",
+          "description": "A handle whose upload(files) uploads into the open folder, as a drop or the picker would."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play a pop when a press selects, items join a lasso or a drop lands, and a swish on the view toggle, navigation and a folder springing open. Off unless asked for."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Makes the whole browser inert."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the root; it is 560px tall by default and lays out by its own width."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the items are one tab stop in a multi-select listbox. Arrows move (two-dimensional in the grid), Shift extends, Ctrl or Cmd with an arrow moves without selecting, Space toggles, Ctrl or Cmd with A selects all, Enter opens, Backspace or Alt with Up goes up, Ctrl or Cmd with X then V cuts and pastes into the open folder, Delete removes, Escape clears. The tree, the layout toggle and the Move to menu each have their own arrow keys.",
+        "Reduced motion: the layout swaps at once, folders cross-fade instead of sliding, and every flight (the stack home, into a folder, onto the grid) is a short fade; the lasso and the stack still follow the pointer and progress still fills.",
+        "Uploads: pass upload to store files; report progress from 0 to 1 and honour the AbortSignal (Cancel aborts it). Resolve with the stored item's fields; its row turns into its tile when it lands. accept and maxSize refuse files with a reason, and a rejected promise offers Retry.",
+        "Layout follows the browser's own width: one column with a Back button under 40rem, a folder tree with the storage meter and full breadcrumbs from 40rem, and a details panel from 68rem.",
+        "Touch: the items scroll with touch-pan-y; a finger rests 350ms before it lassoes or lifts files, so a swipe still scrolls.",
+        "Every move and delete leaves a toast with Undo; a folder can never be moved into itself or anything inside it."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/file-browser",
+      "registryItemUrl": "https://www.kinetiqui.com/r/file-browser.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/file-browser",
+        "npm": "npx shadcn@latest add @kinetiq/file-browser",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/file-browser",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/file-browser",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/file-browser.json"
+      }
+    },
+    {
+      "slug": "review-thread",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Review Thread",
+      "serial": "KQ-1307",
+      "tagline": "Comments that know where they belong.",
+      "description": "A draft under review with its discussions pinned in the margin at the height of the passages they are about: one layout pass places every card, the open one exactly on its passage, and when a card grows the cards beneath it glide out of its way. Hovering or focusing a passage or a card brightens the highlight and draws a leader along the passage's underline into the card, rebuilt each frame from the card's own position; replies land on snap, @-mentions complete from a list, and resolving folds the thread back into a one-line check with a dog-eared corner on glide while the check draws on flick. Up and Down walk the threads in reading order, Enter opens one, Escape closes the mention list and then the thread.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "comments",
+        "review",
+        "annotations",
+        "mentions",
+        "resolve",
+        "document",
+        "collaboration"
+      ],
+      "props": [
+        {
+          "name": "document",
+          "type": "ReviewDocument",
+          "defaultValue": "defaultReviewDocument",
+          "description": "The draft under review: a title, a meta line and its heading and paragraph blocks."
+        },
+        {
+          "name": "threads / defaultThreads",
+          "type": "ReviewThreadData[]",
+          "defaultValue": "defaultReviewThreads",
+          "description": "The discussions, each anchored to a quote inside one block, with its comments and resolved state. Controlled or uncontrolled."
+        },
+        {
+          "name": "onThreadsChange",
+          "type": "(threads: ReviewThreadData[]) => void",
+          "description": "Fires from the reply or the resolve that changed the list, with the whole new list."
+        },
+        {
+          "name": "people",
+          "type": "ReviewPerson[]",
+          "defaultValue": "defaultReviewPeople",
+          "description": "Everyone who can write here: comment authors and the @-mention list."
+        },
+        {
+          "name": "me",
+          "type": "string",
+          "defaultValue": "\"mira\"",
+          "description": "The id of the person replying and resolving."
+        },
+        {
+          "name": "now",
+          "type": "Date | number",
+          "defaultValue": "defaultReviewNow",
+          "description": "The moment every comment is dated against; the component never reads the clock."
+        },
+        {
+          "name": "active / defaultActive",
+          "type": "string | null",
+          "defaultValue": "null",
+          "description": "The open thread, or null. Controlled or uncontrolled."
+        },
+        {
+          "name": "onActiveChange",
+          "type": "(id: string | null) => void",
+          "description": "Fires when a press, a key or a resolve opens or closes a thread."
+        },
+        {
+          "name": "onReply",
+          "type": "(threadId: string, comment: ReviewComment) => void",
+          "description": "A reply was sent, with the comment as stored."
+        },
+        {
+          "name": "onResolve",
+          "type": "(threadId: string, resolved: boolean) => void",
+          "description": "A thread was resolved (true) or reopened (false)."
+        },
+        {
+          "name": "onMention",
+          "type": "(personId: string, threadId: string) => void",
+          "description": "A sent reply mentioned someone."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "The Retry button of the error state."
+        },
+        {
+          "name": "leaders",
+          "type": "\"curve\" | \"elbow\" | \"off\"",
+          "defaultValue": "\"curve\"",
+          "description": "The line that joins a lit passage to its card: a curve, two rounded right angles, or none (the highlight still brightens)."
+        },
+        {
+          "name": "resolve",
+          "type": "\"fold\" | \"tuck\" | \"off\"",
+          "defaultValue": "\"fold\"",
+          "description": "What resolving does: fold the thread to a one-line check in place, fold it and tuck it out of the rail behind a Resolved toggle, or no resolving at all."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"cozy\" | \"roomy\"",
+          "defaultValue": "\"cozy\"",
+          "description": "Type size, card padding, avatar size and how many lines of a closed thread show."
+        },
+        {
+          "name": "highlight",
+          "type": "string",
+          "defaultValue": "\"var(--warn)\"",
+          "description": "The passages' highlight and leader colour, any CSS colour."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Loading draws the surface's skeleton; error offers Retry."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "defaultValue": "\"Reply, or @ to mention\"",
+          "description": "The reply composer's placeholder."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "The region's accessible name. Defaults to “Review of” and the title."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play a tick on opening and moving between threads and a pop on replying and resolving. Off unless asked for."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Reads but does not reply, resolve or open."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the root. The root is h-[560px] by default; pass a height to change it."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the thread cards are one roving tab stop. Up and Down walk them in reading order, Home and End jump, Enter or Space opens one, Escape closes it; inside an open thread Tab reaches Resolve and the reply box, where Enter sends and Shift+Enter breaks a line. Typing @ opens the mention list: Up and Down move, Enter or Tab inserts, Escape closes it without closing the thread.",
+        "Reduced motion: cards jump to their places, the fold and the leader fade instead of moving or drawing, and scrolling to a passage is instant. Highlights, counts, the resolved check and the replies still appear.",
+        "Layout follows the component's own width: under 600px the threads sit under their paragraphs with a notch pointing at the passage; from 600px they move into a margin rail; from 1040px a thread index joins on the left and a press there glides the draft to the passage.",
+        "Anchors are quotes, not offsets: a thread points at the first occurrence of its quote inside its block, so an edit elsewhere in the draft never moves it. A quote that is no longer in the text keeps its thread, placed after the anchored ones.",
+        "Every time is relative to `now`. Pass the current time from your app (a minute tick is plenty) and the “4 min ago” labels move with it; nothing reads the clock in render, so server and client match."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/review-thread",
+      "registryItemUrl": "https://www.kinetiqui.com/r/review-thread.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/review-thread",
+        "npm": "npx shadcn@latest add @kinetiq/review-thread",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/review-thread",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/review-thread",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/review-thread.json"
+      }
+    },
+    {
+      "slug": "notice-center",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Notice Center",
+      "serial": "KQ-1308",
+      "tagline": "Everything that happened, sorted out.",
+      "description": "A notification center whose groups stack into a deck: pressing one deals it out, each hidden row starting where its layer was and gliding down to its place on glide in a cascade while the group's measured height glides open, and Show less gathers them back on the exit ease. A row or a whole stack follows a sideways swipe 1:1, is thrown off on the exit ease when its projected rest passes 40% of its width (or snaps back on snap with the release velocity), and the rows under it close the gap on glide. Mark all read sends a band down the list that clears each unread row as it passes — the dot shrinks on flick — the tab pill slides on snap and times roll as `now` moves; arrows walk the rows, Enter opens, Right deals and Left gathers a stack, Delete dismisses.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "notifications",
+        "inbox",
+        "swipe to dismiss",
+        "mark all read",
+        "stack",
+        "activity",
+        "bell"
+      ],
+      "props": [
+        {
+          "name": "notices / defaultNotices",
+          "type": "Notice[]",
+          "defaultValue": "defaultNotices",
+          "description": "Every notice: its source, title, body, time, read state and whether it mentions you. Controlled or uncontrolled."
+        },
+        {
+          "name": "onNoticesChange",
+          "type": "(notices: Notice[]) => void",
+          "description": "Fires from the dismiss, open or sweep that changed the list, with the whole new list."
+        },
+        {
+          "name": "sources",
+          "type": "NoticeSource[]",
+          "defaultValue": "defaultNoticeSources",
+          "description": "Where notices come from: a name, an icon and a colour for each."
+        },
+        {
+          "name": "now",
+          "type": "Date | number",
+          "defaultValue": "defaultNoticeNow",
+          "description": "The moment every notice is dated against. Move it and the times roll over; days are UTC days."
+        },
+        {
+          "name": "filter / defaultFilter",
+          "type": "\"all\" | \"unread\" | \"mentions\"",
+          "defaultValue": "\"all\"",
+          "description": "The selected tab. Controlled or uncontrolled."
+        },
+        {
+          "name": "onFilterChange",
+          "type": "(filter: NoticeFilter) => void",
+          "description": "Fires when a tab is chosen by press or arrow key."
+        },
+        {
+          "name": "selected / defaultSelected",
+          "type": "string | null",
+          "defaultValue": "null",
+          "description": "The open notice, shown in the detail pane from 600px wide. Controlled or uncontrolled."
+        },
+        {
+          "name": "onSelectedChange",
+          "type": "(id: string | null) => void",
+          "description": "Fires when opening or dismissing changes the open notice."
+        },
+        {
+          "name": "onOpen",
+          "type": "(id: string) => void",
+          "description": "A notice was opened by press or Enter. It is marked read first."
+        },
+        {
+          "name": "onDismiss",
+          "type": "(ids: string[]) => void",
+          "description": "Notices were dismissed by swipe, key or button: one, or a whole collapsed group."
+        },
+        {
+          "name": "onMarkAllRead",
+          "type": "(ids: string[]) => void",
+          "description": "Mark all read cleared these notices."
+        },
+        {
+          "name": "onReadChange",
+          "type": "(id: string, read: boolean) => void",
+          "description": "One notice was marked read or unread."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "The Retry button of the error state."
+        },
+        {
+          "name": "stack",
+          "type": "\"deck\" | \"fan\" | \"flat\"",
+          "defaultValue": "\"deck\"",
+          "description": "How a collapsed group shows what is under its newest notice: layers peeking below, the same layers fanned, or a flat “+3”."
+        },
+        {
+          "name": "sweep",
+          "type": "number",
+          "defaultValue": "480",
+          "description": "How long Mark all read's band takes to cross the list, in ms."
+        },
+        {
+          "name": "group",
+          "type": "\"source\" | \"day\" | \"off\"",
+          "defaultValue": "\"source\"",
+          "description": "Group by source into collapsible stacks, by day under sticky Today, Yesterday and Earlier headings, or not at all."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Notifications\"",
+          "description": "The panel's heading and accessible name."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Loading draws placeholder rows; error offers Retry."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "The region's accessible name, when it should differ from the title."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play a swish on dismiss and Mark all read and a pop on dealing, gathering and read changes. Off unless asked for."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Shows the notices but takes no presses, swipes or keys."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the root. The root is h-[560px] by default; pass a height to change it."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the rows are one roving tab stop. Up and Down move, Home and End jump, Enter or Space opens a notice (or deals a stack), Right deals a stack and Left gathers it, Delete or Backspace dismisses with focus moving to the next row, and U toggles read. The tabs are a tablist: Left and Right switch them.",
+        "Reduced motion: nothing travels. A stack's rows fade in place and its height changes at once, a dismissed row fades and its space closes, the band is skipped and every read state cross-fades together. Counts, dots and the read state still change.",
+        "Layout follows the component's own width: under 600px a single column; from 600px a detail pane opens beside the list; from 1040px a Sources rail joins on the left and narrows the list to one source.",
+        "Times are relative to `now` and days are UTC days, so server and client render the same labels. Advance `now` from your app (a minute tick is plenty) and the times roll over in place.",
+        "A swipe commits only past 40% of the row's width, measured on where the throw would come to rest, so a lazy drag snaps back and a quick flick goes. Dismissing a collapsed stack dismisses the whole group."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/notice-center",
+      "registryItemUrl": "https://www.kinetiqui.com/r/notice-center.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/notice-center",
+        "npm": "npx shadcn@latest add @kinetiq/notice-center",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/notice-center",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/notice-center",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/notice-center.json"
+      }
+    },
+    {
+      "slug": "block-editor",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Block Editor",
+      "serial": "KQ-1309",
+      "tagline": "Write in blocks; move them freely.",
+      "description": "A document of text, heading, to-do and quote blocks, each a plain auto-growing textarea underneath, whose inline marks are plain text that renders formatted while the block rests. A block's grip drags it 1:1 with a lift on flick and a rubber band past the ends while its neighbours glide out of its way, and on release every block FLIPs on glide from where it was drawn to where the new order puts it, the dropped one carrying its release velocity; Alt+Up and Alt+Down make the same move with focus and caret kept. `/` opens a block menu at the caret on snap, a selection raises a formatting bubble over itself on snap, and Enter splits, Backspace joins and Up and Down cross between blocks at their first and last lines.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "editor",
+        "blocks",
+        "slash menu",
+        "drag to reorder",
+        "formatting",
+        "notes",
+        "markdown"
+      ],
+      "props": [
+        {
+          "name": "blocks / defaultBlocks",
+          "type": "EditorBlock[]",
+          "defaultValue": "defaultEditorBlocks",
+          "description": "The document: each block's id, type (paragraph, heading, subheading, todo, quote), text and, for a to-do, its tick. Controlled or uncontrolled."
+        },
+        {
+          "name": "onBlocksChange",
+          "type": "(blocks: EditorBlock[]) => void",
+          "description": "Fires from the keystroke, drag, menu pick or tick that changed the document, with every block."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Field notes · North basin survey\"",
+          "description": "The document's name: the surface's heading and accessible name."
+        },
+        {
+          "name": "meta",
+          "type": "string",
+          "defaultValue": "\"Fieldline · shared with the survey team\"",
+          "description": "One quiet line under the title."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "defaultValue": "\"Type “/” for blocks\"",
+          "description": "What an empty block says while you are in it."
+        },
+        {
+          "name": "handles",
+          "type": "\"hover\" | \"always\" | \"off\"",
+          "defaultValue": "\"hover\"",
+          "description": "The gutter's grip and + button: on hover and focus (faintly always on a phone), always, or none. Alt+Up and Alt+Down move blocks either way."
+        },
+        {
+          "name": "slash",
+          "type": "\"list\" | \"grid\" | \"off\"",
+          "defaultValue": "\"list\"",
+          "description": "The block menu that `/` and + open: rows with hints, a grid of tiles, or none (`/` is just a character; the markdown openings # , ## , [] and > still work)."
+        },
+        {
+          "name": "bubble",
+          "type": "\"full\" | \"compact\" | \"off\"",
+          "defaultValue": "\"full\"",
+          "description": "The toolbar over a selection: bold, italic, code, strike and link; the first three; or none (the shortcuts still work)."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Loading draws placeholder lines; error offers Retry."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "The Retry button of the error state."
+        },
+        {
+          "name": "onFocusChange",
+          "type": "(blockId: string | null) => void",
+          "description": "Fires with the block being written in, or null when focus leaves the document."
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Reads without writing, moving or ticking; the gutter is hidden."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "The region's accessible name, when it should differ from the title."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play a tick on menu moves, drag slot changes and Alt-moves, and a click on drops, picks, ticks and formats. Off unless asked for."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Shows the document dimmed and takes no input."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the root. The root is h-[560px] by default; pass a height to change it."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: Enter splits a block at the caret (an empty to-do turns back into text), Backspace at the start turns a styled block into text or joins it to the one above, Delete at the end joins the next, Up and Down at the first or last line move between blocks, Mod+Enter ticks a to-do, and Alt+Up or Alt+Down moves the block. Mod+B, I, E, K and Shift+X format a selection; Alt+F10 moves focus into the bubble, where Left and Right walk it and Escape returns to the text.",
+        "Reduced motion: no lift and no travel. A dropped or Alt-moved block swaps into place at once, menus and the bubble fade without rising, new blocks appear without fading and the tick appears without drawing. The order, the marks and the tick still change, and every move is announced.",
+        "Marks are stored as plain text (`**bold**`, `_italic_`, `` `code` ``, `~~strike~~`, `[text](url)`), so the blocks round-trip through any text field or database column; a block shows them raw while you write in it and formatted while it rests, and a click lands the caret on the character you pressed.",
+        "Layout follows the component's own width: under 600px the gutter holds only the grip and the slash grid has two columns; from 600px the + button joins it; from 1040px an Outline of the headings sits on the left and a press glides the page to one."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/block-editor",
+      "registryItemUrl": "https://www.kinetiqui.com/r/block-editor.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/block-editor",
+        "npm": "npx shadcn@latest add @kinetiq/block-editor",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/block-editor",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/block-editor",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/block-editor.json"
+      }
+    },
+    {
+      "slug": "member-roster",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Member Roster",
+      "serial": "KQ-1310",
+      "tagline": "Who is here, and what they can do.",
+      "description": "The people in a workspace and what each can do. A role changes only after a confirm unfolds under the row to its measured height on glide and is accepted — in menu mode a chip whose label then rolls to the new role on snap, in segmented mode a thumb that slides on snap and waits dashed until the confirm — and the last owner can never be demoted or removed. Invites are typed or pasted as email chips that land one after another from 0.6 scale on snap, pending invites resend behind a cooldown bar that drains linearly, and removing someone folds the row away, tipping back about its top edge while its height runs to zero and the rows below close the gap. Menus and radio groups take the arrow keys, confirms take focus when they arrive and give it back on Escape.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "members",
+        "team",
+        "roles",
+        "permissions",
+        "invite",
+        "settings",
+        "table"
+      ],
+      "props": [
+        {
+          "name": "members / defaultMembers",
+          "type": "RosterMember[]",
+          "defaultValue": "defaultRosterMembers",
+          "description": "Everyone in the workspace: name, email, role, last active and whether it is you. Controlled or uncontrolled."
+        },
+        {
+          "name": "onMembersChange",
+          "type": "(members: RosterMember[]) => void",
+          "description": "Fires from the confirm that changed a role or removed someone, with every member."
+        },
+        {
+          "name": "invites / defaultInvites",
+          "type": "RosterInvite[]",
+          "defaultValue": "defaultRosterInvites",
+          "description": "Invites still waiting: email, role and when they were sent. Controlled or uncontrolled."
+        },
+        {
+          "name": "onInvitesChange",
+          "type": "(invites: RosterInvite[]) => void",
+          "description": "Fires when invites are sent or revoked, with every pending invite."
+        },
+        {
+          "name": "roleSet",
+          "type": "RosterRole[]",
+          "defaultValue": "defaultRosterRoles",
+          "description": "The roles a member can hold, most powerful first, each with a sentence of what it can do. A role with id \"owner\" is never left empty."
+        },
+        {
+          "name": "now",
+          "type": "Date | number",
+          "defaultValue": "defaultRosterNow",
+          "description": "The moment “last active” and “sent” are dated against; the component never reads the clock in render."
+        },
+        {
+          "name": "seats",
+          "type": "number",
+          "defaultValue": "10",
+          "description": "How many seats the plan has. Members and pending invites both take one; inviting past it is refused."
+        },
+        {
+          "name": "cooldown",
+          "type": "number",
+          "defaultValue": "30",
+          "description": "Seconds before an invite can be sent again."
+        },
+        {
+          "name": "workspace",
+          "type": "string",
+          "defaultValue": "\"Basinworks\"",
+          "description": "The workspace's name, for the heading and the confirms."
+        },
+        {
+          "name": "onRoleChange",
+          "type": "(memberId: string, role: string, previous: string) => void",
+          "description": "A role change was confirmed."
+        },
+        {
+          "name": "onRemove",
+          "type": "(memberId: string) => void",
+          "description": "A removal was confirmed."
+        },
+        {
+          "name": "onInvite",
+          "type": "(emails: string[], role: string) => void",
+          "description": "Invites were sent, all with one role."
+        },
+        {
+          "name": "onResend",
+          "type": "(inviteId: string) => void",
+          "description": "An invite was sent again; its cooldown starts."
+        },
+        {
+          "name": "onRevoke",
+          "type": "(inviteId: string) => void",
+          "description": "An invite was withdrawn."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"cozy\" | \"roomy\"",
+          "defaultValue": "\"cozy\"",
+          "description": "Row height, avatar size and type size."
+        },
+        {
+          "name": "invite",
+          "type": "\"inline\" | \"drawer\" | \"off\"",
+          "defaultValue": "\"inline\"",
+          "description": "The invite field: always shown, behind an Invite button that glides it open, or not offered."
+        },
+        {
+          "name": "roles",
+          "type": "\"menu\" | \"segmented\"",
+          "defaultValue": "\"menu\"",
+          "description": "How a role is changed: a menu of roles with what each can do, or a segmented control in the row (a menu on a phone). Both confirm first."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Loading draws placeholder rows; error offers Retry."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "The Retry button of the error state."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "The region's accessible name. Defaults to “Members of” and the workspace."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play a click on chips, role menus, resends, revokes and removals and a pop on confirmed roles and sent invites. Off unless asked for."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Shows the roster dimmed and changes nothing."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the root. The root is h-[560px] by default; pass a height to change it."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: a role menu opens with Enter or Space and takes Up, Down, Home, End and Enter; the segmented control is a radio group the arrow keys walk. Choosing a different role unfolds a confirm whose button takes focus (arrow keys leave focus in the group while you choose); Escape cancels and returns focus to the role. In the invite field Enter, comma, semicolon or space turn text into chips, Left walks back through them, Backspace or Delete removes one, and Enter on an empty field sends.",
+        "Reduced motion: confirms, chips and rows appear and leave by fading, heights change at once and the thumb jumps. Roles, counts, chips and the cooldown still change, and the cooldown bar still drains because the time left is information.",
+        "Nothing changes on a single press: roles and removals wait for a confirm, and the last owner is locked with a title that says why. Fire your API call from onRoleChange or onRemove; in controlled mode, refusing the change simply leaves the row as it was.",
+        "Layout follows the component's own width: under 600px Members and Pending are tabs and each member is a two-line row; from 600px the members are a table with Pending under it; from 1040px the invite field and Pending move into a column on the right."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/member-roster",
+      "registryItemUrl": "https://www.kinetiqui.com/r/member-roster.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/member-roster",
+        "npm": "npx shadcn@latest add @kinetiq/member-roster",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/member-roster",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/member-roster",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/member-roster.json"
       }
     },
     {

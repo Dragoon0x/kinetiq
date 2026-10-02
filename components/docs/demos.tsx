@@ -1350,6 +1350,16 @@ import { RefreshWindDemo } from "@/registry/demos/refresh-wind.demo";
 import { GateButtonDemo } from "@/registry/demos/gate-button.demo";
 import { RewindUndoDemo } from "@/registry/demos/rewind-undo.demo";
 import { PlugInDemo } from "@/registry/demos/plug-in.demo";
+import { AppShellDemo } from "@/registry/demos/app-shell.demo";
+import { CommandCenterDemo } from "@/registry/demos/command-center.demo";
+import { SwimBoardDemo } from "@/registry/demos/swim-board.demo";
+import { MailInboxDemo } from "@/registry/demos/mail-inbox.demo";
+import { WeekPlannerDemo } from "@/registry/demos/week-planner.demo";
+import { FileBrowserDemo } from "@/registry/demos/file-browser.demo";
+import { ReviewThreadDemo } from "@/registry/demos/review-thread.demo";
+import { NoticeCenterDemo } from "@/registry/demos/notice-center.demo";
+import { BlockEditorDemo } from "@/registry/demos/block-editor.demo";
+import { MemberRosterDemo } from "@/registry/demos/member-roster.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2714,4 +2724,14 @@ export const demos: Record<string, ComponentType> = {
   "gate-button": GateButtonDemo,
   "rewind-undo": RewindUndoDemo,
   "plug-in": PlugInDemo,
+  "app-shell": AppShellDemo,
+  "command-center": CommandCenterDemo,
+  "swim-board": SwimBoardDemo,
+  "mail-inbox": MailInboxDemo,
+  "week-planner": WeekPlannerDemo,
+  "file-browser": FileBrowserDemo,
+  "review-thread": ReviewThreadDemo,
+  "notice-center": NoticeCenterDemo,
+  "block-editor": BlockEditorDemo,
+  "member-roster": MemberRosterDemo,
 };

@@ -127,4 +127,44 @@ export const STUDIO_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/plug-in.demo").then((m) =>
       mod(m.PlugInDemo, m.tweaks),
     ),
+  "app-shell": () =>
+    import("@/registry/demos/app-shell.demo").then((m) =>
+      mod(m.AppShellDemo, m.tweaks),
+    ),
+  "command-center": () =>
+    import("@/registry/demos/command-center.demo").then((m) =>
+      mod(m.CommandCenterDemo, m.tweaks),
+    ),
+  "swim-board": () =>
+    import("@/registry/demos/swim-board.demo").then((m) =>
+      mod(m.SwimBoardDemo, m.tweaks),
+    ),
+  "mail-inbox": () =>
+    import("@/registry/demos/mail-inbox.demo").then((m) =>
+      mod(m.MailInboxDemo, m.tweaks),
+    ),
+  "week-planner": () =>
+    import("@/registry/demos/week-planner.demo").then((m) =>
+      mod(m.WeekPlannerDemo, m.tweaks),
+    ),
+  "file-browser": () =>
+    import("@/registry/demos/file-browser.demo").then((m) =>
+      mod(m.FileBrowserDemo, m.tweaks),
+    ),
+  "review-thread": () =>
+    import("@/registry/demos/review-thread.demo").then((m) =>
+      mod(m.ReviewThreadDemo, m.tweaks),
+    ),
+  "notice-center": () =>
+    import("@/registry/demos/notice-center.demo").then((m) =>
+      mod(m.NoticeCenterDemo, m.tweaks),
+    ),
+  "block-editor": () =>
+    import("@/registry/demos/block-editor.demo").then((m) =>
+      mod(m.BlockEditorDemo, m.tweaks),
+    ),
+  "member-roster": () =>
+    import("@/registry/demos/member-roster.demo").then((m) =>
+      mod(m.MemberRosterDemo, m.tweaks),
+    ),
 };

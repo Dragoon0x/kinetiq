@@ -32267,6 +32267,303 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "app-shell",
+      "type": "registry:ui",
+      "title": "App Shell",
+      "description": "The frame a product's screens live in: a sidebar whose width is one motion value on glide, so its labels tuck away row by row and leave a 56px icon rail with tooltips, its edge dragged 1:1 and committed by projection with the release velocity; below 640px it becomes a drawer that slides over a scrim on glide and can be pushed back out. A pill under the current row travels on snap, pages change by slide, fade or zoom with the last crumb cross-fading in the same beat, and search is a combobox over the pages. Arrow keys walk the sidebar, [ or Cmd/Ctrl+B folds it, 1–9 change page and / goes to search.",
+      "files": [
+        {
+          "path": "registry/ui/app-shell.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1301"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "command-center",
+      "type": "registry:ui",
+      "title": "Command Center",
+      "description": "A command palette that lives inside its frame: Cmd+K or Ctrl+K, pressed anywhere in the frame, lands it from 8px above on snap over a fading scrim, and it leaves on the exit ease. Commands are a tree — choosing one with sub-commands slides its page in on glide (or raises it over its parent like a sheet) while a chip with the parent's name pops into the field on snap and the list's measured height glides to the new page's; Backspace slides back. Fuzzy matching lights the letters it found across the whole tree, a pill follows the highlight on snap, Recent leads an empty field and a preview pane follows the highlight from 640px; the field is a combobox where arrows move, Enter runs or opens and Escape clears, then goes back, then closes.",
+      "files": [
+        {
+          "path": "registry/ui/command-center.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1302"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "swim-board",
+      "type": "registry:ui",
+      "title": "Swim Board",
+      "description": "A kanban board with swimlanes. A dragged card comes up into a carried copy 1:1 under the pointer, scaled on flick and leaning into its horizontal speed up to tilt degrees on a glide-tuned spring; the cell under it opens a gap of the card's exact height on glide while the cards below slide down, and on release it flies into the gap on snap with the release velocity and straightens as it lands. A move past a column's work-in-progress limit shakes its header on a five-beat tween and turns it warn (or is refused, the gap staying home), lanes group by priority or owner and fold on glide, and moving a card between lanes rewrites that field. Space picks a focused card up, arrows carry it a place or a column at a time, Enter drops and Escape puts it back, every step announced.",
+      "files": [
+        {
+          "path": "registry/ui/swim-board.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1303"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "mail-inbox",
+      "type": "registry:ui",
+      "title": "Mail Inbox",
+      "description": "An inbox built for triage: a row's face follows the finger 1:1 and reveals its action from the edge it leaves, archive on a green pigment and snooze on an amber one, arming with a pop on snap at the commit line; a release past it (or a throw, by projection) runs the row out on glide with its release velocity before its height closes, and a short one springs home on snap. Selecting a thread slides a batch toolbar down over the header on snap with a rolling count, opening one fades its unread dot and glides its messages open under the row (or into a reading pane when the inbox is wide), and every archive leaves an Undo toast that lands on recoil. j and k move, x selects, Enter opens, e archives, b snoozes, s stars, u toggles unread, z undoes and Escape backs out.",
+      "files": [
+        {
+          "path": "registry/ui/mail-inbox.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1304"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "week-planner",
+      "type": "registry:ui",
+      "title": "Week Planner",
+      "description": "A week drawn on its hours. Pressing empty time and dragging rubber-bands a block out of the pressed slot, its far edge 1:1 under the pointer with a snapped line and a live time label, ticking at every new slot; on release the edge springs onto the snapped time on snap with the pointer's velocity and the event thocks down with its title ready to type. Events drag across time and days and stretch from either edge the same way, landing on snap with the release velocity while a dashed placeholder shows the landing and overlapping events re-divide their columns on glide; a now line moves through today on drift. The grid is one tab stop with a slot cursor (arrows, Shift for a range, Enter to create), and each event moves with the arrows, stretches with Shift, renames with Enter and goes with Delete.",
+      "files": [
+        {
+          "path": "registry/ui/week-planner.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1305"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "file-browser",
+      "type": "registry:ui",
+      "title": "File Browser",
+      "description": "A file manager you work with your hands: grid and list are the same items laid out twice, so the toggle morphs every tile into its row through motion's layout on the spring you choose, and folders slide in from the side you travel on that spring. Press empty space and drag to lasso (items join as the rectangle touches them, or only once inside); drag a selection and it lifts into a stack that follows the pointer, a folder's lid opens as the hover charges until it springs open with you still carrying, a drop on a folder shrinks the stack into it while it bumps on recoil, and a drop into the open folder lands the files on their measured places. Uploads run as rows whose progress glides and each turns into its tile when it resolves; the items are a multi-select listbox where arrows move, Shift extends, Enter opens, Backspace goes up, Ctrl or Cmd with X and V cut and paste, and Delete removes with Undo.",
+      "files": [
+        {
+          "path": "registry/ui/file-browser.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1306"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "review-thread",
+      "type": "registry:ui",
+      "title": "Review Thread",
+      "description": "A draft under review with its discussions pinned in the margin at the height of the passages they are about: one layout pass places every card, the open one exactly on its passage, and when a card grows the cards beneath it glide out of its way. Hovering or focusing a passage or a card brightens the highlight and draws a leader along the passage's underline into the card, rebuilt each frame from the card's own position; replies land on snap, @-mentions complete from a list, and resolving folds the thread back into a one-line check with a dog-eared corner on glide while the check draws on flick. Up and Down walk the threads in reading order, Enter opens one, Escape closes the mention list and then the thread.",
+      "files": [
+        {
+          "path": "registry/ui/review-thread.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1307"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "notice-center",
+      "type": "registry:ui",
+      "title": "Notice Center",
+      "description": "A notification center whose groups stack into a deck: pressing one deals it out, each hidden row starting where its layer was and gliding down to its place on glide in a cascade while the group's measured height glides open, and Show less gathers them back on the exit ease. A row or a whole stack follows a sideways swipe 1:1, is thrown off on the exit ease when its projected rest passes 40% of its width (or snaps back on snap with the release velocity), and the rows under it close the gap on glide. Mark all read sends a band down the list that clears each unread row as it passes — the dot shrinks on flick — the tab pill slides on snap and times roll as `now` moves; arrows walk the rows, Enter opens, Right deals and Left gathers a stack, Delete dismisses.",
+      "files": [
+        {
+          "path": "registry/ui/notice-center.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1308"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "block-editor",
+      "type": "registry:ui",
+      "title": "Block Editor",
+      "description": "A document of text, heading, to-do and quote blocks, each a plain auto-growing textarea underneath, whose inline marks are plain text that renders formatted while the block rests. A block's grip drags it 1:1 with a lift on flick and a rubber band past the ends while its neighbours glide out of its way, and on release every block FLIPs on glide from where it was drawn to where the new order puts it, the dropped one carrying its release velocity; Alt+Up and Alt+Down make the same move with focus and caret kept. `/` opens a block menu at the caret on snap, a selection raises a formatting bubble over itself on snap, and Enter splits, Backspace joins and Up and Down cross between blocks at their first and last lines.",
+      "files": [
+        {
+          "path": "registry/ui/block-editor.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1309"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "member-roster",
+      "type": "registry:ui",
+      "title": "Member Roster",
+      "description": "The people in a workspace and what each can do. A role changes only after a confirm unfolds under the row to its measured height on glide and is accepted — in menu mode a chip whose label then rolls to the new role on snap, in segmented mode a thumb that slides on snap and waits dashed until the confirm — and the last owner can never be demoted or removed. Invites are typed or pasted as email chips that land one after another from 0.6 scale on snap, pending invites resend behind a cooldown bar that drains linearly, and removing someone folds the row away, tipping back about its top edge while its height runs to zero and the rows below close the gap. Menus and radio groups take the arrow keys, confirms take focus when they arrive and give it back on Escape.",
+      "files": [
+        {
+          "path": "registry/ui/member-roster.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1310"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
