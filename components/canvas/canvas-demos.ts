@@ -227,4 +227,72 @@ export const CANVAS_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/laser-sheet.demo").then((m) =>
       mod(m.LaserSheetDemo, m.tweaks),
     ),
+  "forge-flow": () =>
+    import("@/registry/demos/forge-flow.demo").then((m) =>
+      mod(m.ForgeFlowDemo, m.tweaks),
+    ),
+  "dune-gradient": () =>
+    import("@/registry/demos/dune-gradient.demo").then((m) =>
+      mod(m.DuneGradientDemo, m.tweaks),
+    ),
+  "dew-web": () =>
+    import("@/registry/demos/dew-web.demo").then((m) =>
+      mod(m.DewWebDemo, m.tweaks),
+    ),
+  "survey-contours": () =>
+    import("@/registry/demos/survey-contours.demo").then((m) =>
+      mod(m.SurveyContoursDemo, m.tweaks),
+    ),
+  "light-corridor": () =>
+    import("@/registry/demos/light-corridor.demo").then((m) =>
+      mod(m.LightCorridorDemo, m.tweaks),
+    ),
+  "sliced-horizon": () =>
+    import("@/registry/demos/sliced-horizon.demo").then((m) =>
+      mod(m.SlicedHorizonDemo, m.tweaks),
+    ),
+  "pulse-tiles": () =>
+    import("@/registry/demos/pulse-tiles.demo").then((m) =>
+      mod(m.PulseTilesDemo, m.tweaks),
+    ),
+  "scan-bed": () =>
+    import("@/registry/demos/scan-bed.demo").then((m) =>
+      mod(m.ScanBedDemo, m.tweaks),
+    ),
+  "iron-sand": () =>
+    import("@/registry/demos/iron-sand.demo").then((m) =>
+      mod(m.IronSandDemo, m.tweaks),
+    ),
+  "glow-rain": () =>
+    import("@/registry/demos/glow-rain.demo").then((m) =>
+      mod(m.GlowRainDemo, m.tweaks),
+    ),
+  "aether-swirl": () =>
+    import("@/registry/demos/aether-swirl.demo").then((m) =>
+      mod(m.AetherSwirlDemo, m.tweaks),
+    ),
+  "prism-spill": () =>
+    import("@/registry/demos/prism-spill.demo").then((m) =>
+      mod(m.PrismSpillDemo, m.tweaks),
+    ),
+  "peel-label": () =>
+    import("@/registry/demos/peel-label.demo").then((m) =>
+      mod(m.PeelLabelDemo, m.tweaks),
+    ),
+  "mosaic-trail": () =>
+    import("@/registry/demos/mosaic-trail.demo").then((m) =>
+      mod(m.MosaicTrailDemo, m.tweaks),
+    ),
+  "cube-field": () =>
+    import("@/registry/demos/cube-field.demo").then((m) =>
+      mod(m.CubeFieldDemo, m.tweaks),
+    ),
+  "molten-mark": () =>
+    import("@/registry/demos/molten-mark.demo").then((m) =>
+      mod(m.MoltenMarkDemo, m.tweaks),
+    ),
+  "film-grain": () =>
+    import("@/registry/demos/film-grain.demo").then((m) =>
+      mod(m.FilmGrainDemo, m.tweaks),
+    ),
 };

@@ -35887,6 +35887,473 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "forge-flow",
+      "type": "registry:ui",
+      "title": "Forge Flow",
+      "description": "A background of molten metal moving under a cooling crust: a heat field carried along a swirling flow and coloured from ember red through molten orange to white heat, and wherever it cools a crust of dark plates closes over it, cracked along borders that glow with the heat beneath and re-heal as the metal moves, the glow breathing in patches. The hand is heat — the spot follows on springs.glide and warms on springs.drift, opening the crust into a bright pool and leaving a trail that crusts over behind it — and a press stokes it, the pool heaving open on springs.recoil; the first time it is seen the surface is poured molten, every current running hot, and cools into its crust on springs.drift. Keyboard focus on content inside it brings the heat to the focused element.",
+      "files": [
+        {
+          "path": "registry/ui/forge-flow.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1431"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "dune-gradient",
+      "type": "registry:ui",
+      "title": "Dune Gradient",
+      "description": "A background of colour laid in drifting dunes: soft-edged bands stacked from the horizon down, each a leaning ridge with a steep lee face and a long windward slope, lit from a low sun with a fine highlight on every crest and a little sand grain over everything; far bands dissolve into the page colour and each travels at its own pace while its shape slowly changes. The hand leans the landscape by depth on springs.drift, a press sends a gust whose front brightens the crests as it runs outward and lifts wisps of sand off the lee faces, and the first time it is seen the dunes are laid back to front on springs.glide in a cascade. Keyboard focus on content inside it leans the dunes toward the focused element.",
+      "files": [
+        {
+          "path": "registry/ui/dune-gradient.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1432"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "dew-web",
+      "type": "registry:ui",
+      "title": "Dew Web",
+      "description": "A background of an orb-weaver's web at first light: radials from a hub to a frame moored off the edges, a capture spiral drooping between them under its own weight, and dew beaded on the silk; a light travels slowly round, droplets whose facets face it flash into small stars and silk lying across it carries a sheen, so bright arcs sweep the web while the anchors sway. Every crossing is a mass on springs tied to its neighbours, so a moving hand brushes the silk into a travelling tremble and a press plucks the nearest thread, which rings through the web — under-damped like the recoil spring, as long as ring asks — and settles; the first time it is seen the capture spiral is spun onto the standing scaffold ring by ring and the dew beads in. Keyboard focus arriving on content inside it gives the web a gentle pluck beside the focused element.",
+      "files": [
+        {
+          "path": "registry/ui/dew-web.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1433"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "survey-contours",
+      "type": "registry:ui",
+      "title": "Survey Contours",
+      "description": "A background that is a living topographic sheet: contour lines traced from a slowly breathing height field, every fifth an index contour drawn heavier with its elevation printed small along it and the line broken under the figures, spot heights on the highest summits, over a faint tint that leans toward the high ground. The hand raises a hill — the land under it rises on springs.drift, new rings bloom round it in the hill colour and a spot height rides the summit with its figure rolling as it climbs — and a press heaves it higher on springs.recoil, the rings rippling out and back with each bounce; the lowlands stand from the first frame and, the first time it is seen, the rest of the survey inks in from lower to higher in a cascade. Keyboard focus on content inside the sheet raises the hill under the focused element.",
+      "files": [
+        {
+          "path": "registry/ui/survey-contours.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1434"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "light-corridor",
+      "type": "registry:ui",
+      "title": "Light Corridor",
+      "description": "A background that is an endless corridor of rounded frames of soft light receding to a vanishing point: the frames glide toward you and fade as they pass, each a fine bright line inside a wide glow, mirrored in the floor with a reflection that fades from its own contact and joined to the next by faint rails, with a pool of light where the corridor ends. The vanishing point follows the hand on springs.drift, so the corridor turns to look where you point, and a held press rushes it — the speed swelling on springs.drift to three and a half times with faint light trails — while the first time it is seen the lights come on from near to far in a cascade, each with a small flash. Keyboard focus on content inside it turns the corridor toward the focused element.",
+      "files": [
+        {
+          "path": "registry/ui/light-corridor.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1435"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "sliced-horizon",
+      "type": "registry:ui",
+      "title": "Sliced Horizon",
+      "description": "A background that is a sunset poster cut into horizontal strips: a sky running into a warm glow, a sun standing on the horizon and cut by it, and a sea with a path of glitter, painted once and drawn strip by strip, each slid sideways by a wave running down the stack so the sun breaks into offset bars. Moving the hand riffles the strips near it on the springs.snap constants; when the hand rests the strips pull into register one after another, radiating from its strip in a cascade, each on springs.snap with one crisp overshoot through alignment, and moving again lets the wave back in on springs.drift. The poster first arrives in register, as the server drew it, and breaks loose from the top; keyboard focus on content inside it brings the strips into register.",
+      "files": [
+        {
+          "path": "registry/ui/sliced-horizon.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1436"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "pulse-tiles",
+      "type": "registry:ui",
+      "title": "Pulse Tiles",
+      "description": "A background grid of rounded tiles lit by a beat: four beats to a bar at the tempo you set, and on the beats the grid plays diagonal waves, rings, a checkerboard answering itself and a curled spiral arm, each wave carrying the next palette colour. A struck tile flares, eases its colour into the wave's, swells inside its gap on the springs.recoil constants so the grid visibly taps in time, blooms into the gaps and fades; a press sends a ripple of the next colour out from that tile, and keyboard focus on a control inside parks the highlight there and sends a softer one.",
+      "files": [
+        {
+          "path": "registry/ui/pulse-tiles.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1437"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "scan-bed",
+      "type": "registry:ui",
+      "title": "Scan Bed",
+      "description": "A background that is a scanner bed seen at a low angle: a dark surface ruled with a perspective grid and an object lying on it — a pebble, wind ridges or a crater — sampled as a point cloud you cannot see until it is read. A sheet of light sweeps across the bed line by line; every point it meets flares white-hot, cools and fades over the afterglow, so the read line bows up over every rise and the relief hangs behind it for a moment. The pointer tilts the bed on the springs.glide constants and a press restarts the pass from that row with a flare on the springs.flick constants; keyboard focus on a control inside does the same from that control.",
+      "files": [
+        {
+          "path": "registry/ui/scan-bed.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1438"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "iron-sand",
+      "type": "registry:ui",
+      "title": "Iron Sand",
+      "description": "A background of iron sand on a plate with magnets hidden under it: the grains are laid along the field and each is a short needle on its own angular spring that turns to the field wherever it is strong enough to beat friction, so the sand lines up in flowing lines between the poles and stands up into small tufts of spikes at each one while the magnets wander slowly. The pointer carries a pole (position on the springs.glide constants, presence on springs.drift) and the sand streams after it; a press taps the plate, so every grain hops, lets go of friction and snaps to the field on the springs.recoil constants. Keyboard focus on a control inside carries the pole there and taps from it.",
+      "files": [
+        {
+          "path": "registry/ui/iron-sand.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1439"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "glow-rain",
+      "type": "registry:ui",
+      "title": "Glow Rain",
+      "description": "A background of soft light falling slowly: each streak sits at its own depth, far ones thin, dim and slow, near ones longer, wider and blurred as if out of focus, each a bright head with a body fading into a faint trail, and now and then a brighter one. The rain leans with the wind, near streaks more than far, and the pointer sets the wind while a quick sweep adds a gust, all through one spring with the springs.drift constants so it swings in and settles without a bounce. A press drops a bright streak that lands where you touched; keyboard focus on a control inside leans the rain toward it and drops one above it.",
+      "files": [
+        {
+          "path": "registry/ui/glow-rain.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1440"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "aether-swirl",
+      "type": "registry:ui",
+      "title": "Aether Swirl",
+      "description": "A background of colour folded through itself like ink suspended in oil: a WebGL2 shader warps noise by noise by noise and draws four palette colours out into banded swirls that follow the folds, with hair-fine filaments where the bands meet and a soft sheen across their slopes, drifting and re-folding over tens of seconds. The folds deepen under the pointer, its place following on the springs.glide constants and its presence arriving on springs.drift, and a press winds the colour round the hand through a critically damped twist spring with the drift constants; keyboard focus on a control inside brings the hand there with a softer fold.",
+      "files": [
+        {
+          "path": "registry/ui/aether-swirl.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1441"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "prism-spill",
+      "type": "registry:ui",
+      "title": "Prism Spill",
+      "description": "A background in which a glass prism, drawn in light strokes, splits a beam of white light into its colours: the beam is traced through the prism each frame for seven wavelengths (Snell's law in, a Cauchy index whose dispersion is the spread, one internal reflection allowed, Snell's law out) and the escaping colours fan out as spectral bands that soften and diffuse into a wash across the surface. The prism sways slowly about its angle of least deviation and the fan swings with it the way a real one does; the pointer turns the prism on the springs.drift constants, heavy and without overshoot, a press sends a pulse of light down the beam and out through the spectrum, and keyboard focus on a control inside turns the prism toward it and pulses.",
+      "files": [
+        {
+          "path": "registry/ui/prism-spill.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1442"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "peel-label",
+      "type": "registry:ui",
+      "title": "Peel Label",
+      "description": "A paper label over any content whose fold is real geometry: the fold line is the perpendicular bisector of the corner and the tip under your finger, the face is clipped beyond it, and the corner's half is reflected across it — curled, liner-pale, shaded at the crease and casting a shadow that deepens as it lifts. Released short of halfway it falls back on a spring between springs.snap and springs.recoil that takes the throw, slapping flat and popping back to its dog-ear; past halfway the fold runs across the label on springs.glide and the sheet leaves, and putting it back rolls it on and lands it on springs.recoil. The corner is a slider: arrows peel a step at a time, End or Enter lifts it off, Home or Escape lays it back, and Enter on a bared label puts it back.",
+      "files": [
+        {
+          "path": "registry/ui/peel-label.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1412"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "mosaic-trail",
+      "type": "registry:ui",
+      "title": "Mosaic Trail",
+      "description": "A pointer trail laid in pixels: the box is a mosaic of square cells, and every cell along the pointer's path lights under a soft brush, holds for a beat, then fades while its colour walks from the head of the palette to the tail with its age, so a stroke is a comet that cools behind you. Brightness steps down through an ordered dither, so the tail dissolves pixel by pixel in a checker-and-cross pattern, and each tile that lights from dark pops in on its own spring with the springs.snap constants. A click sends an eight-ray pixel burst; keyboard focus inside runs a comet to the focused control on springs.glide and traces a pixel frame round it.",
+      "files": [
+        {
+          "path": "registry/ui/mosaic-trail.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1413"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "cube-field",
+      "type": "registry:ui",
+      "title": "Cube Field",
+      "description": "A floor of cubes in true isometric fills the box behind its children, each cube shaded per face from tokens so it reads lit from the upper left in either theme. Every cube is a spring with the springs.snap, springs.glide or springs.drift constants toward a height that peaks under the pointer and falls away over a raised-cosine bell on the floor plane, so a hill follows the hand and settles back when it leaves; a click knocks the floor and a real lattice wave — each cube coupled to its four neighbours, short wavelengths damped — carries a glowing ring outward until a sponge at the edges drinks it. Rendered as CSS 3D cubes, or as canvas polygons past 260 cubes; keyboard focus inside raises the floor under the focused control.",
+      "files": [
+        {
+          "path": "registry/ui/cube-field.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1414"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "molten-mark",
+      "type": "registry:ui",
+      "title": "Molten Mark",
+      "description": "An SVG mark or a word filled with liquid metal in one WebGL2 pass inside the shape's own mask: an exact distance transform rolls the edge like a meniscus, a slow churn of warped noise moves across the surface, and every pixel reflects a procedural studio tinted chrome, gold, copper or the accent, with a key light that follows the pointer on springs.glide and drifts home on springs.drift. The first time it is in view the metal pours into the empty mould from its foot, white-hot at the front and cooling to metal, and a click drops a ring ripple into the surface. It is an image to assistive technology, has nothing to focus, and shows a still metallic gradient without WebGL2.",
+      "files": [
+        {
+          "path": "registry/ui/molten-mark.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1415"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "film-grain",
+      "type": "registry:ui",
+      "title": "Film Grain",
+      "description": "Film grain over any section, built for cost: two seamless grain tiles per seed — fine noise plus clumped octaves blurred on the torus — are made once and shared, and each projected frame at the chosen frame rate only swaps which tile shows and jumps it to a seeded offset, so the compositor does the work and no WebGL context is used. Dark specks multiply and light specks screen, so the grain reads on light and dark pages alike, with optional gate weave, faint scratches, a vignette and a wavering lamp; the projector spins up from 4 fps the first time it is in view. Under the mouse, and around a control with keyboard focus, the grain clears in a soft patch that follows on springs.glide and fades in and out on tweens.",
+      "files": [
+        {
+          "path": "registry/ui/film-grain.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1416"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

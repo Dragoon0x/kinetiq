@@ -1475,6 +1475,23 @@ import { LogoParadeDemo } from "@/registry/demos/logo-parade.demo";
 import { LockOnDemo } from "@/registry/demos/lock-on.demo";
 import { HaloRingsDemo } from "@/registry/demos/halo-rings.demo";
 import { LaserSheetDemo } from "@/registry/demos/laser-sheet.demo";
+import { ForgeFlowDemo } from "@/registry/demos/forge-flow.demo";
+import { DuneGradientDemo } from "@/registry/demos/dune-gradient.demo";
+import { DewWebDemo } from "@/registry/demos/dew-web.demo";
+import { SurveyContoursDemo } from "@/registry/demos/survey-contours.demo";
+import { LightCorridorDemo } from "@/registry/demos/light-corridor.demo";
+import { SlicedHorizonDemo } from "@/registry/demos/sliced-horizon.demo";
+import { PulseTilesDemo } from "@/registry/demos/pulse-tiles.demo";
+import { ScanBedDemo } from "@/registry/demos/scan-bed.demo";
+import { IronSandDemo } from "@/registry/demos/iron-sand.demo";
+import { GlowRainDemo } from "@/registry/demos/glow-rain.demo";
+import { AetherSwirlDemo } from "@/registry/demos/aether-swirl.demo";
+import { PrismSpillDemo } from "@/registry/demos/prism-spill.demo";
+import { PeelLabelDemo } from "@/registry/demos/peel-label.demo";
+import { MosaicTrailDemo } from "@/registry/demos/mosaic-trail.demo";
+import { CubeFieldDemo } from "@/registry/demos/cube-field.demo";
+import { MoltenMarkDemo } from "@/registry/demos/molten-mark.demo";
+import { FilmGrainDemo } from "@/registry/demos/film-grain.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2964,4 +2981,21 @@ export const demos: Record<string, ComponentType> = {
   "lock-on": LockOnDemo,
   "halo-rings": HaloRingsDemo,
   "laser-sheet": LaserSheetDemo,
+  "forge-flow": ForgeFlowDemo,
+  "dune-gradient": DuneGradientDemo,
+  "dew-web": DewWebDemo,
+  "survey-contours": SurveyContoursDemo,
+  "light-corridor": LightCorridorDemo,
+  "sliced-horizon": SlicedHorizonDemo,
+  "pulse-tiles": PulseTilesDemo,
+  "scan-bed": ScanBedDemo,
+  "iron-sand": IronSandDemo,
+  "glow-rain": GlowRainDemo,
+  "aether-swirl": AetherSwirlDemo,
+  "prism-spill": PrismSpillDemo,
+  "peel-label": PeelLabelDemo,
+  "mosaic-trail": MosaicTrailDemo,
+  "cube-field": CubeFieldDemo,
+  "molten-mark": MoltenMarkDemo,
+  "film-grain": FilmGrainDemo,
 };
