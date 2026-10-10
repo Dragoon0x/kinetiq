@@ -367,4 +367,60 @@ export const CANVAS_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/polar-glow.demo").then((m) =>
       mod(m.PolarGlowDemo, m.tweaks),
     ),
+  "compass-field": () =>
+    import("@/registry/demos/compass-field.demo").then((m) =>
+      mod(m.CompassFieldDemo, m.tweaks),
+    ),
+  "phantom-cursor": () =>
+    import("@/registry/demos/phantom-cursor.demo").then((m) =>
+      mod(m.PhantomCursorDemo, m.tweaks),
+    ),
+  "edge-haze": () =>
+    import("@/registry/demos/edge-haze.demo").then((m) =>
+      mod(m.EdgeHazeDemo, m.tweaks),
+    ),
+  "click-bloom": () =>
+    import("@/registry/demos/click-bloom.demo").then((m) =>
+      mod(m.ClickBloomDemo, m.tweaks),
+    ),
+  lodestone: () =>
+    import("@/registry/demos/lodestone.demo").then((m) =>
+      mod(m.LodestoneDemo, m.tweaks),
+    ),
+  "kelp-strands": () =>
+    import("@/registry/demos/kelp-strands.demo").then((m) =>
+      mod(m.KelpStrandsDemo, m.tweaks),
+    ),
+  "soft-shape": () =>
+    import("@/registry/demos/soft-shape.demo").then((m) =>
+      mod(m.SoftShapeDemo, m.tweaks),
+    ),
+  "sight-lines": () =>
+    import("@/registry/demos/sight-lines.demo").then((m) =>
+      mod(m.SightLinesDemo, m.tweaks),
+    ),
+  "photo-scatter": () =>
+    import("@/registry/demos/photo-scatter.demo").then((m) =>
+      mod(m.PhotoScatterDemo, m.tweaks),
+    ),
+  "silk-ribbons": () =>
+    import("@/registry/demos/silk-ribbons.demo").then((m) =>
+      mod(m.SilkRibbonsDemo, m.tweaks),
+    ),
+  "ink-splash": () =>
+    import("@/registry/demos/ink-splash.demo").then((m) =>
+      mod(m.InkSplashDemo, m.tweaks),
+    ),
+  "lava-blobs": () =>
+    import("@/registry/demos/lava-blobs.demo").then((m) =>
+      mod(m.LavaBlobsDemo, m.tweaks),
+    ),
+  "jelly-cursor": () =>
+    import("@/registry/demos/jelly-cursor.demo").then((m) =>
+      mod(m.JellyCursorDemo, m.tweaks),
+    ),
+  "comet-border": () =>
+    import("@/registry/demos/comet-border.demo").then((m) =>
+      mod(m.CometBorderDemo, m.tweaks),
+    ),
 };

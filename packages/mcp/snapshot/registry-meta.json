@@ -13,7 +13,7 @@
     "indexUrl": "https://www.kinetiqui.com/r/registry.json",
     "docsUrl": "https://www.kinetiqui.com",
     "counts": {
-      "components": 1319,
+      "components": 1333,
       "blocks": 152,
       "pages": 28,
       "templates": 10,
@@ -115297,6 +115297,909 @@
       }
     },
     {
+      "slug": "compass-field",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Compass Field",
+      "serial": "KQ-1406",
+      "tagline": "A field of needles turns to find you.",
+      "description": "A staggered grid of compass needles on one canvas, each a damped rotational spring that turns to point at the pointer with a wobble set by its damping ratio, stiffening, lengthening and brightening as the pointer comes near. Every needle reads the pointer where it was distance / wave seconds ago, so a turn spreads outward from the hand like a ripple and the field swings home to north as a wave from wherever the pointer left; a seeded gust swings through it the first time it comes into view. Keyboard focus inside turns the needles toward the focused element, and a tap turns them for a moment.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "cursor effect",
+        "compass",
+        "vector field",
+        "magnetic",
+        "needles",
+        "hero background",
+        "pointer follow"
+      ],
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "Content laid over the field, such as a headline; it stays fully interactive."
+        },
+        {
+          "name": "density",
+          "type": "number",
+          "defaultValue": "4",
+          "description": "How many needles stand in every 100 px, along each axis."
+        },
+        {
+          "name": "length",
+          "type": "number",
+          "defaultValue": "0.7",
+          "description": "A needle's resting length, as a share of the space between needles."
+        },
+        {
+          "name": "damping",
+          "type": "number",
+          "defaultValue": "0.45",
+          "description": "Each needle's damping ratio: low values ring and wobble, 1 settles dead-beat."
+        },
+        {
+          "name": "grow",
+          "type": "number",
+          "defaultValue": "0.4",
+          "description": "How much longer needles grow as the pointer comes near, as a share of their length."
+        },
+        {
+          "name": "reach",
+          "type": "number",
+          "defaultValue": "200",
+          "description": "The distance, in px, within which needles answer faster, lengthen and brighten."
+        },
+        {
+          "name": "speed",
+          "type": "number",
+          "defaultValue": "1",
+          "description": "How quickly the needles answer overall, as a multiple of the house stiffness."
+        },
+        {
+          "name": "wave",
+          "type": "number",
+          "defaultValue": "900",
+          "description": "How fast a turn spreads outward from the pointer, in px per second; 0 turns every needle at once."
+        },
+        {
+          "name": "north",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "The bearing every needle rests at when the pointer is away, in degrees clockwise from up."
+        },
+        {
+          "name": "scatter",
+          "type": "number",
+          "defaultValue": "6",
+          "description": "The seeded deviation from that bearing at rest, in degrees."
+        },
+        {
+          "name": "polarity",
+          "type": "\"attract\" | \"repel\"",
+          "defaultValue": "\"attract\"",
+          "description": "Whether the north ends turn toward the pointer or away from it."
+        },
+        {
+          "name": "northColor",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "The north half of every needle, any CSS colour, resolved on the element."
+        },
+        {
+          "name": "southColor",
+          "type": "string",
+          "defaultValue": "\"var(--ink-3)\"",
+          "description": "The south half and the pivot, any CSS colour, resolved on the element."
+        },
+        {
+          "name": "intro",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "One gust through the field the first time it comes into view."
+        },
+        {
+          "name": "followFocus",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Keyboard focus inside turns the needles toward the focused element."
+        },
+        {
+          "name": "interactive",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "The pointer (mouse and pen) turns the needles, and a tap turns them for a moment."
+        },
+        {
+          "name": "paused",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Holds every needle where it is and stops the loop."
+        },
+        {
+          "name": "seed",
+          "type": "number",
+          "defaultValue": "7",
+          "description": "Seed for the resting scatter, each needle's own frequency and the gust."
+        },
+        {
+          "name": "dpr",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "The highest device pixel ratio the canvas draws at (never above 2)."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the box; give it a height."
+        },
+        {
+          "name": "ref",
+          "type": "Ref<CompassFieldHandle>",
+          "description": "Exposes swing(), which sends a silent, seeded gust through the field."
+        }
+      ],
+      "usageNotes": [
+        "The canvas sits under the children, is aria-hidden and never takes a click, so everything laid over the field reads, focuses and clicks as usual; the system cursor is left alone.",
+        "Keyboard visitors see the field answer them: focus inside turns every needle toward the focused element until focus leaves. A tap turns the field toward it for 1.2 s without touching scroll.",
+        "Needles live in typed arrays and are drawn in six fills a frame. The loop runs only while a needle is still swinging or the pointer is moving, on screen and with the tab visible; a settled field costs nothing. DPR is capped at 2.",
+        "Colours resolve on the element and re-resolve when the theme changes, so tokens work in light and dark; the server renders a faint dot grid of the pivots that hands over to the canvas on its first frame.",
+        "Under reduced motion there is no spring, wobble, wave or gust: needles point straight at the pointer, still lengthen and brighten near it, and jump home on leave."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/compass-field",
+      "registryItemUrl": "https://www.kinetiqui.com/r/compass-field.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/compass-field",
+        "npm": "npx shadcn@latest add @kinetiq/compass-field",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/compass-field",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/compass-field",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/compass-field.json"
+      }
+    },
+    {
+      "slug": "phantom-cursor",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Phantom Cursor",
+      "serial": "KQ-1407",
+      "tagline": "A shadow self that lags behind you.",
+      "description": "A shadow self that follows the pointer inside its box: a soft form of rising smoke shaped like the pointer's own arrow (or a round wisp), drawn by one WebGL2 shader scissored to its own bounds. It trails on a 2D spring that slides from springs.glide to one softer than springs.drift, smearing along its travel, then stiffens up to five times and hurries in to condense under the cursor once the hand rests, and dissolves after an idle moment. Keyboard focus inside sends it to rest on the focused element's corner.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "cursor effect",
+        "cursor follower",
+        "ghost cursor",
+        "smoke",
+        "webgl",
+        "trailing cursor",
+        "shadow"
+      ],
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "The surface the phantom haunts; it stays fully interactive."
+        },
+        {
+          "name": "lag",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How far it lags the hand: 0 keeps close on the glide spring, 1 trails on a spring softer than drift."
+        },
+        {
+          "name": "size",
+          "type": "number",
+          "defaultValue": "28",
+          "description": "The phantom's height, in CSS pixels."
+        },
+        {
+          "name": "smoke",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How much of it is smoke: 0 is a soft silhouette, 1 a loose, drifting wisp."
+        },
+        {
+          "name": "shape",
+          "type": "\"arrow\" | \"orb\"",
+          "defaultValue": "\"arrow\"",
+          "description": "A shadow of the pointer's own arrow, or a round wisp."
+        },
+        {
+          "name": "stretch",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How far it smears behind itself along its travel, 0 to 1."
+        },
+        {
+          "name": "catchUp",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How much faster it closes in once the hand rests, 0 (never hurries) to 1 (five times stiffer)."
+        },
+        {
+          "name": "idle",
+          "type": "number",
+          "defaultValue": "1400",
+          "description": "How long it lingers once caught up and still, in ms, before it dissolves; 0 never dissolves while the pointer is inside."
+        },
+        {
+          "name": "offset",
+          "type": "[number, number]",
+          "defaultValue": "[8, 10]",
+          "description": "Where it rests relative to the pointer, in CSS pixels; a shadow falls below and to the right."
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "defaultValue": "\"var(--ink)\"",
+          "description": "Its colour, any CSS colour, resolved on the element."
+        },
+        {
+          "name": "opacity",
+          "type": "number",
+          "defaultValue": "0.45",
+          "description": "Its peak opacity, 0 to 1."
+        },
+        {
+          "name": "followFocus",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Keyboard focus inside sends the phantom to the focused element."
+        },
+        {
+          "name": "interactive",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "The pointer (mouse and pen) summons it; touch gets the resting state."
+        },
+        {
+          "name": "paused",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Holds the smoke's drift; the phantom still follows."
+        },
+        {
+          "name": "seed",
+          "type": "number",
+          "defaultValue": "3",
+          "description": "Seed for the smoke."
+        },
+        {
+          "name": "dpr",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "The highest device pixel ratio the canvas draws at (never above 2)."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the box."
+        },
+        {
+          "name": "ref",
+          "type": "Ref<PhantomCursorHandle>",
+          "description": "Exposes appear(x?, y?), which shows the phantom resting at a point in the box (its centre when omitted) until it dissolves; ignored while the visitor's pointer is inside."
+        }
+      ],
+      "usageNotes": [
+        "The canvas is aria-hidden and never takes a click, and the system cursor is never hidden, so the phantom is a companion rather than a replacement: the children read, focus and click as usual.",
+        "Keyboard focus inside sends the phantom to the focused element's corner, where it dissolves after the idle time like it does for the pointer. Touch-only visitors get the resting state: no phantom.",
+        "The shader runs only inside a scissor rect around the phantom and its smear, and the loop stops once it has dissolved, is off screen or the tab is hidden. DPR is capped at 2; program and buffers are disposed on unmount.",
+        "Without WebGL2, or after a lost context, a blurred DOM copy of the same shape takes over on the same physics, smearing along its travel with a composited transform.",
+        "Under reduced motion there is no lag, smear or drift: a still, soft shadow sits exactly at the pointer and fades in and out."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/phantom-cursor",
+      "registryItemUrl": "https://www.kinetiqui.com/r/phantom-cursor.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/phantom-cursor",
+        "npm": "npx shadcn@latest add @kinetiq/phantom-cursor",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/phantom-cursor",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/phantom-cursor",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/phantom-cursor.json"
+      }
+    },
+    {
+      "slug": "edge-haze",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Edge Haze",
+      "serial": "KQ-1408",
+      "tagline": "Content that blurs softly into the edges.",
+      "description": "A scroll area whose edges dissolve instead of cutting off: stacks of backdrop blurs, each twice the last and masked to begin a step further toward the edge, ramp the content smoothly from sharp to the full blur while a wash of the surface's own colour deepens toward the edge. Each edge's haze measures what it hides — the distance hidden beyond it over reach, followed on springs.glide — so the bottom haze recedes as the end comes near and lifts away on arrival while the top one gathers, and with nothing to scroll nothing is drawn. The viewport is a focusable region while it overflows, so arrow keys, Page Up and Down, Home and End scroll it natively.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "progressive blur",
+        "scroll fade",
+        "scroll area",
+        "edge blur",
+        "backdrop filter",
+        "overflow indicator"
+      ],
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "The scrolling content."
+        },
+        {
+          "name": "strength",
+          "type": "number",
+          "defaultValue": "10",
+          "description": "The blur at the very edge, in CSS pixels; it halves at each step inward."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "64",
+          "description": "How deep the haze reaches into the area at its fullest, in CSS pixels."
+        },
+        {
+          "name": "edges",
+          "type": "\"both\" | \"top\" | \"bottom\"",
+          "defaultValue": "\"both\"",
+          "description": "Which edges haze over when content is hidden beyond them."
+        },
+        {
+          "name": "steps",
+          "type": "number",
+          "defaultValue": "6",
+          "description": "How many blur layers build the ramp, 3 to 8."
+        },
+        {
+          "name": "fade",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How far the content fades into the surface at the very edge as well as blurring, 0 (not at all) to 1 (gone at the edge)."
+        },
+        {
+          "name": "reach",
+          "type": "number",
+          "defaultValue": "height × 1.5",
+          "description": "How many pixels of hidden content give the full haze."
+        },
+        {
+          "name": "tint",
+          "type": "string",
+          "defaultValue": "the first solid background behind the area",
+          "description": "The colour the content fades into at the edge, any CSS colour; read on the element and again when the theme changes."
+        },
+        {
+          "name": "maxHeight",
+          "type": "number | string",
+          "description": "The scroll area's maximum height (a number is CSS pixels); or size the box with className."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Scrollable content\"",
+          "description": "The scroll area's accessible name."
+        },
+        {
+          "name": "scrollPadding",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Keep keyboard-focused content and page steps clear of the haze."
+        },
+        {
+          "name": "onEdgesChange",
+          "type": "(edges: { top: boolean; bottom: boolean }) => void",
+          "description": "Fires when content starts or stops being hidden beyond either edge, and once on the first measure."
+        },
+        {
+          "name": "viewportRef",
+          "type": "Ref<HTMLDivElement>",
+          "description": "A ref to the scrolling element, for hosts that scroll it themselves."
+        },
+        {
+          "name": "viewportClassName",
+          "type": "string",
+          "description": "Classes for the scrolling element."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the box."
+        }
+      ],
+      "usageNotes": [
+        "The viewport is a role=\"region\" with an accessible name and becomes a tab stop only while it overflows, so keyboard visitors scroll it with arrow keys, Page Up and Down, Space, Home and End; scroll padding equal to the haze keeps a focused item clear of the blur.",
+        "No overflow, no cost: when the content fits, the blur layers are not rendered and the content carries no mask. There is no animation loop; a passive scroll listener writes two values and the springs run only while they settle.",
+        "The fade is a wash of the surface's own colour that stands still over the edge while the content scrolls under it, so it can never lag a fast scroll; it reads the first solid background behind the area (or tint) and re-reads it when the theme changes. The scrollbar and the focus ring stay crisp, and the blur stops short of the scrollbar.",
+        "Size the box with className (a height, or a grid row of minmax(0, 1fr)) or pass maxHeight; the haze stacks inherit the box's corner radius.",
+        "Under reduced motion each edge's haze follows the scroll directly with no spring; it still shows, because it tells the reader there is more."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/edge-haze",
+      "registryItemUrl": "https://www.kinetiqui.com/r/edge-haze.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/edge-haze",
+        "npm": "npx shadcn@latest add @kinetiq/edge-haze",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/edge-haze",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/edge-haze",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/edge-haze.json"
+      }
+    },
+    {
+      "slug": "click-bloom",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Click Bloom",
+      "serial": "KQ-1409",
+      "tagline": "Every click blooms into petals.",
+      "description": "A wrapper whose every click opens a small flower on one canvas: the petals unfold out of the press point on springs.snap's response with the pollen popping on springs.recoil's, then each lets go in its own moment, thrown outward by spread to fall under gravity through air that slows it, tumbling in 3D on two axes so it thins to an edge, shows its darker back and slips sideways as it turns, while a few heavier seeds burst out ahead. Rapid clicks layer blooms; keyboard clicks — Enter or Space on anything inside — bloom from the centre of what was activated.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "click effect",
+        "click burst",
+        "particles",
+        "petals",
+        "confetti alternative",
+        "celebration",
+        "micro-interaction"
+      ],
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "What blooms when clicked; it stays fully interactive."
+        },
+        {
+          "name": "petals",
+          "type": "number",
+          "defaultValue": "7",
+          "description": "Petals in each bloom, 3 to 12."
+        },
+        {
+          "name": "spread",
+          "type": "number",
+          "defaultValue": "1",
+          "description": "How far the petals are thrown when they let go, as a multiple of the house throw."
+        },
+        {
+          "name": "gravity",
+          "type": "number",
+          "defaultValue": "700",
+          "description": "How hard petals and seeds fall, in px/s²."
+        },
+        {
+          "name": "seeds",
+          "type": "number",
+          "defaultValue": "4",
+          "description": "Seeds thrown with each bloom, 0 to 12; heavier and quicker than the petals."
+        },
+        {
+          "name": "size",
+          "type": "number",
+          "defaultValue": "12",
+          "description": "A petal's length, in CSS pixels."
+        },
+        {
+          "name": "drag",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "Air resistance, 0 (petals drop like stones) to 1 (they float and drift)."
+        },
+        {
+          "name": "tumble",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How hard petals turn over as they fall, 0 to 1."
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "defaultValue": "1400",
+          "description": "How long a bloom lives, in ms, before its last petal has faded."
+        },
+        {
+          "name": "colors",
+          "type": "string[]",
+          "defaultValue": "pigments of --accent, --signal and --warn",
+          "description": "The blooms' colours, any CSS colours resolved on the element; each bloom takes the next."
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "defaultValue": "8",
+          "description": "The most blooms in the air at once; the oldest retires early to make room."
+        },
+        {
+          "name": "trigger",
+          "type": "\"press\" | \"click\"",
+          "defaultValue": "\"press\"",
+          "description": "Bloom on the press itself, or on the completed click; keyboard clicks bloom either way."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "No blooms."
+        },
+        {
+          "name": "onBloom",
+          "type": "(point: { x: number; y: number }) => void",
+          "description": "Fires with each bloom the visitor opens, at its point in the box's own pixels."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "A soft pop with each bloom the visitor opens."
+        },
+        {
+          "name": "seed",
+          "type": "number",
+          "defaultValue": "11",
+          "description": "Seed for every petal's throw, spin and lifetime."
+        },
+        {
+          "name": "dpr",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "The highest device pixel ratio the canvas draws at (never above 2)."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the box."
+        },
+        {
+          "name": "ref",
+          "type": "Ref<ClickBloomHandle>",
+          "description": "Exposes bloom(x?, y?), which opens a silent bloom at a point in the box (its centre when omitted)."
+        }
+      ],
+      "usageNotes": [
+        "The canvas is aria-hidden and never takes a click; every control inside keeps its own role and handlers, and the bloom is decoration on top of them.",
+        "Keyboard visitors get the same bloom: a click with no pointer behind it (Enter or Space) opens from the centre of the activated element. Touch blooms on the tap, so a scroll that starts on the box never blooms.",
+        "Particles live in a preallocated pool of typed arrays; nothing allocates per frame. The loop runs only while a petal is alive, on screen and with the tab visible, and stops with the last one. DPR is capped at 2.",
+        "Colours default to pigments at fixed lightness, so a bloom reads the same in light and dark; blush and back tones are mixed in oklab and re-resolved when the theme changes.",
+        "Sound is off unless asked for and only ever answers the visitor's press or key; bloom() from the ref is always silent.",
+        "Under reduced motion a soft ring in the bloom's colour appears at the point and fades, with no petals and no travel."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/click-bloom",
+      "registryItemUrl": "https://www.kinetiqui.com/r/click-bloom.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/click-bloom",
+        "npm": "npx shadcn@latest add @kinetiq/click-bloom",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/click-bloom",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/click-bloom",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/click-bloom.json"
+      }
+    },
+    {
+      "slug": "lodestone",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Lodestone",
+      "serial": "KQ-1410",
+      "tagline": "Elements that lean toward your cursor.",
+      "description": "A magnetic wrapper whose still outer box measures the pointer while an inner layer leans toward it once it comes within radius of the child's own edges: it follows strength of the pointer's offset — most when close — eased into a limit, and tilts in perspective so the nearest side rises toward it, on a follow spring between springs.glide and springs.snap integrated per frame. Past the field's edge the bond breaks and it snaps home on springs.recoil with the velocity it had; a press seats it on springs.flick, and keyboard focus holds it steady with a small lift on springs.snap while a drop shadow falls away from the pull.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "magnetic button",
+        "hover effect",
+        "cursor attraction",
+        "tilt",
+        "spring",
+        "micro-interaction"
+      ],
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "What the lodestone pulls: a button, an icon, a card; it keeps its own role, focus and clicks."
+        },
+        {
+          "name": "radius",
+          "type": "number",
+          "defaultValue": "72",
+          "description": "How far the pull reaches beyond the child's own edges, in CSS pixels."
+        },
+        {
+          "name": "strength",
+          "type": "number",
+          "defaultValue": "0.35",
+          "description": "How much of the pointer's offset from the child's centre it follows, 0 to 1."
+        },
+        {
+          "name": "tilt",
+          "type": "number",
+          "defaultValue": "8",
+          "description": "How far it tilts toward the pointer at most, in degrees."
+        },
+        {
+          "name": "limit",
+          "type": "number",
+          "defaultValue": "12",
+          "description": "The most it travels, in CSS pixels; the pull eases into this cap."
+        },
+        {
+          "name": "lift",
+          "type": "number",
+          "defaultValue": "3",
+          "description": "How far keyboard focus lifts it, in CSS pixels, while holding it steady."
+        },
+        {
+          "name": "shadow",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "The shadow that falls away from the pull and deepens with the lift, 0 to 1."
+        },
+        {
+          "name": "release",
+          "type": "\"recoil\" | \"snap\" | \"glide\"",
+          "defaultValue": "\"recoil\"",
+          "description": "The spring it snaps home on when the pointer leaves the field."
+        },
+        {
+          "name": "axis",
+          "type": "\"both\" | \"x\" | \"y\"",
+          "defaultValue": "\"both\"",
+          "description": "Which way it may travel."
+        },
+        {
+          "name": "pressable",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "A press seats it: back toward the centre and down a little, until release."
+        },
+        {
+          "name": "interactive",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "The pointer pulls it (mouse and pen; touch gets the resting state)."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "No pull, no tilt, no press; it rests."
+        },
+        {
+          "name": "onPullChange",
+          "type": "(pulled: boolean) => void",
+          "description": "Fires when the pointer enters or leaves the field, with whether it is now pulled."
+        },
+        {
+          "name": "as",
+          "type": "\"div\" | \"span\"",
+          "defaultValue": "\"div\"",
+          "description": "The wrapper's element: a div, or a span for inline use."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the still outer box (its layout never moves)."
+        },
+        {
+          "name": "innerClassName",
+          "type": "string",
+          "description": "Classes for the moving inner layer."
+        }
+      ],
+      "usageNotes": [
+        "The wrapper adds no role and no tab stop: the child keeps its semantics, focus and clicks, and because the moving layer is the child's own box, hit testing follows what the eye sees.",
+        "Keyboard focus inside holds the child steady and lifts it slightly, so a focused control never drifts away from its focus ring; touch-only visitors get the resting state.",
+        "One passive pointermove listener on the document is attached only while the wrapper is on screen and interactive; the spring loop runs only while the child is moving and stops when it settles.",
+        "Give neighbouring lodestones room for limit on each side (20 px apart at the defaults) so two leaning toward the same pointer never touch.",
+        "Under reduced motion nothing travels or tilts; keyboard focus shows as a shadow alone."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/lodestone",
+      "registryItemUrl": "https://www.kinetiqui.com/r/lodestone.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/lodestone",
+        "npm": "npx shadcn@latest add @kinetiq/lodestone",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/lodestone",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/lodestone",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/lodestone.json"
+      }
+    },
+    {
+      "slug": "kelp-strands",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Kelp Strands",
+      "serial": "KQ-1411",
+      "tagline": "Strands that sway as you pass through.",
+      "description": "A bed of kelp anchored along the bottom of its box, every strand a Verlet chain with a fixed root, buoyant toward the tip, held upright by a bending constraint set by stiffness and dragged toward the velocity of the water around it, so it sways as a slow swell rolls across the bed. The pointer pushes the water: strands part around the hand, the eddies it leaves keep curling them for a moment, and they spring back; up to three depth rows (further back is shorter, fainter and slower) are drawn as tapered blades shaded from base to tip with a float at each end. Keyboard focus inside parts the strands around the focused element.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "verlet",
+        "physics",
+        "canvas animation",
+        "underwater",
+        "hero background",
+        "pointer interaction",
+        "sway"
+      ],
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "Content laid over the bed, such as a headline; it stays fully interactive."
+        },
+        {
+          "name": "count",
+          "type": "number",
+          "defaultValue": "28",
+          "description": "How many strands grow across the box."
+        },
+        {
+          "name": "current",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "The strength of the slow current that sways the bed, 0 (still water) to 1 (a strong swell)."
+        },
+        {
+          "name": "stiffness",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How upright and springy the strands are, 0 (limp, trailing long behind a wake) to 1 (stalks that snap back)."
+        },
+        {
+          "name": "rows",
+          "type": "number",
+          "defaultValue": "3",
+          "description": "Depth rows, 1 to 3: rows further back are shorter, fainter and slower."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "0.8",
+          "description": "How far up the box the tallest strands reach, 0 to 1."
+        },
+        {
+          "name": "width",
+          "type": "number",
+          "defaultValue": "5",
+          "description": "The root width of a front-row strand, in CSS pixels."
+        },
+        {
+          "name": "wake",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How hard the pointer pushes the water, 0 to 1."
+        },
+        {
+          "name": "radius",
+          "type": "number",
+          "defaultValue": "70",
+          "description": "How far the pointer's push reaches, in CSS pixels."
+        },
+        {
+          "name": "colors",
+          "type": "[string, string]",
+          "defaultValue": "pigments of --success and --signal",
+          "description": "The base and tip colours, any CSS colours resolved on the element."
+        },
+        {
+          "name": "floats",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "A small gas float at the tip of each strand."
+        },
+        {
+          "name": "motes",
+          "type": "number",
+          "defaultValue": "12",
+          "description": "Faint specks drifting with the current."
+        },
+        {
+          "name": "followFocus",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Keyboard focus inside parts the strands around the focused element."
+        },
+        {
+          "name": "interactive",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "The pointer (and a sideways swipe) pushes through the strands."
+        },
+        {
+          "name": "paused",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Holds the bed still and stops the loop."
+        },
+        {
+          "name": "seed",
+          "type": "number",
+          "defaultValue": "4",
+          "description": "Seed for where every strand grows, how tall it is and how it sways."
+        },
+        {
+          "name": "dpr",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "The highest device pixel ratio the canvas draws at (never above 2)."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the box; give it a height."
+        }
+      ],
+      "usageNotes": [
+        "The canvas sits under the children, is aria-hidden and never takes a click; keyboard focus inside parts the strands around the focused element so keyboard visitors see the bed answer them.",
+        "The box is touch-pan-y: a sideways swipe pushes through the strands while vertical swipes still scroll the page.",
+        "About 300 points of physics and one gradient per strand built on resize or theme change, never per frame. The loop runs on screen, visible and unpaused; with current 0 it stops once the water is still and restarts on a wake. DPR is capped at 2.",
+        "Colours default to pigments at fixed lightness from --success and --signal, re-resolved when the theme changes, so the bed reads in light and dark; back rows fade by opacity, so they work over any surface.",
+        "Under reduced motion the bed is a still frame leaning gently with the mean current; focus still parts it, as an instant change."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/kelp-strands",
+      "registryItemUrl": "https://www.kinetiqui.com/r/kelp-strands.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/kelp-strands",
+        "npm": "npx shadcn@latest add @kinetiq/kelp-strands",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/kelp-strands",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/kelp-strands",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/kelp-strands.json"
+      }
+    },
+    {
       "slug": "peel-label",
       "kind": "component",
       "type": "registry:ui",
@@ -116122,6 +117025,1266 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/film-grain",
         "bun": "bunx --bun shadcn@latest add @kinetiq/film-grain",
         "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/film-grain.json"
+      }
+    },
+    {
+      "slug": "soft-shape",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Soft Shape",
+      "serial": "KQ-1417",
+      "tagline": "Shapes that blur into each other near you.",
+      "description": "Flat pigment circles, rounded squares and rounded triangles drawn as signed-distance fields in one WebGL2 pass, joined by a smooth minimum whose reach grows near the pointer: as the pointer draws two shapes together (each leans in on springs.glide and drifts home on springs.drift) they flow into one mass through a neck and their colours blend across it, while their edges soften into a grained gradient near the pointer and stay crisp away from it. Pressing gathers the whole composition into one soft mass and releasing scatters it home on springs.recoil. Keyboard focus on a control inside draws the shapes to it, and Enter or Space on it pulses a gather.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "metaball",
+        "shapes",
+        "sdf",
+        "blur",
+        "webgl",
+        "hero",
+        "melt"
+      ],
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "description": "Content laid over the shapes, such as a headline. It keeps every click, focus and key."
+        },
+        {
+          "name": "shapes",
+          "type": "\"mixed\" | \"circles\" | \"squares\" | \"triangles\" | readonly SoftShapeKind[]",
+          "defaultValue": "\"mixed\"",
+          "description": "Which primitives make up the composition: a named set, or your own list of \"circle\", \"square\" and \"triangle\" used in turn."
+        },
+        {
+          "name": "softness",
+          "type": "number",
+          "defaultValue": "28",
+          "description": "The widest the edges soften right under the pointer, in px; away from it they stay crisp."
+        },
+        {
+          "name": "color",
+          "type": "\"cobalt\" | \"dusk\" | \"ember\" | \"moss\" | readonly string[]",
+          "defaultValue": "\"cobalt\"",
+          "description": "The pigment palette: a named set from the theme tokens, or your own CSS colours given to the shapes in turn."
+        },
+        {
+          "name": "count",
+          "type": "number",
+          "defaultValue": "6",
+          "description": "How many shapes, 2 to 8."
+        },
+        {
+          "name": "scale",
+          "type": "number",
+          "defaultValue": "1",
+          "description": "Shape size relative to the room each one has, 0.5 to 1.5."
+        },
+        {
+          "name": "roundness",
+          "type": "number",
+          "defaultValue": "0.3",
+          "description": "Corner rounding of the squares and triangles, 0 (sharp) to 1 (pebble)."
+        },
+        {
+          "name": "melt",
+          "type": "number",
+          "defaultValue": "44",
+          "description": "How far apart two shapes start to flow together near the pointer, in px (the smooth minimum's reach)."
+        },
+        {
+          "name": "radius",
+          "type": "number",
+          "defaultValue": "160",
+          "description": "How far the pointer's pull and its soft focus reach, in px."
+        },
+        {
+          "name": "pull",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How strongly nearby shapes lean toward the pointer, 0 to 1."
+        },
+        {
+          "name": "grain",
+          "type": "number",
+          "defaultValue": "0.4",
+          "description": "A fine printed grain inside the soft edges, 0 to 1, so the blur never bands."
+        },
+        {
+          "name": "ambient",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "With nobody pointing, a slow soft spot wanders the composition and the shapes bob."
+        },
+        {
+          "name": "gather",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Pressing gathers every shape into one soft mass; releasing scatters them home on springs.recoil."
+        },
+        {
+          "name": "interactive",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Follow the pointer."
+        },
+        {
+          "name": "followFocus",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Keyboard focus on a control inside draws the shapes and the soft spot to it."
+        },
+        {
+          "name": "paused",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Hold the composition still and stop the frame loop."
+        },
+        {
+          "name": "seed",
+          "type": "number",
+          "defaultValue": "7",
+          "description": "Seed for the layout, the kinds, the colours and the tilts."
+        },
+        {
+          "name": "dpr",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "The highest device pixel ratio the canvas draws at (never above 2)."
+        },
+        {
+          "name": "onGatherChange",
+          "type": "(gathered: boolean) => void",
+          "description": "Fires when a press (or Enter/Space on a control inside) gathers the shapes, and again when they scatter."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the box. Give it a height; children are laid out inside it."
+        }
+      ],
+      "usageNotes": [
+        "The canvas and its still are aria-hidden with pointer-events none, so buttons and links inside keep their own clicks, focus and keys. Focus on a control draws the shapes to it, and Enter or Space on it pulses a gather, so the keyboard reaches the same states as the pointer.",
+        "Give the box a height (h-52, h-64, or a hero's own size). The composition is one zigzag row at 560 px and wider and two staggered rows below; the server renders the same shapes as an SVG still, which the canvas replaces on its first frame.",
+        "Colours default to pigments built from the theme tokens at a fixed lightness, so the shapes read the same in light and dark; pass your own CSS colours to color, and they are re-read when the theme changes.",
+        "Under reduced motion it is one still frame with a soft neck between the two closest shapes; the soft spot jumps to the pointer or the focused control and nothing travels or bounces.",
+        "One fragment pass with at most eight shapes. The loop stops off screen, on a hidden tab, when paused and, with ambient off, once the springs settle; ambient-only frames run at 30 fps. Without WebGL2, or after a lost context, the SVG still stays."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/soft-shape",
+      "registryItemUrl": "https://www.kinetiqui.com/r/soft-shape.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/soft-shape",
+        "npm": "npx shadcn@latest add @kinetiq/soft-shape",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/soft-shape",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/soft-shape",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/soft-shape.json"
+      }
+    },
+    {
+      "slug": "sight-lines",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Sight Lines",
+      "serial": "KQ-1418",
+      "tagline": "Hairlines that measure where you point.",
+      "description": "A precision measuring overlay bounded to the container it wraps: four hairlines run in from the edges to the pointer, each with its length in a mono pill, over tick rulers that mark the pointer's coordinate, and the lines ease after the pointer on springs.glide while the crosshair cursor stays exactly under the hand. Reaching a child opens the meeting point into the child's box on springs.snap — the lines retract to its edges and measure its margins, a hairline box outlines it, the readout becomes its width × height and the ruler markers widen into its span — and leaving releases the lines back to the pointer on springs.glide. Keyboard focus on a child snaps the lines to it exactly as hover does.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "crosshair",
+        "measure",
+        "redline",
+        "ruler",
+        "inspector",
+        "cursor",
+        "spec"
+      ],
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "description": "The content being measured; it keeps every click, focus and key."
+        },
+        {
+          "name": "labels",
+          "type": "\"px\" | \"rem\" | \"percent\" | \"none\"",
+          "defaultValue": "\"px\"",
+          "description": "The unit of the distance labels and the readout, or \"none\" to hide the labels."
+        },
+        {
+          "name": "snap",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Hovering (or focusing) a child snaps the lines to its edges and shows its size."
+        },
+        {
+          "name": "color",
+          "type": "\"cobalt\" | \"redline\" | \"signal\" | \"ink\" | string",
+          "defaultValue": "\"cobalt\"",
+          "description": "The hairline tone: a named tone from the theme or any CSS colour."
+        },
+        {
+          "name": "targets",
+          "type": "string",
+          "defaultValue": "[data-measure] and interactive elements",
+          "description": "What the lines snap to, as a CSS selector; disabled controls never snap."
+        },
+        {
+          "name": "follow",
+          "type": "\"flick\" | \"snap\" | \"glide\"",
+          "defaultValue": "\"glide\"",
+          "description": "The house spring the lines ease after the pointer on."
+        },
+        {
+          "name": "ticks",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Tick rulers along the four edges, with a marker at the pointer's coordinate that widens into a snapped child's span."
+        },
+        {
+          "name": "tickStep",
+          "type": "number",
+          "defaultValue": "8",
+          "description": "Distance between minor ticks, in px; every fifth is a major tick."
+        },
+        {
+          "name": "dashed",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Dashed hairlines instead of solid ones."
+        },
+        {
+          "name": "thickness",
+          "type": "number",
+          "defaultValue": "1",
+          "description": "Hairline thickness, in px."
+        },
+        {
+          "name": "readout",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "A small tag with the pointer's coordinates, or a snapped child's width × height."
+        },
+        {
+          "name": "rest",
+          "type": "\"home\" | \"center\" | \"none\"",
+          "defaultValue": "\"home\"",
+          "description": "Where the lines rest with nobody pointing: dimly on the [data-measure-home] child (or the first target), at the centre, or hidden."
+        },
+        {
+          "name": "crosshair",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "A crosshair cursor inside the container; text fields keep the I-beam."
+        },
+        {
+          "name": "precision",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Decimals in pixel labels."
+        },
+        {
+          "name": "rootSize",
+          "type": "number",
+          "defaultValue": "16",
+          "description": "Pixels per rem, for rem labels."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Turn the overlay off."
+        },
+        {
+          "name": "onMeasure",
+          "type": "(measure: SightLinesMeasure | null) => void",
+          "description": "Fires when the lines snap onto a child — with its label, size and distance from each edge in px — and with null when they let go."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the container."
+        }
+      ],
+      "usageNotes": [
+        "The overlay is aria-hidden with pointer-events none, so every child keeps its clicks, focus and keys. Focus on a child snaps the lines to it exactly as hover does, so Tab walks the measurement through the content.",
+        "Mark anything with data-measure=\"Name\" to make it measurable and to name it in onMeasure, mark one data-measure-home to choose where the lines rest, or pass targets to narrow the selector.",
+        "Under reduced motion nothing springs: the lines sit exactly at the pointer and jump to a child's box, and only the box, the labels and the readout fade.",
+        "DOM and one SVG positioned from motion values, with no frame loop: a spring runs only after input and stops when it settles. A resize, a scroll or a child changing size keeps a snapped box aligned.",
+        "The hairlines take the tone as currentColor, and the pills are opaque bg-background so the line breaks around each number in both themes; on touch, a tap measures where it lands."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/sight-lines",
+      "registryItemUrl": "https://www.kinetiqui.com/r/sight-lines.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/sight-lines",
+        "npm": "npx shadcn@latest add @kinetiq/sight-lines",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/sight-lines",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/sight-lines",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/sight-lines.json"
+      }
+    },
+    {
+      "slug": "photo-scatter",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Photo Scatter",
+      "serial": "KQ-1419",
+      "tagline": "Pictures drop where your cursor travels.",
+      "description": "An image trail of real-looking prints: as the pointer travels, the distance it covers is measured along its path and every few dozen px a print drops at that exact point, born lifted and landing with its scale on springs.recoil, its seeded tilt on springs.snap and its shadow drawing in tight on springs.glide. After its life each print fades and shrinks away on the exit ease, oldest first, and a press pins one to the table with a strip of tape until the next press. Keyboard focus travels too, dropping prints along the way to a focused control and landing them beside it, and Enter or Space pins one there.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "image trail",
+        "cursor",
+        "photos",
+        "instant print",
+        "gallery",
+        "hover effect",
+        "portfolio"
+      ],
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "description": "Content on the table, such as a headline; it keeps every click, focus and key."
+        },
+        {
+          "name": "images",
+          "type": "readonly (string | React.ReactNode)[]",
+          "defaultValue": "tinted plates from the theme",
+          "description": "The pictures, used in turn: a string is an image URL (rendered with empty alt), anything else is rendered as the picture."
+        },
+        {
+          "name": "spacing",
+          "type": "number",
+          "defaultValue": "90",
+          "description": "Distance the pointer travels between prints, in px."
+        },
+        {
+          "name": "life",
+          "type": "number",
+          "defaultValue": "1200",
+          "description": "How long a print rests before it fades, in ms."
+        },
+        {
+          "name": "tilt",
+          "type": "number",
+          "defaultValue": "8",
+          "description": "The most a print turns off square, in degrees; each one is seeded within ±tilt."
+        },
+        {
+          "name": "size",
+          "type": "number",
+          "defaultValue": "112",
+          "description": "A print's width in px, capped so it never stands taller than 62% of the box or wider than 36% of it."
+        },
+        {
+          "name": "aspect",
+          "type": "number",
+          "defaultValue": "0.82",
+          "description": "The picture's width / height."
+        },
+        {
+          "name": "frame",
+          "type": "\"instant\" | \"border\" | \"bleed\"",
+          "defaultValue": "\"instant\"",
+          "description": "The paper round the picture: an instant print's deep bottom margin, an even border, or none."
+        },
+        {
+          "name": "paper",
+          "type": "string",
+          "defaultValue": "a warm white",
+          "description": "The paper's colour, any CSS colour."
+        },
+        {
+          "name": "fade",
+          "type": "number",
+          "defaultValue": "420",
+          "description": "How long a print takes to fade and shrink away, in ms."
+        },
+        {
+          "name": "drop",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How far a print falls before it lands, 0 (placed) to 1 (tossed from high)."
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "defaultValue": "14",
+          "description": "The most prints on the table at once; past it the oldest is hurried out."
+        },
+        {
+          "name": "order",
+          "type": "\"sequence\" | \"shuffle\"",
+          "defaultValue": "\"sequence\"",
+          "description": "Use the images in order, or in a seeded shuffle that never repeats the last one."
+        },
+        {
+          "name": "rest",
+          "type": "number",
+          "defaultValue": "3",
+          "description": "Prints already lying on the table before anyone points; they leave in order after the first touch."
+        },
+        {
+          "name": "origin",
+          "type": "readonly [number, number]",
+          "defaultValue": "[0.74, 0.5]",
+          "description": "Where the resting prints lie, as [x, y] fractions of the box."
+        },
+        {
+          "name": "pinOnPress",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "A press on the open table pins a print where it lands, taped down until the next press; presses on controls are left to the controls."
+        },
+        {
+          "name": "followFocus",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Keyboard focus travels too: prints drop along the way to a focused control and land beside it."
+        },
+        {
+          "name": "interactive",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Drop prints as the pointer travels."
+        },
+        {
+          "name": "layer",
+          "type": "\"under\" | \"over\"",
+          "defaultValue": "\"under\"",
+          "description": "Draw the prints under the content, like a table, or over it."
+        },
+        {
+          "name": "paused",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Stop dropping; prints already down finish their lives."
+        },
+        {
+          "name": "seed",
+          "type": "number",
+          "defaultValue": "11",
+          "description": "Seed for the tilts, the scatter and the shuffle."
+        },
+        {
+          "name": "onDrop",
+          "type": "(info: { total: number; image: number; pinned: boolean }) => void",
+          "description": "Fires on every print dropped, with the running total, which image it shows, and whether it was pinned."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the table. Give it a height."
+        }
+      ],
+      "usageNotes": [
+        "The prints are an aria-hidden layer with pointer-events none, under the content by default, so links and buttons stay readable and clickable; a press on a control is left to the control and never pins.",
+        "Tab moves the trail too: prints drop along the way to the focused control and land beside its group rather than on it, and Enter or Space pins one there, so keyboard visitors reach every state.",
+        "Pass images as URLs or as your own nodes (an <img>, a gradient, an illustration); with none, it uses quiet plates tinted from the theme. Sizes cap through container units, so the server and the browser render the same resting stack.",
+        "Under reduced motion a print appears in place with a short fade and leaves the same way; the trail, the pin and the order of leaving all still work.",
+        "DOM only, transform and opacity on the compositor, at most max prints plus the pin; there is no frame loop, and each print's springs stop once it lands. On touch a sideways drag lays a trail (vertical scrolling is untouched) and a tap pins."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/photo-scatter",
+      "registryItemUrl": "https://www.kinetiqui.com/r/photo-scatter.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/photo-scatter",
+        "npm": "npx shadcn@latest add @kinetiq/photo-scatter",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/photo-scatter",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/photo-scatter",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/photo-scatter.json"
+      }
+    },
+    {
+      "slug": "silk-ribbons",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Silk Ribbons",
+      "serial": "KQ-1420",
+      "tagline": "Ribbons that flow from your cursor.",
+      "description": "Silk ribbons stream from the pointer on one Canvas 2D layer: each is a chain of 32 links whose head rides the pointer on a spring blended between springs.drift and springs.snap, with every link following the one ahead at its length and held smooth by a bending spring, and the ribbons differ in length, stiffness and drag so a sweep fans them out. When a link catches up its overtaking motion turns sideways, so as the pointer stops the ribbons overshoot, wind into loops and unwind, and a press whips an S-wave down each chain; each ribbon tapers and twists, darkening edge-on and shifting colour between its two faces like iridescent silk. With nobody pointing they fly a slow figure-eight, keyboard focus sends them to circle the focused control, and Enter or Space on it whips them there.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "ribbons",
+        "cursor trail",
+        "silk",
+        "iridescent",
+        "canvas",
+        "rope physics",
+        "hero"
+      ],
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "description": "Content laid over the ribbons, such as a headline. It keeps every click, focus and key."
+        },
+        {
+          "name": "count",
+          "type": "number",
+          "defaultValue": "5",
+          "description": "How many ribbons stream from the pointer, 1 to 8."
+        },
+        {
+          "name": "length",
+          "type": "number",
+          "defaultValue": "220",
+          "description": "A ribbon's length in px; each varies around it by variance, and none outgrows 1.6× the box's shorter side."
+        },
+        {
+          "name": "colors",
+          "type": "\"opal\" | \"ember\" | \"tide\" | \"mono\" | readonly string[]",
+          "defaultValue": "\"opal\"",
+          "description": "The silk: a named palette from the theme tokens, or your own CSS colours the ribbons shift through along their length."
+        },
+        {
+          "name": "width",
+          "type": "number",
+          "defaultValue": "11",
+          "description": "A ribbon's widest, just below the head, in px."
+        },
+        {
+          "name": "taper",
+          "type": "number",
+          "defaultValue": "0.85",
+          "description": "How much a ribbon thins toward its tail, 0 (even) to 1 (a fine point)."
+        },
+        {
+          "name": "stiffness",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How tightly the heads follow and the silk holds its line, 0 (springs.drift, loose) to 1 (springs.snap, taut)."
+        },
+        {
+          "name": "variance",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How different the ribbons are from each other in length, stiffness and drag, 0 to 1."
+        },
+        {
+          "name": "curl",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How much the ribbons wind into loops as they catch up, 0 to 1."
+        },
+        {
+          "name": "twist",
+          "type": "number",
+          "defaultValue": "1.5",
+          "description": "Twists along each ribbon; where it turns edge-on it narrows and darkens."
+        },
+        {
+          "name": "sheen",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "A soft specular streak down faces turned to the light, 0 to 1."
+        },
+        {
+          "name": "spread",
+          "type": "number",
+          "defaultValue": "12",
+          "description": "How wide the fan of heads is either side of the pointer, across its direction of travel, in px."
+        },
+        {
+          "name": "whip",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "A press whips the ribbons, throwing a loop down each one."
+        },
+        {
+          "name": "ambient",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "With nobody pointing, the ribbons fly a slow figure-eight through the box."
+        },
+        {
+          "name": "followFocus",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Keyboard focus on a control inside sends the ribbons to circle it."
+        },
+        {
+          "name": "interactive",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Follow the pointer."
+        },
+        {
+          "name": "paused",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Hold the ribbons still and stop the frame loop."
+        },
+        {
+          "name": "seed",
+          "type": "number",
+          "defaultValue": "5",
+          "description": "Seed for every ribbon's length, spring, twist and colour."
+        },
+        {
+          "name": "dpr",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "The highest device pixel ratio the canvas draws at (never above 2)."
+        },
+        {
+          "name": "onWhip",
+          "type": "(point: { x: number; y: number }) => void",
+          "description": "Fires when a press (or Enter/Space on a control inside) whips the ribbons, with the point in the box."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the box. Give it a height; children are laid out inside it."
+        }
+      ],
+      "usageNotes": [
+        "The canvas is aria-hidden with pointer-events none and sits under the children, so a headline stays readable and every button and link keeps its own clicks, focus and keys.",
+        "Keyboard focus on a control sends the ribbons to circle it and Enter or Space on it whips them, so the keyboard reaches the same states as the pointer; on touch, a tap swoops them to the tap and a sideways drag leads them, while vertical scrolling is untouched.",
+        "Colours default to pigments built from the theme tokens at a fixed lightness (mono follows the foreground), blended in OKLab into a lookup made once per palette, and they are re-read when the theme changes.",
+        "Under reduced motion the ribbons are one still sweep, simulated from the seed and drawn once; nothing follows the pointer and no loop runs.",
+        "Canvas 2D with typed arrays made once, so a frame allocates nothing. The loop stops off screen, on a hidden tab and when paused; ambient-only frames draw at 30 fps, and with ambient off it stops once the silk settles. DPR is capped at 2."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/silk-ribbons",
+      "registryItemUrl": "https://www.kinetiqui.com/r/silk-ribbons.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/silk-ribbons",
+        "npm": "npx shadcn@latest add @kinetiq/silk-ribbons",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/silk-ribbons",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/silk-ribbons",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/silk-ribbons.json"
+      }
+    },
+    {
+      "slug": "ink-splash",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Ink Splash",
+      "serial": "KQ-1421",
+      "tagline": "Your cursor stirs a pool of ink.",
+      "description": "A pool of water under your content, simulated on the GPU as a real incompressible fluid (advection, vorticity confinement and a warm-started pressure solve every frame): the pointer drags a brush through it that pushes the water and lays pigment, so ink is shoved ahead, peels into curls, diffuses and fades. A click drops a splash — a zero-mean volume source pushes a ring of water out from the drop, its ink blooms with a pooled rim, satellite droplets patter down on a cascade stagger and a surface ripple runs out bending the ink — all inside 600 ms. Keyboard focus moving between controls inside draws a stroke of ink to the new one, and Enter or Space on a control drops a splash there.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "fluid",
+        "ink",
+        "splash",
+        "webgl",
+        "cursor",
+        "watercolour",
+        "hero"
+      ],
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "description": "Content floated on the pool, such as a headline. It keeps every click, focus and key."
+        },
+        {
+          "name": "viscosity",
+          "type": "number",
+          "defaultValue": "0.3",
+          "description": "How thick the water is, 0 to 1: thin water coasts and curls, thick ink stops short and smooths."
+        },
+        {
+          "name": "fade",
+          "type": "number",
+          "defaultValue": "6",
+          "description": "How long ink lingers before the water clears, in seconds (1 to 20)."
+        },
+        {
+          "name": "colors",
+          "type": "\"indigo\" | \"sumi\" | \"tide\" | \"ember\" | readonly string[]",
+          "defaultValue": "\"indigo\"",
+          "description": "The pigments: a named set from the theme tokens, or your own CSS colours. The brush walks through them, one per stroke and per splash."
+        },
+        {
+          "name": "curl",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How strongly eddies are kept and sharpened, 0 to 1 (thick water damps them further)."
+        },
+        {
+          "name": "radius",
+          "type": "number",
+          "defaultValue": "22",
+          "description": "The brush's width, in px."
+        },
+        {
+          "name": "force",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How hard the brush pushes the water, 0 to 1."
+        },
+        {
+          "name": "opacity",
+          "type": "number",
+          "defaultValue": "0.85",
+          "description": "Coverage of the densest ink, 0 to 1."
+        },
+        {
+          "name": "splash",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "A click (or Enter/Space on a control inside) drops a splash."
+        },
+        {
+          "name": "splashSize",
+          "type": "number",
+          "defaultValue": "46",
+          "description": "The splash drop's radius, in px."
+        },
+        {
+          "name": "droplets",
+          "type": "number",
+          "defaultValue": "7",
+          "description": "Satellite droplets that patter down around each splash, 0 to 12."
+        },
+        {
+          "name": "ambient",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "With nobody stirring, a slow drip lands every few seconds so the pool stays alive."
+        },
+        {
+          "name": "interactive",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "The pointer stirs the pool (mouse and pen; a tap drops a splash)."
+        },
+        {
+          "name": "followFocus",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Keyboard focus moving between controls inside draws a stroke of ink to the new one."
+        },
+        {
+          "name": "paused",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Hold the water still and stop the frame loop."
+        },
+        {
+          "name": "resolution",
+          "type": "number",
+          "defaultValue": "128",
+          "description": "The simulation grid's long side, 48 to 192 cells. Lower is cheaper and softer."
+        },
+        {
+          "name": "dpr",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "The highest device pixel ratio the canvas draws at (never above 2)."
+        },
+        {
+          "name": "seed",
+          "type": "number",
+          "defaultValue": "11",
+          "description": "Seed for the opening drop, the drips, the droplets, the grain and the still."
+        },
+        {
+          "name": "onSplash",
+          "type": "(splash: { x: number; y: number; source: \"pointer\" | \"keyboard\" | \"ambient\" }) => void",
+          "description": "Fires when a drop lands, with where (px from the box's top-left) and why."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the box. Give it a height; children are laid out inside it."
+        }
+      ],
+      "usageNotes": [
+        "The canvas and its still are aria-hidden and never take the pointer, so buttons and links inside keep their own clicks, focus and keys. Focus moving between controls draws ink to the new one and Enter or Space on a control drops a splash, so the keyboard reaches the same states as the pointer.",
+        "Give the box a height (h-52, h-60, or a hero's own size). Touch scrolls the page as usual — a tap drops a splash, a drag never stirs — so the pool is safe in a scrolling layout.",
+        "Pigments default to the theme tokens at their own lightness and are re-read when the theme changes: deep ink with a darker pooled rim on a light page, a step brighter on a dark one. Pass your own CSS colours to colors.",
+        "Under reduced motion there is no simulation: the server-rendered still swirl stays, and a click or Enter/Space crossfades a soft blot in at the point and lets it fade over the fade time.",
+        "Needs WebGL2 with renderable half-float buffers; without them, or after a lost context, the still stays. The grid is capped at 192 cells and the dye at 512 texels; the loop stops off screen, on a hidden tab and when paused, drops to 30 fps when only the drip moves the water, and with ambient off stops once the water has settled and the ink has faded."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/ink-splash",
+      "registryItemUrl": "https://www.kinetiqui.com/r/ink-splash.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/ink-splash",
+        "npm": "npx shadcn@latest add @kinetiq/ink-splash",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/ink-splash",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/ink-splash",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/ink-splash.json"
+      }
+    },
+    {
+      "slug": "lava-blobs",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Lava Blobs",
+      "serial": "KQ-1422",
+      "tagline": "Blobs that merge and part like wax.",
+      "description": "A tall column of warm liquid where wax rises and falls: each blob carries a temperature that the coil raises on the floor and the cap lowers at the top, buoyancy follows it, and touching blobs pull together, share heat and travel as one mass until their heat parts them. The wax is a metaball field drawn in one WebGL2 pass with soft light — wrap diffuse, a glossy specular, a rim and an inner glow that follows temperature — so blobs merge with smooth necks and pinch apart. The pointer adds its own blob that follows on springs.glide and swells in on springs.snap, drawing wax along; pressing grips nearby wax into one mass and releasing throws it with the pointer's velocity. Keyboard focus sends the hand to the focused control and Enter or Space grips there.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "metaball",
+        "lava",
+        "wax",
+        "webgl",
+        "blobs",
+        "lamp",
+        "hero"
+      ],
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "description": "Content laid over the lamp, such as a headline. It keeps every click, focus and key."
+        },
+        {
+          "name": "count",
+          "type": "number",
+          "defaultValue": "6",
+          "description": "How many blobs of wax, 3 to 10."
+        },
+        {
+          "name": "speed",
+          "type": "number",
+          "defaultValue": "1",
+          "description": "How fast the wax lives: 0.25 is a slow evening, 2 a lamp left on all day."
+        },
+        {
+          "name": "colors",
+          "type": "\"amber\" | \"rose\" | \"cobalt\" | \"moss\" | readonly string[]",
+          "defaultValue": "\"amber\"",
+          "description": "The wax: a named set from the theme tokens, or your own [cool wax, hot wax, liquid tint] CSS colours."
+        },
+        {
+          "name": "size",
+          "type": "number",
+          "defaultValue": "1",
+          "description": "Blob size relative to the column, 0.6 to 1.4."
+        },
+        {
+          "name": "heat",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How hard the base heats the wax, 0 to 1: more heat keeps more of it aloft."
+        },
+        {
+          "name": "gloss",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "The glossy specular and rim light on the wax, 0 to 1."
+        },
+        {
+          "name": "glow",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "The wax's inner glow and the coil's light in the liquid, 0 to 1."
+        },
+        {
+          "name": "pull",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How strongly the pointer's own blob draws wax toward it, 0 to 1."
+        },
+        {
+          "name": "handSize",
+          "type": "number",
+          "defaultValue": "30",
+          "description": "The pointer blob's radius, in px."
+        },
+        {
+          "name": "interactive",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "The pointer adds its blob; a press grips nearby wax and a release throws it."
+        },
+        {
+          "name": "followFocus",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Keyboard focus on a control inside sends the pointer blob there; Enter or Space grips."
+        },
+        {
+          "name": "paused",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Hold the wax still and stop the frame loop."
+        },
+        {
+          "name": "seed",
+          "type": "number",
+          "defaultValue": "5",
+          "description": "Seed for the sizes, the starting composition and the wander."
+        },
+        {
+          "name": "dpr",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "The highest device pixel ratio the canvas draws at (never above 2)."
+        },
+        {
+          "name": "onGripChange",
+          "type": "(gripped: boolean) => void",
+          "description": "Fires when a press (or Enter/Space on a control inside) grips wax, and again when it lets go."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the box. Give it a height; children are laid out inside it."
+        }
+      ],
+      "usageNotes": [
+        "The canvas and its still are aria-hidden and never take the pointer, so buttons and links inside keep their own clicks, focus and keys. Focus on a control sends the hand there and Enter or Space on it grips, so the keyboard reaches the same states as the pointer. On touch a press grips under the finger; a drag still scrolls the page.",
+        "Made for a tall box (h-[420px] to a full-height hero). Blob size follows the column's width, clamped, so narrow and wide columns hold the same composition; the server renders that composition as lit discs, which the canvas replaces on its first frame.",
+        "Wax is pigment — token hues at a fixed lightness — so it reads the same on light and dark pages; the liquid is the card colour washed with the palette's tint and is re-read when the theme changes. Pass your own [cool, hot, liquid] CSS colours to colors.",
+        "Under reduced motion it is one lit still frame with two blobs mid-merge and one leaving the pool; the hand appears at the pointer or the focused control instantly and a grip shows the gathered frame, with no travel.",
+        "One fragment pass with at most eleven kernels. The loop runs at 30 fps while the wax only drifts and every frame while the hand is in play, and stops off screen, on a hidden tab and when paused. Without WebGL2 a Canvas 2D renderer draws the same field at a third of the resolution; a lost context brings the still back."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/lava-blobs",
+      "registryItemUrl": "https://www.kinetiqui.com/r/lava-blobs.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/lava-blobs",
+        "npm": "npx shadcn@latest add @kinetiq/lava-blobs",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/lava-blobs",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/lava-blobs",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/lava-blobs.json"
+      }
+    },
+    {
+      "slug": "jelly-cursor",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Jelly Cursor",
+      "serial": "KQ-1423",
+      "tagline": "A cursor with a wobble of its own.",
+      "description": "Inside its box the pointer becomes a ball of jelly: a soft-body ring of 40 points on damped springs, carried rigidly with the pointer so the cursor stays exact, drawn out into an area-keeping ellipse behind a fast move and set wobbling by a stop, with a damping ratio that `wobble` maps across springs.flick, springs.recoil and looser. Over a button or link it reaches for it side-first and wraps the child's own rounded box as a tint; leaving, the far side clings while the near side follows, until it lets go and snaps back into a ball. Keyboard focus on a child gets the same wrap and Enter or Space squashes it; any key returns the system cursor.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "cursor",
+        "jelly",
+        "blob",
+        "soft body",
+        "hover",
+        "magnetic",
+        "wobble"
+      ],
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "description": "The area the jelly lives in. Its buttons and links keep every click, focus and key."
+        },
+        {
+          "name": "size",
+          "type": "number",
+          "defaultValue": "28",
+          "description": "The jelly ball's diameter, in px."
+        },
+        {
+          "name": "wobble",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How long it jiggles once it stops: 0 settles at once (flick), 0.5 bounces twice (recoil), 1 keeps on jiggling."
+        },
+        {
+          "name": "color",
+          "type": "\"cobalt\" | \"mint\" | \"ember\" | \"ink\" | string",
+          "defaultValue": "\"cobalt\"",
+          "description": "Its colour: a named pigment from the theme tokens, or any CSS colour."
+        },
+        {
+          "name": "stretch",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How far it draws out behind a fast pointer, 0 to 1."
+        },
+        {
+          "name": "squash",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How deep a press squashes it, 0 to 1."
+        },
+        {
+          "name": "targets",
+          "type": "string",
+          "defaultValue": "\"button, a[href], [role='button'], [data-jelly]\"",
+          "description": "Which children it wraps itself round, as a CSS selector."
+        },
+        {
+          "name": "padding",
+          "type": "number",
+          "defaultValue": "size × 0.22",
+          "description": "Room it leaves round a wrapped child, in px; a bigger jelly is puffier (6 at the default size)."
+        },
+        {
+          "name": "stickiness",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How far it clings to a child you leave before it lets go, 0 to 1."
+        },
+        {
+          "name": "tint",
+          "type": "number",
+          "defaultValue": "0.16",
+          "description": "Its body's opacity while wrapped round a child, so the label reads through, 0 to 1."
+        },
+        {
+          "name": "restOn",
+          "type": "string",
+          "defaultValue": "\"[data-jelly-rest]\"",
+          "description": "The child it rests on with no pointer inside, as a CSS selector; with none it hides."
+        },
+        {
+          "name": "hideCursor",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Hide the system cursor while the jelly leads (never over text fields, never after a key press)."
+        },
+        {
+          "name": "followFocus",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Keyboard focus on a child wraps the jelly round it; Enter or Space squashes it."
+        },
+        {
+          "name": "interactive",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "The pointer leads the jelly (mouse and pen; a tap moves it to the tapped child)."
+        },
+        {
+          "name": "onTargetChange",
+          "type": "(target: HTMLElement | null) => void",
+          "description": "Fires when the child it is wrapped round changes, with that child or null."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the box."
+        }
+      ],
+      "usageNotes": [
+        "The jelly is an aria-hidden SVG with pointer-events none, so every child keeps its own clicks, focus, keys and focus ring. The system cursor is hidden only inside the box, only for mouse and pen, never over inputs, textareas, selects or contenteditable, and it comes back on any key press and when the pointer leaves.",
+        "Mark the child it should sit on at rest with data-jelly-rest (or pass restOn), so the box shows a designed first frame before anyone points. Add data-jelly to any extra element it should wrap.",
+        "Keyboard focus on a child wraps the jelly round it as a second focus cue beside the ring, and Enter or Space squashes it the way a press does. On touch there is no follower: a tap moves the jelly to the tapped child.",
+        "Under reduced motion it follows 1:1 as a plain disc with no stretch, wobble or squash, and wrapping changes its outline at once with the tint crossfading.",
+        "Pure SVG, no canvas: one path of 40 points written straight to the DOM each frame, numbers rounded to 0.1 px. The loop runs only while the jelly moves or settles, and stops off screen and on a hidden tab."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/jelly-cursor",
+      "registryItemUrl": "https://www.kinetiqui.com/r/jelly-cursor.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/jelly-cursor",
+        "npm": "npx shadcn@latest add @kinetiq/jelly-cursor",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/jelly-cursor",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/jelly-cursor",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/jelly-cursor.json"
+      }
+    },
+    {
+      "slug": "comet-border",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Comet Border",
+      "serial": "KQ-1424",
+      "tagline": "A comet circles the frame.",
+      "description": "A frame for any children with a comet travelling its border: a bright head and a tail that tapers in width and light, drawn on a Canvas 2D layer along the border's own centreline — read from the computed border width and all four corner radii and sampled by arc length, so the pace stays even through the corners. The border brightens just ahead of the head and keeps a fading afterglow behind it. Hovering, or keyboard focus inside, speeds the comet up on the springs.glide constants and lets it coast back on springs.drift, and lights a twin that ignites opposite and runs the other way; where the two heads cross the border flares. The children keep their own focus order, clicks and rings.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "border",
+        "comet",
+        "frame",
+        "card",
+        "glow",
+        "highlight",
+        "canvas"
+      ],
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "description": "What the frame holds. It keeps every click, focus and key."
+        },
+        {
+          "name": "speed",
+          "type": "number",
+          "defaultValue": "140",
+          "description": "The comet's pace along the border, in px per second."
+        },
+        {
+          "name": "tail",
+          "type": "number",
+          "defaultValue": "160",
+          "description": "The tail's length, in px (never more than 45% of the frame)."
+        },
+        {
+          "name": "color",
+          "type": "\"cobalt\" | \"mint\" | \"amber\" | \"ink\" | string",
+          "defaultValue": "\"cobalt\"",
+          "description": "Its colour: a named token, or any CSS colour."
+        },
+        {
+          "name": "width",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "The head's thickness, in px."
+        },
+        {
+          "name": "glow",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How far its halo spreads and how bright, 0 to 1."
+        },
+        {
+          "name": "afterglow",
+          "type": "number",
+          "defaultValue": "1400",
+          "description": "How long the border stays lit after the comet passes, in ms; 0 leaves no trace."
+        },
+        {
+          "name": "hoverSpeed",
+          "type": "number",
+          "defaultValue": "2.4",
+          "description": "How much faster it runs while the frame is hovered or holds keyboard focus, 1 to 5."
+        },
+        {
+          "name": "twin",
+          "type": "boolean | \"hover\"",
+          "defaultValue": "\"hover\"",
+          "description": "A second comet running the other way: always, never, or lit by hover and focus."
+        },
+        {
+          "name": "direction",
+          "type": "\"clockwise\" | \"counterclockwise\"",
+          "defaultValue": "\"clockwise\"",
+          "description": "Which way round the frame it travels."
+        },
+        {
+          "name": "start",
+          "type": "number",
+          "defaultValue": "0.12",
+          "description": "Where it sets off (and rests under reduced motion), 0 to 1 round the frame from the top-left corner."
+        },
+        {
+          "name": "paused",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Hold the comet where it is and stop the frame loop."
+        },
+        {
+          "name": "dpr",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "The highest device pixel ratio the canvas draws at (never above 2)."
+        },
+        {
+          "name": "onLap",
+          "type": "(laps: number) => void",
+          "description": "Fires each time the comet completes a lap, with the count so far."
+        },
+        {
+          "name": "onCross",
+          "type": "() => void",
+          "description": "Fires when the twin and the comet cross and the border flares."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the frame. It draws its own rounded hairline; any rounded-* and border-* class sets the path."
+        }
+      ],
+      "usageNotes": [
+        "The component is the bordered box itself: give it the card's background, radius and padding through className (rounded-4 bg-card p-4…). The comet follows whatever border width and corner radii the box computes to, and re-reads them on resize.",
+        "The canvas is aria-hidden and never takes the pointer; the children keep their semantics, focus order and focus rings. Keyboard focus inside counts as hover — the twin lights and the pace lifts — while a mouse click that focuses a button does not.",
+        "Colours resolve on the component and are re-read when the theme changes: at night the head runs a hot white core with a soft halo, on paper the colour itself leads and the halo is quieter, so it never smudges a light card.",
+        "Under reduced motion there is no travel: the comet rests at start with its tail and a soft afterglow laid behind, and hover or focus brightens the frame with a 150 ms tween (and shows the twin opposite).",
+        "Canvas 2D, a few dozen quads per comet and a handful of batched strokes for the afterglow each frame, with nothing allocated per frame. The loop stops off screen, on a hidden tab and when paused."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/comet-border",
+      "registryItemUrl": "https://www.kinetiqui.com/r/comet-border.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/comet-border",
+        "npm": "npx shadcn@latest add @kinetiq/comet-border",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/comet-border",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/comet-border",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/comet-border.json"
       }
     },
     {

@@ -36856,6 +36856,389 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "compass-field",
+      "type": "registry:ui",
+      "title": "Compass Field",
+      "description": "A staggered grid of compass needles on one canvas, each a damped rotational spring that turns to point at the pointer with a wobble set by its damping ratio, stiffening, lengthening and brightening as the pointer comes near. Every needle reads the pointer where it was distance / wave seconds ago, so a turn spreads outward from the hand like a ripple and the field swings home to north as a wave from wherever the pointer left; a seeded gust swings through it the first time it comes into view. Keyboard focus inside turns the needles toward the focused element, and a tap turns them for a moment.",
+      "files": [
+        {
+          "path": "registry/ui/compass-field.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1406"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "phantom-cursor",
+      "type": "registry:ui",
+      "title": "Phantom Cursor",
+      "description": "A shadow self that follows the pointer inside its box: a soft form of rising smoke shaped like the pointer's own arrow (or a round wisp), drawn by one WebGL2 shader scissored to its own bounds. It trails on a 2D spring that slides from springs.glide to one softer than springs.drift, smearing along its travel, then stiffens up to five times and hurries in to condense under the cursor once the hand rests, and dissolves after an idle moment. Keyboard focus inside sends it to rest on the focused element's corner.",
+      "files": [
+        {
+          "path": "registry/ui/phantom-cursor.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1407"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "edge-haze",
+      "type": "registry:ui",
+      "title": "Edge Haze",
+      "description": "A scroll area whose edges dissolve instead of cutting off: stacks of backdrop blurs, each twice the last and masked to begin a step further toward the edge, ramp the content smoothly from sharp to the full blur while a wash of the surface's own colour deepens toward the edge. Each edge's haze measures what it hides — the distance hidden beyond it over reach, followed on springs.glide — so the bottom haze recedes as the end comes near and lifts away on arrival while the top one gathers, and with nothing to scroll nothing is drawn. The viewport is a focusable region while it overflows, so arrow keys, Page Up and Down, Home and End scroll it natively.",
+      "files": [
+        {
+          "path": "registry/ui/edge-haze.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1408"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "click-bloom",
+      "type": "registry:ui",
+      "title": "Click Bloom",
+      "description": "A wrapper whose every click opens a small flower on one canvas: the petals unfold out of the press point on springs.snap's response with the pollen popping on springs.recoil's, then each lets go in its own moment, thrown outward by spread to fall under gravity through air that slows it, tumbling in 3D on two axes so it thins to an edge, shows its darker back and slips sideways as it turns, while a few heavier seeds burst out ahead. Rapid clicks layer blooms; keyboard clicks — Enter or Space on anything inside — bloom from the centre of what was activated.",
+      "files": [
+        {
+          "path": "registry/ui/click-bloom.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1409"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "lodestone",
+      "type": "registry:ui",
+      "title": "Lodestone",
+      "description": "A magnetic wrapper whose still outer box measures the pointer while an inner layer leans toward it once it comes within radius of the child's own edges: it follows strength of the pointer's offset — most when close — eased into a limit, and tilts in perspective so the nearest side rises toward it, on a follow spring between springs.glide and springs.snap integrated per frame. Past the field's edge the bond breaks and it snaps home on springs.recoil with the velocity it had; a press seats it on springs.flick, and keyboard focus holds it steady with a small lift on springs.snap while a drop shadow falls away from the pull.",
+      "files": [
+        {
+          "path": "registry/ui/lodestone.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1410"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "kelp-strands",
+      "type": "registry:ui",
+      "title": "Kelp Strands",
+      "description": "A bed of kelp anchored along the bottom of its box, every strand a Verlet chain with a fixed root, buoyant toward the tip, held upright by a bending constraint set by stiffness and dragged toward the velocity of the water around it, so it sways as a slow swell rolls across the bed. The pointer pushes the water: strands part around the hand, the eddies it leaves keep curling them for a moment, and they spring back; up to three depth rows (further back is shorter, fainter and slower) are drawn as tapered blades shaded from base to tip with a float at each end. Keyboard focus inside parts the strands around the focused element.",
+      "files": [
+        {
+          "path": "registry/ui/kelp-strands.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1411"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "soft-shape",
+      "type": "registry:ui",
+      "title": "Soft Shape",
+      "description": "Flat pigment circles, rounded squares and rounded triangles drawn as signed-distance fields in one WebGL2 pass, joined by a smooth minimum whose reach grows near the pointer: as the pointer draws two shapes together (each leans in on springs.glide and drifts home on springs.drift) they flow into one mass through a neck and their colours blend across it, while their edges soften into a grained gradient near the pointer and stay crisp away from it. Pressing gathers the whole composition into one soft mass and releasing scatters it home on springs.recoil. Keyboard focus on a control inside draws the shapes to it, and Enter or Space on it pulses a gather.",
+      "files": [
+        {
+          "path": "registry/ui/soft-shape.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1417"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "sight-lines",
+      "type": "registry:ui",
+      "title": "Sight Lines",
+      "description": "A precision measuring overlay bounded to the container it wraps: four hairlines run in from the edges to the pointer, each with its length in a mono pill, over tick rulers that mark the pointer's coordinate, and the lines ease after the pointer on springs.glide while the crosshair cursor stays exactly under the hand. Reaching a child opens the meeting point into the child's box on springs.snap — the lines retract to its edges and measure its margins, a hairline box outlines it, the readout becomes its width × height and the ruler markers widen into its span — and leaving releases the lines back to the pointer on springs.glide. Keyboard focus on a child snaps the lines to it exactly as hover does.",
+      "files": [
+        {
+          "path": "registry/ui/sight-lines.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1418"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "photo-scatter",
+      "type": "registry:ui",
+      "title": "Photo Scatter",
+      "description": "An image trail of real-looking prints: as the pointer travels, the distance it covers is measured along its path and every few dozen px a print drops at that exact point, born lifted and landing with its scale on springs.recoil, its seeded tilt on springs.snap and its shadow drawing in tight on springs.glide. After its life each print fades and shrinks away on the exit ease, oldest first, and a press pins one to the table with a strip of tape until the next press. Keyboard focus travels too, dropping prints along the way to a focused control and landing them beside it, and Enter or Space pins one there.",
+      "files": [
+        {
+          "path": "registry/ui/photo-scatter.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1419"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "silk-ribbons",
+      "type": "registry:ui",
+      "title": "Silk Ribbons",
+      "description": "Silk ribbons stream from the pointer on one Canvas 2D layer: each is a chain of 32 links whose head rides the pointer on a spring blended between springs.drift and springs.snap, with every link following the one ahead at its length and held smooth by a bending spring, and the ribbons differ in length, stiffness and drag so a sweep fans them out. When a link catches up its overtaking motion turns sideways, so as the pointer stops the ribbons overshoot, wind into loops and unwind, and a press whips an S-wave down each chain; each ribbon tapers and twists, darkening edge-on and shifting colour between its two faces like iridescent silk. With nobody pointing they fly a slow figure-eight, keyboard focus sends them to circle the focused control, and Enter or Space on it whips them there.",
+      "files": [
+        {
+          "path": "registry/ui/silk-ribbons.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1420"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "ink-splash",
+      "type": "registry:ui",
+      "title": "Ink Splash",
+      "description": "A pool of water under your content, simulated on the GPU as a real incompressible fluid (advection, vorticity confinement and a warm-started pressure solve every frame): the pointer drags a brush through it that pushes the water and lays pigment, so ink is shoved ahead, peels into curls, diffuses and fades. A click drops a splash — a zero-mean volume source pushes a ring of water out from the drop, its ink blooms with a pooled rim, satellite droplets patter down on a cascade stagger and a surface ripple runs out bending the ink — all inside 600 ms. Keyboard focus moving between controls inside draws a stroke of ink to the new one, and Enter or Space on a control drops a splash there.",
+      "files": [
+        {
+          "path": "registry/ui/ink-splash.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1421"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "lava-blobs",
+      "type": "registry:ui",
+      "title": "Lava Blobs",
+      "description": "A tall column of warm liquid where wax rises and falls: each blob carries a temperature that the coil raises on the floor and the cap lowers at the top, buoyancy follows it, and touching blobs pull together, share heat and travel as one mass until their heat parts them. The wax is a metaball field drawn in one WebGL2 pass with soft light — wrap diffuse, a glossy specular, a rim and an inner glow that follows temperature — so blobs merge with smooth necks and pinch apart. The pointer adds its own blob that follows on springs.glide and swells in on springs.snap, drawing wax along; pressing grips nearby wax into one mass and releasing throws it with the pointer's velocity. Keyboard focus sends the hand to the focused control and Enter or Space grips there.",
+      "files": [
+        {
+          "path": "registry/ui/lava-blobs.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1422"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "jelly-cursor",
+      "type": "registry:ui",
+      "title": "Jelly Cursor",
+      "description": "Inside its box the pointer becomes a ball of jelly: a soft-body ring of 40 points on damped springs, carried rigidly with the pointer so the cursor stays exact, drawn out into an area-keeping ellipse behind a fast move and set wobbling by a stop, with a damping ratio that `wobble` maps across springs.flick, springs.recoil and looser. Over a button or link it reaches for it side-first and wraps the child's own rounded box as a tint; leaving, the far side clings while the near side follows, until it lets go and snaps back into a ball. Keyboard focus on a child gets the same wrap and Enter or Space squashes it; any key returns the system cursor.",
+      "files": [
+        {
+          "path": "registry/ui/jelly-cursor.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1423"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "comet-border",
+      "type": "registry:ui",
+      "title": "Comet Border",
+      "description": "A frame for any children with a comet travelling its border: a bright head and a tail that tapers in width and light, drawn on a Canvas 2D layer along the border's own centreline — read from the computed border width and all four corner radii and sampled by arc length, so the pace stays even through the corners. The border brightens just ahead of the head and keeps a fading afterglow behind it. Hovering, or keyboard focus inside, speeds the comet up on the springs.glide constants and lets it coast back on springs.drift, and lights a twin that ignites opposite and runs the other way; where the two heads cross the border flares. The children keep their own focus order, clicks and rings.",
+      "files": [
+        {
+          "path": "registry/ui/comet-border.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1424"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

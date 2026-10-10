@@ -1510,6 +1510,20 @@ import { IrisWatchDemo } from "@/registry/demos/iris-watch.demo";
 import { HarpStringsDemo } from "@/registry/demos/harp-strings.demo";
 import { SweepScopeDemo } from "@/registry/demos/sweep-scope.demo";
 import { PolarGlowDemo } from "@/registry/demos/polar-glow.demo";
+import { CompassFieldDemo } from "@/registry/demos/compass-field.demo";
+import { PhantomCursorDemo } from "@/registry/demos/phantom-cursor.demo";
+import { EdgeHazeDemo } from "@/registry/demos/edge-haze.demo";
+import { ClickBloomDemo } from "@/registry/demos/click-bloom.demo";
+import { LodestoneDemo } from "@/registry/demos/lodestone.demo";
+import { KelpStrandsDemo } from "@/registry/demos/kelp-strands.demo";
+import { SoftShapeDemo } from "@/registry/demos/soft-shape.demo";
+import { SightLinesDemo } from "@/registry/demos/sight-lines.demo";
+import { PhotoScatterDemo } from "@/registry/demos/photo-scatter.demo";
+import { SilkRibbonsDemo } from "@/registry/demos/silk-ribbons.demo";
+import { InkSplashDemo } from "@/registry/demos/ink-splash.demo";
+import { LavaBlobsDemo } from "@/registry/demos/lava-blobs.demo";
+import { JellyCursorDemo } from "@/registry/demos/jelly-cursor.demo";
+import { CometBorderDemo } from "@/registry/demos/comet-border.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -3034,4 +3048,18 @@ export const demos: Record<string, ComponentType> = {
   "harp-strings": HarpStringsDemo,
   "sweep-scope": SweepScopeDemo,
   "polar-glow": PolarGlowDemo,
+  "compass-field": CompassFieldDemo,
+  "phantom-cursor": PhantomCursorDemo,
+  "edge-haze": EdgeHazeDemo,
+  "click-bloom": ClickBloomDemo,
+  lodestone: LodestoneDemo,
+  "kelp-strands": KelpStrandsDemo,
+  "soft-shape": SoftShapeDemo,
+  "sight-lines": SightLinesDemo,
+  "photo-scatter": PhotoScatterDemo,
+  "silk-ribbons": SilkRibbonsDemo,
+  "ink-splash": InkSplashDemo,
+  "lava-blobs": LavaBlobsDemo,
+  "jelly-cursor": JellyCursorDemo,
+  "comet-border": CometBorderDemo,
 };
