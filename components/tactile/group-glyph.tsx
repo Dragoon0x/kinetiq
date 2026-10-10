@@ -1,6 +1,14 @@
 import {
   AppWindow,
   Bell,
+  Blocks,
+  CaseSensitive,
+  Component,
+  LayoutDashboard,
+  LayoutTemplate,
+  MousePointerClick,
+  WandSparkles,
+  Waves,
   ChartColumn,
   GalleryVerticalEnd,
   PanelsTopLeft,
@@ -32,7 +40,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-/** Every room's groups: Tactile's verbs, Atelier's and Studio's sets. Slugs never clash. */
+/** Every room's groups: Tactile's verbs, Atelier's, Studio's and Canvas's sets. Slugs never clash. */
 const GLYPH: Record<string, LucideIcon> = {
   // tactile
   hover: MousePointer2,
@@ -67,6 +75,15 @@ const GLYPH: Record<string, LucideIcon> = {
   flows: Route,
   commerce: ShoppingBag,
   screens: AppWindow,
+  // canvas
+  components: Component,
+  blocks: Blocks,
+  "app-ui": LayoutDashboard,
+  templates: LayoutTemplate,
+  text: CaseSensitive,
+  micro: MousePointerClick,
+  backgrounds: Waves,
+  animations: WandSparkles,
 };
 
 /** The small mark each group wears on its chip and its cards. Decorative. */

@@ -48,7 +48,8 @@ export function ComponentDocPage({
     />
   ) : (category?.slug === "tactile" ||
       category?.slug === "atelier" ||
-      category?.slug === "studio") &&
+      category?.slug === "studio" ||
+      category?.slug === "canvas") &&
     Demo ? (
     // Room pieces carry their tweaks and sound onto their own page.
     <TactileDocPreview

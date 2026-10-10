@@ -14,7 +14,7 @@ export type RoomGroup = { slug: string; label: string };
  * are in from context, so neither room ships the other's demos.
  */
 export type Room = {
-  id: "tactile" | "atelier" | "studio";
+  id: "tactile" | "atelier" | "studio" | "canvas";
   /** The room's page, e.g. "/tactile". */
   path: string;
   name: string;

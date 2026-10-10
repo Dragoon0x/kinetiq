@@ -6,6 +6,7 @@ import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 
 import { ATELIER_ROOM } from "@/components/atelier/atelier-room";
+import { CANVAS_ROOM } from "@/components/canvas/canvas-room";
 import { SpecimenPlate } from "@/components/lab/specimen-plate";
 import { STUDIO_ROOM } from "@/components/studio/studio-room";
 import { defaultsOf } from "@/registry/lib/tweaks";
@@ -21,6 +22,7 @@ const ROOMS = {
   tactile: TACTILE_ROOM,
   atelier: ATELIER_ROOM,
   studio: STUDIO_ROOM,
+  canvas: CANVAS_ROOM,
 } as const;
 
 /**

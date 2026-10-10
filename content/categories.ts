@@ -35,7 +35,8 @@ export type CategorySlug =
   | "devtools"
   | "tactile"
   | "atelier"
-  | "studio";
+  | "studio"
+  | "canvas";
 
 export type Category = {
   slug: CategorySlug;
@@ -188,6 +189,12 @@ export const CATEGORIES: Category[] = [
     label: "Studio",
     blurb:
       "Product interface, from the smallest press to the whole screen \u2014 toggles, buttons, cards and containers with deep APIs, and complete AI, workspace, data, flow, commerce and app-screen surfaces.",
+  },
+  {
+    slug: "canvas",
+    label: "Canvas",
+    blurb:
+      "Visual craft, made to be felt \u2014 text that arrives and settles, micro-interactions with real physics, cursor and reveal effects, and living backgrounds.",
   },
 ];
 

@@ -54,6 +54,11 @@ const STARTING_POINTS = [
     label: "Studio",
     hint: "Product interface, press to screen",
   },
+  {
+    href: "/canvas",
+    label: "Canvas",
+    hint: "Text, effects and living backgrounds",
+  },
   { href: "/guides", label: "Guides", hint: "The field manuals" },
 ];
 

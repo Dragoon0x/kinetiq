@@ -64,6 +64,14 @@ const HINT: Record<string, Record<string, number[]>> = {
   flows: { x: [0, 3, 0] },
   commerce: { rotate: [0, -10, 6, 0] },
   screens: { y: [0, -2, 0] },
+  components: { rotate: [0, 12, 0] },
+  blocks: { scaleY: [1, 0.85, 1] },
+  "app-ui": { y: [0, -2, 0] },
+  templates: { scale: [1, 0.9, 1] },
+  text: { x: [0, 2, -1, 0] },
+  micro: { scale: [1, 0.8, 1] },
+  backgrounds: { opacity: [1, 0.45, 1] },
+  animations: { rotate: [0, -14, 8, 0] },
 };
 
 const SPAN: Record<TactileAspect, string> = {

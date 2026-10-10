@@ -14,6 +14,7 @@ const routes = [
   "/tactile",
   "/atelier",
   "/studio",
+  "/canvas",
   "/blocks",
   "/playground",
   "/guides",

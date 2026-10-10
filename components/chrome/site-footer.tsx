@@ -13,6 +13,7 @@ const COLUMNS = [
       { href: "/tactile", label: "Tactile" },
       { href: "/atelier", label: "Atelier" },
       { href: "/studio", label: "Studio" },
+      { href: "/canvas", label: "Canvas" },
       { href: "/blocks", label: "Blocks" },
       { href: "/pages", label: "Pages" },
       { href: "/templates", label: "Templates" },

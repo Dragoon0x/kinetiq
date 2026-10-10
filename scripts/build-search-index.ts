@@ -192,6 +192,22 @@ async function main() {
     },
     {
       s: "x",
+      t: "Canvas",
+      d: "Visual craft — text animations, micro-interactions, cursor and reveal effects, and living WebGL backgrounds.",
+      h: "/canvas",
+      k: [
+        "canvas",
+        "text animation",
+        "animated text",
+        "backgrounds",
+        "shader",
+        "webgl",
+        "cursor effects",
+        "micro-interactions",
+      ],
+    },
+    {
+      s: "x",
       t: "Blocks",
       d: "Larger assemblies — complete, product-ready sections.",
       h: "/blocks",
