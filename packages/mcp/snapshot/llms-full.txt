@@ -26668,6 +26668,399 @@ Notes:
 - Under reduced motion nothing flies or slides: screens cross-fade, rails jump-scroll, the badge's count changes in place and the quick add's check appears.
 - The catalogue is product-grid's: pass `products`, `colors` and `collections`, and the bag's lines (cart-drawer's `CartLine`) controlled through `items` to persist them.
 
+### Tune In (KQ-1351) — `tune-in`
+A headline that finds its frequency.
+
+A headline that comes in like a station on an analogue dial: every letter starts as faint seeded static jittering over a broken scanline, a thin carrier line sweeps across on a tween, letters ahead of it calm and flicker toward their real shape, and each one it passes locks onto its true glyph with a small vertical settle on springs.snap and a flash of signal colour that cools, while a mono readout riding the carrier rolls to the station's frequency. A mouse over the tuned headline detunes the letters under it for a moment and they relock on the same spring; with trigger="hover" the headline is focusable and keyboard focus tunes it in.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/tune-in`
+
+Props:
+- `text`: string — The headline.
+- `as`: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span" | "div" (default "h2") — The element rendered.
+- `frequency`: number (default 104.7) — Where the readout lands when the headline locks.
+- `from`: number (default 87.5) — Where the readout starts as the carrier sets off.
+- `unit`: string (default "MHz") — Printed after the readout.
+- `sweep`: number (default 1400) — How long the carrier takes to cross the headline, ms.
+- `noise`: number (default 0.5) — Static strength, 0 to 1: opacity, jitter, churn and scanline roughness; 0 is a still, faint ghost alphabet.
+- `readout`: boolean (default true) — Show the small frequency readout riding the carrier, in a strip reserved above the text.
+- `color`: string (default "var(--accent-bright)") — The carrier, the readout and each letter's brief lock flash.
+- `staticColor`: string (default "var(--ink-3)") — The static glyphs and the scanline under them.
+- `glyphs`: string (default "/\\|-_=+:;*#%~^<>{}[]!?") — The alphabet the static is drawn from.
+- `interactive`: boolean (default true) — A mouse or pen over a tuned headline detunes the letters under it for a moment.
+- `trigger`: "mount" | "inView" | "hover" | "manual" (default "inView") — When it tunes in: on mount, when scrolled into view, on hover or keyboard focus, or when active turns true.
+- `once`: boolean (default true) — Tune in only the first time it is seen or hovered; false re-tunes each time.
+- `delay`: number (default 120) — Wait before the carrier sets off, ms.
+- `active`: boolean — For trigger="manual": true tunes in, false drops back to static.
+- `seed`: number — Seeds the static so the server and browser draw the same; derived from text by default.
+- `onComplete`: () => void — Fires when the last letter locks.
+- `className`: string — Classes for the root element; set the type size and colour here.
+
+Notes:
+- The text is read once from an sr-only copy and the animated layer is aria-hidden; the true glyphs are real text, so selecting and copying the headline gives the real words.
+- Each letter's final box is reserved from the first frame (the true glyph is there, transparent), so the line never reflows while it tunes in; the readout strip only exists when readout is on.
+- One rAF loop drives the static and runs only while some letter is static, the headline is on screen and the page is visible; noise={0} needs no frames until the carrier arrives.
+- Under reduced motion the static holds still and the letters crossfade in reading order, with the readout already at its frequency; hover detuning is off.
+- With trigger="hover" the headline becomes focusable and keyboard focus tunes it in; use trigger="manual" with active to tie it to your own state.
+- Font size and colour inherit, and every offset is in em, so it works from a caption to a hero in either theme.
+
+### Drum Words (KQ-1352) — `drum-words`
+Words turn on a ratcheted drum.
+
+One word of a sentence on a ratcheted drum: the slot is a window onto a cylinder of faces placed with real 3D transforms about an axis behind the line, so the outgoing word tips away over the top while the next comes up from below foreshortened and shaded. Each change is one detent — a hair backwards on springs.flick as the pawl lifts, then forward on springs.snap, whose single overshoot is the detent catching — and the slot's width follows the word on springs.glide so the sentence glides instead of jumping. The word is a spinbutton: Up/Right, Enter and Space turn it forward, Down/Left back, Home/End to the ends, and a vertical drag turns the drum 1:1 with a throw committing to the detent it was heading for.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/drum-words`
+
+Props:
+- `words`: string[] — The words on the drum's faces, in turning order.
+- `before`: string (default "") — The sentence before the slot; end it with "\n" to set the word on its own line so a longer word never re-wraps the sentence.
+- `after`: string (default "") — The sentence after the slot, including any leading space it needs.
+- `as`: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span" | "div" (default "h2") — The element rendered.
+- `index / defaultIndex`: number (default 0) — The word showing, controlled or initial.
+- `onIndexChange`: (index: number) => void — Fires from the turn that changed it — the timer, a key, a tap or a throw — with the new index.
+- `interval`: number (default 2400) — How long each word rests before the drum turns, ms; 0 turns only by hand.
+- `depth`: number (default 0.6) — Drum curvature, 0 to 1: 0 is a nearly flat roll, 1 a tight drum with deep foreshortening.
+- `width`: "fit" | "widest" (default "fit") — "fit" springs the slot to each word so the sentence glides; "widest" holds the widest word so it never moves.
+- `align`: "start" | "center" (default "start") — Where a word sits in a slot wider than it.
+- `color`: string (default "var(--accent-bright)") — The words' colour.
+- `pauseOnHover`: boolean (default true) — Hold the drum while the pointer rests on the word.
+- `paused`: boolean (default false) — Stop turning on the timer; keys, taps and throws still turn it.
+- `interactive`: boolean (default true) — The word is a control: drag or throw it vertically, tap it, or use the arrow keys.
+- `trigger`: "mount" | "inView" | "hover" | "manual" (default "inView") — When the timer runs: from mount, once seen, only while the sentence is hovered or focused, or never (turn by index).
+- `once`: boolean (default false) — Turn through the words a single time and rest on the last.
+- `delay`: number (default 0) — Extra wait before the first turn, ms.
+- `sound`: boolean (default false) — Tick on every detent the visitor turns; the timer's turns are silent.
+- `onComplete`: () => void — Fires when a once cycle comes to rest on the last word.
+- `className`: string — Classes for the sentence; set the type size and colour here.
+
+Notes:
+- The sentence is real text and the word is a spinbutton whose value text is the current word; automatic turns are not announced, and the word is read on focus and on each key step.
+- The timer pauses while the pointer rests on the word, while it has focus, while it is dragged, off screen and in a hidden page, which also meets the need to pause moving content.
+- Geometry is in lh units, so the drum keeps its shape from a caption to a hero and renders identically on the server; only word widths are measured.
+- End before with a newline to put the word on its own line: with width="fit" a word longer than the space left on the line would otherwise re-wrap the sentence.
+- Under reduced motion the words crossfade and the slot width changes at once; a vertical drag still steps one word.
+- Sound is off by default and only ever answers the visitor: taps, keys and throws tick per detent, timer turns stay silent.
+
+### Tide Mask (KQ-1353) — `tide-mask`
+A heading rises out of the waterline.
+
+A multi-line heading revealed by a travelling liquid edge: each line sits behind its own clip path whose top edge is a wave (a swell and a counter-running chop), and the water level rises past each line on a tween, lines a stagger apart, while the letters float up a step onto their line on springs.glide and the glyphs just under the waterline stay wet and tinted until it moves on. The final line's last ripple is left behind as a fine underline that calms on springs.drift, ripples for a while and stirs again when the heading is hovered or focused; with trigger="hover" the heading is focusable and keyboard focus raises it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/tide-mask`
+
+Props:
+- `text`: string | readonly string[] — The heading's lines: an array, or a string split on "\n"; a line too long for its box wraps and rises as one block.
+- `as`: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "div" (default "h2") — The element rendered.
+- `amplitude`: number (default 0.5) — Wave height, 0 to 1; 0 is a straight rising edge and 1 about a fifth of a line.
+- `frequency`: number (default 2.2) — Wave crests across every 10em of line.
+- `speed`: number (default 1) — How fast the water rises and the waves travel, 0.5 to 2.
+- `stagger`: number (default 140) — Delay between one line's rise and the next, ms.
+- `color`: string (default "var(--accent-bright)") — The waterline, the wet glyphs just under it and the underline.
+- `wet`: number (default 0.6) — How strongly the glyphs just under the waterline are tinted while wet, 0 to 1.
+- `underline`: boolean (default true) — The final line's last ripple settles into a fine underline.
+- `rippleFor`: number (default 3200) — How long the underline keeps rippling once it settles, and again after each hover, ms; 0 is still and Infinity ripples while on screen.
+- `align`: "start" | "center" (default "start") — Line alignment.
+- `trigger`: "mount" | "inView" | "hover" | "manual" (default "inView") — When the water rises: on mount, when scrolled into view, on hover or keyboard focus, or when active turns true.
+- `once`: boolean (default true) — Rise only the first time it is seen or hovered; false lowers the water when it leaves view and raises it again.
+- `delay`: number (default 100) — Wait before the first line starts to rise, ms.
+- `active`: boolean — For trigger="manual": true raises the heading, false lowers the water back over it.
+- `onComplete`: () => void — Fires when the last line has risen.
+- `className`: string — Classes for the heading; set the type size and colour here.
+
+Notes:
+- The lines are real text, read in order and selectable; the wet copy, the waterline and the underline are aria-hidden and unselectable.
+- One rAF loop drives every edge while anything moves and stops when the heading settles, off screen or in a hidden page; risen lines drop their clip path altogether.
+- Under reduced motion the lines crossfade in with a straight edge, staggered, and the underline fades in flat and never ripples.
+- The heading reserves a little padding above and below (0.12em, 0.2em with the underline) so the wave's crests and the underline stay inside its own box.
+- Pass rippleFor={0} for a still underline, or Infinity for one that keeps moving while it is on screen; hovering always stirs it.
+
+### Grain Gather (KQ-1354) — `grain-gather`
+Text assembled from drifting grains.
+
+Particle text poured from sand: the words are laid out for real in the DOM, drawn from their own glyphs into an offscreen mask and sampled into a few thousand grains on a canvas, which start scattered in a slow drift and gather into the letters in a left-to-right sweep on per-grain springs from the springs.drift calibration, a touch under-damped so the words sharpen out of a haze. A pointer moving through the words parts the grains like a hand through sand and they flow back behind it; a press throws them outward and they regather, and Enter or Space on the focused text does the same from its centre.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/grain-gather`
+
+Props:
+- `text`: string — The words the grains gather into.
+- `as`: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "div" (default "h2") — The text element rendered.
+- `density`: number (default 0.6) — How many grains, 0 to 1: about 1,200 to 4,800, spread over the letters' ink.
+- `radius`: number (default 56) — How far the hand reaches, px.
+- `strength`: number (default 0.6) — How hard the hand pushes the grains aside, 0 to 1.
+- `scatter`: number (default 0.6) — How hard a press throws the grains, 0 to 1.
+- `drift`: number (default 0.5) — How much the scattered grains wander before they gather, 0 to 1.
+- `color`: string (default "currentColor") — The grains' colour; by default the text colour you set.
+- `grain`: number (default 1.3) — A grain's size, px; large type scales it up so the sand stays dense.
+- `dpr`: number (default 2) — The highest device pixel ratio the canvas draws at (never above 2).
+- `interactive`: boolean (default true) — A pointer parts the grains, a press scatters them, and Enter or Space scatters them from the keyboard.
+- `trigger`: "mount" | "inView" | "hover" | "manual" (default "inView") — When they gather: on mount, when scrolled into view, on hover or keyboard focus, or when active turns true.
+- `once`: boolean (default true) — Gather only the first time; false lets them drift apart when the text leaves view and gather again.
+- `delay`: number (default 100) — Wait before the grains start to gather, ms.
+- `active`: boolean — For trigger="manual": true gathers the grains, false lets them drift apart.
+- `onComplete`: () => void — Fires the first time the grains settle into the words.
+- `className`: string — Classes for the wrapper; set the type size, weight and colour here.
+
+Notes:
+- The real words stay in the DOM in your font — transparent, read once and selectable — and the canvas is aria-hidden; the grains are sampled from that exact layout, so wrapping and fonts always match.
+- The simulation is typed arrays with nothing allocated per frame; it runs only on screen in a visible page and stops the moment every grain is home, and a resize re-samples with the grains flowing to their new homes.
+- The canvas caps its backing store at a device pixel ratio of 2 (dpr lowers it) and re-reads its colour when the theme changes, so it reads in light and dark.
+- Under reduced motion the grains appear already home and fade in; the hand and the throw are off.
+- The wrapper is focusable when interactive: Enter or Space scatters the grains from the centre and they regather, the same end state as a press. A drag over the words still selects the text.
+
+### Depot Board (KQ-1355) — `depot-board`
+Split-flap letters clatter to the message.
+
+A split-flap departure board: each cell flips its top flap down over a hinge with real flap physics — integrated under gravity, slow off the top and fast at the bottom, landing on the stop with a small bounce before it rests — through its character ring one flap at a time until it reaches its letter, columns a ripple apart so the board settles in a wave, and only the cells whose letter changes move at all. Messages cycle once the board has settled and rested; the board is a button, so a press, Enter or Space shows the next message and Left/Right step back and forth, with the visitor's flips clacking when sound is on and the message announced once it settles.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/depot-board`
+
+Props:
+- `messages`: string[] — The messages the board cycles through; "\n" forces a new row and longer rows wrap between words.
+- `index / defaultIndex`: number (default 0) — The message showing, controlled or initial.
+- `onIndexChange`: (index: number) => void — Fires from whatever changed the message — the timer, a press or a key — with the new index.
+- `interval`: number (default 3600) — How long a settled message stays before the next, ms; 0 changes only by hand.
+- `speed`: number (default 1) — Flip speed, 0.5 to 2: how fast each flap falls and how fast the motor feeds the next.
+- `cells`: number (default 14) — Columns on the board; the type scales so they always fit.
+- `rows`: number — Rows on the board; by default as many as the longest message needs.
+- `ripple`: number (default 28) — Delay from one column to the next, ms, so the board settles in a wave.
+- `ring`: "letters" | "digits" | "full" (default "full") — The characters each cell's flaps carry, in order: letters, digits, or both with punctuation.
+- `size`: number (default 40) — The tallest a cell may be, px; narrow boards scale cells down to fit.
+- `align`: "start" | "center" (default "start") — Where a row's words sit.
+- `color`: string (default "var(--foreground)") — The letters.
+- `flapColor`: string (default "color-mix(in oklab, var(--foreground) 6%, var(--card))") — The flaps.
+- `paused`: boolean (default false) — Hold the current message: the timer stops, a press still changes it.
+- `interactive`: boolean (default true) — The board is a button: a press or Enter shows the next message, Left and Right step through them.
+- `trigger`: "mount" | "inView" | "hover" | "manual" (default "inView") — When the first message clatters in from blank: on mount, when scrolled into view, on hover or keyboard focus, or — manual — when you control index or on the first press.
+- `once`: boolean (default false) — Cycle through the messages once and rest on the last.
+- `delay`: number (default 150) — Wait before the first clatter, ms.
+- `sound`: boolean (default false) — Clack each flap the visitor sets falling, throttled; the timer's changes are silent.
+- `caption`: React.ReactNode — A line set into the housing above the cells — a title, a clock; it takes the board's width and never widens it.
+- `label`: string (default "Departures") — The board's accessible name.
+- `as`: "div" | "section" | "aside" | "figure" (default "div") — The element rendered around the board.
+- `onComplete`: (index: number) => void — Fires each time the board settles on a message, with its index.
+- `className`: string — Classes for the outer element.
+
+Notes:
+- The current message is in an sr-only paragraph and the cells are aria-hidden; a polite status speaks a message only when the visitor changed it, once the board has settled, so automatic cycling is never announced.
+- One rAF loop integrates every moving flap and stops when the board is still, off screen or in a hidden page; the cycle timer waits for the board to settle and holds off screen.
+- Cells are sized from the board's own width with container units, so any number of columns fits from a phone to a desktop, up to size.
+- Under reduced motion no flap falls: each changing cell crossfades once to its letter, still a ripple apart, and cycling and announcements are unchanged.
+- Characters outside the ring become blanks; choose ring="digits" for clocks and counters, which also makes every change fewer flips.
+
+### Lens Warp (KQ-1356) — `lens-warp`
+Letters bend under a glass bead.
+
+A headline under a moving glass bead: letters near its centre magnify and are pushed outward with a smooth radial falloff, letters at its rim are squeezed and drawn in, and a faint highlight rides the glass — per-letter offsets and scale only, no filters. Every letter follows its target on its own spring, integrated in one loop: the springs.snap constants while the bead is on the words, so the type tracks it crisply, and a softer under-damped spring when it leaves, so the type relaxes with a wobble. The bead follows a mouse or pen 1:1, comes down under a finger, and makes one pass across the words when the trigger fires; with keyboard focus it lands on the first word, Left and Right walk it word by word on springs.glide, Home/End jump and Escape lifts it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/lens-warp`
+
+Props:
+- `text`: string — The headline under the glass.
+- `as`: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "div" (default "h2") — The text element rendered.
+- `radius`: number (default 52) — The bead's radius, px — never more than 1.5 times the type size; the piece reserves room above and below the words for it.
+- `power`: number (default 0.55) — Magnification and bulge, 0 to 1.
+- `specular`: number (default 0.6) — The highlight riding the bead, 0 to 1.
+- `rim`: number (default 0.5) — How much the letters at the bead's rim are squeezed, 0 to 1.
+- `wobble`: number (default 0.5) — How much the type wobbles as it relaxes when the bead leaves, 0 (none) to 1.
+- `bead`: boolean (default true) — Draw the glass disc itself; off leaves only the letters bending.
+- `tint`: string (default "var(--accent-bright)") — The colour letters lean toward at the bead's centre.
+- `interactive`: boolean (default true) — The pointer and the keyboard move the bead.
+- `trigger`: "mount" | "inView" | "hover" | "manual" (default "inView") — When the bead makes its one pass across the words: on mount, when scrolled into view, never (hover only), or when active turns true.
+- `once`: boolean (default true) — Make the pass only the first time.
+- `delay`: number (default 250) — Wait before the pass, ms.
+- `duration`: number (default 1600) — How long the pass takes to cross the words, ms.
+- `active`: boolean — For trigger="manual": true runs the pass.
+- `onComplete`: () => void — Fires when the pass is over and the type has relaxed.
+- `onWordChange`: (word: string | null) => void — Fires when the visitor moves the bead onto another word — by pointer or keys — and with null when it lifts; the automatic pass is not reported.
+- `className`: string — Classes for the wrapper; set the type size, weight and colour here.
+
+Notes:
+- The text is read once from an sr-only copy; the letters are aria-hidden but real text, so selecting and copying the headline gives the real words, and the transforms never touch layout.
+- The wrapper is focusable: focus brings the bead to the first word, Left and Right walk it word by word, Home/End jump and Escape lifts it; the word under the lens is spoken politely only when the keyboard moves it.
+- One rAF loop runs the letter springs only while the bead is present or a letter is still moving, and only on screen in a visible page; rest centres come from layout offsets, re-measured on resize and font load.
+- Under reduced motion nothing moves or scales: the bead appears in place and the letters under it lean toward tint by the same falloff, and the pass becomes a brief tint on the first word.
+- The piece reserves padding for the bead (0.3em at the sides, enough above and below for its radius) and clips to it, so neither the glass nor a magnified letter ever draws outside its box.
+
+### Pen Outline (KQ-1357) — `pen-outline`
+A nib draws the outline, then the ink floods in.
+
+A small nib travels the contour of every letter — outlines traced from the glyphs the browser actually rendered — while the stroke's dash offset grows under its tip, letter after letter, lifting between loops; when the last stroke closes, ink floods each letter from the bottom up behind a gentle wave on springs.drift, one after another. The pen runs on a linear clock (a hand at constant speed) that pauses off screen, and the flood is the real, selectable text clipped by a per-letter wave. Focused, Enter or Space drains the ink, rewinds the outline on the exit ease and writes it again.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/pen-outline`
+
+Props:
+- `text`: string — The words the pen writes.
+- `as`: "h1" | "h2" | "h3" | "p" | "span" | "div" (default "p") — The element rendered.
+- `speed`: number (default 1) — How fast the pen writes and the ink floods, 0.5 to 2.
+- `stroke`: number (default 1.25) — Outline width, px.
+- `flood`: number (default 1) — How much ink floods in once the outline closes: 0 leaves a pure outline, 1 is solid ink.
+- `ink`: string (default "var(--foreground)") — Outline colour, any CSS colour.
+- `floodColor`: string (default the ink colour) — The colour the letters flood with.
+- `guide`: number (default 0.12) — Opacity of the pencil guide shown before the pen arrives, 0 to 1.
+- `wave`: number (default 0.5) — Height of the flood's wave front, 0 (flat) to 1.
+- `nib`: boolean (default true) — Show the travelling nib; the box reserves a quarter em above and right for it.
+- `keepOutline`: boolean (default true) — Keep the inked edge once the flood settles; false dissolves it into the fill.
+- `trigger`: "mount" | "inView" | "hover" | "manual" (default "inView") — What starts the drawing.
+- `once`: boolean (default true) — Draw once; false rewinds when it leaves view or the hover ends.
+- `play`: boolean — Manual trigger: true draws, false rewinds.
+- `delay`: number (default 0) — Wait before the pen starts, ms.
+- `duration`: number (default 180) — Time the pen spends on an average letter at speed 1, ms (a whole headline is capped at about three seconds).
+- `stagger`: number (default 55) — Gap between the letters' floods, ms.
+- `interactive`: boolean (default true) — A press, or Enter or Space while focused, erases and redraws.
+- `onPhaseChange`: (phase: "waiting" | "drawing" | "flooding" | "inked") => void — The drawing moved on; reported from the first commit.
+- `onComplete`: () => void — The ink has settled.
+- `className`: string — Size, weight and tracking live here; the outline follows whatever font renders.
+
+Notes:
+- Keyboard: the headline is focusable when interactive; Enter or Space redraws it, and the full text is read once from a hidden copy while the drawing is aria-hidden.
+- Reduced motion: no nib and no wave — the outline fades in on a slow tween, then the ink fades up letter by letter; phases and onComplete still report.
+- Outlines are traced once per text, size or font change (one reused offscreen canvas, raster capped near 128px per em), so any inherited font works; nothing runs once the ink settles, and drawing pauses off screen and in hidden tabs.
+- The flood is the real text, so selection and copy return the words; colours default to tokens and read in both themes.
+- Set the size with className (it inherits otherwise); the root keeps a quarter em of room above and to the right for the nib, or pass nib={false} to drop it.
+
+### Stack Extrude (KQ-1358) — `stack-extrude`
+Type that lifts off the page in layered depth.
+
+Every word is a real 3D block — a stack of copies at true translateZ depths under an em-based perspective, the sides in a pigment that darkens toward the back — and on arrival the words peel up off the page one after another, each word's height on springs.recoil and its stack spreading on springs.glide while a soft contact shadow widens and pales. The blocks turn to face the pointer on springs.glide and drift home on springs.drift; a press pushes them into the page on springs.flick, nearest first, and they pop back on recoil in a ripple. Arrow keys turn them, holding Space or Enter presses them, and Home or Escape squares them up.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/stack-extrude`
+
+Props:
+- `text`: string — The words, each set as its own extruded block.
+- `as`: "h1" | "h2" | "h3" | "p" | "span" | "div" (default "p") — The element rendered.
+- `layers`: number (default 12) — Copies in each word's stack, 2 to 32: few read as stepped slabs, many as a solid.
+- `depth`: number (default 0.3) — How deep the extrusion runs, em.
+- `tilt`: number (default 12) — How far the pointer turns the blocks, degrees.
+- `angle`: [number, number] (default [12, -18]) — The resting angle [rotateX, rotateY], degrees; held still under reduced motion.
+- `face`: string (default "var(--foreground)") — Face colour, any CSS colour.
+- `side`: string (default "oklch(from var(--accent) 0.56 c h)") — The sides' pigment, any CSS colour.
+- `shade`: number (default 0.6) — How much the sides darken toward the back, 0 to 1.
+- `shadow`: number (default 0.5) — Strength of the soft shadow on the page, 0 to 1.
+- `lift`: number (default 0.14) — The gap between block and page at rest, em.
+- `press`: number (default 0.7) — How far a press pushes the blocks into the page, 0 to 1.
+- `trigger`: "mount" | "inView" | "hover" | "manual" (default "inView") — What lifts the words off the page.
+- `once`: boolean (default true) — Lift once; false lays the words flat again when it leaves view or the hover ends.
+- `play`: boolean — Manual trigger: true lifts, false lays flat.
+- `delay`: number (default 0) — Wait before the first word lifts, ms.
+- `stagger`: number (default 90) — Gap between words lifting, ms.
+- `duration`: number (default 700) — Time scale of the lift springs, ms; their damping ratios are kept.
+- `interactive`: boolean (default true) — Pointer tilt, press, and keyboard turning.
+- `onPressChange`: (pressed: boolean) => void — A press began (true) or ended (false).
+- `onComplete`: () => void — The lift has settled.
+- `className`: string — Size and type; perspective and depth are in em, so the look holds from caption to hero.
+
+Notes:
+- Keyboard: focusable when interactive — Arrow keys turn the blocks a third of `tilt` per press, holding Space or Enter presses them into the page, Home or Escape returns them to rest.
+- Reduced motion: the blocks hold `angle` without following the pointer; the sides fade in behind faces that never move, and a press darkens rather than moves.
+- Each frame writes two CSS variables per word plus the shared rotation; layer depths are static calc() strings, and nothing runs at rest.
+- The box reserves room below and right for the sides and the shadow; face and side colours default to tokens and a fixed-lightness pigment so both themes read.
+- The face copy is the real text for layout; the visual stack is aria-hidden and a hidden copy carries the words for assistive technology.
+
+### Paper Crease (KQ-1359) — `paper-crease`
+A headline unfolds like a letter.
+
+Each line of the headline is a strip of paper cut into panels along horizontal creases, nested hinges rolled toward the reader so only the blank back of the first flap shows; unfolding opens crease after crease on springs.snap, each panel's back darkening toward edge-on and its face catching a crease shadow and a glare that slides down it, with a faint crease left in the paper. Under the pointer or with focus the creases refold a few degrees like paper with memory (snap in, glide out). A press — or Enter or Space — folds the letter up on the exit ease, last crease first, and opens it again with a crinkle per crease when sound is on.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/paper-crease`
+
+Props:
+- `text`: string — The headline; each \n starts a new line, and each line folds as its own strip.
+- `as`: "h1" | "h2" | "h3" | "p" | "div" (default "p") — The element rendered.
+- `folds`: number (default 3) — Panels per line, 2 to 4: one fewer creases.
+- `speed`: number (default 1) — How fast the creases open, 0.5 to 2.
+- `shade`: number (default 0.5) — Depth of the crease shadow, the glare and the paper's shading, 0 to 1.
+- `crease`: number (default 0.4) — How visible the crease lines stay once the letter is open, 0 to 1.
+- `memory`: number (default 0.5) — How far the paper refolds under the pointer or focus, 0 (flat) to 1.
+- `paper`: string (default "var(--card)") — The colour of the back of the paper.
+- `ink`: string (default "currentColor") — The text colour.
+- `sound`: boolean (default false) — Crinkle as each crease opens, for the visitor's press. Off unless asked for.
+- `trigger`: "mount" | "inView" | "hover" | "manual" (default "inView") — What unfolds the letter.
+- `once`: boolean (default true) — Unfold once; false folds it up again when it leaves view or the hover ends.
+- `play`: boolean — Manual trigger: true unfolds, false folds.
+- `delay`: number (default 0) — Wait before the first crease opens, ms.
+- `stagger`: number (default 160) — Gap between creases opening, ms.
+- `duration`: number (default 380) — Time scale of the hinge spring, ms; its damping ratio is kept.
+- `interactive`: boolean (default true) — Hover memory, and a press (or Enter or Space) folds it and opens it again.
+- `onComplete`: (state: "open" | "folded") => void — A fold or an unfold settled.
+- `className`: string — Size and type; the perspective is in em.
+
+Notes:
+- Keyboard: focusable when interactive; focus refolds the creases slightly like hover, and Enter or Space folds the letter and opens it again. The lines are read once, joined, from a hidden copy.
+- Reduced motion: nothing turns — the folded paper strip and the open text cross-fade, and the creases stay as faint lines.
+- Sound plays only for the visitor's press, one paper crinkle per crease as it opens, and only when `sound` is true.
+- Keep each line short enough to sit on one row at your narrowest width: a wrapped line still folds, but its creases then cut across two rows.
+- Every motion is a finite spring or tween on one motion value per crease; nothing runs at rest. The paper defaults to the card token, so both themes read.
+
+### After Image (KQ-1360) — `after-image`
+Every word leaves a fading echo.
+
+Every word keeps a short timestamped history of where it has been, and its echoes are placed where it was a few lag milliseconds ago — fainter and turned further round the hue circle the older they are — so motion fans out behind it as a chromatic afterglow that folds back in when it stops. Words arrive on curved paths (x on springs.glide, y on springs.snap), a dragged word follows 1:1 with its neighbours trailing, and on release every word springs home on springs.recoil with the throw's velocity while one faint echo breathes at rest. Arrow keys throw the words the same way and Enter brings them in again.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/after-image`
+
+Props:
+- `text`: string — The words; each one trails its own echoes.
+- `as`: "h1" | "h2" | "h3" | "p" | "span" | "div" (default "p") — The element rendered.
+- `echoes`: number (default 5) — Copies trailing each word, 1 to 8.
+- `lag`: number (default 40) — Time between one echo and the next, ms: longer lags draw longer streaks.
+- `hue`: number (default 20) — Hue drift from one echo to the next, degrees: 0 is one colour, 60 a spectrum.
+- `color`: string (default "var(--accent-bright)") — The nearest echo's colour, any CSS colour.
+- `fade`: number (default 0.55) — Opacity of the nearest echo, 0 to 1; older echoes decay from it.
+- `glow`: number (default 0.4) — A soft halo on the echoes, 0 to 1.
+- `breathe`: boolean (default true) — One faint echo breathes behind the resting text.
+- `enter`: "sweep" | "rise" | "scatter" (default "sweep") — The path the words arrive on.
+- `pull`: number (default 0.55) — How much a dragged word's neighbours follow it, 0 to 1.
+- `sweep`: number (default 0.4) — How hard the pointer passing over a word kicks it, 0 (off) to 1.
+- `trigger`: "mount" | "inView" | "hover" | "manual" (default "inView") — What brings the words in.
+- `once`: boolean (default true) — Arrive once; false sends the words out when it leaves view or the hover ends.
+- `play`: boolean — Manual trigger: true brings the words in, false sends them out.
+- `delay`: number (default 0) — Wait before the first word, ms.
+- `stagger`: number (default 80) — Gap between words arriving, ms.
+- `duration`: number (default 500) — Time scale of the arrival springs, ms; their damping ratios are kept.
+- `interactive`: boolean (default true) — Drag, hover kicks and keyboard throws.
+- `onMotionChange`: (moving: boolean) => void — The words started moving (true), or every echo has caught up (false).
+- `onComplete`: () => void — The arrival has settled.
+- `className`: string — Size and type; offsets are in em.
+
+Notes:
+- Keyboard: focusable when interactive — Arrow keys throw every word in that direction and recoil brings them home, the same end state as a drag; Enter or Space replays the arrival.
+- Reduced motion: words never travel; they fade in while a still afterglow at fixed offsets fades out, and drags or keys flash that afterglow instead of moving anything.
+- One rAF loop per instance runs only while a word moves or an echo is catching up, writing preallocated history rings (no per-frame allocation); the idle breath is a single tween that stops off screen, in hidden tabs and under reduced motion.
+- Drag is horizontal-friendly on touch (touch-action: pan-y keeps vertical scrolling); echoes are clipped to a short margin round the box, so they never spill far.
+- The echoes are aria-hidden copies; a hidden copy carries the words once for assistive technology. Echo colours derive from a token via relative oklch, so both themes read.
+
+### Cascade Split (KQ-1361) — `cascade-split`
+Letters arrive on springs, word by word.
+
+The text splits into letters, words or the lines it wraps to, and each piece arrives on a spring in one of three ways: rising through an edge just under its baseline on springs.snap, dropping in and settling on springs.recoil, or swinging down from a pin at its top-left corner like a hanging tile, past rest and back on recoil. The gaps between pieces follow an easing curve rather than a fixed step, and leaving replays the curve in reverse, last piece first, on the exit ease. Pointer passes nudge each piece in its own idiom through a second transform; focused, Left and Right walk a probe that nudges each piece and Enter or Space plays it again.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/cascade-split`
+
+Props:
+- `text`: string — The words.
+- `as`: "h1" | "h2" | "h3" | "p" | "span" | "div" (default "p") — The element rendered.
+- `by`: "letter" | "word" | "line" (default "letter") — What arrives as one piece: each letter, each word, or each line as it wraps.
+- `motion`: "rise" | "drop" | "swing" (default "rise") — How the pieces enter: rise through the baseline, drop and settle, or swing down from a top-left pin.
+- `stagger`: number (default 30) — The base gap between pieces, ms, before the curve shapes it.
+- `curve`: "even" | "ease-in" | "ease-out" | "ease-in-out" | ((t: number) => number) (default "ease-in") — How the gaps are spread across the text: an easing name or your own curve from 0–1 to 0–1.
+- `distance`: number (default 1) — Travel: a share of a line for rise and drop, of the safe swing angle for swing, 0 to 1.5.
+- `spring`: "auto" | "snap" | "recoil" | "glide" (default "auto") — The spring the pieces land on; auto picks the one that suits the motion.
+- `fade`: boolean (default true) — Fade the pieces as they travel.
+- `trigger`: "mount" | "inView" | "hover" | "manual" (default "inView") — What brings the text in.
+- `once`: boolean (default true) — Arrive once; false leaves when it goes out of view or the hover ends.
+- `play`: boolean — Manual trigger: true arrives, false leaves in reverse.
+- `delay`: number (default 0) — Wait before the first piece, ms.
+- `duration`: number (default 300) — Time scale of the springs, ms; their damping ratios are kept.
+- `interactive`: boolean (default true) — Hover nudges, a press (or Enter or Space) to replay, and the keyboard probe.
+- `onComplete`: (state: "in" | "out") => void — An arrival or an exit settled.
+- `className`: string — Size and type; travel is in em.
+
+Notes:
+- Keyboard: focusable when interactive — Left and Right walk a probe tick along the pieces and nudge each, Home and End jump, Enter or Space leaves and arrives again. The text is read once from a hidden copy.
+- Reduced motion: nothing travels or turns; pieces fade in along the same curve in half the time and leave by fading in reverse.
+- Splits by grapheme, so emoji and combining marks stay whole, and words never break inside; line mode reads the wrap from layout when the cascade starts.
+- Long texts are soft-capped so the whole cascade stays brief; pass your own curve for custom choreography. Every motion is a finite spring or tween — nothing runs at rest.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

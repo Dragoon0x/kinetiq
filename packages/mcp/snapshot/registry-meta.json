@@ -13,7 +13,7 @@
     "indexUrl": "https://www.kinetiqui.com/r/registry.json",
     "docsUrl": "https://www.kinetiqui.com",
     "counts": {
-      "components": 1229,
+      "components": 1240,
       "blocks": 152,
       "pages": 28,
       "templates": 10,
@@ -106580,6 +106580,1766 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/storefront",
         "bun": "bunx --bun shadcn@latest add @kinetiq/storefront",
         "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/storefront.json"
+      }
+    },
+    {
+      "slug": "tune-in",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Tune In",
+      "serial": "KQ-1351",
+      "tagline": "A headline that finds its frequency.",
+      "description": "A headline that comes in like a station on an analogue dial: every letter starts as faint seeded static jittering over a broken scanline, a thin carrier line sweeps across on a tween, letters ahead of it calm and flicker toward their real shape, and each one it passes locks onto its true glyph with a small vertical settle on springs.snap and a flash of signal colour that cools, while a mono readout riding the carrier rolls to the station's frequency. A mouse over the tuned headline detunes the letters under it for a moment and they relock on the same spring; with trigger=\"hover\" the headline is focusable and keyboard focus tunes it in.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "text animation",
+        "radio",
+        "static",
+        "scramble",
+        "headline reveal",
+        "frequency",
+        "glitch"
+      ],
+      "props": [
+        {
+          "name": "text",
+          "type": "string",
+          "description": "The headline."
+        },
+        {
+          "name": "as",
+          "type": "\"h1\" | \"h2\" | \"h3\" | \"h4\" | \"h5\" | \"h6\" | \"p\" | \"span\" | \"div\"",
+          "defaultValue": "\"h2\"",
+          "description": "The element rendered."
+        },
+        {
+          "name": "frequency",
+          "type": "number",
+          "defaultValue": "104.7",
+          "description": "Where the readout lands when the headline locks."
+        },
+        {
+          "name": "from",
+          "type": "number",
+          "defaultValue": "87.5",
+          "description": "Where the readout starts as the carrier sets off."
+        },
+        {
+          "name": "unit",
+          "type": "string",
+          "defaultValue": "\"MHz\"",
+          "description": "Printed after the readout."
+        },
+        {
+          "name": "sweep",
+          "type": "number",
+          "defaultValue": "1400",
+          "description": "How long the carrier takes to cross the headline, ms."
+        },
+        {
+          "name": "noise",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "Static strength, 0 to 1: opacity, jitter, churn and scanline roughness; 0 is a still, faint ghost alphabet."
+        },
+        {
+          "name": "readout",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Show the small frequency readout riding the carrier, in a strip reserved above the text."
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "The carrier, the readout and each letter's brief lock flash."
+        },
+        {
+          "name": "staticColor",
+          "type": "string",
+          "defaultValue": "\"var(--ink-3)\"",
+          "description": "The static glyphs and the scanline under them."
+        },
+        {
+          "name": "glyphs",
+          "type": "string",
+          "defaultValue": "\"/\\\\|-_=+:;*#%~^<>{}[]!?\"",
+          "description": "The alphabet the static is drawn from."
+        },
+        {
+          "name": "interactive",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "A mouse or pen over a tuned headline detunes the letters under it for a moment."
+        },
+        {
+          "name": "trigger",
+          "type": "\"mount\" | \"inView\" | \"hover\" | \"manual\"",
+          "defaultValue": "\"inView\"",
+          "description": "When it tunes in: on mount, when scrolled into view, on hover or keyboard focus, or when active turns true."
+        },
+        {
+          "name": "once",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Tune in only the first time it is seen or hovered; false re-tunes each time."
+        },
+        {
+          "name": "delay",
+          "type": "number",
+          "defaultValue": "120",
+          "description": "Wait before the carrier sets off, ms."
+        },
+        {
+          "name": "active",
+          "type": "boolean",
+          "description": "For trigger=\"manual\": true tunes in, false drops back to static."
+        },
+        {
+          "name": "seed",
+          "type": "number",
+          "description": "Seeds the static so the server and browser draw the same; derived from text by default."
+        },
+        {
+          "name": "onComplete",
+          "type": "() => void",
+          "description": "Fires when the last letter locks."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the root element; set the type size and colour here."
+        }
+      ],
+      "usageNotes": [
+        "The text is read once from an sr-only copy and the animated layer is aria-hidden; the true glyphs are real text, so selecting and copying the headline gives the real words.",
+        "Each letter's final box is reserved from the first frame (the true glyph is there, transparent), so the line never reflows while it tunes in; the readout strip only exists when readout is on.",
+        "One rAF loop drives the static and runs only while some letter is static, the headline is on screen and the page is visible; noise={0} needs no frames until the carrier arrives.",
+        "Under reduced motion the static holds still and the letters crossfade in reading order, with the readout already at its frequency; hover detuning is off.",
+        "With trigger=\"hover\" the headline becomes focusable and keyboard focus tunes it in; use trigger=\"manual\" with active to tie it to your own state.",
+        "Font size and colour inherit, and every offset is in em, so it works from a caption to a hero in either theme."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/tune-in",
+      "registryItemUrl": "https://www.kinetiqui.com/r/tune-in.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/tune-in",
+        "npm": "npx shadcn@latest add @kinetiq/tune-in",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/tune-in",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/tune-in",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/tune-in.json"
+      }
+    },
+    {
+      "slug": "drum-words",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Drum Words",
+      "serial": "KQ-1352",
+      "tagline": "Words turn on a ratcheted drum.",
+      "description": "One word of a sentence on a ratcheted drum: the slot is a window onto a cylinder of faces placed with real 3D transforms about an axis behind the line, so the outgoing word tips away over the top while the next comes up from below foreshortened and shaded. Each change is one detent — a hair backwards on springs.flick as the pawl lifts, then forward on springs.snap, whose single overshoot is the detent catching — and the slot's width follows the word on springs.glide so the sentence glides instead of jumping. The word is a spinbutton: Up/Right, Enter and Space turn it forward, Down/Left back, Home/End to the ends, and a vertical drag turns the drum 1:1 with a throw committing to the detent it was heading for.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "rotating text",
+        "word rotator",
+        "hero headline",
+        "3d drum",
+        "text animation",
+        "slot"
+      ],
+      "props": [
+        {
+          "name": "words",
+          "type": "string[]",
+          "description": "The words on the drum's faces, in turning order."
+        },
+        {
+          "name": "before",
+          "type": "string",
+          "defaultValue": "\"\"",
+          "description": "The sentence before the slot; end it with \"\\n\" to set the word on its own line so a longer word never re-wraps the sentence."
+        },
+        {
+          "name": "after",
+          "type": "string",
+          "defaultValue": "\"\"",
+          "description": "The sentence after the slot, including any leading space it needs."
+        },
+        {
+          "name": "as",
+          "type": "\"h1\" | \"h2\" | \"h3\" | \"h4\" | \"h5\" | \"h6\" | \"p\" | \"span\" | \"div\"",
+          "defaultValue": "\"h2\"",
+          "description": "The element rendered."
+        },
+        {
+          "name": "index / defaultIndex",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "The word showing, controlled or initial."
+        },
+        {
+          "name": "onIndexChange",
+          "type": "(index: number) => void",
+          "description": "Fires from the turn that changed it — the timer, a key, a tap or a throw — with the new index."
+        },
+        {
+          "name": "interval",
+          "type": "number",
+          "defaultValue": "2400",
+          "description": "How long each word rests before the drum turns, ms; 0 turns only by hand."
+        },
+        {
+          "name": "depth",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "Drum curvature, 0 to 1: 0 is a nearly flat roll, 1 a tight drum with deep foreshortening."
+        },
+        {
+          "name": "width",
+          "type": "\"fit\" | \"widest\"",
+          "defaultValue": "\"fit\"",
+          "description": "\"fit\" springs the slot to each word so the sentence glides; \"widest\" holds the widest word so it never moves."
+        },
+        {
+          "name": "align",
+          "type": "\"start\" | \"center\"",
+          "defaultValue": "\"start\"",
+          "description": "Where a word sits in a slot wider than it."
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "The words' colour."
+        },
+        {
+          "name": "pauseOnHover",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Hold the drum while the pointer rests on the word."
+        },
+        {
+          "name": "paused",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Stop turning on the timer; keys, taps and throws still turn it."
+        },
+        {
+          "name": "interactive",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "The word is a control: drag or throw it vertically, tap it, or use the arrow keys."
+        },
+        {
+          "name": "trigger",
+          "type": "\"mount\" | \"inView\" | \"hover\" | \"manual\"",
+          "defaultValue": "\"inView\"",
+          "description": "When the timer runs: from mount, once seen, only while the sentence is hovered or focused, or never (turn by index)."
+        },
+        {
+          "name": "once",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Turn through the words a single time and rest on the last."
+        },
+        {
+          "name": "delay",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Extra wait before the first turn, ms."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Tick on every detent the visitor turns; the timer's turns are silent."
+        },
+        {
+          "name": "onComplete",
+          "type": "() => void",
+          "description": "Fires when a once cycle comes to rest on the last word."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the sentence; set the type size and colour here."
+        }
+      ],
+      "usageNotes": [
+        "The sentence is real text and the word is a spinbutton whose value text is the current word; automatic turns are not announced, and the word is read on focus and on each key step.",
+        "The timer pauses while the pointer rests on the word, while it has focus, while it is dragged, off screen and in a hidden page, which also meets the need to pause moving content.",
+        "Geometry is in lh units, so the drum keeps its shape from a caption to a hero and renders identically on the server; only word widths are measured.",
+        "End before with a newline to put the word on its own line: with width=\"fit\" a word longer than the space left on the line would otherwise re-wrap the sentence.",
+        "Under reduced motion the words crossfade and the slot width changes at once; a vertical drag still steps one word.",
+        "Sound is off by default and only ever answers the visitor: taps, keys and throws tick per detent, timer turns stay silent."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/drum-words",
+      "registryItemUrl": "https://www.kinetiqui.com/r/drum-words.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/drum-words",
+        "npm": "npx shadcn@latest add @kinetiq/drum-words",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/drum-words",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/drum-words",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/drum-words.json"
+      }
+    },
+    {
+      "slug": "tide-mask",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Tide Mask",
+      "serial": "KQ-1353",
+      "tagline": "A heading rises out of the waterline.",
+      "description": "A multi-line heading revealed by a travelling liquid edge: each line sits behind its own clip path whose top edge is a wave (a swell and a counter-running chop), and the water level rises past each line on a tween, lines a stagger apart, while the letters float up a step onto their line on springs.glide and the glyphs just under the waterline stay wet and tinted until it moves on. The final line's last ripple is left behind as a fine underline that calms on springs.drift, ripples for a while and stirs again when the heading is hovered or focused; with trigger=\"hover\" the heading is focusable and keyboard focus raises it.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "text reveal",
+        "wave mask",
+        "clip path",
+        "heading animation",
+        "liquid",
+        "underline"
+      ],
+      "props": [
+        {
+          "name": "text",
+          "type": "string | readonly string[]",
+          "description": "The heading's lines: an array, or a string split on \"\\n\"; a line too long for its box wraps and rises as one block."
+        },
+        {
+          "name": "as",
+          "type": "\"h1\" | \"h2\" | \"h3\" | \"h4\" | \"h5\" | \"h6\" | \"p\" | \"div\"",
+          "defaultValue": "\"h2\"",
+          "description": "The element rendered."
+        },
+        {
+          "name": "amplitude",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "Wave height, 0 to 1; 0 is a straight rising edge and 1 about a fifth of a line."
+        },
+        {
+          "name": "frequency",
+          "type": "number",
+          "defaultValue": "2.2",
+          "description": "Wave crests across every 10em of line."
+        },
+        {
+          "name": "speed",
+          "type": "number",
+          "defaultValue": "1",
+          "description": "How fast the water rises and the waves travel, 0.5 to 2."
+        },
+        {
+          "name": "stagger",
+          "type": "number",
+          "defaultValue": "140",
+          "description": "Delay between one line's rise and the next, ms."
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "The waterline, the wet glyphs just under it and the underline."
+        },
+        {
+          "name": "wet",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How strongly the glyphs just under the waterline are tinted while wet, 0 to 1."
+        },
+        {
+          "name": "underline",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "The final line's last ripple settles into a fine underline."
+        },
+        {
+          "name": "rippleFor",
+          "type": "number",
+          "defaultValue": "3200",
+          "description": "How long the underline keeps rippling once it settles, and again after each hover, ms; 0 is still and Infinity ripples while on screen."
+        },
+        {
+          "name": "align",
+          "type": "\"start\" | \"center\"",
+          "defaultValue": "\"start\"",
+          "description": "Line alignment."
+        },
+        {
+          "name": "trigger",
+          "type": "\"mount\" | \"inView\" | \"hover\" | \"manual\"",
+          "defaultValue": "\"inView\"",
+          "description": "When the water rises: on mount, when scrolled into view, on hover or keyboard focus, or when active turns true."
+        },
+        {
+          "name": "once",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Rise only the first time it is seen or hovered; false lowers the water when it leaves view and raises it again."
+        },
+        {
+          "name": "delay",
+          "type": "number",
+          "defaultValue": "100",
+          "description": "Wait before the first line starts to rise, ms."
+        },
+        {
+          "name": "active",
+          "type": "boolean",
+          "description": "For trigger=\"manual\": true raises the heading, false lowers the water back over it."
+        },
+        {
+          "name": "onComplete",
+          "type": "() => void",
+          "description": "Fires when the last line has risen."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the heading; set the type size and colour here."
+        }
+      ],
+      "usageNotes": [
+        "The lines are real text, read in order and selectable; the wet copy, the waterline and the underline are aria-hidden and unselectable.",
+        "One rAF loop drives every edge while anything moves and stops when the heading settles, off screen or in a hidden page; risen lines drop their clip path altogether.",
+        "Under reduced motion the lines crossfade in with a straight edge, staggered, and the underline fades in flat and never ripples.",
+        "The heading reserves a little padding above and below (0.12em, 0.2em with the underline) so the wave's crests and the underline stay inside its own box.",
+        "Pass rippleFor={0} for a still underline, or Infinity for one that keeps moving while it is on screen; hovering always stirs it."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/tide-mask",
+      "registryItemUrl": "https://www.kinetiqui.com/r/tide-mask.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/tide-mask",
+        "npm": "npx shadcn@latest add @kinetiq/tide-mask",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/tide-mask",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/tide-mask",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/tide-mask.json"
+      }
+    },
+    {
+      "slug": "grain-gather",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Grain Gather",
+      "serial": "KQ-1354",
+      "tagline": "Text assembled from drifting grains.",
+      "description": "Particle text poured from sand: the words are laid out for real in the DOM, drawn from their own glyphs into an offscreen mask and sampled into a few thousand grains on a canvas, which start scattered in a slow drift and gather into the letters in a left-to-right sweep on per-grain springs from the springs.drift calibration, a touch under-damped so the words sharpen out of a haze. A pointer moving through the words parts the grains like a hand through sand and they flow back behind it; a press throws them outward and they regather, and Enter or Space on the focused text does the same from its centre.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "particle text",
+        "sand",
+        "canvas text",
+        "interactive headline",
+        "particles",
+        "text animation"
+      ],
+      "props": [
+        {
+          "name": "text",
+          "type": "string",
+          "description": "The words the grains gather into."
+        },
+        {
+          "name": "as",
+          "type": "\"h1\" | \"h2\" | \"h3\" | \"h4\" | \"h5\" | \"h6\" | \"p\" | \"div\"",
+          "defaultValue": "\"h2\"",
+          "description": "The text element rendered."
+        },
+        {
+          "name": "density",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How many grains, 0 to 1: about 1,200 to 4,800, spread over the letters' ink."
+        },
+        {
+          "name": "radius",
+          "type": "number",
+          "defaultValue": "56",
+          "description": "How far the hand reaches, px."
+        },
+        {
+          "name": "strength",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How hard the hand pushes the grains aside, 0 to 1."
+        },
+        {
+          "name": "scatter",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How hard a press throws the grains, 0 to 1."
+        },
+        {
+          "name": "drift",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How much the scattered grains wander before they gather, 0 to 1."
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "defaultValue": "\"currentColor\"",
+          "description": "The grains' colour; by default the text colour you set."
+        },
+        {
+          "name": "grain",
+          "type": "number",
+          "defaultValue": "1.3",
+          "description": "A grain's size, px; large type scales it up so the sand stays dense."
+        },
+        {
+          "name": "dpr",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "The highest device pixel ratio the canvas draws at (never above 2)."
+        },
+        {
+          "name": "interactive",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "A pointer parts the grains, a press scatters them, and Enter or Space scatters them from the keyboard."
+        },
+        {
+          "name": "trigger",
+          "type": "\"mount\" | \"inView\" | \"hover\" | \"manual\"",
+          "defaultValue": "\"inView\"",
+          "description": "When they gather: on mount, when scrolled into view, on hover or keyboard focus, or when active turns true."
+        },
+        {
+          "name": "once",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Gather only the first time; false lets them drift apart when the text leaves view and gather again."
+        },
+        {
+          "name": "delay",
+          "type": "number",
+          "defaultValue": "100",
+          "description": "Wait before the grains start to gather, ms."
+        },
+        {
+          "name": "active",
+          "type": "boolean",
+          "description": "For trigger=\"manual\": true gathers the grains, false lets them drift apart."
+        },
+        {
+          "name": "onComplete",
+          "type": "() => void",
+          "description": "Fires the first time the grains settle into the words."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the wrapper; set the type size, weight and colour here."
+        }
+      ],
+      "usageNotes": [
+        "The real words stay in the DOM in your font — transparent, read once and selectable — and the canvas is aria-hidden; the grains are sampled from that exact layout, so wrapping and fonts always match.",
+        "The simulation is typed arrays with nothing allocated per frame; it runs only on screen in a visible page and stops the moment every grain is home, and a resize re-samples with the grains flowing to their new homes.",
+        "The canvas caps its backing store at a device pixel ratio of 2 (dpr lowers it) and re-reads its colour when the theme changes, so it reads in light and dark.",
+        "Under reduced motion the grains appear already home and fade in; the hand and the throw are off.",
+        "The wrapper is focusable when interactive: Enter or Space scatters the grains from the centre and they regather, the same end state as a press. A drag over the words still selects the text."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/grain-gather",
+      "registryItemUrl": "https://www.kinetiqui.com/r/grain-gather.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/grain-gather",
+        "npm": "npx shadcn@latest add @kinetiq/grain-gather",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/grain-gather",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/grain-gather",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/grain-gather.json"
+      }
+    },
+    {
+      "slug": "depot-board",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Depot Board",
+      "serial": "KQ-1355",
+      "tagline": "Split-flap letters clatter to the message.",
+      "description": "A split-flap departure board: each cell flips its top flap down over a hinge with real flap physics — integrated under gravity, slow off the top and fast at the bottom, landing on the stop with a small bounce before it rests — through its character ring one flap at a time until it reaches its letter, columns a ripple apart so the board settles in a wave, and only the cells whose letter changes move at all. Messages cycle once the board has settled and rested; the board is a button, so a press, Enter or Space shows the next message and Left/Right step back and forth, with the visitor's flips clacking when sound is on and the message announced once it settles.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "split flap",
+        "departure board",
+        "flip text",
+        "text animation",
+        "solari",
+        "ticker"
+      ],
+      "props": [
+        {
+          "name": "messages",
+          "type": "string[]",
+          "description": "The messages the board cycles through; \"\\n\" forces a new row and longer rows wrap between words."
+        },
+        {
+          "name": "index / defaultIndex",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "The message showing, controlled or initial."
+        },
+        {
+          "name": "onIndexChange",
+          "type": "(index: number) => void",
+          "description": "Fires from whatever changed the message — the timer, a press or a key — with the new index."
+        },
+        {
+          "name": "interval",
+          "type": "number",
+          "defaultValue": "3600",
+          "description": "How long a settled message stays before the next, ms; 0 changes only by hand."
+        },
+        {
+          "name": "speed",
+          "type": "number",
+          "defaultValue": "1",
+          "description": "Flip speed, 0.5 to 2: how fast each flap falls and how fast the motor feeds the next."
+        },
+        {
+          "name": "cells",
+          "type": "number",
+          "defaultValue": "14",
+          "description": "Columns on the board; the type scales so they always fit."
+        },
+        {
+          "name": "rows",
+          "type": "number",
+          "description": "Rows on the board; by default as many as the longest message needs."
+        },
+        {
+          "name": "ripple",
+          "type": "number",
+          "defaultValue": "28",
+          "description": "Delay from one column to the next, ms, so the board settles in a wave."
+        },
+        {
+          "name": "ring",
+          "type": "\"letters\" | \"digits\" | \"full\"",
+          "defaultValue": "\"full\"",
+          "description": "The characters each cell's flaps carry, in order: letters, digits, or both with punctuation."
+        },
+        {
+          "name": "size",
+          "type": "number",
+          "defaultValue": "40",
+          "description": "The tallest a cell may be, px; narrow boards scale cells down to fit."
+        },
+        {
+          "name": "align",
+          "type": "\"start\" | \"center\"",
+          "defaultValue": "\"start\"",
+          "description": "Where a row's words sit."
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "defaultValue": "\"var(--foreground)\"",
+          "description": "The letters."
+        },
+        {
+          "name": "flapColor",
+          "type": "string",
+          "defaultValue": "\"color-mix(in oklab, var(--foreground) 6%, var(--card))\"",
+          "description": "The flaps."
+        },
+        {
+          "name": "paused",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Hold the current message: the timer stops, a press still changes it."
+        },
+        {
+          "name": "interactive",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "The board is a button: a press or Enter shows the next message, Left and Right step through them."
+        },
+        {
+          "name": "trigger",
+          "type": "\"mount\" | \"inView\" | \"hover\" | \"manual\"",
+          "defaultValue": "\"inView\"",
+          "description": "When the first message clatters in from blank: on mount, when scrolled into view, on hover or keyboard focus, or — manual — when you control index or on the first press."
+        },
+        {
+          "name": "once",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Cycle through the messages once and rest on the last."
+        },
+        {
+          "name": "delay",
+          "type": "number",
+          "defaultValue": "150",
+          "description": "Wait before the first clatter, ms."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Clack each flap the visitor sets falling, throttled; the timer's changes are silent."
+        },
+        {
+          "name": "caption",
+          "type": "React.ReactNode",
+          "description": "A line set into the housing above the cells — a title, a clock; it takes the board's width and never widens it."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Departures\"",
+          "description": "The board's accessible name."
+        },
+        {
+          "name": "as",
+          "type": "\"div\" | \"section\" | \"aside\" | \"figure\"",
+          "defaultValue": "\"div\"",
+          "description": "The element rendered around the board."
+        },
+        {
+          "name": "onComplete",
+          "type": "(index: number) => void",
+          "description": "Fires each time the board settles on a message, with its index."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the outer element."
+        }
+      ],
+      "usageNotes": [
+        "The current message is in an sr-only paragraph and the cells are aria-hidden; a polite status speaks a message only when the visitor changed it, once the board has settled, so automatic cycling is never announced.",
+        "One rAF loop integrates every moving flap and stops when the board is still, off screen or in a hidden page; the cycle timer waits for the board to settle and holds off screen.",
+        "Cells are sized from the board's own width with container units, so any number of columns fits from a phone to a desktop, up to size.",
+        "Under reduced motion no flap falls: each changing cell crossfades once to its letter, still a ripple apart, and cycling and announcements are unchanged.",
+        "Characters outside the ring become blanks; choose ring=\"digits\" for clocks and counters, which also makes every change fewer flips."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/depot-board",
+      "registryItemUrl": "https://www.kinetiqui.com/r/depot-board.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/depot-board",
+        "npm": "npx shadcn@latest add @kinetiq/depot-board",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/depot-board",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/depot-board",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/depot-board.json"
+      }
+    },
+    {
+      "slug": "lens-warp",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Lens Warp",
+      "serial": "KQ-1356",
+      "tagline": "Letters bend under a glass bead.",
+      "description": "A headline under a moving glass bead: letters near its centre magnify and are pushed outward with a smooth radial falloff, letters at its rim are squeezed and drawn in, and a faint highlight rides the glass — per-letter offsets and scale only, no filters. Every letter follows its target on its own spring, integrated in one loop: the springs.snap constants while the bead is on the words, so the type tracks it crisply, and a softer under-damped spring when it leaves, so the type relaxes with a wobble. The bead follows a mouse or pen 1:1, comes down under a finger, and makes one pass across the words when the trigger fires; with keyboard focus it lands on the first word, Left and Right walk it word by word on springs.glide, Home/End jump and Escape lifts it.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "magnifier",
+        "lens",
+        "fisheye text",
+        "cursor effect",
+        "interactive headline",
+        "text animation"
+      ],
+      "props": [
+        {
+          "name": "text",
+          "type": "string",
+          "description": "The headline under the glass."
+        },
+        {
+          "name": "as",
+          "type": "\"h1\" | \"h2\" | \"h3\" | \"h4\" | \"h5\" | \"h6\" | \"p\" | \"div\"",
+          "defaultValue": "\"h2\"",
+          "description": "The text element rendered."
+        },
+        {
+          "name": "radius",
+          "type": "number",
+          "defaultValue": "52",
+          "description": "The bead's radius, px — never more than 1.5 times the type size; the piece reserves room above and below the words for it."
+        },
+        {
+          "name": "power",
+          "type": "number",
+          "defaultValue": "0.55",
+          "description": "Magnification and bulge, 0 to 1."
+        },
+        {
+          "name": "specular",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "The highlight riding the bead, 0 to 1."
+        },
+        {
+          "name": "rim",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How much the letters at the bead's rim are squeezed, 0 to 1."
+        },
+        {
+          "name": "wobble",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How much the type wobbles as it relaxes when the bead leaves, 0 (none) to 1."
+        },
+        {
+          "name": "bead",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Draw the glass disc itself; off leaves only the letters bending."
+        },
+        {
+          "name": "tint",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "The colour letters lean toward at the bead's centre."
+        },
+        {
+          "name": "interactive",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "The pointer and the keyboard move the bead."
+        },
+        {
+          "name": "trigger",
+          "type": "\"mount\" | \"inView\" | \"hover\" | \"manual\"",
+          "defaultValue": "\"inView\"",
+          "description": "When the bead makes its one pass across the words: on mount, when scrolled into view, never (hover only), or when active turns true."
+        },
+        {
+          "name": "once",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Make the pass only the first time."
+        },
+        {
+          "name": "delay",
+          "type": "number",
+          "defaultValue": "250",
+          "description": "Wait before the pass, ms."
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "defaultValue": "1600",
+          "description": "How long the pass takes to cross the words, ms."
+        },
+        {
+          "name": "active",
+          "type": "boolean",
+          "description": "For trigger=\"manual\": true runs the pass."
+        },
+        {
+          "name": "onComplete",
+          "type": "() => void",
+          "description": "Fires when the pass is over and the type has relaxed."
+        },
+        {
+          "name": "onWordChange",
+          "type": "(word: string | null) => void",
+          "description": "Fires when the visitor moves the bead onto another word — by pointer or keys — and with null when it lifts; the automatic pass is not reported."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the wrapper; set the type size, weight and colour here."
+        }
+      ],
+      "usageNotes": [
+        "The text is read once from an sr-only copy; the letters are aria-hidden but real text, so selecting and copying the headline gives the real words, and the transforms never touch layout.",
+        "The wrapper is focusable: focus brings the bead to the first word, Left and Right walk it word by word, Home/End jump and Escape lifts it; the word under the lens is spoken politely only when the keyboard moves it.",
+        "One rAF loop runs the letter springs only while the bead is present or a letter is still moving, and only on screen in a visible page; rest centres come from layout offsets, re-measured on resize and font load.",
+        "Under reduced motion nothing moves or scales: the bead appears in place and the letters under it lean toward tint by the same falloff, and the pass becomes a brief tint on the first word.",
+        "The piece reserves padding for the bead (0.3em at the sides, enough above and below for its radius) and clips to it, so neither the glass nor a magnified letter ever draws outside its box."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/lens-warp",
+      "registryItemUrl": "https://www.kinetiqui.com/r/lens-warp.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/lens-warp",
+        "npm": "npx shadcn@latest add @kinetiq/lens-warp",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/lens-warp",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/lens-warp",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/lens-warp.json"
+      }
+    },
+    {
+      "slug": "pen-outline",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Pen Outline",
+      "serial": "KQ-1357",
+      "tagline": "A nib draws the outline, then the ink floods in.",
+      "description": "A small nib travels the contour of every letter — outlines traced from the glyphs the browser actually rendered — while the stroke's dash offset grows under its tip, letter after letter, lifting between loops; when the last stroke closes, ink floods each letter from the bottom up behind a gentle wave on springs.drift, one after another. The pen runs on a linear clock (a hand at constant speed) that pauses off screen, and the flood is the real, selectable text clipped by a per-letter wave. Focused, Enter or Space drains the ink, rewinds the outline on the exit ease and writes it again.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "stroke text",
+        "handwriting",
+        "outline",
+        "pen",
+        "ink",
+        "draw on",
+        "headline"
+      ],
+      "props": [
+        {
+          "name": "text",
+          "type": "string",
+          "description": "The words the pen writes."
+        },
+        {
+          "name": "as",
+          "type": "\"h1\" | \"h2\" | \"h3\" | \"p\" | \"span\" | \"div\"",
+          "defaultValue": "\"p\"",
+          "description": "The element rendered."
+        },
+        {
+          "name": "speed",
+          "type": "number",
+          "defaultValue": "1",
+          "description": "How fast the pen writes and the ink floods, 0.5 to 2."
+        },
+        {
+          "name": "stroke",
+          "type": "number",
+          "defaultValue": "1.25",
+          "description": "Outline width, px."
+        },
+        {
+          "name": "flood",
+          "type": "number",
+          "defaultValue": "1",
+          "description": "How much ink floods in once the outline closes: 0 leaves a pure outline, 1 is solid ink."
+        },
+        {
+          "name": "ink",
+          "type": "string",
+          "defaultValue": "\"var(--foreground)\"",
+          "description": "Outline colour, any CSS colour."
+        },
+        {
+          "name": "floodColor",
+          "type": "string",
+          "defaultValue": "the ink colour",
+          "description": "The colour the letters flood with."
+        },
+        {
+          "name": "guide",
+          "type": "number",
+          "defaultValue": "0.12",
+          "description": "Opacity of the pencil guide shown before the pen arrives, 0 to 1."
+        },
+        {
+          "name": "wave",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "Height of the flood's wave front, 0 (flat) to 1."
+        },
+        {
+          "name": "nib",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Show the travelling nib; the box reserves a quarter em above and right for it."
+        },
+        {
+          "name": "keepOutline",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Keep the inked edge once the flood settles; false dissolves it into the fill."
+        },
+        {
+          "name": "trigger",
+          "type": "\"mount\" | \"inView\" | \"hover\" | \"manual\"",
+          "defaultValue": "\"inView\"",
+          "description": "What starts the drawing."
+        },
+        {
+          "name": "once",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Draw once; false rewinds when it leaves view or the hover ends."
+        },
+        {
+          "name": "play",
+          "type": "boolean",
+          "description": "Manual trigger: true draws, false rewinds."
+        },
+        {
+          "name": "delay",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Wait before the pen starts, ms."
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "defaultValue": "180",
+          "description": "Time the pen spends on an average letter at speed 1, ms (a whole headline is capped at about three seconds)."
+        },
+        {
+          "name": "stagger",
+          "type": "number",
+          "defaultValue": "55",
+          "description": "Gap between the letters' floods, ms."
+        },
+        {
+          "name": "interactive",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "A press, or Enter or Space while focused, erases and redraws."
+        },
+        {
+          "name": "onPhaseChange",
+          "type": "(phase: \"waiting\" | \"drawing\" | \"flooding\" | \"inked\") => void",
+          "description": "The drawing moved on; reported from the first commit."
+        },
+        {
+          "name": "onComplete",
+          "type": "() => void",
+          "description": "The ink has settled."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Size, weight and tracking live here; the outline follows whatever font renders."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the headline is focusable when interactive; Enter or Space redraws it, and the full text is read once from a hidden copy while the drawing is aria-hidden.",
+        "Reduced motion: no nib and no wave — the outline fades in on a slow tween, then the ink fades up letter by letter; phases and onComplete still report.",
+        "Outlines are traced once per text, size or font change (one reused offscreen canvas, raster capped near 128px per em), so any inherited font works; nothing runs once the ink settles, and drawing pauses off screen and in hidden tabs.",
+        "The flood is the real text, so selection and copy return the words; colours default to tokens and read in both themes.",
+        "Set the size with className (it inherits otherwise); the root keeps a quarter em of room above and to the right for the nib, or pass nib={false} to drop it."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/pen-outline",
+      "registryItemUrl": "https://www.kinetiqui.com/r/pen-outline.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/pen-outline",
+        "npm": "npx shadcn@latest add @kinetiq/pen-outline",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/pen-outline",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/pen-outline",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/pen-outline.json"
+      }
+    },
+    {
+      "slug": "stack-extrude",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Stack Extrude",
+      "serial": "KQ-1358",
+      "tagline": "Type that lifts off the page in layered depth.",
+      "description": "Every word is a real 3D block — a stack of copies at true translateZ depths under an em-based perspective, the sides in a pigment that darkens toward the back — and on arrival the words peel up off the page one after another, each word's height on springs.recoil and its stack spreading on springs.glide while a soft contact shadow widens and pales. The blocks turn to face the pointer on springs.glide and drift home on springs.drift; a press pushes them into the page on springs.flick, nearest first, and they pop back on recoil in a ripple. Arrow keys turn them, holding Space or Enter presses them, and Home or Escape squares them up.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "3d text",
+        "extrude",
+        "depth",
+        "perspective",
+        "tilt",
+        "headline"
+      ],
+      "props": [
+        {
+          "name": "text",
+          "type": "string",
+          "description": "The words, each set as its own extruded block."
+        },
+        {
+          "name": "as",
+          "type": "\"h1\" | \"h2\" | \"h3\" | \"p\" | \"span\" | \"div\"",
+          "defaultValue": "\"p\"",
+          "description": "The element rendered."
+        },
+        {
+          "name": "layers",
+          "type": "number",
+          "defaultValue": "12",
+          "description": "Copies in each word's stack, 2 to 32: few read as stepped slabs, many as a solid."
+        },
+        {
+          "name": "depth",
+          "type": "number",
+          "defaultValue": "0.3",
+          "description": "How deep the extrusion runs, em."
+        },
+        {
+          "name": "tilt",
+          "type": "number",
+          "defaultValue": "12",
+          "description": "How far the pointer turns the blocks, degrees."
+        },
+        {
+          "name": "angle",
+          "type": "[number, number]",
+          "defaultValue": "[12, -18]",
+          "description": "The resting angle [rotateX, rotateY], degrees; held still under reduced motion."
+        },
+        {
+          "name": "face",
+          "type": "string",
+          "defaultValue": "\"var(--foreground)\"",
+          "description": "Face colour, any CSS colour."
+        },
+        {
+          "name": "side",
+          "type": "string",
+          "defaultValue": "\"oklch(from var(--accent) 0.56 c h)\"",
+          "description": "The sides' pigment, any CSS colour."
+        },
+        {
+          "name": "shade",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How much the sides darken toward the back, 0 to 1."
+        },
+        {
+          "name": "shadow",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "Strength of the soft shadow on the page, 0 to 1."
+        },
+        {
+          "name": "lift",
+          "type": "number",
+          "defaultValue": "0.14",
+          "description": "The gap between block and page at rest, em."
+        },
+        {
+          "name": "press",
+          "type": "number",
+          "defaultValue": "0.7",
+          "description": "How far a press pushes the blocks into the page, 0 to 1."
+        },
+        {
+          "name": "trigger",
+          "type": "\"mount\" | \"inView\" | \"hover\" | \"manual\"",
+          "defaultValue": "\"inView\"",
+          "description": "What lifts the words off the page."
+        },
+        {
+          "name": "once",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Lift once; false lays the words flat again when it leaves view or the hover ends."
+        },
+        {
+          "name": "play",
+          "type": "boolean",
+          "description": "Manual trigger: true lifts, false lays flat."
+        },
+        {
+          "name": "delay",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Wait before the first word lifts, ms."
+        },
+        {
+          "name": "stagger",
+          "type": "number",
+          "defaultValue": "90",
+          "description": "Gap between words lifting, ms."
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "defaultValue": "700",
+          "description": "Time scale of the lift springs, ms; their damping ratios are kept."
+        },
+        {
+          "name": "interactive",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Pointer tilt, press, and keyboard turning."
+        },
+        {
+          "name": "onPressChange",
+          "type": "(pressed: boolean) => void",
+          "description": "A press began (true) or ended (false)."
+        },
+        {
+          "name": "onComplete",
+          "type": "() => void",
+          "description": "The lift has settled."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Size and type; perspective and depth are in em, so the look holds from caption to hero."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: focusable when interactive — Arrow keys turn the blocks a third of `tilt` per press, holding Space or Enter presses them into the page, Home or Escape returns them to rest.",
+        "Reduced motion: the blocks hold `angle` without following the pointer; the sides fade in behind faces that never move, and a press darkens rather than moves.",
+        "Each frame writes two CSS variables per word plus the shared rotation; layer depths are static calc() strings, and nothing runs at rest.",
+        "The box reserves room below and right for the sides and the shadow; face and side colours default to tokens and a fixed-lightness pigment so both themes read.",
+        "The face copy is the real text for layout; the visual stack is aria-hidden and a hidden copy carries the words for assistive technology."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/stack-extrude",
+      "registryItemUrl": "https://www.kinetiqui.com/r/stack-extrude.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/stack-extrude",
+        "npm": "npx shadcn@latest add @kinetiq/stack-extrude",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/stack-extrude",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/stack-extrude",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/stack-extrude.json"
+      }
+    },
+    {
+      "slug": "paper-crease",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Paper Crease",
+      "serial": "KQ-1359",
+      "tagline": "A headline unfolds like a letter.",
+      "description": "Each line of the headline is a strip of paper cut into panels along horizontal creases, nested hinges rolled toward the reader so only the blank back of the first flap shows; unfolding opens crease after crease on springs.snap, each panel's back darkening toward edge-on and its face catching a crease shadow and a glare that slides down it, with a faint crease left in the paper. Under the pointer or with focus the creases refold a few degrees like paper with memory (snap in, glide out). A press — or Enter or Space — folds the letter up on the exit ease, last crease first, and opens it again with a crinkle per crease when sound is on.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "fold text",
+        "paper",
+        "unfold",
+        "letter",
+        "3d",
+        "crease",
+        "headline"
+      ],
+      "props": [
+        {
+          "name": "text",
+          "type": "string",
+          "description": "The headline; each \\n starts a new line, and each line folds as its own strip."
+        },
+        {
+          "name": "as",
+          "type": "\"h1\" | \"h2\" | \"h3\" | \"p\" | \"div\"",
+          "defaultValue": "\"p\"",
+          "description": "The element rendered."
+        },
+        {
+          "name": "folds",
+          "type": "number",
+          "defaultValue": "3",
+          "description": "Panels per line, 2 to 4: one fewer creases."
+        },
+        {
+          "name": "speed",
+          "type": "number",
+          "defaultValue": "1",
+          "description": "How fast the creases open, 0.5 to 2."
+        },
+        {
+          "name": "shade",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "Depth of the crease shadow, the glare and the paper's shading, 0 to 1."
+        },
+        {
+          "name": "crease",
+          "type": "number",
+          "defaultValue": "0.4",
+          "description": "How visible the crease lines stay once the letter is open, 0 to 1."
+        },
+        {
+          "name": "memory",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How far the paper refolds under the pointer or focus, 0 (flat) to 1."
+        },
+        {
+          "name": "paper",
+          "type": "string",
+          "defaultValue": "\"var(--card)\"",
+          "description": "The colour of the back of the paper."
+        },
+        {
+          "name": "ink",
+          "type": "string",
+          "defaultValue": "\"currentColor\"",
+          "description": "The text colour."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Crinkle as each crease opens, for the visitor's press. Off unless asked for."
+        },
+        {
+          "name": "trigger",
+          "type": "\"mount\" | \"inView\" | \"hover\" | \"manual\"",
+          "defaultValue": "\"inView\"",
+          "description": "What unfolds the letter."
+        },
+        {
+          "name": "once",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Unfold once; false folds it up again when it leaves view or the hover ends."
+        },
+        {
+          "name": "play",
+          "type": "boolean",
+          "description": "Manual trigger: true unfolds, false folds."
+        },
+        {
+          "name": "delay",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Wait before the first crease opens, ms."
+        },
+        {
+          "name": "stagger",
+          "type": "number",
+          "defaultValue": "160",
+          "description": "Gap between creases opening, ms."
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "defaultValue": "380",
+          "description": "Time scale of the hinge spring, ms; its damping ratio is kept."
+        },
+        {
+          "name": "interactive",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Hover memory, and a press (or Enter or Space) folds it and opens it again."
+        },
+        {
+          "name": "onComplete",
+          "type": "(state: \"open\" | \"folded\") => void",
+          "description": "A fold or an unfold settled."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Size and type; the perspective is in em."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: focusable when interactive; focus refolds the creases slightly like hover, and Enter or Space folds the letter and opens it again. The lines are read once, joined, from a hidden copy.",
+        "Reduced motion: nothing turns — the folded paper strip and the open text cross-fade, and the creases stay as faint lines.",
+        "Sound plays only for the visitor's press, one paper crinkle per crease as it opens, and only when `sound` is true.",
+        "Keep each line short enough to sit on one row at your narrowest width: a wrapped line still folds, but its creases then cut across two rows.",
+        "Every motion is a finite spring or tween on one motion value per crease; nothing runs at rest. The paper defaults to the card token, so both themes read."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/paper-crease",
+      "registryItemUrl": "https://www.kinetiqui.com/r/paper-crease.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/paper-crease",
+        "npm": "npx shadcn@latest add @kinetiq/paper-crease",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/paper-crease",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/paper-crease",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/paper-crease.json"
+      }
+    },
+    {
+      "slug": "after-image",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "After Image",
+      "serial": "KQ-1360",
+      "tagline": "Every word leaves a fading echo.",
+      "description": "Every word keeps a short timestamped history of where it has been, and its echoes are placed where it was a few lag milliseconds ago — fainter and turned further round the hue circle the older they are — so motion fans out behind it as a chromatic afterglow that folds back in when it stops. Words arrive on curved paths (x on springs.glide, y on springs.snap), a dragged word follows 1:1 with its neighbours trailing, and on release every word springs home on springs.recoil with the throw's velocity while one faint echo breathes at rest. Arrow keys throw the words the same way and Enter brings them in again.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "echo",
+        "trail",
+        "afterglow",
+        "motion blur",
+        "drag",
+        "headline"
+      ],
+      "props": [
+        {
+          "name": "text",
+          "type": "string",
+          "description": "The words; each one trails its own echoes."
+        },
+        {
+          "name": "as",
+          "type": "\"h1\" | \"h2\" | \"h3\" | \"p\" | \"span\" | \"div\"",
+          "defaultValue": "\"p\"",
+          "description": "The element rendered."
+        },
+        {
+          "name": "echoes",
+          "type": "number",
+          "defaultValue": "5",
+          "description": "Copies trailing each word, 1 to 8."
+        },
+        {
+          "name": "lag",
+          "type": "number",
+          "defaultValue": "40",
+          "description": "Time between one echo and the next, ms: longer lags draw longer streaks."
+        },
+        {
+          "name": "hue",
+          "type": "number",
+          "defaultValue": "20",
+          "description": "Hue drift from one echo to the next, degrees: 0 is one colour, 60 a spectrum."
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "The nearest echo's colour, any CSS colour."
+        },
+        {
+          "name": "fade",
+          "type": "number",
+          "defaultValue": "0.55",
+          "description": "Opacity of the nearest echo, 0 to 1; older echoes decay from it."
+        },
+        {
+          "name": "glow",
+          "type": "number",
+          "defaultValue": "0.4",
+          "description": "A soft halo on the echoes, 0 to 1."
+        },
+        {
+          "name": "breathe",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "One faint echo breathes behind the resting text."
+        },
+        {
+          "name": "enter",
+          "type": "\"sweep\" | \"rise\" | \"scatter\"",
+          "defaultValue": "\"sweep\"",
+          "description": "The path the words arrive on."
+        },
+        {
+          "name": "pull",
+          "type": "number",
+          "defaultValue": "0.55",
+          "description": "How much a dragged word's neighbours follow it, 0 to 1."
+        },
+        {
+          "name": "sweep",
+          "type": "number",
+          "defaultValue": "0.4",
+          "description": "How hard the pointer passing over a word kicks it, 0 (off) to 1."
+        },
+        {
+          "name": "trigger",
+          "type": "\"mount\" | \"inView\" | \"hover\" | \"manual\"",
+          "defaultValue": "\"inView\"",
+          "description": "What brings the words in."
+        },
+        {
+          "name": "once",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Arrive once; false sends the words out when it leaves view or the hover ends."
+        },
+        {
+          "name": "play",
+          "type": "boolean",
+          "description": "Manual trigger: true brings the words in, false sends them out."
+        },
+        {
+          "name": "delay",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Wait before the first word, ms."
+        },
+        {
+          "name": "stagger",
+          "type": "number",
+          "defaultValue": "80",
+          "description": "Gap between words arriving, ms."
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "defaultValue": "500",
+          "description": "Time scale of the arrival springs, ms; their damping ratios are kept."
+        },
+        {
+          "name": "interactive",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Drag, hover kicks and keyboard throws."
+        },
+        {
+          "name": "onMotionChange",
+          "type": "(moving: boolean) => void",
+          "description": "The words started moving (true), or every echo has caught up (false)."
+        },
+        {
+          "name": "onComplete",
+          "type": "() => void",
+          "description": "The arrival has settled."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Size and type; offsets are in em."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: focusable when interactive — Arrow keys throw every word in that direction and recoil brings them home, the same end state as a drag; Enter or Space replays the arrival.",
+        "Reduced motion: words never travel; they fade in while a still afterglow at fixed offsets fades out, and drags or keys flash that afterglow instead of moving anything.",
+        "One rAF loop per instance runs only while a word moves or an echo is catching up, writing preallocated history rings (no per-frame allocation); the idle breath is a single tween that stops off screen, in hidden tabs and under reduced motion.",
+        "Drag is horizontal-friendly on touch (touch-action: pan-y keeps vertical scrolling); echoes are clipped to a short margin round the box, so they never spill far.",
+        "The echoes are aria-hidden copies; a hidden copy carries the words once for assistive technology. Echo colours derive from a token via relative oklch, so both themes read."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/after-image",
+      "registryItemUrl": "https://www.kinetiqui.com/r/after-image.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/after-image",
+        "npm": "npx shadcn@latest add @kinetiq/after-image",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/after-image",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/after-image",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/after-image.json"
+      }
+    },
+    {
+      "slug": "cascade-split",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Cascade Split",
+      "serial": "KQ-1361",
+      "tagline": "Letters arrive on springs, word by word.",
+      "description": "The text splits into letters, words or the lines it wraps to, and each piece arrives on a spring in one of three ways: rising through an edge just under its baseline on springs.snap, dropping in and settling on springs.recoil, or swinging down from a pin at its top-left corner like a hanging tile, past rest and back on recoil. The gaps between pieces follow an easing curve rather than a fixed step, and leaving replays the curve in reverse, last piece first, on the exit ease. Pointer passes nudge each piece in its own idiom through a second transform; focused, Left and Right walk a probe that nudges each piece and Enter or Space plays it again.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "split text",
+        "stagger",
+        "text reveal",
+        "letters",
+        "entrance",
+        "headline"
+      ],
+      "props": [
+        {
+          "name": "text",
+          "type": "string",
+          "description": "The words."
+        },
+        {
+          "name": "as",
+          "type": "\"h1\" | \"h2\" | \"h3\" | \"p\" | \"span\" | \"div\"",
+          "defaultValue": "\"p\"",
+          "description": "The element rendered."
+        },
+        {
+          "name": "by",
+          "type": "\"letter\" | \"word\" | \"line\"",
+          "defaultValue": "\"letter\"",
+          "description": "What arrives as one piece: each letter, each word, or each line as it wraps."
+        },
+        {
+          "name": "motion",
+          "type": "\"rise\" | \"drop\" | \"swing\"",
+          "defaultValue": "\"rise\"",
+          "description": "How the pieces enter: rise through the baseline, drop and settle, or swing down from a top-left pin."
+        },
+        {
+          "name": "stagger",
+          "type": "number",
+          "defaultValue": "30",
+          "description": "The base gap between pieces, ms, before the curve shapes it."
+        },
+        {
+          "name": "curve",
+          "type": "\"even\" | \"ease-in\" | \"ease-out\" | \"ease-in-out\" | ((t: number) => number)",
+          "defaultValue": "\"ease-in\"",
+          "description": "How the gaps are spread across the text: an easing name or your own curve from 0–1 to 0–1."
+        },
+        {
+          "name": "distance",
+          "type": "number",
+          "defaultValue": "1",
+          "description": "Travel: a share of a line for rise and drop, of the safe swing angle for swing, 0 to 1.5."
+        },
+        {
+          "name": "spring",
+          "type": "\"auto\" | \"snap\" | \"recoil\" | \"glide\"",
+          "defaultValue": "\"auto\"",
+          "description": "The spring the pieces land on; auto picks the one that suits the motion."
+        },
+        {
+          "name": "fade",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Fade the pieces as they travel."
+        },
+        {
+          "name": "trigger",
+          "type": "\"mount\" | \"inView\" | \"hover\" | \"manual\"",
+          "defaultValue": "\"inView\"",
+          "description": "What brings the text in."
+        },
+        {
+          "name": "once",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Arrive once; false leaves when it goes out of view or the hover ends."
+        },
+        {
+          "name": "play",
+          "type": "boolean",
+          "description": "Manual trigger: true arrives, false leaves in reverse."
+        },
+        {
+          "name": "delay",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Wait before the first piece, ms."
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "defaultValue": "300",
+          "description": "Time scale of the springs, ms; their damping ratios are kept."
+        },
+        {
+          "name": "interactive",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Hover nudges, a press (or Enter or Space) to replay, and the keyboard probe."
+        },
+        {
+          "name": "onComplete",
+          "type": "(state: \"in\" | \"out\") => void",
+          "description": "An arrival or an exit settled."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Size and type; travel is in em."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: focusable when interactive — Left and Right walk a probe tick along the pieces and nudge each, Home and End jump, Enter or Space leaves and arrives again. The text is read once from a hidden copy.",
+        "Reduced motion: nothing travels or turns; pieces fade in along the same curve in half the time and leave by fading in reverse.",
+        "Splits by grapheme, so emoji and combining marks stay whole, and words never break inside; line mode reads the wrap from layout when the cascade starts.",
+        "Long texts are soft-capped so the whole cascade stays brief; pass your own curve for custom choreography. Every motion is a finite spring or tween — nothing runs at rest."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/cascade-split",
+      "registryItemUrl": "https://www.kinetiqui.com/r/cascade-split.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/cascade-split",
+        "npm": "npx shadcn@latest add @kinetiq/cascade-split",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/cascade-split",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/cascade-split",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/cascade-split.json"
       }
     },
     {

@@ -1420,6 +1420,17 @@ import { TeamChatDemo } from "@/registry/demos/team-chat.demo";
 import { NotesAppDemo } from "@/registry/demos/notes-app.demo";
 import { CalendarAppDemo } from "@/registry/demos/calendar-app.demo";
 import { StorefrontDemo } from "@/registry/demos/storefront.demo";
+import { TuneInDemo } from "@/registry/demos/tune-in.demo";
+import { DrumWordsDemo } from "@/registry/demos/drum-words.demo";
+import { TideMaskDemo } from "@/registry/demos/tide-mask.demo";
+import { GrainGatherDemo } from "@/registry/demos/grain-gather.demo";
+import { DepotBoardDemo } from "@/registry/demos/depot-board.demo";
+import { LensWarpDemo } from "@/registry/demos/lens-warp.demo";
+import { PenOutlineDemo } from "@/registry/demos/pen-outline.demo";
+import { StackExtrudeDemo } from "@/registry/demos/stack-extrude.demo";
+import { PaperCreaseDemo } from "@/registry/demos/paper-crease.demo";
+import { AfterImageDemo } from "@/registry/demos/after-image.demo";
+import { CascadeSplitDemo } from "@/registry/demos/cascade-split.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2854,4 +2865,15 @@ export const demos: Record<string, ComponentType> = {
   "notes-app": NotesAppDemo,
   "calendar-app": CalendarAppDemo,
   storefront: StorefrontDemo,
+  "tune-in": TuneInDemo,
+  "drum-words": DrumWordsDemo,
+  "tide-mask": TideMaskDemo,
+  "grain-gather": GrainGatherDemo,
+  "depot-board": DepotBoardDemo,
+  "lens-warp": LensWarpDemo,
+  "pen-outline": PenOutlineDemo,
+  "stack-extrude": StackExtrudeDemo,
+  "paper-crease": PaperCreaseDemo,
+  "after-image": AfterImageDemo,
+  "cascade-split": CascadeSplitDemo,
 };

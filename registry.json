@@ -34363,6 +34363,308 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "tune-in",
+      "type": "registry:ui",
+      "title": "Tune In",
+      "description": "A headline that comes in like a station on an analogue dial: every letter starts as faint seeded static jittering over a broken scanline, a thin carrier line sweeps across on a tween, letters ahead of it calm and flicker toward their real shape, and each one it passes locks onto its true glyph with a small vertical settle on springs.snap and a flash of signal colour that cools, while a mono readout riding the carrier rolls to the station's frequency. A mouse over the tuned headline detunes the letters under it for a moment and they relock on the same spring; with trigger=\"hover\" the headline is focusable and keyboard focus tunes it in.",
+      "files": [
+        {
+          "path": "registry/ui/tune-in.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1351"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "drum-words",
+      "type": "registry:ui",
+      "title": "Drum Words",
+      "description": "One word of a sentence on a ratcheted drum: the slot is a window onto a cylinder of faces placed with real 3D transforms about an axis behind the line, so the outgoing word tips away over the top while the next comes up from below foreshortened and shaded. Each change is one detent — a hair backwards on springs.flick as the pawl lifts, then forward on springs.snap, whose single overshoot is the detent catching — and the slot's width follows the word on springs.glide so the sentence glides instead of jumping. The word is a spinbutton: Up/Right, Enter and Space turn it forward, Down/Left back, Home/End to the ends, and a vertical drag turns the drum 1:1 with a throw committing to the detent it was heading for.",
+      "files": [
+        {
+          "path": "registry/ui/drum-words.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1352"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "tide-mask",
+      "type": "registry:ui",
+      "title": "Tide Mask",
+      "description": "A multi-line heading revealed by a travelling liquid edge: each line sits behind its own clip path whose top edge is a wave (a swell and a counter-running chop), and the water level rises past each line on a tween, lines a stagger apart, while the letters float up a step onto their line on springs.glide and the glyphs just under the waterline stay wet and tinted until it moves on. The final line's last ripple is left behind as a fine underline that calms on springs.drift, ripples for a while and stirs again when the heading is hovered or focused; with trigger=\"hover\" the heading is focusable and keyboard focus raises it.",
+      "files": [
+        {
+          "path": "registry/ui/tide-mask.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1353"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "grain-gather",
+      "type": "registry:ui",
+      "title": "Grain Gather",
+      "description": "Particle text poured from sand: the words are laid out for real in the DOM, drawn from their own glyphs into an offscreen mask and sampled into a few thousand grains on a canvas, which start scattered in a slow drift and gather into the letters in a left-to-right sweep on per-grain springs from the springs.drift calibration, a touch under-damped so the words sharpen out of a haze. A pointer moving through the words parts the grains like a hand through sand and they flow back behind it; a press throws them outward and they regather, and Enter or Space on the focused text does the same from its centre.",
+      "files": [
+        {
+          "path": "registry/ui/grain-gather.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1354"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "depot-board",
+      "type": "registry:ui",
+      "title": "Depot Board",
+      "description": "A split-flap departure board: each cell flips its top flap down over a hinge with real flap physics — integrated under gravity, slow off the top and fast at the bottom, landing on the stop with a small bounce before it rests — through its character ring one flap at a time until it reaches its letter, columns a ripple apart so the board settles in a wave, and only the cells whose letter changes move at all. Messages cycle once the board has settled and rested; the board is a button, so a press, Enter or Space shows the next message and Left/Right step back and forth, with the visitor's flips clacking when sound is on and the message announced once it settles.",
+      "files": [
+        {
+          "path": "registry/ui/depot-board.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1355"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "lens-warp",
+      "type": "registry:ui",
+      "title": "Lens Warp",
+      "description": "A headline under a moving glass bead: letters near its centre magnify and are pushed outward with a smooth radial falloff, letters at its rim are squeezed and drawn in, and a faint highlight rides the glass — per-letter offsets and scale only, no filters. Every letter follows its target on its own spring, integrated in one loop: the springs.snap constants while the bead is on the words, so the type tracks it crisply, and a softer under-damped spring when it leaves, so the type relaxes with a wobble. The bead follows a mouse or pen 1:1, comes down under a finger, and makes one pass across the words when the trigger fires; with keyboard focus it lands on the first word, Left and Right walk it word by word on springs.glide, Home/End jump and Escape lifts it.",
+      "files": [
+        {
+          "path": "registry/ui/lens-warp.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1356"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "pen-outline",
+      "type": "registry:ui",
+      "title": "Pen Outline",
+      "description": "A small nib travels the contour of every letter — outlines traced from the glyphs the browser actually rendered — while the stroke's dash offset grows under its tip, letter after letter, lifting between loops; when the last stroke closes, ink floods each letter from the bottom up behind a gentle wave on springs.drift, one after another. The pen runs on a linear clock (a hand at constant speed) that pauses off screen, and the flood is the real, selectable text clipped by a per-letter wave. Focused, Enter or Space drains the ink, rewinds the outline on the exit ease and writes it again.",
+      "files": [
+        {
+          "path": "registry/ui/pen-outline.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1357"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "stack-extrude",
+      "type": "registry:ui",
+      "title": "Stack Extrude",
+      "description": "Every word is a real 3D block — a stack of copies at true translateZ depths under an em-based perspective, the sides in a pigment that darkens toward the back — and on arrival the words peel up off the page one after another, each word's height on springs.recoil and its stack spreading on springs.glide while a soft contact shadow widens and pales. The blocks turn to face the pointer on springs.glide and drift home on springs.drift; a press pushes them into the page on springs.flick, nearest first, and they pop back on recoil in a ripple. Arrow keys turn them, holding Space or Enter presses them, and Home or Escape squares them up.",
+      "files": [
+        {
+          "path": "registry/ui/stack-extrude.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1358"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "paper-crease",
+      "type": "registry:ui",
+      "title": "Paper Crease",
+      "description": "Each line of the headline is a strip of paper cut into panels along horizontal creases, nested hinges rolled toward the reader so only the blank back of the first flap shows; unfolding opens crease after crease on springs.snap, each panel's back darkening toward edge-on and its face catching a crease shadow and a glare that slides down it, with a faint crease left in the paper. Under the pointer or with focus the creases refold a few degrees like paper with memory (snap in, glide out). A press — or Enter or Space — folds the letter up on the exit ease, last crease first, and opens it again with a crinkle per crease when sound is on.",
+      "files": [
+        {
+          "path": "registry/ui/paper-crease.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1359"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "after-image",
+      "type": "registry:ui",
+      "title": "After Image",
+      "description": "Every word keeps a short timestamped history of where it has been, and its echoes are placed where it was a few lag milliseconds ago — fainter and turned further round the hue circle the older they are — so motion fans out behind it as a chromatic afterglow that folds back in when it stops. Words arrive on curved paths (x on springs.glide, y on springs.snap), a dragged word follows 1:1 with its neighbours trailing, and on release every word springs home on springs.recoil with the throw's velocity while one faint echo breathes at rest. Arrow keys throw the words the same way and Enter brings them in again.",
+      "files": [
+        {
+          "path": "registry/ui/after-image.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1360"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "cascade-split",
+      "type": "registry:ui",
+      "title": "Cascade Split",
+      "description": "The text splits into letters, words or the lines it wraps to, and each piece arrives on a spring in one of three ways: rising through an edge just under its baseline on springs.snap, dropping in and settling on springs.recoil, or swinging down from a pin at its top-left corner like a hanging tile, past rest and back on recoil. The gaps between pieces follow an easing curve rather than a fixed step, and leaving replays the curve in reverse, last piece first, on the exit ease. Pointer passes nudge each piece in its own idiom through a second transform; focused, Left and Right walk a probe that nudges each piece and Enter or Space plays it again.",
+      "files": [
+        {
+          "path": "registry/ui/cascade-split.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1361"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
