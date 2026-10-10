@@ -148,25 +148,48 @@ function moves(spans: readonly Span[], cols: number): Span[][] {
 
 /**
  * The span each card should take so the wall has no gaps, or null where its
- * classes already give the right one. A small beam search over "grow this
- * card" moves, capped in time so a long wall never holds up a frame.
+ * classes already give the right one. First a greedy pass takes the best
+ * "grow this card" move beside the first gap, over and over — a wall of wide
+ * cards needs one move per lonely row, so this pass has no depth cap — then
+ * a small beam search tidies whatever is left. Both are bounded by counted
+ * evaluations, never by the clock, so every machine lays the wall out alike.
  */
 export function fillGrid(
   aspects: readonly TactileAspect[],
   cols: number,
-  budgetMs = 12,
+  maxEvaluations = 600,
 ): (Span | null)[] {
   const base = aspects.map((a) => baseSpan(a, cols));
   if (cols < 2 || base.length === 0) return base.map(() => null);
-  const started = performance.now();
-  const late = () => performance.now() - started > budgetMs;
+  let evaluations = 0;
+  const judge = (spans: readonly Span[]) => {
+    evaluations++;
+    return score(spans, cols);
+  };
 
-  let best = { spans: base as readonly Span[], n: score(base, cols) };
-  let frontier: (readonly Span[])[] = [base];
-  const seen = new Set([base.join()]);
+  // Greedy: one improving move at a time until the wall is whole.
+  let current: readonly Span[] = base;
+  let currentScore = judge(base);
+  for (let step = 0; step < base.length * 2 && currentScore > 0; step++) {
+    let pick: { spans: readonly Span[]; n: number } | null = null;
+    for (const m of moves(current, cols)) {
+      const n = judge(m);
+      if (n < currentScore && (!pick || n < pick.n)) pick = { spans: m, n };
+      if (evaluations > maxEvaluations) break;
+    }
+    if (!pick) break;
+    current = pick.spans;
+    currentScore = pick.n;
+    if (evaluations > maxEvaluations) break;
+  }
+
+  // Beam search from there for the gaps a single move cannot close.
+  let best = { spans: current, n: currentScore };
+  let frontier: (readonly Span[])[] = [current];
+  const seen = new Set([current.join()]);
   for (
     let depth = 0;
-    depth < 12 && frontier.length && best.n > 0 && !late();
+    depth < 8 && frontier.length && best.n > 0 && evaluations <= maxEvaluations;
     depth++
   ) {
     const next: { spans: Span[]; n: number }[] = [];
@@ -175,10 +198,10 @@ export function fillGrid(
         const key = m.join();
         if (seen.has(key)) continue;
         seen.add(key);
-        next.push({ spans: m, n: score(m, cols) });
-        if (late()) break;
+        next.push({ spans: m, n: judge(m) });
+        if (evaluations > maxEvaluations) break;
       }
-      if (late()) break;
+      if (evaluations > maxEvaluations) break;
     }
     next.sort((a, b) => a.n - b.n);
     if (next[0] && next[0].n < best.n) best = next[0];
