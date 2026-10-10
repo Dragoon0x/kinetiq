@@ -13,7 +13,7 @@
     "indexUrl": "https://www.kinetiqui.com/r/registry.json",
     "docsUrl": "https://www.kinetiqui.com",
     "counts": {
-      "components": 1262,
+      "components": 1273,
       "blocks": 152,
       "pages": 28,
       "templates": 10,
@@ -111916,6 +111916,1769 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/tally-roll",
         "bun": "bunx --bun shadcn@latest add @kinetiq/tally-roll",
         "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/tally-roll.json"
+      }
+    },
+    {
+      "slug": "glass-orb",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Glass Orb",
+      "serial": "KQ-1384",
+      "tagline": "A crystal sphere that holds its own weather.",
+      "description": "A glass sphere on a table that holds its own weather, drawn in one WebGL2 pass: each pixel follows the view ray in through the front of the ball and out of the back, so the room behind comes back inverted and magnified, tinted where the glass is thick, with a window highlight, a caustic rim and a focused caustic in its shadow. Dragged, the orb follows the hand 1:1 along the table and off it; released, it rolls home on a spring between springs.glide and springs.recoil that takes the throw's velocity, and a lifted orb falls under gravity and lands with a small bounce, while the mist or snow inside is dragged after the glass and thrown up by the landing. Left and Right roll it, Up lifts and drops it, and Enter or Space shakes it.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "glass",
+        "refraction",
+        "snow globe",
+        "webgl",
+        "weather",
+        "draggable",
+        "crystal ball"
+      ],
+      "props": [
+        {
+          "name": "weather",
+          "type": "\"clear\" | \"cloud\" | \"snow\" | \"storm\"",
+          "defaultValue": "\"snow\"",
+          "description": "What is inside the glass: nothing, a drifting mist, snow, or a dark storm with rain."
+        },
+        {
+          "name": "refraction",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How hard the glass bends light, 0 to 1: a clear bubble at 0, a solid crystal that shows the room upside down at 1."
+        },
+        {
+          "name": "tint",
+          "type": "number",
+          "defaultValue": "0.3",
+          "description": "How deeply the glass is coloured by glassColor, 0 to 1; the thick middle colours more than the rim."
+        },
+        {
+          "name": "glassColor",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "The colour of the glass, any CSS colour, resolved on the element so it follows the theme."
+        },
+        {
+          "name": "weatherColor",
+          "type": "string",
+          "defaultValue": "\"oklch(0.97 0.01 250)\"",
+          "description": "The colour of the snow and mist; a pigment, so it reads the same in both themes."
+        },
+        {
+          "name": "backdropText",
+          "type": "string",
+          "description": "A word set large on the wall behind the orb; the glass shows it flipped and magnified."
+        },
+        {
+          "name": "size",
+          "type": "number",
+          "defaultValue": "0.66",
+          "description": "The orb's diameter as a share of the box height, 0.4 to 0.9, never more than 72% of the width."
+        },
+        {
+          "name": "swirl",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How strongly rolling, lifting and landing stir the weather, 0 to 1."
+        },
+        {
+          "name": "wobble",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How much the orb rocks as it rolls home, from a glide at 0 to two visible rocks at 1."
+        },
+        {
+          "name": "drift",
+          "type": "number",
+          "defaultValue": "0.3",
+          "description": "The slow circulation of the weather while nobody touches it, 0 to 1; 0 lets everything settle and the loop stop."
+        },
+        {
+          "name": "interactive",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Drag, tap and keys move the orb."
+        },
+        {
+          "name": "alt",
+          "type": "string",
+          "defaultValue": "\"A glass orb on a table\"",
+          "description": "Describes the scene for assistive technology."
+        },
+        {
+          "name": "seed",
+          "type": "number",
+          "defaultValue": "7",
+          "description": "Seed for the weather's arrangement and the mist's grain."
+        },
+        {
+          "name": "dpr",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "The highest device pixel ratio the canvas draws at (never above 2)."
+        },
+        {
+          "name": "paused",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Freeze the weather where it is."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play a swish when the visitor rolls, lifts or shakes the orb."
+        },
+        {
+          "name": "onStir",
+          "type": "() => void",
+          "description": "Fires when the visitor moves the orb: a drag, a tap or a key."
+        },
+        {
+          "name": "onSettle",
+          "type": "() => void",
+          "description": "Fires when, after a stir, the orb is home and the weather has calmed."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the scene box; set its height here (default h-56)."
+        }
+      ],
+      "usageNotes": [
+        "The orb is a real round button that moves with the drawn ball: Left and Right roll it, Up lifts and drops it, Enter or Space shakes it, and its focus ring is the orb's own outline. The scene is a group labelled by alt; the canvas is aria-hidden.",
+        "One WebGL2 context and one draw per frame. The loop runs only while something moves (or, for mist and storm with drift above 0, at a rationed 30 fps), never off screen or in a hidden tab; snow stops it once the last flake has landed. The backing store caps its device pixel ratio at 2.",
+        "The room is painted from tokens on the component's own element and repainted when the theme changes; without WebGL2, or after a lost context, a CSS still life of the same room and orb stands in.",
+        "Under reduced motion nothing travels: the weather is a still, settled arrangement, and a key or a tap shows a new one.",
+        "Give the box a height with className; the orb's size follows the height and never takes more than 72% of the width, so it fits a 258px phone plate."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/glass-orb",
+      "registryItemUrl": "https://www.kinetiqui.com/r/glass-orb.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/glass-orb",
+        "npm": "npx shadcn@latest add @kinetiq/glass-orb",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/glass-orb",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/glass-orb",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/glass-orb.json"
+      }
+    },
+    {
+      "slug": "live-wire-mark",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Live Wire Mark",
+      "serial": "KQ-1385",
+      "tagline": "Current crawls around your logo.",
+      "description": "An electric outline for any SVG mark: the path is rendered as a faint wire and sampled into canvas points, and arcs of current crawl it both ways as jagged, tapering polylines re-kinked about thirty times a second, throwing forks that flicker and die over a glow that breathes underneath. Hover or keyboard focus charges it on springs.drift — more arcs, hotter, and sparks crackling off the corners past 0.6 — and a press discharges it in one flash on an exit tween, after which the charge climbs back on springs.drift from the point nearest the press. Enter or Space discharges it from the keyboard.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "electric",
+        "logo animation",
+        "svg outline",
+        "lightning",
+        "sparks",
+        "hover effect",
+        "canvas"
+      ],
+      "props": [
+        {
+          "name": "path",
+          "type": "string",
+          "defaultValue": "built-in hexagon-and-G mark",
+          "description": "The mark as SVG path data in viewBox units; any number of subpaths, with corners and open ends found for you."
+        },
+        {
+          "name": "viewBox",
+          "type": "string",
+          "defaultValue": "\"0 0 100 100\"",
+          "description": "The viewBox the path is drawn in."
+        },
+        {
+          "name": "voltage",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How hot the current runs, 0 to 1: the arcs' reach, speed and brightness."
+        },
+        {
+          "name": "arcs",
+          "type": "number",
+          "defaultValue": "3",
+          "description": "How many arcs crawl the outline at rest; hover and focus add more."
+        },
+        {
+          "name": "glow",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "The glow breathing under the outline, 0 to 1."
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "The current's colour; its hot core is mixed toward the foreground, so it is white-hot on dark and ink on light."
+        },
+        {
+          "name": "hoverBoost",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How much hover or keyboard focus raises the voltage, as a share of what is left to full."
+        },
+        {
+          "name": "speed",
+          "type": "number",
+          "defaultValue": "1",
+          "description": "How fast the arcs crawl, as a multiple of the house pace (0.25 to 3)."
+        },
+        {
+          "name": "forks",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How often an arc throws a fork off its side, 0 to 1."
+        },
+        {
+          "name": "sparks",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Corners crackle with sparks once the voltage passes 0.6, and burst on a discharge."
+        },
+        {
+          "name": "conductor",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Draw the outline itself as a faint wire."
+        },
+        {
+          "name": "thickness",
+          "type": "number",
+          "defaultValue": "1.5",
+          "description": "The wire's stroke width, in CSS pixels."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Electric mark\"",
+          "description": "The mark's accessible name."
+        },
+        {
+          "name": "interactive",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "A press discharges the mark and hover and focus charge it; off, it is an image."
+        },
+        {
+          "name": "paused",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Hold the current still."
+        },
+        {
+          "name": "seed",
+          "type": "number",
+          "defaultValue": "3",
+          "description": "Seed for where the arcs start and how they kink."
+        },
+        {
+          "name": "dpr",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "The highest device pixel ratio the canvas draws at (never above 2)."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play a buzz when the visitor discharges the mark."
+        },
+        {
+          "name": "onDischarge",
+          "type": "() => void",
+          "description": "Fires when the visitor discharges the mark."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the box; size it here (default size-40)."
+        }
+      ],
+      "usageNotes": [
+        "Interactive, the mark is a button named by label: hover and keyboard focus charge it, and a click, Enter or Space discharges it. With interactive off it is role=\"img\" with the same label.",
+        "The path is drawn inset by 14% of the box so arcs, forks and sparks always stay inside the canvas; size the box with className and the mark scales with it.",
+        "Canvas 2D with fixed pools of arcs, forks and sparks, so nothing is allocated per frame. The loop runs only on screen in a visible tab and stops while paused; the wire is resampled only when the size or path changes, and the canvas caps its pixel ratio at 2.",
+        "Colours resolve on the element and re-resolve when the theme changes; a light core adds light on dark pages and a dark core is drawn over light ones, so it reads in both themes.",
+        "Under reduced motion it is a still frame of the lit wire with frozen arcs; hover brightens it and a press darkens it for a beat, with no flicker or travel."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/live-wire-mark",
+      "registryItemUrl": "https://www.kinetiqui.com/r/live-wire-mark.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/live-wire-mark",
+        "npm": "npx shadcn@latest add @kinetiq/live-wire-mark",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/live-wire-mark",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/live-wire-mark",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/live-wire-mark.json"
+      }
+    },
+    {
+      "slug": "dither-curtain",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Dither Curtain",
+      "serial": "KQ-1386",
+      "tagline": "A veil of ordered dots draws back.",
+      "description": "A veil of ordered dots over any content: where it is partly drawn back, cells switch on and off by a Bayer threshold, and the dots coarsen through nested grids toward the middle of the dissolving edge, so the content appears through a regular screen rather than a blur. The reveal is a tween across a ragged front (a dissolve is a clip, never a spring) and covering again is a shorter exit tween; while veiled, a mouse or pen pushes a dithered hole through it that trails the pointer and opens on springs.glide. With the hover trigger the reveal grows from the pointer, and keyboard focus anywhere inside lifts it the same way.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "dither",
+        "bayer",
+        "reveal",
+        "transition",
+        "veil",
+        "pixel",
+        "scroll reveal"
+      ],
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "The content behind the veil; it stays fully interactive and in the accessibility tree throughout."
+        },
+        {
+          "name": "matrix",
+          "type": "\"2x2\" | \"4x4\" | \"8x8\"",
+          "defaultValue": "\"4x4\"",
+          "description": "The ordered-dither matrix: 2×2 is a coarse check, 8×8 a fine, even screen."
+        },
+        {
+          "name": "scale",
+          "type": "number",
+          "defaultValue": "4",
+          "description": "The finest dot, in CSS pixels."
+        },
+        {
+          "name": "coarsen",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How much the dots coarsen toward the middle of the dissolving edge, from one size at 0 to up to 8× scale at 1."
+        },
+        {
+          "name": "shape",
+          "type": "\"square\" | \"round\"",
+          "defaultValue": "\"square\"",
+          "description": "Square cells, or round dots that grow until a full veil is solid."
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "defaultValue": "\"var(--accent)\"",
+          "description": "The veil's colour, resolved on the element so it follows the theme."
+        },
+        {
+          "name": "trigger",
+          "type": "\"mount\" | \"inView\" | \"hover\" | \"manual\"",
+          "defaultValue": "\"inView\"",
+          "description": "When the veil draws back: on mount, when scrolled into view, on hover or keyboard focus, or when revealed turns true."
+        },
+        {
+          "name": "revealed",
+          "type": "boolean",
+          "description": "For trigger=\"manual\": true draws the veil back, false brings it over again."
+        },
+        {
+          "name": "once",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Reveal only once; false lets the veil come back when the piece leaves the view (inView) or the pointer and focus leave (hover)."
+        },
+        {
+          "name": "origin",
+          "type": "\"left\" | \"right\" | \"top\" | \"bottom\" | \"center\" | \"pointer\"",
+          "defaultValue": "\"left\" (\"pointer\" with the hover trigger)",
+          "description": "Where the dissolve starts."
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "defaultValue": "900",
+          "description": "How long the reveal takes, ms; covering again takes 0.6× as long."
+        },
+        {
+          "name": "delay",
+          "type": "number",
+          "defaultValue": "120",
+          "description": "Wait before a mount or in-view reveal, ms."
+        },
+        {
+          "name": "softness",
+          "type": "number",
+          "defaultValue": "0.4",
+          "description": "How wide the dithered band at the edge is, 0 to 1."
+        },
+        {
+          "name": "ragged",
+          "type": "number",
+          "defaultValue": "0.4",
+          "description": "How ragged the edge is, from a straight line at 0 to 1."
+        },
+        {
+          "name": "holeRadius",
+          "type": "number",
+          "defaultValue": "64",
+          "description": "The radius of the hole a mouse or pen pushes through the veil, px; 0 turns it off."
+        },
+        {
+          "name": "interactive",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "The pointer pushes a hole through the veil (mouse and pen only), and with the hover trigger the wrapper takes keyboard focus."
+        },
+        {
+          "name": "seed",
+          "type": "number",
+          "defaultValue": "11",
+          "description": "Seed for the edge's raggedness."
+        },
+        {
+          "name": "dpr",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "The highest device pixel ratio the canvas draws at (never above 2)."
+        },
+        {
+          "name": "onRevealChange",
+          "type": "(revealed: boolean) => void",
+          "description": "Fires when a reveal or a re-cover completes, with whether the content is now revealed."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the wrapper; give it the content's radius so the veil follows it."
+        }
+      ],
+      "usageNotes": [
+        "The veil is decoration: its canvas is aria-hidden and takes no pointer events, so the children stay fully interactive and are read normally even while veiled. Use onRevealChange if a host wants to announce the state.",
+        "With trigger=\"hover\" the wrapper becomes a tab stop and keyboard focus anywhere inside lifts the veil from the focused element; a tap lifts it for touch-only visitors.",
+        "Canvas 2D, one filled path per frame: solid and clear blocks are drawn or skipped whole and only the dissolving band is subdivided. Frames are drawn only while the progress, the hole or the size changes, never off screen, and nothing runs once it has settled.",
+        "The server renders a solid veil in the same colour so the content never flashes before the canvas covers it; the colour re-resolves when the theme changes.",
+        "Under reduced motion there is no travelling front and no hole: the solid veil cross-fades away, and back."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/dither-curtain",
+      "registryItemUrl": "https://www.kinetiqui.com/r/dither-curtain.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/dither-curtain",
+        "npm": "npx shadcn@latest add @kinetiq/dither-curtain",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/dither-curtain",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/dither-curtain",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/dither-curtain.json"
+      }
+    },
+    {
+      "slug": "lantern-cursor",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Lantern Cursor",
+      "serial": "KQ-1387",
+      "tagline": "A warm pool of light follows you.",
+      "description": "A dim room lit by a lantern the visitor carries: a canvas of night over any children with a feathered pool cut out of it and a faint warm spill past its edge, plus a disc of lamplight blended over what it lights. The lantern follows the pointer on a damped spring that slides from springs.flick through springs.glide to springs.drift by lag, leaning ahead along its travel and stretching with speed, while seeded noise makes the flame breathe; leaving sets it down at rest on springs.drift. Keyboard focus inside carries the light to the focused element and opens it to cover it.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "cursor effect",
+        "spotlight",
+        "flashlight",
+        "hover reveal",
+        "lantern",
+        "dark mode",
+        "pointer light"
+      ],
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "The scene the lantern lights; it stays fully interactive."
+        },
+        {
+          "name": "radius",
+          "type": "number",
+          "defaultValue": "130",
+          "description": "The pool of light's radius, in CSS pixels."
+        },
+        {
+          "name": "warmth",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "The light's colour temperature, from a neutral white at 0 to candle amber at 1."
+        },
+        {
+          "name": "dim",
+          "type": "number",
+          "defaultValue": "0.8",
+          "description": "How dark the room is outside the light, 0 to 1."
+        },
+        {
+          "name": "feather",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How soft the pool's edge is, as a share of its radius."
+        },
+        {
+          "name": "lag",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How far the lantern lags the hand: the flick spring at 0, glide at 0.5, drift at 1."
+        },
+        {
+          "name": "lean",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How far the light swings ahead along its travel and stretches with speed, 0 to 1."
+        },
+        {
+          "name": "flicker",
+          "type": "number",
+          "defaultValue": "0.4",
+          "description": "The flame's faint flicker in size and warmth; 0 holds it steady and lets the loop stop."
+        },
+        {
+          "name": "glow",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "The warmth the lamplight lays over what it lights, 0 to 1."
+        },
+        {
+          "name": "rest",
+          "type": "[number, number]",
+          "defaultValue": "[0.5, 0.45]",
+          "description": "Where the lantern is set down when the pointer leaves, as fractions of the box."
+        },
+        {
+          "name": "darkness",
+          "type": "string",
+          "defaultValue": "\"oklch(0.16 0.025 262)\"",
+          "description": "The night's colour; fixed art by default, because night is night in either theme."
+        },
+        {
+          "name": "followFocus",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Keyboard focus inside carries the lantern to the focused element."
+        },
+        {
+          "name": "interactive",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "The pointer carries the lantern (mouse and pen; touch gets the resting light)."
+        },
+        {
+          "name": "paused",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Hold the flicker."
+        },
+        {
+          "name": "seed",
+          "type": "number",
+          "defaultValue": "5",
+          "description": "Seed for the flicker."
+        },
+        {
+          "name": "dpr",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "The highest device pixel ratio the canvas draws at (never above 2)."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the box."
+        }
+      ],
+      "usageNotes": [
+        "The night and the lamplight are aria-hidden and never take pointer events, so every control in the children still clicks, focuses and reads as usual, and the system cursor is left alone.",
+        "Keyboard visitors see what they are on: focus inside carries the light to the focused element and opens it to cover it, and it stays there when the pointer leaves. Touch-only visitors get the resting light.",
+        "One canvas fill and one gradient cut per frame, with the lamplight moved by a composited transform. The loop runs while the lantern travels; the flicker keeps a half-rate loop only while on screen and visible, and flicker 0 or paused lets it stop. DPR is capped at 2.",
+        "The lamplight screens over dark pages and multiplies over light ones, so it reads as added light in dark and as a warm tint on paper in light; the server renders the resting room in CSS so there is no flash.",
+        "Under reduced motion there is no lag, lean or flicker: the pool sits exactly under the pointer and jumps to focus and back to rest."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/lantern-cursor",
+      "registryItemUrl": "https://www.kinetiqui.com/r/lantern-cursor.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/lantern-cursor",
+        "npm": "npx shadcn@latest add @kinetiq/lantern-cursor",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/lantern-cursor",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/lantern-cursor",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/lantern-cursor.json"
+      }
+    },
+    {
+      "slug": "scroll-unfold",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Scroll Unfold",
+      "serial": "KQ-1388",
+      "tagline": "Media that grows to fill the frame as you scroll.",
+      "description": "A scroll-linked media card that grows to fill the frame: the section pins a stage in its nearest scroll container, and the distance scrolled, 1:1 and eased once by the house's symmetric move, opens the card's clip from its inset to full bleed while its corners flatten and the picture zooms out to meet it. The headline is split around the card and each half is pushed by the card's own edge, keeping a fixed gap as the words part and slide off the stage, while the caption rides the frame's bottom edge away and an overlay title rises over the last quarter; scrolling back folds it. Keyboard scrolling of the container (arrows, Page keys, Space) drives it exactly as the wheel does.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "scroll animation",
+        "scroll linked",
+        "expanding image",
+        "full bleed",
+        "sticky",
+        "hero media",
+        "parallax"
+      ],
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "The media the card frames (an image, a video, an SVG); it fills the frame, so give it size-full object-cover."
+        },
+        {
+          "name": "headline",
+          "type": "string",
+          "description": "The headline that splits around the card."
+        },
+        {
+          "name": "splitAt",
+          "type": "number",
+          "defaultValue": "half the words, rounded up",
+          "description": "How many words go before the card."
+        },
+        {
+          "name": "as",
+          "type": "\"h1\" | \"h2\" | \"h3\" | \"p\"",
+          "defaultValue": "\"h2\"",
+          "description": "The headline's element."
+        },
+        {
+          "name": "caption",
+          "type": "ReactNode",
+          "description": "A line under the card that slides away as it grows."
+        },
+        {
+          "name": "overlay",
+          "type": "ReactNode",
+          "description": "A title laid over the full-bleed frame, rising in over the last quarter."
+        },
+        {
+          "name": "range",
+          "type": "number",
+          "defaultValue": "400",
+          "description": "How far the reader scrolls to unfold it, px."
+        },
+        {
+          "name": "inset",
+          "type": "number",
+          "defaultValue": "0.26",
+          "description": "The card's starting inset as a share of the stage width (0.05 to 0.45)."
+        },
+        {
+          "name": "radius",
+          "type": "number",
+          "defaultValue": "24",
+          "description": "The card's starting corner radius, px; it flattens to 0 at full bleed."
+        },
+        {
+          "name": "zoom",
+          "type": "number",
+          "defaultValue": "0.12",
+          "description": "How much the media zooms out as the frame opens, 0 to 0.4."
+        },
+        {
+          "name": "pin",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Hold the stage in place (sticky) while it unfolds."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "the scroll container's visible height",
+          "description": "The stage's height, px."
+        },
+        {
+          "name": "start",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Scroll distance before the unfold begins, px."
+        },
+        {
+          "name": "smooth",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Eases the scroll-linked progress on a spring, from 1:1 with the scroll at 0 to heavy at 1."
+        },
+        {
+          "name": "gap",
+          "type": "number",
+          "defaultValue": "16",
+          "description": "The space between the headline and the card, px."
+        },
+        {
+          "name": "onStageChange",
+          "type": "(stage: \"folded\" | \"unfolding\" | \"unfolded\") => void",
+          "description": "Fires when the piece passes between folded, unfolding and unfolded."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the section."
+        }
+      ],
+      "usageNotes": [
+        "It finds the nearest scrolling ancestor (or the window) and listens to its scroll passively, only while the section is within 200px of view; every visual is a clip-path, transform or opacity, and nothing loops.",
+        "The headline is one real heading with both halves inside it, read once and in order; nothing takes focus, so keyboard scrolling of the container drives it exactly as a wheel does. Make a custom scroll container focusable so keyboard visitors can scroll it.",
+        "On a wide stage the words sit either side of the card; when the side columns would be under 120px they stack above and below it, so it reads at 258px.",
+        "Under reduced motion it is a still: the folded composition, unpinned, with no scroll linking.",
+        "Pass height when the stage should not take the scroll container's full height, or when it renders before the container is measured."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/scroll-unfold",
+      "registryItemUrl": "https://www.kinetiqui.com/r/scroll-unfold.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/scroll-unfold",
+        "npm": "npx shadcn@latest add @kinetiq/scroll-unfold",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/scroll-unfold",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/scroll-unfold",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/scroll-unfold.json"
+      }
+    },
+    {
+      "slug": "drop-ripple",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Drop Ripple",
+      "serial": "KQ-1389",
+      "tagline": "Touch an image and it ripples like water.",
+      "description": "Water over an image or generated pool tiles, simulated on the GPU: a height field on a ping-pong pair of framebuffers (half-float where possible, byte-encoded where not) takes the neighbours' average less the previous height each fixed step and damps it, and its reads clamp at the edges, so a ring meets the sides and comes back crossed with its own reflection before it smooths to glass. A press drops a cosine dimple, a drag leaves a wake, a passing mouse a faint trail and seeded rain can fall; the picture is refracted through the surface normals with a soft highlight on the crests. The surface is a button: Enter or Space drops at a marker the arrow keys move, which glides there on springs.snap.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "water",
+        "ripple",
+        "webgl",
+        "wave simulation",
+        "rain",
+        "refraction",
+        "hero effect"
+      ],
+      "props": [
+        {
+          "name": "src",
+          "type": "string",
+          "description": "An image to put under the water; without one, the water lies over generated pool tiles."
+        },
+        {
+          "name": "alt",
+          "type": "string",
+          "defaultValue": "\"Water over pool tiles\"",
+          "description": "What the picture under the water shows, for assistive technology."
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "Content laid over the water, such as a headline; it takes no pointer events, so drops land through it (give a control pointer-events-auto)."
+        },
+        {
+          "name": "damping",
+          "type": "number",
+          "defaultValue": "0.4",
+          "description": "How quickly the rings die away, from long-lived with many reflections at 0 to a quick settle at 1."
+        },
+        {
+          "name": "size",
+          "type": "number",
+          "defaultValue": "16",
+          "description": "A drop's radius, in CSS pixels."
+        },
+        {
+          "name": "rain",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Seeded rain on the surface, from none at 0 to about eight drops a second on a wide card at 1."
+        },
+        {
+          "name": "strength",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How deep a drop dents the surface, 0 to 1."
+        },
+        {
+          "name": "refraction",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How far the water bends the picture under it, 0 to 1."
+        },
+        {
+          "name": "specular",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "The soft highlight on the crests, 0 to 1."
+        },
+        {
+          "name": "wake",
+          "type": "number",
+          "defaultValue": "0.25",
+          "description": "The faint wake a mouse leaves as it moves over the water, 0 to 1."
+        },
+        {
+          "name": "colors",
+          "type": "[string, string, string]",
+          "defaultValue": "pigments mixed from --accent and --signal with the background",
+          "description": "The generated tiles' deep water, shallow water and grout-and-lane colours, resolved on the element."
+        },
+        {
+          "name": "tile",
+          "type": "number",
+          "defaultValue": "28",
+          "description": "The generated tiles' size, in CSS pixels."
+        },
+        {
+          "name": "resolution",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "The simulation's resolution as a share of the box, 0.25 to 1."
+        },
+        {
+          "name": "interactive",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Presses, drags, the mouse and the keyboard disturb the water; off, it is an image."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Water surface\"",
+          "description": "The surface's accessible name."
+        },
+        {
+          "name": "seed",
+          "type": "number",
+          "defaultValue": "9",
+          "description": "Seed for the tiles' tones and the rain."
+        },
+        {
+          "name": "dpr",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "The highest device pixel ratio the canvas draws at (never above 2)."
+        },
+        {
+          "name": "paused",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Freeze the water where it is."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play a plip for each drop the visitor makes (never for rain)."
+        },
+        {
+          "name": "onDrop",
+          "type": "(x: number, y: number) => void",
+          "description": "Fires when the visitor drops into the water, with the point as fractions of the box."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the box; set its height here (default h-56)."
+        }
+      ],
+      "usageNotes": [
+        "The surface is a focusable button described by alt: Enter or Space drops at a marker shown only on keyboard focus, and the arrow keys move it (Shift for bigger steps). The overlay sits outside the button, so a headline stays readable as text.",
+        "One WebGL2 context: a half-resolution simulation (two fixed steps a frame) and one render pass. The loop runs only while there is energy in the water or rain on it, never off screen or in a hidden tab, and it stops on a clean flat frame. DPR is capped at 2.",
+        "Without float render targets the field is byte-encoded and still reflects and settles; without WebGL2, or after a lost context, the still picture stands in and each drop draws a CSS ring.",
+        "The tile colours are pigments resolved from tokens on the element and re-resolved when the theme changes, so the pool reads in light and dark; pass src for a photograph instead.",
+        "Under reduced motion there is no simulation or rain: a drop shows one still set of rings at that point that fades in place."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/drop-ripple",
+      "registryItemUrl": "https://www.kinetiqui.com/r/drop-ripple.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/drop-ripple",
+        "npm": "npx shadcn@latest add @kinetiq/drop-ripple",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/drop-ripple",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/drop-ripple",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/drop-ripple.json"
+      }
+    },
+    {
+      "slug": "cloth-grid",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Cloth Grid",
+      "serial": "KQ-1390",
+      "tagline": "A mesh you can pull like fabric.",
+      "description": "A rectangle of printed fabric that is a real Verlet cloth: pressed and pulled, the fabric under the fingers follows 1:1 and rises toward you with the snap spring's one overshoot, tenting up with radial folds and bunching ahead of the pull, lit from its own normals with a soft cast shadow. Let go and the release velocity carries on while every particle springs back to rest on a spring whose damping runs from the drift spring's ζ 1 down by ripple, so the cloth lies flat again through a few soft ripples; hung from a rod it sways from a passing pointer, pinned at two corners it falls into a drape. Focus shows a handle that moves on the glide spring: Arrow keys take hold and pull it, Enter or Space lets go (or plucks the cloth), Escape lets go.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "cloth simulation",
+        "verlet",
+        "fabric",
+        "drag",
+        "banner",
+        "webgl",
+        "physics"
+      ],
+      "props": [
+        {
+          "name": "src",
+          "type": "string",
+          "description": "An image the cloth carries; it must be readable across origins (CORS). The woven print is used without it or when it fails to load."
+        },
+        {
+          "name": "pattern",
+          "type": "\"check\" | \"ticking\" | \"towel\" | \"plain\"",
+          "defaultValue": "\"towel\"",
+          "description": "The woven print drawn when there is no image."
+        },
+        {
+          "name": "colors",
+          "type": "readonly [string, string, string]",
+          "defaultValue": "linen, indigo, madder pigments",
+          "description": "The print's ground, thread and accent colours, as CSS colours; the defaults are pigments that read the same in both themes."
+        },
+        {
+          "name": "caption",
+          "type": "string",
+          "description": "Words woven into the print; they are part of the accessible name too."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Fabric\"",
+          "description": "The cloth's accessible name."
+        },
+        {
+          "name": "stiffness",
+          "type": "number",
+          "defaultValue": "0.55",
+          "description": "Silk (0) to canvas (1): how many folds form, how far the weave stretches and how firmly it returns."
+        },
+        {
+          "name": "resolution",
+          "type": "number",
+          "defaultValue": "28",
+          "description": "Cells across the cloth's long side, 8 to 48: coarse cloth folds in facets, fine cloth in curves."
+        },
+        {
+          "name": "pin",
+          "type": "\"sheet\" | \"banner\" | \"corners\"",
+          "defaultValue": "\"sheet\"",
+          "description": "How the cloth is held: lying flat, hanging from a rod, or pinned at its two top corners."
+        },
+        {
+          "name": "lift",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How far a pinch raises the fabric toward you, 0 to 1."
+        },
+        {
+          "name": "grip",
+          "type": "number",
+          "defaultValue": "0.35",
+          "description": "How much fabric a pinch takes, 0 (a single point) to 1 (a handful)."
+        },
+        {
+          "name": "ripple",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How many soft ripples the cloth leaves as it returns, 0 to 1."
+        },
+        {
+          "name": "gravity",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "The cloth's weight when it hangs (banner and corners), 0 to 1."
+        },
+        {
+          "name": "wind",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How much a passing pointer pushes the cloth, 0 to 1."
+        },
+        {
+          "name": "sheen",
+          "type": "number",
+          "defaultValue": "0.35",
+          "description": "The highlight along ridges, 0 (cotton) to 1 (silk)."
+        },
+        {
+          "name": "shadow",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Lifted cloth casts a soft shadow."
+        },
+        {
+          "name": "dpr",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "The highest device pixel ratio drawn, capped at 2."
+        },
+        {
+          "name": "paused",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Freeze the cloth where it is."
+        },
+        {
+          "name": "interactive",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "The pointer and the keyboard move the cloth; false leaves it still and out of the tab order."
+        },
+        {
+          "name": "onGrabChange",
+          "type": "(grabbing: boolean) => void",
+          "description": "Fires when the cloth is taken hold of (true) and let go (false), by pointer or keys."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "defaultValue": "\"aspect-[2/1] w-full\"",
+          "description": "Size the box here."
+        }
+      ],
+      "usageNotes": [
+        "The surface is a role=\"application\" named by label (and caption): focus shows a handle, Arrow keys take hold and pull it (Shift for longer pulls), Enter or Space lets go or plucks the cloth, and Escape lets go; a drag uses touch-action: none.",
+        "One requestAnimationFrame loop runs only while the cloth moves or is held; it sleeps once every particle is still, never runs off screen or in a hidden tab, and caps the device pixel ratio at 2.",
+        "WebGL2 draws the mesh (positions go up as a float texture each frame); with no WebGL2, or after a lost context, the flat print is shown as the still frame, and a restored context rebuilds itself.",
+        "Under reduced motion a pull still poses the cloth under the hand, but nothing ripples or swings and a release lays it flat at once; banner and corners show their settled pose.",
+        "Size it with className (it fills the box with a 14px margin so a pulled edge and the shadow have room); the default colours are fixed-lightness pigments, so the linen reads the same on light and dark pages."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/cloth-grid",
+      "registryItemUrl": "https://www.kinetiqui.com/r/cloth-grid.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/cloth-grid",
+        "npm": "npx shadcn@latest add @kinetiq/cloth-grid",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/cloth-grid",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/cloth-grid",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/cloth-grid.json"
+      }
+    },
+    {
+      "slug": "murmuration",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Murmuration",
+      "serial": "KQ-1391",
+      "tagline": "A flock that wheels around your cursor.",
+      "description": "A starling murmuration at dusk: a 3D boids flock seen in perspective, so the cloud folds over itself as it turns, with each bird darkening as it banks so waves of darkness roll through it. The pointer is a lure the flock wheels round, the lure trailing the hand on the drift spring's constants, and a click sends a hawk through whose fright passes bird to bird with a reaction delay, opening a hole that folds shut again. Focus shows the lure: Arrow keys move it, Enter or Space sends a hawk, Escape lets the flock drift.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "boids",
+        "flocking",
+        "starlings",
+        "cursor effect",
+        "canvas",
+        "particles",
+        "hero background"
+      ],
+      "props": [
+        {
+          "name": "count",
+          "type": "number",
+          "defaultValue": "900",
+          "description": "How many birds, 50 to 2,400."
+        },
+        {
+          "name": "attraction",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How strongly the pointer draws the flock and wheels it round, 0 to 1."
+        },
+        {
+          "name": "speed",
+          "type": "number",
+          "defaultValue": "1",
+          "description": "Flight speed, as a multiple of the natural pace (0.25 to 3)."
+        },
+        {
+          "name": "cohesion",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How tightly the birds keep together, 0 to 1."
+        },
+        {
+          "name": "alignment",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How closely each bird matches its neighbours' heading, 0 to 1."
+        },
+        {
+          "name": "separation",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How much room each bird keeps, 0 to 1."
+        },
+        {
+          "name": "orbit",
+          "type": "number",
+          "defaultValue": "64",
+          "description": "The radius the flock wheels at around the pointer, px (held within the box's short side)."
+        },
+        {
+          "name": "bird",
+          "type": "number",
+          "defaultValue": "1.6",
+          "description": "A bird's size at middle depth, px."
+        },
+        {
+          "name": "scatter",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How hard a passing hawk scatters the flock, 0 to 1."
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "defaultValue": "\"var(--foreground)\"",
+          "description": "The birds' ink."
+        },
+        {
+          "name": "sky",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Paint a dusk sky behind the flock."
+        },
+        {
+          "name": "horizon",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Paint a reed bed along the bottom."
+        },
+        {
+          "name": "seed",
+          "type": "number",
+          "defaultValue": "7",
+          "description": "The flock's starting formation and the reeds."
+        },
+        {
+          "name": "paused",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Hold the flock still."
+        },
+        {
+          "name": "interactive",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "The pointer and the keyboard lead the flock and send hawks; false leaves it to itself."
+        },
+        {
+          "name": "dpr",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "The highest device pixel ratio drawn, capped at 2."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Starling flock\"",
+          "description": "The accessible name of the keyboard surface."
+        },
+        {
+          "name": "onHawk",
+          "type": "() => void",
+          "description": "Fires when a hawk is sent: a click, a tap, Enter or Space."
+        },
+        {
+          "name": "onLeadChange",
+          "type": "(leading: boolean) => void",
+          "description": "Fires when the pointer or the keys start (true) or stop (false) leading the flock."
+        },
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "description": "Content over the sky, in its own layer: a headline, a caption."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "defaultValue": "\"aspect-[2/1] w-full\"",
+          "description": "Size the box here."
+        }
+      ],
+      "usageNotes": [
+        "The canvases are aria-hidden; a role=\"application\" surface carries label: focus shows the lure, Arrow keys move it (Shift for larger steps), Enter or Space sends a hawk, Escape lets the flock drift. The system cursor is never hidden, and presses on controls inside children stay theirs.",
+        "The flock is ambient: one loop runs while it is on screen in a visible tab and not paused, and stops off screen. Positions live in typed arrays allocated once for 2,400 birds, neighbours come from a spatial hash, and birds draw as six batched strokes.",
+        "The sky is a separate static canvas drawn only on resize or theme change; its colours resolve from tokens on the element, so the dusk follows the page between light and dark.",
+        "Under reduced motion the flock is one still frame flown from its seed; a hawk re-poses it with the hole it tore, and no loop runs.",
+        "Touch: a tap sends a hawk and a sideways drag leads the lure (touch-action: pan-y keeps the page scrolling)."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/murmuration",
+      "registryItemUrl": "https://www.kinetiqui.com/r/murmuration.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/murmuration",
+        "npm": "npx shadcn@latest add @kinetiq/murmuration",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/murmuration",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/murmuration",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/murmuration.json"
+      }
+    },
+    {
+      "slug": "halftone-wake",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Halftone Wake",
+      "serial": "KQ-1392",
+      "tagline": "An image surfaces through printed dots.",
+      "description": "A single-ink halftone plate whose image surfaces in the pointer's wake: every dot rests at a faint fraction of its size, and the dots the hand passes grow on their own springs with the snap constants, popping just past full size before they settle, then recede from the trail's oldest end over linger seconds. Scrolling sweeps a band of ink down across the plate, and the first time it is mostly in view one press runs across it. The plate is a focusable image: focus and Enter or Space run the press across the whole of it.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "halftone",
+        "image reveal",
+        "print",
+        "cursor trail",
+        "webgl",
+        "scroll effect"
+      ],
+      "props": [
+        {
+          "name": "src",
+          "type": "string",
+          "description": "The image to print; it must be readable across origins (CORS). The generated art is used without it or when it fails."
+        },
+        {
+          "name": "art",
+          "type": "\"ridges\" | \"tide\" | \"orbit\"",
+          "defaultValue": "\"ridges\"",
+          "description": "The generated artwork printed when there is no image."
+        },
+        {
+          "name": "alt",
+          "type": "string",
+          "defaultValue": "a description of the art",
+          "description": "What the image shows: the plate's accessible name."
+        },
+        {
+          "name": "cell",
+          "type": "number",
+          "defaultValue": "10",
+          "description": "The screen's cell size, px (4 to 32)."
+        },
+        {
+          "name": "angle",
+          "type": "number",
+          "defaultValue": "45",
+          "description": "The screen's angle, degrees; 45 is the classic black screen."
+        },
+        {
+          "name": "linger",
+          "type": "number",
+          "defaultValue": "2.4",
+          "description": "How long the wake takes to recede, s."
+        },
+        {
+          "name": "shape",
+          "type": "\"round\" | \"square\" | \"line\"",
+          "defaultValue": "\"round\"",
+          "description": "The dot: round, square, or a line screen whose thickness follows the tone."
+        },
+        {
+          "name": "ink",
+          "type": "string",
+          "defaultValue": "\"var(--foreground)\"",
+          "description": "The ink."
+        },
+        {
+          "name": "paper",
+          "type": "string",
+          "description": "Paper behind the dots; the page shows through when unset. Dark ink on light paper prints shadows, light ink on dark paper prints highlights."
+        },
+        {
+          "name": "rest",
+          "type": "number",
+          "defaultValue": "0.18",
+          "description": "The dot size where nothing has passed, 0 to 1; 0 hides the image until it is printed."
+        },
+        {
+          "name": "brush",
+          "type": "number",
+          "defaultValue": "112",
+          "description": "The width of the pointer's wake, px."
+        },
+        {
+          "name": "contrast",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "The plate's tone curve, 0 (flat) to 1 (punchy)."
+        },
+        {
+          "name": "scroll",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Scrolling the page sweeps a band of ink down across the plate."
+        },
+        {
+          "name": "intro",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "One sweep across the plate the first time it is mostly in view."
+        },
+        {
+          "name": "seed",
+          "type": "number",
+          "defaultValue": "3",
+          "description": "The generated art's variation."
+        },
+        {
+          "name": "interactive",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "The pointer, the scroll and the keys print; false leaves the plate at rest and out of the tab order."
+        },
+        {
+          "name": "paused",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Freeze the plate as it is."
+        },
+        {
+          "name": "dpr",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "The highest device pixel ratio drawn, capped at 2."
+        },
+        {
+          "name": "onCoverageChange",
+          "type": "(printed: number) => void",
+          "description": "Fires with the share of the plate printed, 0 to 1, whenever it moves by a whole percent."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "defaultValue": "\"aspect-[2/1] w-full\"",
+          "description": "Size the plate here."
+        }
+      ],
+      "usageNotes": [
+        "The plate is role=\"img\" named by alt and focusable when interactive: focus and Enter or Space run the press across the whole image, so the keyboard reaches the same printed state the pointer does. touch-action: pan-y keeps vertical scrolling (which prints through the scroll band).",
+        "One loop runs only while a wake recedes, a dot spring moves or a sweep runs; it sleeps when every dot is settled and never runs off screen or in a hidden tab. Dot sizes are computed on the CPU per cell and drawn by a WebGL2 shader, with a Canvas 2D fallback that draws the same plate after a lost context or without WebGL2.",
+        "The ink resolves from its CSS colour on the element and the paper from the page's background, so the plate prints shadows on light pages and highlights on dark ones and re-reads itself when the theme changes.",
+        "Under reduced motion the plate prints fully and holds: every dot at its size, no wake, no springs, no sweep.",
+        "An image src needs CORS headers to be sampled; without them the generated art is printed instead."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/halftone-wake",
+      "registryItemUrl": "https://www.kinetiqui.com/r/halftone-wake.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/halftone-wake",
+        "npm": "npx shadcn@latest add @kinetiq/halftone-wake",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/halftone-wake",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/halftone-wake",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/halftone-wake.json"
+      }
+    },
+    {
+      "slug": "mosaic-flip",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Mosaic Flip",
+      "serial": "KQ-1393",
+      "tagline": "Images change hands tile by tile.",
+      "description": "An image carousel whose change is a wave of turning tiles: each tile waits for the wave from the pointer, a corner, an edge or the centre, then turns 180° about the axis perpendicular to the wave's travel, so the tiles fall away from the origin like dominoes, on the snap spring with a slight lift and shadow mid-turn and each face darkening as it turns from the light. Arrows, dots, a click, a swipe and the keyboard all change it, the active dot glides on the glide spring, and with sound each landing tile ticks. The frame is a labelled slide: Left and Right turn to the previous and next image, Home and End to the ends.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "image carousel",
+        "tile transition",
+        "3d flip",
+        "gallery",
+        "slideshow",
+        "wave"
+      ],
+      "props": [
+        {
+          "name": "images",
+          "type": "readonly { src: string; alt: string }[]",
+          "description": "The images, in order: any URL a CSS background can load, and what each shows."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "number",
+          "defaultValue": "— / 0",
+          "description": "The index shown (controlled), or shown first when uncontrolled."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(index: number) => void",
+          "description": "Fires from the press, key, swipe or autoplay tick that changed the image, with the new index."
+        },
+        {
+          "name": "grid",
+          "type": "number",
+          "defaultValue": "8",
+          "description": "Columns of tiles, 2 to 20."
+        },
+        {
+          "name": "rows",
+          "type": "number",
+          "description": "Rows of tiles; by default they follow the frame's aspect so tiles stay square."
+        },
+        {
+          "name": "origin",
+          "type": "\"pointer\" | \"corner\" | \"edge\" | \"center\"",
+          "defaultValue": "\"pointer\"",
+          "description": "Where each wave starts: the pointer (or the control pressed), the leading corner, the leading edge, or the centre."
+        },
+        {
+          "name": "speed",
+          "type": "number",
+          "defaultValue": "1",
+          "description": "Pace of the wave and of each turn, as a multiple (0.25 to 3)."
+        },
+        {
+          "name": "lift",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How far a tile rises toward you mid-turn, 0 to 1."
+        },
+        {
+          "name": "jitter",
+          "type": "number",
+          "defaultValue": "0.25",
+          "description": "How irregular the wave front is, 0 (mechanical) to 1 (hand-turned)."
+        },
+        {
+          "name": "axis",
+          "type": "\"wave\" | \"x\" | \"y\"",
+          "defaultValue": "\"wave\"",
+          "description": "Tiles turn away from the wave, or all about one axis."
+        },
+        {
+          "name": "gap",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "Grout between tiles, px."
+        },
+        {
+          "name": "radius",
+          "type": "number",
+          "defaultValue": "3",
+          "description": "Tile corner radius, px."
+        },
+        {
+          "name": "autoplay",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Advance by itself every so many ms while visible, unhovered and unfocused; 0 is off."
+        },
+        {
+          "name": "loop",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Wrap past the first and last image."
+        },
+        {
+          "name": "controls",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Show the arrows and dots."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "A soft tick as each tile lands, for changes the visitor makes."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Gallery\"",
+          "description": "The carousel's accessible name."
+        },
+        {
+          "name": "onSettle",
+          "type": "(index: number) => void",
+          "description": "Fires when a wave has landed, with the index now shown."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "defaultValue": "\"aspect-[16/9] w-full\"",
+          "description": "Size the frame here."
+        }
+      ],
+      "usageNotes": [
+        "It is a carousel section with a focusable slide named \"2 of 4: alt\": Left and Right turn to the previous and next image, Home and End to the ends, the arrows and dots are real buttons (dots carry aria-current), and the change is announced politely — silenced while autoplay runs.",
+        "Autoplay pauses on hover, on focus inside, off screen and in a hidden tab, and a Pause button appears with the dots; sound only ever answers the visitor, never an autoplay tick.",
+        "One requestAnimationFrame loop turns the whole wave and nothing runs at rest; each tile is a single flat layer promoted only while it turns, and the server renders the image whole until the frame is measured.",
+        "Images are cover-fitted to the whole frame (each tile shows its slice), passed once as CSS custom properties; the next and previous images are preloaded.",
+        "Under reduced motion the new image crossfades over the whole frame instead of turning, and the dot indicator moves without gliding."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/mosaic-flip",
+      "registryItemUrl": "https://www.kinetiqui.com/r/mosaic-flip.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/mosaic-flip",
+        "npm": "npx shadcn@latest add @kinetiq/mosaic-flip",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/mosaic-flip",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/mosaic-flip",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/mosaic-flip.json"
+      }
+    },
+    {
+      "slug": "dot-lens",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Dot Lens",
+      "serial": "KQ-1394",
+      "tagline": "A dot grid that swells into a lens.",
+      "description": "A quiet field of fine dots that swells into a fisheye lens: within it each dot is carried along its radius by the map g(u) = (m+1)u/(mu+1), so dots near the centre swell and spread while the rim packs into a fine ring of compressed grain. The lens trails the pointer on a spring set by lag (the flick, glide or drift constants) and swells in on the snap spring; a click sends a ring out through the grid and the lens throbs on the recoil spring. Focus brings the lens in: Arrow keys move it, Home re-centres it, Enter or Space sends a ring, Escape lets it rest.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "fisheye",
+        "magnifier",
+        "dot grid",
+        "cursor effect",
+        "canvas",
+        "background"
+      ],
+      "props": [
+        {
+          "name": "radius",
+          "type": "number",
+          "defaultValue": "96",
+          "description": "The lens radius, px; never more than 0.6 of the box's short side."
+        },
+        {
+          "name": "power",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "Magnification, 0 to 1."
+        },
+        {
+          "name": "dot",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "A resting dot's diameter, px."
+        },
+        {
+          "name": "gap",
+          "type": "number",
+          "defaultValue": "14",
+          "description": "Spacing between dots, px."
+        },
+        {
+          "name": "lattice",
+          "type": "\"square\" | \"hex\"",
+          "defaultValue": "\"square\"",
+          "description": "How the dots are laid: a square grid or a hexagonal one."
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "defaultValue": "\"var(--ink-3)\"",
+          "description": "The dots' colour."
+        },
+        {
+          "name": "accent",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "The colour at the lens centre and on a pulse."
+        },
+        {
+          "name": "glow",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How far dots under the lens lean toward accent, 0 to 1."
+        },
+        {
+          "name": "lag",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How far the lens trails the pointer, 0 (the flick spring) to 1 (the drift spring)."
+        },
+        {
+          "name": "pulse",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "Strength of the ring a click sends through the grid, 0 to 1."
+        },
+        {
+          "name": "rest",
+          "type": "\"center\" | \"hidden\" | \"drift\"",
+          "defaultValue": "\"center\"",
+          "description": "Where the lens goes when nobody leads it: parked in the middle, deflated away, or wandering."
+        },
+        {
+          "name": "interactive",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "The pointer and the keyboard lead the lens and send rings; false leaves it at rest."
+        },
+        {
+          "name": "dpr",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "The highest device pixel ratio drawn, capped at 2."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Dot lens\"",
+          "description": "The accessible name of the keyboard surface."
+        },
+        {
+          "name": "onPulse",
+          "type": "() => void",
+          "description": "Fires when a ring is sent: a click, a tap, Enter or Space."
+        },
+        {
+          "name": "onLeadChange",
+          "type": "(leading: boolean) => void",
+          "description": "Fires when the pointer or the keys start (true) or stop (false) leading the lens."
+        },
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "description": "Content over the field, in its own layer."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "defaultValue": "\"aspect-[2/1] w-full\"",
+          "description": "Size the box here."
+        }
+      ],
+      "usageNotes": [
+        "The canvas is aria-hidden; a role=\"application\" surface carries label: focus brings the lens in, Arrow keys move it (Shift for larger steps), Home re-centres it, Enter or Space sends a ring, Escape lets it go back to rest. Presses on controls inside children stay theirs.",
+        "The loop runs only while the lens, its power or a ring is moving (or rest=\"drift\"), only on screen in a visible tab, and sleeps when settled; dots draw as five batched colour paths.",
+        "Colours resolve from CSS on the canvas and re-read on a theme change, so the field follows light and dark; the default ink-3 dots stay quiet behind content.",
+        "Under reduced motion the lens is wherever the pointer or keys put it, at once — no trailing, swell or throb — and a pulse tints a ring of dots for a moment instead of moving them.",
+        "Touch: a touch places the lens, a sideways drag leads it and a tap sends a ring (touch-action: pan-y)."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/dot-lens",
+      "registryItemUrl": "https://www.kinetiqui.com/r/dot-lens.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/dot-lens",
+        "npm": "npx shadcn@latest add @kinetiq/dot-lens",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/dot-lens",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/dot-lens",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/dot-lens.json"
       }
     },
     {

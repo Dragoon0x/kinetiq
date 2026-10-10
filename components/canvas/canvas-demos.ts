@@ -139,4 +139,48 @@ export const CANVAS_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/type-trail.demo").then((m) =>
       mod(m.TypeTrailDemo, m.tweaks),
     ),
+  "glass-orb": () =>
+    import("@/registry/demos/glass-orb.demo").then((m) =>
+      mod(m.GlassOrbDemo, m.tweaks),
+    ),
+  "live-wire-mark": () =>
+    import("@/registry/demos/live-wire-mark.demo").then((m) =>
+      mod(m.LiveWireMarkDemo, m.tweaks),
+    ),
+  "dither-curtain": () =>
+    import("@/registry/demos/dither-curtain.demo").then((m) =>
+      mod(m.DitherCurtainDemo, m.tweaks),
+    ),
+  "lantern-cursor": () =>
+    import("@/registry/demos/lantern-cursor.demo").then((m) =>
+      mod(m.LanternCursorDemo, m.tweaks),
+    ),
+  "scroll-unfold": () =>
+    import("@/registry/demos/scroll-unfold.demo").then((m) =>
+      mod(m.ScrollUnfoldDemo, m.tweaks),
+    ),
+  "drop-ripple": () =>
+    import("@/registry/demos/drop-ripple.demo").then((m) =>
+      mod(m.DropRippleDemo, m.tweaks),
+    ),
+  "cloth-grid": () =>
+    import("@/registry/demos/cloth-grid.demo").then((m) =>
+      mod(m.ClothGridDemo, m.tweaks),
+    ),
+  murmuration: () =>
+    import("@/registry/demos/murmuration.demo").then((m) =>
+      mod(m.MurmurationDemo, m.tweaks),
+    ),
+  "halftone-wake": () =>
+    import("@/registry/demos/halftone-wake.demo").then((m) =>
+      mod(m.HalftoneWakeDemo, m.tweaks),
+    ),
+  "mosaic-flip": () =>
+    import("@/registry/demos/mosaic-flip.demo").then((m) =>
+      mod(m.MosaicFlipDemo, m.tweaks),
+    ),
+  "dot-lens": () =>
+    import("@/registry/demos/dot-lens.demo").then((m) =>
+      mod(m.DotLensDemo, m.tweaks),
+    ),
 };

@@ -35271,6 +35271,318 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "glass-orb",
+      "type": "registry:ui",
+      "title": "Glass Orb",
+      "description": "A glass sphere on a table that holds its own weather, drawn in one WebGL2 pass: each pixel follows the view ray in through the front of the ball and out of the back, so the room behind comes back inverted and magnified, tinted where the glass is thick, with a window highlight, a caustic rim and a focused caustic in its shadow. Dragged, the orb follows the hand 1:1 along the table and off it; released, it rolls home on a spring between springs.glide and springs.recoil that takes the throw's velocity, and a lifted orb falls under gravity and lands with a small bounce, while the mist or snow inside is dragged after the glass and thrown up by the landing. Left and Right roll it, Up lifts and drops it, and Enter or Space shakes it.",
+      "files": [
+        {
+          "path": "registry/ui/glass-orb.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1384"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "live-wire-mark",
+      "type": "registry:ui",
+      "title": "Live Wire Mark",
+      "description": "An electric outline for any SVG mark: the path is rendered as a faint wire and sampled into canvas points, and arcs of current crawl it both ways as jagged, tapering polylines re-kinked about thirty times a second, throwing forks that flicker and die over a glow that breathes underneath. Hover or keyboard focus charges it on springs.drift — more arcs, hotter, and sparks crackling off the corners past 0.6 — and a press discharges it in one flash on an exit tween, after which the charge climbs back on springs.drift from the point nearest the press. Enter or Space discharges it from the keyboard.",
+      "files": [
+        {
+          "path": "registry/ui/live-wire-mark.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1385"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "dither-curtain",
+      "type": "registry:ui",
+      "title": "Dither Curtain",
+      "description": "A veil of ordered dots over any content: where it is partly drawn back, cells switch on and off by a Bayer threshold, and the dots coarsen through nested grids toward the middle of the dissolving edge, so the content appears through a regular screen rather than a blur. The reveal is a tween across a ragged front (a dissolve is a clip, never a spring) and covering again is a shorter exit tween; while veiled, a mouse or pen pushes a dithered hole through it that trails the pointer and opens on springs.glide. With the hover trigger the reveal grows from the pointer, and keyboard focus anywhere inside lifts it the same way.",
+      "files": [
+        {
+          "path": "registry/ui/dither-curtain.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1386"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "lantern-cursor",
+      "type": "registry:ui",
+      "title": "Lantern Cursor",
+      "description": "A dim room lit by a lantern the visitor carries: a canvas of night over any children with a feathered pool cut out of it and a faint warm spill past its edge, plus a disc of lamplight blended over what it lights. The lantern follows the pointer on a damped spring that slides from springs.flick through springs.glide to springs.drift by lag, leaning ahead along its travel and stretching with speed, while seeded noise makes the flame breathe; leaving sets it down at rest on springs.drift. Keyboard focus inside carries the light to the focused element and opens it to cover it.",
+      "files": [
+        {
+          "path": "registry/ui/lantern-cursor.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1387"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "scroll-unfold",
+      "type": "registry:ui",
+      "title": "Scroll Unfold",
+      "description": "A scroll-linked media card that grows to fill the frame: the section pins a stage in its nearest scroll container, and the distance scrolled, 1:1 and eased once by the house's symmetric move, opens the card's clip from its inset to full bleed while its corners flatten and the picture zooms out to meet it. The headline is split around the card and each half is pushed by the card's own edge, keeping a fixed gap as the words part and slide off the stage, while the caption rides the frame's bottom edge away and an overlay title rises over the last quarter; scrolling back folds it. Keyboard scrolling of the container (arrows, Page keys, Space) drives it exactly as the wheel does.",
+      "files": [
+        {
+          "path": "registry/ui/scroll-unfold.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1388"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "drop-ripple",
+      "type": "registry:ui",
+      "title": "Drop Ripple",
+      "description": "Water over an image or generated pool tiles, simulated on the GPU: a height field on a ping-pong pair of framebuffers (half-float where possible, byte-encoded where not) takes the neighbours' average less the previous height each fixed step and damps it, and its reads clamp at the edges, so a ring meets the sides and comes back crossed with its own reflection before it smooths to glass. A press drops a cosine dimple, a drag leaves a wake, a passing mouse a faint trail and seeded rain can fall; the picture is refracted through the surface normals with a soft highlight on the crests. The surface is a button: Enter or Space drops at a marker the arrow keys move, which glides there on springs.snap.",
+      "files": [
+        {
+          "path": "registry/ui/drop-ripple.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1389"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "cloth-grid",
+      "type": "registry:ui",
+      "title": "Cloth Grid",
+      "description": "A rectangle of printed fabric that is a real Verlet cloth: pressed and pulled, the fabric under the fingers follows 1:1 and rises toward you with the snap spring's one overshoot, tenting up with radial folds and bunching ahead of the pull, lit from its own normals with a soft cast shadow. Let go and the release velocity carries on while every particle springs back to rest on a spring whose damping runs from the drift spring's ζ 1 down by ripple, so the cloth lies flat again through a few soft ripples; hung from a rod it sways from a passing pointer, pinned at two corners it falls into a drape. Focus shows a handle that moves on the glide spring: Arrow keys take hold and pull it, Enter or Space lets go (or plucks the cloth), Escape lets go.",
+      "files": [
+        {
+          "path": "registry/ui/cloth-grid.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1390"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "murmuration",
+      "type": "registry:ui",
+      "title": "Murmuration",
+      "description": "A starling murmuration at dusk: a 3D boids flock seen in perspective, so the cloud folds over itself as it turns, with each bird darkening as it banks so waves of darkness roll through it. The pointer is a lure the flock wheels round, the lure trailing the hand on the drift spring's constants, and a click sends a hawk through whose fright passes bird to bird with a reaction delay, opening a hole that folds shut again. Focus shows the lure: Arrow keys move it, Enter or Space sends a hawk, Escape lets the flock drift.",
+      "files": [
+        {
+          "path": "registry/ui/murmuration.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1391"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "halftone-wake",
+      "type": "registry:ui",
+      "title": "Halftone Wake",
+      "description": "A single-ink halftone plate whose image surfaces in the pointer's wake: every dot rests at a faint fraction of its size, and the dots the hand passes grow on their own springs with the snap constants, popping just past full size before they settle, then recede from the trail's oldest end over linger seconds. Scrolling sweeps a band of ink down across the plate, and the first time it is mostly in view one press runs across it. The plate is a focusable image: focus and Enter or Space run the press across the whole of it.",
+      "files": [
+        {
+          "path": "registry/ui/halftone-wake.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1392"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "mosaic-flip",
+      "type": "registry:ui",
+      "title": "Mosaic Flip",
+      "description": "An image carousel whose change is a wave of turning tiles: each tile waits for the wave from the pointer, a corner, an edge or the centre, then turns 180° about the axis perpendicular to the wave's travel, so the tiles fall away from the origin like dominoes, on the snap spring with a slight lift and shadow mid-turn and each face darkening as it turns from the light. Arrows, dots, a click, a swipe and the keyboard all change it, the active dot glides on the glide spring, and with sound each landing tile ticks. The frame is a labelled slide: Left and Right turn to the previous and next image, Home and End to the ends.",
+      "files": [
+        {
+          "path": "registry/ui/mosaic-flip.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1393"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "dot-lens",
+      "type": "registry:ui",
+      "title": "Dot Lens",
+      "description": "A quiet field of fine dots that swells into a fisheye lens: within it each dot is carried along its radius by the map g(u) = (m+1)u/(mu+1), so dots near the centre swell and spread while the rim packs into a fine ring of compressed grain. The lens trails the pointer on a spring set by lag (the flick, glide or drift constants) and swells in on the snap spring; a click sends a ring out through the grid and the lens throbs on the recoil spring. Focus brings the lens in: Arrow keys move it, Home re-centres it, Enter or Space sends a ring, Escape lets it rest.",
+      "files": [
+        {
+          "path": "registry/ui/dot-lens.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1394"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

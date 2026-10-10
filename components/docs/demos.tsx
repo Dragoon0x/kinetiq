@@ -1453,6 +1453,17 @@ import { StaticFuzzDemo } from "@/registry/demos/static-fuzz.demo";
 import { PigmentFlowDemo } from "@/registry/demos/pigment-flow.demo";
 import { LetterRainDemo } from "@/registry/demos/letter-rain.demo";
 import { TypeTrailDemo } from "@/registry/demos/type-trail.demo";
+import { GlassOrbDemo } from "@/registry/demos/glass-orb.demo";
+import { LiveWireMarkDemo } from "@/registry/demos/live-wire-mark.demo";
+import { DitherCurtainDemo } from "@/registry/demos/dither-curtain.demo";
+import { LanternCursorDemo } from "@/registry/demos/lantern-cursor.demo";
+import { ScrollUnfoldDemo } from "@/registry/demos/scroll-unfold.demo";
+import { DropRippleDemo } from "@/registry/demos/drop-ripple.demo";
+import { ClothGridDemo } from "@/registry/demos/cloth-grid.demo";
+import { MurmurationDemo } from "@/registry/demos/murmuration.demo";
+import { HalftoneWakeDemo } from "@/registry/demos/halftone-wake.demo";
+import { MosaicFlipDemo } from "@/registry/demos/mosaic-flip.demo";
+import { DotLensDemo } from "@/registry/demos/dot-lens.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2920,4 +2931,15 @@ export const demos: Record<string, ComponentType> = {
   "pigment-flow": PigmentFlowDemo,
   "letter-rain": LetterRainDemo,
   "type-trail": TypeTrailDemo,
+  "glass-orb": GlassOrbDemo,
+  "live-wire-mark": LiveWireMarkDemo,
+  "dither-curtain": DitherCurtainDemo,
+  "lantern-cursor": LanternCursorDemo,
+  "scroll-unfold": ScrollUnfoldDemo,
+  "drop-ripple": DropRippleDemo,
+  "cloth-grid": ClothGridDemo,
+  murmuration: MurmurationDemo,
+  "halftone-wake": HalftoneWakeDemo,
+  "mosaic-flip": MosaicFlipDemo,
+  "dot-lens": DotLensDemo,
 };
