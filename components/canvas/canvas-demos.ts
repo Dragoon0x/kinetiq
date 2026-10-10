@@ -539,4 +539,76 @@ export const CANVAS_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/paint-vortex.demo").then((m) =>
       mod(m.PaintVortexDemo, m.tweaks),
     ),
+  "strip-shred": () =>
+    import("@/registry/demos/strip-shred.demo").then((m) =>
+      mod(m.StripShredDemo, m.tweaks),
+    ),
+  "paper-ball": () =>
+    import("@/registry/demos/paper-ball.demo").then((m) =>
+      mod(m.PaperBallDemo, m.tweaks),
+    ),
+  "stub-tear": () =>
+    import("@/registry/demos/stub-tear.demo").then((m) =>
+      mod(m.StubTearDemo, m.tweaks),
+    ),
+  "turnover-card": () =>
+    import("@/registry/demos/turnover-card.demo").then((m) =>
+      mod(m.TurnoverCardDemo, m.tweaks),
+    ),
+  "branch-out": () =>
+    import("@/registry/demos/branch-out.demo").then((m) =>
+      mod(m.BranchOutDemo, m.tweaks),
+    ),
+  "folder-fan": () =>
+    import("@/registry/demos/folder-fan.demo").then((m) =>
+      mod(m.FolderFanDemo, m.tweaks),
+    ),
+  "crop-marks": () =>
+    import("@/registry/demos/crop-marks.demo").then((m) =>
+      mod(m.CropMarksDemo, m.tweaks),
+    ),
+  "think-thread": () =>
+    import("@/registry/demos/think-thread.demo").then((m) =>
+      mod(m.ThinkThreadDemo, m.tweaks),
+    ),
+  "talk-pill": () =>
+    import("@/registry/demos/talk-pill.demo").then((m) =>
+      mod(m.TalkPillDemo, m.tweaks),
+    ),
+  "tank-level": () =>
+    import("@/registry/demos/tank-level.demo").then((m) =>
+      mod(m.TankLevelDemo, m.tweaks),
+    ),
+  "ask-bar": () =>
+    import("@/registry/demos/ask-bar.demo").then((m) =>
+      mod(m.AskBarDemo, m.tweaks),
+    ),
+  "flick-note": () =>
+    import("@/registry/demos/flick-note.demo").then((m) =>
+      mod(m.FlickNoteDemo, m.tweaks),
+    ),
+  slingshot: () =>
+    import("@/registry/demos/slingshot.demo").then((m) =>
+      mod(m.SlingshotDemo, m.tweaks),
+    ),
+  "chime-bell": () =>
+    import("@/registry/demos/chime-bell.demo").then((m) =>
+      mod(m.ChimeBellDemo, m.tweaks),
+    ),
+  "line-chip": () =>
+    import("@/registry/demos/line-chip.demo").then((m) =>
+      mod(m.LineChipDemo, m.tweaks),
+    ),
+  "verdict-mark": () =>
+    import("@/registry/demos/verdict-mark.demo").then((m) =>
+      mod(m.VerdictMarkDemo, m.tweaks),
+    ),
+  "rail-select": () =>
+    import("@/registry/demos/rail-select.demo").then((m) =>
+      mod(m.RailSelectDemo, m.tweaks),
+    ),
+  "ledger-swipe": () =>
+    import("@/registry/demos/ledger-swipe.demo").then((m) =>
+      mod(m.LedgerSwipeDemo, m.tweaks),
+    ),
 };

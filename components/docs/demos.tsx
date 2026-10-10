@@ -1553,6 +1553,24 @@ import { TileDriftDemo } from "@/registry/demos/tile-drift.demo";
 import { ShapeLatticeDemo } from "@/registry/demos/shape-lattice.demo";
 import { ChromePoolDemo } from "@/registry/demos/chrome-pool.demo";
 import { PaintVortexDemo } from "@/registry/demos/paint-vortex.demo";
+import { StripShredDemo } from "@/registry/demos/strip-shred.demo";
+import { PaperBallDemo } from "@/registry/demos/paper-ball.demo";
+import { StubTearDemo } from "@/registry/demos/stub-tear.demo";
+import { TurnoverCardDemo } from "@/registry/demos/turnover-card.demo";
+import { BranchOutDemo } from "@/registry/demos/branch-out.demo";
+import { FolderFanDemo } from "@/registry/demos/folder-fan.demo";
+import { CropMarksDemo } from "@/registry/demos/crop-marks.demo";
+import { ThinkThreadDemo } from "@/registry/demos/think-thread.demo";
+import { TalkPillDemo } from "@/registry/demos/talk-pill.demo";
+import { TankLevelDemo } from "@/registry/demos/tank-level.demo";
+import { AskBarDemo } from "@/registry/demos/ask-bar.demo";
+import { FlickNoteDemo } from "@/registry/demos/flick-note.demo";
+import { SlingshotDemo } from "@/registry/demos/slingshot.demo";
+import { ChimeBellDemo } from "@/registry/demos/chime-bell.demo";
+import { LineChipDemo } from "@/registry/demos/line-chip.demo";
+import { VerdictMarkDemo } from "@/registry/demos/verdict-mark.demo";
+import { RailSelectDemo } from "@/registry/demos/rail-select.demo";
+import { LedgerSwipeDemo } from "@/registry/demos/ledger-swipe.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -3120,4 +3138,22 @@ export const demos: Record<string, ComponentType> = {
   "shape-lattice": ShapeLatticeDemo,
   "chrome-pool": ChromePoolDemo,
   "paint-vortex": PaintVortexDemo,
+  "strip-shred": StripShredDemo,
+  "paper-ball": PaperBallDemo,
+  "stub-tear": StubTearDemo,
+  "turnover-card": TurnoverCardDemo,
+  "branch-out": BranchOutDemo,
+  "folder-fan": FolderFanDemo,
+  "crop-marks": CropMarksDemo,
+  "think-thread": ThinkThreadDemo,
+  "talk-pill": TalkPillDemo,
+  "tank-level": TankLevelDemo,
+  "ask-bar": AskBarDemo,
+  "flick-note": FlickNoteDemo,
+  slingshot: SlingshotDemo,
+  "chime-bell": ChimeBellDemo,
+  "line-chip": LineChipDemo,
+  "verdict-mark": VerdictMarkDemo,
+  "rail-select": RailSelectDemo,
+  "ledger-swipe": LedgerSwipeDemo,
 };

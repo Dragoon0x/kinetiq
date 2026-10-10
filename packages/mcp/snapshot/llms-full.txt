@@ -31316,6 +31316,604 @@ Notes:
 - Under reduced motion one still frame is drawn; the eye moves straight to where the hand pulls it and presses do not stir.
 - One fullscreen pass with uniforms only: thirty frames a second while it only turns, every frame while the hand works, nothing off screen or in a hidden page. Without WebGL2, or after a lost context, a CSS still of the palette stands in.
 
+### Strip Shred (KQ-1484) — `strip-shred`
+Deleted, one strip at a time.
+
+A delete control with a shredder under the card: confirming makes the teeth bite on springs.flick, then the motor pulls the card into the mouth at a steady rate with a stick-slip judder while the teeth and the head shiver, and the card comes out underneath as strips that roll toward you as they hang, printed with the fragments of the card's own words that were in each column, before each lets go on a seeded beat and falls into the bin. Undo springs every strip back up on springs.snap in a cascade and feeds the card back out on springs.glide; the button cycles Delete, Confirm, Undo with a draining ring, Deleting and Deleted in one place, so Enter, Space, Escape and the Delete key all work without focus moving.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/strip-shred`
+
+Props:
+- `children`: ReactNode — The card's content. The component draws the card's paper, border and padding around it.
+- `label`: string (default "Delete") — The button's idle label and accessible name.
+- `confirmLabel`: string (default "Confirm") — The label while it waits for a second press.
+- `undoLabel`: string (default "Undo") — The label from the shred until the undo window closes.
+- `deletingLabel`: string (default "Deleting") — The label while onDelete's promise is pending.
+- `deletedLabel`: string (default "Deleted") — The label once the delete has landed.
+- `shreddedLabel`: string (default "Shredded") — Printed in the dashed outline left where the card was.
+- `onDelete`: () => void | Promise<unknown> — Called when the undo window closes. Return a promise to show the pending state; a rejection reassembles the card.
+- `onUndo`: () => void — Called when the visitor undoes the shred.
+- `deleted / defaultDeleted`: boolean (default — / false) — Whether the card has been deleted. A host setting it back to false reassembles the card; setting it true shreds it without a window.
+- `onDeletedChange`: (deleted: boolean) => void — Fires with true when the delete lands.
+- `onPhaseChange`: (phase: "idle" | "armed" | "shredding" | "undo" | "deleting" | "deleted" | "restoring") => void — Fires on every step of the cycle, from the press or timer that caused it.
+- `strips`: number (default 10) — How many strips the cutters make, 3 to 24.
+- `undo`: number (default 5000) — The undo window after the shred, in ms; 0 deletes as soon as the shred finishes.
+- `speed`: number (default 1) — The motor's speed, 0.25 to 3: the feed, the slips and the fall all scale with it.
+- `curl`: number (default 0.6) — How far the strips roll toward you as they hang, 0 to 1.
+- `resistance`: number (default 0.5) — How hard the paper fights the cutters: the depth of the stick-slip judder, 0 to 1.
+- `confirm`: boolean (default true) — Ask for a second press before shredding.
+- `paper`: string (default "var(--card)") — The card's paper, any CSS colour; the strips are cut from it and their turned-over backs are mixed from it in oklab.
+- `ink`: string (default "var(--ink-2)") — The colour of the word fragments printed on the strips.
+- `size`: "sm" | "md" | "lg" (default "md") — Width cap, head, button and bin size.
+- `sound`: boolean (default false) — Play the motor's scratch (stepping with each slip), the thud of the last strip and a softer one when an undo lands. Only ever in answer to a press or key.
+- `disabled`: boolean (default false) — Disables the button.
+- `className`: string — Classes for the root; it is w-full up to its size's max width.
+
+Notes:
+- Keyboard: the button is a real <button> whose name follows its visible label. Enter or Space arms it, again shreds, and during the shred or the window undoes. Escape disarms an armed button and undoes during the window (both preventDefault); blur also disarms. The Delete key with focus inside the card arms and confirms, except in text fields. Pending and deleted states are aria-disabled, never disabled, so focus is never dropped.
+- A polite live region speaks each step once: "Shredding. Undo is open for 5 seconds.", "Restored.", "Deleted." and "Couldn't delete. Restored." when onDelete rejects. The shredded card is inert and hidden; the strips are aria-hidden SVG.
+- Reduced motion: no bite, judder, shiver, fall or springs. The card crossfades out and a still frame of hanging strips (with their word fragments, gently curled at the tips) crossfades in, holds through the window and fades when the delete lands; undo crossfades back. The undo ring still drains.
+- Performance: the strips, the card and the teeth are written from one paint per frame on motion's frame loop, driven by the feed and fall animations, and nothing runs at rest. The card's words are measured once per shred (Range client rects), and the card's size is tracked with a ResizeObserver.
+- onDelete is only called when the undo window closes, so an undo never reaches the server; with undo={0} it is called as soon as the strips have fallen.
+
+### Paper Ball (KQ-1485) — `paper-ball`
+Crumple it, toss it, done.
+
+A discard control you crumple and throw: holding the note folds a 6×6 mesh of the sheet inward along seeded creases into a lumpy paper ball, the facets that turn over going dark and the handwriting twisting with the paper, while letting go early springs it flat on springs.snap. A formed ball is tossed on a true ballistic arc into a wire basket, or dragged 1:1 and thrown with the release velocity into a small room whose floor, walls and the basket's rim lips it bounces off; a miss rolls to rest and glides home on springs.glide, and a ball that drops between the lips rocks the basket on springs.recoil. Space or Enter held crumples like a press, Delete crumples and tosses in one motion, and Escape smooths the sheet out.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/paper-ball`
+
+Props:
+- `text`: string (default "Call the printer about Friday's proofs") — What the note says, wrapped to three short lines on the sheet.
+- `label`: string (default "Discard note") — The note's accessible name, read before its text.
+- `discardedLabel`: string (default "Note discarded") — The accessible name once the note is in the basket.
+- `discarded / defaultDiscarded`: boolean (default — / false) — Whether the note is in the basket. Setting it back to false puts a fresh note up; setting it true drops the ball straight in.
+- `onDiscardedChange`: (discarded: boolean) => void — Fires with true when the ball lands in the basket.
+- `onThrow`: (result: "in" | "miss") => void — Fires when a throw ends: in the basket, or at rest on the floor.
+- `onCrumpleChange`: (crumpled: boolean) => void — Fires when the ball forms and when the sheet is smoothed out again.
+- `onProgressChange`: (progress: number) => void — Fires while the hold charges or the sheet smooths, with how crumpled it is in tenths (0–10).
+- `hold`: number (default 600) — How long a hold takes to make a ball, in ms; a re-press continues from where the sheet is.
+- `crumple`: number (default 0.8) — How tight the ball is, 0 to 1: a loose wad (bigger, softer creases) to a small, hard, deeply creased ball.
+- `arc`: number (default 0.5) — The toss's height, 0 to 1: a flat line drive to a high lob. The arc is solved so it always drops through the mouth.
+- `bounce`: number (default 0.5) — How lively the floor, walls and rim lips are, 0 to 1 (restitution 0.2 to 0.72).
+- `gravity`: number (default 1800) — Gravity in scene units per second squared; the scene is 300 units wide.
+- `seed`: number (default 7) — The crease pattern and the ball's lumps.
+- `paper`: string (default "oklch(from var(--warn) 0.93 0.07 h)") — The note's paper, any CSS colour; a pigment at fixed lightness so it reads the same in both themes.
+- `ink`: string (default "oklch(from var(--warn) 0.36 0.07 h)") — The handwriting's colour.
+- `size`: "sm" | "md" | "lg" (default "md") — The scene's max width: 260, 300 or 340px; its height follows the 5:3 scene.
+- `sound`: boolean (default false) — Play a crinkle at every fifth of the hold, a crisp one on the toss and a thud on every landing, scaled by how hard it hits.
+- `disabled`: boolean (default false) — Takes the note out of the tab order and ignores presses.
+- `className`: string — Classes for the root, which is w-full up to its size's max width.
+
+Notes:
+- Keyboard: the note is a focusable role="button" named by `label` and its text, described by how it works. Space or Enter held crumples it like a press and releasing tosses; Delete or Backspace crumples and tosses in one motion; Escape smooths a crumpled sheet out (and is only prevented then). Once discarded it stays focusable, aria-disabled, named `discardedLabel`.
+- Pointer: press and hold to crumple; release to toss, or keep the pointer down and drag the ball (touch-action: none) to throw it yourself. A polite live region says "Crumpled.", "Missed the basket." and "Discarded.".
+- Reduced motion: the hold still charges, shown as creases and facet shading fading in on the flat sheet with a ring filling round it; a full hold crossfades the sheet to the ball, and a release crossfades it into the basket — no flight, no bounce, every release lands.
+- Performance: one SVG. The note is redrawn from one function once per frame on motion's frame loop while it changes; the flight is a fixed-step integrator on that loop that runs only while the ball moves and stops when it lands or rests. The first frame (a flat note, or a ball in the basket) is server-rendered.
+- Colours are CSS strings; the paper and ink default to pigments of the warn token at fixed lightness, the room and basket use surface and ink tokens, so it reads in both themes.
+
+### Stub Tear (KQ-1486) — `stub-tear`
+Tear along the dotted line to confirm.
+
+A confirmation ticket you tear: pulling down the perforation runs the tear front 1:1 with the finger, its edges ragged where the paper bridges between the punched holes give — each bridge catching until the finger is far enough past it, then letting go — while the torn flap of the stub hinges away about the front, lifting by its curl over a soft shadow. Let go short of the end and the seam springs closed on springs.snap (springs.glide for stiff paper) with the release velocity, a flick that would carry past the end finishes on springs.glide, and at the end the stub drops free on the exit ease and the action confirms. The handle is a real button: Enter or Space tears the whole seam in one motion.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/stub-tear`
+
+Props:
+- `children`: ReactNode — The ticket's body: what is being confirmed.
+- `stubContent`: ReactNode — The stub's face. Presentational: while it tears it is drawn twice, once hidden from assistive tech, so keep it free of controls and ids.
+- `label`: string (default "Tear to confirm") — The tear handle's accessible name.
+- `confirmedLabel`: string (default "Confirmed") — Shown where the stub was, and the handle's name once torn.
+- `torn / defaultTorn`: boolean (default — / false) — Whether the stub has been torn off. A host setting it back to false brings the stub back on springs.glide.
+- `onTornChange`: (torn: boolean) => void — Fires with true from the drag or key that tore the stub off.
+- `onConfirm`: () => void — Called once when the stub drops free: the action is confirmed.
+- `onProgressChange`: (progress: number) => void — Fires as the visitor tears, with how far along the seam, 0 to 1 (two decimals).
+- `resistance`: number (default 0.4) — How hard the paper bridges catch, 0 to 1: a clean zip to a fibrous stick-slip at every bridge; above 0.6 the seam also closes without overshoot.
+- `stub`: number (default 0.28) — The stub's share of the ticket's width, 0.15 to 0.5.
+- `curl`: number (default 0.5) — How far the torn flap swings (7° to 18°) and lifts as it comes away, and how dark its underside shows, 0 to 1.
+- `holes`: number (default 9) — Spacing of the punched holes along the seam, in px; the bridges between them are where the tear catches.
+- `paper`: string (default "var(--card)") — The body's paper, any CSS colour.
+- `stubPaper`: string (default "oklch(from var(--accent-bright) 0.94 0.035 h)") — The stub's paper; a pigment at fixed lightness so it reads the same in both themes.
+- `stubInk`: string (default "oklch(from var(--accent-bright) 0.34 0.09 h)") — Ink for the stub's face, chosen to read on the stub's pigment.
+- `size`: "sm" | "md" | "lg" (default "md") — The ticket's height (112, 132 or 152px), notch size and padding; it is w-full up to 520px.
+- `sound`: boolean (default false) — Play a paper tick at every bridge that gives and a snap when the stub comes free; only in answer to a drag or key.
+- `disabled`: boolean (default false) — Disables the handle.
+- `className`: string — Classes for the root.
+
+Notes:
+- Keyboard: the tear handle is a real <button> named `label` and described by how to use it; Enter or Space tears the whole seam in one motion. Once torn it stays focusable, aria-disabled and named `confirmedLabel`, and a polite live region says "Stub torn off. Confirmed.".
+- Pointer: drag down the perforation band (touch-action: pan-x, so the page still scrolls sideways); a tap opens the seam a little and lets it close, as a hint. Pointer capture is only taken once the drag has started.
+- Reduced motion: the seam still opens with the finger (how far it has torn is information) with a hairline gap instead of a swinging flap; a release short of the end closes it at once, and completing fades the stub out and the confirmation in.
+- Performance: DOM plus a small SVG on the seam. The clip paths, the flap's transform and shadow and the torn edges are written from one paint per frame on motion's frame loop, only while the tear moves; the ragged line is computed once per size and hole spacing. The first frame is server-rendered.
+- Theming: the body uses `paper` (the card token by default) and inherits the text colour; the stub is a pigment with its own ink so it looks like the same printed ticket on light and dark pages.
+
+### Turnover Card (KQ-1487) — `turnover-card`
+A card you flip with your thumb.
+
+A two-sided card you turn over by hand: dragged, it rotates about its axis 1:1 with the finger in perspective, lifting toward you while its shadow spreads, the half turning away darkening and a band of light sweeping across. On release the throw is projected — past halfway it completes the flip, otherwise it springs back — on a spring of the given stiffness that takes the release velocity and lands with a wobble, and a hard flick can carry it all the way round. It is a toggle button: Space or Enter flips it and the arrow keys flip it in their direction.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/turnover-card`
+
+Props:
+- `front`: ReactNode — The face that shows first. Keep it free of controls: the card itself is the button.
+- `back`: ReactNode — The face on the other side.
+- `label`: string (default "Flip card") — The card's accessible name; the visible face describes it.
+- `flipped / defaultFlipped`: boolean (default — / false) — Whether the back is showing. A host change turns the card the short way round.
+- `onFlippedChange`: (flipped: boolean) => void — Fires from the drag, press or key that turned it over, with the side now showing.
+- `axis`: "y" | "x" (default "y") — Turn about the vertical axis (drag sideways) or the horizontal one (drag up and down); touch-action follows.
+- `stiffness`: number (default 360) — The flip spring's stiffness: a lazy turn to a snap.
+- `depth`: number (default 0.5) — How deep the perspective is (2400px to 900px), and how far the card lifts and its shadow spreads mid-turn, 0 to 1.
+- `wobble`: number (default 0.5) — How much the card wobbles about its face when a flip lands, 0 to 1 (damping ratio 0.9 to 0.55).
+- `threshold`: number (default 0.5) — Share of a half turn past which a release commits the flip; the throw is projected first.
+- `shading`: number (default 0.5) — How strongly the turning face darkens on its receding half and catches the sweeping light, 0 to 1.
+- `tilt`: boolean (default true) — A mouse over the card tilts it a few degrees toward the pointer on springs.glide.
+- `radius`: number (default 16) — Corner radius of the card, px.
+- `size`: "sm" | "md" | "lg" (default "md") — The box's max width (260, 300 or 340px); the card is 86% of it at 8:5, the rest is room for the lift.
+- `sound`: boolean (default false) — Play a swish on every committed turn, pitched by the flip's speed and panned by where the card is.
+- `disabled`: boolean (default false) — Holds the card still and takes it out of the tab order.
+- `className`: string — Classes for the root box.
+
+Notes:
+- Keyboard: the card is a focusable role="button" with aria-pressed (pressed = back showing), named by `label` and described by the visible face. Enter flips it on press, Space on release (as a native button), and Left/Right (or Up/Down for axis="x") flip it in that direction. The hidden face is aria-hidden and inert.
+- Pointer: drag along the axis to turn it 1:1 (touch-action pan-y for the y axis, pan-x for x, so the page still scrolls the other way); a tap flips it. Pointer capture is only taken once the drag starts.
+- Reduced motion: no rotation, lift, tilt or wobble — the faces crossfade on a short tween, and a drag past the threshold crossfades on release.
+- Performance: CSS 3D transforms from motion values; the shading, sheen and shadow are derived with useTransform. Nothing runs at rest, and the angle is folded back to 0 or 180 after each landing.
+- The box reserves room around the card (it is 86% of the width) so the lift and the perspective of a full turn stay inside the component's own box.
+
+### Branch Out (KQ-1488) — `branch-out`
+A menu that grows its options like branches.
+
+A menu that grows its options like branches: opening grows a short stem out of the trigger, then a branch per option draws along a curve whose bend you set, nearest the centre line first and staggered, and as each arrives a bud swells at its end and the option opens out of it on springs.snap. Hovering or focusing an option thickens and tints its branch and grows a leaf at its middle, and closing retracts everything in reverse on the exit ease. It is a real menu button: arrows move a roving focus, Home and End jump, letters type ahead, Enter or Space chooses and Escape closes and returns focus to the trigger.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/branch-out`
+
+Props:
+- `items`: { id: string; label: string; icon?: ReactNode; hint?: string; disabled?: boolean }[] — The options, top to bottom; disabled ones are aria-disabled and skipped by the arrow keys.
+- `onSelect`: (id: string) => void — Called with the chosen option's id.
+- `open / defaultOpen`: boolean (default — / false) — Whether the menu is open, controlled or uncontrolled.
+- `onOpenChange`: (open: boolean) => void — Fires from the press, key or outside click that opened or closed it.
+- `label`: string (default "Add") — The trigger's accessible name and the menu's; also shown beside the trigger while closed.
+- `icon`: ReactNode (default a plus) — The trigger's icon; it turns 45° on springs.snap while open.
+- `side`: "right" | "left" (default "right") — Which way the branches grow from the trigger.
+- `spread`: number (default 0.5) — How wide the fan opens, 0 to 1: the options' spacing and the radius of the arc they sit on.
+- `curve`: number (default 0.6) — How the branches bend, 0 to 1: straight twigs to S-shaped tendrils.
+- `stagger`: number (default 60) — Time between one branch and the next as they grow, in ms; capped so the whole growth stays near 600ms.
+- `color`: string (default "var(--accent-bright)") — The trigger's fill and the colour a branch, bud and leaf take when their option is hot; any CSS colour.
+- `branchColor`: string (default "var(--hairline-strong)") — The branches and buds at rest; any CSS colour.
+- `closeOnSelect`: boolean (default true) — Close the menu (and return focus to the trigger) after an option is chosen.
+- `showLabel`: boolean (default true) — Show `label` beside the trigger while closed; it gives way as the branches grow.
+- `size`: "sm" | "md" | "lg" (default "md") — Max width (280, 320 or 360px), trigger and option height.
+- `sound`: boolean (default false) — Play a pop as each option buds (rising in pitch), a tick as focus moves and a lower tick on choose and close; only in answer to a press or key.
+- `disabled`: boolean (default false) — Disables the trigger.
+- `className`: string — Classes for the root box, whose height follows the item count and spread.
+
+Notes:
+- Keyboard: the trigger is a <button> with aria-haspopup="menu", aria-expanded and aria-controls. Enter, Space or ArrowDown opens it with the first option focused, ArrowUp with the last. In the menu, Up/Down move a roving tabindex, Home/End jump, typed letters jump to the next match, Enter/Space choose, Escape closes and returns focus to the trigger (preventDefault), and Tab closes and lets focus move on. Focus moves to an option only after the open menu has committed.
+- While closed the menu stays mounted for its exit animation but is inert and aria-hidden, so nothing in it can be focused or read.
+- Reduced motion: the branches appear whole and the options fade in together; closing fades them out. The trigger's icon swaps without turning.
+- Performance: the branch geometry is computed once per item count, spread and curve, with no measurement — the option labels truncate (and are titled) in whatever width is left. Branches draw with motion's pathLength; nothing runs at rest.
+- The component's box is the size of the open menu (its height follows the item count), so the branches never draw outside it; place it where that space is free.
+
+### Folder Fan (KQ-1489) — `folder-fan`
+Papers lift out of the folder to say hello.
+
+A folder that fans its papers out to say hello: hovering or focusing it lifts the papers out, each rising and tilting about its foot by a seeded share of the fan angle with a soft shadow, front paper first on springs.snap. Opening it swings the front flap down about its hinge in perspective on springs.snap and sends the papers out into a list beside it — each gliding from its fan pose to its row on springs.glide, unrotating and widening into a row with the document's name, in a cascade — and choosing a row folds the list back into the folder with the chosen paper left peeking out of the top. The folder is a button that opens a listbox: Enter, Space or ArrowDown open it, arrows move, Enter or Space chooses and Escape closes.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/folder-fan`
+
+Props:
+- `items`: { id: string; label: string; meta?: string }[] — The documents in the folder, first on top; the first `sheets` of them are shown.
+- `value / defaultValue`: string | null (default — / null) — The chosen document's id, controlled or uncontrolled. The chosen paper peeks out of the closed folder.
+- `onValueChange`: (id: string) => void — Fires from the click or key that chose a document.
+- `open / defaultOpen`: boolean (default — / false) — Whether the folder is open, controlled or uncontrolled.
+- `onOpenChange`: (open: boolean) => void — Fires from the press, key, choice or outside click that opened or closed it.
+- `label`: string (default "Documents") — The folder's name, shown beside it, and its accessible name (with the chosen document).
+- `sheets`: number (default 4) — How many papers it holds — the first `sheets` items — 1 to 8.
+- `fan`: number (default 24) — The fan's total spread when the papers lift, in degrees.
+- `lift`: number (default 18) — How far the papers rise out of the folder on hover and focus, in px.
+- `color`: "manila" | "sky" | "sage" | "clay" | string (default "manila") — The folder's stock: a named pigment at fixed lightness, or any CSS colour.
+- `size`: "sm" | "md" | "lg" (default "md") — Max width (280, 320 or 360px), folder and row size.
+- `sound`: boolean (default false) — Play a paper slide per sheet as the list spreads, a crisper one on choose and a soft one on close; only in answer to a press or key.
+- `disabled`: boolean (default false) — Disables the folder: no fan, no list.
+- `className`: string — Classes for the root, whose height glides between the closed folder and the open list.
+
+Notes:
+- Keyboard: the folder is a <button> with aria-haspopup="listbox", aria-expanded and aria-controls, named by `label` and the chosen document. Enter, Space or ArrowDown opens it and focus moves to the listbox once it has committed; Up/Down move the active option (aria-activedescendant), Home/End jump, Enter or Space chooses and returns focus to the folder, Escape closes and returns focus (preventDefault), Tab closes and lets focus move on.
+- Focusing the folder fans the papers just as hovering does, so keyboard visitors get the same hello; a press outside closes the list without moving focus.
+- Reduced motion: the fan is an instant pose, the flap does not swing, and the list appears in place of the papers with a short crossfade; the root's height changes without gliding.
+- Performance: DOM only — up to eight absolutely positioned papers driven by motion springs, and a ResizeObserver for the rows' width. Nothing runs at rest.
+- The folder stock is a pigment at fixed lightness, so it reads as the same folder in light and dark themes; the papers and rows use the card token.
+
+### Crop Marks (KQ-1490) — `crop-marks`
+A frame you draw, nudge and settle.
+
+A selection frame laid out like a print sheet: drag on the picture to draw a frame from the press point, inside it to move it, or on a corner or edge to resize it, with printer's crop marks off each corner, the picture dimmed outside and Shift keeping the aspect. The hand is never pulled — snap lines within reach only light up — and on release the frame settles onto them on springs.snap while the marks, stretched while held, draw back in on the same spring and each caught line flashes with a tick; aspect changes glide on springs.glide. The frame is a focusable group: arrow keys move it, Shift with an arrow resizes it, Alt moves ten steps, Home centres it, and a key that would cross a snap line stops on it first.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/crop-marks`
+
+Props:
+- `value / defaultValue`: { x: number; y: number; width: number; height: number } (default — / { x: 0.15, y: 0.15, width: 0.7, height: 0.7 }) — The frame as fractions (0 to 1) of the picture, controlled or uncontrolled.
+- `onValueChange`: (value: CropRect, size: { width: number; height: number }) => void — Fires with the settled frame from the release, key or aspect change that set it (not on every move of a drag), and its size in source units.
+- `aspect`: "free" | "1:1" | "4:3" | "3:2" | "16:9" | number (default "free") — A locked width ÷ height; the frame glides to it about its centre. Shift locks the current ratio for one drag.
+- `snap`: number (default 10) — The magnet's reach in px: edges released this close to a snap line settle onto it. 0 turns snapping off.
+- `grid`: "thirds" | "golden" | "quarters" | "none" (default "thirds") — The lines it snaps to besides the picture's edges and centre, ticked in the margin.
+- `step`: number (default 0.01) — One arrow key's move or resize, as a fraction of the picture; Alt moves ten.
+- `minSize`: number (default 24) — The smallest frame a release leaves, in px.
+- `dim`: number (default 0.5) — How dark the picture is outside the frame, 0 to 1.
+- `sourceSize`: { width: number; height: number } (default the picture's own pixels) — The source's size in pixels, for the W × H readout and the size `onValueChange` reports. Give the picture area the source's aspect so the two agree.
+- `label`: string (default "Crop frame") — The frame's accessible name.
+- `color`: string — The crop marks' colour. By default they are white blended by difference, so they read on any picture in both themes.
+- `guideColor`: string (default "var(--accent-bright)") — The snap guides' colour.
+- `size`: "sm" | "md" | "lg" (default "md") — Mark length (8, 12 or 16px) and the sheet's margin.
+- `sound`: boolean (default false) — Tick as the frame settles on a line, on keyboard detents, and faintly as a guide lights mid-drag.
+- `disabled`: boolean (default false) — No drawing, moving or keys; the frame leaves the tab order.
+- `className`: string (default "h-[220px] w-full") — Sizes the sheet.
+- `children`: React.ReactNode — The picture, filling the area inside the margin.
+
+Notes:
+- Keyboard: the frame is one tab stop (role="group", aria-roledescription="crop frame"). Arrows move it by `step`, Shift+arrows move the right or bottom edge, Alt multiplies by ten, Home centres it; a key that would cross a snap line stops on it first. Escape during a drag cancels it (preventDefault). The settled frame is spoken once per change through a polite status.
+- Pointer: a press outside the frame draws a new one, inside moves it, near a corner or edge resizes; Shift keeps the aspect and Alt works from the centre, read live while you drag. The picture area is touch-action: none, so a touch drag on it never scrolls the page.
+- Reduced motion: drawing and moving stay 1:1, the frame lands on its lines at once with no spring, the marks do not stretch, and the guides appear and fade on a short opacity tween.
+- Performance: DOM only — four motion values carry the rect as percentages and the dim is one spread shadow clipped by the picture. A ResizeObserver reads the picture's size; nothing runs at rest.
+- Theming: the marks use a difference blend inside an isolated sheet, so they invert against whatever is under them — the dimmed photo or the sheet's margin — in light and dark alike. Pass `color` to draw them in a plain colour instead.
+
+### Think Thread (KQ-1491) — `think-thread`
+A thought drawn as a wandering line.
+
+A thinking indicator drawn by an invisible pencil: a single fine line travels a small box, curls into loops, turns hairpins and doubles back, with only its last stretch kept and fading toward the tail. When thinking ends the stroke is pulled taut — every point travels to its place on a straight line, pencil end first, on springs.glide — the straightened line rings once like a plucked string on springs.recoil, and the status word fades in at its end on springs.snap. It needs no keys: the state is spoken politely when thinking starts and when it ends.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/think-thread`
+
+Props:
+- `thinking`: boolean (default true) — Whether it is thinking. Turning false pulls the line taut and shows `doneLabel`; turning true sets the pencil off again from the line's end.
+- `label`: string (default "Thinking") — The state while thinking, spoken politely when thinking starts.
+- `doneLabel`: string (default "Done") — The status word that fades in once the line is straight, and is spoken.
+- `pace`: number (default 1) — How fast the pencil travels, as a multiple of its natural pace.
+- `wander`: number (default 0.5) — 0 draws gentle waves; 1 curls into loops and doubles back often.
+- `color`: "ink" | "cobalt" | "signal" | "amber" | string (default "ink") — The line's colour: a named ink token or any CSS colour.
+- `tail`: number (default 140) — How much of the path stays on the page, in px of travel.
+- `strokeWidth`: number (default 1.25) — The line's weight, in px.
+- `size`: "sm" | "md" | "lg" (default "md") — The box: 96×20, 136×28 or 184×40 px, and the word's size.
+- `seed`: number (default 7) — Picks the path; the same seed draws the same thought, on the server and in the browser.
+- `paused`: boolean (default false) — Holds the pencil where it is.
+- `dpr`: number (default 2) — Caps the canvas's device pixel ratio (never above 2).
+- `onSettled`: () => void — Fires when the line has gathered and the pluck has rung out.
+- `className`: string — Classes for the root; it is inline and grows to fill a stretched parent.
+
+Notes:
+- Accessibility: a polite sr-only status speaks `label` when thinking starts and `doneLabel` when it ends — never per frame. The canvas and the still drawing are aria-hidden, and the done word's width is reserved so nothing shifts when it appears.
+- Reduced motion: no wandering — a still, seeded scribble (the same simulation run to a fixed point, drawn as SVG) stands in the box and crossfades to the straight line and the word.
+- Performance: Canvas 2D with a ring buffer of typed arrays and no per-frame allocation; the backing store is DPR-capped and sized by a ResizeObserver. The loop runs only while thinking or gathering, on screen and on a visible page, and stops once the line is at rest.
+- Server rendering: the server sends the seeded still frame (coordinates rounded), which is exactly the canvas's first frame, so the hand-off is seamless and hydration matches.
+- Theming: named colours are ink tokens for strokes; the colour is resolved on the component's own node and re-read when it changes, so a theme flip repaints the line.
+
+### Talk Pill (KQ-1492) — `talk-pill`
+Hold to speak, slide away to cancel.
+
+A voice input pill for a composer: pressing it grows the capsule leftward over the row on springs.snap into a recording pill with a breathing dot, a timer, a scrolling waveform tape and a fuse toward the longest take. Sliding left squeezes it under the finger 1:1 — the tape crowds and flattens and the pill blends toward danger until a detent at the cancel line — and a release there snaps it shut to a circle that pops away, while a shorter one springs back out with the throw's velocity on springs.snap; letting go of a hold sends the take with a small lift. It is a toggle button: Space or Enter starts and sends, Escape cancels, and a quick tap starts hands-free recording.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/talk-pill`
+
+Props:
+- `onSend`: (take: { duration: number; levels: number[] }) => void — A take was sent — by letting go of a hold, a second tap, Space or Enter, or the clock running out — with its length in ms and 32 levels.
+- `onCancel`: () => void — A take was thrown away: squeezed past `cancel`, or Escape.
+- `onRecordingChange`: (recording: boolean) => void — Recording started (true) or ended (false).
+- `bars`: number (default 24) — How many bars the waveform tape shows.
+- `duration`: number (default 30) — The longest take, in seconds; the fuse fills toward it and the take sends itself there.
+- `cancel`: number (default 96) — How far left the pill must be squeezed to cancel, in px.
+- `level`: number — The live input level, 0 to 1. Without it the tape shows a seeded, simulated voice.
+- `label`: string (default "Hold to talk") — The idle pill's text and the button's accessible name.
+- `hint`: string (default "Slide to cancel") — The slide hint while recording.
+- `releaseLabel`: string (default "Release to cancel") — What the hint becomes once a release would cancel.
+- `holdThreshold`: number (default 250) — A press shorter than this, in ms, starts hands-free recording instead of a hold.
+- `color`: string (default "var(--accent-bright)") — The tape's colour.
+- `size`: "sm" | "md" | "lg" (default "md") — 36, 44 or 52px tall.
+- `seed`: number (default 3) — Seeds the simulated voice.
+- `sound`: boolean (default false) — A click as it starts and sends, a detent at the cancel line and a swish on cancel; only in answer to the visitor.
+- `disabled`: boolean (default false) — Disables the pill; a take in progress is thrown away.
+- `className`: string — Classes for the row.
+- `children`: React.ReactNode — The rest of the row — a text field — which the recording pill covers (it is inert while recording).
+
+Notes:
+- Keyboard: the pill is a <button> with aria-pressed. Space or Enter (a click with no pointer behind it) starts recording and presses again to send; Escape cancels (preventDefault). "Recording", "Sent, 4 seconds" and "Cancelled" are each spoken once through a polite status.
+- Pointer: pressing starts recording at once and letting go sends; a press shorter than `holdThreshold` stays recording hands-free until a second tap. The pill is touch-action: pan-y, so a horizontal squeeze never scrolls the page; a flick whose projected throw passes `cancel` cancels too.
+- No microphone is read: pass `level` from your own audio analyser (0 to 1, per frame or so). The take's `levels` are peaks resampled to 32 values for drawing a voice-note bubble.
+- Reduced motion: the pill swaps width on a short tween, the tape updates in place without scrolling, and a slide still cancels past the line — the tint, label and × change while the pill stays put.
+- Performance: one rAF loop only while recording and on screen; the tape is a fixed set of bars written directly each frame, and the timer re-renders once a second. A hold is thrown away if the window loses focus or the page is hidden.
+
+### Tank Level (KQ-1493) — `tank-level`
+A gauge whose liquid sloshes into place.
+
+A value gauge drawn as a sight-glass tank whose surface is a real damped wave: a change moves the level on springs.glide (or 1:1 under a drag), the level's acceleration leans the surface toward the inlet as it fills, and when it stops the lean is let go into a slosh that rocks across the tank and dies away at the set damping. A rise also releases seeded bubbles from the floor that wobble up and pop at the surface with a ring and a ripple in the wave. It is a vertical slider: arrows move a step, Page keys ten, Home and End go to the ends, and a drag puts the surface under the finger.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/tank-level`
+
+Props:
+- `value / defaultValue`: number (default — / 40) — The value, controlled or uncontrolled.
+- `onValueChange`: (value: number) => void — Fires from the drag or key that changed it, with the new value — once per step, not per frame.
+- `min`: number (default 0) — The bottom of the range.
+- `max`: number (default 100) — The top of the range.
+- `step`: number (default 1) — The value's resolution and one arrow key's change.
+- `label`: string — What the tank holds: the slider's accessible name, shown over the reading.
+- `format`: (value: number, min: number, max: number) => string (default a percentage of the range) — The reading and the spoken value; when given, the range's top is shown under the reading too.
+- `damping`: number (default 0.4) — 0 rocks long after a change; 1 calms almost at once.
+- `waves`: number (default 0.6) — How high the slosh runs, 0 to 1. 0 keeps the surface flat.
+- `color`: "water" | "amber" | "algae" | "berry" | string (default "water") — The liquid: a named pigment (a token's hue and chroma at a fixed lightness) or any CSS colour.
+- `bubbles`: boolean (default true) — Release bubbles from the floor as the level rises.
+- `ticks`: number (default 10) — Graduations up the side.
+- `size`: "sm" | "md" | "lg" (default "md") — The tank: 72×148, 92×184 or 112×220 px.
+- `sound`: boolean (default false) — A pour while a drag fills it, pitched by the level, and a plip as each bubble the visitor caused pops.
+- `disabled`: boolean (default false) — No drag or keys; the tank leaves the tab order.
+- `className`: string — Classes for the row holding the tank and its reading.
+
+Notes:
+- Keyboard: the tank is role="slider" with aria-orientation="vertical" and aria-valuetext from `format`. Arrows move a step, PageUp and PageDown ten percent of the range, Home and End the ends — each sloshes and bubbles exactly as a drag does.
+- Pointer: a drag puts the surface under the finger and follows it 1:1 (rubber-banded a little past empty and full) and settles to the step on the glide spring with the release velocity; a tap sets the level where you tapped. The tank is touch-action: none.
+- Host changes slosh and bubble too, silently: sound only answers the visitor.
+- Reduced motion: the level moves on a short tween with a flat surface and no bubbles; a drag is still 1:1.
+- Performance: 28 wave columns sub-stepped at 240 Hz in typed arrays, drawn straight to the SVG nodes — React never renders per frame. The loop runs only while the surface has energy, bubbles are alive, the level is moving or a drag is live, on screen and on a visible page, and stops when calm.
+- Theming: named liquids are pigments at a fixed lightness, so the tank reads the same in light and dark; the glass, graduations and reading use surface and ink tokens.
+
+### Ask Bar (KQ-1494) — `ask-bar`
+A prompt field that grows into its answer.
+
+A compact prompt input that becomes the turn it starts: typing grows the field on springs.glide up to `rows` lines, the empty placeholder rolls through its lines on springs.snap, attachments drop in as chips with a bounce on springs.recoil, and while the host is busy the round send arrow morphs into a stop square on springs.snap with a thin arc orbiting it. Sending lifts the prompt out of the field — a copy set exactly over the text rises to its bubble on springs.snap, its ink and plate changing and lifted off the page as it travels, while the field collapses under it — and the host's answer grows in below on springs.glide. Enter sends, Shift+Enter breaks the line, Escape stops while busy and Backspace in an empty field drops the last chip.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/ask-bar`
+
+Props:
+- `value / defaultValue`: string (default — / "") — The draft, controlled or uncontrolled.
+- `onValueChange`: (value: string) => void — Fires with the draft as it is typed, and with "" when it is sent.
+- `onSubmit`: (prompt: string, attachments: AskBarAttachment[]) => void — A prompt was sent (Enter or the send button), with the attachments it carried.
+- `busy`: boolean (default false) — The host is answering: the send button becomes a stop button and Enter waits.
+- `onStop`: () => void — The stop button, or Escape while busy.
+- `answer`: React.ReactNode — The host's answer, shown under the asked prompt; its height glides as it grows.
+- `attachments`: { id: string; name: string; meta?: string }[] (default []) — Files riding with the next prompt, shown as chips above the text.
+- `onAttach`: () => void — Shows the attach button; the host adds what was attached.
+- `onRemoveAttachment`: (id: string) => void — A chip's remove button, or Backspace in an empty field.
+- `placeholders`: string[] (default ["Ask anything"]) — Placeholder lines, rolled through while the field is empty.
+- `cycle`: number (default 3) — Seconds between placeholder lines; 0 holds the first.
+- `rows`: number (default 5) — How many lines the field grows to before it scrolls.
+- `lift`: number (default 12) — How high the prompt rises off the page as it flies to its bubble, in px (its shadow and scale at the top of the flight); 0 slides it flat.
+- `label`: string (default "Ask") — The field's accessible name.
+- `size`: "sm" | "md" | "lg" (default "md") — Type and control size.
+- `sound`: boolean (default false) — A click on send and stop, and a whoosh as the prompt lifts.
+- `disabled`: boolean (default false) — Disables the field and its buttons.
+- `className`: string — Classes for the root column.
+
+Notes:
+- Keyboard: a real <textarea> named by `label`. Enter sends (never mid IME composition, never while busy — the draft waits), Shift+Enter breaks the line, Escape stops while busy (preventDefault), Backspace in an empty field removes the last chip. The send button is never disabled while focused: it is aria-disabled when there is nothing to send and is named Send or Stop.
+- The answer area is a polite live region with aria-busy while the host is busy, so a streamed answer is announced once it settles rather than per word. The rolling placeholder is decoration (aria-hidden); the field's name stays stable.
+- Reduced motion: nothing travels — the field's height changes at once, the placeholder crossfades, chips fade, the button changes shape on a short fade with the arc standing still, and the prompt fades into its bubble.
+- Performance: DOM only. A hidden mirror of the draft is measured by a ResizeObserver; the placeholder timer runs only while the field is empty, unfocused, on screen and on a visible page; the orbit is a CSS rotation that exists only while busy.
+- The flying prompt and its bubble share one type and padding, and the bubble only takes over once every part of the flight is home, so the hand-off has no seam.
+
+### Flick Note (KQ-1495) — `flick-note`
+Notifications you can flick away.
+
+A toast stack you handle like cards: notes stack with depth, a new one rises in on springs.recoil while the rest step back on springs.glide, and hovering or focusing the stack fans it into a readable column on springs.snap. Any open note follows the finger 1:1 in any direction and turns like a card held off its middle; on release the throw is projected, and past the dismiss distance the note carries on at its own speed and spin out through the region's edge while the stack closes up behind it, otherwise it springs home on springs.snap with the throw's velocity. The stack is a list with one tab stop: arrows move between notes, Enter opens one, Delete dismisses it and Escape dismisses the top note.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/flick-note`
+
+Props:
+- `notes`: { id: string; title: string; body?: string; time?: string; tone?: "info" | "success" | "warn" | "danger" }[] — The notes, newest first. Notes the host removes fade out; new ones arrive on the recoil spring.
+- `onDismiss`: (id: string, via: "flick" | "key" | "button") => void — A note was dismissed, reported at the moment it was let go — remove it from `notes`; its exit keeps playing.
+- `onOpen`: (id: string) => void — A click or Enter on a note.
+- `visible`: number (default 3) — How many notes the stack shows.
+- `gap`: number (default 8) — Space between fanned notes, in px; the stack's peek at rest follows it.
+- `distance`: number (default 120) — How far a throw must carry to dismiss, in px (also how quickly a held note fades).
+- `tilt`: number (default 0.6) — How much a held note turns with the pull, 0 to 1.
+- `expand`: "hover" | "always" (default "hover") — Fan the stack on hover and focus, or keep it fanned.
+- `label`: string (default "Notifications") — The region's accessible name.
+- `size`: "sm" | "md" | "lg" (default "md") — Note height: 48, 56 or 64px.
+- `sound`: boolean (default false) — A swish as a note is thrown or keyed away (pitched by speed, panned by direction) and a pop as one seats back.
+- `disabled`: boolean (default false) — No flicks, keys or close buttons.
+- `className`: string — Classes for the region, which is as tall as the fanned stack so nothing jumps on hover.
+
+Notes:
+- Keyboard: the region is a labelled <section> with an <ol role="list"> and one tab stop (roving tabindex). Keyboard focus fans the stack; ArrowUp and ArrowDown move between notes, Home and End jump, Enter opens, Delete or Backspace dismisses the focused note and Escape the top one (preventDefault). Focus moves to the note that takes a dismissed one's place.
+- Each note's accessible name is one sentence (tone, title, body, time); arrivals are announced politely by title. The close button that appears on hover is for the mouse and is not a tab stop — Delete is its keyboard path.
+- Touch: notes are touch-action: none so a flick never scrolls the page; on a touch screen the first tap fans the stack and a tap outside closes it.
+- Reduced motion: nothing travels or spins — notes fade in and out where they stand, the fan swaps at once, a held note still follows the finger and a short throw returns without a spring.
+- Performance: DOM only, motion values per note, DOM order never changes (new notes are appended and stacked with z-index). Nothing runs at rest.
+
+### Slingshot (KQ-1496) — `slingshot`
+Pull back to launch.
+
+An action button held in an elastic band between the two pegs of a fork: pulling it back follows the hand 1:1 while the band's strands wrap its back in a pouch, thin and warm with the stretch, and a faint aim line reaches to the target, whose ring pops on springs.snap once the draw passes the threshold. Let go armed and the band fires the button home on a stiff underdamped spring that carries the release velocity; the frame it passes rest the icon leaves, flies along the aim line and settles into the target with two bounces, while a short pull just springs back on springs.snap. Enter launches with a full draw on springs.glide, Space held draws and fires on release, and Escape cancels a draw.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/slingshot`
+
+Props:
+- `label`: string (default "Launch") — The button's text and accessible name.
+- `launchedLabel`: string (default label) — The text while launched; both labels share one cell, so the button's width never changes.
+- `icon`: ReactNode (default a horizontal paper plane) — The projectile: what flies out of the button into the target.
+- `launched / defaultLaunched`: boolean (default — / false) — Whether the shot is out, controlled or uncontrolled. Controlled, the icon waits in its target until the host sets it false.
+- `onLaunchedChange`: (launched: boolean) => void — Fires from the release or key that launched it, and from the uncontrolled reload.
+- `onLaunch`: () => void — Fires once per launch, at the moment of release.
+- `resetAfter`: number (default 1400) — Uncontrolled: how long the icon stays out before the slingshot reloads, in ms; 0 keeps it out.
+- `tension`: number (default 0.5) — The band's stiffness, 0 to 1: thicker at rest, harder to draw past the limit, faster to fire.
+- `pull`: number (default 72) — The longest draw in px; past it the band rubber-bands. A narrow box shortens it so the lane ahead keeps room.
+- `distance`: number (default 140) — How far the icon flies to its target in px, clamped to the room ahead.
+- `threshold`: number (default 0.35) — The share of the full draw that arms a launch; a shorter pull springs back.
+- `aim`: number (default 14) — How far a shot can be angled up or down by pulling the other way, in degrees; 0 keeps it level.
+- `color`: string (default "var(--accent-bright)") — The projectile, the aim line and the target; any CSS colour.
+- `bandColor`: string (default "var(--ink-3)") — The band at rest; any CSS colour.
+- `tautColor`: string (default "var(--warn)") — The band at full stretch, mixed in oklab as it is drawn; any CSS colour.
+- `size`: "sm" | "md" | "lg" (default "md") — Button height (32, 40 or 48px) and the rig's height (112, 132 or 152px).
+- `sound`: boolean (default false) — Play the band's twang on release (pitch and level by the draw) and a whoosh as the icon leaves; only ever in answer to a drag or key.
+- `disabled`: boolean (default false) — Disables the drag and the keys; the button stays in the tab order as aria-disabled.
+- `className`: string — Classes for the root, which fills its width and centres the rig.
+
+Notes:
+- Keyboard: the button is a real <button> described by a hint. Enter launches with a full draw; Space held draws the band back and fires on release if it passed the threshold; Escape during a draw cancels it (handled and prevented); a click from assistive technology launches. While launched it stays focusable with aria-disabled, and a polite live region says when it is out and when it is ready again.
+- Reduced motion: the drag still follows the hand, but release returns the button on a short tween, and the icon fades out of the button and into the target instead of flying; the ring still fills and the label still changes.
+- Controlled use: set launched from onLaunchedChange and back to false when the work is done (a deploy, a send). A host that never takes the launch still sees the shot land, then the slingshot reloads.
+- Performance: every per-frame number is a motion value; the band and aim are redrawn only while the button moves. Two ResizeObservers lay out the rig; nothing runs at rest.
+- Layout: the rig fills its width and centres itself; the draw room and the flight are clamped to the width, so it works from 258px up. Height is fixed by size.
+
+### Chime Bell (KQ-1497) — `chime-bell`
+A bell that rings on, and rests off.
+
+A notifications toggle drawn as a hand bell with a real pendulum inside: turning it on kicks the bell about its crown, and the bell and its clapper — two damped pendulums with different periods, integrated at 240 Hz — swing out of step, so the rim catches the clapper at the extremes in genuine collisions, each heard as a chime as loud as the impact, until the damping settles both to rest and the loop stops. Turning it off catches the bell on springs.snap, greys it in oklab and straps it still with a belt and a buckle that pops on springs.snap, two crossed straps, or tape over the mouth. It is a real toggle button with aria-pressed, so Space and Enter ring it or mute it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/chime-bell`
+
+Props:
+- `pressed / defaultPressed`: boolean (default — / false) — Whether notifications are on, controlled or uncontrolled.
+- `onPressedChange`: (pressed: boolean) => void — Fires from the press or key that changed it, with the new state.
+- `label`: string (default "Notifications") — What the bell turns on: its accessible name and the first line under it.
+- `onLabel`: string (default "On") — The state line while on; it shares a cell with offLabel so the width never changes.
+- `offLabel`: string (default "Muted") — The state line while off.
+- `hideLabel`: boolean (default false) — Keep the label and state line for assistive technology only, leaving just the bell.
+- `swing`: number (default 40) — How hard turning on kicks the bell: roughly its first swing in degrees. Below about 18° the clapper never reaches the rim.
+- `damping`: number (default 0.4) — How fast the swing dies, 0 to 1: 0 rings for several strikes, 1 strikes once and settles.
+- `strap`: "belt" | "cross" | "tape" (default "belt") — How the bell is held while off: a belt round the waist with a buckle, two crossed straps with a rivet, or tape over the mouth.
+- `count`: number — Unread count on a badge (99+ past 99). A rise while on rings the bell silently at half swing; while off the bell strains against its strap.
+- `color`: string (default "oklch(from var(--warn) 0.8 0.12 h)") — The bell while on: a brass pigment at fixed lightness, so it reads the same in both themes. Any CSS colour.
+- `mutedColor`: string (default "oklch(from var(--ink-3) 0.74 0.01 h)") — The bell while off, mixed from the on colour in oklab. Any CSS colour.
+- `strapColor`: string (default "oklch(from var(--warn) 0.5 0.08 h)") — The strap's leather; the tape is a pale tint of it. Any CSS colour.
+- `size`: "sm" | "md" | "lg" (default "md") — The bell at 40, 56 or 72px in a well of 60, 80 or 100px; a smaller bell rings higher.
+- `sound`: boolean (default false) — Play a chime at each strike of the clapper, as loud as the impact and panned to the side it struck. Only rings that a press set going are heard.
+- `disabled`: boolean (default false) — Disables the button.
+- `className`: string — Classes for the button.
+
+Notes:
+- Keyboard: a real <button aria-pressed>, named by label (with ", 3 new" when there is a count). Space and Enter toggle it through the native click; the visible state words are decorative and the pressed state is announced by the button itself.
+- Reduced motion: nothing swings or draws. Turning on warms the colour and two sound arcs glow once beside the bell (with one chime if sound is on); turning off fades the strap in whole and greys the bell.
+- Sound only answers a press: a host that turns it on, or a count that rises, rings the bell without a sound.
+- Performance: the pendulum loop runs only while the bell carries energy, only on screen (IntersectionObserver) and only while the page is visible — otherwise the bell is put straight to rest. Angles are written as transform attributes on two groups, so no React state changes per frame.
+- Theming: the bell, its muted state and the strap are pigments at fixed lightness derived from the status tokens, so the brass reads as brass on both a light and a dark page.
+
+### Line Chip (KQ-1498) — `line-chip`
+A call, from ringing to hung up.
+
+A call status chip with its actions inside. Ringing, the handset rings in bursts — a quick wiggle, then a rest — while sound arcs ripple out of it one after another and the border pulses, all from one linear cycle that runs only on screen. Answering slides the chip wider on springs.glide toward the measured width of the connected call, the actions riding the moving edge as a live timer and a waveform open beside the caller; hanging up turns the handset down on springs.snap, shakes the chip once and collapses it on glide to the call's duration with Call back inside. Every action is a real button reached with Tab and pressed with Enter or Space, and a polite status says each state once.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/line-chip`
+
+Props:
+- `caller`: string — Who is on the line: shown in the chip (truncated, titled) and in every spoken sentence.
+- `detail`: string — Replaces the line under the caller while it rings: a number, a team.
+- `state / defaultState`: "ringing" | "active" | "ended" (default — / "ringing") — Where the call is, controlled or uncontrolled.
+- `onStateChange`: (state: "ringing" | "active" | "ended") => void — Fires from the action that moved the call on: Answer, Decline, Cancel, Hang up or Call back.
+- `direction`: "incoming" | "outgoing" (default "incoming") — Who placed the call: an incoming call offers Answer and Decline, an outgoing one only Cancel.
+- `timer`: number (default 0) — Seconds already on the call when it connects (picked up elsewhere, or restored); the live timer counts on from here.
+- `ripple`: number (default 0.6) — How hard it rings, 0 to 1: how many sound arcs ripple out of the handset (one to three) and how far it wiggles. 0 is a calm pulse.
+- `muted / defaultMuted`: boolean (default — / false) — Whether the microphone is muted, controlled or uncontrolled; muted, the waveform lies flat and greys.
+- `onMutedChange`: (muted: boolean) => void — Fires from the Mute button with the new state.
+- `level`: number — The live audio level, 0 to 1, for the waveform. Without it the waveform plays a seeded voice with phrases and pauses.
+- `labels`: Partial<LineChipLabels> — Every word the chip shows or says (incoming, outgoing, active, ended, declined, cancelled and the six actions), for other languages.
+- `ringColor`: string (default "var(--success)") — Ringing: the pulse, the arcs, the handset and Answer. Any CSS colour.
+- `endColor`: string (default "var(--danger)") — Decline, Cancel, Hang up and the ended handset. Any CSS colour.
+- `size`: "sm" | "md" | "lg" (default "md") — Chip height 40, 48 or 56px, with its disc and buttons.
+- `sound`: boolean (default false) — Play a click on every action, a rising chime as the call connects and a low one as it ends; only ever in answer to a press.
+- `disabled`: boolean (default false) — Disables every action.
+- `className`: string — Classes for the root, which fills its width and centres the chip.
+
+Notes:
+- Keyboard: the chip is a role="group" named "Call with …"; each action is a real button with a full name ("Answer call from Mara Lind"), and Mute carries aria-pressed. The primary action keeps its place across states, so focus stays put from Answer to Hang up to Call back; declining hands focus to Call back as the Decline slot folds away.
+- A polite status speaks each state once ("Incoming call from …", "On call with …", "Call with … ended after 1 minute 24 seconds"); the ticking timer is never announced.
+- Reduced motion: nothing wiggles, ripples or shakes. The arcs and the border hold still while it rings, the width changes on a short tween, the handset swaps its angle and the waveform shows a still profile; the timer still counts.
+- Performance: the ringing cycle, the waveform loop and the timer each run only in their state, only on screen and only while the page is visible; the timer counts from the moment of connect, so it is right as soon as it is seen again. Widths come from one hidden copy of the words, measured by ResizeObserver.
+- Layout: the chip takes its natural width for each state, clamped to its container; the caller's name truncates first.
+
+### Verdict Mark (KQ-1499) — `verdict-mark`
+A mark that settles on the outcome.
+
+A status mark drawn with one two-part stroke: while pending, an arc spins on the ring with its length breathing, and when the state changes that arc, still turning, flows point by point into a check, an exclamation or a cross, head first with its tail following, so the stroke draws itself into the outcome. The check draws on springs.flick, the exclamation's dot drops in on springs.recoil, the cross arrives on springs.snap and shakes once, and the colour moves with it in oklab while the ring turns from a hairline track into a tinted disc. It is a polite status that says each new state once; it takes no keys because it is not a control.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/verdict-mark`
+
+Props:
+- `state`: "pending" | "success" | "warning" | "error" (default "pending") — What the mark says: spinning while pending, then the outcome. Any change flows from what is drawn, even mid-morph.
+- `onSettle`: (state: "success" | "warning" | "error") => void — Fires once an outcome has finished settling: after the flick, the dot's drop or the shake.
+- `size`: "sm" | "md" | "lg" | "xl" | number (default "md") — 20, 32, 48 or 72px, or any number of px; the label's type size follows.
+- `stroke`: number (default 3.5) — The stroke's weight in units of the mark's 48-unit box, 1 to 8.
+- `labels`: Partial<Record<state, string>> (default Working, Done, Needs attention, Failed) — The word for each state: the spoken status, and the label when shown.
+- `showLabel`: boolean (default false) — Show the label beside the mark; it rolls to each new word on springs.snap in a cell sized to the longest.
+- `colors`: Partial<Record<state, string>> (default accent, success, warn, danger) — The colour for each state, mixed in oklab as it changes. Any CSS colours.
+- `speed`: number (default 1.1) — How fast the pending arc turns, in turns per second; its momentum carries into the gather.
+- `ring`: boolean (default true) — Draw the ring: a hairline track while pending, a tinted ring and disc once settled.
+- `shake`: number (default 3) — How far an error shakes, in units of the 48-unit box; 0 for none.
+- `minPending`: number (default 400) — The least time the spinner shows, in ms, so a quick result never flashes past it.
+- `announce`: boolean (default true) — Speak each new state politely (role="status"). Off, the mark is role="img" named by its label.
+- `sound`: boolean (default false) — A tick when it settles well, a lower tick on a warning, a buzz on a failure; never before the page has had a press or a key.
+- `className`: string — Classes for the root, an inline-flex row.
+
+Notes:
+- Accessibility: the root is role="status" with the current label as screen-reader text, so each state is said once when it is shown (after minPending); the drawing and the rolling visible label are hidden from assistive technology. It is not focusable and takes no keys. With announce off it is a named image instead, for marks that repeat down a list.
+- Reduced motion: no spin, flow or shake. Pending is a still arc that breathes in opacity; outcomes cross-fade glyph to glyph, the colour still changes and onSettle still fires.
+- Performance: the spin loop runs only while pending, on screen (IntersectionObserver) and in a visible tab; each change is one spring writing two path strings of 18 points, and nothing runs once settled.
+- Pair it with the work it reports on: set state from your request's lifecycle and use onSettle to move on (close a dialog, show the next step) once the outcome has landed.
+
+### Rail Select (KQ-1500) — `rail-select`
+A select whose highlight rides a rail.
+
+A select whose open list has a rail down its side with a node per option, like a line on a transit map, and whose highlight is one shape — a wash across the row and a car on the rail — with its top and bottom edges on separate springs: the leading edge leaves on a stiff spring and the trailing edge follows on a softer, later one, so the highlight stretches toward the next stop before its tail catches up. Choosing rolls the trigger's value to the new label on springs.snap, out the way the list moved, while the rail draws down on springs.glide each time the list opens. It is an APG select-only combobox: focus stays on the trigger while arrows, Home, End, Page keys and type-ahead move the highlight, Enter, Space or Tab choose, and Escape closes.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/rail-select`
+
+Props:
+- `options`: { value: string; label: string; hint?: string; disabled?: boolean }[] — The stops on the rail, top to bottom; a hint sits at the row's end, and disabled options are skipped by every key.
+- `value / defaultValue`: string | null (default — / null) — The chosen option's value, controlled or uncontrolled.
+- `onValueChange`: (value: string) => void — Fires from the click or key that chose an option.
+- `open / defaultOpen`: boolean (default — / false) — Whether the list is open, controlled or uncontrolled.
+- `onOpenChange`: (open: boolean) => void — Fires from the press, key or outside press that opened or closed it.
+- `label`: string — What is being chosen: the caption above the trigger and the list's accessible name.
+- `hideLabel`: boolean (default false) — Keep the caption for assistive technology only.
+- `placeholder`: string (default "Choose") — The trigger's text before anything is chosen.
+- `stretch`: number (default 0.5) — How far the highlight stretches toward the next option before its tail catches up, 0 to 1: the trailing edge's spring softens and lags as it rises.
+- `speed`: number (default 0.5) — How quick the ride is, 0 to 1: the leading edge's stiffness, from a heavy car to a light one.
+- `width`: number (default 240) — The trigger's and the list's width in px, never wider than the container.
+- `side`: "bottom" | "top" (default "bottom") — Which way the list opens from the trigger.
+- `color`: string (default "var(--accent-bright)") — The car, the wash (mixed at 13% in oklab) and the chosen node. Any CSS colour.
+- `railColor`: string (default "var(--hairline-strong)") — The rail and its nodes. Any CSS colour.
+- `name`: string — Submits the value with a form under this name, through a hidden input.
+- `size`: "sm" | "md" | "lg" (default "md") — Trigger height 32, 36 or 40px and row height 28, 32 or 36px.
+- `sound`: boolean (default false) — Play a tick as the highlight moves, pitched by its place on the rail, and a lower one on a choice.
+- `disabled`: boolean (default false) — Disables the trigger and keeps the list shut.
+- `className`: string — Classes for the root column (caption, trigger and list).
+
+Notes:
+- Keyboard (APG select-only combobox): focus never leaves the trigger, which carries aria-expanded, aria-controls and aria-activedescendant. Closed, Enter, Space, ArrowDown and ArrowUp open it on the chosen option, Home and End on the first and last, and a letter opens it on the first match. Open, arrows move without wrapping, Home and End jump, Page keys move five, letters type ahead (repeat one letter to cycle), Enter or Space choose, Tab chooses and moves on, and Escape closes without a change (handled and prevented).
+- Reduced motion: the highlight jumps instead of riding, the list and rail appear with a short fade, and the value cross-fades in place; ticks still answer each key.
+- Layout: the list is positioned under (or over, with side="top") the trigger and overlays what follows; leave room for it inside any clipping container. Labels and hints truncate.
+- Performance: the highlight's edges are two motion values; the list stays mounted (hidden when closed) so aria-controls always points at it, and nothing runs at rest.
+
+### Ledger Swipe (KQ-1501) — `ledger-swipe`
+Rows that reveal their actions with a swipe.
+
+A list of ledger rows with their actions parked underneath: a row follows a sideways drag 1:1 while the tiles on that side are uncovered one after another, each one's icon and label scaling in as its slot comes into view. Past the threshold the primary arms with a snap and springs across the whole uncovered width on springs.snap, its label riding the row's edge; letting go (or a flick whose projected rest gets there) commits it, and the row slides out on the exit ease while its height folds shut on springs.glide and the rows below close the gap. A shorter swipe snaps open to show the tiles on a spring whose bounce is the elastic setting. From the keyboard, each row's Actions button opens a menu of every action, where arrows move, Enter chooses and Escape closes.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/ledger-swipe`
+
+Props:
+- `items`: { id: string; title: string; subtitle?: string; amount?: number; icon?: ReactNode; flagged?: boolean }[] — The rows. Amounts are signed (money in is positive) and shown through format; a flagged row shows a flag beside its amount.
+- `trailingActions`: LedgerSwipeAction[] — Revealed by swiping left, from the right edge in; the first is the primary that a long swipe commits.
+- `leadingActions`: LedgerSwipeAction[] — Revealed by swiping right, from the left edge in; the first is the primary.
+- `actions`: "both" | "trailing" | "leading" (default "both") — Which sides swipe; the other side barely gives. Every action stays in the keyboard menu either way.
+- `onAction`: (actionId: string, itemId: string) => void — An action was chosen by a long swipe, a tap on its tile or the menu; fires at the moment of choice. Remove the row from items for a removing action — it stays drawn until it has folded away.
+- `onOpenChange`: (itemId: string | null) => void — A row was swiped open (its id) or closed (null).
+- `threshold`: number (default 0.5) — How far a swipe must travel to arm and commit the primary, as a share of the row's width.
+- `elastic`: number (default 0.5) — How much the row gives, 0 to 1: the rubber band past the end and on a side with no actions, and the bounce of the snap back.
+- `actionWidth`: number (default 64) — Each tile's width when a row is swiped open, in px (at least 44).
+- `hint`: boolean (default false) — The first time the list is on screen, the first row slides open a little and settles back: the gesture, shown once.
+- `format`: (amount: number) => string (default signed, thousands, two decimals) — How an amount is written; the default is built by hand so the server and the page agree.
+- `label`: string — The list's accessible name.
+- `emptyLabel`: string (default "Nothing left to review") — Shown and said when every row has gone.
+- `size`: "sm" | "md" | "lg" (default "md") — Row height 48, 56 or 64px.
+- `sound`: boolean (default false) — A snap as a row snaps open or arms its primary, a swish as one slides away; only ever in answer to a drag, a press or a key.
+- `disabled`: boolean (default false) — Rows stop following the finger and every action is disabled.
+- `className`: string — Classes for the root (w-full max-w-md).
+
+Notes:
+- Keyboard: each row has one tab stop, its Actions button (aria-haspopup="menu", named "Actions for …"), which shows on hover and focus. Enter, Space or ArrowDown opens a role="menu" of every action: arrows move a roving focus, Home and End jump, Enter or Space choose, Escape closes and returns focus (handled and prevented), Tab closes. After a removing action focus moves to the next row's Actions button, or the previous one, or the empty message, once the row has gone.
+- The swipe tiles are a pointer shortcut and are hidden from assistive technology; the menu offers every action, so nothing is reachable only by swiping.
+- Reduced motion: rows still follow the finger (that is direct manipulation), but settle on a short tween, a removed row fades and folds instead of sliding, and the hint is skipped.
+- Performance: each row owns its motion values and every tile's place is derived from them; nothing runs at rest, and the hint runs once, only when the list is at least 60% on screen.
+- A LedgerSwipeAction is { id, label, icon?, tone?: "accent" | "success" | "warn" | "danger" | "neutral", removes? }. Tones are pigments at fixed lightness, so a tile reads the same on a light page and a dark one.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

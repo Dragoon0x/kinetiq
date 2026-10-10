@@ -13,7 +13,7 @@
     "indexUrl": "https://www.kinetiqui.com/r/registry.json",
     "docsUrl": "https://www.kinetiqui.com",
     "counts": {
-      "components": 1362,
+      "components": 1380,
       "blocks": 152,
       "pages": 28,
       "templates": 10,
@@ -127420,6 +127420,2672 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/paint-vortex",
         "bun": "bunx --bun shadcn@latest add @kinetiq/paint-vortex",
         "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/paint-vortex.json"
+      }
+    },
+    {
+      "slug": "strip-shred",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Strip Shred",
+      "serial": "KQ-1484",
+      "tagline": "Deleted, one strip at a time.",
+      "description": "A delete control with a shredder under the card: confirming makes the teeth bite on springs.flick, then the motor pulls the card into the mouth at a steady rate with a stick-slip judder while the teeth and the head shiver, and the card comes out underneath as strips that roll toward you as they hang, printed with the fragments of the card's own words that were in each column, before each lets go on a seeded beat and falls into the bin. Undo springs every strip back up on springs.snap in a cascade and feeds the card back out on springs.glide; the button cycles Delete, Confirm, Undo with a draining ring, Deleting and Deleted in one place, so Enter, Space, Escape and the Delete key all work without focus moving.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "delete",
+        "shredder",
+        "undo",
+        "confirm",
+        "destructive",
+        "strips",
+        "trash"
+      ],
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "The card's content. The component draws the card's paper, border and padding around it."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Delete\"",
+          "description": "The button's idle label and accessible name."
+        },
+        {
+          "name": "confirmLabel",
+          "type": "string",
+          "defaultValue": "\"Confirm\"",
+          "description": "The label while it waits for a second press."
+        },
+        {
+          "name": "undoLabel",
+          "type": "string",
+          "defaultValue": "\"Undo\"",
+          "description": "The label from the shred until the undo window closes."
+        },
+        {
+          "name": "deletingLabel",
+          "type": "string",
+          "defaultValue": "\"Deleting\"",
+          "description": "The label while onDelete's promise is pending."
+        },
+        {
+          "name": "deletedLabel",
+          "type": "string",
+          "defaultValue": "\"Deleted\"",
+          "description": "The label once the delete has landed."
+        },
+        {
+          "name": "shreddedLabel",
+          "type": "string",
+          "defaultValue": "\"Shredded\"",
+          "description": "Printed in the dashed outline left where the card was."
+        },
+        {
+          "name": "onDelete",
+          "type": "() => void | Promise<unknown>",
+          "description": "Called when the undo window closes. Return a promise to show the pending state; a rejection reassembles the card."
+        },
+        {
+          "name": "onUndo",
+          "type": "() => void",
+          "description": "Called when the visitor undoes the shred."
+        },
+        {
+          "name": "deleted / defaultDeleted",
+          "type": "boolean",
+          "defaultValue": "— / false",
+          "description": "Whether the card has been deleted. A host setting it back to false reassembles the card; setting it true shreds it without a window."
+        },
+        {
+          "name": "onDeletedChange",
+          "type": "(deleted: boolean) => void",
+          "description": "Fires with true when the delete lands."
+        },
+        {
+          "name": "onPhaseChange",
+          "type": "(phase: \"idle\" | \"armed\" | \"shredding\" | \"undo\" | \"deleting\" | \"deleted\" | \"restoring\") => void",
+          "description": "Fires on every step of the cycle, from the press or timer that caused it."
+        },
+        {
+          "name": "strips",
+          "type": "number",
+          "defaultValue": "10",
+          "description": "How many strips the cutters make, 3 to 24."
+        },
+        {
+          "name": "undo",
+          "type": "number",
+          "defaultValue": "5000",
+          "description": "The undo window after the shred, in ms; 0 deletes as soon as the shred finishes."
+        },
+        {
+          "name": "speed",
+          "type": "number",
+          "defaultValue": "1",
+          "description": "The motor's speed, 0.25 to 3: the feed, the slips and the fall all scale with it."
+        },
+        {
+          "name": "curl",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How far the strips roll toward you as they hang, 0 to 1."
+        },
+        {
+          "name": "resistance",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How hard the paper fights the cutters: the depth of the stick-slip judder, 0 to 1."
+        },
+        {
+          "name": "confirm",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Ask for a second press before shredding."
+        },
+        {
+          "name": "paper",
+          "type": "string",
+          "defaultValue": "\"var(--card)\"",
+          "description": "The card's paper, any CSS colour; the strips are cut from it and their turned-over backs are mixed from it in oklab."
+        },
+        {
+          "name": "ink",
+          "type": "string",
+          "defaultValue": "\"var(--ink-2)\"",
+          "description": "The colour of the word fragments printed on the strips."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "defaultValue": "\"md\"",
+          "description": "Width cap, head, button and bin size."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play the motor's scratch (stepping with each slip), the thud of the last strip and a softer one when an undo lands. Only ever in answer to a press or key."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Disables the button."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the root; it is w-full up to its size's max width."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the button is a real <button> whose name follows its visible label. Enter or Space arms it, again shreds, and during the shred or the window undoes. Escape disarms an armed button and undoes during the window (both preventDefault); blur also disarms. The Delete key with focus inside the card arms and confirms, except in text fields. Pending and deleted states are aria-disabled, never disabled, so focus is never dropped.",
+        "A polite live region speaks each step once: \"Shredding. Undo is open for 5 seconds.\", \"Restored.\", \"Deleted.\" and \"Couldn't delete. Restored.\" when onDelete rejects. The shredded card is inert and hidden; the strips are aria-hidden SVG.",
+        "Reduced motion: no bite, judder, shiver, fall or springs. The card crossfades out and a still frame of hanging strips (with their word fragments, gently curled at the tips) crossfades in, holds through the window and fades when the delete lands; undo crossfades back. The undo ring still drains.",
+        "Performance: the strips, the card and the teeth are written from one paint per frame on motion's frame loop, driven by the feed and fall animations, and nothing runs at rest. The card's words are measured once per shred (Range client rects), and the card's size is tracked with a ResizeObserver.",
+        "onDelete is only called when the undo window closes, so an undo never reaches the server; with undo={0} it is called as soon as the strips have fallen."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/strip-shred",
+      "registryItemUrl": "https://www.kinetiqui.com/r/strip-shred.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/strip-shred",
+        "npm": "npx shadcn@latest add @kinetiq/strip-shred",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/strip-shred",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/strip-shred",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/strip-shred.json"
+      }
+    },
+    {
+      "slug": "paper-ball",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Paper Ball",
+      "serial": "KQ-1485",
+      "tagline": "Crumple it, toss it, done.",
+      "description": "A discard control you crumple and throw: holding the note folds a 6×6 mesh of the sheet inward along seeded creases into a lumpy paper ball, the facets that turn over going dark and the handwriting twisting with the paper, while letting go early springs it flat on springs.snap. A formed ball is tossed on a true ballistic arc into a wire basket, or dragged 1:1 and thrown with the release velocity into a small room whose floor, walls and the basket's rim lips it bounces off; a miss rolls to rest and glides home on springs.glide, and a ball that drops between the lips rocks the basket on springs.recoil. Space or Enter held crumples like a press, Delete crumples and tosses in one motion, and Escape smooths the sheet out.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "discard",
+        "crumple",
+        "paper",
+        "throw",
+        "trash",
+        "delete",
+        "physics"
+      ],
+      "props": [
+        {
+          "name": "text",
+          "type": "string",
+          "defaultValue": "\"Call the printer about Friday's proofs\"",
+          "description": "What the note says, wrapped to three short lines on the sheet."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Discard note\"",
+          "description": "The note's accessible name, read before its text."
+        },
+        {
+          "name": "discardedLabel",
+          "type": "string",
+          "defaultValue": "\"Note discarded\"",
+          "description": "The accessible name once the note is in the basket."
+        },
+        {
+          "name": "discarded / defaultDiscarded",
+          "type": "boolean",
+          "defaultValue": "— / false",
+          "description": "Whether the note is in the basket. Setting it back to false puts a fresh note up; setting it true drops the ball straight in."
+        },
+        {
+          "name": "onDiscardedChange",
+          "type": "(discarded: boolean) => void",
+          "description": "Fires with true when the ball lands in the basket."
+        },
+        {
+          "name": "onThrow",
+          "type": "(result: \"in\" | \"miss\") => void",
+          "description": "Fires when a throw ends: in the basket, or at rest on the floor."
+        },
+        {
+          "name": "onCrumpleChange",
+          "type": "(crumpled: boolean) => void",
+          "description": "Fires when the ball forms and when the sheet is smoothed out again."
+        },
+        {
+          "name": "onProgressChange",
+          "type": "(progress: number) => void",
+          "description": "Fires while the hold charges or the sheet smooths, with how crumpled it is in tenths (0–10)."
+        },
+        {
+          "name": "hold",
+          "type": "number",
+          "defaultValue": "600",
+          "description": "How long a hold takes to make a ball, in ms; a re-press continues from where the sheet is."
+        },
+        {
+          "name": "crumple",
+          "type": "number",
+          "defaultValue": "0.8",
+          "description": "How tight the ball is, 0 to 1: a loose wad (bigger, softer creases) to a small, hard, deeply creased ball."
+        },
+        {
+          "name": "arc",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "The toss's height, 0 to 1: a flat line drive to a high lob. The arc is solved so it always drops through the mouth."
+        },
+        {
+          "name": "bounce",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How lively the floor, walls and rim lips are, 0 to 1 (restitution 0.2 to 0.72)."
+        },
+        {
+          "name": "gravity",
+          "type": "number",
+          "defaultValue": "1800",
+          "description": "Gravity in scene units per second squared; the scene is 300 units wide."
+        },
+        {
+          "name": "seed",
+          "type": "number",
+          "defaultValue": "7",
+          "description": "The crease pattern and the ball's lumps."
+        },
+        {
+          "name": "paper",
+          "type": "string",
+          "defaultValue": "\"oklch(from var(--warn) 0.93 0.07 h)\"",
+          "description": "The note's paper, any CSS colour; a pigment at fixed lightness so it reads the same in both themes."
+        },
+        {
+          "name": "ink",
+          "type": "string",
+          "defaultValue": "\"oklch(from var(--warn) 0.36 0.07 h)\"",
+          "description": "The handwriting's colour."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "defaultValue": "\"md\"",
+          "description": "The scene's max width: 260, 300 or 340px; its height follows the 5:3 scene."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play a crinkle at every fifth of the hold, a crisp one on the toss and a thud on every landing, scaled by how hard it hits."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Takes the note out of the tab order and ignores presses."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the root, which is w-full up to its size's max width."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the note is a focusable role=\"button\" named by `label` and its text, described by how it works. Space or Enter held crumples it like a press and releasing tosses; Delete or Backspace crumples and tosses in one motion; Escape smooths a crumpled sheet out (and is only prevented then). Once discarded it stays focusable, aria-disabled, named `discardedLabel`.",
+        "Pointer: press and hold to crumple; release to toss, or keep the pointer down and drag the ball (touch-action: none) to throw it yourself. A polite live region says \"Crumpled.\", \"Missed the basket.\" and \"Discarded.\".",
+        "Reduced motion: the hold still charges, shown as creases and facet shading fading in on the flat sheet with a ring filling round it; a full hold crossfades the sheet to the ball, and a release crossfades it into the basket — no flight, no bounce, every release lands.",
+        "Performance: one SVG. The note is redrawn from one function once per frame on motion's frame loop while it changes; the flight is a fixed-step integrator on that loop that runs only while the ball moves and stops when it lands or rests. The first frame (a flat note, or a ball in the basket) is server-rendered.",
+        "Colours are CSS strings; the paper and ink default to pigments of the warn token at fixed lightness, the room and basket use surface and ink tokens, so it reads in both themes."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/paper-ball",
+      "registryItemUrl": "https://www.kinetiqui.com/r/paper-ball.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/paper-ball",
+        "npm": "npx shadcn@latest add @kinetiq/paper-ball",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/paper-ball",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/paper-ball",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/paper-ball.json"
+      }
+    },
+    {
+      "slug": "stub-tear",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Stub Tear",
+      "serial": "KQ-1486",
+      "tagline": "Tear along the dotted line to confirm.",
+      "description": "A confirmation ticket you tear: pulling down the perforation runs the tear front 1:1 with the finger, its edges ragged where the paper bridges between the punched holes give — each bridge catching until the finger is far enough past it, then letting go — while the torn flap of the stub hinges away about the front, lifting by its curl over a soft shadow. Let go short of the end and the seam springs closed on springs.snap (springs.glide for stiff paper) with the release velocity, a flick that would carry past the end finishes on springs.glide, and at the end the stub drops free on the exit ease and the action confirms. The handle is a real button: Enter or Space tears the whole seam in one motion.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "ticket",
+        "tear",
+        "perforation",
+        "confirm",
+        "stub",
+        "paper",
+        "gesture"
+      ],
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "The ticket's body: what is being confirmed."
+        },
+        {
+          "name": "stubContent",
+          "type": "ReactNode",
+          "description": "The stub's face. Presentational: while it tears it is drawn twice, once hidden from assistive tech, so keep it free of controls and ids."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Tear to confirm\"",
+          "description": "The tear handle's accessible name."
+        },
+        {
+          "name": "confirmedLabel",
+          "type": "string",
+          "defaultValue": "\"Confirmed\"",
+          "description": "Shown where the stub was, and the handle's name once torn."
+        },
+        {
+          "name": "torn / defaultTorn",
+          "type": "boolean",
+          "defaultValue": "— / false",
+          "description": "Whether the stub has been torn off. A host setting it back to false brings the stub back on springs.glide."
+        },
+        {
+          "name": "onTornChange",
+          "type": "(torn: boolean) => void",
+          "description": "Fires with true from the drag or key that tore the stub off."
+        },
+        {
+          "name": "onConfirm",
+          "type": "() => void",
+          "description": "Called once when the stub drops free: the action is confirmed."
+        },
+        {
+          "name": "onProgressChange",
+          "type": "(progress: number) => void",
+          "description": "Fires as the visitor tears, with how far along the seam, 0 to 1 (two decimals)."
+        },
+        {
+          "name": "resistance",
+          "type": "number",
+          "defaultValue": "0.4",
+          "description": "How hard the paper bridges catch, 0 to 1: a clean zip to a fibrous stick-slip at every bridge; above 0.6 the seam also closes without overshoot."
+        },
+        {
+          "name": "stub",
+          "type": "number",
+          "defaultValue": "0.28",
+          "description": "The stub's share of the ticket's width, 0.15 to 0.5."
+        },
+        {
+          "name": "curl",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How far the torn flap swings (7° to 18°) and lifts as it comes away, and how dark its underside shows, 0 to 1."
+        },
+        {
+          "name": "holes",
+          "type": "number",
+          "defaultValue": "9",
+          "description": "Spacing of the punched holes along the seam, in px; the bridges between them are where the tear catches."
+        },
+        {
+          "name": "paper",
+          "type": "string",
+          "defaultValue": "\"var(--card)\"",
+          "description": "The body's paper, any CSS colour."
+        },
+        {
+          "name": "stubPaper",
+          "type": "string",
+          "defaultValue": "\"oklch(from var(--accent-bright) 0.94 0.035 h)\"",
+          "description": "The stub's paper; a pigment at fixed lightness so it reads the same in both themes."
+        },
+        {
+          "name": "stubInk",
+          "type": "string",
+          "defaultValue": "\"oklch(from var(--accent-bright) 0.34 0.09 h)\"",
+          "description": "Ink for the stub's face, chosen to read on the stub's pigment."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "defaultValue": "\"md\"",
+          "description": "The ticket's height (112, 132 or 152px), notch size and padding; it is w-full up to 520px."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play a paper tick at every bridge that gives and a snap when the stub comes free; only in answer to a drag or key."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Disables the handle."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the root."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the tear handle is a real <button> named `label` and described by how to use it; Enter or Space tears the whole seam in one motion. Once torn it stays focusable, aria-disabled and named `confirmedLabel`, and a polite live region says \"Stub torn off. Confirmed.\".",
+        "Pointer: drag down the perforation band (touch-action: pan-x, so the page still scrolls sideways); a tap opens the seam a little and lets it close, as a hint. Pointer capture is only taken once the drag has started.",
+        "Reduced motion: the seam still opens with the finger (how far it has torn is information) with a hairline gap instead of a swinging flap; a release short of the end closes it at once, and completing fades the stub out and the confirmation in.",
+        "Performance: DOM plus a small SVG on the seam. The clip paths, the flap's transform and shadow and the torn edges are written from one paint per frame on motion's frame loop, only while the tear moves; the ragged line is computed once per size and hole spacing. The first frame is server-rendered.",
+        "Theming: the body uses `paper` (the card token by default) and inherits the text colour; the stub is a pigment with its own ink so it looks like the same printed ticket on light and dark pages."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/stub-tear",
+      "registryItemUrl": "https://www.kinetiqui.com/r/stub-tear.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/stub-tear",
+        "npm": "npx shadcn@latest add @kinetiq/stub-tear",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/stub-tear",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/stub-tear",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/stub-tear.json"
+      }
+    },
+    {
+      "slug": "turnover-card",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Turnover Card",
+      "serial": "KQ-1487",
+      "tagline": "A card you flip with your thumb.",
+      "description": "A two-sided card you turn over by hand: dragged, it rotates about its axis 1:1 with the finger in perspective, lifting toward you while its shadow spreads, the half turning away darkening and a band of light sweeping across. On release the throw is projected — past halfway it completes the flip, otherwise it springs back — on a spring of the given stiffness that takes the release velocity and lands with a wobble, and a hard flick can carry it all the way round. It is a toggle button: Space or Enter flips it and the arrow keys flip it in their direction.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "flip",
+        "card",
+        "two-sided",
+        "3d",
+        "rotate",
+        "drag",
+        "perspective"
+      ],
+      "props": [
+        {
+          "name": "front",
+          "type": "ReactNode",
+          "description": "The face that shows first. Keep it free of controls: the card itself is the button."
+        },
+        {
+          "name": "back",
+          "type": "ReactNode",
+          "description": "The face on the other side."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Flip card\"",
+          "description": "The card's accessible name; the visible face describes it."
+        },
+        {
+          "name": "flipped / defaultFlipped",
+          "type": "boolean",
+          "defaultValue": "— / false",
+          "description": "Whether the back is showing. A host change turns the card the short way round."
+        },
+        {
+          "name": "onFlippedChange",
+          "type": "(flipped: boolean) => void",
+          "description": "Fires from the drag, press or key that turned it over, with the side now showing."
+        },
+        {
+          "name": "axis",
+          "type": "\"y\" | \"x\"",
+          "defaultValue": "\"y\"",
+          "description": "Turn about the vertical axis (drag sideways) or the horizontal one (drag up and down); touch-action follows."
+        },
+        {
+          "name": "stiffness",
+          "type": "number",
+          "defaultValue": "360",
+          "description": "The flip spring's stiffness: a lazy turn to a snap."
+        },
+        {
+          "name": "depth",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How deep the perspective is (2400px to 900px), and how far the card lifts and its shadow spreads mid-turn, 0 to 1."
+        },
+        {
+          "name": "wobble",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How much the card wobbles about its face when a flip lands, 0 to 1 (damping ratio 0.9 to 0.55)."
+        },
+        {
+          "name": "threshold",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "Share of a half turn past which a release commits the flip; the throw is projected first."
+        },
+        {
+          "name": "shading",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How strongly the turning face darkens on its receding half and catches the sweeping light, 0 to 1."
+        },
+        {
+          "name": "tilt",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "A mouse over the card tilts it a few degrees toward the pointer on springs.glide."
+        },
+        {
+          "name": "radius",
+          "type": "number",
+          "defaultValue": "16",
+          "description": "Corner radius of the card, px."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "defaultValue": "\"md\"",
+          "description": "The box's max width (260, 300 or 340px); the card is 86% of it at 8:5, the rest is room for the lift."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play a swish on every committed turn, pitched by the flip's speed and panned by where the card is."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Holds the card still and takes it out of the tab order."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the root box."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the card is a focusable role=\"button\" with aria-pressed (pressed = back showing), named by `label` and described by the visible face. Enter flips it on press, Space on release (as a native button), and Left/Right (or Up/Down for axis=\"x\") flip it in that direction. The hidden face is aria-hidden and inert.",
+        "Pointer: drag along the axis to turn it 1:1 (touch-action pan-y for the y axis, pan-x for x, so the page still scrolls the other way); a tap flips it. Pointer capture is only taken once the drag starts.",
+        "Reduced motion: no rotation, lift, tilt or wobble — the faces crossfade on a short tween, and a drag past the threshold crossfades on release.",
+        "Performance: CSS 3D transforms from motion values; the shading, sheen and shadow are derived with useTransform. Nothing runs at rest, and the angle is folded back to 0 or 180 after each landing.",
+        "The box reserves room around the card (it is 86% of the width) so the lift and the perspective of a full turn stay inside the component's own box."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/turnover-card",
+      "registryItemUrl": "https://www.kinetiqui.com/r/turnover-card.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/turnover-card",
+        "npm": "npx shadcn@latest add @kinetiq/turnover-card",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/turnover-card",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/turnover-card",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/turnover-card.json"
+      }
+    },
+    {
+      "slug": "branch-out",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Branch Out",
+      "serial": "KQ-1488",
+      "tagline": "A menu that grows its options like branches.",
+      "description": "A menu that grows its options like branches: opening grows a short stem out of the trigger, then a branch per option draws along a curve whose bend you set, nearest the centre line first and staggered, and as each arrives a bud swells at its end and the option opens out of it on springs.snap. Hovering or focusing an option thickens and tints its branch and grows a leaf at its middle, and closing retracts everything in reverse on the exit ease. It is a real menu button: arrows move a roving focus, Home and End jump, letters type ahead, Enter or Space chooses and Escape closes and returns focus to the trigger.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "menu",
+        "branches",
+        "radial",
+        "fab",
+        "insert",
+        "options",
+        "tree"
+      ],
+      "props": [
+        {
+          "name": "items",
+          "type": "{ id: string; label: string; icon?: ReactNode; hint?: string; disabled?: boolean }[]",
+          "description": "The options, top to bottom; disabled ones are aria-disabled and skipped by the arrow keys."
+        },
+        {
+          "name": "onSelect",
+          "type": "(id: string) => void",
+          "description": "Called with the chosen option's id."
+        },
+        {
+          "name": "open / defaultOpen",
+          "type": "boolean",
+          "defaultValue": "— / false",
+          "description": "Whether the menu is open, controlled or uncontrolled."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "description": "Fires from the press, key or outside click that opened or closed it."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Add\"",
+          "description": "The trigger's accessible name and the menu's; also shown beside the trigger while closed."
+        },
+        {
+          "name": "icon",
+          "type": "ReactNode",
+          "defaultValue": "a plus",
+          "description": "The trigger's icon; it turns 45° on springs.snap while open."
+        },
+        {
+          "name": "side",
+          "type": "\"right\" | \"left\"",
+          "defaultValue": "\"right\"",
+          "description": "Which way the branches grow from the trigger."
+        },
+        {
+          "name": "spread",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How wide the fan opens, 0 to 1: the options' spacing and the radius of the arc they sit on."
+        },
+        {
+          "name": "curve",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How the branches bend, 0 to 1: straight twigs to S-shaped tendrils."
+        },
+        {
+          "name": "stagger",
+          "type": "number",
+          "defaultValue": "60",
+          "description": "Time between one branch and the next as they grow, in ms; capped so the whole growth stays near 600ms."
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "The trigger's fill and the colour a branch, bud and leaf take when their option is hot; any CSS colour."
+        },
+        {
+          "name": "branchColor",
+          "type": "string",
+          "defaultValue": "\"var(--hairline-strong)\"",
+          "description": "The branches and buds at rest; any CSS colour."
+        },
+        {
+          "name": "closeOnSelect",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Close the menu (and return focus to the trigger) after an option is chosen."
+        },
+        {
+          "name": "showLabel",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Show `label` beside the trigger while closed; it gives way as the branches grow."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "defaultValue": "\"md\"",
+          "description": "Max width (280, 320 or 360px), trigger and option height."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play a pop as each option buds (rising in pitch), a tick as focus moves and a lower tick on choose and close; only in answer to a press or key."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Disables the trigger."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the root box, whose height follows the item count and spread."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the trigger is a <button> with aria-haspopup=\"menu\", aria-expanded and aria-controls. Enter, Space or ArrowDown opens it with the first option focused, ArrowUp with the last. In the menu, Up/Down move a roving tabindex, Home/End jump, typed letters jump to the next match, Enter/Space choose, Escape closes and returns focus to the trigger (preventDefault), and Tab closes and lets focus move on. Focus moves to an option only after the open menu has committed.",
+        "While closed the menu stays mounted for its exit animation but is inert and aria-hidden, so nothing in it can be focused or read.",
+        "Reduced motion: the branches appear whole and the options fade in together; closing fades them out. The trigger's icon swaps without turning.",
+        "Performance: the branch geometry is computed once per item count, spread and curve, with no measurement — the option labels truncate (and are titled) in whatever width is left. Branches draw with motion's pathLength; nothing runs at rest.",
+        "The component's box is the size of the open menu (its height follows the item count), so the branches never draw outside it; place it where that space is free."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/branch-out",
+      "registryItemUrl": "https://www.kinetiqui.com/r/branch-out.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/branch-out",
+        "npm": "npx shadcn@latest add @kinetiq/branch-out",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/branch-out",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/branch-out",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/branch-out.json"
+      }
+    },
+    {
+      "slug": "folder-fan",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Folder Fan",
+      "serial": "KQ-1489",
+      "tagline": "Papers lift out of the folder to say hello.",
+      "description": "A folder that fans its papers out to say hello: hovering or focusing it lifts the papers out, each rising and tilting about its foot by a seeded share of the fan angle with a soft shadow, front paper first on springs.snap. Opening it swings the front flap down about its hinge in perspective on springs.snap and sends the papers out into a list beside it — each gliding from its fan pose to its row on springs.glide, unrotating and widening into a row with the document's name, in a cascade — and choosing a row folds the list back into the folder with the chosen paper left peeking out of the top. The folder is a button that opens a listbox: Enter, Space or ArrowDown open it, arrows move, Enter or Space chooses and Escape closes.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "folder",
+        "files",
+        "documents",
+        "listbox",
+        "picker",
+        "fan",
+        "papers"
+      ],
+      "props": [
+        {
+          "name": "items",
+          "type": "{ id: string; label: string; meta?: string }[]",
+          "description": "The documents in the folder, first on top; the first `sheets` of them are shown."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string | null",
+          "defaultValue": "— / null",
+          "description": "The chosen document's id, controlled or uncontrolled. The chosen paper peeks out of the closed folder."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(id: string) => void",
+          "description": "Fires from the click or key that chose a document."
+        },
+        {
+          "name": "open / defaultOpen",
+          "type": "boolean",
+          "defaultValue": "— / false",
+          "description": "Whether the folder is open, controlled or uncontrolled."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "description": "Fires from the press, key, choice or outside click that opened or closed it."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Documents\"",
+          "description": "The folder's name, shown beside it, and its accessible name (with the chosen document)."
+        },
+        {
+          "name": "sheets",
+          "type": "number",
+          "defaultValue": "4",
+          "description": "How many papers it holds — the first `sheets` items — 1 to 8."
+        },
+        {
+          "name": "fan",
+          "type": "number",
+          "defaultValue": "24",
+          "description": "The fan's total spread when the papers lift, in degrees."
+        },
+        {
+          "name": "lift",
+          "type": "number",
+          "defaultValue": "18",
+          "description": "How far the papers rise out of the folder on hover and focus, in px."
+        },
+        {
+          "name": "color",
+          "type": "\"manila\" | \"sky\" | \"sage\" | \"clay\" | string",
+          "defaultValue": "\"manila\"",
+          "description": "The folder's stock: a named pigment at fixed lightness, or any CSS colour."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "defaultValue": "\"md\"",
+          "description": "Max width (280, 320 or 360px), folder and row size."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play a paper slide per sheet as the list spreads, a crisper one on choose and a soft one on close; only in answer to a press or key."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Disables the folder: no fan, no list."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the root, whose height glides between the closed folder and the open list."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the folder is a <button> with aria-haspopup=\"listbox\", aria-expanded and aria-controls, named by `label` and the chosen document. Enter, Space or ArrowDown opens it and focus moves to the listbox once it has committed; Up/Down move the active option (aria-activedescendant), Home/End jump, Enter or Space chooses and returns focus to the folder, Escape closes and returns focus (preventDefault), Tab closes and lets focus move on.",
+        "Focusing the folder fans the papers just as hovering does, so keyboard visitors get the same hello; a press outside closes the list without moving focus.",
+        "Reduced motion: the fan is an instant pose, the flap does not swing, and the list appears in place of the papers with a short crossfade; the root's height changes without gliding.",
+        "Performance: DOM only — up to eight absolutely positioned papers driven by motion springs, and a ResizeObserver for the rows' width. Nothing runs at rest.",
+        "The folder stock is a pigment at fixed lightness, so it reads as the same folder in light and dark themes; the papers and rows use the card token."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/folder-fan",
+      "registryItemUrl": "https://www.kinetiqui.com/r/folder-fan.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/folder-fan",
+        "npm": "npx shadcn@latest add @kinetiq/folder-fan",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/folder-fan",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/folder-fan",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/folder-fan.json"
+      }
+    },
+    {
+      "slug": "crop-marks",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Crop Marks",
+      "serial": "KQ-1490",
+      "tagline": "A frame you draw, nudge and settle.",
+      "description": "A selection frame laid out like a print sheet: drag on the picture to draw a frame from the press point, inside it to move it, or on a corner or edge to resize it, with printer's crop marks off each corner, the picture dimmed outside and Shift keeping the aspect. The hand is never pulled — snap lines within reach only light up — and on release the frame settles onto them on springs.snap while the marks, stretched while held, draw back in on the same spring and each caught line flashes with a tick; aspect changes glide on springs.glide. The frame is a focusable group: arrow keys move it, Shift with an arrow resizes it, Alt moves ten steps, Home centres it, and a key that would cross a snap line stops on it first.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "crop",
+        "frame",
+        "selection",
+        "snap",
+        "aspect ratio",
+        "image editor",
+        "marquee"
+      ],
+      "props": [
+        {
+          "name": "value / defaultValue",
+          "type": "{ x: number; y: number; width: number; height: number }",
+          "defaultValue": "— / { x: 0.15, y: 0.15, width: 0.7, height: 0.7 }",
+          "description": "The frame as fractions (0 to 1) of the picture, controlled or uncontrolled."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: CropRect, size: { width: number; height: number }) => void",
+          "description": "Fires with the settled frame from the release, key or aspect change that set it (not on every move of a drag), and its size in source units."
+        },
+        {
+          "name": "aspect",
+          "type": "\"free\" | \"1:1\" | \"4:3\" | \"3:2\" | \"16:9\" | number",
+          "defaultValue": "\"free\"",
+          "description": "A locked width ÷ height; the frame glides to it about its centre. Shift locks the current ratio for one drag."
+        },
+        {
+          "name": "snap",
+          "type": "number",
+          "defaultValue": "10",
+          "description": "The magnet's reach in px: edges released this close to a snap line settle onto it. 0 turns snapping off."
+        },
+        {
+          "name": "grid",
+          "type": "\"thirds\" | \"golden\" | \"quarters\" | \"none\"",
+          "defaultValue": "\"thirds\"",
+          "description": "The lines it snaps to besides the picture's edges and centre, ticked in the margin."
+        },
+        {
+          "name": "step",
+          "type": "number",
+          "defaultValue": "0.01",
+          "description": "One arrow key's move or resize, as a fraction of the picture; Alt moves ten."
+        },
+        {
+          "name": "minSize",
+          "type": "number",
+          "defaultValue": "24",
+          "description": "The smallest frame a release leaves, in px."
+        },
+        {
+          "name": "dim",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How dark the picture is outside the frame, 0 to 1."
+        },
+        {
+          "name": "sourceSize",
+          "type": "{ width: number; height: number }",
+          "defaultValue": "the picture's own pixels",
+          "description": "The source's size in pixels, for the W × H readout and the size `onValueChange` reports. Give the picture area the source's aspect so the two agree."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Crop frame\"",
+          "description": "The frame's accessible name."
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "description": "The crop marks' colour. By default they are white blended by difference, so they read on any picture in both themes."
+        },
+        {
+          "name": "guideColor",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "The snap guides' colour."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "defaultValue": "\"md\"",
+          "description": "Mark length (8, 12 or 16px) and the sheet's margin."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Tick as the frame settles on a line, on keyboard detents, and faintly as a guide lights mid-drag."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "No drawing, moving or keys; the frame leaves the tab order."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "defaultValue": "\"h-[220px] w-full\"",
+          "description": "Sizes the sheet."
+        },
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "description": "The picture, filling the area inside the margin."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the frame is one tab stop (role=\"group\", aria-roledescription=\"crop frame\"). Arrows move it by `step`, Shift+arrows move the right or bottom edge, Alt multiplies by ten, Home centres it; a key that would cross a snap line stops on it first. Escape during a drag cancels it (preventDefault). The settled frame is spoken once per change through a polite status.",
+        "Pointer: a press outside the frame draws a new one, inside moves it, near a corner or edge resizes; Shift keeps the aspect and Alt works from the centre, read live while you drag. The picture area is touch-action: none, so a touch drag on it never scrolls the page.",
+        "Reduced motion: drawing and moving stay 1:1, the frame lands on its lines at once with no spring, the marks do not stretch, and the guides appear and fade on a short opacity tween.",
+        "Performance: DOM only — four motion values carry the rect as percentages and the dim is one spread shadow clipped by the picture. A ResizeObserver reads the picture's size; nothing runs at rest.",
+        "Theming: the marks use a difference blend inside an isolated sheet, so they invert against whatever is under them — the dimmed photo or the sheet's margin — in light and dark alike. Pass `color` to draw them in a plain colour instead."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/crop-marks",
+      "registryItemUrl": "https://www.kinetiqui.com/r/crop-marks.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/crop-marks",
+        "npm": "npx shadcn@latest add @kinetiq/crop-marks",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/crop-marks",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/crop-marks",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/crop-marks.json"
+      }
+    },
+    {
+      "slug": "think-thread",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Think Thread",
+      "serial": "KQ-1491",
+      "tagline": "A thought drawn as a wandering line.",
+      "description": "A thinking indicator drawn by an invisible pencil: a single fine line travels a small box, curls into loops, turns hairpins and doubles back, with only its last stretch kept and fading toward the tail. When thinking ends the stroke is pulled taut — every point travels to its place on a straight line, pencil end first, on springs.glide — the straightened line rings once like a plucked string on springs.recoil, and the status word fades in at its end on springs.snap. It needs no keys: the state is spoken politely when thinking starts and when it ends.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "thinking",
+        "loading",
+        "indicator",
+        "assistant",
+        "agent",
+        "pencil",
+        "status"
+      ],
+      "props": [
+        {
+          "name": "thinking",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Whether it is thinking. Turning false pulls the line taut and shows `doneLabel`; turning true sets the pencil off again from the line's end."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Thinking\"",
+          "description": "The state while thinking, spoken politely when thinking starts."
+        },
+        {
+          "name": "doneLabel",
+          "type": "string",
+          "defaultValue": "\"Done\"",
+          "description": "The status word that fades in once the line is straight, and is spoken."
+        },
+        {
+          "name": "pace",
+          "type": "number",
+          "defaultValue": "1",
+          "description": "How fast the pencil travels, as a multiple of its natural pace."
+        },
+        {
+          "name": "wander",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "0 draws gentle waves; 1 curls into loops and doubles back often."
+        },
+        {
+          "name": "color",
+          "type": "\"ink\" | \"cobalt\" | \"signal\" | \"amber\" | string",
+          "defaultValue": "\"ink\"",
+          "description": "The line's colour: a named ink token or any CSS colour."
+        },
+        {
+          "name": "tail",
+          "type": "number",
+          "defaultValue": "140",
+          "description": "How much of the path stays on the page, in px of travel."
+        },
+        {
+          "name": "strokeWidth",
+          "type": "number",
+          "defaultValue": "1.25",
+          "description": "The line's weight, in px."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "defaultValue": "\"md\"",
+          "description": "The box: 96×20, 136×28 or 184×40 px, and the word's size."
+        },
+        {
+          "name": "seed",
+          "type": "number",
+          "defaultValue": "7",
+          "description": "Picks the path; the same seed draws the same thought, on the server and in the browser."
+        },
+        {
+          "name": "paused",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Holds the pencil where it is."
+        },
+        {
+          "name": "dpr",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "Caps the canvas's device pixel ratio (never above 2)."
+        },
+        {
+          "name": "onSettled",
+          "type": "() => void",
+          "description": "Fires when the line has gathered and the pluck has rung out."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the root; it is inline and grows to fill a stretched parent."
+        }
+      ],
+      "usageNotes": [
+        "Accessibility: a polite sr-only status speaks `label` when thinking starts and `doneLabel` when it ends — never per frame. The canvas and the still drawing are aria-hidden, and the done word's width is reserved so nothing shifts when it appears.",
+        "Reduced motion: no wandering — a still, seeded scribble (the same simulation run to a fixed point, drawn as SVG) stands in the box and crossfades to the straight line and the word.",
+        "Performance: Canvas 2D with a ring buffer of typed arrays and no per-frame allocation; the backing store is DPR-capped and sized by a ResizeObserver. The loop runs only while thinking or gathering, on screen and on a visible page, and stops once the line is at rest.",
+        "Server rendering: the server sends the seeded still frame (coordinates rounded), which is exactly the canvas's first frame, so the hand-off is seamless and hydration matches.",
+        "Theming: named colours are ink tokens for strokes; the colour is resolved on the component's own node and re-read when it changes, so a theme flip repaints the line."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/think-thread",
+      "registryItemUrl": "https://www.kinetiqui.com/r/think-thread.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/think-thread",
+        "npm": "npx shadcn@latest add @kinetiq/think-thread",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/think-thread",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/think-thread",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/think-thread.json"
+      }
+    },
+    {
+      "slug": "talk-pill",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Talk Pill",
+      "serial": "KQ-1492",
+      "tagline": "Hold to speak, slide away to cancel.",
+      "description": "A voice input pill for a composer: pressing it grows the capsule leftward over the row on springs.snap into a recording pill with a breathing dot, a timer, a scrolling waveform tape and a fuse toward the longest take. Sliding left squeezes it under the finger 1:1 — the tape crowds and flattens and the pill blends toward danger until a detent at the cancel line — and a release there snaps it shut to a circle that pops away, while a shorter one springs back out with the throw's velocity on springs.snap; letting go of a hold sends the take with a small lift. It is a toggle button: Space or Enter starts and sends, Escape cancels, and a quick tap starts hands-free recording.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "voice",
+        "record",
+        "microphone",
+        "hold to talk",
+        "waveform",
+        "composer",
+        "chat"
+      ],
+      "props": [
+        {
+          "name": "onSend",
+          "type": "(take: { duration: number; levels: number[] }) => void",
+          "description": "A take was sent — by letting go of a hold, a second tap, Space or Enter, or the clock running out — with its length in ms and 32 levels."
+        },
+        {
+          "name": "onCancel",
+          "type": "() => void",
+          "description": "A take was thrown away: squeezed past `cancel`, or Escape."
+        },
+        {
+          "name": "onRecordingChange",
+          "type": "(recording: boolean) => void",
+          "description": "Recording started (true) or ended (false)."
+        },
+        {
+          "name": "bars",
+          "type": "number",
+          "defaultValue": "24",
+          "description": "How many bars the waveform tape shows."
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "defaultValue": "30",
+          "description": "The longest take, in seconds; the fuse fills toward it and the take sends itself there."
+        },
+        {
+          "name": "cancel",
+          "type": "number",
+          "defaultValue": "96",
+          "description": "How far left the pill must be squeezed to cancel, in px."
+        },
+        {
+          "name": "level",
+          "type": "number",
+          "description": "The live input level, 0 to 1. Without it the tape shows a seeded, simulated voice."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Hold to talk\"",
+          "description": "The idle pill's text and the button's accessible name."
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "defaultValue": "\"Slide to cancel\"",
+          "description": "The slide hint while recording."
+        },
+        {
+          "name": "releaseLabel",
+          "type": "string",
+          "defaultValue": "\"Release to cancel\"",
+          "description": "What the hint becomes once a release would cancel."
+        },
+        {
+          "name": "holdThreshold",
+          "type": "number",
+          "defaultValue": "250",
+          "description": "A press shorter than this, in ms, starts hands-free recording instead of a hold."
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "The tape's colour."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "defaultValue": "\"md\"",
+          "description": "36, 44 or 52px tall."
+        },
+        {
+          "name": "seed",
+          "type": "number",
+          "defaultValue": "3",
+          "description": "Seeds the simulated voice."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "A click as it starts and sends, a detent at the cancel line and a swish on cancel; only in answer to the visitor."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Disables the pill; a take in progress is thrown away."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the row."
+        },
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "description": "The rest of the row — a text field — which the recording pill covers (it is inert while recording)."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the pill is a <button> with aria-pressed. Space or Enter (a click with no pointer behind it) starts recording and presses again to send; Escape cancels (preventDefault). \"Recording\", \"Sent, 4 seconds\" and \"Cancelled\" are each spoken once through a polite status.",
+        "Pointer: pressing starts recording at once and letting go sends; a press shorter than `holdThreshold` stays recording hands-free until a second tap. The pill is touch-action: pan-y, so a horizontal squeeze never scrolls the page; a flick whose projected throw passes `cancel` cancels too.",
+        "No microphone is read: pass `level` from your own audio analyser (0 to 1, per frame or so). The take's `levels` are peaks resampled to 32 values for drawing a voice-note bubble.",
+        "Reduced motion: the pill swaps width on a short tween, the tape updates in place without scrolling, and a slide still cancels past the line — the tint, label and × change while the pill stays put.",
+        "Performance: one rAF loop only while recording and on screen; the tape is a fixed set of bars written directly each frame, and the timer re-renders once a second. A hold is thrown away if the window loses focus or the page is hidden."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/talk-pill",
+      "registryItemUrl": "https://www.kinetiqui.com/r/talk-pill.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/talk-pill",
+        "npm": "npx shadcn@latest add @kinetiq/talk-pill",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/talk-pill",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/talk-pill",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/talk-pill.json"
+      }
+    },
+    {
+      "slug": "tank-level",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Tank Level",
+      "serial": "KQ-1493",
+      "tagline": "A gauge whose liquid sloshes into place.",
+      "description": "A value gauge drawn as a sight-glass tank whose surface is a real damped wave: a change moves the level on springs.glide (or 1:1 under a drag), the level's acceleration leans the surface toward the inlet as it fills, and when it stops the lean is let go into a slosh that rocks across the tank and dies away at the set damping. A rise also releases seeded bubbles from the floor that wobble up and pop at the surface with a ring and a ripple in the wave. It is a vertical slider: arrows move a step, Page keys ten, Home and End go to the ends, and a drag puts the surface under the finger.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "gauge",
+        "slider",
+        "level",
+        "tank",
+        "liquid",
+        "meter",
+        "capacity"
+      ],
+      "props": [
+        {
+          "name": "value / defaultValue",
+          "type": "number",
+          "defaultValue": "— / 40",
+          "description": "The value, controlled or uncontrolled."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: number) => void",
+          "description": "Fires from the drag or key that changed it, with the new value — once per step, not per frame."
+        },
+        {
+          "name": "min",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "The bottom of the range."
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "defaultValue": "100",
+          "description": "The top of the range."
+        },
+        {
+          "name": "step",
+          "type": "number",
+          "defaultValue": "1",
+          "description": "The value's resolution and one arrow key's change."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "What the tank holds: the slider's accessible name, shown over the reading."
+        },
+        {
+          "name": "format",
+          "type": "(value: number, min: number, max: number) => string",
+          "defaultValue": "a percentage of the range",
+          "description": "The reading and the spoken value; when given, the range's top is shown under the reading too."
+        },
+        {
+          "name": "damping",
+          "type": "number",
+          "defaultValue": "0.4",
+          "description": "0 rocks long after a change; 1 calms almost at once."
+        },
+        {
+          "name": "waves",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How high the slosh runs, 0 to 1. 0 keeps the surface flat."
+        },
+        {
+          "name": "color",
+          "type": "\"water\" | \"amber\" | \"algae\" | \"berry\" | string",
+          "defaultValue": "\"water\"",
+          "description": "The liquid: a named pigment (a token's hue and chroma at a fixed lightness) or any CSS colour."
+        },
+        {
+          "name": "bubbles",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Release bubbles from the floor as the level rises."
+        },
+        {
+          "name": "ticks",
+          "type": "number",
+          "defaultValue": "10",
+          "description": "Graduations up the side."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "defaultValue": "\"md\"",
+          "description": "The tank: 72×148, 92×184 or 112×220 px."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "A pour while a drag fills it, pitched by the level, and a plip as each bubble the visitor caused pops."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "No drag or keys; the tank leaves the tab order."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the row holding the tank and its reading."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the tank is role=\"slider\" with aria-orientation=\"vertical\" and aria-valuetext from `format`. Arrows move a step, PageUp and PageDown ten percent of the range, Home and End the ends — each sloshes and bubbles exactly as a drag does.",
+        "Pointer: a drag puts the surface under the finger and follows it 1:1 (rubber-banded a little past empty and full) and settles to the step on the glide spring with the release velocity; a tap sets the level where you tapped. The tank is touch-action: none.",
+        "Host changes slosh and bubble too, silently: sound only answers the visitor.",
+        "Reduced motion: the level moves on a short tween with a flat surface and no bubbles; a drag is still 1:1.",
+        "Performance: 28 wave columns sub-stepped at 240 Hz in typed arrays, drawn straight to the SVG nodes — React never renders per frame. The loop runs only while the surface has energy, bubbles are alive, the level is moving or a drag is live, on screen and on a visible page, and stops when calm.",
+        "Theming: named liquids are pigments at a fixed lightness, so the tank reads the same in light and dark; the glass, graduations and reading use surface and ink tokens."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/tank-level",
+      "registryItemUrl": "https://www.kinetiqui.com/r/tank-level.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/tank-level",
+        "npm": "npx shadcn@latest add @kinetiq/tank-level",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/tank-level",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/tank-level",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/tank-level.json"
+      }
+    },
+    {
+      "slug": "ask-bar",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Ask Bar",
+      "serial": "KQ-1494",
+      "tagline": "A prompt field that grows into its answer.",
+      "description": "A compact prompt input that becomes the turn it starts: typing grows the field on springs.glide up to `rows` lines, the empty placeholder rolls through its lines on springs.snap, attachments drop in as chips with a bounce on springs.recoil, and while the host is busy the round send arrow morphs into a stop square on springs.snap with a thin arc orbiting it. Sending lifts the prompt out of the field — a copy set exactly over the text rises to its bubble on springs.snap, its ink and plate changing and lifted off the page as it travels, while the field collapses under it — and the host's answer grows in below on springs.glide. Enter sends, Shift+Enter breaks the line, Escape stops while busy and Backspace in an empty field drops the last chip.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "prompt",
+        "composer",
+        "chat input",
+        "assistant",
+        "textarea",
+        "attachments",
+        "send"
+      ],
+      "props": [
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "defaultValue": "— / \"\"",
+          "description": "The draft, controlled or uncontrolled."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "description": "Fires with the draft as it is typed, and with \"\" when it is sent."
+        },
+        {
+          "name": "onSubmit",
+          "type": "(prompt: string, attachments: AskBarAttachment[]) => void",
+          "description": "A prompt was sent (Enter or the send button), with the attachments it carried."
+        },
+        {
+          "name": "busy",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "The host is answering: the send button becomes a stop button and Enter waits."
+        },
+        {
+          "name": "onStop",
+          "type": "() => void",
+          "description": "The stop button, or Escape while busy."
+        },
+        {
+          "name": "answer",
+          "type": "React.ReactNode",
+          "description": "The host's answer, shown under the asked prompt; its height glides as it grows."
+        },
+        {
+          "name": "attachments",
+          "type": "{ id: string; name: string; meta?: string }[]",
+          "defaultValue": "[]",
+          "description": "Files riding with the next prompt, shown as chips above the text."
+        },
+        {
+          "name": "onAttach",
+          "type": "() => void",
+          "description": "Shows the attach button; the host adds what was attached."
+        },
+        {
+          "name": "onRemoveAttachment",
+          "type": "(id: string) => void",
+          "description": "A chip's remove button, or Backspace in an empty field."
+        },
+        {
+          "name": "placeholders",
+          "type": "string[]",
+          "defaultValue": "[\"Ask anything\"]",
+          "description": "Placeholder lines, rolled through while the field is empty."
+        },
+        {
+          "name": "cycle",
+          "type": "number",
+          "defaultValue": "3",
+          "description": "Seconds between placeholder lines; 0 holds the first."
+        },
+        {
+          "name": "rows",
+          "type": "number",
+          "defaultValue": "5",
+          "description": "How many lines the field grows to before it scrolls."
+        },
+        {
+          "name": "lift",
+          "type": "number",
+          "defaultValue": "12",
+          "description": "How high the prompt rises off the page as it flies to its bubble, in px (its shadow and scale at the top of the flight); 0 slides it flat."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Ask\"",
+          "description": "The field's accessible name."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "defaultValue": "\"md\"",
+          "description": "Type and control size."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "A click on send and stop, and a whoosh as the prompt lifts."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Disables the field and its buttons."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the root column."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: a real <textarea> named by `label`. Enter sends (never mid IME composition, never while busy — the draft waits), Shift+Enter breaks the line, Escape stops while busy (preventDefault), Backspace in an empty field removes the last chip. The send button is never disabled while focused: it is aria-disabled when there is nothing to send and is named Send or Stop.",
+        "The answer area is a polite live region with aria-busy while the host is busy, so a streamed answer is announced once it settles rather than per word. The rolling placeholder is decoration (aria-hidden); the field's name stays stable.",
+        "Reduced motion: nothing travels — the field's height changes at once, the placeholder crossfades, chips fade, the button changes shape on a short fade with the arc standing still, and the prompt fades into its bubble.",
+        "Performance: DOM only. A hidden mirror of the draft is measured by a ResizeObserver; the placeholder timer runs only while the field is empty, unfocused, on screen and on a visible page; the orbit is a CSS rotation that exists only while busy.",
+        "The flying prompt and its bubble share one type and padding, and the bubble only takes over once every part of the flight is home, so the hand-off has no seam."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/ask-bar",
+      "registryItemUrl": "https://www.kinetiqui.com/r/ask-bar.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/ask-bar",
+        "npm": "npx shadcn@latest add @kinetiq/ask-bar",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/ask-bar",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/ask-bar",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/ask-bar.json"
+      }
+    },
+    {
+      "slug": "flick-note",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Flick Note",
+      "serial": "KQ-1495",
+      "tagline": "Notifications you can flick away.",
+      "description": "A toast stack you handle like cards: notes stack with depth, a new one rises in on springs.recoil while the rest step back on springs.glide, and hovering or focusing the stack fans it into a readable column on springs.snap. Any open note follows the finger 1:1 in any direction and turns like a card held off its middle; on release the throw is projected, and past the dismiss distance the note carries on at its own speed and spin out through the region's edge while the stack closes up behind it, otherwise it springs home on springs.snap with the throw's velocity. The stack is a list with one tab stop: arrows move between notes, Enter opens one, Delete dismisses it and Escape dismisses the top note.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "toast",
+        "notification",
+        "stack",
+        "swipe",
+        "dismiss",
+        "flick",
+        "alerts"
+      ],
+      "props": [
+        {
+          "name": "notes",
+          "type": "{ id: string; title: string; body?: string; time?: string; tone?: \"info\" | \"success\" | \"warn\" | \"danger\" }[]",
+          "description": "The notes, newest first. Notes the host removes fade out; new ones arrive on the recoil spring."
+        },
+        {
+          "name": "onDismiss",
+          "type": "(id: string, via: \"flick\" | \"key\" | \"button\") => void",
+          "description": "A note was dismissed, reported at the moment it was let go — remove it from `notes`; its exit keeps playing."
+        },
+        {
+          "name": "onOpen",
+          "type": "(id: string) => void",
+          "description": "A click or Enter on a note."
+        },
+        {
+          "name": "visible",
+          "type": "number",
+          "defaultValue": "3",
+          "description": "How many notes the stack shows."
+        },
+        {
+          "name": "gap",
+          "type": "number",
+          "defaultValue": "8",
+          "description": "Space between fanned notes, in px; the stack's peek at rest follows it."
+        },
+        {
+          "name": "distance",
+          "type": "number",
+          "defaultValue": "120",
+          "description": "How far a throw must carry to dismiss, in px (also how quickly a held note fades)."
+        },
+        {
+          "name": "tilt",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How much a held note turns with the pull, 0 to 1."
+        },
+        {
+          "name": "expand",
+          "type": "\"hover\" | \"always\"",
+          "defaultValue": "\"hover\"",
+          "description": "Fan the stack on hover and focus, or keep it fanned."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Notifications\"",
+          "description": "The region's accessible name."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "defaultValue": "\"md\"",
+          "description": "Note height: 48, 56 or 64px."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "A swish as a note is thrown or keyed away (pitched by speed, panned by direction) and a pop as one seats back."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "No flicks, keys or close buttons."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the region, which is as tall as the fanned stack so nothing jumps on hover."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the region is a labelled <section> with an <ol role=\"list\"> and one tab stop (roving tabindex). Keyboard focus fans the stack; ArrowUp and ArrowDown move between notes, Home and End jump, Enter opens, Delete or Backspace dismisses the focused note and Escape the top one (preventDefault). Focus moves to the note that takes a dismissed one's place.",
+        "Each note's accessible name is one sentence (tone, title, body, time); arrivals are announced politely by title. The close button that appears on hover is for the mouse and is not a tab stop — Delete is its keyboard path.",
+        "Touch: notes are touch-action: none so a flick never scrolls the page; on a touch screen the first tap fans the stack and a tap outside closes it.",
+        "Reduced motion: nothing travels or spins — notes fade in and out where they stand, the fan swaps at once, a held note still follows the finger and a short throw returns without a spring.",
+        "Performance: DOM only, motion values per note, DOM order never changes (new notes are appended and stacked with z-index). Nothing runs at rest."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/flick-note",
+      "registryItemUrl": "https://www.kinetiqui.com/r/flick-note.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/flick-note",
+        "npm": "npx shadcn@latest add @kinetiq/flick-note",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/flick-note",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/flick-note",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/flick-note.json"
+      }
+    },
+    {
+      "slug": "slingshot",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Slingshot",
+      "serial": "KQ-1496",
+      "tagline": "Pull back to launch.",
+      "description": "An action button held in an elastic band between the two pegs of a fork: pulling it back follows the hand 1:1 while the band's strands wrap its back in a pouch, thin and warm with the stretch, and a faint aim line reaches to the target, whose ring pops on springs.snap once the draw passes the threshold. Let go armed and the band fires the button home on a stiff underdamped spring that carries the release velocity; the frame it passes rest the icon leaves, flies along the aim line and settles into the target with two bounces, while a short pull just springs back on springs.snap. Enter launches with a full draw on springs.glide, Space held draws and fires on release, and Escape cancels a draw.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "slingshot",
+        "launch",
+        "action button",
+        "pull",
+        "elastic",
+        "deploy",
+        "send"
+      ],
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Launch\"",
+          "description": "The button's text and accessible name."
+        },
+        {
+          "name": "launchedLabel",
+          "type": "string",
+          "defaultValue": "label",
+          "description": "The text while launched; both labels share one cell, so the button's width never changes."
+        },
+        {
+          "name": "icon",
+          "type": "ReactNode",
+          "defaultValue": "a horizontal paper plane",
+          "description": "The projectile: what flies out of the button into the target."
+        },
+        {
+          "name": "launched / defaultLaunched",
+          "type": "boolean",
+          "defaultValue": "— / false",
+          "description": "Whether the shot is out, controlled or uncontrolled. Controlled, the icon waits in its target until the host sets it false."
+        },
+        {
+          "name": "onLaunchedChange",
+          "type": "(launched: boolean) => void",
+          "description": "Fires from the release or key that launched it, and from the uncontrolled reload."
+        },
+        {
+          "name": "onLaunch",
+          "type": "() => void",
+          "description": "Fires once per launch, at the moment of release."
+        },
+        {
+          "name": "resetAfter",
+          "type": "number",
+          "defaultValue": "1400",
+          "description": "Uncontrolled: how long the icon stays out before the slingshot reloads, in ms; 0 keeps it out."
+        },
+        {
+          "name": "tension",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "The band's stiffness, 0 to 1: thicker at rest, harder to draw past the limit, faster to fire."
+        },
+        {
+          "name": "pull",
+          "type": "number",
+          "defaultValue": "72",
+          "description": "The longest draw in px; past it the band rubber-bands. A narrow box shortens it so the lane ahead keeps room."
+        },
+        {
+          "name": "distance",
+          "type": "number",
+          "defaultValue": "140",
+          "description": "How far the icon flies to its target in px, clamped to the room ahead."
+        },
+        {
+          "name": "threshold",
+          "type": "number",
+          "defaultValue": "0.35",
+          "description": "The share of the full draw that arms a launch; a shorter pull springs back."
+        },
+        {
+          "name": "aim",
+          "type": "number",
+          "defaultValue": "14",
+          "description": "How far a shot can be angled up or down by pulling the other way, in degrees; 0 keeps it level."
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "The projectile, the aim line and the target; any CSS colour."
+        },
+        {
+          "name": "bandColor",
+          "type": "string",
+          "defaultValue": "\"var(--ink-3)\"",
+          "description": "The band at rest; any CSS colour."
+        },
+        {
+          "name": "tautColor",
+          "type": "string",
+          "defaultValue": "\"var(--warn)\"",
+          "description": "The band at full stretch, mixed in oklab as it is drawn; any CSS colour."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "defaultValue": "\"md\"",
+          "description": "Button height (32, 40 or 48px) and the rig's height (112, 132 or 152px)."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play the band's twang on release (pitch and level by the draw) and a whoosh as the icon leaves; only ever in answer to a drag or key."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Disables the drag and the keys; the button stays in the tab order as aria-disabled."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the root, which fills its width and centres the rig."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the button is a real <button> described by a hint. Enter launches with a full draw; Space held draws the band back and fires on release if it passed the threshold; Escape during a draw cancels it (handled and prevented); a click from assistive technology launches. While launched it stays focusable with aria-disabled, and a polite live region says when it is out and when it is ready again.",
+        "Reduced motion: the drag still follows the hand, but release returns the button on a short tween, and the icon fades out of the button and into the target instead of flying; the ring still fills and the label still changes.",
+        "Controlled use: set launched from onLaunchedChange and back to false when the work is done (a deploy, a send). A host that never takes the launch still sees the shot land, then the slingshot reloads.",
+        "Performance: every per-frame number is a motion value; the band and aim are redrawn only while the button moves. Two ResizeObservers lay out the rig; nothing runs at rest.",
+        "Layout: the rig fills its width and centres itself; the draw room and the flight are clamped to the width, so it works from 258px up. Height is fixed by size."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/slingshot",
+      "registryItemUrl": "https://www.kinetiqui.com/r/slingshot.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/slingshot",
+        "npm": "npx shadcn@latest add @kinetiq/slingshot",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/slingshot",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/slingshot",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/slingshot.json"
+      }
+    },
+    {
+      "slug": "chime-bell",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Chime Bell",
+      "serial": "KQ-1497",
+      "tagline": "A bell that rings on, and rests off.",
+      "description": "A notifications toggle drawn as a hand bell with a real pendulum inside: turning it on kicks the bell about its crown, and the bell and its clapper — two damped pendulums with different periods, integrated at 240 Hz — swing out of step, so the rim catches the clapper at the extremes in genuine collisions, each heard as a chime as loud as the impact, until the damping settles both to rest and the loop stops. Turning it off catches the bell on springs.snap, greys it in oklab and straps it still with a belt and a buckle that pops on springs.snap, two crossed straps, or tape over the mouth. It is a real toggle button with aria-pressed, so Space and Enter ring it or mute it.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "bell",
+        "notifications",
+        "toggle",
+        "mute",
+        "pendulum",
+        "chime",
+        "subscribe"
+      ],
+      "props": [
+        {
+          "name": "pressed / defaultPressed",
+          "type": "boolean",
+          "defaultValue": "— / false",
+          "description": "Whether notifications are on, controlled or uncontrolled."
+        },
+        {
+          "name": "onPressedChange",
+          "type": "(pressed: boolean) => void",
+          "description": "Fires from the press or key that changed it, with the new state."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Notifications\"",
+          "description": "What the bell turns on: its accessible name and the first line under it."
+        },
+        {
+          "name": "onLabel",
+          "type": "string",
+          "defaultValue": "\"On\"",
+          "description": "The state line while on; it shares a cell with offLabel so the width never changes."
+        },
+        {
+          "name": "offLabel",
+          "type": "string",
+          "defaultValue": "\"Muted\"",
+          "description": "The state line while off."
+        },
+        {
+          "name": "hideLabel",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Keep the label and state line for assistive technology only, leaving just the bell."
+        },
+        {
+          "name": "swing",
+          "type": "number",
+          "defaultValue": "40",
+          "description": "How hard turning on kicks the bell: roughly its first swing in degrees. Below about 18° the clapper never reaches the rim."
+        },
+        {
+          "name": "damping",
+          "type": "number",
+          "defaultValue": "0.4",
+          "description": "How fast the swing dies, 0 to 1: 0 rings for several strikes, 1 strikes once and settles."
+        },
+        {
+          "name": "strap",
+          "type": "\"belt\" | \"cross\" | \"tape\"",
+          "defaultValue": "\"belt\"",
+          "description": "How the bell is held while off: a belt round the waist with a buckle, two crossed straps with a rivet, or tape over the mouth."
+        },
+        {
+          "name": "count",
+          "type": "number",
+          "description": "Unread count on a badge (99+ past 99). A rise while on rings the bell silently at half swing; while off the bell strains against its strap."
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "defaultValue": "\"oklch(from var(--warn) 0.8 0.12 h)\"",
+          "description": "The bell while on: a brass pigment at fixed lightness, so it reads the same in both themes. Any CSS colour."
+        },
+        {
+          "name": "mutedColor",
+          "type": "string",
+          "defaultValue": "\"oklch(from var(--ink-3) 0.74 0.01 h)\"",
+          "description": "The bell while off, mixed from the on colour in oklab. Any CSS colour."
+        },
+        {
+          "name": "strapColor",
+          "type": "string",
+          "defaultValue": "\"oklch(from var(--warn) 0.5 0.08 h)\"",
+          "description": "The strap's leather; the tape is a pale tint of it. Any CSS colour."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "defaultValue": "\"md\"",
+          "description": "The bell at 40, 56 or 72px in a well of 60, 80 or 100px; a smaller bell rings higher."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play a chime at each strike of the clapper, as loud as the impact and panned to the side it struck. Only rings that a press set going are heard."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Disables the button."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the button."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: a real <button aria-pressed>, named by label (with \", 3 new\" when there is a count). Space and Enter toggle it through the native click; the visible state words are decorative and the pressed state is announced by the button itself.",
+        "Reduced motion: nothing swings or draws. Turning on warms the colour and two sound arcs glow once beside the bell (with one chime if sound is on); turning off fades the strap in whole and greys the bell.",
+        "Sound only answers a press: a host that turns it on, or a count that rises, rings the bell without a sound.",
+        "Performance: the pendulum loop runs only while the bell carries energy, only on screen (IntersectionObserver) and only while the page is visible — otherwise the bell is put straight to rest. Angles are written as transform attributes on two groups, so no React state changes per frame.",
+        "Theming: the bell, its muted state and the strap are pigments at fixed lightness derived from the status tokens, so the brass reads as brass on both a light and a dark page."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/chime-bell",
+      "registryItemUrl": "https://www.kinetiqui.com/r/chime-bell.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/chime-bell",
+        "npm": "npx shadcn@latest add @kinetiq/chime-bell",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/chime-bell",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/chime-bell",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/chime-bell.json"
+      }
+    },
+    {
+      "slug": "line-chip",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Line Chip",
+      "serial": "KQ-1498",
+      "tagline": "A call, from ringing to hung up.",
+      "description": "A call status chip with its actions inside. Ringing, the handset rings in bursts — a quick wiggle, then a rest — while sound arcs ripple out of it one after another and the border pulses, all from one linear cycle that runs only on screen. Answering slides the chip wider on springs.glide toward the measured width of the connected call, the actions riding the moving edge as a live timer and a waveform open beside the caller; hanging up turns the handset down on springs.snap, shakes the chip once and collapses it on glide to the call's duration with Call back inside. Every action is a real button reached with Tab and pressed with Enter or Space, and a polite status says each state once.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "call",
+        "phone",
+        "chip",
+        "ringing",
+        "timer",
+        "status",
+        "voice"
+      ],
+      "props": [
+        {
+          "name": "caller",
+          "type": "string",
+          "description": "Who is on the line: shown in the chip (truncated, titled) and in every spoken sentence."
+        },
+        {
+          "name": "detail",
+          "type": "string",
+          "description": "Replaces the line under the caller while it rings: a number, a team."
+        },
+        {
+          "name": "state / defaultState",
+          "type": "\"ringing\" | \"active\" | \"ended\"",
+          "defaultValue": "— / \"ringing\"",
+          "description": "Where the call is, controlled or uncontrolled."
+        },
+        {
+          "name": "onStateChange",
+          "type": "(state: \"ringing\" | \"active\" | \"ended\") => void",
+          "description": "Fires from the action that moved the call on: Answer, Decline, Cancel, Hang up or Call back."
+        },
+        {
+          "name": "direction",
+          "type": "\"incoming\" | \"outgoing\"",
+          "defaultValue": "\"incoming\"",
+          "description": "Who placed the call: an incoming call offers Answer and Decline, an outgoing one only Cancel."
+        },
+        {
+          "name": "timer",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Seconds already on the call when it connects (picked up elsewhere, or restored); the live timer counts on from here."
+        },
+        {
+          "name": "ripple",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How hard it rings, 0 to 1: how many sound arcs ripple out of the handset (one to three) and how far it wiggles. 0 is a calm pulse."
+        },
+        {
+          "name": "muted / defaultMuted",
+          "type": "boolean",
+          "defaultValue": "— / false",
+          "description": "Whether the microphone is muted, controlled or uncontrolled; muted, the waveform lies flat and greys."
+        },
+        {
+          "name": "onMutedChange",
+          "type": "(muted: boolean) => void",
+          "description": "Fires from the Mute button with the new state."
+        },
+        {
+          "name": "level",
+          "type": "number",
+          "description": "The live audio level, 0 to 1, for the waveform. Without it the waveform plays a seeded voice with phrases and pauses."
+        },
+        {
+          "name": "labels",
+          "type": "Partial<LineChipLabels>",
+          "description": "Every word the chip shows or says (incoming, outgoing, active, ended, declined, cancelled and the six actions), for other languages."
+        },
+        {
+          "name": "ringColor",
+          "type": "string",
+          "defaultValue": "\"var(--success)\"",
+          "description": "Ringing: the pulse, the arcs, the handset and Answer. Any CSS colour."
+        },
+        {
+          "name": "endColor",
+          "type": "string",
+          "defaultValue": "\"var(--danger)\"",
+          "description": "Decline, Cancel, Hang up and the ended handset. Any CSS colour."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "defaultValue": "\"md\"",
+          "description": "Chip height 40, 48 or 56px, with its disc and buttons."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play a click on every action, a rising chime as the call connects and a low one as it ends; only ever in answer to a press."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Disables every action."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the root, which fills its width and centres the chip."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the chip is a role=\"group\" named \"Call with …\"; each action is a real button with a full name (\"Answer call from Mara Lind\"), and Mute carries aria-pressed. The primary action keeps its place across states, so focus stays put from Answer to Hang up to Call back; declining hands focus to Call back as the Decline slot folds away.",
+        "A polite status speaks each state once (\"Incoming call from …\", \"On call with …\", \"Call with … ended after 1 minute 24 seconds\"); the ticking timer is never announced.",
+        "Reduced motion: nothing wiggles, ripples or shakes. The arcs and the border hold still while it rings, the width changes on a short tween, the handset swaps its angle and the waveform shows a still profile; the timer still counts.",
+        "Performance: the ringing cycle, the waveform loop and the timer each run only in their state, only on screen and only while the page is visible; the timer counts from the moment of connect, so it is right as soon as it is seen again. Widths come from one hidden copy of the words, measured by ResizeObserver.",
+        "Layout: the chip takes its natural width for each state, clamped to its container; the caller's name truncates first."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/line-chip",
+      "registryItemUrl": "https://www.kinetiqui.com/r/line-chip.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/line-chip",
+        "npm": "npx shadcn@latest add @kinetiq/line-chip",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/line-chip",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/line-chip",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/line-chip.json"
+      }
+    },
+    {
+      "slug": "verdict-mark",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Verdict Mark",
+      "serial": "KQ-1499",
+      "tagline": "A mark that settles on the outcome.",
+      "description": "A status mark drawn with one two-part stroke: while pending, an arc spins on the ring with its length breathing, and when the state changes that arc, still turning, flows point by point into a check, an exclamation or a cross, head first with its tail following, so the stroke draws itself into the outcome. The check draws on springs.flick, the exclamation's dot drops in on springs.recoil, the cross arrives on springs.snap and shakes once, and the colour moves with it in oklab while the ring turns from a hairline track into a tinted disc. It is a polite status that says each new state once; it takes no keys because it is not a control.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "status",
+        "spinner",
+        "check",
+        "error",
+        "warning",
+        "morph",
+        "loading"
+      ],
+      "props": [
+        {
+          "name": "state",
+          "type": "\"pending\" | \"success\" | \"warning\" | \"error\"",
+          "defaultValue": "\"pending\"",
+          "description": "What the mark says: spinning while pending, then the outcome. Any change flows from what is drawn, even mid-morph."
+        },
+        {
+          "name": "onSettle",
+          "type": "(state: \"success\" | \"warning\" | \"error\") => void",
+          "description": "Fires once an outcome has finished settling: after the flick, the dot's drop or the shake."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\" | \"xl\" | number",
+          "defaultValue": "\"md\"",
+          "description": "20, 32, 48 or 72px, or any number of px; the label's type size follows."
+        },
+        {
+          "name": "stroke",
+          "type": "number",
+          "defaultValue": "3.5",
+          "description": "The stroke's weight in units of the mark's 48-unit box, 1 to 8."
+        },
+        {
+          "name": "labels",
+          "type": "Partial<Record<state, string>>",
+          "defaultValue": "Working, Done, Needs attention, Failed",
+          "description": "The word for each state: the spoken status, and the label when shown."
+        },
+        {
+          "name": "showLabel",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Show the label beside the mark; it rolls to each new word on springs.snap in a cell sized to the longest."
+        },
+        {
+          "name": "colors",
+          "type": "Partial<Record<state, string>>",
+          "defaultValue": "accent, success, warn, danger",
+          "description": "The colour for each state, mixed in oklab as it changes. Any CSS colours."
+        },
+        {
+          "name": "speed",
+          "type": "number",
+          "defaultValue": "1.1",
+          "description": "How fast the pending arc turns, in turns per second; its momentum carries into the gather."
+        },
+        {
+          "name": "ring",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Draw the ring: a hairline track while pending, a tinted ring and disc once settled."
+        },
+        {
+          "name": "shake",
+          "type": "number",
+          "defaultValue": "3",
+          "description": "How far an error shakes, in units of the 48-unit box; 0 for none."
+        },
+        {
+          "name": "minPending",
+          "type": "number",
+          "defaultValue": "400",
+          "description": "The least time the spinner shows, in ms, so a quick result never flashes past it."
+        },
+        {
+          "name": "announce",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Speak each new state politely (role=\"status\"). Off, the mark is role=\"img\" named by its label."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "A tick when it settles well, a lower tick on a warning, a buzz on a failure; never before the page has had a press or a key."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the root, an inline-flex row."
+        }
+      ],
+      "usageNotes": [
+        "Accessibility: the root is role=\"status\" with the current label as screen-reader text, so each state is said once when it is shown (after minPending); the drawing and the rolling visible label are hidden from assistive technology. It is not focusable and takes no keys. With announce off it is a named image instead, for marks that repeat down a list.",
+        "Reduced motion: no spin, flow or shake. Pending is a still arc that breathes in opacity; outcomes cross-fade glyph to glyph, the colour still changes and onSettle still fires.",
+        "Performance: the spin loop runs only while pending, on screen (IntersectionObserver) and in a visible tab; each change is one spring writing two path strings of 18 points, and nothing runs once settled.",
+        "Pair it with the work it reports on: set state from your request's lifecycle and use onSettle to move on (close a dialog, show the next step) once the outcome has landed."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/verdict-mark",
+      "registryItemUrl": "https://www.kinetiqui.com/r/verdict-mark.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/verdict-mark",
+        "npm": "npx shadcn@latest add @kinetiq/verdict-mark",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/verdict-mark",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/verdict-mark",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/verdict-mark.json"
+      }
+    },
+    {
+      "slug": "rail-select",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Rail Select",
+      "serial": "KQ-1500",
+      "tagline": "A select whose highlight rides a rail.",
+      "description": "A select whose open list has a rail down its side with a node per option, like a line on a transit map, and whose highlight is one shape — a wash across the row and a car on the rail — with its top and bottom edges on separate springs: the leading edge leaves on a stiff spring and the trailing edge follows on a softer, later one, so the highlight stretches toward the next stop before its tail catches up. Choosing rolls the trigger's value to the new label on springs.snap, out the way the list moved, while the rail draws down on springs.glide each time the list opens. It is an APG select-only combobox: focus stays on the trigger while arrows, Home, End, Page keys and type-ahead move the highlight, Enter, Space or Tab choose, and Escape closes.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "select",
+        "listbox",
+        "combobox",
+        "dropdown",
+        "picker",
+        "highlight",
+        "rail"
+      ],
+      "props": [
+        {
+          "name": "options",
+          "type": "{ value: string; label: string; hint?: string; disabled?: boolean }[]",
+          "description": "The stops on the rail, top to bottom; a hint sits at the row's end, and disabled options are skipped by every key."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string | null",
+          "defaultValue": "— / null",
+          "description": "The chosen option's value, controlled or uncontrolled."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "description": "Fires from the click or key that chose an option."
+        },
+        {
+          "name": "open / defaultOpen",
+          "type": "boolean",
+          "defaultValue": "— / false",
+          "description": "Whether the list is open, controlled or uncontrolled."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "description": "Fires from the press, key or outside press that opened or closed it."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "What is being chosen: the caption above the trigger and the list's accessible name."
+        },
+        {
+          "name": "hideLabel",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Keep the caption for assistive technology only."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "defaultValue": "\"Choose\"",
+          "description": "The trigger's text before anything is chosen."
+        },
+        {
+          "name": "stretch",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How far the highlight stretches toward the next option before its tail catches up, 0 to 1: the trailing edge's spring softens and lags as it rises."
+        },
+        {
+          "name": "speed",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How quick the ride is, 0 to 1: the leading edge's stiffness, from a heavy car to a light one."
+        },
+        {
+          "name": "width",
+          "type": "number",
+          "defaultValue": "240",
+          "description": "The trigger's and the list's width in px, never wider than the container."
+        },
+        {
+          "name": "side",
+          "type": "\"bottom\" | \"top\"",
+          "defaultValue": "\"bottom\"",
+          "description": "Which way the list opens from the trigger."
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "The car, the wash (mixed at 13% in oklab) and the chosen node. Any CSS colour."
+        },
+        {
+          "name": "railColor",
+          "type": "string",
+          "defaultValue": "\"var(--hairline-strong)\"",
+          "description": "The rail and its nodes. Any CSS colour."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "description": "Submits the value with a form under this name, through a hidden input."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "defaultValue": "\"md\"",
+          "description": "Trigger height 32, 36 or 40px and row height 28, 32 or 36px."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play a tick as the highlight moves, pitched by its place on the rail, and a lower one on a choice."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Disables the trigger and keeps the list shut."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the root column (caption, trigger and list)."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard (APG select-only combobox): focus never leaves the trigger, which carries aria-expanded, aria-controls and aria-activedescendant. Closed, Enter, Space, ArrowDown and ArrowUp open it on the chosen option, Home and End on the first and last, and a letter opens it on the first match. Open, arrows move without wrapping, Home and End jump, Page keys move five, letters type ahead (repeat one letter to cycle), Enter or Space choose, Tab chooses and moves on, and Escape closes without a change (handled and prevented).",
+        "Reduced motion: the highlight jumps instead of riding, the list and rail appear with a short fade, and the value cross-fades in place; ticks still answer each key.",
+        "Layout: the list is positioned under (or over, with side=\"top\") the trigger and overlays what follows; leave room for it inside any clipping container. Labels and hints truncate.",
+        "Performance: the highlight's edges are two motion values; the list stays mounted (hidden when closed) so aria-controls always points at it, and nothing runs at rest."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/rail-select",
+      "registryItemUrl": "https://www.kinetiqui.com/r/rail-select.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/rail-select",
+        "npm": "npx shadcn@latest add @kinetiq/rail-select",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/rail-select",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/rail-select",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/rail-select.json"
+      }
+    },
+    {
+      "slug": "ledger-swipe",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Ledger Swipe",
+      "serial": "KQ-1501",
+      "tagline": "Rows that reveal their actions with a swipe.",
+      "description": "A list of ledger rows with their actions parked underneath: a row follows a sideways drag 1:1 while the tiles on that side are uncovered one after another, each one's icon and label scaling in as its slot comes into view. Past the threshold the primary arms with a snap and springs across the whole uncovered width on springs.snap, its label riding the row's edge; letting go (or a flick whose projected rest gets there) commits it, and the row slides out on the exit ease while its height folds shut on springs.glide and the rows below close the gap. A shorter swipe snaps open to show the tiles on a spring whose bounce is the elastic setting. From the keyboard, each row's Actions button opens a menu of every action, where arrows move, Enter chooses and Escape closes.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "swipe",
+        "list",
+        "row actions",
+        "archive",
+        "ledger",
+        "transactions",
+        "gesture"
+      ],
+      "props": [
+        {
+          "name": "items",
+          "type": "{ id: string; title: string; subtitle?: string; amount?: number; icon?: ReactNode; flagged?: boolean }[]",
+          "description": "The rows. Amounts are signed (money in is positive) and shown through format; a flagged row shows a flag beside its amount."
+        },
+        {
+          "name": "trailingActions",
+          "type": "LedgerSwipeAction[]",
+          "description": "Revealed by swiping left, from the right edge in; the first is the primary that a long swipe commits."
+        },
+        {
+          "name": "leadingActions",
+          "type": "LedgerSwipeAction[]",
+          "description": "Revealed by swiping right, from the left edge in; the first is the primary."
+        },
+        {
+          "name": "actions",
+          "type": "\"both\" | \"trailing\" | \"leading\"",
+          "defaultValue": "\"both\"",
+          "description": "Which sides swipe; the other side barely gives. Every action stays in the keyboard menu either way."
+        },
+        {
+          "name": "onAction",
+          "type": "(actionId: string, itemId: string) => void",
+          "description": "An action was chosen by a long swipe, a tap on its tile or the menu; fires at the moment of choice. Remove the row from items for a removing action — it stays drawn until it has folded away."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(itemId: string | null) => void",
+          "description": "A row was swiped open (its id) or closed (null)."
+        },
+        {
+          "name": "threshold",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How far a swipe must travel to arm and commit the primary, as a share of the row's width."
+        },
+        {
+          "name": "elastic",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How much the row gives, 0 to 1: the rubber band past the end and on a side with no actions, and the bounce of the snap back."
+        },
+        {
+          "name": "actionWidth",
+          "type": "number",
+          "defaultValue": "64",
+          "description": "Each tile's width when a row is swiped open, in px (at least 44)."
+        },
+        {
+          "name": "hint",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "The first time the list is on screen, the first row slides open a little and settles back: the gesture, shown once."
+        },
+        {
+          "name": "format",
+          "type": "(amount: number) => string",
+          "defaultValue": "signed, thousands, two decimals",
+          "description": "How an amount is written; the default is built by hand so the server and the page agree."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "The list's accessible name."
+        },
+        {
+          "name": "emptyLabel",
+          "type": "string",
+          "defaultValue": "\"Nothing left to review\"",
+          "description": "Shown and said when every row has gone."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "defaultValue": "\"md\"",
+          "description": "Row height 48, 56 or 64px."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "A snap as a row snaps open or arms its primary, a swish as one slides away; only ever in answer to a drag, a press or a key."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Rows stop following the finger and every action is disabled."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the root (w-full max-w-md)."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: each row has one tab stop, its Actions button (aria-haspopup=\"menu\", named \"Actions for …\"), which shows on hover and focus. Enter, Space or ArrowDown opens a role=\"menu\" of every action: arrows move a roving focus, Home and End jump, Enter or Space choose, Escape closes and returns focus (handled and prevented), Tab closes. After a removing action focus moves to the next row's Actions button, or the previous one, or the empty message, once the row has gone.",
+        "The swipe tiles are a pointer shortcut and are hidden from assistive technology; the menu offers every action, so nothing is reachable only by swiping.",
+        "Reduced motion: rows still follow the finger (that is direct manipulation), but settle on a short tween, a removed row fades and folds instead of sliding, and the hint is skipped.",
+        "Performance: each row owns its motion values and every tile's place is derived from them; nothing runs at rest, and the hint runs once, only when the list is at least 60% on screen.",
+        "A LedgerSwipeAction is { id, label, icon?, tone?: \"accent\" | \"success\" | \"warn\" | \"danger\" | \"neutral\", removes? }. Tones are pigments at fixed lightness, so a tile reads the same on a light page and a dark one."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/ledger-swipe",
+      "registryItemUrl": "https://www.kinetiqui.com/r/ledger-swipe.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/ledger-swipe",
+        "npm": "npx shadcn@latest add @kinetiq/ledger-swipe",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/ledger-swipe",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/ledger-swipe",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/ledger-swipe.json"
       }
     },
     {

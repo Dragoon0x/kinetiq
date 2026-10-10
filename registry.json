@@ -38043,6 +38043,529 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "strip-shred",
+      "type": "registry:ui",
+      "title": "Strip Shred",
+      "description": "A delete control with a shredder under the card: confirming makes the teeth bite on springs.flick, then the motor pulls the card into the mouth at a steady rate with a stick-slip judder while the teeth and the head shiver, and the card comes out underneath as strips that roll toward you as they hang, printed with the fragments of the card's own words that were in each column, before each lets go on a seeded beat and falls into the bin. Undo springs every strip back up on springs.snap in a cascade and feeds the card back out on springs.glide; the button cycles Delete, Confirm, Undo with a draining ring, Deleting and Deleted in one place, so Enter, Space, Escape and the Delete key all work without focus moving.",
+      "files": [
+        {
+          "path": "registry/ui/strip-shred.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1484"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "paper-ball",
+      "type": "registry:ui",
+      "title": "Paper Ball",
+      "description": "A discard control you crumple and throw: holding the note folds a 6×6 mesh of the sheet inward along seeded creases into a lumpy paper ball, the facets that turn over going dark and the handwriting twisting with the paper, while letting go early springs it flat on springs.snap. A formed ball is tossed on a true ballistic arc into a wire basket, or dragged 1:1 and thrown with the release velocity into a small room whose floor, walls and the basket's rim lips it bounces off; a miss rolls to rest and glides home on springs.glide, and a ball that drops between the lips rocks the basket on springs.recoil. Space or Enter held crumples like a press, Delete crumples and tosses in one motion, and Escape smooths the sheet out.",
+      "files": [
+        {
+          "path": "registry/ui/paper-ball.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1485"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "stub-tear",
+      "type": "registry:ui",
+      "title": "Stub Tear",
+      "description": "A confirmation ticket you tear: pulling down the perforation runs the tear front 1:1 with the finger, its edges ragged where the paper bridges between the punched holes give — each bridge catching until the finger is far enough past it, then letting go — while the torn flap of the stub hinges away about the front, lifting by its curl over a soft shadow. Let go short of the end and the seam springs closed on springs.snap (springs.glide for stiff paper) with the release velocity, a flick that would carry past the end finishes on springs.glide, and at the end the stub drops free on the exit ease and the action confirms. The handle is a real button: Enter or Space tears the whole seam in one motion.",
+      "files": [
+        {
+          "path": "registry/ui/stub-tear.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1486"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "turnover-card",
+      "type": "registry:ui",
+      "title": "Turnover Card",
+      "description": "A two-sided card you turn over by hand: dragged, it rotates about its axis 1:1 with the finger in perspective, lifting toward you while its shadow spreads, the half turning away darkening and a band of light sweeping across. On release the throw is projected — past halfway it completes the flip, otherwise it springs back — on a spring of the given stiffness that takes the release velocity and lands with a wobble, and a hard flick can carry it all the way round. It is a toggle button: Space or Enter flips it and the arrow keys flip it in their direction.",
+      "files": [
+        {
+          "path": "registry/ui/turnover-card.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1487"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "branch-out",
+      "type": "registry:ui",
+      "title": "Branch Out",
+      "description": "A menu that grows its options like branches: opening grows a short stem out of the trigger, then a branch per option draws along a curve whose bend you set, nearest the centre line first and staggered, and as each arrives a bud swells at its end and the option opens out of it on springs.snap. Hovering or focusing an option thickens and tints its branch and grows a leaf at its middle, and closing retracts everything in reverse on the exit ease. It is a real menu button: arrows move a roving focus, Home and End jump, letters type ahead, Enter or Space chooses and Escape closes and returns focus to the trigger.",
+      "files": [
+        {
+          "path": "registry/ui/branch-out.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1488"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "folder-fan",
+      "type": "registry:ui",
+      "title": "Folder Fan",
+      "description": "A folder that fans its papers out to say hello: hovering or focusing it lifts the papers out, each rising and tilting about its foot by a seeded share of the fan angle with a soft shadow, front paper first on springs.snap. Opening it swings the front flap down about its hinge in perspective on springs.snap and sends the papers out into a list beside it — each gliding from its fan pose to its row on springs.glide, unrotating and widening into a row with the document's name, in a cascade — and choosing a row folds the list back into the folder with the chosen paper left peeking out of the top. The folder is a button that opens a listbox: Enter, Space or ArrowDown open it, arrows move, Enter or Space chooses and Escape closes.",
+      "files": [
+        {
+          "path": "registry/ui/folder-fan.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1489"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "crop-marks",
+      "type": "registry:ui",
+      "title": "Crop Marks",
+      "description": "A selection frame laid out like a print sheet: drag on the picture to draw a frame from the press point, inside it to move it, or on a corner or edge to resize it, with printer's crop marks off each corner, the picture dimmed outside and Shift keeping the aspect. The hand is never pulled — snap lines within reach only light up — and on release the frame settles onto them on springs.snap while the marks, stretched while held, draw back in on the same spring and each caught line flashes with a tick; aspect changes glide on springs.glide. The frame is a focusable group: arrow keys move it, Shift with an arrow resizes it, Alt moves ten steps, Home centres it, and a key that would cross a snap line stops on it first.",
+      "files": [
+        {
+          "path": "registry/ui/crop-marks.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1490"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "think-thread",
+      "type": "registry:ui",
+      "title": "Think Thread",
+      "description": "A thinking indicator drawn by an invisible pencil: a single fine line travels a small box, curls into loops, turns hairpins and doubles back, with only its last stretch kept and fading toward the tail. When thinking ends the stroke is pulled taut — every point travels to its place on a straight line, pencil end first, on springs.glide — the straightened line rings once like a plucked string on springs.recoil, and the status word fades in at its end on springs.snap. It needs no keys: the state is spoken politely when thinking starts and when it ends.",
+      "files": [
+        {
+          "path": "registry/ui/think-thread.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1491"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "talk-pill",
+      "type": "registry:ui",
+      "title": "Talk Pill",
+      "description": "A voice input pill for a composer: pressing it grows the capsule leftward over the row on springs.snap into a recording pill with a breathing dot, a timer, a scrolling waveform tape and a fuse toward the longest take. Sliding left squeezes it under the finger 1:1 — the tape crowds and flattens and the pill blends toward danger until a detent at the cancel line — and a release there snaps it shut to a circle that pops away, while a shorter one springs back out with the throw's velocity on springs.snap; letting go of a hold sends the take with a small lift. It is a toggle button: Space or Enter starts and sends, Escape cancels, and a quick tap starts hands-free recording.",
+      "files": [
+        {
+          "path": "registry/ui/talk-pill.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1492"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "tank-level",
+      "type": "registry:ui",
+      "title": "Tank Level",
+      "description": "A value gauge drawn as a sight-glass tank whose surface is a real damped wave: a change moves the level on springs.glide (or 1:1 under a drag), the level's acceleration leans the surface toward the inlet as it fills, and when it stops the lean is let go into a slosh that rocks across the tank and dies away at the set damping. A rise also releases seeded bubbles from the floor that wobble up and pop at the surface with a ring and a ripple in the wave. It is a vertical slider: arrows move a step, Page keys ten, Home and End go to the ends, and a drag puts the surface under the finger.",
+      "files": [
+        {
+          "path": "registry/ui/tank-level.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1493"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "ask-bar",
+      "type": "registry:ui",
+      "title": "Ask Bar",
+      "description": "A compact prompt input that becomes the turn it starts: typing grows the field on springs.glide up to `rows` lines, the empty placeholder rolls through its lines on springs.snap, attachments drop in as chips with a bounce on springs.recoil, and while the host is busy the round send arrow morphs into a stop square on springs.snap with a thin arc orbiting it. Sending lifts the prompt out of the field — a copy set exactly over the text rises to its bubble on springs.snap, its ink and plate changing and lifted off the page as it travels, while the field collapses under it — and the host's answer grows in below on springs.glide. Enter sends, Shift+Enter breaks the line, Escape stops while busy and Backspace in an empty field drops the last chip.",
+      "files": [
+        {
+          "path": "registry/ui/ask-bar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1494"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "flick-note",
+      "type": "registry:ui",
+      "title": "Flick Note",
+      "description": "A toast stack you handle like cards: notes stack with depth, a new one rises in on springs.recoil while the rest step back on springs.glide, and hovering or focusing the stack fans it into a readable column on springs.snap. Any open note follows the finger 1:1 in any direction and turns like a card held off its middle; on release the throw is projected, and past the dismiss distance the note carries on at its own speed and spin out through the region's edge while the stack closes up behind it, otherwise it springs home on springs.snap with the throw's velocity. The stack is a list with one tab stop: arrows move between notes, Enter opens one, Delete dismisses it and Escape dismisses the top note.",
+      "files": [
+        {
+          "path": "registry/ui/flick-note.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1495"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "slingshot",
+      "type": "registry:ui",
+      "title": "Slingshot",
+      "description": "An action button held in an elastic band between the two pegs of a fork: pulling it back follows the hand 1:1 while the band's strands wrap its back in a pouch, thin and warm with the stretch, and a faint aim line reaches to the target, whose ring pops on springs.snap once the draw passes the threshold. Let go armed and the band fires the button home on a stiff underdamped spring that carries the release velocity; the frame it passes rest the icon leaves, flies along the aim line and settles into the target with two bounces, while a short pull just springs back on springs.snap. Enter launches with a full draw on springs.glide, Space held draws and fires on release, and Escape cancels a draw.",
+      "files": [
+        {
+          "path": "registry/ui/slingshot.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1496"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "chime-bell",
+      "type": "registry:ui",
+      "title": "Chime Bell",
+      "description": "A notifications toggle drawn as a hand bell with a real pendulum inside: turning it on kicks the bell about its crown, and the bell and its clapper — two damped pendulums with different periods, integrated at 240 Hz — swing out of step, so the rim catches the clapper at the extremes in genuine collisions, each heard as a chime as loud as the impact, until the damping settles both to rest and the loop stops. Turning it off catches the bell on springs.snap, greys it in oklab and straps it still with a belt and a buckle that pops on springs.snap, two crossed straps, or tape over the mouth. It is a real toggle button with aria-pressed, so Space and Enter ring it or mute it.",
+      "files": [
+        {
+          "path": "registry/ui/chime-bell.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1497"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "line-chip",
+      "type": "registry:ui",
+      "title": "Line Chip",
+      "description": "A call status chip with its actions inside. Ringing, the handset rings in bursts — a quick wiggle, then a rest — while sound arcs ripple out of it one after another and the border pulses, all from one linear cycle that runs only on screen. Answering slides the chip wider on springs.glide toward the measured width of the connected call, the actions riding the moving edge as a live timer and a waveform open beside the caller; hanging up turns the handset down on springs.snap, shakes the chip once and collapses it on glide to the call's duration with Call back inside. Every action is a real button reached with Tab and pressed with Enter or Space, and a polite status says each state once.",
+      "files": [
+        {
+          "path": "registry/ui/line-chip.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1498"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "verdict-mark",
+      "type": "registry:ui",
+      "title": "Verdict Mark",
+      "description": "A status mark drawn with one two-part stroke: while pending, an arc spins on the ring with its length breathing, and when the state changes that arc, still turning, flows point by point into a check, an exclamation or a cross, head first with its tail following, so the stroke draws itself into the outcome. The check draws on springs.flick, the exclamation's dot drops in on springs.recoil, the cross arrives on springs.snap and shakes once, and the colour moves with it in oklab while the ring turns from a hairline track into a tinted disc. It is a polite status that says each new state once; it takes no keys because it is not a control.",
+      "files": [
+        {
+          "path": "registry/ui/verdict-mark.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1499"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "rail-select",
+      "type": "registry:ui",
+      "title": "Rail Select",
+      "description": "A select whose open list has a rail down its side with a node per option, like a line on a transit map, and whose highlight is one shape — a wash across the row and a car on the rail — with its top and bottom edges on separate springs: the leading edge leaves on a stiff spring and the trailing edge follows on a softer, later one, so the highlight stretches toward the next stop before its tail catches up. Choosing rolls the trigger's value to the new label on springs.snap, out the way the list moved, while the rail draws down on springs.glide each time the list opens. It is an APG select-only combobox: focus stays on the trigger while arrows, Home, End, Page keys and type-ahead move the highlight, Enter, Space or Tab choose, and Escape closes.",
+      "files": [
+        {
+          "path": "registry/ui/rail-select.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1500"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "ledger-swipe",
+      "type": "registry:ui",
+      "title": "Ledger Swipe",
+      "description": "A list of ledger rows with their actions parked underneath: a row follows a sideways drag 1:1 while the tiles on that side are uncovered one after another, each one's icon and label scaling in as its slot comes into view. Past the threshold the primary arms with a snap and springs across the whole uncovered width on springs.snap, its label riding the row's edge; letting go (or a flick whose projected rest gets there) commits it, and the row slides out on the exit ease while its height folds shut on springs.glide and the rows below close the gap. A shorter swipe snaps open to show the tiles on a spring whose bounce is the elastic setting. From the keyboard, each row's Actions button opens a menu of every action, where arrows move, Enter chooses and Escape closes.",
+      "files": [
+        {
+          "path": "registry/ui/ledger-swipe.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1501"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
