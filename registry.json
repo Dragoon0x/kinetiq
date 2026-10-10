@@ -38566,6 +38566,465 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "goo-radio",
+      "type": "registry:ui",
+      "title": "Goo Radio",
+      "description": "A radio group whose selected marker is a drop of goo: choosing another option pulls it out of its ring, the head leading on its own spring and the tail following on a softer one with a metaball neck between them, while a remnant left in the old ring necks, thins and splits off before shrinking back on springs.flick. The head lands nearly critically damped, wobbles on an underdamped jiggle whose liveliness is the viscosity, and the new ring swells on flick and settles on springs.recoil as it takes the colour. Arrow keys move the selection with the same flow, Home and End jump, Space chooses, and the drop can be dragged along the rail and thrown to an option.",
+      "files": [
+        {
+          "path": "registry/ui/goo-radio.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1502"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "comet-knob",
+      "type": "registry:ui",
+      "title": "Comet Knob",
+      "description": "A rotary knob whose head leaves a comet of light along its track: a follower angle chases the head with an exponential lag, and the arc between them is drawn as a tapered tail whose gradient, glow and halo brighten with the gap, so the comet is as long and as bright as the knob is fast and drains into the head when it stops. Drag on the rim to turn it by angle 1:1 or on the face by distance, flick to coast on motion's inertia generator (started at the hand's speed, decaying by friction, landing on a detent and bouncing once off an end stop), and every detent passed ticks. Arrow keys step a detent on springs.snap so keys draw a comet too, Page keys move a tenth, Home and End jump, and the host's own changes glide on springs.glide.",
+      "files": [
+        {
+          "path": "registry/ui/comet-knob.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1503"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "wake-range",
+      "type": "registry:ui",
+      "title": "Wake Range",
+      "description": "A range slider seen from above like water: every frame the thumb moves it drops a wake sample, and each sample's wavefront spreads away from the channel and fades with age, so a moving thumb opens two V-lines behind it like a hull's wake that keep spreading and settle after it stops. The fill catches up on its own critically damped spring with foam showing between it and the thumb, the thumb follows a drag 1:1 and rubber-bands a few px past the ends, a press on the channel sends it there on springs.snap, and a release is projected and settles on the nearest step with the throw's velocity. Arrow keys step on springs.snap so keys leave a wake too, Page keys move a tenth, Home and End jump, and the host's own changes glide on springs.glide.",
+      "files": [
+        {
+          "path": "registry/ui/wake-range.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1504"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "pin-slots",
+      "type": "registry:ui",
+      "title": "Pin Slots",
+      "description": "A one-time-code field whose characters drop into their slots: one real, transparent input carries the code, and each new character falls from above on springs.recoil with two small landing bounces while its slot's border catches the colour, the next empty slot holds a glow that slides along on springs.snap, a paste fills every slot in one cascade and Backspace lifts the last character out on the exit ease. When the host accepts the code the slots slide together on springs.snap until the gaps close and lock into one success bar; a refusal shakes the row on a keyframe tween and typing again starts a fresh code. Typing, Backspace, paste and SMS autofill are the browser's own, with the caret held at the end.",
+      "files": [
+        {
+          "path": "registry/ui/pin-slots.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1505"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "shy-label",
+      "type": "registry:ui",
+      "title": "Shy Label",
+      "description": "A text field whose label sits inside it and steps aside as you type: focus lifts it above the field on springs.glide with its letters hopping in a ripple from the caret's side, leaving a faint imprint inside, and as the text reaches the imprint each nearby letter hops up and away along a curved, tipping path on its own spring, shrinks and flies to its twin in the raised label, which hops on springs.flick and settles on springs.recoil as its letter regroups. Deleting brings the letters back down on springs.glide. Validation slides the message 4 px into place on glide over the hint while the border, label and an end icon popping in on snap take the state's colour; it is a real input with a real label, so the keyboard, selection and autofill are the browser's own.",
+      "files": [
+        {
+          "path": "registry/ui/shy-label.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1506"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "lattice-wait",
+      "type": "registry:ui",
+      "title": "Lattice Wait",
+      "description": "A loading indicator that weaves itself: a thread draws from dot to dot of a small lattice along a seeded walk that turns more than it runs straight, forming a pattern segment by segment, holding it, then unweaving from its tail, and each cycle starts where the last ended with the next seed, so the patterns never repeat but never vary between renders; the dot the thread reaches pops as it arrives. When the work is done the thread lets go, the dots glide one after another on springs.glide onto a check mark (or a cross) whose stroke draws through them on the enter ease, and they dissolve into it; back to loading the mark undraws and the dots glide home. The root is a role=\"status\" whose text changes only with the status.",
+      "files": [
+        {
+          "path": "registry/ui/lattice-wait.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1507"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "drag-number",
+      "type": "registry:ui",
+      "title": "Drag Number",
+      "description": "A numeric field you scrub by its label: a slow drag moves one step per few pixels, a fast one shifts up a gear to ×10 (×100 on long ranges) and snaps to that grid, while the digits roll on real odometer wheels that follow the value on springs.snap, carrying from 9 to 0 the way a counter does. A tick bar appears under the value as a tape beneath a fixed needle, moving 1:1 with the finger at every gear, zooming about the needle on springs.snap when the gear changes and rubber-banding past min and max before settling on springs.snap with the release velocity. It stays a real text input: type and Enter to commit, Escape to revert, ArrowUp and ArrowDown to step (Shift ×10, PageUp/PageDown ×10, Home and End to the ends), with the same tape gliding to each new value.",
+      "files": [
+        {
+          "path": "registry/ui/drag-number.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1508"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "fuse-confirm",
+      "type": "registry:ui",
+      "title": "Fuse Confirm",
+      "description": "A destructive button whose edge is a fuse: one press lights the spark at the tip of a little wick, and it burns once round the button in `time` seconds, consuming the cord to ash behind it under a thin trail of smoke while the face counts down on a digit wheel turned by springs.snap. When the spark gets back to the start the action fires with a small spray of streaks and a flash along the spent cord; pressing again, or Escape, stamps it out — the spark squashes flat under a puff of smoke and the cord is re-laid back to the wick on springs.glide. It is a native button (Enter and Space press it) whose face presses in on springs.flick, and a polite live region announces the lighting, the last seconds and the outcome.",
+      "files": [
+        {
+          "path": "registry/ui/fuse-confirm.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1509"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "ember-tip",
+      "type": "registry:ui",
+      "title": "Ember Tip",
+      "description": "A tooltip group that warms up as you explore it: the first hover waits `delay` and the tip fades in slowly, rising into place on springs.drift, but while a tip is up the group warms, and moving to a neighbouring trigger slides the one shared bubble there on springs.glide — its size morphing to the new words as the old ones cross-fade out, its caret sliding to point at the new trigger, a slight stretch in the direction it travels. Leave and it cools over `warm`, so a quick return is shown almost at once; the warmth is visible as the bubble's border and an ember glow along the group's edge. Keyboard focus shows tips by the same rules, Escape dismisses them, and every trigger keeps its tip as an accessible description.",
+      "files": [
+        {
+          "path": "registry/ui/ember-tip.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1510"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "slide-seal",
+      "type": "registry:ui",
+      "title": "Slide Seal",
+      "description": "A slide-to-confirm strip whose handle is a seal stamp: it follows the finger 1:1 along the track and rubber-bands past the ends while the track's words dissolve letter by letter under it, and near the end a wax seal forms on the mark, growing from a dot to just wider than the handle as it closes on the threshold. Released past the threshold (or flicked so the throw would land past it) the handle slams onto the wax on springs.flick with the release velocity and presses it — squashing on springs.flick, the wax splatting out past its rim on springs.recoil — and its face becomes the seal with the monogram pressed in; released short, it springs home on springs.glide with the release velocity. The handle is a native button: Enter or Space runs the whole slide and presses the seal.",
+      "files": [
+        {
+          "path": "registry/ui/slide-seal.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1511"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "stretch-tabs",
+      "type": "registry:ui",
+      "title": "Stretch Tabs",
+      "description": "A segmented control whose pill is rubber: its two edges are separate springs, so choosing another segment sends the leading edge out first to land with a slight overshoot while the trailing edge holds for a beat and then lets go on a softer spring — the pill stretching toward the new segment, thinning as it stretches, and squashing against the track's ends instead of leaving them. The selected label colour is a copy of the labels clipped to the pill's exact shape, so it sweeps across each letter with the rubber edge; at elastic 0 the pill is one piece on springs.snap. The pill can be dragged 1:1 (its trailing edge following on a short spring) and a release projects the throw and snaps to the nearest segment with the release velocity; arrows move and wrap, Home and End jump, in tablist or radiogroup semantics with a roving tabindex.",
+      "files": [
+        {
+          "path": "registry/ui/stretch-tabs.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1512"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "beat-like",
+      "type": "registry:ui",
+      "title": "Beat Like",
+      "description": "A like button whose heart beats: a press contracts it on a near-critical spring while the colour floods up from the tip, then relaxes it on an underdamped one that carries it past its size, and at the top of that relaxation a ring of small hearts is thrown outward while the count rolls up on springs.snap. Holding the heart makes it race — it beats on its own, quicker and bigger each time, while a ring around it fills — and letting go at full charge super-likes with a big beat and a double ring; while liked it keeps a quiet resting heartbeat. It is an aria-pressed button: Space and Enter behave like the pointer (a quick press toggles, a held one charges, Escape cancels the hold).",
+      "files": [
+        {
+          "path": "registry/ui/beat-like.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1513"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "tick-spring",
+      "type": "registry:ui",
+      "title": "Tick Spring",
+      "description": "A checkbox whose tick is drawn by an elastic pen: a press squashes the box on its base on springs.flick and lets it go on springs.recoil, and checking draws the tick on a spring of your stiffness and bounce that runs past its end, so the long arm overshoots and springs back while the corner dips under the pen as it turns. The box floods with colour from its centre on springs.snap (or stays outlined while an ink tick swings past its corner), an indeterminate dash bends into the tick on the same spring instead of being erased, and an optional strike sweeps through the label on springs.glide, line by line. It is a native checkbox, so Tab reaches the box, Space toggles it and a form submits it.",
+      "files": [
+        {
+          "path": "registry/ui/tick-spring.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1514"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "star-peek",
+      "type": "registry:ui",
+      "title": "Star Peek",
+      "description": "A star rating that shows what you are about to say: hovering, scrubbing or arrowing fills the stars toward the pointer on springs.flick — a star can stand a third full — while a soft ghost reaches ahead to the value a press would commit, stepping on springs.snap, and a short phrase for that score peeks up from behind the question and glides sideways on springs.snap to sit over the ghost's edge. Committing settles the fill and pops the filled stars in sequence, each kicked on springs.recoil a cascade apart, with a chime as the last lands. It is a radiogroup with one radio per half star: arrows move and preview, Home and End jump, Enter and Space commit, Escape ends the preview.",
+      "files": [
+        {
+          "path": "registry/ui/star-peek.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1515"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "heat-hold",
+      "type": "registry:ui",
+      "title": "Heat Hold",
+      "description": "A hold-to-confirm button fired like a kiln: holding raises the heat, and one WebGL2 pass paints a front that climbs from the floor with its edge licked into tongues, the colour climbing the ramp from deep red through orange and yellow to white, a haze wavering above it and sparks rising through it, while a masked second copy of the label recolours as the heat passes through it. Let go early and it cools back down, quickest while hottest; reach the top and it fires — a white flare blooms from the middle, a glow spreads around the button and fades, the button kicks on springs.recoil and the kiln cools through the ramp. Space or Enter held heats it, Escape cancels, and a click with no pointer or key behind it fires at once.",
+      "files": [
+        {
+          "path": "registry/ui/heat-hold.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1516"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "squash-switch",
+      "type": "registry:ui",
+      "title": "Squash Switch",
+      "description": "A switch whose thumb is a soft body: it crosses on a spring whose stiffness you set, stretching along its travel with its speed and thinning to keep its area, and when the underdamped spring carries it past its rest the leading edge stays on the wall and the body flattens against it — narrower, taller, flat where it touches — then rebounds and settles, while a ripple runs through the track's outline from the struck end to the far one. The thumb drags 1:1, squashing as it is pushed past either end, and a release commits by projection with the spring taking the release velocity. It is a role=\"switch\" button: Space and Enter toggle it, Right turns it on and Left off.",
+      "files": [
+        {
+          "path": "registry/ui/squash-switch.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1517"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

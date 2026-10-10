@@ -1571,6 +1571,22 @@ import { LineChipDemo } from "@/registry/demos/line-chip.demo";
 import { VerdictMarkDemo } from "@/registry/demos/verdict-mark.demo";
 import { RailSelectDemo } from "@/registry/demos/rail-select.demo";
 import { LedgerSwipeDemo } from "@/registry/demos/ledger-swipe.demo";
+import { GooRadioDemo } from "@/registry/demos/goo-radio.demo";
+import { CometKnobDemo } from "@/registry/demos/comet-knob.demo";
+import { WakeRangeDemo } from "@/registry/demos/wake-range.demo";
+import { PinSlotsDemo } from "@/registry/demos/pin-slots.demo";
+import { ShyLabelDemo } from "@/registry/demos/shy-label.demo";
+import { LatticeWaitDemo } from "@/registry/demos/lattice-wait.demo";
+import { DragNumberDemo } from "@/registry/demos/drag-number.demo";
+import { FuseConfirmDemo } from "@/registry/demos/fuse-confirm.demo";
+import { EmberTipDemo } from "@/registry/demos/ember-tip.demo";
+import { SlideSealDemo } from "@/registry/demos/slide-seal.demo";
+import { StretchTabsDemo } from "@/registry/demos/stretch-tabs.demo";
+import { BeatLikeDemo } from "@/registry/demos/beat-like.demo";
+import { TickSpringDemo } from "@/registry/demos/tick-spring.demo";
+import { StarPeekDemo } from "@/registry/demos/star-peek.demo";
+import { HeatHoldDemo } from "@/registry/demos/heat-hold.demo";
+import { SquashSwitchDemo } from "@/registry/demos/squash-switch.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -3156,4 +3172,20 @@ export const demos: Record<string, ComponentType> = {
   "verdict-mark": VerdictMarkDemo,
   "rail-select": RailSelectDemo,
   "ledger-swipe": LedgerSwipeDemo,
+  "goo-radio": GooRadioDemo,
+  "comet-knob": CometKnobDemo,
+  "wake-range": WakeRangeDemo,
+  "pin-slots": PinSlotsDemo,
+  "shy-label": ShyLabelDemo,
+  "lattice-wait": LatticeWaitDemo,
+  "drag-number": DragNumberDemo,
+  "fuse-confirm": FuseConfirmDemo,
+  "ember-tip": EmberTipDemo,
+  "slide-seal": SlideSealDemo,
+  "stretch-tabs": StretchTabsDemo,
+  "beat-like": BeatLikeDemo,
+  "tick-spring": TickSpringDemo,
+  "star-peek": StarPeekDemo,
+  "heat-hold": HeatHoldDemo,
+  "squash-switch": SquashSwitchDemo,
 };

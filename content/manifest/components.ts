@@ -118268,4 +118268,2401 @@ export const components: KinetiqItem[] = [
       'A LedgerSwipeAction is { id, label, icon?, tone?: "accent" | "success" | "warn" | "danger" | "neutral", removes? }. Tones are pigments at fixed lightness, so a tile reads the same on a light page and a dark one.',
     ],
   },
+  {
+    name: "goo-radio",
+    type: "registry:ui",
+    title: "Goo Radio",
+    description:
+      "A radio group whose selected marker is a drop of goo: choosing another option pulls it out of its ring, the head leading on its own spring and the tail following on a softer one with a metaball neck between them, while a remnant left in the old ring necks, thins and splits off before shrinking back on springs.flick. The head lands nearly critically damped, wobbles on an underdamped jiggle whose liveliness is the viscosity, and the new ring swells on flick and settles on springs.recoil as it takes the colour. Arrow keys move the selection with the same flow, Home and End jump, Space chooses, and the drop can be dragged along the rail and thrown to an option.",
+    files: [
+      {
+        path: "registry/ui/goo-radio.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1502",
+    },
+    tagline: "A selection that flows between options.",
+    keywords: [
+      "radio",
+      "radio group",
+      "segmented",
+      "gooey",
+      "metaball",
+      "liquid",
+      "selection",
+    ],
+    props: [
+      {
+        name: "options",
+        type: "{ value: string; label: string; description?: string; disabled?: boolean }[]",
+        description:
+          "The options in rail order; disabled ones are shown, aria-disabled and skipped by the arrow keys.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        defaultValue: "— / none",
+        description:
+          "The chosen option's value, controlled or uncontrolled. Nothing is chosen when both are left out, as with native radios.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: string) => void",
+        description: "Fires from the press, drag or key that chose an option.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "The group's accessible name.",
+      },
+      {
+        name: "name",
+        type: "string",
+        description:
+          "A form field name: adds a hidden input carrying the value.",
+      },
+      {
+        name: "orientation",
+        type: '"horizontal" | "vertical"',
+        defaultValue: '"horizontal"',
+        description:
+          "Rings in a row with labels under them, or in a column with labels beside them.",
+      },
+      {
+        name: "viscosity",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How thick the goo is, 0 to 1: runny goo is quick with a lively landing wobble, thick goo slow and composed.",
+      },
+      {
+        name: "neck",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How far the neck reaches before it splits, 0 to 1: a short snap or a long string of goo. Also how long the travelling drop may stretch.",
+      },
+      {
+        name: "squash",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How much the drop squashes across its travel and wobbles on landing, 0 to 1.",
+      },
+      {
+        name: "size",
+        type: '"sm" | "md" | "lg"',
+        defaultValue: '"md"',
+        description:
+          "Ring and drop size and the type beside them; a narrow group steps its type down one size instead of truncating.",
+      },
+      {
+        name: "color",
+        type: '"cobalt" | "signal" | "ember" | "rose" | string',
+        defaultValue: '"cobalt"',
+        description:
+          "The drop's pigment, the seated ring and the wet streak: a preset tuned for both themes or any CSS colour.",
+      },
+      {
+        name: "ringColor",
+        type: "string",
+        defaultValue: '"var(--hairline-strong)"',
+        description: "The rings and the rail at rest; any CSS colour.",
+      },
+      {
+        name: "rail",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Draw the rail the drop flows along.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play a blup as the neck splits and a softer, higher one as the drop lands; only for the visitor's own presses, drags and keys.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Disables every option.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the radiogroup box.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: a real role="radiogroup" of role="radio" buttons with a roving tabindex. Arrow keys move the selection (wrapping, skipping disabled options) with the same flow as a press, Home and End jump, Space or Enter chooses the focused option.',
+      "Pointer: a press chooses; on the chosen option a drag pulls the drop along the rail 1:1, rubber-banded past the ends, and a release commits to the option the throw was heading for. The group is touch-pan-y (touch-pan-x vertically), so the page still scrolls across it.",
+      "Reduced motion: no neck, remnant or wobble; the drop fades out of one ring and into the next and the ring still takes the colour, because the selection is information.",
+      "Performance: all geometry is motion values rebuilt per frame only while the drop moves (two circles, an ellipse and two neck paths, rounded to 2 dp); nothing runs at rest. Ring centres are measured with a ResizeObserver, and the server renders the drop inside the chosen ring in HTML.",
+      "Controlled: the drop flows when the host's value changes, from any source; only the visitor's own changes are heard. A host that refuses a dragged change sees the drop flow home.",
+    ],
+  },
+  {
+    name: "comet-knob",
+    type: "registry:ui",
+    title: "Comet Knob",
+    description:
+      "A rotary knob whose head leaves a comet of light along its track: a follower angle chases the head with an exponential lag, and the arc between them is drawn as a tapered tail whose gradient, glow and halo brighten with the gap, so the comet is as long and as bright as the knob is fast and drains into the head when it stops. Drag on the rim to turn it by angle 1:1 or on the face by distance, flick to coast on motion's inertia generator (started at the hand's speed, decaying by friction, landing on a detent and bouncing once off an end stop), and every detent passed ticks. Arrow keys step a detent on springs.snap so keys draw a comet too, Page keys move a tenth, Home and End jump, and the host's own changes glide on springs.glide.",
+    files: [
+      {
+        path: "registry/ui/comet-knob.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1503",
+    },
+    tagline: "A dial that leaves light where it turns.",
+    keywords: [
+      "knob",
+      "dial",
+      "rotary",
+      "slider",
+      "detents",
+      "comet",
+      "inertia",
+    ],
+    props: [
+      {
+        name: "value / defaultValue",
+        type: "number",
+        defaultValue: "— / min",
+        description: "The value, controlled or uncontrolled, from min to max.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: number) => void",
+        description:
+          "Fires from the drag, coast or key that changed it, at every detent it passes.",
+      },
+      {
+        name: "onValueCommit",
+        type: "(value: number) => void",
+        description:
+          "Fires once the knob comes to rest after a gesture, a key or a rim tap: the value to act on.",
+      },
+      {
+        name: "min",
+        type: "number",
+        defaultValue: "0",
+        description: "The value at the start of the sweep.",
+      },
+      {
+        name: "max",
+        type: "number",
+        defaultValue: "100",
+        description: "The value at the end of the sweep.",
+      },
+      {
+        name: "step",
+        type: "number",
+        defaultValue: "1",
+        description: "The resolution when detents is 0.",
+      },
+      {
+        name: "detents",
+        type: "number",
+        defaultValue: "12",
+        description:
+          "Notches across the whole range: the knob ticks at each, keys step by one and releases settle on the nearest. 0 turns smoothly by step.",
+      },
+      {
+        name: "tail",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How long the comet is, 0 to 1: the follower's time constant, 50 to 320 ms behind the head.",
+      },
+      {
+        name: "friction",
+        type: "number",
+        defaultValue: "0.4",
+        description:
+          "How quickly a flick coasts to a stop, 0 to 1: the inertia time constant, 700 to 120 ms.",
+      },
+      {
+        name: "sweep",
+        type: "number",
+        defaultValue: "270",
+        description:
+          "Degrees of travel from min to max, centred on the top (60 to 340).",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          "The slider's accessible name, shown small under the reading.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue: "the value, rounded",
+        description:
+          "The reading in the face and the spoken aria-valuetext; its longest output's width is reserved.",
+      },
+      {
+        name: "color",
+        type: '"cobalt" | "signal" | "ember" | "rose" | string',
+        defaultValue: '"cobalt"',
+        description:
+          "The comet, head, fill and lit detents: a preset tuned for both themes or any CSS colour.",
+      },
+      {
+        name: "size",
+        type: '"sm" | "md" | "lg"',
+        defaultValue: '"md"',
+        description: "The knob's box: 120, 152 or 184 px square.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Tick at every detent passed by hand, coast, key or rim tap, pitch rising with the value; never for the host's changes.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Dims the knob and ignores pointer and keys.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the slider box.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: the knob is a focusable role="slider" with aria-valuemin, aria-valuemax, aria-valuenow and aria-valuetext from format. Arrow keys step one detent (or one step), PageUp and PageDown a tenth of the range, Home and End jump; each move runs on springs.snap, so the comet shows for keys too.',
+      "Pointer: drag on the rim to turn by angle (the head stays under the finger) or on the face to turn by distance (up or right increases, about one and a half knobs for the sweep); a tap on the rim sets the value there; a flick coasts and lands on a detent; a press catches a coasting knob. The box is touch-none because the gesture is two-dimensional.",
+      "Reduced motion: no comet, coast or spring travel; the head jumps to its detent with one brief halo, and the face still turns because the angle is the value.",
+      "Performance: the comet's follower is a single requestAnimationFrame chain that runs only while the head moves or the tail is still draining, stops when settled, and is cut while the knob is off screen (IntersectionObserver) or the page is hidden. Geometry is SVG attributes in motion values, rounded to 2 dp.",
+      "Theming: the track, face and knurl use tokens; the comet uses `color` (pigment presets look the same in light and dark).",
+    ],
+  },
+  {
+    name: "wake-range",
+    type: "registry:ui",
+    title: "Wake Range",
+    description:
+      "A range slider seen from above like water: every frame the thumb moves it drops a wake sample, and each sample's wavefront spreads away from the channel and fades with age, so a moving thumb opens two V-lines behind it like a hull's wake that keep spreading and settle after it stops. The fill catches up on its own critically damped spring with foam showing between it and the thumb, the thumb follows a drag 1:1 and rubber-bands a few px past the ends, a press on the channel sends it there on springs.snap, and a release is projected and settles on the nearest step with the throw's velocity. Arrow keys step on springs.snap so keys leave a wake too, Page keys move a tenth, Home and End jump, and the host's own changes glide on springs.glide.",
+    files: [
+      {
+        path: "registry/ui/wake-range.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1504",
+    },
+    tagline: "A slider that leaves a wake.",
+    keywords: ["slider", "range", "wake", "water", "trail", "steps", "input"],
+    props: [
+      {
+        name: "value / defaultValue",
+        type: "number",
+        defaultValue: "— / min",
+        description: "The value, controlled or uncontrolled, from min to max.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: number) => void",
+        description:
+          "Fires from the drag, press or key that changed it, at every step it passes.",
+      },
+      {
+        name: "onValueCommit",
+        type: "(value: number) => void",
+        description:
+          "Fires once the thumb comes to rest after a gesture or a key: the value to act on.",
+      },
+      {
+        name: "min",
+        type: "number",
+        defaultValue: "0",
+        description: "The value at the left end.",
+      },
+      {
+        name: "max",
+        type: "number",
+        defaultValue: "100",
+        description: "The value at the right end.",
+      },
+      {
+        name: "step",
+        type: "number",
+        defaultValue: "1",
+        description: "The resolution when steps is 0.",
+      },
+      {
+        name: "steps",
+        type: "number",
+        defaultValue: "6",
+        description:
+          "Stops across the whole range, drawn as dots in the channel: the thumb ticks at each, keys step by one and releases settle on the nearest. 0 slides by step.",
+      },
+      {
+        name: "wake",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How long and wide the wake runs, 0 to 1: a 0.3 s ripple close to the channel, or a 1.6 s wake spreading to the rail's edge.",
+      },
+      {
+        name: "fill",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Colour the channel from the start to the value; off leaves only the foam and the wake.",
+      },
+      {
+        name: "catchUp",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How quickly the fill catches up with the thumb, 0 to 1: a lazy tide or a brisk one (a critically damped spring).",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "The slider's accessible name, shown above the channel.",
+      },
+      {
+        name: "hideLabel",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Keep the label for assistive technology only.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue: "the value, to the step's decimals",
+        description:
+          "The reading and the spoken aria-valuetext; its longest output's width is reserved.",
+      },
+      {
+        name: "color",
+        type: '"cobalt" | "signal" | "ember" | "rose" | string',
+        defaultValue: '"cobalt"',
+        description:
+          "The fill, foam, wake and thumb dot: a preset tuned for both themes or any CSS colour.",
+      },
+      {
+        name: "size",
+        type: '"sm" | "md" | "lg"',
+        defaultValue: '"md"',
+        description:
+          "Rail height (room for the wake), channel and thumb size, and type.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Tick at every step the thumb passes by hand, press or key, pitch rising with the value; never for the host's changes.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Dims the slider and ignores pointer and keys.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer column.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: the thumb is a focusable role="slider" labelled by the visible label, with aria-valuemin, aria-valuemax, aria-valuenow and aria-valuetext from format. Arrow keys move one step, PageUp and PageDown a tenth of the range, Home and End jump; each move runs on springs.snap and leaves a wake.',
+      "Pointer: the rail is touch-pan-y, so a horizontal drag moves the thumb and a vertical one still scrolls the page. A press on the channel sends the thumb there and focuses it (without a keyboard ring); a drag that starts while it is still on its way chases the finger until it catches it.",
+      "Reduced motion: no wake and no lag; the fill moves with the thumb and keys and presses move it on a short tween. Dragging stays 1:1.",
+      "Performance: the wake and the fill's spring share one requestAnimationFrame chain that runs only while either is still moving, stops when both settle, and is cut while the slider is off screen or the page is hidden. Wake samples live in a preallocated ring buffer; track, fill and thumb are HTML positioned in percentages, so the server renders the resting frame.",
+      "The wake is drawn inside the rail's own box (its height is the room above and below the channel) and the thumb's overshoot past an end is capped at 6 px, so nothing draws outside the component.",
+    ],
+  },
+  {
+    name: "pin-slots",
+    type: "registry:ui",
+    title: "Pin Slots",
+    description:
+      "A one-time-code field whose characters drop into their slots: one real, transparent input carries the code, and each new character falls from above on springs.recoil with two small landing bounces while its slot's border catches the colour, the next empty slot holds a glow that slides along on springs.snap, a paste fills every slot in one cascade and Backspace lifts the last character out on the exit ease. When the host accepts the code the slots slide together on springs.snap until the gaps close and lock into one success bar; a refusal shakes the row on a keyframe tween and typing again starts a fresh code. Typing, Backspace, paste and SMS autofill are the browser's own, with the caret held at the end.",
+    files: [
+      {
+        path: "registry/ui/pin-slots.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1505",
+    },
+    tagline: "A code that drops into its slots.",
+    keywords: [
+      "otp",
+      "one-time code",
+      "pin",
+      "verification",
+      "2fa",
+      "input",
+      "slots",
+    ],
+    props: [
+      {
+        name: "value / defaultValue",
+        type: "string",
+        defaultValue: '— / ""',
+        description:
+          "The code, controlled or uncontrolled; anything outside the charset is dropped and it is cut to length.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: string) => void",
+        description:
+          "Fires from the typing, paste or Backspace that changed the code.",
+      },
+      {
+        name: "onComplete",
+        type: "(code: string) => void",
+        description:
+          "Fires once, from the keystroke or paste that fills the last slot.",
+      },
+      {
+        name: "length",
+        type: "number",
+        defaultValue: "6",
+        description: "How many slots (1 to 12).",
+      },
+      {
+        name: "mask",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Show each character as it lands, then cross-fade it into a dot.",
+      },
+      {
+        name: "maskDelay",
+        type: "number",
+        defaultValue: "600",
+        description: "How long a masked character stays readable, in ms.",
+      },
+      {
+        name: "state",
+        type: '"idle" | "checking" | "success" | "error"',
+        defaultValue: '"idle"',
+        description:
+          "The host's verdict: checking dims the glyphs under a passing light, success locks the slots into one bar, error shakes them and turns them danger.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Verification code"',
+        description: "The input's label, shown above the slots.",
+      },
+      {
+        name: "hideLabel",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Keep the label for assistive technology only.",
+      },
+      {
+        name: "hint",
+        type: "string",
+        description: "A line under the slots while nothing has been decided.",
+      },
+      {
+        name: "successMessage",
+        type: "string",
+        defaultValue: '"Code accepted."',
+        description: "Shown under the bar and announced when state is success.",
+      },
+      {
+        name: "errorMessage",
+        type: "string",
+        defaultValue: '"That code didn’t match. Try again."',
+        description: "Shown under the slots and announced when state is error.",
+      },
+      {
+        name: "charset",
+        type: '"numeric" | "alphanumeric"',
+        defaultValue: '"numeric"',
+        description:
+          "Digits only with a numeric keypad on phones, or letters and digits, upper-cased.",
+      },
+      {
+        name: "split",
+        type: "number",
+        description:
+          "Draw a separator after this many slots, as in 123–456; it folds away when the slots lock.",
+      },
+      {
+        name: "size",
+        type: '"sm" | "md" | "lg"',
+        defaultValue: '"md"',
+        description:
+          "Slot size (largest width; narrow rows shrink below it) and glyph size.",
+      },
+      {
+        name: "color",
+        type: '"cobalt" | "signal" | "ember" | "rose" | string',
+        defaultValue: '"cobalt"',
+        description:
+          "The caret slot's glow, the caret and the landing flash: a preset tuned for both themes or any CSS colour.",
+      },
+      {
+        name: "name",
+        type: "string",
+        description: "A form field name for the input.",
+      },
+      {
+        name: "autoFocus",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Focus the input on mount.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Tick as each typed or pasted character lands (rising along the row), chime when the slots lock, buzz on a refusal; only for a code the visitor typed.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Disables the input and dims the slots.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer column.",
+      },
+    ],
+    usageNotes: [
+      'One real <input autocomplete="one-time-code" inputmode="numeric"> sits transparently over the slots, so typing, Backspace, paste and SMS autofill behave natively; the caret is held at the end of the code (a select-all is kept, so a paste replaces). The slots themselves are aria-hidden.',
+      "The input is labelled by `label`, described by the visible hint or message, aria-invalid on error, and aria-busy and read-only (never disabled, so focus stays) while checking. A polite live region speaks one sentence when the state changes.",
+      'Drive `state` from your verification: set "checking" from onComplete, then "success" or "error". After an error, a new keystroke starts a fresh code; set the state back to idle from onValueChange when the code shortens.',
+      "Reduced motion: characters fade in place and lift out as a fade, the caret glow jumps, the checking light does not run, and the bar and the danger state appear without sliding or shaking.",
+      "Performance: nothing runs at rest except the caret's slow breathing while focused; the checking light runs only in that state. Sound and mask timers are cleared on unmount.",
+    ],
+  },
+  {
+    name: "shy-label",
+    type: "registry:ui",
+    title: "Shy Label",
+    description:
+      "A text field whose label sits inside it and steps aside as you type: focus lifts it above the field on springs.glide with its letters hopping in a ripple from the caret's side, leaving a faint imprint inside, and as the text reaches the imprint each nearby letter hops up and away along a curved, tipping path on its own spring, shrinks and flies to its twin in the raised label, which hops on springs.flick and settles on springs.recoil as its letter regroups. Deleting brings the letters back down on springs.glide. Validation slides the message 4 px into place on glide over the hint while the border, label and an end icon popping in on snap take the state's colour; it is a real input with a real label, so the keyboard, selection and autofill are the browser's own.",
+    files: [
+      {
+        path: "registry/ui/shy-label.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1506",
+    },
+    tagline: "A label that steps aside as you type.",
+    keywords: [
+      "text field",
+      "input",
+      "floating label",
+      "label",
+      "validation",
+      "form",
+      "letters",
+    ],
+    props: [
+      {
+        name: "label",
+        type: "string",
+        description:
+          "The field's label: inside the field at rest, above it once there is focus or text. Its accessible text is a real <label for>.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        defaultValue: '— / ""',
+        description: "The text, controlled or uncontrolled.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: string) => void",
+        description: "Fires on every edit with the new text.",
+      },
+      {
+        name: "hint",
+        type: "string",
+        description:
+          "A line under the field while there is no validation message.",
+      },
+      {
+        name: "state",
+        type: '"default" | "success" | "error"',
+        defaultValue: '"default"',
+        description:
+          "The validation state: the border, raised label and an end icon take its colour, and message slides in under the field.",
+      },
+      {
+        name: "message",
+        type: "string",
+        description:
+          "Shown and announced under the field for success and error; the hint returns for default.",
+      },
+      {
+        name: "type",
+        type: '"text" | "email" | "password" | "search" | "tel" | "url"',
+        defaultValue: '"text"',
+        description:
+          "The input's type; a password measures its dots for the caret.",
+      },
+      {
+        name: "name",
+        type: "string",
+        description: "A form field name for the input.",
+      },
+      {
+        name: "autoComplete",
+        type: "string",
+        description: "Passed to the input.",
+      },
+      {
+        name: "scatter",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How lively the letters are as they step aside, 0 to 1: 0 just fades them, 1 sends them on high, tilting arcs.",
+      },
+      {
+        name: "reach",
+        type: "number",
+        defaultValue: "20",
+        description:
+          "How far ahead of the caret, in px, a letter starts to step aside.",
+      },
+      {
+        name: "size",
+        type: '"sm" | "md" | "lg"',
+        defaultValue: '"md"',
+        description: "Field height (40, 48 or 56 px) and type size.",
+      },
+      {
+        name: "color",
+        type: '"cobalt" | "signal" | "ember" | "rose" | string',
+        defaultValue: '"cobalt"',
+        description:
+          "The focused border and raised label: a preset tuned for both themes or any CSS colour.",
+      },
+      {
+        name: "required",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Passed to the input.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Disables the input and dims the field.",
+      },
+      {
+        name: "onFocus / onBlur",
+        type: "(event: React.FocusEvent<HTMLInputElement>) => void",
+        description: "The input's focus handlers, e.g. to validate on blur.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer column.",
+      },
+    ],
+    usageNotes: [
+      "It is a real <input> labelled by a real <label for>; the animated letters (the raised label and the imprint) are aria-hidden and the label's text is read once from an sr-only copy. aria-invalid is set on error, aria-describedby points at the visible hint or message, and a polite live region speaks the message once when the state changes.",
+      "The component reserves the raised label's row above the field at all times, so focusing never shifts the layout; hint and messages share one grid cell under it for the same reason.",
+      "Validate where it suits your form (on blur is kind) and pass the result through state and message; the label's letters only react to the caret.",
+      "Reduced motion: the label cross-fades between inside and above, the imprint's letters fade as the caret passes with no hop or tilt, and the message fades in place.",
+      "Performance: the caret's position is measured from a hidden mirror in the input's own events, and the letters are motion values; nothing runs at rest or between keystrokes.",
+    ],
+  },
+  {
+    name: "lattice-wait",
+    type: "registry:ui",
+    title: "Lattice Wait",
+    description:
+      'A loading indicator that weaves itself: a thread draws from dot to dot of a small lattice along a seeded walk that turns more than it runs straight, forming a pattern segment by segment, holding it, then unweaving from its tail, and each cycle starts where the last ended with the next seed, so the patterns never repeat but never vary between renders; the dot the thread reaches pops as it arrives. When the work is done the thread lets go, the dots glide one after another on springs.glide onto a check mark (or a cross) whose stroke draws through them on the enter ease, and they dissolve into it; back to loading the mark undraws and the dots glide home. The root is a role="status" whose text changes only with the status.',
+    files: [
+      {
+        path: "registry/ui/lattice-wait.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1507",
+    },
+    tagline: "A loader that weaves itself.",
+    keywords: [
+      "loader",
+      "spinner",
+      "loading",
+      "progress",
+      "lattice",
+      "check",
+      "status",
+    ],
+    props: [
+      {
+        name: "status",
+        type: '"loading" | "success" | "error"',
+        defaultValue: '"loading"',
+        description:
+          "Weaving while loading; collapsing into a check or a cross when done.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Loading"',
+        description: "The status text while weaving.",
+      },
+      {
+        name: "successLabel",
+        type: "string",
+        defaultValue: '"Done"',
+        description: "The status text once it succeeds.",
+      },
+      {
+        name: "errorLabel",
+        type: "string",
+        defaultValue: '"Failed"',
+        description: "The status text if it fails.",
+      },
+      {
+        name: "showLabel",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Show the status text beside the lattice; otherwise it is for assistive technology only.",
+      },
+      {
+        name: "grid",
+        type: "number",
+        defaultValue: "4",
+        description: "Dots on each side of the lattice, 3 to 5.",
+      },
+      {
+        name: "pace",
+        type: "number",
+        defaultValue: "1",
+        description: "Weaving speed: 1 draws five threads a second.",
+      },
+      {
+        name: "hold",
+        type: "number",
+        defaultValue: "420",
+        description:
+          "How long each finished pattern holds before it unweaves, in ms.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "7",
+        description:
+          "Seeds the walks; the same seed weaves the same patterns on the server and in the browser.",
+      },
+      {
+        name: "color",
+        type: '"cobalt" | "signal" | "ember" | "rose" | string',
+        defaultValue: '"cobalt"',
+        description:
+          "The thread and the lit dots: a preset tuned for both themes or any CSS colour.",
+      },
+      {
+        name: "successColor",
+        type: "string",
+        defaultValue: '"var(--success)"',
+        description: "The check's colour.",
+      },
+      {
+        name: "errorColor",
+        type: "string",
+        defaultValue: '"var(--danger)"',
+        description: "The cross's colour.",
+      },
+      {
+        name: "size",
+        type: '"sm" | "md" | "lg"',
+        defaultValue: '"md"',
+        description: "The lattice's box: 28, 44 or 64 px.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Hold the weave still where it is.",
+      },
+      {
+        name: "onSettle",
+        type: '(status: "loading" | "success" | "error") => void',
+        description:
+          "Fires when the lattice has finished collapsing into its mark, or back into the weave.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the status root.",
+      },
+    ],
+    usageNotes: [
+      'Accessibility: the root is role="status" (polite) and its only text is the current label, so a screen reader hears "Syncing notes" and later "Notes synced" once each, never the weave. The drawing is aria-hidden; show the text with showLabel or keep it for assistive technology.',
+      "Reduced motion: no weave and no glide; the first pattern is drawn still and the lattice breathes with a slow opacity pulse, and completion cross-fades to the mark.",
+      "Performance: one requestAnimationFrame clock drives everything and runs only while the status is loading, the lattice is on screen (IntersectionObserver), the page is visible and it is not paused; a finished mark costs nothing. Walks are planned once per grid, seed and hold.",
+      "Server render: the first frame shows a weave already three threads in, so a card never starts as an empty grid.",
+    ],
+  },
+  {
+    name: "drag-number",
+    type: "registry:ui",
+    title: "Drag Number",
+    description:
+      "A numeric field you scrub by its label: a slow drag moves one step per few pixels, a fast one shifts up a gear to ×10 (×100 on long ranges) and snaps to that grid, while the digits roll on real odometer wheels that follow the value on springs.snap, carrying from 9 to 0 the way a counter does. A tick bar appears under the value as a tape beneath a fixed needle, moving 1:1 with the finger at every gear, zooming about the needle on springs.snap when the gear changes and rubber-banding past min and max before settling on springs.snap with the release velocity. It stays a real text input: type and Enter to commit, Escape to revert, ArrowUp and ArrowDown to step (Shift ×10, PageUp/PageDown ×10, Home and End to the ends), with the same tape gliding to each new value.",
+    files: [
+      {
+        path: "registry/ui/drag-number.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1508",
+    },
+    tagline: "A number you scrub like a dial.",
+    keywords: [
+      "number input",
+      "scrub",
+      "spinbutton",
+      "odometer",
+      "ruler",
+      "drag",
+      "field",
+    ],
+    props: [
+      {
+        name: "label",
+        type: "string",
+        description:
+          "The field's name: shown on the left, and the handle you scrub.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "number",
+        defaultValue: "— / 0",
+        description: "The value, controlled or initial.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: number) => void",
+        description:
+          "Fires from the scrub, key or typed entry that changed it, with the new value.",
+      },
+      {
+        name: "min",
+        type: "number",
+        defaultValue: "0",
+        description: "Lowest value; the tape ends here.",
+      },
+      {
+        name: "max",
+        type: "number",
+        defaultValue: "100",
+        description: "Highest value; the tape ends here.",
+      },
+      {
+        name: "step",
+        type: "number",
+        defaultValue: "1",
+        description: "The value's grid: one arrow key, one slow-scrub detent.",
+      },
+      {
+        name: "precision",
+        type: "number",
+        defaultValue: "0",
+        description:
+          "Decimals shown and kept; never fewer than the step needs.",
+      },
+      {
+        name: "sensitivity",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "Scrub speed: one step per 6 / sensitivity px of a slow drag (also the tape's tick spacing).",
+      },
+      {
+        name: "accelerate",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Fast drags shift to coarser steps: ×10 above ~700 px/s, ×100 above ~1800 px/s on ranges of 1000 steps or more.",
+      },
+      {
+        name: "unit",
+        type: "string",
+        defaultValue: '""',
+        description:
+          'A short unit shown after the number, e.g. "%", "px", "°".',
+      },
+      {
+        name: "ruler",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Show the tick bar along the bottom of the field while scrubbing, stepping, or hovering the label.",
+      },
+      {
+        name: "valueText",
+        type: "(value: number) => string",
+        description:
+          "The spoken value (aria-valuetext). Defaults to the value and its unit.",
+      },
+      {
+        name: "onScrubChange",
+        type: "(scrubbing: boolean, gear: number) => void",
+        description:
+          "Fires when a scrub starts, changes gear (1, 10 or 100) and ends.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description: "The needle and the grip while scrubbing; any CSS colour.",
+      },
+      {
+        name: "name",
+        type: "string",
+        description: "The input's form name.",
+      },
+      {
+        name: "size",
+        type: '"sm" | "md" | "lg"',
+        defaultValue: '"md"',
+        description:
+          "Field height 32, 36 or 44px, with matching type and tick sizes.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A tick for each value the scrub or a key passes (lower in a coarse gear, and at an end); only in answer to the visitor.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Disables the field and the scrub.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the root; it is w-full by default.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: the field is a role="spinbutton" text input. ArrowUp/ArrowDown step (Shift ×10), PageUp/PageDown step ten, Home/End jump to min/max, typing replaces the selected value, Enter commits, Escape reverts a draft, blur commits. Text that is not a number shakes the field and reverts.',
+      "Pointer: drag the label sideways (touch-action: pan-y); a tap on the label focuses the field without scrubbing. Hold Shift while dragging to force the ×10 gear. Pointer capture is only taken after 3px of travel.",
+      "Reduced motion: the digits swap instead of rolling and gear changes jump instead of zooming; the tape still appears and still follows the finger 1:1, because it is the reading.",
+      "Performance: no loops. The wheels and the tape are motion values derived from three springs and only compute while those move; the tape path is rebuilt only while it is visible.",
+      "Layout: the number is right-aligned and its width is reserved from max(|min|, |max|) and the precision, so the field never shifts as the value changes. Colours are tokens; the accent is any CSS colour.",
+    ],
+  },
+  {
+    name: "fuse-confirm",
+    type: "registry:ui",
+    title: "Fuse Confirm",
+    description:
+      "A destructive button whose edge is a fuse: one press lights the spark at the tip of a little wick, and it burns once round the button in `time` seconds, consuming the cord to ash behind it under a thin trail of smoke while the face counts down on a digit wheel turned by springs.snap. When the spark gets back to the start the action fires with a small spray of streaks and a flash along the spent cord; pressing again, or Escape, stamps it out — the spark squashes flat under a puff of smoke and the cord is re-laid back to the wick on springs.glide. It is a native button (Enter and Space press it) whose face presses in on springs.flick, and a polite live region announces the lighting, the last seconds and the outcome.",
+    files: [
+      {
+        path: "registry/ui/fuse-confirm.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1509",
+    },
+    tagline: "Light the fuse, or put it out.",
+    keywords: [
+      "confirm",
+      "delete",
+      "undo",
+      "fuse",
+      "countdown",
+      "destructive",
+      "button",
+    ],
+    props: [
+      {
+        name: "label",
+        type: "string",
+        description:
+          "What the button does: its text and accessible name at rest.",
+      },
+      {
+        name: "cancelLabel",
+        type: "string",
+        defaultValue: '"Cancel"',
+        description: "The text while the fuse burns, beside the countdown.",
+      },
+      {
+        name: "firedLabel",
+        type: "string",
+        defaultValue: '"Done"',
+        description: "The text once the action has fired.",
+      },
+      {
+        name: "lit / defaultLit",
+        type: "boolean",
+        defaultValue: "— / false",
+        description:
+          "Whether the fuse is burning, controlled or lit on mount. A host that refuses a press gets its own state back.",
+      },
+      {
+        name: "onLitChange",
+        type: "(lit: boolean) => void",
+        description:
+          "Fires from the press that lit or put out the fuse, and with false when it fires.",
+      },
+      {
+        name: "onConfirm",
+        type: "() => void",
+        description: "Called once, when the spark gets back to the start.",
+      },
+      {
+        name: "onCancel",
+        type: "() => void",
+        description: "Called when the visitor puts a burning fuse out.",
+      },
+      {
+        name: "time",
+        type: "number",
+        defaultValue: "4",
+        description:
+          "How long the fuse burns, in seconds: the spark's speed round the edge and the countdown.",
+      },
+      {
+        name: "spark",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How fierce the spark is, 0 to 1: its glow, its rays, the smoke and the sizzle.",
+      },
+      {
+        name: "color",
+        type: '"ember" | "ruby" | "gold" | "cobalt" | string',
+        defaultValue: '"ember"',
+        description:
+          "The fire's colour: a named pigment drawn from the theme's hues at a fixed lightness, or any CSS colour.",
+      },
+      {
+        name: "smoke",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Smoke rises from the spark as it burns, and puffs where it is stamped out.",
+      },
+      {
+        name: "resetAfter",
+        type: "number",
+        defaultValue: "2200",
+        description:
+          "How long the fired state shows before a fresh fuse is laid, in ms; 0 keeps it until the host lights it again.",
+      },
+      {
+        name: "icon",
+        type: "ReactNode",
+        description: "The icon beside the label at rest. Defaults to a bin.",
+      },
+      {
+        name: "remainingText",
+        type: "(seconds: number) => string",
+        description:
+          'The spoken countdown for the last three seconds. Defaults to "3 seconds left".',
+      },
+      {
+        name: "size",
+        type: '"sm" | "md" | "lg"',
+        defaultValue: '"md"',
+        description:
+          "Button height 32, 40 or 48px, with matching radius, type and wick.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A sizzle while it burns (rising as it nears the end) and a pop when it fires or is stamped out; only after the visitor's press.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Disables the button; a burning fuse is put out.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the root, which adds a 12px frame round the button for the wick, smoke and spray (pass -m-3 to align the button itself).",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: a native button. Enter or Space lights the fuse and, while it burns, puts it out; Escape puts it out too (and is not passed on). The button's name is the visible text of its state, and it stays focusable but aria-disabled while the fired state shows.",
+      'Announcements: a polite live region inside the component says "Fuse lit. Delete in 4 seconds.", the last three seconds, then the fired label or "Put out.".',
+      "Timing: the fuse keeps its own clock. It pauses while the page is hidden, so the action never fires unseen, and keeps time while scrolled off screen, where a timer fires it and the drawing loop sleeps.",
+      "Reduced motion: the cord still burns down with a steady glow at the burn point, because its length is the countdown; there is no travelling flicker, smoke or spray, stamping re-lays the cord with a fade, and the digits swap instead of rolling.",
+      "Performance: one SVG overlay written from a single animation-frame loop that runs only while burning, re-laying, smoking or spraying, only on screen; nothing is allocated per frame (puffs and streaks are recycled). Geometry is rebuilt only when the button resizes.",
+      "Theming: the cord and smoke use ink tokens; the fire is a pigment at a fixed lightness so it reads the same on light and dark pages.",
+    ],
+  },
+  {
+    name: "ember-tip",
+    type: "registry:ui",
+    title: "Ember Tip",
+    description:
+      "A tooltip group that warms up as you explore it: the first hover waits `delay` and the tip fades in slowly, rising into place on springs.drift, but while a tip is up the group warms, and moving to a neighbouring trigger slides the one shared bubble there on springs.glide — its size morphing to the new words as the old ones cross-fade out, its caret sliding to point at the new trigger, a slight stretch in the direction it travels. Leave and it cools over `warm`, so a quick return is shown almost at once; the warmth is visible as the bubble's border and an ember glow along the group's edge. Keyboard focus shows tips by the same rules, Escape dismisses them, and every trigger keeps its tip as an accessible description.",
+    files: [
+      {
+        path: "registry/ui/ember-tip.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1510",
+    },
+    tagline: "Tooltips that warm up as you explore.",
+    keywords: [
+      "tooltip",
+      "hint",
+      "toolbar",
+      "hover",
+      "delay",
+      "warm-up",
+      "group",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "ReactNode",
+        description:
+          "The triggers, each wrapped in an EmberTipTrigger ({ content, children, id?, disabled? }), and any layout around them.",
+      },
+      {
+        name: "delay",
+        type: "number",
+        defaultValue: "600",
+        description:
+          "How long a cold group waits before its first tip, in ms; a warm group waits delay × (1 − heat)².",
+      },
+      {
+        name: "warm",
+        type: "number",
+        defaultValue: "1500",
+        description:
+          "How long the group stays warm after you leave, in ms (the heat drains linearly); 0 makes every visit cold.",
+      },
+      {
+        name: "placement",
+        type: '"top" | "bottom" | "left" | "right"',
+        defaultValue: '"top"',
+        description:
+          "Which side of its trigger the tip sits on; top and bottom tips are kept inside the group's width.",
+      },
+      {
+        name: "offset",
+        type: "number",
+        defaultValue: "8",
+        description: "The gap between trigger and tip, in px.",
+      },
+      {
+        name: "rise",
+        type: "number",
+        defaultValue: "6",
+        description:
+          "How far a cold tip rises into place, in px; a warm one rises less.",
+      },
+      {
+        name: "closeDelay",
+        type: "number",
+        defaultValue: "100",
+        description:
+          "Grace before a tip hides once the pointer leaves, in ms, so crossing the gap between triggers slides instead of hiding.",
+      },
+      {
+        name: "glow",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "An ember glow rides the group's edge under the tip while the group is warm, and cools with it.",
+      },
+      {
+        name: "ember",
+        type: "string",
+        defaultValue: '"oklch(from var(--warn) 0.76 0.16 calc(h - 22))"',
+        description:
+          "The warmth's colour, any CSS colour; the default is a warm pigment from the theme's own hue.",
+      },
+      {
+        name: "arrow",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Draw a caret that points at the trigger and slides along the tip's edge.",
+      },
+      {
+        name: "maxWidth",
+        type: "number",
+        defaultValue: "220",
+        description: "The widest a tip grows before its text wraps, in px.",
+      },
+      {
+        name: "size",
+        type: '"sm" | "md" | "lg"',
+        defaultValue: '"md"',
+        description: "The tip's type size and padding.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(triggerId: string | null) => void",
+        description: "A tip opened, with its trigger's id, or closed (null).",
+      },
+      {
+        name: "onWarmChange",
+        type: "(warm: boolean) => void",
+        description: "The group warmed up (true) or has fully cooled (false).",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Shows no tips at all.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the group's root; any other div attributes (role, aria-label, onKeyDown…) pass through.",
+      },
+    ],
+    usageNotes: [
+      "Structure: EmberTip renders one shared bubble for all its triggers. Wrap each control in <EmberTipTrigger content={…}>; the control must accept aria-describedby, which points at a hidden copy of the tip so its description is there whether or not the tip is showing.",
+      "Keyboard and hover: tips show on mouse or pen hover and on keyboard focus (focus-visible), stay while the tip itself is hovered, and Escape dismisses the tip until the pointer or focus moves on (Escape is prevented so an enclosing dialog stays open). A mouse press on a trigger hides its tip. Touch never shows tips.",
+      "Reduced motion: no rise, slide or stretch — the tip fades in place and jumps between triggers while the words cross-fade. The delays and the warmth still apply, and the glow and border still show the heat.",
+      "Performance: no loops and two timers at most; a handful of motion values (anchor, size, lift, opacity, heat) and a trigger's box read only when its tip is requested.",
+      "Theming: the bubble uses the popover tokens; the warmth is a pigment at a fixed lightness so it reads the same on light and dark pages.",
+    ],
+  },
+  {
+    name: "slide-seal",
+    type: "registry:ui",
+    title: "Slide Seal",
+    description:
+      "A slide-to-confirm strip whose handle is a seal stamp: it follows the finger 1:1 along the track and rubber-bands past the ends while the track's words dissolve letter by letter under it, and near the end a wax seal forms on the mark, growing from a dot to just wider than the handle as it closes on the threshold. Released past the threshold (or flicked so the throw would land past it) the handle slams onto the wax on springs.flick with the release velocity and presses it — squashing on springs.flick, the wax splatting out past its rim on springs.recoil — and its face becomes the seal with the monogram pressed in; released short, it springs home on springs.glide with the release velocity. The handle is a native button: Enter or Space runs the whole slide and presses the seal.",
+    files: [
+      {
+        path: "registry/ui/slide-seal.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1511",
+    },
+    tagline: "Slide to seal the deal.",
+    keywords: [
+      "slide to confirm",
+      "seal",
+      "wax",
+      "sign",
+      "swipe",
+      "confirm",
+      "stamp",
+    ],
+    props: [
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Slide to seal"',
+        description: "The track's words and the handle's accessible name.",
+      },
+      {
+        name: "sealedLabel",
+        type: "string",
+        defaultValue: '"Sealed"',
+        description: "Shown once sealed, and the handle's name then.",
+      },
+      {
+        name: "sealed / defaultSealed",
+        type: "boolean",
+        defaultValue: "— / false",
+        description:
+          "Whether it is sealed, controlled or initial. Setting it back to false breaks the seal and the handle glides home; a host that refuses the seal gets its own state back.",
+      },
+      {
+        name: "onSealedChange",
+        type: "(sealed: boolean) => void",
+        description: "Fires with true from the release or key that sealed it.",
+      },
+      {
+        name: "onConfirm",
+        type: "() => void",
+        description: "Called once, when the seal is pressed.",
+      },
+      {
+        name: "onProgressChange",
+        type: "(progress: number) => void",
+        description:
+          "Fires while the handle is dragged with how far along the track it is, 0 to 1 (two decimals); 0 when it springs back, 1 when sealed.",
+      },
+      {
+        name: "threshold",
+        type: "number",
+        defaultValue: "0.85",
+        description:
+          "Where a release commits, as a share of the travel (0.5 to 0.98); also where the wax finishes forming and the track's mark sits.",
+      },
+      {
+        name: "seal",
+        type: '"crimson" | "forest" | "cobalt" | "amber" | string',
+        defaultValue: '"crimson"',
+        description:
+          "The wax: a named pigment from the theme's hues at a fixed lightness, or any CSS colour.",
+      },
+      {
+        name: "monogram",
+        type: "string",
+        defaultValue: '""',
+        description:
+          "One or two letters pressed into the wax; a check when empty.",
+      },
+      {
+        name: "icon",
+        type: "ReactNode",
+        description:
+          "The handle's icon before it is pressed. Defaults to a stamp.",
+      },
+      {
+        name: "wobble",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How organic the wax's edge is, from a coin (0) to a splash (1).",
+      },
+      {
+        name: "squash",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How deep the press squashes the handle and how far the wax spreads, 0 to 1.",
+      },
+      {
+        name: "size",
+        type: '"sm" | "md" | "lg"',
+        defaultValue: '"md"',
+        description:
+          "Track height 48, 56 or 64px with a matching handle; the strip is w-full up to 420px.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A thock when the seal is pressed, pitched by size; only after the visitor's drag or key.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Disables the handle.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the root, which keeps 6px round the track for the wax's overhang (pass -m-1.5 to align the track itself).",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the handle is a native button named `label` and described by how to use it; Enter or Space runs the slide and presses the seal. Once sealed it stays focusable, aria-disabled and named `sealedLabel`, and a polite live region says it once.",
+      "Pointer: drag the handle (touch-action: pan-y, so the page still scrolls vertically); a tap without a drag nudges it toward the seal as a hint. Pointer capture is only taken after 3px of travel, and a throw is projected, so a flick past the threshold seals.",
+      "Reduced motion: the handle still follows the finger; the wax fades in where it would grow, a short release returns on a short tween, and the press is a cross-fade with no squash or splat.",
+      "Performance: DOM plus one small SVG and no loops. The wax outline, its gloss, the text mask and the squash are motion values derived from the handle's position and two press springs, computed only while those move.",
+      "Theming: the track uses surface and hairline tokens; the wax is a pigment at a fixed lightness with its shade and highlight mixed in oklab, so the seal looks the same on light and dark pages.",
+    ],
+  },
+  {
+    name: "stretch-tabs",
+    type: "registry:ui",
+    title: "Stretch Tabs",
+    description:
+      "A segmented control whose pill is rubber: its two edges are separate springs, so choosing another segment sends the leading edge out first to land with a slight overshoot while the trailing edge holds for a beat and then lets go on a softer spring — the pill stretching toward the new segment, thinning as it stretches, and squashing against the track's ends instead of leaving them. The selected label colour is a copy of the labels clipped to the pill's exact shape, so it sweeps across each letter with the rubber edge; at elastic 0 the pill is one piece on springs.snap. The pill can be dragged 1:1 (its trailing edge following on a short spring) and a release projects the throw and snaps to the nearest segment with the release velocity; arrows move and wrap, Home and End jump, in tablist or radiogroup semantics with a roving tabindex.",
+    files: [
+      {
+        path: "registry/ui/stretch-tabs.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1512",
+    },
+    tagline: "A segmented control with some give.",
+    keywords: [
+      "segmented control",
+      "tabs",
+      "radio group",
+      "pill",
+      "elastic",
+      "rubber",
+      "range picker",
+    ],
+    props: [
+      {
+        name: "items",
+        type: "StretchTabsItem[]",
+        description:
+          "The segments, in order: { value, label, ariaLabel?, controls?, disabled? }. `controls` is the id of the panel a tab shows.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        defaultValue: "— / the first item",
+        description: "The selected value, controlled or initial.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: string) => void",
+        description:
+          "Fires from the press, key or drag that changed it, with the new value.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "The control's accessible name.",
+      },
+      {
+        name: "segments",
+        type: "number",
+        defaultValue: "items.length",
+        description:
+          "How many of the items are shown, from the first; the pill keeps its place in segment units, so a change needs no measuring.",
+      },
+      {
+        name: "elastic",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "The rubber, 0 to 1: how long the trailing edge holds, how soft it catches up, how far the pill may stretch (1.5 to 2.6 segments), how much it thins, and how much the leading edge overshoots. 0 is one rigid piece on springs.snap.",
+      },
+      {
+        name: "size",
+        type: '"sm" | "md" | "lg"',
+        defaultValue: '"md"',
+        description: "Track height 32, 36 or 44px with 12, 13 or 14px labels.",
+      },
+      {
+        name: "semantics",
+        type: '"tablist" | "radiogroup"',
+        defaultValue: '"tablist"',
+        description:
+          "Tabs that show panels (role tab, aria-selected, aria-controls) or a radio group that picks a value (role radio, aria-checked).",
+      },
+      {
+        name: "activation",
+        type: '"auto" | "manual"',
+        defaultValue: '"auto"',
+        description:
+          "Arrow keys select as they move, or (tablist only) only move focus until Enter or Space.",
+      },
+      {
+        name: "draggable",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The pill can be dragged along the track; a drag that starts on another segment selects the segment it is released over.",
+      },
+      {
+        name: "pill",
+        type: "string",
+        defaultValue: '"var(--foreground)"',
+        description: "The pill's colour, any CSS colour.",
+      },
+      {
+        name: "pillText",
+        type: "string",
+        defaultValue: '"var(--background)"',
+        description: "The selected label's colour, on the pill.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A tick on every change and on every segment a drag crosses, pitched by position; only in answer to the visitor.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Disables every segment.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the track; it is inline-grid sized by its widest label, so pass w-full to stretch it.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: one tab stop (roving tabindex). ArrowLeft/ArrowRight (and Up/Down) move and wrap, skipping disabled items; Home and End jump to the ends. With activation="manual" (tablist) arrows move focus only and Enter or Space selects.',
+      "Pointer: press a segment to select it; drag the pill (touch-action: pan-y) and it follows 1:1 with its trailing edge on a short spring, rubber-banding into the ends; a release projects the throw. Pointer capture is only taken after 4px.",
+      "Reduced motion: the pill moves in one piece without stretch, thinning or overshoot — it jumps to the new segment with a short fade-in so the change is still seen; dragging still follows the finger.",
+      "Server rendering: positions are segment units drawn with CSS calc() against the track, so the server renders the pill under the selected segment and nothing is measured at rest (one box read when a drag starts).",
+      "Performance: two springs (the edges) and derived styles, only while they move; no loops. The selected label colour is a clipped copy of the labels, so text never re-renders mid-animation.",
+    ],
+  },
+  {
+    name: "beat-like",
+    type: "registry:ui",
+    title: "Beat Like",
+    description:
+      "A like button whose heart beats: a press contracts it on a near-critical spring while the colour floods up from the tip, then relaxes it on an underdamped one that carries it past its size, and at the top of that relaxation a ring of small hearts is thrown outward while the count rolls up on springs.snap. Holding the heart makes it race — it beats on its own, quicker and bigger each time, while a ring around it fills — and letting go at full charge super-likes with a big beat and a double ring; while liked it keeps a quiet resting heartbeat. It is an aria-pressed button: Space and Enter behave like the pointer (a quick press toggles, a held one charges, Escape cancels the hold).",
+    files: [
+      {
+        path: "registry/ui/beat-like.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1513",
+    },
+    tagline: "A like that keeps a heartbeat.",
+    keywords: [
+      "like",
+      "heart",
+      "favourite",
+      "reaction",
+      "super like",
+      "heartbeat",
+      "toggle",
+    ],
+    props: [
+      {
+        name: "pressed / defaultPressed",
+        type: "boolean",
+        defaultValue: "— / false",
+        description:
+          "Whether the visitor has liked it, controlled or uncontrolled.",
+      },
+      {
+        name: "onPressedChange",
+        type: '(pressed: boolean, kind: "like" | "super" | "unlike") => void',
+        description:
+          "Fires from the press, key or hold that changed it, with the new state and how it was reached; a super-like over an existing like fires with pressed true.",
+      },
+      {
+        name: "count",
+        type: "number",
+        defaultValue: "0",
+        description:
+          "Likes from everyone else; the visitor's own like is added while pressed.",
+      },
+      {
+        name: "format",
+        type: "(count: number) => string",
+        defaultValue: "grouped integer",
+        description:
+          "How the count is written; each digit rolls in its own column, other characters stand still.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Like"',
+        description: "The button's accessible name; the count describes it.",
+      },
+      {
+        name: "burst",
+        type: "number",
+        defaultValue: "8",
+        description:
+          "Small hearts thrown by a like, 0 to 24; a super-like throws twice as many in two rings.",
+      },
+      {
+        name: "beat",
+        type: "number",
+        defaultValue: "72",
+        description:
+          "The heart rate in beats per minute: how fast a beat contracts and relaxes, the resting pulse, and where a held heart starts to race.",
+      },
+      {
+        name: "color",
+        type: '"rose" | "amber" | "cobalt" | "mint" | string',
+        defaultValue: '"rose"',
+        description:
+          "The heart's colour: a named pigment that reads the same in both themes, or any CSS colour.",
+      },
+      {
+        name: "resting",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Keep a quiet lub-dub while liked, only while the button is on screen and the page is visible.",
+      },
+      {
+        name: "holdToSuper",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Holding the heart races it, and letting go at full charge super-likes; off, a hold is just a slow press.",
+      },
+      {
+        name: "superHold",
+        type: "number",
+        defaultValue: "1200",
+        description: "How long a hold takes to reach full charge, in ms.",
+      },
+      {
+        name: "onHoldChange",
+        type: '(state: "idle" | "charging" | "full") => void',
+        description:
+          "Fires as a hold starts charging, reaches full charge, and ends.",
+      },
+      {
+        name: "showCount",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Show the count beside the heart; off, the button is a round heart.",
+      },
+      {
+        name: "size",
+        type: '"sm" | "md" | "lg"',
+        defaultValue: '"md"',
+        description:
+          "Pill height 32, 40 or 48px, with the heart and text scaled to match.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A pop as the hearts leave (two for a super-like), soft rising pops while charging and a low one on unlike; only in answer to the visitor.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Disables the button.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the root inline box.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: it is a <button aria-pressed>. Space and Enter are handled as a press — released quickly they toggle, held they charge and a release at full charge super-likes — and Escape cancels a hold without changing anything. A click with no pointer or key behind it (assistive technology) toggles. A polite status announces Liked, Super liked or Like removed at the moment of change.",
+      "The burst is drawn as the overflow of a heart-sized SVG, like a shadow: it paints about two heart-widths past the heart without adding to layout or scroll width. Leave that much clear space around the button, or lower `burst`.",
+      "Reduced motion: nothing contracts, relaxes or flies — the colour fills and drains on a short tween, the ring of hearts appears still and fades in place, a hold shows only the ring filling, and there is no resting heartbeat.",
+      "Performance: everything is SVG on motion values. The resting heartbeat is one short animation per beat scheduled by a timer that stops while the button is off screen (IntersectionObserver) or the page is hidden; an unliked, idle button runs nothing.",
+      "Theming: the named colours are pigments taken from the theme's danger, warn, accent and success hues at a fixed lightness, so a filled heart looks the same on light and dark pages.",
+    ],
+  },
+  {
+    name: "tick-spring",
+    type: "registry:ui",
+    title: "Tick Spring",
+    description:
+      "A checkbox whose tick is drawn by an elastic pen: a press squashes the box on its base on springs.flick and lets it go on springs.recoil, and checking draws the tick on a spring of your stiffness and bounce that runs past its end, so the long arm overshoots and springs back while the corner dips under the pen as it turns. The box floods with colour from its centre on springs.snap (or stays outlined while an ink tick swings past its corner), an indeterminate dash bends into the tick on the same spring instead of being erased, and an optional strike sweeps through the label on springs.glide, line by line. It is a native checkbox, so Tab reaches the box, Space toggles it and a form submits it.",
+    files: [
+      {
+        path: "registry/ui/tick-spring.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1514",
+    },
+    tagline: "A checkbox with a spring in its step.",
+    keywords: [
+      "checkbox",
+      "tick",
+      "check",
+      "todo",
+      "indeterminate",
+      "strike through",
+      "form",
+    ],
+    props: [
+      {
+        name: "checked / defaultChecked",
+        type: 'boolean | "indeterminate"',
+        defaultValue: "— / false",
+        description:
+          "Ticked, clear, or indeterminate (a dash), controlled or uncontrolled.",
+      },
+      {
+        name: "onCheckedChange",
+        type: "(checked: boolean) => void",
+        description:
+          "Fires from the press or key that changed it; a press on a dash always ticks.",
+      },
+      {
+        name: "label",
+        type: "ReactNode",
+        description:
+          "The text beside the box, in a <label> that toggles the box.",
+      },
+      {
+        name: "description",
+        type: "ReactNode",
+        description:
+          "A quieter second line under the label, linked to the box with aria-describedby.",
+      },
+      {
+        name: "stroke",
+        type: "number",
+        defaultValue: "2.25",
+        description: "The pen's width in px.",
+      },
+      {
+        name: "stiffness",
+        type: "number",
+        defaultValue: "520",
+        description:
+          "The pen's spring stiffness: higher draws faster and settles sooner.",
+      },
+      {
+        name: "bounce",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How far the pen overshoots the end of the tick before it settles, 0 (lands dead) to 1.",
+      },
+      {
+        name: "strike",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Strike the label through once the tick lands, line by line when it wraps, and dim it.",
+      },
+      {
+        name: "appearance",
+        type: '"fill" | "ink"',
+        defaultValue: '"fill"',
+        description:
+          '"fill" floods the box behind a light tick; "ink" keeps it outlined and draws the tick in colour, its long arm past the box\'s corner.',
+      },
+      {
+        name: "color",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description: "The fill (or ink) colour; any CSS colour.",
+      },
+      {
+        name: "size",
+        type: '"sm" | "md" | "lg"',
+        defaultValue: '"md"',
+        description:
+          "Box 16, 20 or 24px, with the label's line height to match so the box sits on the first line.",
+      },
+      {
+        name: "name",
+        type: "string",
+        description: "Form field name, submitted while ticked.",
+      },
+      {
+        name: "value",
+        type: "string",
+        defaultValue: '"on"',
+        description: "The value submitted under `name`.",
+      },
+      {
+        name: "required",
+        type: "boolean",
+        description: "Native required.",
+      },
+      {
+        name: "id",
+        type: "string",
+        defaultValue: "generated",
+        description: "The box's id; the label points at it.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A tick when the pen lands and a lower one when it retracts; only for the box the visitor pressed.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Disables the box and dims the row.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the row.",
+      },
+    ],
+    usageNotes: [
+      'It is a real <input type="checkbox"> styled with appearance-none, so the focused element is the box itself and its focus ring is the box\'s. Tab reaches it, Space toggles it, the label toggles it, and indeterminate is set on the DOM node so it is announced as mixed.',
+      'Indeterminate is controlled through `checked="indeterminate"`. A press on a dash reports `true`; a parent box over a group is the usual use — pass it `"indeterminate"` while only some children are ticked.',
+      "Reduced motion: no squash, overshoot or corner dip — the tick and dash fade in whole, the fill fades, and the strike appears at once. The state always shows.",
+      "Performance: the stroke is one SVG path rebuilt from motion values only while a spring runs (it can run past its end, which a dash offset cannot); nothing runs at rest and there are no observers.",
+      "The ink appearance draws its tick past the box's corner as SVG overflow, which paints without adding to layout; leave a few px clear above and to the right.",
+    ],
+  },
+  {
+    name: "star-peek",
+    type: "registry:ui",
+    title: "Star Peek",
+    description:
+      "A star rating that shows what you are about to say: hovering, scrubbing or arrowing fills the stars toward the pointer on springs.flick — a star can stand a third full — while a soft ghost reaches ahead to the value a press would commit, stepping on springs.snap, and a short phrase for that score peeks up from behind the question and glides sideways on springs.snap to sit over the ghost's edge. Committing settles the fill and pops the filled stars in sequence, each kicked on springs.recoil a cascade apart, with a chime as the last lands. It is a radiogroup with one radio per half star: arrows move and preview, Home and End jump, Enter and Space commit, Escape ends the preview.",
+    files: [
+      {
+        path: "registry/ui/star-peek.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1515",
+    },
+    tagline: "A rating that shows you what you are about to say.",
+    keywords: [
+      "rating",
+      "stars",
+      "review",
+      "half stars",
+      "feedback",
+      "radiogroup",
+      "score",
+    ],
+    props: [
+      {
+        name: "value / defaultValue",
+        type: "number",
+        defaultValue: "— / 0",
+        description:
+          "The rating, controlled or uncontrolled; 0 is unrated. Snapped to the step.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: number) => void",
+        description:
+          "Fires from the press, tap, drag or key that committed a rating.",
+      },
+      {
+        name: "onPreviewChange",
+        type: "(value: number | null) => void",
+        description:
+          "Fires as a preview starts, moves to another step, and ends (null).",
+      },
+      {
+        name: "count",
+        type: "number",
+        defaultValue: "5",
+        description: "How many stars, 1 to 10.",
+      },
+      {
+        name: "half",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Half-star steps: two radios per star.",
+      },
+      {
+        name: "phrases",
+        type: '"warm" | "plain" | "off" | string[]',
+        defaultValue: '"warm"',
+        description:
+          "The phrase that peeks above a previewed score: a built-in set, off, or your own — one per star, one per half step, or any length mapped across the scale.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Your rating"',
+        description: "The question over the stars, and the radio group's name.",
+      },
+      {
+        name: "hideLabel",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Keep the question for assistive technology only; its row stays, for the phrase to peek into.",
+      },
+      {
+        name: "showValue",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          'Show the number (and "/ count" where there is room) beside the stars, with the widest value\'s width reserved.',
+      },
+      {
+        name: "format",
+        type: "(value: number, count: number) => string",
+        defaultValue: '"4.5", "4", "–"',
+        description:
+          "How a value is written beside the stars and spoken in each radio's name.",
+      },
+      {
+        name: "commitOnArrow",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Arrow keys select as they move, as a plain radio group does, instead of previewing until Enter or Space.",
+      },
+      {
+        name: "color",
+        type: '"amber" | "rose" | "cobalt" | "mint" | string',
+        defaultValue: '"amber"',
+        description:
+          "The stars' colour: a named pigment that reads the same in both themes, or any CSS colour.",
+      },
+      {
+        name: "size",
+        type: '"sm" | "md" | "lg"',
+        defaultValue: '"md"',
+        description: "Stars 24, 32 or 40px; they shrink to fit a narrow row.",
+      },
+      {
+        name: "name",
+        type: "string",
+        description:
+          "Form field name: the rating is submitted in a hidden input.",
+      },
+      {
+        name: "readOnly",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Shows the rating with no preview or commit; still focusable and announced.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A tick per previewed step, rising with the value, and a chime on commit; only in answer to the visitor.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Disables and dims the rating; nothing in it can be focused.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the root column.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: a role="radiogroup" labelled by the question, with one role="radio" per step (each covering its half of a star) on a roving tabindex. Arrows move focus and preview, Home and End jump to the ends, Enter or Space commits the focused value, and Escape ends a preview. Pass `commitOnArrow` for the plain radio-group behaviour where arrows select.',
+      'Each radio\'s accessible name is one string — "3.5 stars, Really good" — and a polite status announces the committed rating with its phrase.',
+      "Pointer: a mouse or pen previews on hover; a finger scrubs across the stars (the row keeps touch-action pan-y, so vertical scrolling still works) and lifting commits; a tap commits where it lands.",
+      "Reduced motion: the fill and the ghost jump to place, the phrase fades in where it sits without rising or gliding, and a commit is a brief highlight instead of a pop.",
+      "Performance: SVG stars with clip rects on motion values; nothing runs at rest. Rapid arrowing never stutters because the phrases are stacked in one cell and cross-fade.",
+    ],
+  },
+  {
+    name: "heat-hold",
+    type: "registry:ui",
+    title: "Heat Hold",
+    description:
+      "A hold-to-confirm button fired like a kiln: holding raises the heat, and one WebGL2 pass paints a front that climbs from the floor with its edge licked into tongues, the colour climbing the ramp from deep red through orange and yellow to white, a haze wavering above it and sparks rising through it, while a masked second copy of the label recolours as the heat passes through it. Let go early and it cools back down, quickest while hottest; reach the top and it fires — a white flare blooms from the middle, a glow spreads around the button and fades, the button kicks on springs.recoil and the kiln cools through the ramp. Space or Enter held heats it, Escape cancels, and a click with no pointer or key behind it fires at once.",
+    files: [
+      {
+        path: "registry/ui/heat-hold.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+      "glsl",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1516",
+    },
+    tagline: "Hold until it glows.",
+    keywords: [
+      "hold to confirm",
+      "press and hold",
+      "kiln",
+      "heat",
+      "destructive action",
+      "webgl",
+      "button",
+    ],
+    props: [
+      {
+        name: "onConfirm",
+        type: "() => void",
+        description: "Fires once, the moment the heat reaches the top.",
+      },
+      {
+        name: "onHeatChange",
+        type: '(state: "idle" | "heating" | "cooling" | "fired") => void',
+        description:
+          "Fires as the button starts heating, starts cooling, fires, and comes back to rest.",
+      },
+      {
+        name: "label",
+        type: "ReactNode",
+        defaultValue: '"Hold to confirm"',
+        description: "What the button does; truncates in a narrow button.",
+      },
+      {
+        name: "doneLabel",
+        type: "ReactNode",
+        defaultValue: '"Confirmed"',
+        description: "Shown, with a check, once it has fired.",
+      },
+      {
+        name: "icon",
+        type: "ReactNode",
+        defaultValue: "a flame",
+        description: "Before the label; 16px, drawn in currentColor.",
+      },
+      {
+        name: "hold",
+        type: "number",
+        defaultValue: "1600",
+        description:
+          "How long a hold takes to bring it to full heat, in ms. Measured in real time, so a busy device fires on time.",
+      },
+      {
+        name: "cool",
+        type: "number",
+        defaultValue: "900",
+        description:
+          "How long a full charge takes to cool back down when let go early, in ms; it cools fastest while hottest.",
+      },
+      {
+        name: "shimmer",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How much the heat wavers, 0 to 1: the tongues on its front, the haze above it and the sparks in it. 0 is a calm level.",
+      },
+      {
+        name: "colors",
+        type: '"kiln" | "forge" | "gas" | string[]',
+        defaultValue: '"kiln"',
+        description:
+          "The heat ramp, coldest first: a named ramp (red to white, copper to gold, blue flame to white) or 2 to 4 CSS colours.",
+      },
+      {
+        name: "glow",
+        type: "number",
+        defaultValue: "0.7",
+        description:
+          "How far the glow blooms around the button when it fires, 0 to 1.",
+      },
+      {
+        name: "resetAfter",
+        type: "number",
+        defaultValue: "1800",
+        description:
+          "How long it shows the fired state before it can be held again, in ms; 0 keeps it fired.",
+      },
+      {
+        name: "size",
+        type: '"sm" | "md" | "lg"',
+        defaultValue: '"md"',
+        description: "Height 40, 48 or 56px.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description:
+          "The highest device pixel ratio the heat is drawn at (0.5 to 2).",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A sizzle while heating, rising with the heat and stopped on release, and a flare on firing; only in answer to the visitor.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Disables the button and lets any hold go.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the root, which the button fills; set its width here.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: it is a real <button>. Space or Enter held heats it (key repeats are ignored), letting go cools it, Escape cancels a hold, and losing focus lets go. A click with no pointer or key behind it — assistive technology — fires it at once, because a hold cannot be asked of everyone. It is described by "Hold for 1.6 seconds", and a polite status announces Fired or Released early, not fired.',
+      "Performance: one WebGL2 fragment pass over the button only, through registry/lib/glsl, with the device pixel ratio capped and the canvas resized by a ResizeObserver. The frame loop runs only while the button is heating, cooling, flaring or glowing; it stops at rest, off screen and in a hidden page, where a hold is let go and the sizzle stops.",
+      "Without WebGL2, or after a lost context, a CSS gradient level in the same ramp stands in; the server renders that level too, so the first paint is the designed cold button.",
+      "Reduced motion: the heat is a level with a straight, soft edge — no tongues, haze or sparks — the flare is a flash and the button does not kick. The label still heats and the hold still fires.",
+      "Theming: the ramps are fixed pigments (heat colours do not change with the theme); the cold button uses the card surface and the label's heated copy picks dark or light ink against the ramp at the current heat, so it reads on both themes.",
+    ],
+  },
+  {
+    name: "squash-switch",
+    type: "registry:ui",
+    title: "Squash Switch",
+    description:
+      'A switch whose thumb is a soft body: it crosses on a spring whose stiffness you set, stretching along its travel with its speed and thinning to keep its area, and when the underdamped spring carries it past its rest the leading edge stays on the wall and the body flattens against it — narrower, taller, flat where it touches — then rebounds and settles, while a ripple runs through the track\'s outline from the struck end to the far one. The thumb drags 1:1, squashing as it is pushed past either end, and a release commits by projection with the spring taking the release velocity. It is a role="switch" button: Space and Enter toggle it, Right turns it on and Left off.',
+    files: [
+      {
+        path: "registry/ui/squash-switch.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1517",
+    },
+    tagline: "A switch with a squishy thumb.",
+    keywords: [
+      "switch",
+      "toggle",
+      "soft body",
+      "squash and stretch",
+      "settings",
+      "drag",
+      "jelly",
+    ],
+    props: [
+      {
+        name: "checked / defaultChecked",
+        type: "boolean",
+        defaultValue: "— / false",
+        description: "The switch's state, controlled or uncontrolled.",
+      },
+      {
+        name: "onCheckedChange",
+        type: "(checked: boolean) => void",
+        description:
+          "Fires from the press, drag or key that changed it, with the new state.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          "What the switch controls: its accessible name, shown before it unless hideLabel.",
+      },
+      {
+        name: "hideLabel",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Keep the label for assistive technology only.",
+      },
+      {
+        name: "onText",
+        type: "string",
+        description:
+          "A word after the switch while on; the longer of the two words' width is kept, so nothing shifts.",
+      },
+      {
+        name: "offText",
+        type: "string",
+        description: "A word after the switch while off.",
+      },
+      {
+        name: "softness",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How soft the thumb is, 0 to 1: how far it stretches in flight, how flat it squashes on the wall, and how long it wobbles.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How quickly the thumb crosses, 0 to 1: the travel spring's stiffness.",
+      },
+      {
+        name: "ripple",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Send a ripple through the track's outline when the thumb lands.",
+      },
+      {
+        name: "color",
+        type: '"mint" | "cobalt" | "amber" | "rose" | string',
+        defaultValue: '"mint"',
+        description:
+          "The track's colour while on: a named pigment that reads the same in both themes, or any CSS colour.",
+      },
+      {
+        name: "thumbColor",
+        type: "string",
+        defaultValue: '"oklch(0.99 0.004 258)"',
+        description: "The thumb's colour; any CSS colour.",
+      },
+      {
+        name: "size",
+        type: '"sm" | "md" | "lg"',
+        defaultValue: '"md"',
+        description: "Track 44×24, 56×32 or 72×40px.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A thock as the thumb lands, louder with the impact and duller for a softer thumb; only in answer to the visitor.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Disables the switch.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the root row.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: a <button role="switch" aria-checked> named by its label. Space and Enter toggle it through the native click, ArrowRight turns it on and ArrowLeft off. The state words are aria-hidden: the switch already says whether it is on.',
+      "Touch: the switch keeps touch-action pan-y, so a vertical swipe scrolls the page while a horizontal drag moves the thumb; a drag only takes the pointer after 3px, so a tap is still a tap.",
+      "Reduced motion: the thumb moves in one piece on a short tween — no stretch, squash, wobble or ripple — and the track colour still changes.",
+      "Performance: the thumb and the track outline are SVG paths rebuilt from motion values only while the spring or the ripple runs; nothing runs at rest.",
+      "The squashed thumb can grow a little past the track; the switch keeps that much room above and below it, so it never draws outside its own box.",
+    ],
+  },
 ];

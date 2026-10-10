@@ -611,4 +611,68 @@ export const CANVAS_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/ledger-swipe.demo").then((m) =>
       mod(m.LedgerSwipeDemo, m.tweaks),
     ),
+  "goo-radio": () =>
+    import("@/registry/demos/goo-radio.demo").then((m) =>
+      mod(m.GooRadioDemo, m.tweaks),
+    ),
+  "comet-knob": () =>
+    import("@/registry/demos/comet-knob.demo").then((m) =>
+      mod(m.CometKnobDemo, m.tweaks),
+    ),
+  "wake-range": () =>
+    import("@/registry/demos/wake-range.demo").then((m) =>
+      mod(m.WakeRangeDemo, m.tweaks),
+    ),
+  "pin-slots": () =>
+    import("@/registry/demos/pin-slots.demo").then((m) =>
+      mod(m.PinSlotsDemo, m.tweaks),
+    ),
+  "shy-label": () =>
+    import("@/registry/demos/shy-label.demo").then((m) =>
+      mod(m.ShyLabelDemo, m.tweaks),
+    ),
+  "lattice-wait": () =>
+    import("@/registry/demos/lattice-wait.demo").then((m) =>
+      mod(m.LatticeWaitDemo, m.tweaks),
+    ),
+  "drag-number": () =>
+    import("@/registry/demos/drag-number.demo").then((m) =>
+      mod(m.DragNumberDemo, m.tweaks),
+    ),
+  "fuse-confirm": () =>
+    import("@/registry/demos/fuse-confirm.demo").then((m) =>
+      mod(m.FuseConfirmDemo, m.tweaks),
+    ),
+  "ember-tip": () =>
+    import("@/registry/demos/ember-tip.demo").then((m) =>
+      mod(m.EmberTipDemo, m.tweaks),
+    ),
+  "slide-seal": () =>
+    import("@/registry/demos/slide-seal.demo").then((m) =>
+      mod(m.SlideSealDemo, m.tweaks),
+    ),
+  "stretch-tabs": () =>
+    import("@/registry/demos/stretch-tabs.demo").then((m) =>
+      mod(m.StretchTabsDemo, m.tweaks),
+    ),
+  "beat-like": () =>
+    import("@/registry/demos/beat-like.demo").then((m) =>
+      mod(m.BeatLikeDemo, m.tweaks),
+    ),
+  "tick-spring": () =>
+    import("@/registry/demos/tick-spring.demo").then((m) =>
+      mod(m.TickSpringDemo, m.tweaks),
+    ),
+  "star-peek": () =>
+    import("@/registry/demos/star-peek.demo").then((m) =>
+      mod(m.StarPeekDemo, m.tweaks),
+    ),
+  "heat-hold": () =>
+    import("@/registry/demos/heat-hold.demo").then((m) =>
+      mod(m.HeatHoldDemo, m.tweaks),
+    ),
+  "squash-switch": () =>
+    import("@/registry/demos/squash-switch.demo").then((m) =>
+      mod(m.SquashSwitchDemo, m.tweaks),
+    ),
 };
