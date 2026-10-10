@@ -51,4 +51,48 @@ export const CANVAS_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/cascade-split.demo").then((m) =>
       mod(m.CascadeSplitDemo, m.tweaks),
     ),
+  "cipher-wheel": () =>
+    import("@/registry/demos/cipher-wheel.demo").then((m) =>
+      mod(m.CipherWheelDemo, m.tweaks),
+    ),
+  "word-bracket": () =>
+    import("@/registry/demos/word-bracket.demo").then((m) =>
+      mod(m.WordBracketDemo, m.tweaks),
+    ),
+  "buoyant-line": () =>
+    import("@/registry/demos/buoyant-line.demo").then((m) =>
+      mod(m.BuoyantLineDemo, m.tweaks),
+    ),
+  "read-along": () =>
+    import("@/registry/demos/read-along.demo").then((m) =>
+      mod(m.ReadAlongDemo, m.tweaks),
+    ),
+  "char-cast": () =>
+    import("@/registry/demos/char-cast.demo").then((m) =>
+      mod(m.CharCastDemo, m.tweaks),
+    ),
+  "scramble-brush": () =>
+    import("@/registry/demos/scramble-brush.demo").then((m) =>
+      mod(m.ScrambleBrushDemo, m.tweaks),
+    ),
+  "stamp-cycle": () =>
+    import("@/registry/demos/stamp-cycle.demo").then((m) =>
+      mod(m.StampCycleDemo, m.tweaks),
+    ),
+  "datamosh-type": () =>
+    import("@/registry/demos/datamosh-type.demo").then((m) =>
+      mod(m.DatamoshTypeDemo, m.tweaks),
+    ),
+  "speed-banner": () =>
+    import("@/registry/demos/speed-banner.demo").then((m) =>
+      mod(m.SpeedBannerDemo, m.tweaks),
+    ),
+  "breath-type": () =>
+    import("@/registry/demos/breath-type.demo").then((m) =>
+      mod(m.BreathTypeDemo, m.tweaks),
+    ),
+  "tally-roll": () =>
+    import("@/registry/demos/tally-roll.demo").then((m) =>
+      mod(m.TallyRollDemo, m.tweaks),
+    ),
 };

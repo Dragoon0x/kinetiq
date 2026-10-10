@@ -96212,4 +96212,1721 @@ export const components: KinetiqItem[] = [
       "Long texts are soft-capped so the whole cascade stays brief; pass your own curve for custom choreography. Every motion is a finite spring or tween — nothing runs at rest.",
     ],
   },
+  {
+    name: "cipher-wheel",
+    type: "registry:ui",
+    title: "Cipher Wheel",
+    description:
+      "A headline that decrypts on a row of rotary dials: every letter turns its own drum through the character set with a ratchet feel — each notch a springs.flick step, summed in closed form from one clock — and locks onto its letter on springs.snap with one clean overshoot and a hairline flash, the locks cascading left to right, at random or from the middle before the housings dissolve into plain type. Pressing the headline, or Enter or Space on it, turns the dials again from their own letters, and the pointer thumbs a resting dial that the detent pulls back.",
+    files: [
+      {
+        path: "registry/ui/cipher-wheel.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1373",
+    },
+    tagline: "Each letter turns its dial until it reads.",
+    keywords: [
+      "decrypt",
+      "cipher",
+      "dial",
+      "headline",
+      "text reveal",
+      "ratchet",
+      "combination",
+    ],
+    props: [
+      {
+        name: "text",
+        type: "string",
+        description:
+          "The headline. Read once by assistive technology, and copied as written.",
+      },
+      {
+        name: "as",
+        type: '"h1" | "h2" | "h3" | "h4" | "p" | "span" | "div"',
+        defaultValue: '"span"',
+        description: "The element the headline renders as.",
+      },
+      {
+        name: "order",
+        type: '"ltr" | "random" | "center"',
+        defaultValue: '"ltr"',
+        description:
+          "Which dial locks first: left to right, a seeded shuffle, or from the middle outward.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "Time scale of the whole run, 0.25 to 3: slow is chunky and every click legible, fast is brisk.",
+      },
+      {
+        name: "charset",
+        type: '"alpha" | "digits" | "hex" | "symbols"',
+        defaultValue: '"alpha"',
+        description:
+          "The ring each dial turns through. A glyph outside it is added to its own ring.",
+      },
+      {
+        name: "characters",
+        type: "string",
+        description:
+          "A custom ring of characters, in the order they roll past; overrides charset.",
+      },
+      {
+        name: "duration",
+        type: "number",
+        defaultValue: "900",
+        description:
+          "How long the first dial turns before it locks, ms at speed 1.",
+      },
+      {
+        name: "stagger",
+        type: "number",
+        defaultValue: "70",
+        description:
+          "The gap between one lock and the next, ms at speed 1; a long headline's cascade is compressed to 1200ms.",
+      },
+      {
+        name: "delay",
+        type: "number",
+        defaultValue: "0",
+        description: "Wait before the dials start, ms.",
+      },
+      {
+        name: "trigger",
+        type: '"mount" | "inView" | "hover" | "manual"',
+        defaultValue: '"inView"',
+        description:
+          "What starts the dials. hover rests decrypted and turns again on hover or focus.",
+      },
+      {
+        name: "once",
+        type: "boolean",
+        defaultValue: "true",
+        description: "With inView, decrypt only the first time it is seen.",
+      },
+      {
+        name: "active",
+        type: "boolean",
+        description:
+          "With manual: true decrypts, false returns to the scrambled rest.",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "A press, Enter or Space turns the dials again, and the pointer thumbs a resting dial.",
+      },
+      {
+        name: "housing",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Draw each dial's housing while it turns.",
+      },
+      {
+        name: "flashColor",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description: "The hairline that flashes under a dial as it locks.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "0",
+        description: "Seeds the scrambled start and the random order.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Tick as each dial locks, for runs started by a press, Enter or Space. Off unless asked for.",
+      },
+      {
+        name: "onLock",
+        type: "(locked: number, total: number) => void",
+        description:
+          "A dial locked, or the dials were reset: how many are locked, of how many.",
+      },
+      {
+        name: "onComplete",
+        type: "() => void",
+        description: "Every dial has locked and its housing has gone.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the headline element; size, weight and colour are inherited by every dial.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: with interactive on, the headline is focusable and Enter or Space turns the dials again; trigger="hover" also turns them when the headline takes focus. A drag that selects words never triggers a replay, and selection copies the real text.',
+      "Reduced motion: nothing travels — each housing shows its scrambled glyph, which cross-fades to the true letter at its lock in the same order, with the same hairline flash; the pointer does not thumb the dials.",
+      "Accessibility: the full headline is read once from an sr-only copy inside the element; the dial layer is aria-hidden. The hint for the keyboard path is referenced with aria-describedby, outside the heading so it never joins its name.",
+      "Performance: one linear clock per run drives every dial through motion values — no per-letter animation objects, no React render per frame — and the clock pauses off screen and in a hidden tab. Settled, nothing runs.",
+      "Size and colour inherit from the element (em-based), so the same dials work from a caption to a hero; the housings and the shading are drawn from currentColor, so both themes read.",
+      "Sound, when on, ticks once per lock with the pitch rising along the cascade, and only for runs started by a press, Enter or Space; hovering, thumbing a dial and the automatic triggers stay silent.",
+    ],
+  },
+  {
+    name: "word-bracket",
+    type: "registry:ui",
+    title: "Word Bracket",
+    description:
+      "True-focus text: four corner brackets frame one sharp, full-ink word while the rest of the sentence sits blurred and dimmed, and on a timer the frame hops on like an inchworm — the leading edge leaves on springs.snap and bites the next word with one crisp overshoot, the trailing edge follows a beat later on springs.glide, and a hop to another line glides the whole frame. Hovering or tapping a word takes the frame there and holds the cycle; with the sentence focused, Left and Right move it a word, Home and End jump to the ends.",
+    files: [
+      {
+        path: "registry/ui/word-bracket.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1374",
+    },
+    tagline: "A focus frame hops from word to word.",
+    keywords: [
+      "focus",
+      "brackets",
+      "blur",
+      "headline",
+      "word cycle",
+      "hero text",
+    ],
+    props: [
+      {
+        name: "text",
+        type: "string",
+        description:
+          "The sentence. Read once by assistive technology, and copied as written.",
+      },
+      {
+        name: "as",
+        type: '"h1" | "h2" | "h3" | "h4" | "p" | "span" | "div"',
+        defaultValue: '"p"',
+        description: "The element the sentence renders as.",
+      },
+      {
+        name: "interval",
+        type: "number",
+        defaultValue: "1600",
+        description: "How long the frame rests on each word, ms.",
+      },
+      {
+        name: "blur",
+        type: "number",
+        defaultValue: "3",
+        description: "How soft the words outside the frame are, px of blur.",
+      },
+      {
+        name: "dim",
+        type: "number",
+        defaultValue: "0.4",
+        description: "The opacity of the words outside the frame, 0 to 1.",
+      },
+      {
+        name: "frame",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description: "The brackets' colour, any CSS colour.",
+      },
+      {
+        name: "lag",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How far the frame's trailing edge lags its leading edge on a hop, 0 (rigid) to 1 (a long stretch).",
+      },
+      {
+        name: "cornerSize",
+        type: "number",
+        defaultValue: "0.3",
+        description: "Each bracket's arm, em.",
+      },
+      {
+        name: "thickness",
+        type: "number",
+        defaultValue: "2",
+        description: "Each bracket's stroke, px.",
+      },
+      {
+        name: "padding",
+        type: "number",
+        defaultValue: "0.14",
+        description: "Room between the word and its frame, em.",
+      },
+      {
+        name: "minLength",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "The shortest word, in letters, the cycle lands on; hover and keys reach any word.",
+      },
+      {
+        name: "index / defaultIndex",
+        type: "number",
+        description:
+          "The focused word as its index among the sentence's words, controlled or initial; defaults to the first word the cycle lands on.",
+      },
+      {
+        name: "onIndexChange",
+        type: "(index: number) => void",
+        description:
+          "The frame moved to a word: the cycle, the pointer or a key chose it. Also reported on arrival.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Hold the frame where it is.",
+      },
+      {
+        name: "loop",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Wrap from the last word back to the first.",
+      },
+      {
+        name: "hoverControl",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Hovering a word, tapping it or the arrow keys take the frame; the cycle resumes after.",
+      },
+      {
+        name: "onComplete",
+        type: "() => void",
+        description: "The cycle reached the last word (only without loop).",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the sentence element; size, weight and colour are inherited.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the sentence is focusable; Left/Up and Right/Down move the frame a word (skipping words shorter than minLength), Home and End jump to the ends, and the cycle waits while it has focus and resumes one interval after it leaves.",
+      "Pointer: hovering a word takes the frame there and holds the cycle until the pointer leaves the sentence; on touch a tap focuses the tapped word and the cycle resumes after two intervals.",
+      "Reduced motion: the frame does not travel or stretch — it fades out at one word and in at the next, and the words' sharpness changes with a short fade.",
+      "Accessibility: the sentence is read once from an sr-only copy; the blurred word layer and the brackets are aria-hidden, and the visible words still select and copy as written.",
+      "Performance: the cycle is a single timer that runs only while the sentence is on screen in a visible page and nothing holds it; the frame's four edges are motion values moved by transforms, and word boxes are re-measured only on resize and font load.",
+      "Size and colour inherit from the element; pass any CSS colour (a token is best) to frame so the brackets read in both themes.",
+    ],
+  },
+  {
+    name: "buoyant-line",
+    type: "registry:ui",
+    title: "Buoyant Line",
+    description:
+      "Scroll-float text: as the line scrolls up through its container's viewport, its letters float up from below their places left to right, each on its own share of the scroll and its own spring — from springs.snap toward springs.drift as the lag grows, with a bob at the surface — swaying, tinted and faded while submerged, and they sink back if you scroll up. Progress is read from the nearest scroll container, or set directly, and the element's bottom edge is the waterline; the keyboard path is the container's own scrolling.",
+    files: [
+      {
+        path: "registry/ui/buoyant-line.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1375",
+    },
+    tagline: "Letters rise into place as you scroll.",
+    keywords: [
+      "scroll",
+      "float",
+      "letters",
+      "reveal",
+      "headline",
+      "water",
+      "scroll-linked",
+    ],
+    props: [
+      {
+        name: "text",
+        type: "string",
+        description:
+          "The line. Read once by assistive technology, and copied as written.",
+      },
+      {
+        name: "as",
+        type: '"h1" | "h2" | "h3" | "h4" | "p" | "span" | "div"',
+        defaultValue: '"p"',
+        description: "The element the line renders as.",
+      },
+      {
+        name: "rise",
+        type: "number",
+        defaultValue: "1",
+        description: "How deep the letters start below their places, em.",
+      },
+      {
+        name: "lag",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How strung out the rise is, 0 (together, brisk) to 1 (one after another, slow to follow).",
+      },
+      {
+        name: "range",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How much of the viewport's height the line scrolls through while its letters rise, 0.1 to 1.",
+      },
+      {
+        name: "start",
+        type: "number",
+        defaultValue: "0.92",
+        description:
+          "Where the rise begins, as a fraction of the viewport's height from its top (1 is the bottom edge).",
+      },
+      {
+        name: "sway",
+        type: "number",
+        defaultValue: "8",
+        description: "How far a submerged letter tilts as it sways, degrees.",
+      },
+      {
+        name: "bob",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How much the letters bob as they reach the surface, 0 (none) to 1.",
+      },
+      {
+        name: "tint",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "The colour a submerged letter takes before it surfaces into ink.",
+      },
+      {
+        name: "fade",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Fade the letters with depth.",
+      },
+      {
+        name: "progress",
+        type: "number",
+        description: "Drive the rise yourself, 0 to 1; overrides scrolling.",
+      },
+      {
+        name: "once",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Once every letter has surfaced, stay surfaced.",
+      },
+      {
+        name: "scrollContainer",
+        type: "React.RefObject<HTMLElement | null>",
+        description:
+          "The scroll container to read; defaults to the nearest scrollable ancestor, or the window.",
+      },
+      {
+        name: "onProgressChange",
+        type: "(progress: number) => void",
+        description:
+          "The line's progress through its rise, 0 to 1 in steps of 0.01, as it changes.",
+      },
+      {
+        name: "onComplete",
+        type: "() => void",
+        description: "Every letter has surfaced (again).",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the line element; size, weight and colour are inherited.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: there is no gesture of its own — the rise follows the scroll container, so make that container focusable (tabIndex 0 and a label) and the arrow, Page and Space keys drive it.",
+      "Reduced motion: nothing rises, sways or bobs; the letters fade in place from faint to full ink in reading order, still tied to the scroll, because how far the reader has come is information.",
+      "Accessibility: the line is read once from an sr-only copy; the letter layer is aria-hidden but its letters still select and copy as written.",
+      "Performance: one passive scroll listener on the container does work only while the line is near view (an IntersectionObserver gates it, and a last reading lands as it leaves), every letter is a spring on a motion value with no React render per frame, and the springs settle and stop.",
+      "The element's bottom edge is the waterline (a clip on that edge only): give the line a little room below it if its letters should be seen rising from further down.",
+      "Colour and size inherit; tint takes any CSS colour, so a token keeps the water readable in both themes.",
+    ],
+  },
+  {
+    name: "read-along",
+    type: "registry:ui",
+    title: "Read Along",
+    description:
+      "Scroll-reveal for long paragraphs: every word starts in faint ink and the words darken in reading order as the paragraph scrolls past the reading line, a long word taking longer than a short one, with the reading position gliding on springs.glide between scroll events so scrolling back reverses it just as smoothly. A soft underline draws itself through the word being read — its tail follows the word's start on glide, so between words it slides on like a finger under the line — or a caret marks the place; the keyboard path is the scroll container's own scrolling.",
+    files: [
+      {
+        path: "registry/ui/read-along.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1376",
+    },
+    tagline: "Words darken as you read them.",
+    keywords: [
+      "scroll reveal",
+      "reading",
+      "paragraph",
+      "long read",
+      "underline",
+      "scroll-linked",
+    ],
+    props: [
+      {
+        name: "text",
+        type: "string",
+        description:
+          "The paragraph. It stays real text, read and copied in order.",
+      },
+      {
+        name: "as",
+        type: '"p" | "div" | "span" | "h2" | "h3" | "h4"',
+        defaultValue: '"p"',
+        description: "The element the paragraph renders as.",
+      },
+      {
+        name: "faint",
+        type: "number",
+        defaultValue: "0.2",
+        description: "How faint unread words are, as opacity 0 to 1.",
+      },
+      {
+        name: "range",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "Where reading ends, as a share of the viewport's height below start: the paragraph is read once its bottom edge has risen to start − range. 0.1 to 1.",
+      },
+      {
+        name: "start",
+        type: "number",
+        defaultValue: "0.85",
+        description:
+          "Where reading begins: the paragraph's top at this fraction of the viewport's height from its top.",
+      },
+      {
+        name: "cursor",
+        type: '"underline" | "caret" | "none"',
+        defaultValue: '"underline"',
+        description:
+          "What marks the reading position: a soft underline drawn through the word, a caret, or nothing.",
+      },
+      {
+        name: "cursorColor",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description: "The cursor's colour.",
+      },
+      {
+        name: "softness",
+        type: "number",
+        defaultValue: "8",
+        description: "How many characters the darkening front is spread over.",
+      },
+      {
+        name: "pace",
+        type: '"length" | "even"',
+        defaultValue: '"length"',
+        description:
+          "Whether a long word takes longer to read (length) or every word the same (even).",
+      },
+      {
+        name: "smooth",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Glide the reading position between scroll events.",
+      },
+      {
+        name: "progress",
+        type: "number",
+        description: "Drive the reading yourself, 0 to 1; overrides scrolling.",
+      },
+      {
+        name: "scrollContainer",
+        type: "React.RefObject<HTMLElement | null>",
+        description:
+          "The scroll container to read; defaults to the nearest scrollable ancestor, or the window.",
+      },
+      {
+        name: "onProgressChange",
+        type: "(progress: number) => void",
+        description:
+          "How far through the paragraph reading is, 0 to 1 in steps of 0.01, as it changes.",
+      },
+      {
+        name: "onWordChange",
+        type: "(index: number) => void",
+        description:
+          "The word being read changed: its index among the paragraph's words. Also reported on arrival.",
+      },
+      {
+        name: "onComplete",
+        type: "() => void",
+        description: "The paragraph has been read to its end (again).",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the paragraph element; size, leading and colour are inherited.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: reading follows the scroll container, so make that container focusable (tabIndex 0 and a label) and the arrow, Page and Space keys read the paragraph forward and back.",
+      "Reduced motion: the reading position does not glide and the underline does not slide; words still darken with the scroll, because where the reader is is information.",
+      "Accessibility: the words stay real text in order — there is no duplicate copy — so the paragraph reads and copies normally; the cursor is aria-hidden and faint ink never drops below the opacity you set.",
+      "Performance: one passive scroll listener does work only while the paragraph is near view; one smoothed motion value drives every word's opacity and the cursor, and once the glide settles nothing runs. Word boxes are measured on resize and font load only.",
+      "Progress runs from the paragraph's top reaching start until its bottom reaches start − range, so a long paragraph is read over more scrolling than a short one.",
+      "Colours inherit; cursorColor takes any CSS colour, so a token keeps the underline readable in both themes.",
+    ],
+  },
+  {
+    name: "char-cast",
+    type: "registry:ui",
+    title: "Char Cast",
+    description:
+      "Your headline recast in characters: the real text is rasterised from its own layout and redrawn on a canvas as a grid of glyphs picked by a density ramp, with a slow value noise drifting through them, and it casts in on a seeded sweep where each cell's density follows the springs.snap step response — one step heavier, then settled. The pointer carries a soft light that trails the hand on springs.glide, inside which finer characters resolve the true letterforms; with the headline focused the arrow keys walk the light, and touch drags it.",
+    files: [
+      {
+        path: "registry/ui/char-cast.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1377",
+    },
+    tagline: "Your headline cast in characters.",
+    keywords: [
+      "ascii",
+      "characters",
+      "canvas",
+      "headline",
+      "glyphs",
+      "density ramp",
+      "pointer light",
+    ],
+    props: [
+      {
+        name: "text",
+        type: "string",
+        description:
+          "The headline. It stays real text — transparent over the characters — so it reads, selects and copies.",
+      },
+      {
+        name: "as",
+        type: '"h1" | "h2" | "h3" | "h4" | "p" | "span" | "div"',
+        defaultValue: '"div"',
+        description: "The element the headline renders as.",
+      },
+      {
+        name: "cell",
+        type: "number",
+        defaultValue: "6",
+        description:
+          "The character cell's width, px; rows are 1.4 times taller, as mono glyphs are.",
+      },
+      {
+        name: "ramp",
+        type: '"fine" | "short" | "blocks" | "dots"',
+        defaultValue: '"short"',
+        description:
+          "The density ramp the coverage is cast through, light to dense.",
+      },
+      {
+        name: "characters",
+        type: "string",
+        description:
+          "A custom ramp, lightest first (start with a space); overrides ramp.",
+      },
+      {
+        name: "light",
+        type: "number",
+        defaultValue: "72",
+        description:
+          "The radius of the light the pointer carries, px; 0 turns it off.",
+      },
+      {
+        name: "tint",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "The colour the finer characters warm toward at the light's centre.",
+      },
+      {
+        name: "drift",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "How fast the noise drifts through the glyphs, 0 (still) to 2.",
+      },
+      {
+        name: "contrast",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "The coverage curve: above 1 thins the strokes, below 1 fattens them; 0.5 to 2.",
+      },
+      {
+        name: "trigger",
+        type: '"mount" | "inView" | "manual"',
+        defaultValue: '"inView"',
+        description: "What casts the headline.",
+      },
+      {
+        name: "once",
+        type: "boolean",
+        defaultValue: "true",
+        description: "With inView, cast only the first time it is seen.",
+      },
+      {
+        name: "active",
+        type: "boolean",
+        description:
+          "With manual: true casts the headline, false shows it as plain type.",
+      },
+      {
+        name: "duration",
+        type: "number",
+        defaultValue: "700",
+        description: "How long the cast takes to sweep across, ms.",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description: "The pointer, a touch or the arrow keys carry the light.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Caps the canvas's device pixel ratio; never above 2.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "0",
+        description: "Seeds the noise and the cast's order.",
+      },
+      {
+        name: "onComplete",
+        type: "() => void",
+        description: "The cast has settled.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the headline element; its font, size, weight and colour are what get cast.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: with interactive on, the headline is focusable; keyboard focus brings the light to the first letter, the arrow keys move it a few cells or a line at a time, Home and End jump along the line, and leaving puts it out. Touch drags it horizontally (vertical drags still scroll) and a tap leaves it a moment.",
+      "Reduced motion: no drift, the cast is a single fade, and the light follows the pointer directly rather than trailing it on a spring.",
+      "Accessibility: the headline is real text in the element — transparent once cast, so it reads, selects and copies — and the canvas is aria-hidden. Before the cast (and without script) it shows as plain type.",
+      "Performance: the canvas draws only while the light moves or the cast runs, at about 12 frames a second while it only drifts (drift 0 stops it entirely), and never off screen or in a hidden tab. Rasterising happens on layout, font load and text changes only; the backing store follows ResizeObserver with its pixel ratio capped at 2, and a lost 2D context redraws when restored.",
+      "Colour comes from the element's own text colour and tint, resolved on the element and re-read when the theme changes, so it reads in both themes. Use a heavy weight at display sizes: the bolder the strokes, the clearer the cast.",
+    ],
+  },
+  {
+    name: "scramble-brush",
+    type: "registry:ui",
+    title: "Scramble Brush",
+    description:
+      "Text you can brush: letters within a radius of the pointer turn to re-rolling noise, hot at the brush's core and cooling toward muted ink, and each returns to its letter a moment after the pointer last touched it — the core holding longer than the rim — so the cursor drags a tapering wake through the paragraph. Every true letter drops back in from a nudge above on springs.snap, so the wake settles in a ripple; with the text focused, the arrow keys hold one word scrambled and the word left behind ripples back to type.",
+    files: [
+      {
+        path: "registry/ui/scramble-brush.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1378",
+    },
+    tagline: "Your cursor scrambles what it touches.",
+    keywords: [
+      "scramble",
+      "glitch",
+      "cursor",
+      "paragraph",
+      "noise",
+      "hover text",
+      "brush",
+    ],
+    props: [
+      {
+        name: "text",
+        type: "string",
+        description:
+          "The text. Read once by assistive technology, and copied as written.",
+      },
+      {
+        name: "as",
+        type: '"p" | "div" | "span" | "h1" | "h2" | "h3" | "h4"',
+        defaultValue: '"p"',
+        description: "The element the text renders as.",
+      },
+      {
+        name: "radius",
+        type: "number",
+        defaultValue: "48",
+        description: "How far from the pointer letters scramble, px.",
+      },
+      {
+        name: "restore",
+        type: "number",
+        defaultValue: "420",
+        description:
+          "How long a letter stays scrambled after the pointer last touched it, ms.",
+      },
+      {
+        name: "glyphs",
+        type: '"symbols" | "binary" | "blocks" | "letters"',
+        defaultValue: '"symbols"',
+        description: "The noise a scrambled letter shows.",
+      },
+      {
+        name: "characters",
+        type: "string",
+        description: "A custom glyph set; overrides glyphs.",
+      },
+      {
+        name: "rate",
+        type: "number",
+        defaultValue: "70",
+        description: "How often a scrambled letter re-rolls its glyph, ms.",
+      },
+      {
+        name: "falloff",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How much longer the brush's core holds its noise than its rim, 0 to 1.",
+      },
+      {
+        name: "color",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "The noise's colour at the brush's core; it cools toward muted ink.",
+      },
+      {
+        name: "keyboard",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The text is focusable and the arrow keys brush it word by word.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Nothing scrambles.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "0",
+        description: "Seeds the noise.",
+      },
+      {
+        name: "onScrambleChange",
+        type: "(count: number) => void",
+        description: "How many letters are scrambled, as it changes.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the text element; size, leading and colour are inherited.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the text is focusable; keyboard focus scrambles the first word and holds it while focused, Left/Up and Right/Down move to the previous or next word (the one left behind ripples back to type, letter by letter), Home and End jump to the ends, and a thin underline marks the held word.",
+      "Touch: a horizontal drag brushes (touch-action pan-y, so vertical drags still scroll) and a tap brushes one spot.",
+      "Reduced motion: no re-rolling flicker and no drop — a touched letter shows one still glyph and cross-fades back to its letter after the same delay.",
+      "Accessibility: the text is read once from an sr-only copy; the letter layer is aria-hidden, and the true letters stay in it so a selection still copies the real words.",
+      "Performance: frames run only while some letter is scrambled and stop when the last one is back; each frame writes straight to the letters' noise layer with no React render, letter centres are measured on resize and font load, and the noise comes from a seeded generator.",
+      "Colours inherit; color takes any CSS colour, and the cooling noise is mixed from the text's own colour, so it reads in both themes.",
+    ],
+  },
+  {
+    name: "stamp-cycle",
+    type: "registry:ui",
+    title: "Stamp Cycle",
+    description:
+      "A rotating word that is stamped into its slot: the old impression lifts off on the exit ease while the slot's width springs to the new word on springs.glide, the stamp's shadow falls, and at contact the ink prints across the word from the edge the stamp rocked onto first while the slot squashes and recovers on springs.recoil and a ring of displaced ink spreads and settles to a residue. The ink carries the rubber's grain, so a firm press prints solid and a light one patchy and dry. The slot is a button: pressing lowers the stamp and letting go stamps the next word (holding prints firmer), and Enter or Space stamps through the native click.",
+    files: [
+      {
+        path: "registry/ui/stamp-cycle.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1379",
+    },
+    tagline: "Each word is pressed in like a rubber stamp.",
+    keywords: [
+      "rotating text",
+      "rubber stamp",
+      "word cycle",
+      "ink",
+      "headline",
+      "text animation",
+      "rotator",
+    ],
+    props: [
+      {
+        name: "words",
+        type: "string[]",
+        description: "The words stamped into the slot, one after another.",
+      },
+      {
+        name: "index / defaultIndex",
+        type: "number",
+        defaultValue: "0",
+        description: "Which word is stamped; controlled or uncontrolled.",
+      },
+      {
+        name: "onIndexChange",
+        type: "(index: number) => void",
+        description:
+          "Fires from the timer or the press that stamped a new word.",
+      },
+      {
+        name: "interval",
+        type: "number",
+        defaultValue: "2400",
+        description: "Rest between automatic stamps, ms.",
+      },
+      {
+        name: "ink",
+        type: '"cobalt" | "vermilion" | "moss" | "carbon" | string',
+        defaultValue: '"cobalt"',
+        description: "A named token ink, or any CSS colour.",
+      },
+      {
+        name: "press",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How firmly the stamp lands, 0 to 1: squash depth, ink coverage, ring size and fall speed.",
+      },
+      {
+        name: "texture",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How much of the rubber's grain shows in the ink, 0 (flat) to 1.",
+      },
+      {
+        name: "tilt",
+        type: "number",
+        defaultValue: "2.5",
+        description: "The largest seeded tilt a word lands at, degrees.",
+      },
+      {
+        name: "frame",
+        type: '"none" | "box" | "pill"',
+        defaultValue: '"box"',
+        description:
+          "A border printed around the word with the same ink and grain.",
+      },
+      {
+        name: "ring",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The spatter of displaced ink at contact and the residue it leaves.",
+      },
+      {
+        name: "trigger",
+        type: '"mount" | "inView" | "hover" | "manual"',
+        defaultValue: '"inView"',
+        description: "When the automatic cycle runs.",
+      },
+      {
+        name: "once",
+        type: "boolean",
+        defaultValue: "false",
+        description: "One pass through the words, resting on the last.",
+      },
+      {
+        name: "delay",
+        type: "number",
+        defaultValue: "500",
+        description: "Wait after the trigger before the first stamp, ms.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Hold the automatic cycle.",
+      },
+      {
+        name: "pauseOnHover",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Hover and keyboard focus hold the cycle so the word can be read.",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description: "The slot is a button: pressing it stamps the next word.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description: "A thock when the visitor stamps, pitched by how firmly.",
+      },
+      {
+        name: "as",
+        type: '"span" | "div" | "p" | "h1" | "h2" | "h3" | "h4" | "strong" | "em"',
+        defaultValue: '"span"',
+        description: "The root element.",
+      },
+      {
+        name: "onComplete",
+        type: "() => void",
+        description: "A once pass has stamped its last word.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the root; case and tracking carry into the slot.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the slot is a real button named by the current word; Enter or Space stamps the next word through the native click, and focus holds the automatic cycle so the word can be read.",
+      "Reduced motion: no fall, squash or rock; the old word fades out, the new ink fades in at its seeded tilt with the residue already printed, and presses still stamp.",
+      "Performance: there is no animation loop; one timeout per beat, armed only while the slot is on screen in a visible page and not held, and each stamp is a few springs and tweens that end.",
+      "Place it inline in your own sentence; it inherits the font, size, case and tracking, and the frame gives back its padding so the line keeps its leading.",
+      "Ink is a token by default so it reads in both themes; pass any CSS colour to brand it. Only stamps the visitor makes are announced and heard.",
+    ],
+  },
+  {
+    name: "datamosh-type",
+    type: "registry:ui",
+    title: "Datamosh Type",
+    description:
+      "A headline that fails the way compressed video fails: between bursts it is plain, selectable DOM text, and a burst swaps it for a canvas picture of the same glyphs that is corrupted frame by frame at a codec's frame rate — grid-aligned rows of macro-blocks slip sideways and drag a pixel run behind them, blocks freeze on the previous frame, drift to another block's pixels or quantise into a mosaic, and the two colour channels split apart behind the ink. Each burst ramps in, holds and decays on its own envelope rather than a spring, then a clean key frame puts the real text back in one frame. Bursts come on an interval while on screen, on pointer entry (clustered where the pointer came in), a tap, keyboard focus on the headline (a tab stop by default) or the link around it, and each change of burstKey.",
+    files: [
+      {
+        path: "registry/ui/datamosh-type.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1380",
+    },
+    tagline: "A headline corrupted by compression.",
+    keywords: [
+      "glitch text",
+      "datamosh",
+      "compression",
+      "chromatic aberration",
+      "headline",
+      "canvas",
+      "text animation",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "string",
+        description:
+          "The headline; it stays real, selectable text between bursts.",
+      },
+      {
+        name: "as",
+        type: '"span" | "div" | "p" | "h1" | "h2" | "h3" | "h4"',
+        defaultValue: '"span"',
+        description: "The root element.",
+      },
+      {
+        name: "intensity",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How many artefacts a burst throws and how far they shift, 0 to 1.",
+      },
+      {
+        name: "burst",
+        type: "number",
+        defaultValue: "520",
+        description: "Length of one burst, ms.",
+      },
+      {
+        name: "split",
+        type: "number",
+        defaultValue: "0.04",
+        description: "How far apart the two colour channels drift, em.",
+      },
+      {
+        name: "block",
+        type: "number",
+        defaultValue: "0.28",
+        description: "The macro-block size, em.",
+      },
+      {
+        name: "smear",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How often and how far a pixel run drags behind a slipped row, 0 to 1.",
+      },
+      {
+        name: "freeze",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "The share of corrupted blocks that hold a stale frame, 0 to 1.",
+      },
+      {
+        name: "fps",
+        type: "number",
+        defaultValue: "24",
+        description: "The codec's frame rate inside a burst, 8 to 60.",
+      },
+      {
+        name: "interval",
+        type: "number",
+        defaultValue: "3600",
+        description: "Rest between automatic bursts, ms; 0 turns them off.",
+      },
+      {
+        name: "channels",
+        type: "[string, string]",
+        defaultValue: '["var(--danger)", "var(--accent-bright)"]',
+        description:
+          "The two channel colours, any CSS colour; tokens follow the theme.",
+      },
+      {
+        name: "hover",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Pointer entry, a tap and keyboard focus each fire a burst.",
+      },
+      {
+        name: "focusable",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "A tab stop of its own, so the keyboard can fire a burst or, under reduced motion, clear the still frame; turn off inside a link or button, which is focused instead.",
+      },
+      {
+        name: "trigger",
+        type: '"mount" | "inView" | "hover" | "manual"',
+        defaultValue: '"inView"',
+        description:
+          "When automatic bursts run; hover and manual turn the interval off.",
+      },
+      {
+        name: "once",
+        type: "boolean",
+        defaultValue: "false",
+        description: "One automatic burst, then rest.",
+      },
+      {
+        name: "delay",
+        type: "number",
+        defaultValue: "400",
+        description: "Wait before the first automatic burst, ms.",
+      },
+      {
+        name: "burstKey",
+        type: "string | number",
+        description: "Each change fires one burst: the host's own trigger.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "7",
+        description:
+          "Seeds every burst's corruption, so a page breaks the same way each visit.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description: "No bursts at all; one under way ends clean.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description:
+          "The most device pixels per CSS pixel the canvas may use, capped at 2.",
+      },
+      {
+        name: "onBurstStart",
+        type: "() => void",
+        description: "A burst began.",
+      },
+      {
+        name: "onComplete",
+        type: "() => void",
+        description: "A burst ended on a clean key frame.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the root; the canvas copies its font and colour.",
+      },
+    ],
+    usageNotes: [
+      "Accessibility: the DOM text is always the real text, read once and selectable; the canvas is aria-hidden and ignores the pointer. The headline is a tab stop by default and focusing it plays a burst; inside a link or button, set focusable={false} and the host's focus does the same.",
+      "Reduced motion: one still corrupted frame stands in, drawn once and redrawn on resize, font load or theme change; hover or focus clears it to the clean text and leaving puts it back.",
+      "Performance: nothing runs between bursts but one timeout, and only while on screen in a visible page; a burst redraws only on codec frames, reusing six offscreen buffers capped at device pixel ratio 2 and released on unmount.",
+      "Theme changes are caught by a 1 ms colour transition on a hidden sentinel, so the canvas re-reads its ink and channel colours without reading the document; no 2D context simply means no corruption.",
+      "Keep bursts short and infrequent for reading comfort (the defaults are 0.52 s every 3.6 s), and give the host a visible control, as the demo's Corrupt button does, when a burst should be on demand.",
+    ],
+  },
+  {
+    name: "speed-banner",
+    type: "registry:ui",
+    title: "Speed Banner",
+    description:
+      "A marquee that answers the scroll: rows of repeated display type cruise in alternating directions, and the page's scroll velocity feeds one amount carried on springs.glide that runs the rows faster, leans each toward its own direction of travel and opens the letter spacing, the stretch anchored mid-row so the type elongates rather than slides. Scrolling up reverses every row through springs.drift, so the rows slow, stop and pull away the other way, and when scrolling stops everything eases back to the cruise. The banner is a focusable region: Space or Enter holds and releases it, Left and Right push it the way a scroll would, and Up, Down and the page keys scroll the page as usual.",
+    files: [
+      {
+        path: "registry/ui/speed-banner.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1381",
+    },
+    tagline: "A marquee that answers how fast you scroll.",
+    keywords: [
+      "marquee",
+      "scroll velocity",
+      "ticker",
+      "skew",
+      "banner",
+      "infinite scroll text",
+      "text animation",
+    ],
+    props: [
+      {
+        name: "text",
+        type: "string | string[]",
+        description: "The items repeated along each row; a string is one item.",
+      },
+      {
+        name: "as",
+        type: '"div" | "section" | "aside" | "header" | "footer"',
+        defaultValue: '"div"',
+        description: "The root element.",
+      },
+      {
+        name: "rows",
+        type: "number",
+        defaultValue: "2",
+        description:
+          "How many rows, 1 to 4; rows alternate direction and start on different items.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "1.2",
+        description:
+          "The rows' calm drift, em per second, so it scales with the type.",
+      },
+      {
+        name: "skew",
+        type: "number",
+        defaultValue: "10",
+        description: "The largest lean at full scroll speed, degrees.",
+      },
+      {
+        name: "stretch",
+        type: "number",
+        defaultValue: "0.06",
+        description: "The most letter spacing opens at full scroll speed, em.",
+      },
+      {
+        name: "boost",
+        type: "number",
+        defaultValue: "5",
+        description:
+          "How many times their base speed the rows reach at full scroll speed.",
+      },
+      {
+        name: "sensitivity",
+        type: "number",
+        defaultValue: "2400",
+        description: "The scroll speed that counts as full, px per second.",
+      },
+      {
+        name: "direction",
+        type: '"left" | "right"',
+        defaultValue: '"left"',
+        description: "The first row's direction; the next runs the other way.",
+      },
+      {
+        name: "flip",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Scrolling up reverses every row.",
+      },
+      {
+        name: "outline",
+        type: '"none" | "alternate" | "all"',
+        defaultValue: '"alternate"',
+        description: "Which rows are drawn in outline.",
+      },
+      {
+        name: "separator",
+        type: "string",
+        defaultValue: '"·"',
+        description: "Set between items.",
+      },
+      {
+        name: "fade",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Fade the ends of the rows.",
+      },
+      {
+        name: "gap",
+        type: "number",
+        defaultValue: "0.1",
+        description: "Space between rows, em.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Banner"',
+        description: "The region's name for assistive technology.",
+      },
+      {
+        name: "paused / defaultPaused",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Hold the banner; the rows coast to a stop on the drift spring.",
+      },
+      {
+        name: "onPausedChange",
+        type: "(paused: boolean) => void",
+        description:
+          "Fires from the key press that held or released the banner.",
+      },
+      {
+        name: "onDirectionChange",
+        type: "(direction: 1 | -1) => void",
+        description:
+          "Scrolling flipped the rows: 1 their own way, -1 reversed.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the root; type size, weight, case and tracking carry into the rows.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the banner is a focusable region; Space or Enter pauses and resumes it (announced politely), Left and Right push it backward or forward like a scroll, and the page's own scroll keys still scroll and still drive it.",
+      "Reduced motion: the rows rest at staggered offsets with no drift, lean or stretch, and scrolling leaves them still; outline and fades stay so it still reads as a banner.",
+      "Performance: one rAF loop runs only while the banner is on screen in a visible page, writing transforms and one CSS variable; when paused it stops as soon as the rows have coasted to rest. Scroll and wheel listeners are passive.",
+      "It reads the velocity of whichever scroller holds it, including the window; over a banner where nothing scrolls, the wheel stands in for a scroll.",
+      "Moving text can always be stopped: wire paused to a visible control as the demo does, and the items are read once from a hidden line while every row copy is hidden from assistive technology.",
+    ],
+  },
+  {
+    name: "breath-type",
+    type: "registry:ui",
+    title: "Breath Type",
+    description:
+      "A word that breathes toward the pointer: letters within the radius open their tracking and grow along the inherited font's width, weight or optical size, while letters further away compress, and the line's width is conserved, so the space the near letters take is given up by the far ones and the word draws breath toward the cursor. The breath fills on springs.glide and empties on the slower springs.drift, its point trails the pointer on a critically damped spring, and on its trigger one breath passes along the line. Mouse hovers, touch presses and drags, and the keyboard breathes in at the middle on focus, walks the breath with Left and Right, jumps with Home and End and lets it go with Escape.",
+    files: [
+      {
+        path: "registry/ui/breath-type.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1382",
+    },
+    tagline: "Letters inhale toward your cursor.",
+    keywords: [
+      "variable font",
+      "proximity text",
+      "hover text",
+      "font weight",
+      "tracking",
+      "headline",
+      "text animation",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "string",
+        description: "The text; it is read once and stays copyable.",
+      },
+      {
+        name: "as",
+        type: '"span" | "div" | "p" | "h1" | "h2" | "h3" | "h4"',
+        defaultValue: '"span"',
+        description: "The root element.",
+      },
+      {
+        name: "radius",
+        type: "number",
+        defaultValue: "2.5",
+        description: "How far the breath reaches from its point, em.",
+      },
+      {
+        name: "falloff",
+        type: '"linear" | "smooth" | "sharp"',
+        defaultValue: '"smooth"',
+        description: "The curve from the breath point out to the radius.",
+      },
+      {
+        name: "axis",
+        type: '"width" | "weight" | "optical"',
+        defaultValue: '"width"',
+        description:
+          "What breathes besides the tracking; the font's own axis when it has one, a transform or stroke when not.",
+      },
+      {
+        name: "depth",
+        type: "number",
+        defaultValue: "0.7",
+        description: "How deep the breath is, 0 to 1.",
+      },
+      {
+        name: "spread",
+        type: "number",
+        defaultValue: "0.1",
+        description: "Extra tracking at the breath point, em.",
+      },
+      {
+        name: "lag",
+        type: "number",
+        defaultValue: "0.35",
+        description: "How far the breath trails the pointer, 0 (none) to 1.",
+      },
+      {
+        name: "trigger",
+        type: '"mount" | "inView" | "hover" | "manual"',
+        defaultValue: '"inView"',
+        description:
+          "When the intro breath plays; hover means never, manual means on breathKey.",
+      },
+      {
+        name: "once",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Play the intro breath only the first time it is seen; otherwise again each time it comes back into view.",
+      },
+      {
+        name: "delay",
+        type: "number",
+        defaultValue: "250",
+        description: "Wait before the intro breath, ms.",
+      },
+      {
+        name: "duration",
+        type: "number",
+        defaultValue: "1800",
+        description: "Length of the intro breath, ms.",
+      },
+      {
+        name: "breathKey",
+        type: "string | number",
+        description:
+          "Each change plays the intro breath: the host's own trigger.",
+      },
+      {
+        name: "breathing",
+        type: "boolean",
+        defaultValue: "false",
+        description: "A slow resting breath while on screen and untouched.",
+      },
+      {
+        name: "focusable",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "A tab stop with a keyboard path: arrows move the breath, Escape lets it go.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Ignore the pointer and the keys.",
+      },
+      {
+        name: "onBreathChange",
+        type: "(index: number | null) => void",
+        description:
+          "The letter at the breath point changed (grapheme index); null once exhaled.",
+      },
+      {
+        name: "onComplete",
+        type: "() => void",
+        description: "The intro breath finished.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the root; the letters inherit its font, size and weight.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: focusing the text breathes in at its middle; Left and Right walk the breath a letter at a time (mirrored in right-to-left text), Home and End jump to the ends, and Escape lets it go. Touch presses and drags along the line while vertical scrolling still works.",
+      "Reduced motion: no intro or resting breath and nothing travels or scales; the pointer and keys still change the font's own axis (or ink weight when it has none) on a short tween.",
+      "Variable fonts: the axes and their ranges are read from the inherited font's faces, so a self-hosted variable family whose faces declare weight or width ranges is used as is; a static font falls back to transforms and stroke.",
+      "Layout never shifts: every letter keeps its rest width and the tracking is laid out as transforms whose sum is zero on each line, so the line's ends hold still.",
+      "Performance: letter positions are measured on resize and font load only, and each frame of a moving breath is one pass over preallocated buffers; when the breath settles nothing runs.",
+    ],
+  },
+  {
+    name: "tally-roll",
+    type: "registry:ui",
+    title: "Tally Roll",
+    description:
+      "A count-up figure built from mechanical digit wheels in little housings: every wheel runs its own ease-in-out drive and is coupled to it by a detent spring whose stiffness is a prop (damping ratio 0.62), so it lags a touch as it spins up and rocks into its detent as it lands; lower places spin extra turns and land first, and each higher place lands a stagger later, like carries arriving up a meter. The figure is laid out from Intl's own parts (number, currency, percent, or a hand-built compact form that server and browser agree on), a change mid-roll bends every wheel to the new figure without a jump, and fast wheels blur while leading zeros stay dim. The tally is a button: a press or Enter or Space spins the wheels forward to zero, as a tally's reset knob does, and counts again.",
+    files: [
+      {
+        path: "registry/ui/tally-roll.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1383",
+    },
+    tagline: "Numbers that roll up like a meter.",
+    keywords: [
+      "count up",
+      "odometer",
+      "number ticker",
+      "rolling digits",
+      "stat",
+      "counter",
+      "text animation",
+    ],
+    props: [
+      {
+        name: "value",
+        type: "number",
+        description:
+          "The figure the wheels roll to; a change mid-roll bends the roll.",
+      },
+      {
+        name: "from",
+        type: "number",
+        defaultValue: "0",
+        description: "Where the first roll starts.",
+      },
+      {
+        name: "format",
+        type: '"number" | "currency" | "percent" | "compact"',
+        defaultValue: '"number"',
+        description:
+          "How the figure is written; compact is built by hand so server and browser agree.",
+      },
+      {
+        name: "decimals",
+        type: "number",
+        defaultValue: "0 / 1",
+        description:
+          "Fraction digits: 0 for number and currency, 1 for percent and compact.",
+      },
+      {
+        name: "currency",
+        type: "string",
+        defaultValue: '"USD"',
+        description: "The ISO currency for the currency format.",
+      },
+      {
+        name: "locale",
+        type: "string",
+        defaultValue: '"en-US"',
+        description:
+          "The formatting locale; digits are always Latin so they fit the wheels.",
+      },
+      {
+        name: "prefix",
+        type: "string",
+        description: "Fixed text before the figure.",
+      },
+      {
+        name: "suffix",
+        type: "string",
+        description: "Fixed text after the figure.",
+      },
+      {
+        name: "duration",
+        type: "number",
+        defaultValue: "1600",
+        description: "Until the highest place lands, ms.",
+      },
+      {
+        name: "stiffness",
+        type: "number",
+        defaultValue: "420",
+        description:
+          "The detent spring each wheel is coupled to its drive by: low rocks, high clicks dead.",
+      },
+      {
+        name: "stagger",
+        type: "number",
+        defaultValue: "90",
+        description:
+          "Each higher place lands this much after the one below it, ms.",
+      },
+      {
+        name: "revolutions",
+        type: "number",
+        defaultValue: "2",
+        description: "The most extra turns a lower wheel makes on a long roll.",
+      },
+      {
+        name: "housing",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Draw a window around each wheel.",
+      },
+      {
+        name: "dimZeros",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Dim the leading zero wheels, so 01,248 reads as 1,248.",
+      },
+      {
+        name: "trigger",
+        type: '"mount" | "inView" | "hover" | "manual"',
+        defaultValue: '"inView"',
+        description:
+          "When the first roll runs; manual shows the figure and only rolls on change or press.",
+      },
+      {
+        name: "once",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Roll only the first time it is seen; otherwise it counts again from `from` each time it comes back into view.",
+      },
+      {
+        name: "delay",
+        type: "number",
+        defaultValue: "0",
+        description: "Wait before the first roll, ms.",
+      },
+      {
+        name: "replayOnPress",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The tally is a button: pressing resets the wheels and counts again.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Ticks as faces pass and as each wheel lands, only for rolls the visitor caused.",
+      },
+      {
+        name: "as",
+        type: '"span" | "div" | "p" | "strong" | "h2" | "h3"',
+        defaultValue: '"span"',
+        description: "The root element.",
+      },
+      {
+        name: "onRollStart",
+        type: "() => void",
+        description: "A roll began.",
+      },
+      {
+        name: "onComplete",
+        type: "() => void",
+        description: "Every wheel has landed.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the root; the wheels inherit its size, weight and colour.",
+      },
+    ],
+    usageNotes: [
+      "Accessibility: the formatted figure (with prefix and suffix) is read once and copies as plain text; as a button it is named by the figure and described as counting again on Enter or Space, and a changed figure is announced politely once it has landed.",
+      "Reduced motion: the wheels change to their faces at once under a short cross-fade, with no spin, blur or rock; the figure is always right.",
+      "Performance: one rAF loop runs only while a wheel is moving and stops the moment every wheel has settled exactly on its detent; off screen or in a hidden tab a roll lands at once.",
+      "Server and client render the same wheels: formatting is Intl with Latin digits and a hand-built compact form, and the wheels start on `from` so a count-up never flashes the final figure first.",
+      "Sound only answers the visitor: a press, or a value change that follows the visitor's own action (transient user activation); a roll that starts because the tally scrolled into view is silent.",
+    ],
+  },
 ];

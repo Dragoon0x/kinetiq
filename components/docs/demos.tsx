@@ -1431,6 +1431,17 @@ import { StackExtrudeDemo } from "@/registry/demos/stack-extrude.demo";
 import { PaperCreaseDemo } from "@/registry/demos/paper-crease.demo";
 import { AfterImageDemo } from "@/registry/demos/after-image.demo";
 import { CascadeSplitDemo } from "@/registry/demos/cascade-split.demo";
+import { CipherWheelDemo } from "@/registry/demos/cipher-wheel.demo";
+import { WordBracketDemo } from "@/registry/demos/word-bracket.demo";
+import { BuoyantLineDemo } from "@/registry/demos/buoyant-line.demo";
+import { ReadAlongDemo } from "@/registry/demos/read-along.demo";
+import { CharCastDemo } from "@/registry/demos/char-cast.demo";
+import { ScrambleBrushDemo } from "@/registry/demos/scramble-brush.demo";
+import { StampCycleDemo } from "@/registry/demos/stamp-cycle.demo";
+import { DatamoshTypeDemo } from "@/registry/demos/datamosh-type.demo";
+import { SpeedBannerDemo } from "@/registry/demos/speed-banner.demo";
+import { BreathTypeDemo } from "@/registry/demos/breath-type.demo";
+import { TallyRollDemo } from "@/registry/demos/tally-roll.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2876,4 +2887,15 @@ export const demos: Record<string, ComponentType> = {
   "paper-crease": PaperCreaseDemo,
   "after-image": AfterImageDemo,
   "cascade-split": CascadeSplitDemo,
+  "cipher-wheel": CipherWheelDemo,
+  "word-bracket": WordBracketDemo,
+  "buoyant-line": BuoyantLineDemo,
+  "read-along": ReadAlongDemo,
+  "char-cast": CharCastDemo,
+  "scramble-brush": ScrambleBrushDemo,
+  "stamp-cycle": StampCycleDemo,
+  "datamosh-type": DatamoshTypeDemo,
+  "speed-banner": SpeedBannerDemo,
+  "breath-type": BreathTypeDemo,
+  "tally-roll": TallyRollDemo,
 };

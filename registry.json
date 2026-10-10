@@ -34665,6 +34665,307 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "cipher-wheel",
+      "type": "registry:ui",
+      "title": "Cipher Wheel",
+      "description": "A headline that decrypts on a row of rotary dials: every letter turns its own drum through the character set with a ratchet feel — each notch a springs.flick step, summed in closed form from one clock — and locks onto its letter on springs.snap with one clean overshoot and a hairline flash, the locks cascading left to right, at random or from the middle before the housings dissolve into plain type. Pressing the headline, or Enter or Space on it, turns the dials again from their own letters, and the pointer thumbs a resting dial that the detent pulls back.",
+      "files": [
+        {
+          "path": "registry/ui/cipher-wheel.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1373"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "word-bracket",
+      "type": "registry:ui",
+      "title": "Word Bracket",
+      "description": "True-focus text: four corner brackets frame one sharp, full-ink word while the rest of the sentence sits blurred and dimmed, and on a timer the frame hops on like an inchworm — the leading edge leaves on springs.snap and bites the next word with one crisp overshoot, the trailing edge follows a beat later on springs.glide, and a hop to another line glides the whole frame. Hovering or tapping a word takes the frame there and holds the cycle; with the sentence focused, Left and Right move it a word, Home and End jump to the ends.",
+      "files": [
+        {
+          "path": "registry/ui/word-bracket.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1374"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "buoyant-line",
+      "type": "registry:ui",
+      "title": "Buoyant Line",
+      "description": "Scroll-float text: as the line scrolls up through its container's viewport, its letters float up from below their places left to right, each on its own share of the scroll and its own spring — from springs.snap toward springs.drift as the lag grows, with a bob at the surface — swaying, tinted and faded while submerged, and they sink back if you scroll up. Progress is read from the nearest scroll container, or set directly, and the element's bottom edge is the waterline; the keyboard path is the container's own scrolling.",
+      "files": [
+        {
+          "path": "registry/ui/buoyant-line.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1375"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "read-along",
+      "type": "registry:ui",
+      "title": "Read Along",
+      "description": "Scroll-reveal for long paragraphs: every word starts in faint ink and the words darken in reading order as the paragraph scrolls past the reading line, a long word taking longer than a short one, with the reading position gliding on springs.glide between scroll events so scrolling back reverses it just as smoothly. A soft underline draws itself through the word being read — its tail follows the word's start on glide, so between words it slides on like a finger under the line — or a caret marks the place; the keyboard path is the scroll container's own scrolling.",
+      "files": [
+        {
+          "path": "registry/ui/read-along.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1376"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "char-cast",
+      "type": "registry:ui",
+      "title": "Char Cast",
+      "description": "Your headline recast in characters: the real text is rasterised from its own layout and redrawn on a canvas as a grid of glyphs picked by a density ramp, with a slow value noise drifting through them, and it casts in on a seeded sweep where each cell's density follows the springs.snap step response — one step heavier, then settled. The pointer carries a soft light that trails the hand on springs.glide, inside which finer characters resolve the true letterforms; with the headline focused the arrow keys walk the light, and touch drags it.",
+      "files": [
+        {
+          "path": "registry/ui/char-cast.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1377"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "scramble-brush",
+      "type": "registry:ui",
+      "title": "Scramble Brush",
+      "description": "Text you can brush: letters within a radius of the pointer turn to re-rolling noise, hot at the brush's core and cooling toward muted ink, and each returns to its letter a moment after the pointer last touched it — the core holding longer than the rim — so the cursor drags a tapering wake through the paragraph. Every true letter drops back in from a nudge above on springs.snap, so the wake settles in a ripple; with the text focused, the arrow keys hold one word scrambled and the word left behind ripples back to type.",
+      "files": [
+        {
+          "path": "registry/ui/scramble-brush.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1378"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "stamp-cycle",
+      "type": "registry:ui",
+      "title": "Stamp Cycle",
+      "description": "A rotating word that is stamped into its slot: the old impression lifts off on the exit ease while the slot's width springs to the new word on springs.glide, the stamp's shadow falls, and at contact the ink prints across the word from the edge the stamp rocked onto first while the slot squashes and recovers on springs.recoil and a ring of displaced ink spreads and settles to a residue. The ink carries the rubber's grain, so a firm press prints solid and a light one patchy and dry. The slot is a button: pressing lowers the stamp and letting go stamps the next word (holding prints firmer), and Enter or Space stamps through the native click.",
+      "files": [
+        {
+          "path": "registry/ui/stamp-cycle.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1379"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "datamosh-type",
+      "type": "registry:ui",
+      "title": "Datamosh Type",
+      "description": "A headline that fails the way compressed video fails: between bursts it is plain, selectable DOM text, and a burst swaps it for a canvas picture of the same glyphs that is corrupted frame by frame at a codec's frame rate — grid-aligned rows of macro-blocks slip sideways and drag a pixel run behind them, blocks freeze on the previous frame, drift to another block's pixels or quantise into a mosaic, and the two colour channels split apart behind the ink. Each burst ramps in, holds and decays on its own envelope rather than a spring, then a clean key frame puts the real text back in one frame. Bursts come on an interval while on screen, on pointer entry (clustered where the pointer came in), a tap, keyboard focus on the headline (a tab stop by default) or the link around it, and each change of burstKey.",
+      "files": [
+        {
+          "path": "registry/ui/datamosh-type.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1380"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "speed-banner",
+      "type": "registry:ui",
+      "title": "Speed Banner",
+      "description": "A marquee that answers the scroll: rows of repeated display type cruise in alternating directions, and the page's scroll velocity feeds one amount carried on springs.glide that runs the rows faster, leans each toward its own direction of travel and opens the letter spacing, the stretch anchored mid-row so the type elongates rather than slides. Scrolling up reverses every row through springs.drift, so the rows slow, stop and pull away the other way, and when scrolling stops everything eases back to the cruise. The banner is a focusable region: Space or Enter holds and releases it, Left and Right push it the way a scroll would, and Up, Down and the page keys scroll the page as usual.",
+      "files": [
+        {
+          "path": "registry/ui/speed-banner.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1381"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "breath-type",
+      "type": "registry:ui",
+      "title": "Breath Type",
+      "description": "A word that breathes toward the pointer: letters within the radius open their tracking and grow along the inherited font's width, weight or optical size, while letters further away compress, and the line's width is conserved, so the space the near letters take is given up by the far ones and the word draws breath toward the cursor. The breath fills on springs.glide and empties on the slower springs.drift, its point trails the pointer on a critically damped spring, and on its trigger one breath passes along the line. Mouse hovers, touch presses and drags, and the keyboard breathes in at the middle on focus, walks the breath with Left and Right, jumps with Home and End and lets it go with Escape.",
+      "files": [
+        {
+          "path": "registry/ui/breath-type.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1382"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "tally-roll",
+      "type": "registry:ui",
+      "title": "Tally Roll",
+      "description": "A count-up figure built from mechanical digit wheels in little housings: every wheel runs its own ease-in-out drive and is coupled to it by a detent spring whose stiffness is a prop (damping ratio 0.62), so it lags a touch as it spins up and rocks into its detent as it lands; lower places spin extra turns and land first, and each higher place lands a stagger later, like carries arriving up a meter. The figure is laid out from Intl's own parts (number, currency, percent, or a hand-built compact form that server and browser agree on), a change mid-roll bends every wheel to the new figure without a jump, and fast wheels blur while leading zeros stay dim. The tally is a button: a press or Enter or Space spins the wheels forward to zero, as a tally's reset knob does, and counts again.",
+      "files": [
+        {
+          "path": "registry/ui/tally-roll.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1383"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
