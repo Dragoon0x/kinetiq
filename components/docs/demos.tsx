@@ -1524,6 +1524,24 @@ import { InkSplashDemo } from "@/registry/demos/ink-splash.demo";
 import { LavaBlobsDemo } from "@/registry/demos/lava-blobs.demo";
 import { JellyCursorDemo } from "@/registry/demos/jelly-cursor.demo";
 import { CometBorderDemo } from "@/registry/demos/comet-border.demo";
+import { AuroraCurtainDemo } from "@/registry/demos/aurora-curtain.demo";
+import { PlasmaBloomDemo } from "@/registry/demos/plasma-bloom.demo";
+import { PlasmaRibbonDemo } from "@/registry/demos/plasma-ribbon.demo";
+import { DustMotesDemo } from "@/registry/demos/dust-motes.demo";
+import { ShutterGlowDemo } from "@/registry/demos/shutter-glow.demo";
+import { GrainMeshDemo } from "@/registry/demos/grain-mesh.demo";
+import { HorizonGridDemo } from "@/registry/demos/horizon-grid.demo";
+import { StageBeamsDemo } from "@/registry/demos/stage-beams.demo";
+import { PixelSnowfallDemo } from "@/registry/demos/pixel-snowfall.demo";
+import { StormFrontDemo } from "@/registry/demos/storm-front.demo";
+import { SpectrumBurstDemo } from "@/registry/demos/spectrum-burst.demo";
+import { StarSpiralDemo } from "@/registry/demos/star-spiral.demo";
+import { DitherDunesDemo } from "@/registry/demos/dither-dunes.demo";
+import { RelayTerminalDemo } from "@/registry/demos/relay-terminal.demo";
+import { RippleLatticeDemo } from "@/registry/demos/ripple-lattice.demo";
+import { PollenFlowDemo } from "@/registry/demos/pollen-flow.demo";
+import { DotTideDemo } from "@/registry/demos/dot-tide.demo";
+import { ThreadDriftDemo } from "@/registry/demos/thread-drift.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -3062,4 +3080,22 @@ export const demos: Record<string, ComponentType> = {
   "lava-blobs": LavaBlobsDemo,
   "jelly-cursor": JellyCursorDemo,
   "comet-border": CometBorderDemo,
+  "aurora-curtain": AuroraCurtainDemo,
+  "plasma-bloom": PlasmaBloomDemo,
+  "plasma-ribbon": PlasmaRibbonDemo,
+  "dust-motes": DustMotesDemo,
+  "shutter-glow": ShutterGlowDemo,
+  "grain-mesh": GrainMeshDemo,
+  "horizon-grid": HorizonGridDemo,
+  "stage-beams": StageBeamsDemo,
+  "pixel-snowfall": PixelSnowfallDemo,
+  "storm-front": StormFrontDemo,
+  "spectrum-burst": SpectrumBurstDemo,
+  "star-spiral": StarSpiralDemo,
+  "dither-dunes": DitherDunesDemo,
+  "relay-terminal": RelayTerminalDemo,
+  "ripple-lattice": RippleLatticeDemo,
+  "pollen-flow": PollenFlowDemo,
+  "dot-tide": DotTideDemo,
+  "thread-drift": ThreadDriftDemo,
 };

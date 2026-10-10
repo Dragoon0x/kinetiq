@@ -110995,4 +110995,2799 @@ export const components: KinetiqItem[] = [
       "Canvas 2D, a few dozen quads per comet and a handful of batched strokes for the afterglow each frame, with nothing allocated per frame. The loop stops off screen, on a hidden tab and when paused.",
     ],
   },
+  {
+    name: "aurora-curtain",
+    type: "registry:ui",
+    title: "Aurora Curtain",
+    description:
+      "A night sky with an aurora in it, drawn in one WebGL2 pass with the content on top: tall curtains of light with a sharp pink lower fringe, a body of fine vertical rays and a ragged crown, sampled through travelling folds so the rays crowd and thicken where the sheet bunches, over a low ridge and treeline. The pointer gathers the rays toward the hand, the place following on springs.glide and the presence arriving on springs.drift, and a press sets off a breakup on the nearest curtain whose rays shoot up and die away on a critically damped drift spring. It is decoration and never takes focus; keyboard focus landing on a control inside gathers the rays there with a softer flare.",
+    files: [
+      {
+        path: "registry/ui/aurora-curtain.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "glsl"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1455",
+    },
+    tagline: "Curtains of light with rays in their folds.",
+    keywords: [
+      "aurora",
+      "northern lights",
+      "night sky",
+      "hero background",
+      "webgl",
+      "curtain",
+      "rays",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The content on top of the sky: a hero line, a heading, a call to action.",
+      },
+      {
+        name: "curtains",
+        type: "number",
+        defaultValue: "3",
+        description: "How many curtains hang in the sky, far to near, 1 to 5.",
+      },
+      {
+        name: "rays",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "Ray detail, 0 (broad soft striation) to 1 (fine, dense, crisp rays).",
+      },
+      {
+        name: "palette",
+        type: '"polar" | "glacier" | "rose" | "ember" | readonly string[]',
+        defaultValue: '"polar"',
+        description:
+          "A named palette, or three CSS colours of your own: lower fringe, body, crown.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "0.55",
+        description:
+          "How tall the nearest curtain stands, as a fraction of the box, 0.2 to 0.9.",
+      },
+      {
+        name: "fold",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How deeply the curtains fold, 0 (flat sheets) to 1 (deep travelling folds).",
+      },
+      {
+        name: "intensity",
+        type: "number",
+        defaultValue: "0.7",
+        description: "How bright the light is, 0 to 1.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How fast the curtains drift and the rays shimmer, 0 (still) to 2.",
+      },
+      {
+        name: "stars",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "The star field behind, 0 to 1; it shows only on a dark page.",
+      },
+      {
+        name: "horizon",
+        type: "number",
+        defaultValue: "0.1",
+        description:
+          "Height of the ridge and treeline at the foot, as a fraction of the box, 0 (none) to 0.3.",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The pointer and keyboard focus gather the rays, and a press sets off a flare.",
+      },
+      {
+        name: "pointerStrength",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How hard the hand gathers the rays and how high a flare throws them, 0 to 1.",
+      },
+      {
+        name: "radius",
+        type: "number",
+        defaultValue: "150",
+        description: "How far the hand reaches along a curtain, px.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Hold the sky still; the hand still gathers and flares.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "Seeds the curtains, the stars and the ridge, so two skies never match.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "onActiveChange",
+        type: "(active: boolean) => void",
+        description:
+          "Fires when the pointer or keyboard focus starts (true) or stops (false) gathering the rays.",
+      },
+      {
+        name: "onFlare",
+        type: "() => void",
+        description: "Fires when a press or keyboard focus sets off a flare.",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-full w-full"',
+        description: "Sizes and shapes the box.",
+      },
+    ],
+    usageNotes: [
+      "Give the box a size (a height class, or a parent that has one); children render above the sky in their own layer and keep every click, focus and text selection. The sky itself is aria-hidden and has no focus stop.",
+      "Keyboard: when a control inside gains keyboard focus the rays gather under it and a soft flare rises; blur lets them go. Presses on the content's own controls never flare. Touch gathers the rays where a finger lands without blocking vertical page scrolling.",
+      "Reduced motion: one still sky at a composed moment, no drift or shimmer; the gather lands exactly under the pointer with no easing, and a flare is a brightening of the nearest curtain that fades without growing.",
+      "Cost: one fullscreen WebGL2 pass at 0.75 render scale, thirty frames a second while it only drifts and every frame while the hand or a flare works; nothing off screen, in a hidden tab, or once paused or speed 0 has settled. DPR is capped at dpr. Without WebGL2, or after a lost context, a CSS still sky stands in and a restored context repaints.",
+      "Theming: the stars show only on a dark page, and the sky deepens or pales with the theme; colours resolve on the component's own element, so a theme switch repaints. Pass three CSS colours to palette (fringe, body, crown) to dye the light your own way.",
+    ],
+  },
+  {
+    name: "plasma-bloom",
+    type: "registry:ui",
+    title: "Plasma Bloom",
+    description:
+      "A background of plasma in a palette you would wear, drawn in one WebGL2 pass with the content on top: interfering sine fields, planar and radial with slowly wandering centres, mapped through five low-chroma pigments mixed in OKLab, with a soft posterise from smooth gradient to crisp printed bands and a fine grain fixed to the cloth. The pointer adds its own source of rings that interfere into a soft moiré, the place following on springs.glide and the strength arriving on springs.drift, and a press drops a ring that rides outward while its strength rises and dies away on a critically damped drift spring. It is decoration and never takes focus; keyboard focus landing on a control inside brings the rings there and drops a softer one.",
+    files: [
+      {
+        path: "registry/ui/plasma-bloom.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "glsl"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1456",
+    },
+    tagline: "Plasma in a palette you would wear.",
+    keywords: [
+      "plasma",
+      "gradient",
+      "pattern background",
+      "interference",
+      "hero background",
+      "webgl",
+      "textile",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The content on top of the cloth: a hero line, a heading, a call to action.",
+      },
+      {
+        name: "palette",
+        type: '"linen" | "sage" | "denim" | "clay" | readonly string[]',
+        defaultValue: '"denim"',
+        description:
+          "A named palette, or five CSS colours of your own in field order (the middle one shows most).",
+      },
+      {
+        name: "scale",
+        type: "number",
+        defaultValue: "280",
+        description: "The plasma's wavelength, px.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "0.5",
+        description: "How fast the field evolves, 0 (still) to 2.",
+      },
+      {
+        name: "fields",
+        type: "number",
+        defaultValue: "4",
+        description: "How many sine fields interfere, 3 to 6.",
+      },
+      {
+        name: "bands",
+        type: "number",
+        defaultValue: "0.45",
+        description:
+          "How the colours meet, 0 (a smooth gradient) to 1 (crisp printed bands).",
+      },
+      {
+        name: "contrast",
+        type: "number",
+        defaultValue: "0.7",
+        description:
+          "How far the field reaches into the palette's ends, 0 (mostly the middle colour) to 1.",
+      },
+      {
+        name: "grain",
+        type: "number",
+        defaultValue: "0.35",
+        description: "A soft grain that makes it read as cloth, 0 to 1.",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The pointer and keyboard focus add interference rings, and a press drops a ring into the cloth.",
+      },
+      {
+        name: "pointerStrength",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How strong the hand's rings and a dropped ring are, 0 to 1.",
+      },
+      {
+        name: "radius",
+        type: "number",
+        defaultValue: "170",
+        description: "How far the hand's rings reach, px.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Hold the field still; the hand still makes rings.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "Seeds the fields and their wandering centres, so two cloths never match.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "onActiveChange",
+        type: "(active: boolean) => void",
+        description:
+          "Fires when the pointer or keyboard focus starts (true) or stops (false) ringing the field.",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-full w-full"',
+        description: "Sizes and shapes the box.",
+      },
+    ],
+    usageNotes: [
+      "Give the box a size (a height class, or a parent that has one); children render above the cloth in their own layer and keep every click, focus and text selection. The cloth itself is aria-hidden and has no focus stop.",
+      "Keyboard: when a control inside gains keyboard focus the rings gather under it and a soft ring drops; blur lets them go. Presses on the content's own controls never drop a ring. Touch makes rings where a finger lands without blocking vertical page scrolling.",
+      "Reduced motion: one still frame, no evolution and no travelling ring; the hover rings stand in place where the pointer is, and a dropped ring stays put and fades.",
+      "Cost: one fullscreen WebGL2 pass at 0.75 render scale, twenty-four frames a second while the field only evolves and every frame while the hand or a ring works; nothing off screen, in a hidden tab, or once paused or speed 0 has settled. DPR is capped at dpr. Without WebGL2, or after a lost context, a CSS still cloth stands in and a restored context repaints.",
+      "Theming: the pigments sit at fixed lightness so the cloth reads the same in both themes; colours resolve on the component's own element, so a theme switch repaints. Pass five CSS colours to palette, in field order, to print your own.",
+    ],
+  },
+  {
+    name: "plasma-ribbon",
+    type: "registry:ui",
+    title: "Plasma Ribbon",
+    description:
+      "A background with a single ribbon of plasma crossing it on a gentle wave, drawn in one WebGL2 pass with the content on top: a glowing core, long twisting filaments flowing along it, frayed edges and sparks that leave both edges, flicker and die inside a soft halo. Its centreline is a small string integrated at 120 Hz, where tension carries a disturbance along the ribbon and a local restoring spring with the springs.drift constants brings it home without ringing; the pointer pulls the string to its own height and the far ends follow late, and a press whips it with a crest and trough that run out both ways. It is decoration and never takes focus; keyboard focus landing on a control inside lifts the ribbon to it with a softer whip.",
+    files: [
+      {
+        path: "registry/ui/plasma-ribbon.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "glsl"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1457",
+    },
+    tagline: "A ribbon of plasma across the dark.",
+    keywords: [
+      "plasma",
+      "ribbon",
+      "glow",
+      "energy",
+      "hero background",
+      "webgl",
+      "wave",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The content on top of the ribbon: a hero line, a heading, a call to action.",
+      },
+      {
+        name: "thickness",
+        type: "number",
+        defaultValue: "72",
+        description: "How wide the ribbon is, px.",
+      },
+      {
+        name: "glow",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "The halo around the ribbon, 0 (none) to 1 (a wide soft bloom).",
+      },
+      {
+        name: "color",
+        type: '"cobalt" | "ember" | "jade" | "orchid" | string',
+        defaultValue: '"cobalt"',
+        description: "A named colour, or any CSS colour.",
+      },
+      {
+        name: "amplitude",
+        type: "number",
+        defaultValue: "0.4",
+        description:
+          "How high the gentle wave runs, 0 (flat) to 1 (a quarter of the box).",
+      },
+      {
+        name: "wavelength",
+        type: "number",
+        defaultValue: "560",
+        description: "The wave's length, px.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How fast the wave travels and the plasma flows, 0 (still) to 2.",
+      },
+      {
+        name: "sparks",
+        type: "number",
+        defaultValue: "0.5",
+        description: "How many sparks fray off its edges, 0 (none) to 1.",
+      },
+      {
+        name: "filaments",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How much fine twisting filament runs along the core, 0 (smooth) to 1.",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The pointer and keyboard focus pull the wave to their height, and a press whips it.",
+      },
+      {
+        name: "pointerStrength",
+        type: "number",
+        defaultValue: "0.7",
+        description:
+          "How hard the hand pulls the ribbon and how sharp a whip is, 0 to 1.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Hold the ribbon still; the hand still pulls it.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "1",
+        description: "Seeds the filaments, the sparks and the wave's phase.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "onActiveChange",
+        type: "(active: boolean) => void",
+        description:
+          "Fires when the pointer or keyboard focus starts (true) or stops (false) pulling the ribbon.",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-full w-full"',
+        description: "Sizes and shapes the box.",
+      },
+    ],
+    usageNotes: [
+      "Give the box a size (a height class, or a parent that has one); children render above the ribbon in their own layer and keep every click, focus and text selection. The ribbon itself is aria-hidden and has no focus stop.",
+      "Keyboard: when a control inside gains keyboard focus the ribbon rises to its height with a soft whip; blur lets it settle. Presses on the content's own controls never whip it. Touch pulls the ribbon where a finger lands without blocking vertical page scrolling.",
+      "Reduced motion: one still frame, no flow, travelling wave or spark drift; the hand's pull lands at once as the settled bend to its height, and a whip is a flash of the sparks that fades.",
+      "Cost: one fullscreen WebGL2 pass at 0.75 render scale, sparks evaluated only near the ribbon, thirty frames a second while it only flows and every frame while the hand or a whip works; nothing off screen, in a hidden tab, or once paused or speed 0 has settled. DPR is capped at dpr. Without WebGL2, or after a lost context, a CSS still ribbon stands in and a restored context repaints.",
+      "Theming: white-hot at the core on a dark page and a paler line in the ink on a pale one; colours resolve on the component's own element, so a theme switch repaints. Pass any CSS colour to color.",
+    ],
+  },
+  {
+    name: "dust-motes",
+    type: "registry:ui",
+    title: "Dust Motes",
+    description:
+      "A background of dust hanging in still air, seen through a lens, with a beam of light crossing the room and the content on top: seeded flakes wander on slow currents, rise a little in the warm light and flash as they turn to it, while a thin-lens depth of field opens near and far motes into soft bokeh discs and keeps those at the focal plane crisp. The pointer leans the camera on springs.drift, so near motes slide further than far ones, and a press racks focus to the mote under the hand, the focal plane travelling to its depth on springs.glide while a thin focus mark closes on it on springs.snap. It is decoration and never takes focus; keyboard focus landing on a control inside racks focus to the mote nearest it.",
+    files: [
+      {
+        path: "registry/ui/dust-motes.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1458",
+    },
+    tagline: "Dust drifting through a beam of light.",
+    keywords: [
+      "dust",
+      "particles",
+      "bokeh",
+      "depth of field",
+      "light beam",
+      "hero background",
+      "canvas",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The content on top of the room: a hero line, a heading, a call to action.",
+      },
+      {
+        name: "count",
+        type: "number",
+        defaultValue: "220",
+        description:
+          "How many motes hang in a 760 × 208 box, 40 to 600; smaller boxes hold fewer.",
+      },
+      {
+        name: "focus",
+        type: "number",
+        defaultValue: "0.45",
+        description:
+          "Where the lens is focused, 0 (nearest motes) to 1 (farthest).",
+      },
+      {
+        name: "drift",
+        type: "number",
+        defaultValue: "0.6",
+        description: "How much the air moves, 0 (still) to 2.",
+      },
+      {
+        name: "aperture",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How shallow the depth of field is, 0 (everything sharp) to 1 (very soft near and far).",
+      },
+      {
+        name: "beam",
+        type: "number",
+        defaultValue: "0.7",
+        description:
+          "How strong the beam of light is, 0 (an evenly lit room) to 1.",
+      },
+      {
+        name: "beamAngle",
+        type: "number",
+        defaultValue: "24",
+        description: "The beam's lean from vertical, degrees, −60 to 60.",
+      },
+      {
+        name: "glint",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How brightly motes flash as they turn to the light, 0 (never) to 1.",
+      },
+      {
+        name: "moteSize",
+        type: "number",
+        defaultValue: "1.6",
+        description: "A mote's size at the focal plane, px.",
+      },
+      {
+        name: "light",
+        type: "string",
+        description:
+          "The light's colour, any CSS colour. Defaults to a warm pigment from the warn token.",
+      },
+      {
+        name: "focusMark",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Show a thin focus mark that closes on the mote a press racks to.",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The pointer and keyboard focus lean the camera, and a press racks focus.",
+      },
+      {
+        name: "pointerStrength",
+        type: "number",
+        defaultValue: "0.6",
+        description: "How far the hand leans the camera, 0 to 1.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Hold the air still; the hand still leans and racks.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "1",
+        description: "Seeds the motes, so two rooms never match.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "onFocusPull",
+        type: "(depth: number | null) => void",
+        description:
+          "Fires when a press or keyboard focus racks focus, with the new depth from 0 (near) to 1 (far), and with null when the lens lets go and drifts back to `focus`.",
+      },
+      {
+        name: "onActiveChange",
+        type: "(active: boolean) => void",
+        description:
+          "Fires when the pointer or keyboard focus starts (true) or stops (false) leaning the camera.",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-full w-full"',
+        description: "Sizes and shapes the box.",
+      },
+    ],
+    usageNotes: [
+      "Give the box a size (a height class, or a parent that has one); children render above the room in their own layer and keep every click, focus and text selection. The room itself is aria-hidden and has no focus stop.",
+      "Keyboard: when a control inside gains keyboard focus the camera leans toward it and focus racks to the nearest mote; blur racks back to focus. Presses on the content's own controls never rack. Touch racks where a finger lands without blocking vertical page scrolling, and the focus holds for a moment after the finger lifts; onFocusPull reports each rack and then null when the lens lets go.",
+      "Reduced motion: a still room with no drift, spin or parallax; a press still racks focus, because blur is not travel, as a short tween instead of a spring, and the focus mark simply stands on the mote and is taken down after a moment, with no frames in between. The hand is not reported through onActiveChange, since the camera never leans.",
+      "Cost: Canvas 2D from a prefiltered sprite atlas, at most 600 sprites a frame and nothing allocated per frame; thirty frames a second while it only drifts and every frame while the lens or camera moves; nothing off screen, in a hidden tab, or once paused or drift 0 has settled. DPR is capped at dpr. count is for a 760 by 208 box, and smaller boxes hold proportionally fewer motes.",
+      "Theming: motes glow against a dark page and read as dark flecks with a softer beam on a light one; colours resolve on the component's own element, so a theme switch repaints. Pass any CSS colour to light to warm or cool the beam.",
+    ],
+  },
+  {
+    name: "shutter-glow",
+    type: "registry:ui",
+    title: "Shutter Glow",
+    description:
+      "A background of vertical blinds built from real CSS 3D slabs, each with a front, a back and two edges turning on its long axis in one shared perspective, over a glow of light seen through the gaps and with the content on top: the fronts carry slices of one gradient and the backs slices of another, and a light from one side shades every face and puts a sheen where its reflection meets the eye. A wave of turning crosses the wall every interval, blind after blind turning half over on springs.snap with one crisp overshoot, staggered so the whole wall changes gradient inside 600 ms, and a press sends the wave out both ways from the blind under it while the blinds near the pointer part around the hand on their own snap springs. It is decoration and never takes focus; keyboard focus landing on a control inside parts the blinds around it and sends a wave from there.",
+    files: [
+      {
+        path: "registry/ui/shutter-glow.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1459",
+    },
+    tagline: "Blinds of gradient turning in the light.",
+    keywords: [
+      "blinds",
+      "shutter",
+      "3d",
+      "gradient",
+      "louvre",
+      "hero background",
+      "css 3d",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The content on top of the blinds: a hero line, a heading, a call to action.",
+      },
+      {
+        name: "blinds",
+        type: "number",
+        defaultValue: "14",
+        description: "How many blinds hang across the wall, 4 to 32.",
+      },
+      {
+        name: "angle",
+        type: "number",
+        defaultValue: "24",
+        description:
+          "How far the blinds stand open at rest, degrees, 0 (closed) to 70.",
+      },
+      {
+        name: "palette",
+        type: '"dawn" | "harbor" | "cobalt" | "moss" | readonly string[]',
+        defaultValue: '"dawn"',
+        description:
+          "A named palette, or four CSS colours of your own: the front gradient's two ends, then the back's.",
+      },
+      {
+        name: "interval",
+        type: "number",
+        defaultValue: "5200",
+        description:
+          "How often a wave of turning crosses the wall on its own, ms; 0 turns it only on a press.",
+      },
+      {
+        name: "depth",
+        type: "number",
+        defaultValue: "6",
+        description:
+          "How thick each blind is, px: the dark edge a turning blind shows.",
+      },
+      {
+        name: "glow",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "The light behind the blinds, seen through the gaps, 0 (none) to 1.",
+      },
+      {
+        name: "lightAngle",
+        type: "number",
+        defaultValue: "-20",
+        description:
+          "Where the light falls from, degrees across the wall: negative from the left.",
+      },
+      {
+        name: "perspective",
+        type: "number",
+        defaultValue: "900",
+        description:
+          "The viewer's distance for the 3D, px; smaller is more dramatic.",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The pointer and keyboard focus part the blinds, and a press sends a wave.",
+      },
+      {
+        name: "pointerStrength",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How far the blinds near the hand turn away from it, 0 to 1.",
+      },
+      {
+        name: "radius",
+        type: "number",
+        defaultValue: "110",
+        description: "How far the hand reaches across the blinds, px.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "No waves on their own; the hand still parts and turns them.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "Seeds how unevenly the blinds hang, so two walls never match.",
+      },
+      {
+        name: "onTurn",
+        type: '(face: "front" | "back") => void',
+        description:
+          "Fires when a wave starts, with the face the wall is turning to.",
+      },
+      {
+        name: "onActiveChange",
+        type: "(active: boolean) => void",
+        description:
+          "Fires when the pointer or keyboard focus starts (true) or stops (false) parting the blinds.",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-full w-full"',
+        description: "Sizes and shapes the box.",
+      },
+    ],
+    usageNotes: [
+      "Give the box a size (a height class, or a parent that has one); children render above the blinds in their own layer and keep every click, focus and text selection. The wall itself is aria-hidden and has no focus stop.",
+      "Keyboard: when a control inside gains keyboard focus the blinds part around it and a wave turns the wall from there; blur lets them hang again. Presses on the content's own controls never send a wave. Touch parts the blinds where a finger lands without blocking vertical page scrolling.",
+      "Reduced motion: the blinds hang still at their resting angle and nothing rotates; a press or keyboard focus cross-fades the wall from one gradient to the other, staggered and lit as the faces are, and the wall never changes on its own. The hand does not part the blinds and is not reported as parting them.",
+      "Cost: no canvas and no WebGL; at most 32 slabs of four faces (and never narrower than 18 px each, so a narrow box hangs fewer) whose angles are motion values with every shade derived from them, so nothing re-renders per frame. Between waves nothing runs at all: the idle wave is a timer that waits while the wall is off screen or the page is hidden, and never fires while paused or with interval 0.",
+      "Theming: the pigments sit at fixed lightness and 10% into the page colour, so the wall reads the same in both themes and belongs to each. Pass four CSS colours to palette (front from and to, back from and to) for gradients of your own.",
+    ],
+  },
+  {
+    name: "grain-mesh",
+    type: "registry:ui",
+    title: "Grain Mesh",
+    description:
+      "A background printed rather than rendered, drawn in one WebGL2 pass with the content on top: a mesh gradient of four to six spot inks laid down drum by drum like a risograph, through a stochastic screen fixed to the paper so ink lands as grain where it is thin and solid where it is thick, each drum a little out of register on a stock with fibres and tooth. The points drift on slow orbits while the grain stays put; the nearest ink leans toward a hovering hand on springs.glide, a drag picks it up on springs.flick and follows the finger 1:1 with its drum slipping out of register, and a release throws it home with the release velocity, landing on springs.recoil. It is decoration and never takes focus; keyboard focus landing on a control inside draws the nearest ink to it, and blur lets it land home.",
+    files: [
+      {
+        path: "registry/ui/grain-mesh.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "glsl",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1460",
+    },
+    tagline: "A grainy gradient that shifts like a print.",
+    keywords: [
+      "grain",
+      "risograph",
+      "mesh gradient",
+      "print",
+      "noise",
+      "hero background",
+      "webgl",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The content on top of the print: a hero line, a heading, a call to action.",
+      },
+      {
+        name: "points",
+        type: "number",
+        defaultValue: "5",
+        description: "How many colour points (inks) make the mesh, 4 to 6.",
+      },
+      {
+        name: "grain",
+        type: "number",
+        defaultValue: "0.55",
+        description:
+          "How the ink is printed, 0 (a smooth gradient) to 1 (a fully grained riso screen).",
+      },
+      {
+        name: "palette",
+        type: '"poster" | "harbor" | "orchard" | "dusk" | readonly string[]',
+        defaultValue: '"poster"',
+        description:
+          "A named set of inks, or four to six CSS colours of your own.",
+      },
+      {
+        name: "drift",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How fast the points drift on their orbits, 0 (still) to 2.",
+      },
+      {
+        name: "softness",
+        type: "number",
+        defaultValue: "0.45",
+        description:
+          "How far each ink spreads into its neighbours, 0 (tight pools) to 1 (wide washes).",
+      },
+      {
+        name: "grainSize",
+        type: "number",
+        defaultValue: "1.5",
+        description: "The size of a grain, CSS px, 1 to 4.",
+      },
+      {
+        name: "misregister",
+        type: "number",
+        defaultValue: "1.2",
+        description: "How far the inks sit out of register, px, 0 to 4.",
+      },
+      {
+        name: "paper",
+        type: "number",
+        defaultValue: "0.5",
+        description: "The paper's fibres and tooth, 0 (smooth stock) to 1.",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The pointer leans the nearest ink toward it, a drag pulls it, and keyboard focus draws it in.",
+      },
+      {
+        name: "pointerStrength",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How far the nearest ink leans toward a hovering hand, 0 to 1.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Hold the points still; the hand still pulls them.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "Seeds the points' homes, orbits, grain and register, so two prints never match.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "onActiveChange",
+        type: "(active: boolean) => void",
+        description:
+          "Fires when the pointer or keyboard focus starts (true) or stops (false) working the print.",
+      },
+      {
+        name: "onGrab",
+        type: "(index: number | null) => void",
+        description:
+          "Fires when a drag picks up an ink (its index) and when it lets go (null).",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-full w-full"',
+        description: "Sizes and shapes the box.",
+      },
+    ],
+    usageNotes: [
+      "Give the box a size (a height class, or a parent that has one); children render above the print in their own layer and keep every click, focus and text selection. The print itself is aria-hidden and has no focus stop.",
+      "Keyboard: when a control inside gains keyboard focus the nearest ink is drawn to it; blur lets it recoil home. Drags start only on the paper, never on the content's controls. On touch a sideways drag pulls ink and an upright one scrolls the page.",
+      "Reduced motion: the print is still at a composed moment; the hover lean lands at once, a drag still follows the finger 1:1 because it is direct manipulation, and a release puts the ink straight home without the recoil or the register jolt.",
+      "Cost: one fullscreen WebGL2 pass with the grain computed in CSS px, so it keeps its size at any DPR; twenty-four frames a second while it only drifts and every frame while the hand works; nothing off screen, in a hidden tab, or once paused or drift 0 has settled. DPR is capped at dpr. Without WebGL2, or after a lost context, a CSS print of the inks under a halftone screen stands in and a restored context repaints.",
+      "Theming: inks multiply on light stock so overprints darken into new colours, and screen onto dark stock on a dark page; colours resolve on the component's own element, so a theme switch repaints. Pass four to six CSS colours to palette for inks of your own.",
+    ],
+  },
+  {
+    name: "horizon-grid",
+    type: "registry:ui",
+    title: "Horizon Grid",
+    description:
+      "A background of a fine grid floor running to the horizon, the camera travelling over it so the lines flow toward you, a soft band of light sweeping across the floor and a low glow breathing on the horizon. The camera banks and turns toward the hand on springs with the springs.drift constants and levels the same way when it leaves; a press on the bare background opens a ring of light across the floor in perspective while a critically damped surge carries the camera a few cells forward. Keyboard focus on a control inside leans the camera toward it and opens a softer ring under it.",
+    files: [
+      {
+        path: "registry/ui/horizon-grid.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "glsl"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1461",
+    },
+    tagline: "A perspective grid swept by light.",
+    keywords: [
+      "perspective grid",
+      "horizon",
+      "floor grid",
+      "light sweep",
+      "webgl background",
+      "hero background",
+      "camera tilt",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The content above the floor: a hero line, a heading, a call to action.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "How fast the camera travels over the floor, 0 (still) to 3.",
+      },
+      {
+        name: "density",
+        type: "number",
+        defaultValue: "14",
+        description:
+          "How many grid lines span the near edge of the frame, 6 to 30.",
+      },
+      {
+        name: "color",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "The light's colour, any CSS colour; taken at a fixed lightness so both themes read it the same.",
+      },
+      {
+        name: "horizon",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "Where the horizon rests, as a fraction of the height from the top, 0.2 to 0.7.",
+      },
+      {
+        name: "glow",
+        type: "number",
+        defaultValue: "0.6",
+        description: "How strong the breathing glow on the horizon is, 0 to 1.",
+      },
+      {
+        name: "sweep",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How bright the band of light sweeping the floor is, 0 (none) to 1.",
+      },
+      {
+        name: "fog",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How soon the far grid fades into the horizon haze, 0 (clear to the edge) to 1 (close).",
+      },
+      {
+        name: "lineWidth",
+        type: "number",
+        defaultValue: "1",
+        description: "The grid lines' width, CSS px, 0.5 to 2.",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The pointer and keyboard focus lean the camera, and a press opens a ring of light on the floor.",
+      },
+      {
+        name: "pointerStrength",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How far the camera leans toward the hand and how bright a ring is, 0 to 1.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Hold the travel, the sweep and the breath still; the hand still leans the camera.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "Seeds where the grid and the band start, so two floors never match.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "onActiveChange",
+        type: "(active: boolean) => void",
+        description:
+          "Fires when the pointer or keyboard focus starts (true) or stops (false) leaning the camera.",
+      },
+      {
+        name: "onPulse",
+        type: "() => void",
+        description:
+          "Fires when a press (or keyboard focus) opens a ring of light on the floor.",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-full w-full"',
+        description: "Sizes and shapes the box.",
+      },
+    ],
+    usageNotes: [
+      "The canvas and its CSS stand-in are aria-hidden and pointer-events-none; children render above them and keep every click. A press on a control is the control's; only the bare background opens a ring.",
+      "There is no tab stop of its own: keyboard focus on a control inside leans the camera toward it and opens a softer ring, the same response a hand gets.",
+      "One fullscreen WebGL2 draw at a capped pixel ratio, 30 frames a second while it only travels, and nothing at all off screen, in a hidden page, or while paused and level. Context loss shows the stand-in until the context returns.",
+      "The light takes the given colour at a fixed lightness, and the floor and haze are read from the component's own element and re-read when the theme changes, so it reads in light and dark.",
+      "Under reduced motion one still floor is drawn: the grid and the band parked, the glow steady and the camera level. A press shows its ring at full width at once and fades it by opacity only.",
+    ],
+  },
+  {
+    name: "stage-beams",
+    type: "registry:ui",
+    title: "Stage Beams",
+    description:
+      "A background of a lighting rig along the bottom edge throwing narrow volumetric beams up through drifting haze in mirrored pairs, a lighting desk moving them through looks on springs with the springs.drift constants — a fan, crossed pairs, straight up, a lean — with motes glinting where the beams pass and light pooling on the floor. The beam nearest the pointer leaves the show and follows the hand on springs.glide like a follow spot, and a press brings every beam onto that point on springs.snap with one crisp overshoot while the rig flares. Keyboard focus on a control inside puts the nearest pair on it, crossing there.",
+    files: [
+      {
+        path: "registry/ui/stage-beams.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "glsl"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1462",
+    },
+    tagline: "Beams that sweep like a concert stage.",
+    keywords: [
+      "stage lights",
+      "volumetric beams",
+      "concert",
+      "haze",
+      "spotlight",
+      "webgl background",
+      "hero background",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The content in front of the rig: a hero line, a heading, a call to action.",
+      },
+      {
+        name: "beams",
+        type: "number",
+        defaultValue: "6",
+        description:
+          "How many beams the rig throws, 2 to 12; they work in mirrored pairs, so odd counts round up.",
+      },
+      {
+        name: "haze",
+        type: "number",
+        defaultValue: "0.55",
+        description:
+          "How thick the haze is, 0 (clean air: faint, crisp blades) to 1 (thick, textured shafts).",
+      },
+      {
+        name: "colors",
+        type: '"house" | "ice" | "ember" | "mono" | readonly string[]',
+        defaultValue: '"house"',
+        description:
+          "A named palette, or up to three CSS colours given to the pairs in turn.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "How fast the beams sway and the haze drifts, 0 (still) to 2.",
+      },
+      {
+        name: "spread",
+        type: "number",
+        defaultValue: "5",
+        description: "Each beam's width, degrees, 2 to 12.",
+      },
+      {
+        name: "intensity",
+        type: "number",
+        defaultValue: "1",
+        description: "How bright the beams burn, 0 to 1.5.",
+      },
+      {
+        name: "motes",
+        type: "number",
+        defaultValue: "0.5",
+        description: "How many motes glint in the beams, 0 to 1.",
+      },
+      {
+        name: "floor",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How much light pools on the floor at each fixture, 0 to 1.",
+      },
+      {
+        name: "cue",
+        type: "number",
+        defaultValue: "4800",
+        description:
+          "Milliseconds between the lighting desk's cues, 2000 to 12000.",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The pointer takes the nearest beam, keyboard focus the nearest pair, and a press brings every beam onto it.",
+      },
+      {
+        name: "pointerStrength",
+        type: "number",
+        defaultValue: "0.8",
+        description:
+          "How far a beam leaves its cue for the hand and how bright the hit is, 0 to 1.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Hold the show: no cues, no sway, no drifting haze. The hand still directs the beams.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "1",
+        description: "Seeds the order of the looks, the haze and the motes.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "onCue",
+        type: "(index: number) => void",
+        description:
+          "Fires when the desk runs a new cue, with its number in the show (1 up).",
+      },
+      {
+        name: "onActiveChange",
+        type: "(active: boolean) => void",
+        description:
+          "Fires when the pointer or keyboard focus starts (true) or stops (false) directing a beam.",
+      },
+      {
+        name: "onHit",
+        type: "(hitting: boolean) => void",
+        description:
+          "Fires when a press brings every beam onto it (true) and when the press ends and the desk takes them back (false).",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-full w-full"',
+        description: "Sizes and shapes the box.",
+      },
+    ],
+    usageNotes: [
+      "The canvas and its CSS stand-in are aria-hidden and pointer-events-none; children render above them and keep every click. A press on a control is the control's; only the bare background brings the beams.",
+      "There is no tab stop of its own: keyboard focus on a control inside points the nearest pair at it, and leaving hands the pair back to the show.",
+      "One fullscreen WebGL2 draw at half the capped pixel ratio, 30 frames a second while the show sways, nothing off screen or in a hidden page, and nothing when paused and settled. Context loss shows the stand-in until the context returns.",
+      "Palettes take their colours at a fixed lightness so the beams read the same in both themes; the hall's darkness is read from the component's own element and re-read on theme change.",
+      "Under reduced motion the rig holds its first look with no sway or drifting haze; the hand and focus still direct the beams, which land where they are sent at once.",
+    ],
+  },
+  {
+    name: "pixel-snowfall",
+    type: "registry:ui",
+    title: "Pixel Snowfall",
+    description:
+      "A background of snow drawn as pixel art at three depths over a dithered sky, far flakes single dim cells and near ones small crosses swaying hardest in the wind, settling into a drift along the bottom edge that banks into rounded dunes and slowly melts. The pointer is a wind source that blows harder the faster it moves, and a press bursts a gust — a critically damped impulse on the springs.drift constants — that throws the nearby flakes outward and scours a crater in the drift whose snow sprays up and lands again. Keyboard focus on a control inside puffs a softer gust from it.",
+    files: [
+      {
+        path: "registry/ui/pixel-snowfall.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1463",
+    },
+    tagline: "Snow falling in quiet pixels.",
+    keywords: [
+      "pixel art",
+      "snow",
+      "snowfall",
+      "winter",
+      "particles",
+      "canvas background",
+      "hero background",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The content in front of the snow: a hero line, a heading, a call to action.",
+      },
+      {
+        name: "density",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How hard it snows, 0 (a few flakes) to 1 (a heavy fall), set per area so every size snows alike.",
+      },
+      {
+        name: "wind",
+        type: "number",
+        defaultValue: "0.25",
+        description:
+          "The steady wind, -1 (hard left) to 1 (hard right); gusts ride on it.",
+      },
+      {
+        name: "pixel",
+        type: "number",
+        defaultValue: "3",
+        description: "CSS px per pixel of snow, 2 to 6.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "1",
+        description: "How fast the snow falls, 0.25 to 2.",
+      },
+      {
+        name: "gusts",
+        type: "number",
+        defaultValue: "0.5",
+        description: "How strong the passing gusts are, 0 (steady air) to 1.",
+      },
+      {
+        name: "layers",
+        type: "number",
+        defaultValue: "3",
+        description:
+          "How many depths of snow fall: 1 (one), 2 (near and middle) or 3 (far, middle, near).",
+      },
+      {
+        name: "drift",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How deep the drift along the bottom may bank, 0 (none) to 1.",
+      },
+      {
+        name: "melt",
+        type: "number",
+        defaultValue: "0.4",
+        description:
+          "How quickly the drift melts back, 0 (it only grows to its limit) to 1.",
+      },
+      {
+        name: "color",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "The cold tint in the sky, the shadows and the flakes, any CSS colour.",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The pointer is a wind source and a press bursts a gust; keyboard focus puffs one from the control.",
+      },
+      {
+        name: "pointerStrength",
+        type: "number",
+        defaultValue: "0.7",
+        description:
+          "How hard the hand blows and how strong a gust is, 0 to 1.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Hold the snow still in the air; the hand is ignored.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "Seeds where every flake starts and the drift's first shape.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "onGust",
+        type: "() => void",
+        description: "Fires when a press (or keyboard focus) bursts a gust.",
+      },
+      {
+        name: "onActiveChange",
+        type: "(active: boolean) => void",
+        description:
+          "Fires when the pointer starts (true) or stops (false) blowing on the snow.",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-full w-full"',
+        description: "Sizes and shapes the box.",
+      },
+    ],
+    usageNotes: [
+      "The canvas is aria-hidden and pointer-events-none; children render above it and keep every click. A press on a control is the control's; only the bare background bursts a gust.",
+      "There is no tab stop of its own: keyboard focus on a control inside puffs a gust from it, the same response a press gets. On touch a tap bursts a gust and page scrolling stays with the page.",
+      "Canvas 2D into a buffer of cells scaled up crisp, thirty frames a second only while on screen in a visible page, nothing allocated per frame; paused holds the flakes in the air and stops the loop.",
+      "Density is set per area, so a phone card and a wide hero snow equally hard. The sky and snow colours are read from the component's own element and re-read when the theme changes.",
+      "Under reduced motion it is one still winter frame with the drift banked; a press shows the gust's end state at once.",
+    ],
+  },
+  {
+    name: "storm-front",
+    type: "registry:ui",
+    title: "Storm Front",
+    description:
+      "A background of a heavy storm deck seen from beneath, rolling slowly in layered, domain-warped cloud over a pale band of rain, lit from inside by seeded lightning that crawls and branches through it: a dim leader, two or three return strokes and an afterglow, the light catching the undersides of every billow and the channel glimpsed only where the cloud thins. A click calls a strike at the pointer — a discharge crawling out both ways inside the cloud, or a stroke dropping from the base below it — with thunder after the flash when sound is on, and a faint charge gathers under the hand on springs with the springs.drift constants. Keyboard focus on a control inside calls a softer, silent discharge above it.",
+    files: [
+      {
+        path: "registry/ui/storm-front.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+      "glsl",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1464",
+    },
+    tagline: "Lightning moving through heavy cloud.",
+    keywords: [
+      "storm",
+      "lightning",
+      "clouds",
+      "thunder",
+      "weather",
+      "webgl background",
+      "hero background",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The content under the storm: a hero line, a heading, a call to action.",
+      },
+      {
+        name: "rate",
+        type: "number",
+        defaultValue: "6",
+        description:
+          "How many flashes the storm makes on its own, per minute, 0 to 20.",
+      },
+      {
+        name: "density",
+        type: "number",
+        defaultValue: "0.6",
+        description: "How heavy the cloud deck is, 0 (broken) to 1 (solid).",
+      },
+      {
+        name: "tint",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "The storm's light and colour, any CSS colour; taken at a fixed lightness so both themes read it.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "1",
+        description: "How fast the cloud rolls, 0 (still) to 2.",
+      },
+      {
+        name: "base",
+        type: "number",
+        defaultValue: "0.62",
+        description:
+          "Where the cloud base sits, as a fraction of the height from the top, 0.4 to 0.85.",
+      },
+      {
+        name: "rain",
+        type: "number",
+        defaultValue: "0.4",
+        description: "How much rain hangs from the base, 0 to 1.",
+      },
+      {
+        name: "intensity",
+        type: "number",
+        defaultValue: "1",
+        description: "How bright the lightning is, 0 to 1.5.",
+      },
+      {
+        name: "branches",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How much each discharge branches, 0 (a single channel) to 1.",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "A click calls lightning at the pointer and keyboard focus calls a discharge above a control; the pointer gathers a faint glow.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Thunder after a strike the visitor calls (never for the storm's own flashes). Off unless asked for.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Hold the cloud still; flashes already running finish, and no new ones start on their own.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "1",
+        description: "Seeds the cloud and every flash the storm makes.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "onStrike",
+        type: "(strike: StormStrike) => void",
+        description:
+          "Fires when lightning strikes, with where it was called and by whom.",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-full w-full"',
+        description: "Sizes and shapes the box.",
+      },
+    ],
+    usageNotes: [
+      "The canvas and its CSS stand-in are aria-hidden and pointer-events-none; children render above them and keep every click. A click on a control is the control's; only the bare sky strikes.",
+      "There is no tab stop of its own: keyboard focus on a control inside calls a soft discharge above it, the same strike a click gets but quieter and always silent.",
+      "Thunder (a thud, later and lower the deeper the strike sits) only answers a visitor's click and only when sound is true; the storm's own flashes are always silent.",
+      "One fullscreen WebGL2 draw at half the capped pixel ratio, 30 frames a second while the cloud only rolls, every frame during a flash, nothing off screen or in a hidden page, and nothing when paused with no flash running. Context loss shows the stand-in until the context returns; without WebGL2 the stand-in stays.",
+      "The light takes the tint at a fixed lightness and the cloud is built from the page's own background and foreground, read from the component's element and re-read on theme change: a grey daylight storm in light, blue-black cloud in dark.",
+      "Under reduced motion the cloud holds still around one softly lit discharge with no automatic flashes; a click lights the cloud at the pointer as one still frame that fades out by opacity.",
+    ],
+  },
+  {
+    name: "spectrum-burst",
+    type: "registry:ui",
+    title: "Spectrum Burst",
+    description:
+      "A background of light bursting from a point in every direction, each seeded ray split by dispersion: summed over seven wavelengths, each turned by an angle that grows away from the centre, so the colours overlap into white at the heart and fan into a spectrum toward each tip, red on one edge and violet on the other. The burst turns slowly and breathes, and its centre follows the hand on springs with the springs.drift constants; a press blooms it on springs.recoil — rays thrown out long and split wide, ringing twice as they settle — while a split ring of light leaves the centre on the enter easing. Keyboard focus on a control inside carries the centre to it and blooms softly.",
+    files: [
+      {
+        path: "registry/ui/spectrum-burst.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "glsl"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1465",
+    },
+    tagline: "A burst of light split into colour.",
+    keywords: [
+      "light rays",
+      "spectrum",
+      "dispersion",
+      "prism",
+      "burst",
+      "webgl background",
+      "hero background",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The content in front of the burst: a hero line, a heading, a call to action.",
+      },
+      {
+        name: "rays",
+        type: "number",
+        defaultValue: "16",
+        description: "How many rays leave the centre, 4 to 36.",
+      },
+      {
+        name: "dispersion",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How far each ray splits into colour toward its tip, 0 (white blades) to 1.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "1",
+        description: "How fast the burst turns and pulses, 0 (still) to 2.",
+      },
+      {
+        name: "originX",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "Where the burst rests across the box, 0 (left) to 1 (right).",
+      },
+      {
+        name: "originY",
+        type: "number",
+        defaultValue: "0.42",
+        description:
+          "Where the burst rests down the box, 0 (top) to 1 (bottom).",
+      },
+      {
+        name: "length",
+        type: "number",
+        defaultValue: "0.7",
+        description:
+          "How far the rays reach, as a share of the box's diagonal, 0.2 to 1.",
+      },
+      {
+        name: "width",
+        type: "number",
+        defaultValue: "0.4",
+        description:
+          "How broad each ray is, 0 (a fine blade) to 1 (a wide wedge).",
+      },
+      {
+        name: "intensity",
+        type: "number",
+        defaultValue: "1",
+        description: "How bright the light is, 0 to 1.5.",
+      },
+      {
+        name: "pulse",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How much the rays breathe and ripple in length and brightness, 0 to 1.",
+      },
+      {
+        name: "halo",
+        type: "number",
+        defaultValue: "0.35",
+        description:
+          "How bright the faint spectral ring around the burst is, 0 (none) to 1.",
+      },
+      {
+        name: "saturation",
+        type: "number",
+        defaultValue: "0.8",
+        description:
+          "How rich the split colours are, 0 (grey fringes) to 1 (pure spectrum).",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The centre follows the hand, a press blooms the burst, and keyboard focus inside carries it to the control.",
+      },
+      {
+        name: "pointerStrength",
+        type: "number",
+        defaultValue: "0.7",
+        description:
+          "How far toward the hand the centre travels and how hard a press blooms, 0 to 1.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Hold the turning and the pulse still; the hand still carries the centre.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "1",
+        description: "Seeds every ray's length, width, brightness and rhythm.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "onBurst",
+        type: "() => void",
+        description: "Fires when a press (or keyboard focus) blooms the burst.",
+      },
+      {
+        name: "onActiveChange",
+        type: "(active: boolean) => void",
+        description:
+          "Fires when the pointer or keyboard focus starts (true) or stops (false) carrying the centre.",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-full w-full"',
+        description: "Sizes and shapes the box.",
+      },
+    ],
+    usageNotes: [
+      "The canvas and its CSS stand-in are aria-hidden and pointer-events-none; children render above them and keep every click. A press on a control is the control's; only the bare background blooms.",
+      "There is no tab stop of its own: keyboard focus on a control inside carries the centre over it and blooms softly, and leaving returns it home.",
+      "One fullscreen WebGL2 draw at half the capped pixel ratio; each pixel weighs only the ray under it and its two neighbours, with ray shapes hashed in the shader. 30 frames a second while it only turns, every frame while a spring settles, nothing off screen or in a hidden page, and nothing when paused and settled. Context loss shows the stand-in until the context returns.",
+      "In the dark theme the light adds to the page; in the light theme it lays down as washes, the white of each ray only a faint warm shade and its split edges tinting the page. The page colour is read from the component's own element and re-read on theme change.",
+      "Under reduced motion the burst is still at a seeded moment: the centre lands where the hand puts it at once, and a press shows the bloom's peak while it is held.",
+    ],
+  },
+  {
+    name: "star-spiral",
+    type: "registry:ui",
+    title: "Star Spiral",
+    description:
+      "A background of a spiral galaxy built from density waves: every star rides its own closed orbit, the orbits bulging into lobes that twist with radius, so the arms stand where neighbouring orbits crowd while every star streams through them, the core turning faster than the rim. Young stars light only along the arm ridges, a bulge glows at the centre and dust rides each arm's leading edge, becoming the dark lane when the disk is seen edge on. A drag tilts the plane 1:1, rubber-banding past edge on, and on release it swings back on springs with the springs.drift constants taking the release velocity; a tap sends a ring of star formation out from the core on the enter easing as the core flares on a drift-spring impulse, and keyboard focus on a control inside tilts the plane toward it and sends a softer ring.",
+    files: [
+      {
+        path: "registry/ui/star-spiral.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1466",
+    },
+    tagline: "A galaxy turning slowly in the dark.",
+    keywords: [
+      "galaxy",
+      "spiral",
+      "stars",
+      "space",
+      "density wave",
+      "canvas background",
+      "hero background",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The content in front of the galaxy: a hero line, a heading, a call to action.",
+      },
+      {
+        name: "arms",
+        type: "number",
+        defaultValue: "2",
+        description: "How many arms the density wave raises, 1 to 6.",
+      },
+      {
+        name: "stars",
+        type: "number",
+        defaultValue: "1400",
+        description:
+          "How many stars make the galaxy, 300 to 3000; dust adds three tenths more.",
+      },
+      {
+        name: "tilt",
+        type: "number",
+        defaultValue: "55",
+        description:
+          "The disk's resting inclination in degrees, 0 (face on) to 80 (nearly edge on).",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "1",
+        description: "How fast the disk turns, 0 (still) to 3.",
+      },
+      {
+        name: "twist",
+        type: "number",
+        defaultValue: "0.5",
+        description: "How tightly the arms wind, 0 (open) to 1 (tight).",
+      },
+      {
+        name: "size",
+        type: "number",
+        defaultValue: "1",
+        description: "The galaxy's size against the box, 0.4 to 1.4.",
+      },
+      {
+        name: "originX",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "Where the core sits across the box, 0 to 1; narrow boxes pull it toward the middle.",
+      },
+      {
+        name: "originY",
+        type: "number",
+        defaultValue: "0.5",
+        description: "Where the core sits down the box, 0 to 1.",
+      },
+      {
+        name: "core",
+        type: "number",
+        defaultValue: "0.6",
+        description: "How bright the bulge glows, 0 to 1.",
+      },
+      {
+        name: "dust",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How heavy the dust lanes along the arms are, 0 (none) to 1.",
+      },
+      {
+        name: "color",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description: "The young stars' colour along the arms, any CSS colour.",
+      },
+      {
+        name: "coreColor",
+        type: "string",
+        defaultValue: '"var(--warn)"',
+        description: "The old stars' and the bulge's colour, any CSS colour.",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "A drag tilts the plane, a tap sends a ring of new stars out, and keyboard focus inside tilts toward the control.",
+      },
+      {
+        name: "pointerStrength",
+        type: "number",
+        defaultValue: "0.7",
+        description:
+          "How far a drag tilts the plane and how bright a ring burns, 0 to 1.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Hold the disk still; a drag still tilts it.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "Seeds every star's orbit and the moment the galaxy starts from.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "onTiltChange",
+        type: "(tilt: StarTilt) => void",
+        description:
+          "Fires when the plane's tilt changes by a whole degree, from a drag, keyboard focus or the swing back.",
+      },
+      {
+        name: "onActiveChange",
+        type: "(active: boolean) => void",
+        description:
+          "Fires when a drag or keyboard focus starts (true) or stops (false) tilting the plane.",
+      },
+      {
+        name: "onRing",
+        type: "() => void",
+        description:
+          "Fires when a tap (or keyboard focus) sends a ring of star formation out from the core.",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-full w-full"',
+        description: "Sizes and shapes the box.",
+      },
+    ],
+    usageNotes: [
+      "The canvas and its CSS stand-in are aria-hidden and pointer-events-none; children render above them and keep every click. A press on a control is the control's: it never tilts the plane or sends a ring.",
+      "There is no tab stop of its own: keyboard focus on a control inside tilts the plane toward it and sends a softer ring, and blur lets it right itself. On touch the root is touch-pan-y, so a sideways drag tilts the plane and an upright swipe scrolls the page.",
+      "Canvas 2D with every orbit in typed arrays: a frame is a few trig calls per star and about a dozen batched fills, nothing allocated per frame. 30 frames a second while it turns, every frame while dragging, swinging back or ringing, nothing off screen or in a hidden page, and nothing when paused and settled.",
+      "In the dark theme the stars add as light; in the light theme the galaxy prints as a negative plate, ink stars on paper with the dust as pale lanes. Colours are read from the component's own element and re-read on theme change; young stars and the bulge take their colours at a fixed lightness so both themes read them.",
+      "onTiltChange reports whole degrees only when they change, so a status line can follow a drag without rendering every frame.",
+      "Under reduced motion the galaxy is still at a seeded moment: a drag sets the tilt exactly under the hand and release returns it at once, and a tap brightens a still ring at mid-disk for a moment.",
+    ],
+  },
+  {
+    name: "dither-dunes",
+    type: "registry:ui",
+    title: "Dither Dunes",
+    description:
+      "A background printed like a one-bit risograph sheet: an aerial dune sea whose crests bow, split and rejoin as the field migrates downwind, drawn entirely in two or three flat inks through an ordered dither, with the key ink printing the relief and a spot ink laying large soft shapes under it on a shifted screen. The pointer is a lamp whose soft spot of light follows on the springs.glide constants and arrives on springs.drift; a press pulls a flash, a ring that prints the sheet in negative as it crosses, and the spot swells after it on springs.recoil. Keyboard focus on a control inside brings the lamp to it with a softer flash.",
+    files: [
+      {
+        path: "registry/ui/dither-dunes.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "glsl"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1467",
+    },
+    tagline: "Gradients printed in ordered dots.",
+    keywords: [
+      "dither",
+      "risograph",
+      "bayer matrix",
+      "halftone",
+      "one-bit",
+      "animated background",
+      "webgl",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The content on top of the print: a hero line, a heading, a call to action.",
+      },
+      {
+        name: "matrix",
+        type: '"bayer2" | "bayer4" | "bayer8" | "dots"',
+        defaultValue: '"bayer4"',
+        description:
+          "The threshold pattern every dot is printed through: a 2×2, 4×4 or 8×8 ordered matrix, or a 45° halftone screen of round dots.",
+      },
+      {
+        name: "scale",
+        type: "number",
+        defaultValue: "2",
+        description:
+          "The size of one printed dot, in CSS px (snapped to whole device pixels), 1 to 8.",
+      },
+      {
+        name: "colors",
+        type: '"mono" | "riso" | "sienna" | "tide" | readonly string[]',
+        defaultValue: '"riso"',
+        description:
+          "A named set of inks, or two or three CSS colours of your own, paper first.",
+      },
+      {
+        name: "size",
+        type: "number",
+        defaultValue: "180",
+        description: "The distance between dune crests, px, 60 to 600.",
+      },
+      {
+        name: "relief",
+        type: "number",
+        defaultValue: "0.7",
+        description:
+          "How strongly the slopes are shaded, 0 (flat tone) to 1 (deep relief).",
+      },
+      {
+        name: "morph",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How far the crest lines bow, split and wander, 0 (straight ranks) to 1.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How fast the dunes migrate and change shape, 0 (still) to 2.",
+      },
+      {
+        name: "wind",
+        type: "number",
+        defaultValue: "12",
+        description:
+          "The way the wind blows the dunes, degrees: 0 toward the right, 90 down.",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The pointer and keyboard focus brighten a soft spot, and a press flashes a ring of light.",
+      },
+      {
+        name: "pointerStrength",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How bright the spot under the hand is and how strong the flash, 0 to 1.",
+      },
+      {
+        name: "radius",
+        type: "number",
+        defaultValue: "120",
+        description: "How far the spot of light reaches, px.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Hold the dunes still; the spot and the flash still answer the hand.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "1",
+        description: "Seeds the dune field, so two prints never match.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "onActiveChange",
+        type: "(active: boolean) => void",
+        description:
+          "Fires when the pointer or keyboard focus starts (true) or stops (false) lighting the print.",
+      },
+      {
+        name: "onFlash",
+        type: "() => void",
+        description:
+          "Fires when a press or keyboard focus pulls a flash across the print.",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-full w-full"',
+        description: "Sizes and shapes the box.",
+      },
+    ],
+    usageNotes: [
+      "The print is decoration: the canvas, its CSS stand-in and the colour carriers are aria-hidden, and your children sit above in their own layer with focus, clicks and selection intact. Presses on your controls never flash.",
+      "Keyboard: a control inside taking keyboard focus brings the lamp to it and pulls a softer flash from it; blur lets the light go. No tab stop of its own.",
+      "Inks resolve on the element and are re-read when the theme changes. On a light page the key ink prints the shade and the sheet rests mostly paper; on a dark page it prints the light, a negative that stays mostly dark. Pass two or three colours of your own, paper first.",
+      "Every dot is a whole number of device pixels: the canvas is the dot grid itself, scaled up nearest-neighbour, so the shader runs once per dot and the print stays crisp at any pixel ratio.",
+      "Under reduced motion one still print is drawn; the spot of light lands exactly where the hand is and a press brightens it for a moment without any ring travelling.",
+      "WebGL2: thirty frames a second while it only drifts, every frame while the hand or a flash moves, nothing off screen or in a hidden page. A lost context shows the CSS stand-in until it is restored; without WebGL2 the stand-in stays.",
+    ],
+  },
+  {
+    name: "relay-terminal",
+    type: "registry:ui",
+    title: "Relay Terminal",
+    description:
+      "A background that is a terminal screen of mono glyphs holding real-looking console output, updating in bursts: lines re-roll and settle left to right, value fields tick, and now and then the screen feeds a line, scrolling up a row on the springs.glide constants while the new line types in behind a blinking cursor. Written glyphs flare and decay through the phosphor with a fading ghost of what they replaced, a faint line screen and a slow rolling band sit over the tube, and a line occasionally tears sideways and springs back on springs.snap. The pointer is a lamp whose light follows on glide and arrives on springs.drift; a press pings the screen with a ring that flares every glyph it crosses, and keyboard focus on a control inside lights and pings from that control.",
+    files: [
+      {
+        path: "registry/ui/relay-terminal.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1468",
+    },
+    tagline: "A terminal screen humming with glyphs.",
+    keywords: [
+      "terminal",
+      "console",
+      "phosphor",
+      "glyphs",
+      "scanlines",
+      "animated background",
+      "canvas",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The content on top of the screen: a hero line, a heading, a call to action.",
+      },
+      {
+        name: "rate",
+        type: "number",
+        defaultValue: "1.25",
+        description:
+          "How many bursts of output arrive a second, 0 (none) to 4.",
+      },
+      {
+        name: "glyphs",
+        type: '"hex" | "binary" | "ascii" | "blocks" | string',
+        defaultValue: '"hex"',
+        description:
+          "The glyph set the output is written in: a named set, or a string of your own characters.",
+      },
+      {
+        name: "color",
+        type: '"green" | "amber" | "ice" | "mono" | string',
+        defaultValue: '"green"',
+        description: "The phosphor: a named colour, or any CSS colour.",
+      },
+      {
+        name: "fontSize",
+        type: "number",
+        defaultValue: "12",
+        description: "The glyph size, px; the grid follows it.",
+      },
+      {
+        name: "density",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How full the lines run, 0 (short, sparse output) to 1 (lines to the edge).",
+      },
+      {
+        name: "decay",
+        type: "number",
+        defaultValue: "1.4",
+        description:
+          "How long a written glyph glows before it settles, seconds: the phosphor's persistence.",
+      },
+      {
+        name: "glitch",
+        type: "number",
+        defaultValue: "0.4",
+        description:
+          "How often a line tears sideways and springs back, 0 (never) to 1.",
+      },
+      {
+        name: "scanlines",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "The fine line screen and the slow rolling band, 0 (none) to 1.",
+      },
+      {
+        name: "glow",
+        type: "number",
+        defaultValue: "0.5",
+        description: "The halo round lit glyphs, 0 (none) to 1.",
+      },
+      {
+        name: "cursor",
+        type: "boolean",
+        defaultValue: "true",
+        description: "A block cursor blinks at the end of the newest line.",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The pointer and keyboard focus light the glyphs near them, and a press pings the screen.",
+      },
+      {
+        name: "pointerStrength",
+        type: "number",
+        defaultValue: "0.7",
+        description: "How brightly the hand lights the glyphs, 0 to 1.",
+      },
+      {
+        name: "radius",
+        type: "number",
+        defaultValue: "90",
+        description: "How far the hand's light reaches, px.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Stop the output; the screen settles and the hand still lights it.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "Seeds the output, the bursts and the glitches, so two screens never match.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "onActiveChange",
+        type: "(active: boolean) => void",
+        description:
+          "Fires when the pointer or keyboard focus starts (true) or stops (false) lighting the screen.",
+      },
+      {
+        name: "onPing",
+        type: "() => void",
+        description: "Fires when a press or keyboard focus pings the screen.",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-full w-full"',
+        description: "Sizes and shapes the box.",
+      },
+    ],
+    usageNotes: [
+      "The screen is decoration: the canvas, its text stand-in and the colour carriers are aria-hidden, and the glyphs are never read aloud. Your children sit above in their own layer with focus, clicks and selection intact; presses on your controls never ping.",
+      "Keyboard: a control inside taking keyboard focus lights the glyphs round it and pings from it; blur lets the light go. No tab stop of its own.",
+      "The phosphor resolves on the element and is re-read when the theme changes: on a dark page it glows over a tinted tube, on a light page it is drawn as ink on a pale screen, so it reads in both.",
+      "Glyphs come from an atlas built once per font, colour, theme and pixel ratio, one blit per cell a frame; block elements are drawn, not set in type, so meters join without seams. If the host's mono face is not monospaced the system's is used.",
+      "Under reduced motion the screen is still with the newest lines a little brighter; the lamp lands where the hand is and a press lights the glyphs round it, fading back without anything travelling.",
+      "Thirty frames a second while only the output runs, every frame while a tear springs, a ping travels, the screen scrolls or the hand moves; nothing off screen or in a hidden page, and paused stops the loop once the phosphor settles.",
+    ],
+  },
+  {
+    name: "ripple-lattice",
+    type: "registry:ui",
+    title: "Ripple Lattice",
+    description:
+      "A background that is a fine square lattice of hairlines, centred in the box, whose lines are pushed by ripples: each a wave packet spreading from where it fell, a leading crest with a short train of wavelets behind, decaying with age and spreading with distance. Up to thirty-two sum as vectors, so crossing rings interfere into a moire of pinched and stretched cells, and the lines thicken and brighten at the crests. A moving pointer leaves a wake of small ripples as strong as it is quick, a press drops a stone, denting the mat under it so it bounces back twice on springs.recoil while the ring spreads with a softer echo behind it, and keyboard focus on a control inside drops one from that control.",
+    files: [
+      {
+        path: "registry/ui/ripple-lattice.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "glsl"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1469",
+    },
+    tagline: "A grid that ripples where you touch.",
+    keywords: [
+      "grid",
+      "lattice",
+      "ripple",
+      "interference",
+      "animated background",
+      "webgl",
+      "hero",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The content on top of the grid: a hero line, a heading, a call to action.",
+      },
+      {
+        name: "spacing",
+        type: "number",
+        defaultValue: "24",
+        description: "The distance between grid lines, px, 8 to 96.",
+      },
+      {
+        name: "strength",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How hard a ripple pushes the lines, 0 (not at all) to 1 (hard enough that the crests just begin to fold).",
+      },
+      {
+        name: "color",
+        type: '"ink" | "cobalt" | "signal" | "rose" | string',
+        defaultValue: '"cobalt"',
+        description: "The lines' colour: a named one, or any CSS colour.",
+      },
+      {
+        name: "lineWidth",
+        type: "number",
+        defaultValue: "1",
+        description: "The lines' width, px.",
+      },
+      {
+        name: "wavelength",
+        type: "number",
+        defaultValue: "56",
+        description:
+          "The distance between the wavelets in a ripple, px; longer waves also push farther.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "260",
+        description: "How fast a ripple spreads, px per second.",
+      },
+      {
+        name: "decay",
+        type: "number",
+        defaultValue: "1.1",
+        description:
+          "How long a ripple lasts, seconds: its amplitude's time constant.",
+      },
+      {
+        name: "crest",
+        type: "number",
+        defaultValue: "0.7",
+        description:
+          "How much the lines thicken and brighten at the crests, 0 to 1.",
+      },
+      {
+        name: "drizzle",
+        type: "number",
+        defaultValue: "0.3",
+        description:
+          "Soft drops falling on the grid by themselves, 0 (none: the grid rests flat) to 1.",
+      },
+      {
+        name: "trail",
+        type: "boolean",
+        defaultValue: "true",
+        description: "A moving pointer leaves a wake of small ripples.",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description: "The pointer and keyboard focus ripple the grid.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Stop the drizzle; the hand still ripples the grid.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "1",
+        description: "Seeds where the drizzle falls, so two grids never match.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "onActiveChange",
+        type: "(active: boolean) => void",
+        description:
+          "Fires when the pointer or keyboard focus starts (true) or stops (false) rippling the grid.",
+      },
+      {
+        name: "onRipple",
+        type: "(x: number, y: number) => void",
+        description:
+          "Fires when a press or keyboard focus drops a ripple, with where it fell in px from the box's top left.",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-full w-full"',
+        description: "Sizes and shapes the box.",
+      },
+    ],
+    usageNotes: [
+      "The grid is decoration: the canvas, the SVG and the colour carriers are aria-hidden. Your children sit above in their own layer with focus, clicks and selection intact, and a press on one of your controls never drops a ripple.",
+      "Keyboard: a control inside taking keyboard focus drops a ripple from its centre. No tab stop of its own.",
+      "One WebGL2 fragment pass sums up to thirty-two ripples per pixel. The server renders the lattice at rest as an SVG pattern; without WebGL2, or after a lost context, that SVG stays and its lines are rebuilt from the same ripples.",
+      "The loop runs only while a ripple lives or drizzle falls, on screen and in a visible page; with drizzle at 0 the grid settles flat and costs nothing until the hand moves.",
+      "Under reduced motion nothing spreads: no drizzle and no wake, and a press draws one still ring that fades where it stands.",
+      "Colours resolve on the element and are re-read when the theme changes, so the grid reads on light and dark pages alike.",
+    ],
+  },
+  {
+    name: "pollen-flow",
+    type: "registry:ui",
+    title: "Pollen Flow",
+    description:
+      "A background of fine specks carried on a slow breeze: a steady current plus the curl of two octaves of drifting noise, so the specks swirl and braid but never pile into knots. Each speck has a little inertia and leaves a short trail that tapers and fades behind it, and three sizes give the cloud depth. The air eddies round the hand, the eddy's place following on springs.glide and its strength arriving on springs.drift; a press shakes pollen loose, the oldest specks reborn at the press in a bright little cloud the air's drag takes into the current, and keyboard focus on a control inside brings the eddy there and shakes a smaller cloud from it.",
+    files: [
+      {
+        path: "registry/ui/pollen-flow.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1470",
+    },
+    tagline: "Specks carried on a slow current.",
+    keywords: [
+      "particles",
+      "flow field",
+      "pollen",
+      "curl noise",
+      "animated background",
+      "canvas",
+      "hero",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The content on top of the current: a hero line, a heading, a call to action.",
+      },
+      {
+        name: "count",
+        type: "number",
+        defaultValue: "1600",
+        description:
+          "How many specks fill a 760 by 232 box, 50 to 5000; larger and smaller boxes scale it by area.",
+      },
+      {
+        name: "trail",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How long the fading trails run behind the specks, 0 (bare specks) to 1.",
+      },
+      {
+        name: "colors",
+        type: '"pollen" | "dusk" | "sea" | "ink" | string | readonly string[]',
+        defaultValue: '"pollen"',
+        description:
+          "The specks' colours: a named palette, or up to three CSS colours.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "0.6",
+        description: "How fast the breeze blows, 0 (still air) to 2.",
+      },
+      {
+        name: "scale",
+        type: "number",
+        defaultValue: "170",
+        description: "The size of an eddy in the air, px.",
+      },
+      {
+        name: "turbulence",
+        type: "number",
+        defaultValue: "0.55",
+        description:
+          "How much the air swirls on top of the steady breeze, 0 (a straight current) to 1.",
+      },
+      {
+        name: "wind",
+        type: "number",
+        defaultValue: "-8",
+        description:
+          "Where the breeze blows, degrees anticlockwise from rightward.",
+      },
+      {
+        name: "size",
+        type: "number",
+        defaultValue: "1.6",
+        description: "The specks' size, px.",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The air eddies round the pointer and keyboard focus, and a press shakes pollen loose.",
+      },
+      {
+        name: "pointerStrength",
+        type: "number",
+        defaultValue: "0.6",
+        description: "How hard the hand turns the air, 0 to 1.",
+      },
+      {
+        name: "radius",
+        type: "number",
+        defaultValue: "110",
+        description: "How far the hand's eddy reaches, px.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Hold the air still: the specks stop where they are.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "Seeds the specks and the air, so two currents never match.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "onActiveChange",
+        type: "(active: boolean) => void",
+        description:
+          "Fires when the pointer or keyboard focus starts (true) or stops (false) turning the air.",
+      },
+      {
+        name: "onShake",
+        type: "() => void",
+        description:
+          "Fires when a press or keyboard focus shakes pollen loose.",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-full w-full"',
+        description: "Sizes and shapes the box.",
+      },
+    ],
+    usageNotes: [
+      "The current is decoration: the canvas, its seeded SVG stand-in and the colour carriers are aria-hidden. Your children sit above in their own layer with focus, clicks and selection intact, and a press on one of your controls never shakes pollen.",
+      "Keyboard: a control inside taking keyboard focus brings the eddy to it and shakes a smaller cloud from it. No tab stop of its own.",
+      "Colours are pigment, not text colour: each palette hue is drawn at a fixed lightness per theme, re-read when the theme changes, so the specks read on light and dark pages alike.",
+      "Canvas 2D: the air is a few hundred noise samples on a 20 px grid, and the specks are batched into one stroke per colour and fade band, about forty draws a frame. Typed arrays are sized on resize and count change, never per frame.",
+      "The loop runs only on screen in a visible page; paused, or speed 0 once the specks have coasted to rest, stops it. The count scales with the box's area, so a phone card is as dense as a desktop hero.",
+      "Under reduced motion the current is a long exposure: a still frame of specks with their trails traced back along the air, and a press brightens the specks round it where they stand.",
+    ],
+  },
+  {
+    name: "dot-tide",
+    type: "registry:ui",
+    title: "Dot Tide",
+    description:
+      "A background that is a regular dot grid, centred in the box, with a slow tide running through it: three long travelling waves sum into a height that raises and lowers every dot between a fine point and most of a cell, and the colour shifts along the wave from troughs washed into the page to crests in the full colour turned a little in hue. The tide rises gently under the hand, the mound following on springs.glide and arriving on springs.drift. A press sends a fast circular wave through the field, and every dot rides its own springs.recoil spring, so each dot the ring crosses pops up, overshoots back twice and settles, leaving a ringing, brightened wake; keyboard focus on a control inside raises the tide there and sends a softer wave from it.",
+    files: [
+      {
+        path: "registry/ui/dot-tide.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1471",
+    },
+    tagline: "A field of dots with a tide running through it.",
+    keywords: [
+      "dot grid",
+      "halftone",
+      "tide",
+      "wave",
+      "animated background",
+      "canvas",
+      "hero",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The content on top of the field: a hero line, a heading, a call to action.",
+      },
+      {
+        name: "spacing",
+        type: "number",
+        defaultValue: "16",
+        description: "The distance between dots, px, 6 to 64.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "0.6",
+        description: "How fast the tide runs, 0 (slack water) to 2.",
+      },
+      {
+        name: "color",
+        type: '"cobalt" | "sea" | "ember" | "ink" | string',
+        defaultValue: '"cobalt"',
+        description: "The dots' colour: a named one, or any CSS colour.",
+      },
+      {
+        name: "size",
+        type: "number",
+        defaultValue: "0.72",
+        description: "The largest dot, as a share of a cell, 0.2 to 1.",
+      },
+      {
+        name: "swell",
+        type: "number",
+        defaultValue: "0.7",
+        description:
+          "How far the tide swings the dots between a fine point and full size, 0 to 1.",
+      },
+      {
+        name: "angle",
+        type: "number",
+        defaultValue: "24",
+        description:
+          "Which way the tide runs, degrees anticlockwise from rightward.",
+      },
+      {
+        name: "shift",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How far the colour turns in hue from trough to crest, 0 to 1.",
+      },
+      {
+        name: "waveSpeed",
+        type: "number",
+        defaultValue: "720",
+        description:
+          "How fast a press's wave runs out through the field, px per second.",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The pointer and keyboard focus raise the tide, and a press sends a wave.",
+      },
+      {
+        name: "pointerStrength",
+        type: "number",
+        defaultValue: "0.6",
+        description: "How high the tide rises under the hand, 0 to 1.",
+      },
+      {
+        name: "radius",
+        type: "number",
+        defaultValue: "140",
+        description: "How far the rise under the hand reaches, px.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Stop the tide; waves and the hand still move the dots.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "1",
+        description: "Seeds where the tide starts, so two fields never match.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "onActiveChange",
+        type: "(active: boolean) => void",
+        description:
+          "Fires when the pointer or keyboard focus starts (true) or stops (false) raising the tide.",
+      },
+      {
+        name: "onWave",
+        type: "(x: number, y: number) => void",
+        description:
+          "Fires when a press or keyboard focus sends a wave, with where it started in px from the box's top left.",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-full w-full"',
+        description: "Sizes and shapes the box.",
+      },
+    ],
+    usageNotes: [
+      "The field is decoration: the canvas, its CSS stand-in and the colour carriers are aria-hidden. Your children sit above in their own layer with focus, clicks and selection intact, and a press on one of your controls never sends a wave.",
+      "Keyboard: a control inside taking keyboard focus raises the tide round it and sends a softer wave from it. No tab stop of its own.",
+      "The nine tones from trough to crest are mixed by the browser in OKLab against the page background and re-read when the theme changes, so the field reads on light and dark pages alike.",
+      "Canvas 2D: one arc per dot and nine fills a frame, with every dot's spring integrated in typed arrays. The tide alone draws thirty frames a second; a wave or the hand gets every frame, and nothing runs off screen or in a hidden page.",
+      "The server renders the same centred grid at rest as a CSS dot pattern, so the first paint lines up with the canvas when it takes over.",
+      "Under reduced motion the tide holds a composed moment, the rise lands under the hand without travelling, and a press tints the dots round it where they stand.",
+    ],
+  },
+  {
+    name: "thread-drift",
+    type: "registry:ui",
+    title: "Thread Drift",
+    description:
+      "A background of long smooth threads drifting edge to edge, each through thirteen points riding two octaves of noise, so it bows and swings like silk in still air while neighbours cross, wrap and part again. Threads sit at their own depths over a thin stroke of the page colour, so crossings read over and under, and the bends catch the light. The hand gathers them, every point drawn toward it on its own springs.glide spring with the gather arriving on springs.drift; a press pinches them into a knot under the finger and on release they let go on springs.recoil, swinging back past their lanes twice; keyboard focus on a control inside gathers the threads to it and plucks them once.",
+    files: [
+      {
+        path: "registry/ui/thread-drift.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1472",
+    },
+    tagline: "Threads that float and tangle gently.",
+    keywords: [
+      "threads",
+      "silk",
+      "lines",
+      "drift",
+      "animated background",
+      "canvas",
+      "hero",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The content on top of the threads: a hero line, a heading, a call to action.",
+      },
+      {
+        name: "count",
+        type: "number",
+        defaultValue: "18",
+        description: "How many threads cross the box, 2 to 60.",
+      },
+      {
+        name: "thickness",
+        type: "number",
+        defaultValue: "1.4",
+        description: "The nearest threads' width, px; farther ones are finer.",
+      },
+      {
+        name: "colors",
+        type: '"silk" | "indigo" | "meadow" | "ink" | string | readonly string[]',
+        defaultValue: '"silk"',
+        description:
+          "The threads' colours: a named palette, or up to three CSS colours.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "0.5",
+        description: "How fast the threads drift, 0 (still) to 2.",
+      },
+      {
+        name: "sway",
+        type: "number",
+        defaultValue: "0.55",
+        description: "How far the threads bow and swing, 0 (taut) to 1.",
+      },
+      {
+        name: "tangle",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How far a thread strays from its lane, so neighbours cross and part, 0 to 1.",
+      },
+      {
+        name: "sheen",
+        type: "number",
+        defaultValue: "0.6",
+        description: "How brightly the bends catch the light, 0 (matte) to 1.",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The pointer and keyboard focus gather the threads, and a press pinches them.",
+      },
+      {
+        name: "pointerStrength",
+        type: "number",
+        defaultValue: "0.6",
+        description: "How hard the hand draws the threads in, 0 to 1.",
+      },
+      {
+        name: "radius",
+        type: "number",
+        defaultValue: "160",
+        description: "How far the hand reaches, px.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Stop the drift; the hand still gathers the threads.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "Seeds the lanes, depths and drift, so two skeins never match.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "onActiveChange",
+        type: "(active: boolean) => void",
+        description:
+          "Fires when the pointer or keyboard focus starts (true) or stops (false) gathering the threads.",
+      },
+      {
+        name: "onPinchChange",
+        type: "(pinched: boolean) => void",
+        description:
+          "Fires when a press pinches the threads (true) and when they are let go (false).",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-full w-full"',
+        description: "Sizes and shapes the box.",
+      },
+    ],
+    usageNotes: [
+      "The skein is decoration: the canvas, its SVG stand-in and the colour carriers are aria-hidden. Your children sit above in their own layer with focus, clicks and selection intact, and a press on one of your controls never pinches.",
+      "Keyboard: a control inside taking keyboard focus gathers the threads to it and plucks them once, the same swing a press and release gives. No tab stop of its own.",
+      "Colours are pigment, not text colour: each palette hue is drawn at a fixed lightness per theme and the gap under each thread is the box's own colour, all re-read when the theme changes.",
+      "Canvas 2D: two strokes per thread plus a few sheen arcs on its bends; every control point's spring lives in typed arrays sized once. The drift alone draws thirty frames a second, the hand and a release get every frame, and nothing runs off screen or in a hidden page.",
+      "The server renders the same skein at a composed moment as an SVG traced with arithmetic-only noise, so it matches the browser to the digit.",
+      "Under reduced motion the skein holds that composed moment, nothing gathers, and a press lights the bends round it where they lie.",
+    ],
+  },
 ];

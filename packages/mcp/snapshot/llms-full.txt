@@ -30311,6 +30311,627 @@ Notes:
 - It is built to sit behind text: even at intensity 1 the curtains stay soft and under 0.82 opacity, and a dither of under half a level keeps the gradients free of banding. On a light page the stars vanish and the curtains read as a pale wash.
 - One WebGL2 pass. It draws two dozen frames a second while it only drifts and every frame while the hand or a surge works; paused or at speed 0 it stops once they settle, and nothing runs off screen or in a hidden page. Without WebGL2, or after a lost context, a CSS still sky stands in.
 
+### Aurora Curtain (KQ-1455) — `aurora-curtain`
+Curtains of light with rays in their folds.
+
+A night sky with an aurora in it, drawn in one WebGL2 pass with the content on top: tall curtains of light with a sharp pink lower fringe, a body of fine vertical rays and a ragged crown, sampled through travelling folds so the rays crowd and thicken where the sheet bunches, over a low ridge and treeline. The pointer gathers the rays toward the hand, the place following on springs.glide and the presence arriving on springs.drift, and a press sets off a breakup on the nearest curtain whose rays shoot up and die away on a critically damped drift spring. It is decoration and never takes focus; keyboard focus landing on a control inside gathers the rays there with a softer flare.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/aurora-curtain`
+
+Props:
+- `children`: React.ReactNode — The content on top of the sky: a hero line, a heading, a call to action.
+- `curtains`: number (default 3) — How many curtains hang in the sky, far to near, 1 to 5.
+- `rays`: number (default 0.6) — Ray detail, 0 (broad soft striation) to 1 (fine, dense, crisp rays).
+- `palette`: "polar" | "glacier" | "rose" | "ember" | readonly string[] (default "polar") — A named palette, or three CSS colours of your own: lower fringe, body, crown.
+- `height`: number (default 0.55) — How tall the nearest curtain stands, as a fraction of the box, 0.2 to 0.9.
+- `fold`: number (default 0.5) — How deeply the curtains fold, 0 (flat sheets) to 1 (deep travelling folds).
+- `intensity`: number (default 0.7) — How bright the light is, 0 to 1.
+- `speed`: number (default 0.6) — How fast the curtains drift and the rays shimmer, 0 (still) to 2.
+- `stars`: number (default 0.5) — The star field behind, 0 to 1; it shows only on a dark page.
+- `horizon`: number (default 0.1) — Height of the ridge and treeline at the foot, as a fraction of the box, 0 (none) to 0.3.
+- `interactive`: boolean (default true) — The pointer and keyboard focus gather the rays, and a press sets off a flare.
+- `pointerStrength`: number (default 0.6) — How hard the hand gathers the rays and how high a flare throws them, 0 to 1.
+- `radius`: number (default 150) — How far the hand reaches along a curtain, px.
+- `paused`: boolean (default false) — Hold the sky still; the hand still gathers and flares.
+- `seed`: number (default 1) — Seeds the curtains, the stars and the ridge, so two skies never match.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `onActiveChange`: (active: boolean) => void — Fires when the pointer or keyboard focus starts (true) or stops (false) gathering the rays.
+- `onFlare`: () => void — Fires when a press or keyboard focus sets off a flare.
+- `className`: string (default "h-full w-full") — Sizes and shapes the box.
+
+Notes:
+- Give the box a size (a height class, or a parent that has one); children render above the sky in their own layer and keep every click, focus and text selection. The sky itself is aria-hidden and has no focus stop.
+- Keyboard: when a control inside gains keyboard focus the rays gather under it and a soft flare rises; blur lets them go. Presses on the content's own controls never flare. Touch gathers the rays where a finger lands without blocking vertical page scrolling.
+- Reduced motion: one still sky at a composed moment, no drift or shimmer; the gather lands exactly under the pointer with no easing, and a flare is a brightening of the nearest curtain that fades without growing.
+- Cost: one fullscreen WebGL2 pass at 0.75 render scale, thirty frames a second while it only drifts and every frame while the hand or a flare works; nothing off screen, in a hidden tab, or once paused or speed 0 has settled. DPR is capped at dpr. Without WebGL2, or after a lost context, a CSS still sky stands in and a restored context repaints.
+- Theming: the stars show only on a dark page, and the sky deepens or pales with the theme; colours resolve on the component's own element, so a theme switch repaints. Pass three CSS colours to palette (fringe, body, crown) to dye the light your own way.
+
+### Plasma Bloom (KQ-1456) — `plasma-bloom`
+Plasma in a palette you would wear.
+
+A background of plasma in a palette you would wear, drawn in one WebGL2 pass with the content on top: interfering sine fields, planar and radial with slowly wandering centres, mapped through five low-chroma pigments mixed in OKLab, with a soft posterise from smooth gradient to crisp printed bands and a fine grain fixed to the cloth. The pointer adds its own source of rings that interfere into a soft moiré, the place following on springs.glide and the strength arriving on springs.drift, and a press drops a ring that rides outward while its strength rises and dies away on a critically damped drift spring. It is decoration and never takes focus; keyboard focus landing on a control inside brings the rings there and drops a softer one.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/plasma-bloom`
+
+Props:
+- `children`: React.ReactNode — The content on top of the cloth: a hero line, a heading, a call to action.
+- `palette`: "linen" | "sage" | "denim" | "clay" | readonly string[] (default "denim") — A named palette, or five CSS colours of your own in field order (the middle one shows most).
+- `scale`: number (default 280) — The plasma's wavelength, px.
+- `speed`: number (default 0.5) — How fast the field evolves, 0 (still) to 2.
+- `fields`: number (default 4) — How many sine fields interfere, 3 to 6.
+- `bands`: number (default 0.45) — How the colours meet, 0 (a smooth gradient) to 1 (crisp printed bands).
+- `contrast`: number (default 0.7) — How far the field reaches into the palette's ends, 0 (mostly the middle colour) to 1.
+- `grain`: number (default 0.35) — A soft grain that makes it read as cloth, 0 to 1.
+- `interactive`: boolean (default true) — The pointer and keyboard focus add interference rings, and a press drops a ring into the cloth.
+- `pointerStrength`: number (default 0.6) — How strong the hand's rings and a dropped ring are, 0 to 1.
+- `radius`: number (default 170) — How far the hand's rings reach, px.
+- `paused`: boolean (default false) — Hold the field still; the hand still makes rings.
+- `seed`: number (default 1) — Seeds the fields and their wandering centres, so two cloths never match.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `onActiveChange`: (active: boolean) => void — Fires when the pointer or keyboard focus starts (true) or stops (false) ringing the field.
+- `className`: string (default "h-full w-full") — Sizes and shapes the box.
+
+Notes:
+- Give the box a size (a height class, or a parent that has one); children render above the cloth in their own layer and keep every click, focus and text selection. The cloth itself is aria-hidden and has no focus stop.
+- Keyboard: when a control inside gains keyboard focus the rings gather under it and a soft ring drops; blur lets them go. Presses on the content's own controls never drop a ring. Touch makes rings where a finger lands without blocking vertical page scrolling.
+- Reduced motion: one still frame, no evolution and no travelling ring; the hover rings stand in place where the pointer is, and a dropped ring stays put and fades.
+- Cost: one fullscreen WebGL2 pass at 0.75 render scale, twenty-four frames a second while the field only evolves and every frame while the hand or a ring works; nothing off screen, in a hidden tab, or once paused or speed 0 has settled. DPR is capped at dpr. Without WebGL2, or after a lost context, a CSS still cloth stands in and a restored context repaints.
+- Theming: the pigments sit at fixed lightness so the cloth reads the same in both themes; colours resolve on the component's own element, so a theme switch repaints. Pass five CSS colours to palette, in field order, to print your own.
+
+### Plasma Ribbon (KQ-1457) — `plasma-ribbon`
+A ribbon of plasma across the dark.
+
+A background with a single ribbon of plasma crossing it on a gentle wave, drawn in one WebGL2 pass with the content on top: a glowing core, long twisting filaments flowing along it, frayed edges and sparks that leave both edges, flicker and die inside a soft halo. Its centreline is a small string integrated at 120 Hz, where tension carries a disturbance along the ribbon and a local restoring spring with the springs.drift constants brings it home without ringing; the pointer pulls the string to its own height and the far ends follow late, and a press whips it with a crest and trough that run out both ways. It is decoration and never takes focus; keyboard focus landing on a control inside lifts the ribbon to it with a softer whip.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/plasma-ribbon`
+
+Props:
+- `children`: React.ReactNode — The content on top of the ribbon: a hero line, a heading, a call to action.
+- `thickness`: number (default 72) — How wide the ribbon is, px.
+- `glow`: number (default 0.6) — The halo around the ribbon, 0 (none) to 1 (a wide soft bloom).
+- `color`: "cobalt" | "ember" | "jade" | "orchid" | string (default "cobalt") — A named colour, or any CSS colour.
+- `amplitude`: number (default 0.4) — How high the gentle wave runs, 0 (flat) to 1 (a quarter of the box).
+- `wavelength`: number (default 560) — The wave's length, px.
+- `speed`: number (default 0.6) — How fast the wave travels and the plasma flows, 0 (still) to 2.
+- `sparks`: number (default 0.5) — How many sparks fray off its edges, 0 (none) to 1.
+- `filaments`: number (default 0.6) — How much fine twisting filament runs along the core, 0 (smooth) to 1.
+- `interactive`: boolean (default true) — The pointer and keyboard focus pull the wave to their height, and a press whips it.
+- `pointerStrength`: number (default 0.7) — How hard the hand pulls the ribbon and how sharp a whip is, 0 to 1.
+- `paused`: boolean (default false) — Hold the ribbon still; the hand still pulls it.
+- `seed`: number (default 1) — Seeds the filaments, the sparks and the wave's phase.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `onActiveChange`: (active: boolean) => void — Fires when the pointer or keyboard focus starts (true) or stops (false) pulling the ribbon.
+- `className`: string (default "h-full w-full") — Sizes and shapes the box.
+
+Notes:
+- Give the box a size (a height class, or a parent that has one); children render above the ribbon in their own layer and keep every click, focus and text selection. The ribbon itself is aria-hidden and has no focus stop.
+- Keyboard: when a control inside gains keyboard focus the ribbon rises to its height with a soft whip; blur lets it settle. Presses on the content's own controls never whip it. Touch pulls the ribbon where a finger lands without blocking vertical page scrolling.
+- Reduced motion: one still frame, no flow, travelling wave or spark drift; the hand's pull lands at once as the settled bend to its height, and a whip is a flash of the sparks that fades.
+- Cost: one fullscreen WebGL2 pass at 0.75 render scale, sparks evaluated only near the ribbon, thirty frames a second while it only flows and every frame while the hand or a whip works; nothing off screen, in a hidden tab, or once paused or speed 0 has settled. DPR is capped at dpr. Without WebGL2, or after a lost context, a CSS still ribbon stands in and a restored context repaints.
+- Theming: white-hot at the core on a dark page and a paler line in the ink on a pale one; colours resolve on the component's own element, so a theme switch repaints. Pass any CSS colour to color.
+
+### Dust Motes (KQ-1458) — `dust-motes`
+Dust drifting through a beam of light.
+
+A background of dust hanging in still air, seen through a lens, with a beam of light crossing the room and the content on top: seeded flakes wander on slow currents, rise a little in the warm light and flash as they turn to it, while a thin-lens depth of field opens near and far motes into soft bokeh discs and keeps those at the focal plane crisp. The pointer leans the camera on springs.drift, so near motes slide further than far ones, and a press racks focus to the mote under the hand, the focal plane travelling to its depth on springs.glide while a thin focus mark closes on it on springs.snap. It is decoration and never takes focus; keyboard focus landing on a control inside racks focus to the mote nearest it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/dust-motes`
+
+Props:
+- `children`: React.ReactNode — The content on top of the room: a hero line, a heading, a call to action.
+- `count`: number (default 220) — How many motes hang in a 760 × 208 box, 40 to 600; smaller boxes hold fewer.
+- `focus`: number (default 0.45) — Where the lens is focused, 0 (nearest motes) to 1 (farthest).
+- `drift`: number (default 0.6) — How much the air moves, 0 (still) to 2.
+- `aperture`: number (default 0.6) — How shallow the depth of field is, 0 (everything sharp) to 1 (very soft near and far).
+- `beam`: number (default 0.7) — How strong the beam of light is, 0 (an evenly lit room) to 1.
+- `beamAngle`: number (default 24) — The beam's lean from vertical, degrees, −60 to 60.
+- `glint`: number (default 0.6) — How brightly motes flash as they turn to the light, 0 (never) to 1.
+- `moteSize`: number (default 1.6) — A mote's size at the focal plane, px.
+- `light`: string — The light's colour, any CSS colour. Defaults to a warm pigment from the warn token.
+- `focusMark`: boolean (default true) — Show a thin focus mark that closes on the mote a press racks to.
+- `interactive`: boolean (default true) — The pointer and keyboard focus lean the camera, and a press racks focus.
+- `pointerStrength`: number (default 0.6) — How far the hand leans the camera, 0 to 1.
+- `paused`: boolean (default false) — Hold the air still; the hand still leans and racks.
+- `seed`: number (default 1) — Seeds the motes, so two rooms never match.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `onFocusPull`: (depth: number | null) => void — Fires when a press or keyboard focus racks focus, with the new depth from 0 (near) to 1 (far), and with null when the lens lets go and drifts back to `focus`.
+- `onActiveChange`: (active: boolean) => void — Fires when the pointer or keyboard focus starts (true) or stops (false) leaning the camera.
+- `className`: string (default "h-full w-full") — Sizes and shapes the box.
+
+Notes:
+- Give the box a size (a height class, or a parent that has one); children render above the room in their own layer and keep every click, focus and text selection. The room itself is aria-hidden and has no focus stop.
+- Keyboard: when a control inside gains keyboard focus the camera leans toward it and focus racks to the nearest mote; blur racks back to focus. Presses on the content's own controls never rack. Touch racks where a finger lands without blocking vertical page scrolling, and the focus holds for a moment after the finger lifts; onFocusPull reports each rack and then null when the lens lets go.
+- Reduced motion: a still room with no drift, spin or parallax; a press still racks focus, because blur is not travel, as a short tween instead of a spring, and the focus mark simply stands on the mote and is taken down after a moment, with no frames in between. The hand is not reported through onActiveChange, since the camera never leans.
+- Cost: Canvas 2D from a prefiltered sprite atlas, at most 600 sprites a frame and nothing allocated per frame; thirty frames a second while it only drifts and every frame while the lens or camera moves; nothing off screen, in a hidden tab, or once paused or drift 0 has settled. DPR is capped at dpr. count is for a 760 by 208 box, and smaller boxes hold proportionally fewer motes.
+- Theming: motes glow against a dark page and read as dark flecks with a softer beam on a light one; colours resolve on the component's own element, so a theme switch repaints. Pass any CSS colour to light to warm or cool the beam.
+
+### Shutter Glow (KQ-1459) — `shutter-glow`
+Blinds of gradient turning in the light.
+
+A background of vertical blinds built from real CSS 3D slabs, each with a front, a back and two edges turning on its long axis in one shared perspective, over a glow of light seen through the gaps and with the content on top: the fronts carry slices of one gradient and the backs slices of another, and a light from one side shades every face and puts a sheen where its reflection meets the eye. A wave of turning crosses the wall every interval, blind after blind turning half over on springs.snap with one crisp overshoot, staggered so the whole wall changes gradient inside 600 ms, and a press sends the wave out both ways from the blind under it while the blinds near the pointer part around the hand on their own snap springs. It is decoration and never takes focus; keyboard focus landing on a control inside parts the blinds around it and sends a wave from there.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/shutter-glow`
+
+Props:
+- `children`: React.ReactNode — The content on top of the blinds: a hero line, a heading, a call to action.
+- `blinds`: number (default 14) — How many blinds hang across the wall, 4 to 32.
+- `angle`: number (default 24) — How far the blinds stand open at rest, degrees, 0 (closed) to 70.
+- `palette`: "dawn" | "harbor" | "cobalt" | "moss" | readonly string[] (default "dawn") — A named palette, or four CSS colours of your own: the front gradient's two ends, then the back's.
+- `interval`: number (default 5200) — How often a wave of turning crosses the wall on its own, ms; 0 turns it only on a press.
+- `depth`: number (default 6) — How thick each blind is, px: the dark edge a turning blind shows.
+- `glow`: number (default 0.6) — The light behind the blinds, seen through the gaps, 0 (none) to 1.
+- `lightAngle`: number (default -20) — Where the light falls from, degrees across the wall: negative from the left.
+- `perspective`: number (default 900) — The viewer's distance for the 3D, px; smaller is more dramatic.
+- `interactive`: boolean (default true) — The pointer and keyboard focus part the blinds, and a press sends a wave.
+- `pointerStrength`: number (default 0.6) — How far the blinds near the hand turn away from it, 0 to 1.
+- `radius`: number (default 110) — How far the hand reaches across the blinds, px.
+- `paused`: boolean (default false) — No waves on their own; the hand still parts and turns them.
+- `seed`: number (default 1) — Seeds how unevenly the blinds hang, so two walls never match.
+- `onTurn`: (face: "front" | "back") => void — Fires when a wave starts, with the face the wall is turning to.
+- `onActiveChange`: (active: boolean) => void — Fires when the pointer or keyboard focus starts (true) or stops (false) parting the blinds.
+- `className`: string (default "h-full w-full") — Sizes and shapes the box.
+
+Notes:
+- Give the box a size (a height class, or a parent that has one); children render above the blinds in their own layer and keep every click, focus and text selection. The wall itself is aria-hidden and has no focus stop.
+- Keyboard: when a control inside gains keyboard focus the blinds part around it and a wave turns the wall from there; blur lets them hang again. Presses on the content's own controls never send a wave. Touch parts the blinds where a finger lands without blocking vertical page scrolling.
+- Reduced motion: the blinds hang still at their resting angle and nothing rotates; a press or keyboard focus cross-fades the wall from one gradient to the other, staggered and lit as the faces are, and the wall never changes on its own. The hand does not part the blinds and is not reported as parting them.
+- Cost: no canvas and no WebGL; at most 32 slabs of four faces (and never narrower than 18 px each, so a narrow box hangs fewer) whose angles are motion values with every shade derived from them, so nothing re-renders per frame. Between waves nothing runs at all: the idle wave is a timer that waits while the wall is off screen or the page is hidden, and never fires while paused or with interval 0.
+- Theming: the pigments sit at fixed lightness and 10% into the page colour, so the wall reads the same in both themes and belongs to each. Pass four CSS colours to palette (front from and to, back from and to) for gradients of your own.
+
+### Grain Mesh (KQ-1460) — `grain-mesh`
+A grainy gradient that shifts like a print.
+
+A background printed rather than rendered, drawn in one WebGL2 pass with the content on top: a mesh gradient of four to six spot inks laid down drum by drum like a risograph, through a stochastic screen fixed to the paper so ink lands as grain where it is thin and solid where it is thick, each drum a little out of register on a stock with fibres and tooth. The points drift on slow orbits while the grain stays put; the nearest ink leans toward a hovering hand on springs.glide, a drag picks it up on springs.flick and follows the finger 1:1 with its drum slipping out of register, and a release throws it home with the release velocity, landing on springs.recoil. It is decoration and never takes focus; keyboard focus landing on a control inside draws the nearest ink to it, and blur lets it land home.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/grain-mesh`
+
+Props:
+- `children`: React.ReactNode — The content on top of the print: a hero line, a heading, a call to action.
+- `points`: number (default 5) — How many colour points (inks) make the mesh, 4 to 6.
+- `grain`: number (default 0.55) — How the ink is printed, 0 (a smooth gradient) to 1 (a fully grained riso screen).
+- `palette`: "poster" | "harbor" | "orchard" | "dusk" | readonly string[] (default "poster") — A named set of inks, or four to six CSS colours of your own.
+- `drift`: number (default 0.6) — How fast the points drift on their orbits, 0 (still) to 2.
+- `softness`: number (default 0.45) — How far each ink spreads into its neighbours, 0 (tight pools) to 1 (wide washes).
+- `grainSize`: number (default 1.5) — The size of a grain, CSS px, 1 to 4.
+- `misregister`: number (default 1.2) — How far the inks sit out of register, px, 0 to 4.
+- `paper`: number (default 0.5) — The paper's fibres and tooth, 0 (smooth stock) to 1.
+- `interactive`: boolean (default true) — The pointer leans the nearest ink toward it, a drag pulls it, and keyboard focus draws it in.
+- `pointerStrength`: number (default 0.5) — How far the nearest ink leans toward a hovering hand, 0 to 1.
+- `paused`: boolean (default false) — Hold the points still; the hand still pulls them.
+- `seed`: number (default 1) — Seeds the points' homes, orbits, grain and register, so two prints never match.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `onActiveChange`: (active: boolean) => void — Fires when the pointer or keyboard focus starts (true) or stops (false) working the print.
+- `onGrab`: (index: number | null) => void — Fires when a drag picks up an ink (its index) and when it lets go (null).
+- `className`: string (default "h-full w-full") — Sizes and shapes the box.
+
+Notes:
+- Give the box a size (a height class, or a parent that has one); children render above the print in their own layer and keep every click, focus and text selection. The print itself is aria-hidden and has no focus stop.
+- Keyboard: when a control inside gains keyboard focus the nearest ink is drawn to it; blur lets it recoil home. Drags start only on the paper, never on the content's controls. On touch a sideways drag pulls ink and an upright one scrolls the page.
+- Reduced motion: the print is still at a composed moment; the hover lean lands at once, a drag still follows the finger 1:1 because it is direct manipulation, and a release puts the ink straight home without the recoil or the register jolt.
+- Cost: one fullscreen WebGL2 pass with the grain computed in CSS px, so it keeps its size at any DPR; twenty-four frames a second while it only drifts and every frame while the hand works; nothing off screen, in a hidden tab, or once paused or drift 0 has settled. DPR is capped at dpr. Without WebGL2, or after a lost context, a CSS print of the inks under a halftone screen stands in and a restored context repaints.
+- Theming: inks multiply on light stock so overprints darken into new colours, and screen onto dark stock on a dark page; colours resolve on the component's own element, so a theme switch repaints. Pass four to six CSS colours to palette for inks of your own.
+
+### Horizon Grid (KQ-1461) — `horizon-grid`
+A perspective grid swept by light.
+
+A background of a fine grid floor running to the horizon, the camera travelling over it so the lines flow toward you, a soft band of light sweeping across the floor and a low glow breathing on the horizon. The camera banks and turns toward the hand on springs with the springs.drift constants and levels the same way when it leaves; a press on the bare background opens a ring of light across the floor in perspective while a critically damped surge carries the camera a few cells forward. Keyboard focus on a control inside leans the camera toward it and opens a softer ring under it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/horizon-grid`
+
+Props:
+- `children`: React.ReactNode — The content above the floor: a hero line, a heading, a call to action.
+- `speed`: number (default 1) — How fast the camera travels over the floor, 0 (still) to 3.
+- `density`: number (default 14) — How many grid lines span the near edge of the frame, 6 to 30.
+- `color`: string (default "var(--accent-bright)") — The light's colour, any CSS colour; taken at a fixed lightness so both themes read it the same.
+- `horizon`: number (default 0.5) — Where the horizon rests, as a fraction of the height from the top, 0.2 to 0.7.
+- `glow`: number (default 0.6) — How strong the breathing glow on the horizon is, 0 to 1.
+- `sweep`: number (default 0.6) — How bright the band of light sweeping the floor is, 0 (none) to 1.
+- `fog`: number (default 0.5) — How soon the far grid fades into the horizon haze, 0 (clear to the edge) to 1 (close).
+- `lineWidth`: number (default 1) — The grid lines' width, CSS px, 0.5 to 2.
+- `interactive`: boolean (default true) — The pointer and keyboard focus lean the camera, and a press opens a ring of light on the floor.
+- `pointerStrength`: number (default 0.6) — How far the camera leans toward the hand and how bright a ring is, 0 to 1.
+- `paused`: boolean (default false) — Hold the travel, the sweep and the breath still; the hand still leans the camera.
+- `seed`: number (default 1) — Seeds where the grid and the band start, so two floors never match.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `onActiveChange`: (active: boolean) => void — Fires when the pointer or keyboard focus starts (true) or stops (false) leaning the camera.
+- `onPulse`: () => void — Fires when a press (or keyboard focus) opens a ring of light on the floor.
+- `className`: string (default "h-full w-full") — Sizes and shapes the box.
+
+Notes:
+- The canvas and its CSS stand-in are aria-hidden and pointer-events-none; children render above them and keep every click. A press on a control is the control's; only the bare background opens a ring.
+- There is no tab stop of its own: keyboard focus on a control inside leans the camera toward it and opens a softer ring, the same response a hand gets.
+- One fullscreen WebGL2 draw at a capped pixel ratio, 30 frames a second while it only travels, and nothing at all off screen, in a hidden page, or while paused and level. Context loss shows the stand-in until the context returns.
+- The light takes the given colour at a fixed lightness, and the floor and haze are read from the component's own element and re-read when the theme changes, so it reads in light and dark.
+- Under reduced motion one still floor is drawn: the grid and the band parked, the glow steady and the camera level. A press shows its ring at full width at once and fades it by opacity only.
+
+### Stage Beams (KQ-1462) — `stage-beams`
+Beams that sweep like a concert stage.
+
+A background of a lighting rig along the bottom edge throwing narrow volumetric beams up through drifting haze in mirrored pairs, a lighting desk moving them through looks on springs with the springs.drift constants — a fan, crossed pairs, straight up, a lean — with motes glinting where the beams pass and light pooling on the floor. The beam nearest the pointer leaves the show and follows the hand on springs.glide like a follow spot, and a press brings every beam onto that point on springs.snap with one crisp overshoot while the rig flares. Keyboard focus on a control inside puts the nearest pair on it, crossing there.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/stage-beams`
+
+Props:
+- `children`: React.ReactNode — The content in front of the rig: a hero line, a heading, a call to action.
+- `beams`: number (default 6) — How many beams the rig throws, 2 to 12; they work in mirrored pairs, so odd counts round up.
+- `haze`: number (default 0.55) — How thick the haze is, 0 (clean air: faint, crisp blades) to 1 (thick, textured shafts).
+- `colors`: "house" | "ice" | "ember" | "mono" | readonly string[] (default "house") — A named palette, or up to three CSS colours given to the pairs in turn.
+- `speed`: number (default 1) — How fast the beams sway and the haze drifts, 0 (still) to 2.
+- `spread`: number (default 5) — Each beam's width, degrees, 2 to 12.
+- `intensity`: number (default 1) — How bright the beams burn, 0 to 1.5.
+- `motes`: number (default 0.5) — How many motes glint in the beams, 0 to 1.
+- `floor`: number (default 0.6) — How much light pools on the floor at each fixture, 0 to 1.
+- `cue`: number (default 4800) — Milliseconds between the lighting desk's cues, 2000 to 12000.
+- `interactive`: boolean (default true) — The pointer takes the nearest beam, keyboard focus the nearest pair, and a press brings every beam onto it.
+- `pointerStrength`: number (default 0.8) — How far a beam leaves its cue for the hand and how bright the hit is, 0 to 1.
+- `paused`: boolean (default false) — Hold the show: no cues, no sway, no drifting haze. The hand still directs the beams.
+- `seed`: number (default 1) — Seeds the order of the looks, the haze and the motes.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `onCue`: (index: number) => void — Fires when the desk runs a new cue, with its number in the show (1 up).
+- `onActiveChange`: (active: boolean) => void — Fires when the pointer or keyboard focus starts (true) or stops (false) directing a beam.
+- `onHit`: (hitting: boolean) => void — Fires when a press brings every beam onto it (true) and when the press ends and the desk takes them back (false).
+- `className`: string (default "h-full w-full") — Sizes and shapes the box.
+
+Notes:
+- The canvas and its CSS stand-in are aria-hidden and pointer-events-none; children render above them and keep every click. A press on a control is the control's; only the bare background brings the beams.
+- There is no tab stop of its own: keyboard focus on a control inside points the nearest pair at it, and leaving hands the pair back to the show.
+- One fullscreen WebGL2 draw at half the capped pixel ratio, 30 frames a second while the show sways, nothing off screen or in a hidden page, and nothing when paused and settled. Context loss shows the stand-in until the context returns.
+- Palettes take their colours at a fixed lightness so the beams read the same in both themes; the hall's darkness is read from the component's own element and re-read on theme change.
+- Under reduced motion the rig holds its first look with no sway or drifting haze; the hand and focus still direct the beams, which land where they are sent at once.
+
+### Pixel Snowfall (KQ-1463) — `pixel-snowfall`
+Snow falling in quiet pixels.
+
+A background of snow drawn as pixel art at three depths over a dithered sky, far flakes single dim cells and near ones small crosses swaying hardest in the wind, settling into a drift along the bottom edge that banks into rounded dunes and slowly melts. The pointer is a wind source that blows harder the faster it moves, and a press bursts a gust — a critically damped impulse on the springs.drift constants — that throws the nearby flakes outward and scours a crater in the drift whose snow sprays up and lands again. Keyboard focus on a control inside puffs a softer gust from it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/pixel-snowfall`
+
+Props:
+- `children`: React.ReactNode — The content in front of the snow: a hero line, a heading, a call to action.
+- `density`: number (default 0.5) — How hard it snows, 0 (a few flakes) to 1 (a heavy fall), set per area so every size snows alike.
+- `wind`: number (default 0.25) — The steady wind, -1 (hard left) to 1 (hard right); gusts ride on it.
+- `pixel`: number (default 3) — CSS px per pixel of snow, 2 to 6.
+- `speed`: number (default 1) — How fast the snow falls, 0.25 to 2.
+- `gusts`: number (default 0.5) — How strong the passing gusts are, 0 (steady air) to 1.
+- `layers`: number (default 3) — How many depths of snow fall: 1 (one), 2 (near and middle) or 3 (far, middle, near).
+- `drift`: number (default 0.5) — How deep the drift along the bottom may bank, 0 (none) to 1.
+- `melt`: number (default 0.4) — How quickly the drift melts back, 0 (it only grows to its limit) to 1.
+- `color`: string (default "var(--accent-bright)") — The cold tint in the sky, the shadows and the flakes, any CSS colour.
+- `interactive`: boolean (default true) — The pointer is a wind source and a press bursts a gust; keyboard focus puffs one from the control.
+- `pointerStrength`: number (default 0.7) — How hard the hand blows and how strong a gust is, 0 to 1.
+- `paused`: boolean (default false) — Hold the snow still in the air; the hand is ignored.
+- `seed`: number (default 1) — Seeds where every flake starts and the drift's first shape.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `onGust`: () => void — Fires when a press (or keyboard focus) bursts a gust.
+- `onActiveChange`: (active: boolean) => void — Fires when the pointer starts (true) or stops (false) blowing on the snow.
+- `className`: string (default "h-full w-full") — Sizes and shapes the box.
+
+Notes:
+- The canvas is aria-hidden and pointer-events-none; children render above it and keep every click. A press on a control is the control's; only the bare background bursts a gust.
+- There is no tab stop of its own: keyboard focus on a control inside puffs a gust from it, the same response a press gets. On touch a tap bursts a gust and page scrolling stays with the page.
+- Canvas 2D into a buffer of cells scaled up crisp, thirty frames a second only while on screen in a visible page, nothing allocated per frame; paused holds the flakes in the air and stops the loop.
+- Density is set per area, so a phone card and a wide hero snow equally hard. The sky and snow colours are read from the component's own element and re-read when the theme changes.
+- Under reduced motion it is one still winter frame with the drift banked; a press shows the gust's end state at once.
+
+### Storm Front (KQ-1464) — `storm-front`
+Lightning moving through heavy cloud.
+
+A background of a heavy storm deck seen from beneath, rolling slowly in layered, domain-warped cloud over a pale band of rain, lit from inside by seeded lightning that crawls and branches through it: a dim leader, two or three return strokes and an afterglow, the light catching the undersides of every billow and the channel glimpsed only where the cloud thins. A click calls a strike at the pointer — a discharge crawling out both ways inside the cloud, or a stroke dropping from the base below it — with thunder after the flash when sound is on, and a faint charge gathers under the hand on springs with the springs.drift constants. Keyboard focus on a control inside calls a softer, silent discharge above it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/storm-front`
+
+Props:
+- `children`: React.ReactNode — The content under the storm: a hero line, a heading, a call to action.
+- `rate`: number (default 6) — How many flashes the storm makes on its own, per minute, 0 to 20.
+- `density`: number (default 0.6) — How heavy the cloud deck is, 0 (broken) to 1 (solid).
+- `tint`: string (default "var(--accent-bright)") — The storm's light and colour, any CSS colour; taken at a fixed lightness so both themes read it.
+- `speed`: number (default 1) — How fast the cloud rolls, 0 (still) to 2.
+- `base`: number (default 0.62) — Where the cloud base sits, as a fraction of the height from the top, 0.4 to 0.85.
+- `rain`: number (default 0.4) — How much rain hangs from the base, 0 to 1.
+- `intensity`: number (default 1) — How bright the lightning is, 0 to 1.5.
+- `branches`: number (default 0.6) — How much each discharge branches, 0 (a single channel) to 1.
+- `interactive`: boolean (default true) — A click calls lightning at the pointer and keyboard focus calls a discharge above a control; the pointer gathers a faint glow.
+- `sound`: boolean (default false) — Thunder after a strike the visitor calls (never for the storm's own flashes). Off unless asked for.
+- `paused`: boolean (default false) — Hold the cloud still; flashes already running finish, and no new ones start on their own.
+- `seed`: number (default 1) — Seeds the cloud and every flash the storm makes.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `onStrike`: (strike: StormStrike) => void — Fires when lightning strikes, with where it was called and by whom.
+- `className`: string (default "h-full w-full") — Sizes and shapes the box.
+
+Notes:
+- The canvas and its CSS stand-in are aria-hidden and pointer-events-none; children render above them and keep every click. A click on a control is the control's; only the bare sky strikes.
+- There is no tab stop of its own: keyboard focus on a control inside calls a soft discharge above it, the same strike a click gets but quieter and always silent.
+- Thunder (a thud, later and lower the deeper the strike sits) only answers a visitor's click and only when sound is true; the storm's own flashes are always silent.
+- One fullscreen WebGL2 draw at half the capped pixel ratio, 30 frames a second while the cloud only rolls, every frame during a flash, nothing off screen or in a hidden page, and nothing when paused with no flash running. Context loss shows the stand-in until the context returns; without WebGL2 the stand-in stays.
+- The light takes the tint at a fixed lightness and the cloud is built from the page's own background and foreground, read from the component's element and re-read on theme change: a grey daylight storm in light, blue-black cloud in dark.
+- Under reduced motion the cloud holds still around one softly lit discharge with no automatic flashes; a click lights the cloud at the pointer as one still frame that fades out by opacity.
+
+### Spectrum Burst (KQ-1465) — `spectrum-burst`
+A burst of light split into colour.
+
+A background of light bursting from a point in every direction, each seeded ray split by dispersion: summed over seven wavelengths, each turned by an angle that grows away from the centre, so the colours overlap into white at the heart and fan into a spectrum toward each tip, red on one edge and violet on the other. The burst turns slowly and breathes, and its centre follows the hand on springs with the springs.drift constants; a press blooms it on springs.recoil — rays thrown out long and split wide, ringing twice as they settle — while a split ring of light leaves the centre on the enter easing. Keyboard focus on a control inside carries the centre to it and blooms softly.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/spectrum-burst`
+
+Props:
+- `children`: React.ReactNode — The content in front of the burst: a hero line, a heading, a call to action.
+- `rays`: number (default 16) — How many rays leave the centre, 4 to 36.
+- `dispersion`: number (default 0.5) — How far each ray splits into colour toward its tip, 0 (white blades) to 1.
+- `speed`: number (default 1) — How fast the burst turns and pulses, 0 (still) to 2.
+- `originX`: number (default 0.5) — Where the burst rests across the box, 0 (left) to 1 (right).
+- `originY`: number (default 0.42) — Where the burst rests down the box, 0 (top) to 1 (bottom).
+- `length`: number (default 0.7) — How far the rays reach, as a share of the box's diagonal, 0.2 to 1.
+- `width`: number (default 0.4) — How broad each ray is, 0 (a fine blade) to 1 (a wide wedge).
+- `intensity`: number (default 1) — How bright the light is, 0 to 1.5.
+- `pulse`: number (default 0.5) — How much the rays breathe and ripple in length and brightness, 0 to 1.
+- `halo`: number (default 0.35) — How bright the faint spectral ring around the burst is, 0 (none) to 1.
+- `saturation`: number (default 0.8) — How rich the split colours are, 0 (grey fringes) to 1 (pure spectrum).
+- `interactive`: boolean (default true) — The centre follows the hand, a press blooms the burst, and keyboard focus inside carries it to the control.
+- `pointerStrength`: number (default 0.7) — How far toward the hand the centre travels and how hard a press blooms, 0 to 1.
+- `paused`: boolean (default false) — Hold the turning and the pulse still; the hand still carries the centre.
+- `seed`: number (default 1) — Seeds every ray's length, width, brightness and rhythm.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `onBurst`: () => void — Fires when a press (or keyboard focus) blooms the burst.
+- `onActiveChange`: (active: boolean) => void — Fires when the pointer or keyboard focus starts (true) or stops (false) carrying the centre.
+- `className`: string (default "h-full w-full") — Sizes and shapes the box.
+
+Notes:
+- The canvas and its CSS stand-in are aria-hidden and pointer-events-none; children render above them and keep every click. A press on a control is the control's; only the bare background blooms.
+- There is no tab stop of its own: keyboard focus on a control inside carries the centre over it and blooms softly, and leaving returns it home.
+- One fullscreen WebGL2 draw at half the capped pixel ratio; each pixel weighs only the ray under it and its two neighbours, with ray shapes hashed in the shader. 30 frames a second while it only turns, every frame while a spring settles, nothing off screen or in a hidden page, and nothing when paused and settled. Context loss shows the stand-in until the context returns.
+- In the dark theme the light adds to the page; in the light theme it lays down as washes, the white of each ray only a faint warm shade and its split edges tinting the page. The page colour is read from the component's own element and re-read on theme change.
+- Under reduced motion the burst is still at a seeded moment: the centre lands where the hand puts it at once, and a press shows the bloom's peak while it is held.
+
+### Star Spiral (KQ-1466) — `star-spiral`
+A galaxy turning slowly in the dark.
+
+A background of a spiral galaxy built from density waves: every star rides its own closed orbit, the orbits bulging into lobes that twist with radius, so the arms stand where neighbouring orbits crowd while every star streams through them, the core turning faster than the rim. Young stars light only along the arm ridges, a bulge glows at the centre and dust rides each arm's leading edge, becoming the dark lane when the disk is seen edge on. A drag tilts the plane 1:1, rubber-banding past edge on, and on release it swings back on springs with the springs.drift constants taking the release velocity; a tap sends a ring of star formation out from the core on the enter easing as the core flares on a drift-spring impulse, and keyboard focus on a control inside tilts the plane toward it and sends a softer ring.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/star-spiral`
+
+Props:
+- `children`: React.ReactNode — The content in front of the galaxy: a hero line, a heading, a call to action.
+- `arms`: number (default 2) — How many arms the density wave raises, 1 to 6.
+- `stars`: number (default 1400) — How many stars make the galaxy, 300 to 3000; dust adds three tenths more.
+- `tilt`: number (default 55) — The disk's resting inclination in degrees, 0 (face on) to 80 (nearly edge on).
+- `speed`: number (default 1) — How fast the disk turns, 0 (still) to 3.
+- `twist`: number (default 0.5) — How tightly the arms wind, 0 (open) to 1 (tight).
+- `size`: number (default 1) — The galaxy's size against the box, 0.4 to 1.4.
+- `originX`: number (default 0.5) — Where the core sits across the box, 0 to 1; narrow boxes pull it toward the middle.
+- `originY`: number (default 0.5) — Where the core sits down the box, 0 to 1.
+- `core`: number (default 0.6) — How bright the bulge glows, 0 to 1.
+- `dust`: number (default 0.5) — How heavy the dust lanes along the arms are, 0 (none) to 1.
+- `color`: string (default "var(--accent-bright)") — The young stars' colour along the arms, any CSS colour.
+- `coreColor`: string (default "var(--warn)") — The old stars' and the bulge's colour, any CSS colour.
+- `interactive`: boolean (default true) — A drag tilts the plane, a tap sends a ring of new stars out, and keyboard focus inside tilts toward the control.
+- `pointerStrength`: number (default 0.7) — How far a drag tilts the plane and how bright a ring burns, 0 to 1.
+- `paused`: boolean (default false) — Hold the disk still; a drag still tilts it.
+- `seed`: number (default 1) — Seeds every star's orbit and the moment the galaxy starts from.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `onTiltChange`: (tilt: StarTilt) => void — Fires when the plane's tilt changes by a whole degree, from a drag, keyboard focus or the swing back.
+- `onActiveChange`: (active: boolean) => void — Fires when a drag or keyboard focus starts (true) or stops (false) tilting the plane.
+- `onRing`: () => void — Fires when a tap (or keyboard focus) sends a ring of star formation out from the core.
+- `className`: string (default "h-full w-full") — Sizes and shapes the box.
+
+Notes:
+- The canvas and its CSS stand-in are aria-hidden and pointer-events-none; children render above them and keep every click. A press on a control is the control's: it never tilts the plane or sends a ring.
+- There is no tab stop of its own: keyboard focus on a control inside tilts the plane toward it and sends a softer ring, and blur lets it right itself. On touch the root is touch-pan-y, so a sideways drag tilts the plane and an upright swipe scrolls the page.
+- Canvas 2D with every orbit in typed arrays: a frame is a few trig calls per star and about a dozen batched fills, nothing allocated per frame. 30 frames a second while it turns, every frame while dragging, swinging back or ringing, nothing off screen or in a hidden page, and nothing when paused and settled.
+- In the dark theme the stars add as light; in the light theme the galaxy prints as a negative plate, ink stars on paper with the dust as pale lanes. Colours are read from the component's own element and re-read on theme change; young stars and the bulge take their colours at a fixed lightness so both themes read them.
+- onTiltChange reports whole degrees only when they change, so a status line can follow a drag without rendering every frame.
+- Under reduced motion the galaxy is still at a seeded moment: a drag sets the tilt exactly under the hand and release returns it at once, and a tap brightens a still ring at mid-disk for a moment.
+
+### Dither Dunes (KQ-1467) — `dither-dunes`
+Gradients printed in ordered dots.
+
+A background printed like a one-bit risograph sheet: an aerial dune sea whose crests bow, split and rejoin as the field migrates downwind, drawn entirely in two or three flat inks through an ordered dither, with the key ink printing the relief and a spot ink laying large soft shapes under it on a shifted screen. The pointer is a lamp whose soft spot of light follows on the springs.glide constants and arrives on springs.drift; a press pulls a flash, a ring that prints the sheet in negative as it crosses, and the spot swells after it on springs.recoil. Keyboard focus on a control inside brings the lamp to it with a softer flash.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/dither-dunes`
+
+Props:
+- `children`: React.ReactNode — The content on top of the print: a hero line, a heading, a call to action.
+- `matrix`: "bayer2" | "bayer4" | "bayer8" | "dots" (default "bayer4") — The threshold pattern every dot is printed through: a 2×2, 4×4 or 8×8 ordered matrix, or a 45° halftone screen of round dots.
+- `scale`: number (default 2) — The size of one printed dot, in CSS px (snapped to whole device pixels), 1 to 8.
+- `colors`: "mono" | "riso" | "sienna" | "tide" | readonly string[] (default "riso") — A named set of inks, or two or three CSS colours of your own, paper first.
+- `size`: number (default 180) — The distance between dune crests, px, 60 to 600.
+- `relief`: number (default 0.7) — How strongly the slopes are shaded, 0 (flat tone) to 1 (deep relief).
+- `morph`: number (default 0.5) — How far the crest lines bow, split and wander, 0 (straight ranks) to 1.
+- `speed`: number (default 0.5) — How fast the dunes migrate and change shape, 0 (still) to 2.
+- `wind`: number (default 12) — The way the wind blows the dunes, degrees: 0 toward the right, 90 down.
+- `interactive`: boolean (default true) — The pointer and keyboard focus brighten a soft spot, and a press flashes a ring of light.
+- `pointerStrength`: number (default 0.6) — How bright the spot under the hand is and how strong the flash, 0 to 1.
+- `radius`: number (default 120) — How far the spot of light reaches, px.
+- `paused`: boolean (default false) — Hold the dunes still; the spot and the flash still answer the hand.
+- `seed`: number (default 1) — Seeds the dune field, so two prints never match.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `onActiveChange`: (active: boolean) => void — Fires when the pointer or keyboard focus starts (true) or stops (false) lighting the print.
+- `onFlash`: () => void — Fires when a press or keyboard focus pulls a flash across the print.
+- `className`: string (default "h-full w-full") — Sizes and shapes the box.
+
+Notes:
+- The print is decoration: the canvas, its CSS stand-in and the colour carriers are aria-hidden, and your children sit above in their own layer with focus, clicks and selection intact. Presses on your controls never flash.
+- Keyboard: a control inside taking keyboard focus brings the lamp to it and pulls a softer flash from it; blur lets the light go. No tab stop of its own.
+- Inks resolve on the element and are re-read when the theme changes. On a light page the key ink prints the shade and the sheet rests mostly paper; on a dark page it prints the light, a negative that stays mostly dark. Pass two or three colours of your own, paper first.
+- Every dot is a whole number of device pixels: the canvas is the dot grid itself, scaled up nearest-neighbour, so the shader runs once per dot and the print stays crisp at any pixel ratio.
+- Under reduced motion one still print is drawn; the spot of light lands exactly where the hand is and a press brightens it for a moment without any ring travelling.
+- WebGL2: thirty frames a second while it only drifts, every frame while the hand or a flash moves, nothing off screen or in a hidden page. A lost context shows the CSS stand-in until it is restored; without WebGL2 the stand-in stays.
+
+### Relay Terminal (KQ-1468) — `relay-terminal`
+A terminal screen humming with glyphs.
+
+A background that is a terminal screen of mono glyphs holding real-looking console output, updating in bursts: lines re-roll and settle left to right, value fields tick, and now and then the screen feeds a line, scrolling up a row on the springs.glide constants while the new line types in behind a blinking cursor. Written glyphs flare and decay through the phosphor with a fading ghost of what they replaced, a faint line screen and a slow rolling band sit over the tube, and a line occasionally tears sideways and springs back on springs.snap. The pointer is a lamp whose light follows on glide and arrives on springs.drift; a press pings the screen with a ring that flares every glyph it crosses, and keyboard focus on a control inside lights and pings from that control.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/relay-terminal`
+
+Props:
+- `children`: React.ReactNode — The content on top of the screen: a hero line, a heading, a call to action.
+- `rate`: number (default 1.25) — How many bursts of output arrive a second, 0 (none) to 4.
+- `glyphs`: "hex" | "binary" | "ascii" | "blocks" | string (default "hex") — The glyph set the output is written in: a named set, or a string of your own characters.
+- `color`: "green" | "amber" | "ice" | "mono" | string (default "green") — The phosphor: a named colour, or any CSS colour.
+- `fontSize`: number (default 12) — The glyph size, px; the grid follows it.
+- `density`: number (default 0.6) — How full the lines run, 0 (short, sparse output) to 1 (lines to the edge).
+- `decay`: number (default 1.4) — How long a written glyph glows before it settles, seconds: the phosphor's persistence.
+- `glitch`: number (default 0.4) — How often a line tears sideways and springs back, 0 (never) to 1.
+- `scanlines`: number (default 0.5) — The fine line screen and the slow rolling band, 0 (none) to 1.
+- `glow`: number (default 0.5) — The halo round lit glyphs, 0 (none) to 1.
+- `cursor`: boolean (default true) — A block cursor blinks at the end of the newest line.
+- `interactive`: boolean (default true) — The pointer and keyboard focus light the glyphs near them, and a press pings the screen.
+- `pointerStrength`: number (default 0.7) — How brightly the hand lights the glyphs, 0 to 1.
+- `radius`: number (default 90) — How far the hand's light reaches, px.
+- `paused`: boolean (default false) — Stop the output; the screen settles and the hand still lights it.
+- `seed`: number (default 1) — Seeds the output, the bursts and the glitches, so two screens never match.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `onActiveChange`: (active: boolean) => void — Fires when the pointer or keyboard focus starts (true) or stops (false) lighting the screen.
+- `onPing`: () => void — Fires when a press or keyboard focus pings the screen.
+- `className`: string (default "h-full w-full") — Sizes and shapes the box.
+
+Notes:
+- The screen is decoration: the canvas, its text stand-in and the colour carriers are aria-hidden, and the glyphs are never read aloud. Your children sit above in their own layer with focus, clicks and selection intact; presses on your controls never ping.
+- Keyboard: a control inside taking keyboard focus lights the glyphs round it and pings from it; blur lets the light go. No tab stop of its own.
+- The phosphor resolves on the element and is re-read when the theme changes: on a dark page it glows over a tinted tube, on a light page it is drawn as ink on a pale screen, so it reads in both.
+- Glyphs come from an atlas built once per font, colour, theme and pixel ratio, one blit per cell a frame; block elements are drawn, not set in type, so meters join without seams. If the host's mono face is not monospaced the system's is used.
+- Under reduced motion the screen is still with the newest lines a little brighter; the lamp lands where the hand is and a press lights the glyphs round it, fading back without anything travelling.
+- Thirty frames a second while only the output runs, every frame while a tear springs, a ping travels, the screen scrolls or the hand moves; nothing off screen or in a hidden page, and paused stops the loop once the phosphor settles.
+
+### Ripple Lattice (KQ-1469) — `ripple-lattice`
+A grid that ripples where you touch.
+
+A background that is a fine square lattice of hairlines, centred in the box, whose lines are pushed by ripples: each a wave packet spreading from where it fell, a leading crest with a short train of wavelets behind, decaying with age and spreading with distance. Up to thirty-two sum as vectors, so crossing rings interfere into a moire of pinched and stretched cells, and the lines thicken and brighten at the crests. A moving pointer leaves a wake of small ripples as strong as it is quick, a press drops a stone, denting the mat under it so it bounces back twice on springs.recoil while the ring spreads with a softer echo behind it, and keyboard focus on a control inside drops one from that control.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/ripple-lattice`
+
+Props:
+- `children`: React.ReactNode — The content on top of the grid: a hero line, a heading, a call to action.
+- `spacing`: number (default 24) — The distance between grid lines, px, 8 to 96.
+- `strength`: number (default 0.6) — How hard a ripple pushes the lines, 0 (not at all) to 1 (hard enough that the crests just begin to fold).
+- `color`: "ink" | "cobalt" | "signal" | "rose" | string (default "cobalt") — The lines' colour: a named one, or any CSS colour.
+- `lineWidth`: number (default 1) — The lines' width, px.
+- `wavelength`: number (default 56) — The distance between the wavelets in a ripple, px; longer waves also push farther.
+- `speed`: number (default 260) — How fast a ripple spreads, px per second.
+- `decay`: number (default 1.1) — How long a ripple lasts, seconds: its amplitude's time constant.
+- `crest`: number (default 0.7) — How much the lines thicken and brighten at the crests, 0 to 1.
+- `drizzle`: number (default 0.3) — Soft drops falling on the grid by themselves, 0 (none: the grid rests flat) to 1.
+- `trail`: boolean (default true) — A moving pointer leaves a wake of small ripples.
+- `interactive`: boolean (default true) — The pointer and keyboard focus ripple the grid.
+- `paused`: boolean (default false) — Stop the drizzle; the hand still ripples the grid.
+- `seed`: number (default 1) — Seeds where the drizzle falls, so two grids never match.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `onActiveChange`: (active: boolean) => void — Fires when the pointer or keyboard focus starts (true) or stops (false) rippling the grid.
+- `onRipple`: (x: number, y: number) => void — Fires when a press or keyboard focus drops a ripple, with where it fell in px from the box's top left.
+- `className`: string (default "h-full w-full") — Sizes and shapes the box.
+
+Notes:
+- The grid is decoration: the canvas, the SVG and the colour carriers are aria-hidden. Your children sit above in their own layer with focus, clicks and selection intact, and a press on one of your controls never drops a ripple.
+- Keyboard: a control inside taking keyboard focus drops a ripple from its centre. No tab stop of its own.
+- One WebGL2 fragment pass sums up to thirty-two ripples per pixel. The server renders the lattice at rest as an SVG pattern; without WebGL2, or after a lost context, that SVG stays and its lines are rebuilt from the same ripples.
+- The loop runs only while a ripple lives or drizzle falls, on screen and in a visible page; with drizzle at 0 the grid settles flat and costs nothing until the hand moves.
+- Under reduced motion nothing spreads: no drizzle and no wake, and a press draws one still ring that fades where it stands.
+- Colours resolve on the element and are re-read when the theme changes, so the grid reads on light and dark pages alike.
+
+### Pollen Flow (KQ-1470) — `pollen-flow`
+Specks carried on a slow current.
+
+A background of fine specks carried on a slow breeze: a steady current plus the curl of two octaves of drifting noise, so the specks swirl and braid but never pile into knots. Each speck has a little inertia and leaves a short trail that tapers and fades behind it, and three sizes give the cloud depth. The air eddies round the hand, the eddy's place following on springs.glide and its strength arriving on springs.drift; a press shakes pollen loose, the oldest specks reborn at the press in a bright little cloud the air's drag takes into the current, and keyboard focus on a control inside brings the eddy there and shakes a smaller cloud from it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/pollen-flow`
+
+Props:
+- `children`: React.ReactNode — The content on top of the current: a hero line, a heading, a call to action.
+- `count`: number (default 1600) — How many specks fill a 760 by 232 box, 50 to 5000; larger and smaller boxes scale it by area.
+- `trail`: number (default 0.5) — How long the fading trails run behind the specks, 0 (bare specks) to 1.
+- `colors`: "pollen" | "dusk" | "sea" | "ink" | string | readonly string[] (default "pollen") — The specks' colours: a named palette, or up to three CSS colours.
+- `speed`: number (default 0.6) — How fast the breeze blows, 0 (still air) to 2.
+- `scale`: number (default 170) — The size of an eddy in the air, px.
+- `turbulence`: number (default 0.55) — How much the air swirls on top of the steady breeze, 0 (a straight current) to 1.
+- `wind`: number (default -8) — Where the breeze blows, degrees anticlockwise from rightward.
+- `size`: number (default 1.6) — The specks' size, px.
+- `interactive`: boolean (default true) — The air eddies round the pointer and keyboard focus, and a press shakes pollen loose.
+- `pointerStrength`: number (default 0.6) — How hard the hand turns the air, 0 to 1.
+- `radius`: number (default 110) — How far the hand's eddy reaches, px.
+- `paused`: boolean (default false) — Hold the air still: the specks stop where they are.
+- `seed`: number (default 1) — Seeds the specks and the air, so two currents never match.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `onActiveChange`: (active: boolean) => void — Fires when the pointer or keyboard focus starts (true) or stops (false) turning the air.
+- `onShake`: () => void — Fires when a press or keyboard focus shakes pollen loose.
+- `className`: string (default "h-full w-full") — Sizes and shapes the box.
+
+Notes:
+- The current is decoration: the canvas, its seeded SVG stand-in and the colour carriers are aria-hidden. Your children sit above in their own layer with focus, clicks and selection intact, and a press on one of your controls never shakes pollen.
+- Keyboard: a control inside taking keyboard focus brings the eddy to it and shakes a smaller cloud from it. No tab stop of its own.
+- Colours are pigment, not text colour: each palette hue is drawn at a fixed lightness per theme, re-read when the theme changes, so the specks read on light and dark pages alike.
+- Canvas 2D: the air is a few hundred noise samples on a 20 px grid, and the specks are batched into one stroke per colour and fade band, about forty draws a frame. Typed arrays are sized on resize and count change, never per frame.
+- The loop runs only on screen in a visible page; paused, or speed 0 once the specks have coasted to rest, stops it. The count scales with the box's area, so a phone card is as dense as a desktop hero.
+- Under reduced motion the current is a long exposure: a still frame of specks with their trails traced back along the air, and a press brightens the specks round it where they stand.
+
+### Dot Tide (KQ-1471) — `dot-tide`
+A field of dots with a tide running through it.
+
+A background that is a regular dot grid, centred in the box, with a slow tide running through it: three long travelling waves sum into a height that raises and lowers every dot between a fine point and most of a cell, and the colour shifts along the wave from troughs washed into the page to crests in the full colour turned a little in hue. The tide rises gently under the hand, the mound following on springs.glide and arriving on springs.drift. A press sends a fast circular wave through the field, and every dot rides its own springs.recoil spring, so each dot the ring crosses pops up, overshoots back twice and settles, leaving a ringing, brightened wake; keyboard focus on a control inside raises the tide there and sends a softer wave from it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/dot-tide`
+
+Props:
+- `children`: React.ReactNode — The content on top of the field: a hero line, a heading, a call to action.
+- `spacing`: number (default 16) — The distance between dots, px, 6 to 64.
+- `speed`: number (default 0.6) — How fast the tide runs, 0 (slack water) to 2.
+- `color`: "cobalt" | "sea" | "ember" | "ink" | string (default "cobalt") — The dots' colour: a named one, or any CSS colour.
+- `size`: number (default 0.72) — The largest dot, as a share of a cell, 0.2 to 1.
+- `swell`: number (default 0.7) — How far the tide swings the dots between a fine point and full size, 0 to 1.
+- `angle`: number (default 24) — Which way the tide runs, degrees anticlockwise from rightward.
+- `shift`: number (default 0.5) — How far the colour turns in hue from trough to crest, 0 to 1.
+- `waveSpeed`: number (default 720) — How fast a press's wave runs out through the field, px per second.
+- `interactive`: boolean (default true) — The pointer and keyboard focus raise the tide, and a press sends a wave.
+- `pointerStrength`: number (default 0.6) — How high the tide rises under the hand, 0 to 1.
+- `radius`: number (default 140) — How far the rise under the hand reaches, px.
+- `paused`: boolean (default false) — Stop the tide; waves and the hand still move the dots.
+- `seed`: number (default 1) — Seeds where the tide starts, so two fields never match.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `onActiveChange`: (active: boolean) => void — Fires when the pointer or keyboard focus starts (true) or stops (false) raising the tide.
+- `onWave`: (x: number, y: number) => void — Fires when a press or keyboard focus sends a wave, with where it started in px from the box's top left.
+- `className`: string (default "h-full w-full") — Sizes and shapes the box.
+
+Notes:
+- The field is decoration: the canvas, its CSS stand-in and the colour carriers are aria-hidden. Your children sit above in their own layer with focus, clicks and selection intact, and a press on one of your controls never sends a wave.
+- Keyboard: a control inside taking keyboard focus raises the tide round it and sends a softer wave from it. No tab stop of its own.
+- The nine tones from trough to crest are mixed by the browser in OKLab against the page background and re-read when the theme changes, so the field reads on light and dark pages alike.
+- Canvas 2D: one arc per dot and nine fills a frame, with every dot's spring integrated in typed arrays. The tide alone draws thirty frames a second; a wave or the hand gets every frame, and nothing runs off screen or in a hidden page.
+- The server renders the same centred grid at rest as a CSS dot pattern, so the first paint lines up with the canvas when it takes over.
+- Under reduced motion the tide holds a composed moment, the rise lands under the hand without travelling, and a press tints the dots round it where they stand.
+
+### Thread Drift (KQ-1472) — `thread-drift`
+Threads that float and tangle gently.
+
+A background of long smooth threads drifting edge to edge, each through thirteen points riding two octaves of noise, so it bows and swings like silk in still air while neighbours cross, wrap and part again. Threads sit at their own depths over a thin stroke of the page colour, so crossings read over and under, and the bends catch the light. The hand gathers them, every point drawn toward it on its own springs.glide spring with the gather arriving on springs.drift; a press pinches them into a knot under the finger and on release they let go on springs.recoil, swinging back past their lanes twice; keyboard focus on a control inside gathers the threads to it and plucks them once.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/thread-drift`
+
+Props:
+- `children`: React.ReactNode — The content on top of the threads: a hero line, a heading, a call to action.
+- `count`: number (default 18) — How many threads cross the box, 2 to 60.
+- `thickness`: number (default 1.4) — The nearest threads' width, px; farther ones are finer.
+- `colors`: "silk" | "indigo" | "meadow" | "ink" | string | readonly string[] (default "silk") — The threads' colours: a named palette, or up to three CSS colours.
+- `speed`: number (default 0.5) — How fast the threads drift, 0 (still) to 2.
+- `sway`: number (default 0.55) — How far the threads bow and swing, 0 (taut) to 1.
+- `tangle`: number (default 0.5) — How far a thread strays from its lane, so neighbours cross and part, 0 to 1.
+- `sheen`: number (default 0.6) — How brightly the bends catch the light, 0 (matte) to 1.
+- `interactive`: boolean (default true) — The pointer and keyboard focus gather the threads, and a press pinches them.
+- `pointerStrength`: number (default 0.6) — How hard the hand draws the threads in, 0 to 1.
+- `radius`: number (default 160) — How far the hand reaches, px.
+- `paused`: boolean (default false) — Stop the drift; the hand still gathers the threads.
+- `seed`: number (default 1) — Seeds the lanes, depths and drift, so two skeins never match.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `onActiveChange`: (active: boolean) => void — Fires when the pointer or keyboard focus starts (true) or stops (false) gathering the threads.
+- `onPinchChange`: (pinched: boolean) => void — Fires when a press pinches the threads (true) and when they are let go (false).
+- `className`: string (default "h-full w-full") — Sizes and shapes the box.
+
+Notes:
+- The skein is decoration: the canvas, its SVG stand-in and the colour carriers are aria-hidden. Your children sit above in their own layer with focus, clicks and selection intact, and a press on one of your controls never pinches.
+- Keyboard: a control inside taking keyboard focus gathers the threads to it and plucks them once, the same swing a press and release gives. No tab stop of its own.
+- Colours are pigment, not text colour: each palette hue is drawn at a fixed lightness per theme and the gap under each thread is the box's own colour, all re-read when the theme changes.
+- Canvas 2D: two strokes per thread plus a few sheen arcs on its bends; every control point's spring lives in typed arrays sized once. The drift alone draws thirty frames a second, the hand and a release get every frame, and nothing runs off screen or in a hidden page.
+- The server renders the same skein at a composed moment as an SVG traced with arithmetic-only noise, so it matches the browser to the digit.
+- Under reduced motion the skein holds that composed moment, nothing gathers, and a press lights the bends round it where they lie.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

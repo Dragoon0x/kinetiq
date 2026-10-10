@@ -423,4 +423,76 @@ export const CANVAS_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/comet-border.demo").then((m) =>
       mod(m.CometBorderDemo, m.tweaks),
     ),
+  "aurora-curtain": () =>
+    import("@/registry/demos/aurora-curtain.demo").then((m) =>
+      mod(m.AuroraCurtainDemo, m.tweaks),
+    ),
+  "plasma-bloom": () =>
+    import("@/registry/demos/plasma-bloom.demo").then((m) =>
+      mod(m.PlasmaBloomDemo, m.tweaks),
+    ),
+  "plasma-ribbon": () =>
+    import("@/registry/demos/plasma-ribbon.demo").then((m) =>
+      mod(m.PlasmaRibbonDemo, m.tweaks),
+    ),
+  "dust-motes": () =>
+    import("@/registry/demos/dust-motes.demo").then((m) =>
+      mod(m.DustMotesDemo, m.tweaks),
+    ),
+  "shutter-glow": () =>
+    import("@/registry/demos/shutter-glow.demo").then((m) =>
+      mod(m.ShutterGlowDemo, m.tweaks),
+    ),
+  "grain-mesh": () =>
+    import("@/registry/demos/grain-mesh.demo").then((m) =>
+      mod(m.GrainMeshDemo, m.tweaks),
+    ),
+  "horizon-grid": () =>
+    import("@/registry/demos/horizon-grid.demo").then((m) =>
+      mod(m.HorizonGridDemo, m.tweaks),
+    ),
+  "stage-beams": () =>
+    import("@/registry/demos/stage-beams.demo").then((m) =>
+      mod(m.StageBeamsDemo, m.tweaks),
+    ),
+  "pixel-snowfall": () =>
+    import("@/registry/demos/pixel-snowfall.demo").then((m) =>
+      mod(m.PixelSnowfallDemo, m.tweaks),
+    ),
+  "storm-front": () =>
+    import("@/registry/demos/storm-front.demo").then((m) =>
+      mod(m.StormFrontDemo, m.tweaks),
+    ),
+  "spectrum-burst": () =>
+    import("@/registry/demos/spectrum-burst.demo").then((m) =>
+      mod(m.SpectrumBurstDemo, m.tweaks),
+    ),
+  "star-spiral": () =>
+    import("@/registry/demos/star-spiral.demo").then((m) =>
+      mod(m.StarSpiralDemo, m.tweaks),
+    ),
+  "dither-dunes": () =>
+    import("@/registry/demos/dither-dunes.demo").then((m) =>
+      mod(m.DitherDunesDemo, m.tweaks),
+    ),
+  "relay-terminal": () =>
+    import("@/registry/demos/relay-terminal.demo").then((m) =>
+      mod(m.RelayTerminalDemo, m.tweaks),
+    ),
+  "ripple-lattice": () =>
+    import("@/registry/demos/ripple-lattice.demo").then((m) =>
+      mod(m.RippleLatticeDemo, m.tweaks),
+    ),
+  "pollen-flow": () =>
+    import("@/registry/demos/pollen-flow.demo").then((m) =>
+      mod(m.PollenFlowDemo, m.tweaks),
+    ),
+  "dot-tide": () =>
+    import("@/registry/demos/dot-tide.demo").then((m) =>
+      mod(m.DotTideDemo, m.tweaks),
+    ),
+  "thread-drift": () =>
+    import("@/registry/demos/thread-drift.demo").then((m) =>
+      mod(m.ThreadDriftDemo, m.tweaks),
+    ),
 };
