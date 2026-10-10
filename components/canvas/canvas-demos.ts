@@ -95,4 +95,48 @@ export const CANVAS_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/tally-roll.demo").then((m) =>
       mod(m.TallyRollDemo, m.tweaks),
     ),
+  "depth-of-field": () =>
+    import("@/registry/demos/depth-of-field.demo").then((m) =>
+      mod(m.DepthOfFieldDemo, m.tweaks),
+    ),
+  "orbit-script": () =>
+    import("@/registry/demos/orbit-script.demo").then((m) =>
+      mod(m.OrbitScriptDemo, m.tweaks),
+    ),
+  "caption-live": () =>
+    import("@/registry/demos/caption-live.demo").then((m) =>
+      mod(m.CaptionLiveDemo, m.tweaks),
+    ),
+  "deck-shuffle": () =>
+    import("@/registry/demos/deck-shuffle.demo").then((m) =>
+      mod(m.DeckShuffleDemo, m.tweaks),
+    ),
+  "foil-sheen": () =>
+    import("@/registry/demos/foil-sheen.demo").then((m) =>
+      mod(m.FoilSheenDemo, m.tweaks),
+    ),
+  "weight-field": () =>
+    import("@/registry/demos/weight-field.demo").then((m) =>
+      mod(m.WeightFieldDemo, m.tweaks),
+    ),
+  "contour-marquee": () =>
+    import("@/registry/demos/contour-marquee.demo").then((m) =>
+      mod(m.ContourMarqueeDemo, m.tweaks),
+    ),
+  "static-fuzz": () =>
+    import("@/registry/demos/static-fuzz.demo").then((m) =>
+      mod(m.StaticFuzzDemo, m.tweaks),
+    ),
+  "pigment-flow": () =>
+    import("@/registry/demos/pigment-flow.demo").then((m) =>
+      mod(m.PigmentFlowDemo, m.tweaks),
+    ),
+  "letter-rain": () =>
+    import("@/registry/demos/letter-rain.demo").then((m) =>
+      mod(m.LetterRainDemo, m.tweaks),
+    ),
+  "type-trail": () =>
+    import("@/registry/demos/type-trail.demo").then((m) =>
+      mod(m.TypeTrailDemo, m.tweaks),
+    ),
 };

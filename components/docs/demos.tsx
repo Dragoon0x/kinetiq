@@ -1442,6 +1442,17 @@ import { DatamoshTypeDemo } from "@/registry/demos/datamosh-type.demo";
 import { SpeedBannerDemo } from "@/registry/demos/speed-banner.demo";
 import { BreathTypeDemo } from "@/registry/demos/breath-type.demo";
 import { TallyRollDemo } from "@/registry/demos/tally-roll.demo";
+import { DepthOfFieldDemo } from "@/registry/demos/depth-of-field.demo";
+import { OrbitScriptDemo } from "@/registry/demos/orbit-script.demo";
+import { CaptionLiveDemo } from "@/registry/demos/caption-live.demo";
+import { DeckShuffleDemo } from "@/registry/demos/deck-shuffle.demo";
+import { FoilSheenDemo } from "@/registry/demos/foil-sheen.demo";
+import { WeightFieldDemo } from "@/registry/demos/weight-field.demo";
+import { ContourMarqueeDemo } from "@/registry/demos/contour-marquee.demo";
+import { StaticFuzzDemo } from "@/registry/demos/static-fuzz.demo";
+import { PigmentFlowDemo } from "@/registry/demos/pigment-flow.demo";
+import { LetterRainDemo } from "@/registry/demos/letter-rain.demo";
+import { TypeTrailDemo } from "@/registry/demos/type-trail.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2898,4 +2909,15 @@ export const demos: Record<string, ComponentType> = {
   "speed-banner": SpeedBannerDemo,
   "breath-type": BreathTypeDemo,
   "tally-roll": TallyRollDemo,
+  "depth-of-field": DepthOfFieldDemo,
+  "orbit-script": OrbitScriptDemo,
+  "caption-live": CaptionLiveDemo,
+  "deck-shuffle": DeckShuffleDemo,
+  "foil-sheen": FoilSheenDemo,
+  "weight-field": WeightFieldDemo,
+  "contour-marquee": ContourMarqueeDemo,
+  "static-fuzz": StaticFuzzDemo,
+  "pigment-flow": PigmentFlowDemo,
+  "letter-rain": LetterRainDemo,
+  "type-trail": TypeTrailDemo,
 };

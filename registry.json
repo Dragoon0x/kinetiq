@@ -34966,6 +34966,311 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "depth-of-field",
+      "type": "registry:ui",
+      "title": "Depth of Field",
+      "description": "A line shot through a fast lens: every word starts soft, a little smaller and faded, and a focal plane sweeps along the line kicking each word sharp on a spring that runs from snap to recoil with breath, so focus breathes past the word before it settles, with a focus-peaking edge flashing as it lands. Pointing at a word racks focus to it — the plane itself travels on a glide-weight spring, so a long pull passes through the words between and the rest fall off with distance — and leaving stops the lens down again. A keyboard handle racks word to word with Left and Right, Escape brings everything into focus and Enter plays the pull again.",
+      "files": [
+        {
+          "path": "registry/ui/depth-of-field.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1362"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "orbit-script",
+      "type": "registry:ui",
+      "title": "Orbit Script",
+      "description": "Text set round a ring at its measured advances, turning at a cruising speed: a pointer over it brakes it to a stop with friction while the nearest letter lifts off the ring on the snap spring and turns upright to face the reader, a drag spins it 1:1 about its centre and a flick coasts down by the same friction back to cruise, and on arrival the letters lay themselves onto the ring clockwise as it spools up. It is a slider in the tab order: the arrow keys step it one letter at a time on the snap spring, Page Up and Page Down a quarter turn, and Space pauses the turn.",
+      "files": [
+        {
+          "path": "registry/ui/orbit-script.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1363"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "caption-live",
+      "type": "registry:ui",
+      "title": "Live Caption",
+      "description": "Live captions that behave like the real thing: a script plays at a seeded speaking rhythm, each word landing in draft ink with a small drop on the snap spring, uncertain words shimmering, and a misheard word revising in place once two more words are in — the old word lifts away as the right one rises while the word's box springs to its new width on glide, so the line reflows instead of jumping. When a sentence is complete it settles into solid ink as a left-to-right wash staggered under the 600 ms budget, and the box rolls up on glide like broadcast captions. There is no gesture to answer; a host pauses it through paused.",
+      "files": [
+        {
+          "path": "registry/ui/caption-live.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1364"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "deck-shuffle",
+      "type": "registry:ui",
+      "title": "Deck Shuffle",
+      "description": "Every letter is a little playing card dealt face down; the deal riffles across the line, each card lifting on the snap spring and turning over and over in 3D through seeded random cards of its own case until the last half-turn shows its letter, the final quarter-turn handing its speed to the snap spring so it lands flat with one wobble while its lift drops on recoil and the drop shadow tightens. Pointing at a word riffles it again, a tap does on touch, and a keyboard handle riffles the whole line with Enter or one word at a time with Left and Right.",
+      "files": [
+        {
+          "path": "registry/ui/deck-shuffle.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1365"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "foil-sheen",
+      "type": "registry:ui",
+      "title": "Foil Sheen",
+      "description": "Type hot-stamped in metal foil: the letters are painted with the tint's pigments at fixed lightnesses in broad reflective bands, and a specular band — a soft glow leading a brighter core broken into grain by a seeded micro-texture — sweeps across them at an interval on the move ease. The pointer tilts the light on the glide spring and shifts the foil's broad reflections, and a press catches the light with a sweep from the side you pressed. A keyboard handle tilts the light with Left and Right and sends a sweep with Enter.",
+      "files": [
+        {
+          "path": "registry/ui/foil-sheen.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1366"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "weight-field",
+      "type": "registry:ui",
+      "title": "Weight Field",
+      "description": "Text pressure with a body: each letter's tension is drawn through the inherited variable font's weight and width axes, and the pointer is a field — letters near it swell along a smooth bell of the distance, tensing on the snap spring and relaxing on a spring between snap and drift, so a pass across the word leaves a wake of weight relaxing behind the pointer; a press leans harder, and a flex wave runs once across the line on arrival. On touch a press-and-drag leans the same way, and a keyboard handle leans on one letter at a time with Left and Right.",
+      "files": [
+        {
+          "path": "registry/ui/weight-field.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1367"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "contour-marquee",
+      "type": "registry:ui",
+      "title": "Contour Marquee",
+      "description": "A marquee whose rail is a curve: the sentence repeats seamlessly along a wave, an arch, a loop that passes behind itself, or any path you give it, every glyph turned to the curve's tangent. One phase is integrated from a velocity that only ever eases — to cruise, to a crawl under the pointer or focus, to rest when paused — on a critically damped spring that is springs.drift at the default coast; grabbing the line scrubs it 1:1 along the curve by projecting the pointer onto the path, and a flick hands its speed back to that spring. The rail is a button: Space or Enter pauses, Left and Right glide a word on springs.glide (Shift a whole sentence), Home re-centres it.",
+      "files": [
+        {
+          "path": "registry/ui/contour-marquee.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1368"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "static-fuzz",
+      "type": "registry:ui",
+      "title": "Static Fuzz",
+      "description": "Type received over a weak analog signal: the real words stay in the DOM while a WebGL2 canvas draws them frayed, every pixel row pushed sideways by a slow hum that bends whole bands of type, a per-row jitter that changes thirty times a second, the odd torn row and rolling bands that pass down through the words. Hovering opens a calm disc around the pointer on springs.snap, so the rows lock into register outward from it, while the whole line settles on springs.drift; leaving closes the disc on an exit tween and sends a band through as the signal frays again. Keyboard focus on, inside or around the element steadies it completely, and the arrival comes in from full static on springs.drift.",
+      "files": [
+        {
+          "path": "registry/ui/static-fuzz.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1369"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "pigment-flow",
+      "type": "registry:ui",
+      "title": "Pigment Flow",
+      "description": "Gradient text that behaves like pigment let into water: soft clouds of each colour wander seeded paths through the letters over a thinner wash of them all, every gradient mixed in oklab, all of it pure CSS on clipped text with motion values driving the stops. On arrival a drop blooms from the middle of the plain ink on a critically damped spring sized by duration (springs.drift at the default), and the pointer stirs a swirl of the pigments around a centre that trails it on springs.glide — circling winds it up, and it unwinds and fades as the water stills while the clouds it pushed drift home. Keyboard focus on, inside or around the element stirs the middle once, and with focusable the Left and Right keys stir the ink round either way.",
+      "files": [
+        {
+          "path": "registry/ui/pigment-flow.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1370"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "letter-rain",
+      "type": "registry:ui",
+      "title": "Letter Rain",
+      "description": "A headline whose letters fall off the line: on its trigger each letter lets go — nearest the press first, cascade-staggered inside 600ms — and drops as a rigid box the size of its own ink, landing on corners, toppling, bouncing and piling at the foot of the box under a small real engine (separating-axis contacts, sequential impulses with friction, restitution and warm starting, sleep). Any letter can be picked up and follows the pointer 1:1, shoving the pile, then leaves with the release velocity and spin; Reassemble flies every letter home in reading order, x on springs.glide and y and rotation on springs.snap, each starting from its own velocity. The stage is a button: Enter drops the line or knocks the pile, Left and Right shove it, Up tosses it, and the Reassemble button brings it home.",
+      "files": [
+        {
+          "path": "registry/ui/letter-rain.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1371"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "type-trail",
+      "type": "registry:ui",
+      "title": "Type Trail",
+      "description": "A container whose pointer writes a phrase: the letters are laid along the pointer's recent path, spaced by arc length and turned to its tangent, leaving their resting line one by one on springs.glide as the pen reaches them, wet in the accent colour at the nib and fading and shrinking down the tail. When the pointer rests the phrase gathers into a neat line under it on springs.snap — one crisp overshoot as each letter rights itself, staggered from the nib back — and moving again releases it onto the path on springs.glide; leaving sends it home. The container takes focus: the arrow keys walk a visible pen that writes the same trail, Enter gathers under it and Escape sends the phrase back.",
+      "files": [
+        {
+          "path": "registry/ui/type-trail.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1372"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
