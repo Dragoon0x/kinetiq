@@ -1464,6 +1464,17 @@ import { MurmurationDemo } from "@/registry/demos/murmuration.demo";
 import { HalftoneWakeDemo } from "@/registry/demos/halftone-wake.demo";
 import { MosaicFlipDemo } from "@/registry/demos/mosaic-flip.demo";
 import { DotLensDemo } from "@/registry/demos/dot-lens.demo";
+import { EnterStageDemo } from "@/registry/demos/enter-stage.demo";
+import { HazeFadeDemo } from "@/registry/demos/haze-fade.demo";
+import { ArcBorderDemo } from "@/registry/demos/arc-border.demo";
+import { MoonRingDemo } from "@/registry/demos/moon-ring.demo";
+import { BlockDissolveDemo } from "@/registry/demos/block-dissolve.demo";
+import { SheenGlassDemo } from "@/registry/demos/sheen-glass.demo";
+import { FloatFieldDemo } from "@/registry/demos/float-field.demo";
+import { LogoParadeDemo } from "@/registry/demos/logo-parade.demo";
+import { LockOnDemo } from "@/registry/demos/lock-on.demo";
+import { HaloRingsDemo } from "@/registry/demos/halo-rings.demo";
+import { LaserSheetDemo } from "@/registry/demos/laser-sheet.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2942,4 +2953,15 @@ export const demos: Record<string, ComponentType> = {
   "halftone-wake": HalftoneWakeDemo,
   "mosaic-flip": MosaicFlipDemo,
   "dot-lens": DotLensDemo,
+  "enter-stage": EnterStageDemo,
+  "haze-fade": HazeFadeDemo,
+  "arc-border": ArcBorderDemo,
+  "moon-ring": MoonRingDemo,
+  "block-dissolve": BlockDissolveDemo,
+  "sheen-glass": SheenGlassDemo,
+  "float-field": FloatFieldDemo,
+  "logo-parade": LogoParadeDemo,
+  "lock-on": LockOnDemo,
+  "halo-rings": HaloRingsDemo,
+  "laser-sheet": LaserSheetDemo,
 };

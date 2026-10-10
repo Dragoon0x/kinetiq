@@ -13,7 +13,7 @@
     "indexUrl": "https://www.kinetiqui.com/r/registry.json",
     "docsUrl": "https://www.kinetiqui.com",
     "counts": {
-      "components": 1273,
+      "components": 1284,
       "blocks": 152,
       "pages": 28,
       "templates": 10,
@@ -113679,6 +113679,1621 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/dot-lens",
         "bun": "bunx --bun shadcn@latest add @kinetiq/dot-lens",
         "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/dot-lens.json"
+      }
+    },
+    {
+      "slug": "enter-stage",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Enter Stage",
+      "serial": "KQ-1395",
+      "tagline": "Content that takes its place with poise.",
+      "description": "A wrapper that brings its direct children on stage in a cascade ranked by where they actually sit, so a grid arrives as one diagonal wave whose gaps open as it lands, all inside the 600 ms budget. Each preset carries its own spring: rise glides up, settle is set down on springs.snap with one overshoot, unfold swings down on a top hinge on springs.glide, and iris opens a clip while the piece drifts up to size; exits run in reverse on the exit ease and never spring. It adds no wrappers and no tab stops of its own — the children stay interactive in their own tab order, and tabbing into waiting content brings it on at once.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "entrance animation",
+        "stagger",
+        "reveal on scroll",
+        "list animation",
+        "grid cascade",
+        "exit animation"
+      ],
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "What comes on stage. With scope \"children\" each direct child moves on its own."
+        },
+        {
+          "name": "as",
+          "type": "\"div\" | \"section\" | \"article\" | \"ul\" | \"ol\" | \"header\" | \"footer\" | \"main\" | \"aside\" | \"nav\"",
+          "defaultValue": "\"div\"",
+          "description": "The element the stage renders — the only node it adds, so a list stays a list."
+        },
+        {
+          "name": "preset",
+          "type": "\"rise\" | \"settle\" | \"unfold\" | \"iris\"",
+          "defaultValue": "\"rise\"",
+          "description": "How each piece arrives: rises, is set down, swings down on a top hinge, or opens through an iris."
+        },
+        {
+          "name": "stagger",
+          "type": "number",
+          "defaultValue": "60",
+          "description": "Gap between neighbouring pieces, ms; the whole cascade is held to the 600 ms budget."
+        },
+        {
+          "name": "distance",
+          "type": "number",
+          "defaultValue": "16",
+          "description": "How far the pieces travel, px — also the hinge angle of unfold and the zoom of iris."
+        },
+        {
+          "name": "scope",
+          "type": "\"children\" | \"self\"",
+          "defaultValue": "\"children\"",
+          "description": "Move each direct child, or the stage as one piece."
+        },
+        {
+          "name": "curve",
+          "type": "\"decelerate\" | \"accelerate\" | \"linear\"",
+          "defaultValue": "\"decelerate\"",
+          "description": "How the delays are spaced through the order: gaps that open as it lands, close up, or stay even."
+        },
+        {
+          "name": "origin",
+          "type": "\"start\" | \"center\" | \"end\"",
+          "defaultValue": "\"start\"",
+          "description": "Where the wave starts; pieces are ranked by where they actually sit, so a grid enters as a diagonal."
+        },
+        {
+          "name": "trigger",
+          "type": "\"inView\" | \"mount\" | \"manual\"",
+          "defaultValue": "\"inView\"",
+          "description": "What starts the entrance."
+        },
+        {
+          "name": "show",
+          "type": "boolean",
+          "description": "False sends the pieces off with the exit choreography; with trigger \"manual\", true brings them on."
+        },
+        {
+          "name": "once",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "True: the entrance plays once. False: leaving view plays the exit and coming back plays it again."
+        },
+        {
+          "name": "amount",
+          "type": "number",
+          "defaultValue": "0.2",
+          "description": "Share of the stage that must be visible before an inView entrance starts, 0 to 1."
+        },
+        {
+          "name": "delay",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Wait before the first piece moves, ms."
+        },
+        {
+          "name": "spring",
+          "type": "\"flick\" | \"snap\" | \"glide\" | \"drift\" | \"recoil\"",
+          "description": "Override the preset's spring from the calibration set (rise and unfold glide, settle snaps, iris drifts)."
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "defaultValue": "400",
+          "description": "Length of the tweened parts (opacity, the iris clip), ms."
+        },
+        {
+          "name": "exitOrder",
+          "type": "\"reverse\" | \"same\"",
+          "defaultValue": "\"reverse\"",
+          "description": "Order of the exit: last in leaves first, or the entrance order again."
+        },
+        {
+          "name": "replayKey",
+          "type": "string | number",
+          "description": "Change it to play the entrance again from the start."
+        },
+        {
+          "name": "onComplete",
+          "type": "(state: \"entered\" | \"exited\") => void",
+          "description": "The entrance has landed, or the exit has finished."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the stage element; lay out the grid or list here. Other HTML attributes (aria-label, id, style) pass through."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard and assistive tech: the stage adds no role and no tab stop, so the children keep theirs. Waiting content stays in the accessibility tree, and focus moving into it brings it on stage at once; an exited stage is inert.",
+        "Reduced motion: no travel, scale, hinge or clip — each piece fades in on a cascade compressed to a quarter, and exits fade out on the exit ease. The content still arrives.",
+        "Motion is written onto the direct children with inline styles and cleared when the entrance lands; a child that sets its own inline transform will have it replaced while it moves.",
+        "Children added after the entrance (a list that grows) come on by themselves; keyed reorders are left alone.",
+        "No loops: one IntersectionObserver until the entrance has run (kept only with once off), one MutationObserver for late arrivals, every animation stopped on unmount."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/enter-stage",
+      "registryItemUrl": "https://www.kinetiqui.com/r/enter-stage.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/enter-stage",
+        "npm": "npx shadcn@latest add @kinetiq/enter-stage",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/enter-stage",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/enter-stage",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/enter-stage.json"
+      }
+    },
+    {
+      "slug": "haze-fade",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Haze Fade",
+      "serial": "KQ-1396",
+      "tagline": "Content that clears like morning haze.",
+      "description": "A fade-in wrapper whose content clears like haze lifting: three stacked backdrop-blur sheets, each masked a little ahead of the last, make a soft blur ramp that travels across on the move ease, while the content's own mask carries the fade and a brightness lift with it, so a headline sharpens letter by letter from one side to the other. As the front sets off the content rises a few pixels into place on springs.drift, and once clear the sheets and the mask are gone. The content is rendered once and stays selectable and interactive throughout; keyboard focus moving into hazed content clears it at once.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "blur reveal",
+        "fade in",
+        "progressive blur",
+        "scroll reveal",
+        "text reveal",
+        "focus pull"
+      ],
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "The content that clears. Rendered once, live and interactive throughout."
+        },
+        {
+          "name": "as",
+          "type": "\"div\" | \"section\" | \"article\" | \"header\" | \"footer\" | \"aside\" | \"figure\" | \"blockquote\" | \"p\" | \"h1\" | \"h2\" | \"h3\"",
+          "defaultValue": "\"div\"",
+          "description": "The element that wraps the content."
+        },
+        {
+          "name": "direction",
+          "type": "\"right\" | \"left\" | \"up\" | \"down\"",
+          "defaultValue": "\"right\"",
+          "description": "Which way the clearing front travels."
+        },
+        {
+          "name": "haze",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How thick the haze is, 0 to 1: blur, brightness lift and fade all scale with it."
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "defaultValue": "1400",
+          "description": "How long the front takes to cross, ms."
+        },
+        {
+          "name": "softness",
+          "type": "number",
+          "defaultValue": "0.4",
+          "description": "Width of the soft front as a share of the travel, 0 to 1."
+        },
+        {
+          "name": "blur",
+          "type": "number",
+          "defaultValue": "14",
+          "description": "Blur at full haze, px."
+        },
+        {
+          "name": "brightness",
+          "type": "number",
+          "defaultValue": "1.25",
+          "description": "Brightness at full haze: hazed ink glows a little, the way mist holds light."
+        },
+        {
+          "name": "fade",
+          "type": "number",
+          "defaultValue": "0.7",
+          "description": "How far the hazed content fades toward the page at full haze, 0 to 1."
+        },
+        {
+          "name": "drift",
+          "type": "number",
+          "defaultValue": "4",
+          "description": "How far the content rises into place as it clears, px; 0 keeps it still."
+        },
+        {
+          "name": "trigger",
+          "type": "\"inView\" | \"mount\" | \"manual\"",
+          "defaultValue": "\"inView\"",
+          "description": "What starts the clearing."
+        },
+        {
+          "name": "play",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "With trigger \"manual\": true clears, false lets the haze roll back in."
+        },
+        {
+          "name": "once",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "True: clears once. False: leaving view brings the haze back for the next visit."
+        },
+        {
+          "name": "amount",
+          "type": "number",
+          "defaultValue": "0.3",
+          "description": "Share of the content visible before an inView clearing starts, 0 to 1."
+        },
+        {
+          "name": "delay",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Wait before the front sets off, ms."
+        },
+        {
+          "name": "replayKey",
+          "type": "string | number",
+          "description": "Change it to haze the content and clear it again."
+        },
+        {
+          "name": "onComplete",
+          "type": "() => void",
+          "description": "The content is clear."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the wrapper; lay out the content here. Other HTML attributes (aria-*, id, handlers) pass through."
+        }
+      ],
+      "usageNotes": [
+        "Accessibility: the content is never duplicated or hidden from assistive tech, the haze sheets are aria-hidden and pointer-events none, and keyboard focus moving into hazed content clears it immediately.",
+        "Reduced motion: no travelling front and no lift — the whole haze cross-fades away over 0.7 s, and the content still arrives.",
+        "Theming: the fade is a mask on the content, not a tint, so hazed content fades toward whatever surface is really behind it, in either theme; the brightness lift is what makes it read as luminous mist.",
+        "Performance: the backdrop filters exist only while hazed or clearing (about duration ms); once clear they are switched off and the mask removed. One IntersectionObserver until the trigger (kept only with once off).",
+        "The heavier sheets thin out within their blur radius of the wrapper's edges so halos are never sliced off; content flush against an edge clears from a lighter blur."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/haze-fade",
+      "registryItemUrl": "https://www.kinetiqui.com/r/haze-fade.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/haze-fade",
+        "npm": "npx shadcn@latest add @kinetiq/haze-fade",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/haze-fade",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/haze-fade",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/haze-fade.json"
+      }
+    },
+    {
+      "slug": "arc-border",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Arc Border",
+      "serial": "KQ-1397",
+      "tagline": "A frame with lightning in its edge.",
+      "description": "An electric frame around any children: a canvas draws a jagged current that hugs the content's rounded rectangle and re-strikes into a new shape several times a second, each strike a faint ghost strand, a glow pass, the coloured arc with a shadow halo and a hot core, while on a seeded schedule a bright bolt jumps across a corner and dies in 180 ms. Hover or focus inside charges it on springs.snap — the jag deepens, the glow swells, it strikes faster and jumps more — and the charge lets go on springs.drift so the hum lingers. The children stay fully interactive in their own tab order; the canvas never takes a pointer.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "electric border",
+        "lightning",
+        "glow border",
+        "animated border",
+        "hover effect",
+        "card frame"
+      ],
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "What the frame goes around. Fully interactive; the current never takes a click."
+        },
+        {
+          "name": "color",
+          "type": "\"cobalt\" | \"signal\" | \"ember\" | \"rose\" | string",
+          "defaultValue": "\"cobalt\"",
+          "description": "The current's colour: a preset, or any CSS colour (tokens resolve on the element, so they follow the theme)."
+        },
+        {
+          "name": "coreColor",
+          "type": "string",
+          "description": "The hot core down the middle of the arc. Defaults to the colour mixed toward white."
+        },
+        {
+          "name": "jitter",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How far the edge jags, 0 (a nearly smooth live wire) to 1 (a ragged storm)."
+        },
+        {
+          "name": "thickness",
+          "type": "number",
+          "defaultValue": "1.5",
+          "description": "Width of the arc, px; the core is 40% of it."
+        },
+        {
+          "name": "glow",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How far the soft glow spreads, 0 to 1."
+        },
+        {
+          "name": "radius",
+          "type": "number",
+          "defaultValue": "16",
+          "description": "Corner radius of the frame and the content box, px."
+        },
+        {
+          "name": "rate",
+          "type": "number",
+          "defaultValue": "10",
+          "description": "How many times a second the arc re-strikes into a new shape at rest."
+        },
+        {
+          "name": "jumps",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How often a bright jump leaps across a corner, 0 (never) to 1 (often)."
+        },
+        {
+          "name": "surge",
+          "type": "number",
+          "defaultValue": "0.7",
+          "description": "How far hover and focus inside lift the current, 0 to 1."
+        },
+        {
+          "name": "charged",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Hold the frame charged, as if hovered."
+        },
+        {
+          "name": "live",
+          "type": "\"always\" | \"hover\"",
+          "defaultValue": "\"always\"",
+          "description": "\"always\" crackles whenever it is on screen; \"hover\" rests as one still strike until a visitor arrives."
+        },
+        {
+          "name": "paused",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Hold the current still."
+        },
+        {
+          "name": "seed",
+          "type": "number",
+          "defaultValue": "3",
+          "description": "Seed for the arc's shapes, so two frames on a page differ."
+        },
+        {
+          "name": "dpr",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "Highest device pixel ratio the canvas renders at (capped at 2)."
+        },
+        {
+          "name": "onChargeChange",
+          "type": "(charged: boolean) => void",
+          "description": "The frame charged or settled, from the hover or focus that caused it."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the outer box (the frame's gutter is its padding)."
+        },
+        {
+          "name": "contentClassName",
+          "type": "string",
+          "description": "Classes for the content box inside the frame — its surface and padding."
+        }
+      ],
+      "usageNotes": [
+        "Accessibility: the canvas, rail and probes are aria-hidden and pointer-events none; the children keep their own roles and tab order, and keyboard focus inside charges the frame exactly as hover does.",
+        "Reduced motion: one still strike that never re-forms and no corner jumps; hover and focus still brighten it, because charge is state.",
+        "Performance: the loop runs only on screen, in a visible tab, unpaused and (with live=\"hover\") while charged; between strikes a frame draws nothing. Buffers are typed arrays sized on resize, the backing store is capped at dpr (max 2), and everything is disposed on unmount.",
+        "Fit: the gutter that holds the jag and its glow is the outer box's padding, computed from jitter, thickness, glow and surge, so the current never draws outside the component.",
+        "Theming: the colour resolves on the component's own element and re-resolves when the theme changes; presets map to the accent, signal, warn and danger tokens."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/arc-border",
+      "registryItemUrl": "https://www.kinetiqui.com/r/arc-border.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/arc-border",
+        "npm": "npx shadcn@latest add @kinetiq/arc-border",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/arc-border",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/arc-border",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/arc-border.json"
+      }
+    },
+    {
+      "slug": "moon-ring",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Moon Ring",
+      "serial": "KQ-1398",
+      "tagline": "Images circling like moons in orbit.",
+      "description": "Images or generated tiles on a tipped elliptical orbit around a centre object: one phase value drives every moon's position, depth scale, far-side softening and z-order, so moons pass behind the planet and back in front of it, while the ring revolves on its own until a visitor touches it. A drag spins it 1:1 and a release projects the throw, snaps to the nearest moon and lands on springs.drift with the release velocity, so a flick coasts several moons round; a click brings a moon round the shortest way on springs.glide, with an optional whoosh. It is a radio group: the front moon is checked and holds the tab stop, arrow keys bring the neighbours round, and Home and End the first and last.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "orbit carousel",
+        "3d carousel",
+        "image ring",
+        "rotating gallery",
+        "drag to spin",
+        "planet"
+      ],
+      "props": [
+        {
+          "name": "items",
+          "type": "{ id: string; label: string; src?: string; alt?: string }[]",
+          "description": "The moons. Short of count, generated tiles fill the ring."
+        },
+        {
+          "name": "count",
+          "type": "number",
+          "defaultValue": "6",
+          "description": "How many moons circle, 3 to 12."
+        },
+        {
+          "name": "tilt",
+          "type": "number",
+          "defaultValue": "20",
+          "description": "How far the orbit tips toward you, degrees: 0 is edge-on, 70 nearly overhead."
+        },
+        {
+          "name": "speed",
+          "type": "number",
+          "defaultValue": "8",
+          "description": "Idle revolution, degrees per second; negative turns the other way, 0 holds still."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "The moon at the front. Controlled rings do not drift."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(index: number, reason: \"drift\" | \"drag\" | \"press\" | \"key\") => void",
+          "description": "A new moon reached the front, with what brought it there."
+        },
+        {
+          "name": "lean",
+          "type": "number",
+          "defaultValue": "-8",
+          "description": "The orbit's lean in the picture, degrees."
+        },
+        {
+          "name": "depth",
+          "type": "number",
+          "defaultValue": "0.45",
+          "description": "How much smaller the far side is, 0 to 0.8."
+        },
+        {
+          "name": "soften",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "Blur at the far side of the orbit, px."
+        },
+        {
+          "name": "shape",
+          "type": "\"circle\" | \"rounded\"",
+          "defaultValue": "\"circle\"",
+          "description": "Moon shape."
+        },
+        {
+          "name": "moonSize",
+          "type": "number",
+          "description": "Moon size, px. Fits the stage when left out."
+        },
+        {
+          "name": "height",
+          "type": "number | string",
+          "defaultValue": "\"clamp(9rem, 30cqw, 12.5rem)\"",
+          "description": "Height of the stage."
+        },
+        {
+          "name": "center",
+          "type": "ReactNode",
+          "description": "What the moons circle. A lit planet when left out."
+        },
+        {
+          "name": "caption",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Name the front moon under the ring."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Orbit\"",
+          "description": "Accessible name of the ring."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "A whoosh when a throw or a long trip brings a moon round."
+        },
+        {
+          "name": "paused",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Hold the idle revolution."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "No drag, no presses; the moons leave the tab order."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the root (a size container for the stage)."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: one tab stop on the front moon (a radio group); Left/Up and Right/Down bring the neighbouring moon round and move focus with it, Home and End jump to the first and last, Space and Enter bring a focused moon round. Keyboard focus inside holds the revolution still.",
+        "Reduced motion: no revolution and no travel — a press, key or release puts the chosen moon at the front at once; dragging still follows the finger, and depth, scale and softening stay as a still picture.",
+        "Touch: the stage uses touch-pan-y, so a horizontal drag spins the ring and a vertical one scrolls the page; a tap on a moon brings it round.",
+        "Performance: every pose is a useTransform of one phase value — no React state per frame. The revolution runs only uncontrolled, on screen, in a visible tab, unpaused and untouched, and eases back in a moment after the visitor leaves.",
+        "Sound is off unless sound is set, and only ever answers a drag, press or key — never the idle revolution."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/moon-ring",
+      "registryItemUrl": "https://www.kinetiqui.com/r/moon-ring.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/moon-ring",
+        "npm": "npx shadcn@latest add @kinetiq/moon-ring",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/moon-ring",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/moon-ring",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/moon-ring.json"
+      }
+    },
+    {
+      "slug": "block-dissolve",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Block Dissolve",
+      "serial": "KQ-1399",
+      "tagline": "Swap images through a cascade of pixels.",
+      "description": "A two-state transition for any two children: the first dissolves into the second block by block, each clipped by a path rebuilt every frame so even transparent content never shows through. The blocks come from a seeded quadtree and flip in a random, diagonal or pointer-led order with coarse blocks first and finer halves and quarters filling the holes, so the block size eases from coarse to fine as the dissolve finishes, and a faint glint rides the blocks that have just flipped; progress is one tween on the move ease and turns back over the same blocks if the pointer leaves early. With hover or press it is a single toggle button: Enter and Space swap it, touch taps swap it, and only the state on show is exposed to assistive technology.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "pixel transition",
+        "image swap",
+        "hover reveal",
+        "dissolve",
+        "before and after",
+        "mosaic"
+      ],
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "Exactly two children: the first state, then the second. Any content — images, cards, charts."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "\"first\" | \"second\"",
+          "defaultValue": "\"first\"",
+          "description": "Which state shows."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: \"first\" | \"second\") => void",
+          "description": "The state changed, from the hover, press or key that changed it."
+        },
+        {
+          "name": "trigger",
+          "type": "\"hover\" | \"press\" | \"manual\"",
+          "defaultValue": "\"hover\"",
+          "description": "What swaps the states: hovering (keys and taps toggle), pressing, or only value."
+        },
+        {
+          "name": "block",
+          "type": "number",
+          "defaultValue": "24",
+          "description": "Coarse block size, px; the run refines to halves and quarters of it."
+        },
+        {
+          "name": "order",
+          "type": "\"random\" | \"diagonal\" | \"pointer\"",
+          "defaultValue": "\"pointer\"",
+          "description": "The order the blocks flip in: seeded scatter, a diagonal sweep, or outward from the pointer."
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "defaultValue": "800",
+          "description": "How long the whole dissolve takes, ms."
+        },
+        {
+          "name": "levels",
+          "type": "1 | 2 | 3",
+          "defaultValue": "3",
+          "description": "How many sizes the blocks refine through."
+        },
+        {
+          "name": "glint",
+          "type": "number",
+          "defaultValue": "0.3",
+          "description": "Brightness of the glint on freshly flipped blocks, 0 to 1."
+        },
+        {
+          "name": "glintColor",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "Colour of the glint."
+        },
+        {
+          "name": "seed",
+          "type": "number",
+          "defaultValue": "7",
+          "description": "Seed for the block order and the coarse-to-fine split."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Swap view\"",
+          "description": "Accessible name of the toggle, e.g. \"Show the night view\"."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "No swapping; the toggle says it is unavailable."
+        },
+        {
+          "name": "onComplete",
+          "type": "(value: \"first\" | \"second\") => void",
+          "description": "A dissolve finished on this state."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the box — give it a size or an aspect ratio and a radius."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: with hover or press the box is one tab stop, a toggle button with aria-pressed; Enter and Space swap the states (from the centre). Touch has no hover, so a tap swaps a hover dissolve.",
+        "Reduced motion: no blocks — the two states cross-fade over 0.4 s, and the swap still happens.",
+        "Accessibility: the state not on show is aria-hidden and inert, so screen readers and Tab only meet what is visible. Keep interactive controls out of the children when the box itself is the toggle.",
+        "Performance: nothing runs at rest and neither child is clipped. During a dissolve one tween drives the clip paths; the blocks are built once per run into typed arrays.",
+        "Fit: the box sizes to the larger child (both share one grid cell); give it an aspect ratio so the two states line up."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/block-dissolve",
+      "registryItemUrl": "https://www.kinetiqui.com/r/block-dissolve.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/block-dissolve",
+        "npm": "npx shadcn@latest add @kinetiq/block-dissolve",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/block-dissolve",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/block-dissolve",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/block-dissolve.json"
+      }
+    },
+    {
+      "slug": "sheen-glass",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Sheen Glass",
+      "serial": "KQ-1400",
+      "tagline": "A glint that follows your hand across glass.",
+      "description": "A glass glare over any card: a soft streak of light with a brighter core and a faint ghost reflection rides with the hand on a spring between flick and drift, turns toward perpendicular to the way the hand is travelling on springs.glide, and flares with pointer speed on springs.flick before sinking back on springs.drift. On leave it keeps going the way the hand went and slides off the edge while it fades on the exit ease, and a 1 px inner rim catches the light nearest the streak. Keyboard focus inside the card brings the light to the focused control; the card's children are untouched and fully interactive.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "glare",
+        "glass card",
+        "shine",
+        "hover effect",
+        "light streak",
+        "reflection"
+      ],
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "The card under the glass. Untouched and fully interactive."
+        },
+        {
+          "name": "angle",
+          "type": "number",
+          "defaultValue": "24",
+          "description": "The streak's resting lean off vertical, degrees."
+        },
+        {
+          "name": "width",
+          "type": "number",
+          "defaultValue": "80",
+          "description": "Width of the soft streak, px; the bright core is a fifth of it."
+        },
+        {
+          "name": "strength",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "Peak brightness of the glint, 0 to 1."
+        },
+        {
+          "name": "speedBoost",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How much a fast hand brightens it, 0 to 1."
+        },
+        {
+          "name": "steer",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How far the direction of travel turns the streak, 0 (never) to 1 (fully perpendicular)."
+        },
+        {
+          "name": "lag",
+          "type": "number",
+          "defaultValue": "0.35",
+          "description": "How loosely the glint trails the hand, 0 (tight) to 1 (lazy)."
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "defaultValue": "\"white\"",
+          "description": "The light's colour."
+        },
+        {
+          "name": "core",
+          "type": "number",
+          "defaultValue": "0.8",
+          "description": "Brightness of the core against the soft streak, 0 to 1."
+        },
+        {
+          "name": "ghost",
+          "type": "number",
+          "defaultValue": "0.3",
+          "description": "The faint second reflection beside the streak, 0 to 1."
+        },
+        {
+          "name": "edge",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How much the inner border catches the light, 0 to 1."
+        },
+        {
+          "name": "blend",
+          "type": "\"screen\" | \"overlay\" | \"soft-light\" | \"normal\"",
+          "defaultValue": "\"screen\"",
+          "description": "How the light mixes with the card."
+        },
+        {
+          "name": "intro",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "One sweep across the first time the card comes into view."
+        },
+        {
+          "name": "interval",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "A sweep every so many ms while on screen; 0 never."
+        },
+        {
+          "name": "sweepKey",
+          "type": "string | number",
+          "description": "Change it to send a sweep across now."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "No glint at all."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the card box; its radius is the glass's. Other HTML attributes and handlers pass through."
+        }
+      ],
+      "usageNotes": [
+        "Accessibility: the glare and rim are aria-hidden and pointer-events none; the children keep their roles and tab order, and keyboard focus inside the card brings the light to the focused control (the same end state the pointer reaches).",
+        "Reduced motion: no following, steering, sliding or sweeps — the light rests a third of the way across at the resting angle, and hover and focus brighten it in place with a cross-fade.",
+        "Theming: light only brightens, so the glint shows on mid and dark surfaces and fades into near-white ones; use blend=\"overlay\" for a glossier look on mid-tones.",
+        "Performance: no loop of its own — motion values and springs run only while settling. The intro observer disconnects after its sweep, and interval sweeps run only on screen in a visible tab.",
+        "Touch: the glint follows a finger until the page starts scrolling, then slides off."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/sheen-glass",
+      "registryItemUrl": "https://www.kinetiqui.com/r/sheen-glass.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/sheen-glass",
+        "npm": "npx shadcn@latest add @kinetiq/sheen-glass",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/sheen-glass",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/sheen-glass",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/sheen-glass.json"
+      }
+    },
+    {
+      "slug": "float-field",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Float Field",
+      "serial": "KQ-1401",
+      "tagline": "Particles that drift away from your touch.",
+      "description": "A few hundred soft motes rise through the box behind your content on a gentle seeded sway, in three depths from small far points to large out-of-focus discs. The pointer carries a bubble of clear air whose centre trails it on springs.glide's constants and whose radius opens on springs.glide and closes on springs.drift, so motes crowd along its rim and drift back in behind it; a press releases a burst that throws nearby motes upward and sends a fountain of sparks after them. Keyboard focus on a control inside opens the bubble around it, and Enter or Space on it bursts from its centre.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "particles",
+        "antigravity",
+        "bubbles",
+        "hero background",
+        "repel",
+        "canvas",
+        "cursor effect"
+      ],
+      "props": [
+        {
+          "name": "count",
+          "type": "number",
+          "defaultValue": "220",
+          "description": "How many motes fill a 760×232 box; a box of another size gets proportionally more or fewer."
+        },
+        {
+          "name": "rise",
+          "type": "number",
+          "defaultValue": "24",
+          "description": "How fast the motes rise, in px per second; near motes rise faster than far ones."
+        },
+        {
+          "name": "repel",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How hard the pointer's bubble pushes motes away, 0 to 1; 0 is no bubble."
+        },
+        {
+          "name": "radius",
+          "type": "number",
+          "defaultValue": "84",
+          "description": "The bubble's radius in px, never more than 40% of the box's shorter side."
+        },
+        {
+          "name": "turbulence",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How much the motes sway sideways as they rise, 0 to 1."
+        },
+        {
+          "name": "size",
+          "type": "number",
+          "defaultValue": "2.6",
+          "description": "The base radius of a mote in px; depth scales it from about half to twice that."
+        },
+        {
+          "name": "glow",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How soft a halo each mote carries, from a crisp dot at 0 to a wide glow at 1."
+        },
+        {
+          "name": "burst",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How strong a press's burst is, 0 to 1; 0 turns bursts off."
+        },
+        {
+          "name": "colors",
+          "type": "string[]",
+          "defaultValue": "[\"var(--accent-bright)\", \"var(--signal)\", \"var(--ink-3)\"]",
+          "description": "Mote colours, any CSS colours, resolved on the element so they follow the theme; the first is the most common."
+        },
+        {
+          "name": "interactive",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Respond to the pointer, presses and keyboard focus."
+        },
+        {
+          "name": "paused",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Freeze the field where it is."
+        },
+        {
+          "name": "seed",
+          "type": "number",
+          "defaultValue": "11",
+          "description": "Seed for the motes' arrangement and sway."
+        },
+        {
+          "name": "dpr",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "The highest device pixel ratio the canvas draws at (never above 2)."
+        },
+        {
+          "name": "onBurst",
+          "type": "(point: { x: number; y: number }) => void",
+          "description": "Fires when a press or a keyboard activation releases a burst, with its point in the box."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the box; size it here."
+        },
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "description": "Content laid over the field; it keeps every click, focus and key."
+        }
+      ],
+      "usageNotes": [
+        "The field is aria-hidden decoration under your content: the canvas never takes a click, and the wrapper only listens, so every button and link inside works as it would without it.",
+        "Keyboard visitors get the same bubble: focusing a control inside opens clear air around it, and Enter or Space on it releases the burst from its centre.",
+        "One 2D canvas with pre-drawn sprites and no allocation per frame. The loop runs only on screen with the tab visible and not paused, and rations itself to about 30 fps while nobody touches it; the backing store caps its device pixel ratio at 2.",
+        "Colours resolve from tokens on the component's own element and redraw when the theme changes, so the motes read on light and dark surfaces alike; give the box its background with className.",
+        "Under reduced motion the field is one still scatter, denser low than high, and the pointer and presses leave it alone."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/float-field",
+      "registryItemUrl": "https://www.kinetiqui.com/r/float-field.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/float-field",
+        "npm": "npx shadcn@latest add @kinetiq/float-field",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/float-field",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/float-field",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/float-field.json"
+      }
+    },
+    {
+      "slug": "logo-parade",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Logo Parade",
+      "serial": "KQ-1402",
+      "tagline": "A conveyor of marks that slows to look.",
+      "description": "An endless conveyor of marks with edge fades, built in the DOM so every mark stays crisp and real. A row's speed is a spring on springs.drift's constants, so under the pointer it brakes smoothly to a stop and picks back up when the pointer leaves, while the mark under the pointer lifts on springs.snap and takes its colour as the rest stay muted; rows drag 1:1 and a flick hands its velocity to the same spring, so the conveyor spins away, leans into the throw and glides back to cruising speed, with further rows running the other way. Linked or selectable marks sit on a roving tabindex where Left and Right move between them and the row glides on springs.glide to centre the focused one; plain marks make the row the focus stop and the arrows step it.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "marquee",
+        "logo wall",
+        "customer logos",
+        "ticker",
+        "infinite scroll",
+        "carousel",
+        "draggable"
+      ],
+      "props": [
+        {
+          "name": "items",
+          "type": "LogoParadeItem[]",
+          "description": "The marks, each `{ id, name, mark, color?, href? }`; the mark paints with currentColor and may use var(--mark-color) for an accent that turns to `color` when looked at."
+        },
+        {
+          "name": "speed",
+          "type": "number",
+          "defaultValue": "40",
+          "description": "Cruising speed in px per second."
+        },
+        {
+          "name": "gap",
+          "type": "number",
+          "defaultValue": "48",
+          "description": "Space between marks in px."
+        },
+        {
+          "name": "rows",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "How many rows, 1 to 3; each further row runs the other way, half a set along."
+        },
+        {
+          "name": "direction",
+          "type": "\"left\" | \"right\"",
+          "defaultValue": "\"left\"",
+          "description": "Which way the first row travels."
+        },
+        {
+          "name": "hoverSpeed",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "The share of the cruising speed a row keeps under the pointer, 0 to 1; 0 brakes it to a stop."
+        },
+        {
+          "name": "lift",
+          "type": "number",
+          "defaultValue": "4",
+          "description": "How far the looked-at mark lifts, in px."
+        },
+        {
+          "name": "muted",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How grey and faint the marks at rest are, 0 to 1."
+        },
+        {
+          "name": "fade",
+          "type": "number",
+          "defaultValue": "56",
+          "description": "Width of the edge fades in px, never more than a fifth of the row."
+        },
+        {
+          "name": "skew",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How far a fast row leans into its travel, 0 to 1."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "defaultValue": "\"md\"",
+          "description": "Row height and mark size."
+        },
+        {
+          "name": "draggable",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Let rows be dragged and flicked."
+        },
+        {
+          "name": "paused",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Stop the conveyor; marks still answer the pointer and keys."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Logos\"",
+          "description": "The accessible name of the list of marks."
+        },
+        {
+          "name": "onSelect",
+          "type": "(item: LogoParadeItem) => void",
+          "description": "Called when a mark without an href is pressed or activated with Enter."
+        },
+        {
+          "name": "onLook",
+          "type": "(item: LogoParadeItem | null) => void",
+          "description": "Called when the mark being looked at (hovered or focused) changes, with null when none is."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the wall."
+        }
+      ],
+      "usageNotes": [
+        "Moving content needs a way to stop it: pass `paused` from a Pause control of your own, as the demo does. Hovering or focusing a row also stops it, and reduced motion keeps every row still.",
+        "The first row is a real list that holds each mark once by its `name`; echo copies and further rows are hidden from assistive technology and out of the tab order, so a wall of six marks is six list items and one Tab stop.",
+        "Give marks an `href` or pass `onSelect` to make them links or buttons on a roving tabindex: Left and Right move between them, Home and End jump, Enter activates, and the row glides to centre the focused mark. A release at the end of a drag never activates the mark under it.",
+        "Marks inherit colour: draw them with currentColor for the wordmark and var(--mark-color) for an accent, and give each item a `color` (a token or any CSS colour) for the look it takes when hovered.",
+        "Each row runs its own animation frame only while it moves on screen; a row braked to a stop under the pointer costs nothing until the pointer leaves."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/logo-parade",
+      "registryItemUrl": "https://www.kinetiqui.com/r/logo-parade.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/logo-parade",
+        "npm": "npx shadcn@latest add @kinetiq/logo-parade",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/logo-parade",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/logo-parade",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/logo-parade.json"
+      }
+    },
+    {
+      "slug": "lock-on",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Lock On",
+      "serial": "KQ-1403",
+      "tagline": "A reticle that locks onto what you point at.",
+      "description": "A target cursor bounded to the container it wraps: a hotspot dot sits exactly under the pointer while a reticle of four corner brackets trails it on a house spring and turns slowly, a little faster as it travels. When the pointer reaches an interactive child the brackets snap outward to frame it on springs.snap while the rotation unwinds to square, with a lock flash and an optional tick, and leaving releases them back to the pointer on springs.glide. Keyboard focus locks onto the focused control the same way and gives the system cursor back.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "cursor",
+        "reticle",
+        "target",
+        "focus ring",
+        "hover effect",
+        "brackets",
+        "magnetic"
+      ],
+      "props": [
+        {
+          "name": "corner",
+          "type": "number",
+          "defaultValue": "10",
+          "description": "Length of each bracket's arms, in px."
+        },
+        {
+          "name": "spin",
+          "type": "number",
+          "defaultValue": "40",
+          "description": "How fast the idle reticle turns, in degrees per second; travel adds a little more."
+        },
+        {
+          "name": "color",
+          "type": "\"cobalt\" | \"signal\" | \"amber\" | \"ink\" | string",
+          "defaultValue": "\"cobalt\"",
+          "description": "The reticle's colour: a named tone or any CSS colour."
+        },
+        {
+          "name": "size",
+          "type": "number",
+          "defaultValue": "32",
+          "description": "The idle reticle's size, in px."
+        },
+        {
+          "name": "padding",
+          "type": "number",
+          "defaultValue": "6",
+          "description": "Space between a locked target and its frame, in px."
+        },
+        {
+          "name": "thickness",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "Bracket stroke width, in px."
+        },
+        {
+          "name": "follow",
+          "type": "\"flick\" | \"snap\" | \"glide\"",
+          "defaultValue": "\"snap\"",
+          "description": "The house spring the idle reticle trails the pointer on."
+        },
+        {
+          "name": "targets",
+          "type": "string",
+          "defaultValue": "interactive elements",
+          "description": "What the reticle locks onto, as a CSS selector; disabled controls never lock."
+        },
+        {
+          "name": "hideCursor",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Hide the system cursor inside the container while a mouse is there; text fields keep theirs."
+        },
+        {
+          "name": "flash",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Flash the frame when it locks."
+        },
+        {
+          "name": "dot",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Show a hotspot dot exactly under the pointer."
+        },
+        {
+          "name": "rest",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "With nobody pointing, rest the frame dimly on the first target, or on one marked data-lock-home."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play a tick when the reticle locks, pitched by the target's width; never before the page has had a click, tap or key."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Turn the reticle off and give the cursor back."
+        },
+        {
+          "name": "onLock",
+          "type": "(target: HTMLElement | null) => void",
+          "description": "Called with the element the reticle locks onto, and with null when it lets go."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the container."
+        },
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "description": "The content the reticle roams over; it keeps every click, focus and key."
+        }
+      ],
+      "usageNotes": [
+        "The reticle is an aria-hidden layer with pointer-events none: buttons, links and fields inside keep their own clicks, focus and keys. The system cursor is hidden only inside the container and only for a mouse, comes back on leave and as soon as a key is pressed, and text fields keep their I-beam.",
+        "Keyboard focus locks the frame onto the focused control (it pairs well with your own focus ring), so Tab walks the reticle through the content exactly as the pointer does.",
+        "Mark a control with data-lock-target to make anything lockable, data-lock-home to choose where the frame rests, or pass `targets` to narrow the selector.",
+        "Under reduced motion nothing spins or springs: the reticle follows the dot exactly and a lock jumps onto its target with a short fade.",
+        "DOM only: four brackets, a flash and a dot positioned from motion values. An animation frame runs only to turn the idle reticle while a mouse is inside and on screen; a locked or resting reticle costs nothing."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/lock-on",
+      "registryItemUrl": "https://www.kinetiqui.com/r/lock-on.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/lock-on",
+        "npm": "npx shadcn@latest add @kinetiq/lock-on",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/lock-on",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/lock-on",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/lock-on.json"
+      }
+    },
+    {
+      "slug": "halo-rings",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Halo Rings",
+      "serial": "KQ-1404",
+      "tagline": "Rings that ripple out from your cursor.",
+      "description": "Rings of light ripple out from a source that trails the pointer, drawn in one WebGL2 pass under your content: each ring spreads, thins and fades, and because every ring is a short wave packet summed as a wave, offset rings that cross add and cancel into a fine lattice. The source follows the pointer on a damped spring blended between springs.glide and springs.drift by `lag`, so a sweep leaves a wake of crossing rings, and a press sends a bright ring that cuts through the rest. Keyboard focus moves the source to the focused control and Enter or Space on it sends the bright ring.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "ripple",
+        "rings",
+        "pulse",
+        "interference",
+        "webgl",
+        "cursor effect",
+        "hero background"
+      ],
+      "props": [
+        {
+          "name": "pulse",
+          "type": "number",
+          "defaultValue": "1.2",
+          "description": "Rings sent per second while the pointer is in; three quarters of that at rest."
+        },
+        {
+          "name": "width",
+          "type": "number",
+          "defaultValue": "8",
+          "description": "A new ring's width in px; it thins as it spreads."
+        },
+        {
+          "name": "colors",
+          "type": "\"tide\" | \"dusk\" | \"ember\" | \"mono\" | string[]",
+          "defaultValue": "\"tide\"",
+          "description": "A named palette, or two CSS colours a ring travels between as it ages; resolved on the element so they follow the theme."
+        },
+        {
+          "name": "speed",
+          "type": "number",
+          "defaultValue": "120",
+          "description": "How fast a ring spreads, in px per second."
+        },
+        {
+          "name": "reach",
+          "type": "number",
+          "defaultValue": "300",
+          "description": "How far a ring travels before it has faded out, in px, never past the box's diagonal."
+        },
+        {
+          "name": "lag",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How far the source trails the pointer, from springs.glide at 0 to springs.drift at 1."
+        },
+        {
+          "name": "interference",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "From plain glowing rings at 0 to wave packets whose crests add and cancel where they cross at 1."
+        },
+        {
+          "name": "intensity",
+          "type": "number",
+          "defaultValue": "0.7",
+          "description": "How bright the rings are, 0 to 1."
+        },
+        {
+          "name": "origin",
+          "type": "[number, number]",
+          "defaultValue": "[0.5, 0.5]",
+          "description": "Where the source rests with nobody pointing, as x and y fractions of the box."
+        },
+        {
+          "name": "ambient",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Keep pulsing from origin while nobody points; off, the rings die away and the loop stops."
+        },
+        {
+          "name": "interactive",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Follow the pointer and keyboard focus; a press sends a bright ring."
+        },
+        {
+          "name": "layer",
+          "type": "\"under\" | \"over\"",
+          "defaultValue": "\"under\"",
+          "description": "Draw the rings under the content or over it."
+        },
+        {
+          "name": "paused",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Freeze the rings where they are."
+        },
+        {
+          "name": "dpr",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "The highest device pixel ratio the canvas draws at (never above 2)."
+        },
+        {
+          "name": "onRing",
+          "type": "(point: { x: number; y: number }) => void",
+          "description": "Fires when a press or a keyboard activation sends a bright ring, with its point in the box."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the box; size it here."
+        },
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "description": "Content over (or under) the rings; it keeps every click, focus and key."
+        }
+      ],
+      "usageNotes": [
+        "The rings are an aria-hidden canvas with pointer-events none; the wrapper only listens, so every control inside keeps its clicks, focus and keys. Keyboard visitors move the source by focusing a control and send the bright ring with Enter or Space.",
+        "One WebGL2 context and one draw per frame, with up to 24 rings in a uniform array. The loop runs only while a ring is alive or the source is pulsing, on screen with the tab visible; resting, it draws every other frame, and with ambient off it stops once the last ring fades. The backing store caps its device pixel ratio at 2.",
+        "Without WebGL2, or after a lost context, the same rings are stroked on a 2D canvas (without the interference); before the first frame a CSS still of soft rings stands in.",
+        "Palettes resolve from tokens on the component's own element and re-resolve on a theme change; on a dark page the brightest crossings burn toward white, on a light one they stay pigment.",
+        "Under reduced motion the rings are one still ripple around origin, and a press re-centres it instantly."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/halo-rings",
+      "registryItemUrl": "https://www.kinetiqui.com/r/halo-rings.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/halo-rings",
+        "npm": "npx shadcn@latest add @kinetiq/halo-rings",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/halo-rings",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/halo-rings",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/halo-rings.json"
+      }
+    },
+    {
+      "slug": "laser-sheet",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Laser Sheet",
+      "serial": "KQ-1405",
+      "tagline": "A beam that sweeps and scatters off the page.",
+      "description": "A volumetric laser sheet in a hazy room, drawn per pixel in one WebGL2 pass behind your content: an emitter near the top fans a thin sheet of light down through drifting haze, the haze glows in proportion to the path each view ray travels inside the sheet (faint and textured while it faces you, a bright blade as it turns edge-on), dust glints only as it crosses the plane, and the sheet meets the floor in a crisp bright line with a spill of light around it. It sweeps back and forth on its own; the pointer steers it instead, the angle trailing on a damped spring blended between springs.glide and springs.drift by `lag`, and a press fires a pulse down the sheet that flares the line where it lands. Keyboard focus aims the sheet at the focused control and Enter or Space on it fires.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "laser",
+        "volumetric light",
+        "beam",
+        "haze",
+        "webgl",
+        "hero background",
+        "spotlight"
+      ],
+      "props": [
+        {
+          "name": "haze",
+          "type": "number",
+          "defaultValue": "0.55",
+          "description": "How thick the air is, 0 to 1: from clear air where only the floor line shows to a dense, glowing fan."
+        },
+        {
+          "name": "sweep",
+          "type": "number",
+          "defaultValue": "0.35",
+          "description": "How fast the sheet sweeps on its own, from holding still at 0 to a pass every couple of seconds at 1."
+        },
+        {
+          "name": "color",
+          "type": "\"cobalt\" | \"signal\" | \"ember\" | \"rose\" | string",
+          "defaultValue": "\"cobalt\"",
+          "description": "The beam's colour: a named tone or any CSS colour, resolved on the element so it follows the theme."
+        },
+        {
+          "name": "spread",
+          "type": "number",
+          "defaultValue": "32",
+          "description": "Half the fan's opening, in degrees."
+        },
+        {
+          "name": "range",
+          "type": "number",
+          "defaultValue": "50",
+          "description": "How far the sheet swings either way, in degrees."
+        },
+        {
+          "name": "lag",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How far the beam trails the pointer, from springs.glide at 0 to springs.drift at 1."
+        },
+        {
+          "name": "dust",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How much dust glints in the sheet, 0 to 1."
+        },
+        {
+          "name": "glow",
+          "type": "number",
+          "defaultValue": "0.7",
+          "description": "How bright the floor line and its spill are, 0 to 1."
+        },
+        {
+          "name": "grid",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Draw a faint perspective grid on the floor."
+        },
+        {
+          "name": "source",
+          "type": "[number, number]",
+          "defaultValue": "[0.5, 0.08]",
+          "description": "Where the emitter hangs, as x and y fractions of the box (y up to 0.5)."
+        },
+        {
+          "name": "interactive",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Steer with the pointer and keyboard focus; a press fires a pulse down the sheet."
+        },
+        {
+          "name": "paused",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Freeze the beam where it is."
+        },
+        {
+          "name": "seed",
+          "type": "number",
+          "defaultValue": "3",
+          "description": "Seed for the haze and the dust."
+        },
+        {
+          "name": "dpr",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "The highest device pixel ratio the canvas draws at (never above 2)."
+        },
+        {
+          "name": "onFire",
+          "type": "() => void",
+          "description": "Fires when a press or a keyboard activation fires a pulse."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the box; size it and give it its background here."
+        },
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "description": "Content laid over the scene; it keeps every click, focus and key."
+        }
+      ],
+      "usageNotes": [
+        "The scene is an aria-hidden canvas with pointer-events none behind your content; the wrapper only listens, so every control inside keeps its clicks, focus and keys. Keyboard visitors aim the sheet by focusing a control and fire it with Enter or Space.",
+        "The room is the box's own background: give it one with className (a surface token) and the floor, grid and beam are worked out from it. On a dark room the light adds and burns toward white; on a pale one the beam is laid down as pigment, so both themes read.",
+        "One WebGL2 context and one draw per frame. The loop runs only on screen with the tab visible and not paused; sweeping on its own it draws about 30 frames a second, every frame while steered or firing. The backing store caps its device pixel ratio at 2.",
+        "Without WebGL2, or after a lost context, a CSS still of the fan, its floor line and the emitter stands in; the same still shows before the first frame.",
+        "Under reduced motion the scene is one still frame with the sheet at a fixed angle; presses and focus re-aim it instantly and never fire."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/laser-sheet",
+      "registryItemUrl": "https://www.kinetiqui.com/r/laser-sheet.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/laser-sheet",
+        "npm": "npx shadcn@latest add @kinetiq/laser-sheet",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/laser-sheet",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/laser-sheet",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/laser-sheet.json"
       }
     },
     {

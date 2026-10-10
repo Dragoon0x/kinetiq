@@ -183,4 +183,48 @@ export const CANVAS_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/dot-lens.demo").then((m) =>
       mod(m.DotLensDemo, m.tweaks),
     ),
+  "enter-stage": () =>
+    import("@/registry/demos/enter-stage.demo").then((m) =>
+      mod(m.EnterStageDemo, m.tweaks),
+    ),
+  "haze-fade": () =>
+    import("@/registry/demos/haze-fade.demo").then((m) =>
+      mod(m.HazeFadeDemo, m.tweaks),
+    ),
+  "arc-border": () =>
+    import("@/registry/demos/arc-border.demo").then((m) =>
+      mod(m.ArcBorderDemo, m.tweaks),
+    ),
+  "moon-ring": () =>
+    import("@/registry/demos/moon-ring.demo").then((m) =>
+      mod(m.MoonRingDemo, m.tweaks),
+    ),
+  "block-dissolve": () =>
+    import("@/registry/demos/block-dissolve.demo").then((m) =>
+      mod(m.BlockDissolveDemo, m.tweaks),
+    ),
+  "sheen-glass": () =>
+    import("@/registry/demos/sheen-glass.demo").then((m) =>
+      mod(m.SheenGlassDemo, m.tweaks),
+    ),
+  "float-field": () =>
+    import("@/registry/demos/float-field.demo").then((m) =>
+      mod(m.FloatFieldDemo, m.tweaks),
+    ),
+  "logo-parade": () =>
+    import("@/registry/demos/logo-parade.demo").then((m) =>
+      mod(m.LogoParadeDemo, m.tweaks),
+    ),
+  "lock-on": () =>
+    import("@/registry/demos/lock-on.demo").then((m) =>
+      mod(m.LockOnDemo, m.tweaks),
+    ),
+  "halo-rings": () =>
+    import("@/registry/demos/halo-rings.demo").then((m) =>
+      mod(m.HaloRingsDemo, m.tweaks),
+    ),
+  "laser-sheet": () =>
+    import("@/registry/demos/laser-sheet.demo").then((m) =>
+      mod(m.LaserSheetDemo, m.tweaks),
+    ),
 };

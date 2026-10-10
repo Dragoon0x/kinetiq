@@ -28246,6 +28246,372 @@ Notes:
 - Under reduced motion the lens is wherever the pointer or keys put it, at once — no trailing, swell or throb — and a pulse tints a ring of dots for a moment instead of moving them.
 - Touch: a touch places the lens, a sideways drag leads it and a tap sends a ring (touch-action: pan-y).
 
+### Enter Stage (KQ-1395) — `enter-stage`
+Content that takes its place with poise.
+
+A wrapper that brings its direct children on stage in a cascade ranked by where they actually sit, so a grid arrives as one diagonal wave whose gaps open as it lands, all inside the 600 ms budget. Each preset carries its own spring: rise glides up, settle is set down on springs.snap with one overshoot, unfold swings down on a top hinge on springs.glide, and iris opens a clip while the piece drifts up to size; exits run in reverse on the exit ease and never spring. It adds no wrappers and no tab stops of its own — the children stay interactive in their own tab order, and tabbing into waiting content brings it on at once.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/enter-stage`
+
+Props:
+- `children`: ReactNode — What comes on stage. With scope "children" each direct child moves on its own.
+- `as`: "div" | "section" | "article" | "ul" | "ol" | "header" | "footer" | "main" | "aside" | "nav" (default "div") — The element the stage renders — the only node it adds, so a list stays a list.
+- `preset`: "rise" | "settle" | "unfold" | "iris" (default "rise") — How each piece arrives: rises, is set down, swings down on a top hinge, or opens through an iris.
+- `stagger`: number (default 60) — Gap between neighbouring pieces, ms; the whole cascade is held to the 600 ms budget.
+- `distance`: number (default 16) — How far the pieces travel, px — also the hinge angle of unfold and the zoom of iris.
+- `scope`: "children" | "self" (default "children") — Move each direct child, or the stage as one piece.
+- `curve`: "decelerate" | "accelerate" | "linear" (default "decelerate") — How the delays are spaced through the order: gaps that open as it lands, close up, or stay even.
+- `origin`: "start" | "center" | "end" (default "start") — Where the wave starts; pieces are ranked by where they actually sit, so a grid enters as a diagonal.
+- `trigger`: "inView" | "mount" | "manual" (default "inView") — What starts the entrance.
+- `show`: boolean — False sends the pieces off with the exit choreography; with trigger "manual", true brings them on.
+- `once`: boolean (default true) — True: the entrance plays once. False: leaving view plays the exit and coming back plays it again.
+- `amount`: number (default 0.2) — Share of the stage that must be visible before an inView entrance starts, 0 to 1.
+- `delay`: number (default 0) — Wait before the first piece moves, ms.
+- `spring`: "flick" | "snap" | "glide" | "drift" | "recoil" — Override the preset's spring from the calibration set (rise and unfold glide, settle snaps, iris drifts).
+- `duration`: number (default 400) — Length of the tweened parts (opacity, the iris clip), ms.
+- `exitOrder`: "reverse" | "same" (default "reverse") — Order of the exit: last in leaves first, or the entrance order again.
+- `replayKey`: string | number — Change it to play the entrance again from the start.
+- `onComplete`: (state: "entered" | "exited") => void — The entrance has landed, or the exit has finished.
+- `className`: string — Classes for the stage element; lay out the grid or list here. Other HTML attributes (aria-label, id, style) pass through.
+
+Notes:
+- Keyboard and assistive tech: the stage adds no role and no tab stop, so the children keep theirs. Waiting content stays in the accessibility tree, and focus moving into it brings it on stage at once; an exited stage is inert.
+- Reduced motion: no travel, scale, hinge or clip — each piece fades in on a cascade compressed to a quarter, and exits fade out on the exit ease. The content still arrives.
+- Motion is written onto the direct children with inline styles and cleared when the entrance lands; a child that sets its own inline transform will have it replaced while it moves.
+- Children added after the entrance (a list that grows) come on by themselves; keyed reorders are left alone.
+- No loops: one IntersectionObserver until the entrance has run (kept only with once off), one MutationObserver for late arrivals, every animation stopped on unmount.
+
+### Haze Fade (KQ-1396) — `haze-fade`
+Content that clears like morning haze.
+
+A fade-in wrapper whose content clears like haze lifting: three stacked backdrop-blur sheets, each masked a little ahead of the last, make a soft blur ramp that travels across on the move ease, while the content's own mask carries the fade and a brightness lift with it, so a headline sharpens letter by letter from one side to the other. As the front sets off the content rises a few pixels into place on springs.drift, and once clear the sheets and the mask are gone. The content is rendered once and stays selectable and interactive throughout; keyboard focus moving into hazed content clears it at once.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/haze-fade`
+
+Props:
+- `children`: ReactNode — The content that clears. Rendered once, live and interactive throughout.
+- `as`: "div" | "section" | "article" | "header" | "footer" | "aside" | "figure" | "blockquote" | "p" | "h1" | "h2" | "h3" (default "div") — The element that wraps the content.
+- `direction`: "right" | "left" | "up" | "down" (default "right") — Which way the clearing front travels.
+- `haze`: number (default 0.6) — How thick the haze is, 0 to 1: blur, brightness lift and fade all scale with it.
+- `duration`: number (default 1400) — How long the front takes to cross, ms.
+- `softness`: number (default 0.4) — Width of the soft front as a share of the travel, 0 to 1.
+- `blur`: number (default 14) — Blur at full haze, px.
+- `brightness`: number (default 1.25) — Brightness at full haze: hazed ink glows a little, the way mist holds light.
+- `fade`: number (default 0.7) — How far the hazed content fades toward the page at full haze, 0 to 1.
+- `drift`: number (default 4) — How far the content rises into place as it clears, px; 0 keeps it still.
+- `trigger`: "inView" | "mount" | "manual" (default "inView") — What starts the clearing.
+- `play`: boolean (default false) — With trigger "manual": true clears, false lets the haze roll back in.
+- `once`: boolean (default true) — True: clears once. False: leaving view brings the haze back for the next visit.
+- `amount`: number (default 0.3) — Share of the content visible before an inView clearing starts, 0 to 1.
+- `delay`: number (default 0) — Wait before the front sets off, ms.
+- `replayKey`: string | number — Change it to haze the content and clear it again.
+- `onComplete`: () => void — The content is clear.
+- `className`: string — Classes for the wrapper; lay out the content here. Other HTML attributes (aria-*, id, handlers) pass through.
+
+Notes:
+- Accessibility: the content is never duplicated or hidden from assistive tech, the haze sheets are aria-hidden and pointer-events none, and keyboard focus moving into hazed content clears it immediately.
+- Reduced motion: no travelling front and no lift — the whole haze cross-fades away over 0.7 s, and the content still arrives.
+- Theming: the fade is a mask on the content, not a tint, so hazed content fades toward whatever surface is really behind it, in either theme; the brightness lift is what makes it read as luminous mist.
+- Performance: the backdrop filters exist only while hazed or clearing (about duration ms); once clear they are switched off and the mask removed. One IntersectionObserver until the trigger (kept only with once off).
+- The heavier sheets thin out within their blur radius of the wrapper's edges so halos are never sliced off; content flush against an edge clears from a lighter blur.
+
+### Arc Border (KQ-1397) — `arc-border`
+A frame with lightning in its edge.
+
+An electric frame around any children: a canvas draws a jagged current that hugs the content's rounded rectangle and re-strikes into a new shape several times a second, each strike a faint ghost strand, a glow pass, the coloured arc with a shadow halo and a hot core, while on a seeded schedule a bright bolt jumps across a corner and dies in 180 ms. Hover or focus inside charges it on springs.snap — the jag deepens, the glow swells, it strikes faster and jumps more — and the charge lets go on springs.drift so the hum lingers. The children stay fully interactive in their own tab order; the canvas never takes a pointer.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/arc-border`
+
+Props:
+- `children`: ReactNode — What the frame goes around. Fully interactive; the current never takes a click.
+- `color`: "cobalt" | "signal" | "ember" | "rose" | string (default "cobalt") — The current's colour: a preset, or any CSS colour (tokens resolve on the element, so they follow the theme).
+- `coreColor`: string — The hot core down the middle of the arc. Defaults to the colour mixed toward white.
+- `jitter`: number (default 0.5) — How far the edge jags, 0 (a nearly smooth live wire) to 1 (a ragged storm).
+- `thickness`: number (default 1.5) — Width of the arc, px; the core is 40% of it.
+- `glow`: number (default 0.6) — How far the soft glow spreads, 0 to 1.
+- `radius`: number (default 16) — Corner radius of the frame and the content box, px.
+- `rate`: number (default 10) — How many times a second the arc re-strikes into a new shape at rest.
+- `jumps`: number (default 0.5) — How often a bright jump leaps across a corner, 0 (never) to 1 (often).
+- `surge`: number (default 0.7) — How far hover and focus inside lift the current, 0 to 1.
+- `charged`: boolean (default false) — Hold the frame charged, as if hovered.
+- `live`: "always" | "hover" (default "always") — "always" crackles whenever it is on screen; "hover" rests as one still strike until a visitor arrives.
+- `paused`: boolean (default false) — Hold the current still.
+- `seed`: number (default 3) — Seed for the arc's shapes, so two frames on a page differ.
+- `dpr`: number (default 2) — Highest device pixel ratio the canvas renders at (capped at 2).
+- `onChargeChange`: (charged: boolean) => void — The frame charged or settled, from the hover or focus that caused it.
+- `className`: string — Classes for the outer box (the frame's gutter is its padding).
+- `contentClassName`: string — Classes for the content box inside the frame — its surface and padding.
+
+Notes:
+- Accessibility: the canvas, rail and probes are aria-hidden and pointer-events none; the children keep their own roles and tab order, and keyboard focus inside charges the frame exactly as hover does.
+- Reduced motion: one still strike that never re-forms and no corner jumps; hover and focus still brighten it, because charge is state.
+- Performance: the loop runs only on screen, in a visible tab, unpaused and (with live="hover") while charged; between strikes a frame draws nothing. Buffers are typed arrays sized on resize, the backing store is capped at dpr (max 2), and everything is disposed on unmount.
+- Fit: the gutter that holds the jag and its glow is the outer box's padding, computed from jitter, thickness, glow and surge, so the current never draws outside the component.
+- Theming: the colour resolves on the component's own element and re-resolves when the theme changes; presets map to the accent, signal, warn and danger tokens.
+
+### Moon Ring (KQ-1398) — `moon-ring`
+Images circling like moons in orbit.
+
+Images or generated tiles on a tipped elliptical orbit around a centre object: one phase value drives every moon's position, depth scale, far-side softening and z-order, so moons pass behind the planet and back in front of it, while the ring revolves on its own until a visitor touches it. A drag spins it 1:1 and a release projects the throw, snaps to the nearest moon and lands on springs.drift with the release velocity, so a flick coasts several moons round; a click brings a moon round the shortest way on springs.glide, with an optional whoosh. It is a radio group: the front moon is checked and holds the tab stop, arrow keys bring the neighbours round, and Home and End the first and last.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/moon-ring`
+
+Props:
+- `items`: { id: string; label: string; src?: string; alt?: string }[] — The moons. Short of count, generated tiles fill the ring.
+- `count`: number (default 6) — How many moons circle, 3 to 12.
+- `tilt`: number (default 20) — How far the orbit tips toward you, degrees: 0 is edge-on, 70 nearly overhead.
+- `speed`: number (default 8) — Idle revolution, degrees per second; negative turns the other way, 0 holds still.
+- `value / defaultValue`: number (default 0) — The moon at the front. Controlled rings do not drift.
+- `onValueChange`: (index: number, reason: "drift" | "drag" | "press" | "key") => void — A new moon reached the front, with what brought it there.
+- `lean`: number (default -8) — The orbit's lean in the picture, degrees.
+- `depth`: number (default 0.45) — How much smaller the far side is, 0 to 0.8.
+- `soften`: number (default 2) — Blur at the far side of the orbit, px.
+- `shape`: "circle" | "rounded" (default "circle") — Moon shape.
+- `moonSize`: number — Moon size, px. Fits the stage when left out.
+- `height`: number | string (default "clamp(9rem, 30cqw, 12.5rem)") — Height of the stage.
+- `center`: ReactNode — What the moons circle. A lit planet when left out.
+- `caption`: boolean (default true) — Name the front moon under the ring.
+- `label`: string (default "Orbit") — Accessible name of the ring.
+- `sound`: boolean (default false) — A whoosh when a throw or a long trip brings a moon round.
+- `paused`: boolean (default false) — Hold the idle revolution.
+- `disabled`: boolean (default false) — No drag, no presses; the moons leave the tab order.
+- `className`: string — Classes for the root (a size container for the stage).
+
+Notes:
+- Keyboard: one tab stop on the front moon (a radio group); Left/Up and Right/Down bring the neighbouring moon round and move focus with it, Home and End jump to the first and last, Space and Enter bring a focused moon round. Keyboard focus inside holds the revolution still.
+- Reduced motion: no revolution and no travel — a press, key or release puts the chosen moon at the front at once; dragging still follows the finger, and depth, scale and softening stay as a still picture.
+- Touch: the stage uses touch-pan-y, so a horizontal drag spins the ring and a vertical one scrolls the page; a tap on a moon brings it round.
+- Performance: every pose is a useTransform of one phase value — no React state per frame. The revolution runs only uncontrolled, on screen, in a visible tab, unpaused and untouched, and eases back in a moment after the visitor leaves.
+- Sound is off unless sound is set, and only ever answers a drag, press or key — never the idle revolution.
+
+### Block Dissolve (KQ-1399) — `block-dissolve`
+Swap images through a cascade of pixels.
+
+A two-state transition for any two children: the first dissolves into the second block by block, each clipped by a path rebuilt every frame so even transparent content never shows through. The blocks come from a seeded quadtree and flip in a random, diagonal or pointer-led order with coarse blocks first and finer halves and quarters filling the holes, so the block size eases from coarse to fine as the dissolve finishes, and a faint glint rides the blocks that have just flipped; progress is one tween on the move ease and turns back over the same blocks if the pointer leaves early. With hover or press it is a single toggle button: Enter and Space swap it, touch taps swap it, and only the state on show is exposed to assistive technology.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/block-dissolve`
+
+Props:
+- `children`: ReactNode — Exactly two children: the first state, then the second. Any content — images, cards, charts.
+- `value / defaultValue`: "first" | "second" (default "first") — Which state shows.
+- `onValueChange`: (value: "first" | "second") => void — The state changed, from the hover, press or key that changed it.
+- `trigger`: "hover" | "press" | "manual" (default "hover") — What swaps the states: hovering (keys and taps toggle), pressing, or only value.
+- `block`: number (default 24) — Coarse block size, px; the run refines to halves and quarters of it.
+- `order`: "random" | "diagonal" | "pointer" (default "pointer") — The order the blocks flip in: seeded scatter, a diagonal sweep, or outward from the pointer.
+- `duration`: number (default 800) — How long the whole dissolve takes, ms.
+- `levels`: 1 | 2 | 3 (default 3) — How many sizes the blocks refine through.
+- `glint`: number (default 0.3) — Brightness of the glint on freshly flipped blocks, 0 to 1.
+- `glintColor`: string (default "var(--accent-bright)") — Colour of the glint.
+- `seed`: number (default 7) — Seed for the block order and the coarse-to-fine split.
+- `label`: string (default "Swap view") — Accessible name of the toggle, e.g. "Show the night view".
+- `disabled`: boolean (default false) — No swapping; the toggle says it is unavailable.
+- `onComplete`: (value: "first" | "second") => void — A dissolve finished on this state.
+- `className`: string — Classes for the box — give it a size or an aspect ratio and a radius.
+
+Notes:
+- Keyboard: with hover or press the box is one tab stop, a toggle button with aria-pressed; Enter and Space swap the states (from the centre). Touch has no hover, so a tap swaps a hover dissolve.
+- Reduced motion: no blocks — the two states cross-fade over 0.4 s, and the swap still happens.
+- Accessibility: the state not on show is aria-hidden and inert, so screen readers and Tab only meet what is visible. Keep interactive controls out of the children when the box itself is the toggle.
+- Performance: nothing runs at rest and neither child is clipped. During a dissolve one tween drives the clip paths; the blocks are built once per run into typed arrays.
+- Fit: the box sizes to the larger child (both share one grid cell); give it an aspect ratio so the two states line up.
+
+### Sheen Glass (KQ-1400) — `sheen-glass`
+A glint that follows your hand across glass.
+
+A glass glare over any card: a soft streak of light with a brighter core and a faint ghost reflection rides with the hand on a spring between flick and drift, turns toward perpendicular to the way the hand is travelling on springs.glide, and flares with pointer speed on springs.flick before sinking back on springs.drift. On leave it keeps going the way the hand went and slides off the edge while it fades on the exit ease, and a 1 px inner rim catches the light nearest the streak. Keyboard focus inside the card brings the light to the focused control; the card's children are untouched and fully interactive.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/sheen-glass`
+
+Props:
+- `children`: ReactNode — The card under the glass. Untouched and fully interactive.
+- `angle`: number (default 24) — The streak's resting lean off vertical, degrees.
+- `width`: number (default 80) — Width of the soft streak, px; the bright core is a fifth of it.
+- `strength`: number (default 0.6) — Peak brightness of the glint, 0 to 1.
+- `speedBoost`: number (default 0.6) — How much a fast hand brightens it, 0 to 1.
+- `steer`: number (default 0.5) — How far the direction of travel turns the streak, 0 (never) to 1 (fully perpendicular).
+- `lag`: number (default 0.35) — How loosely the glint trails the hand, 0 (tight) to 1 (lazy).
+- `color`: string (default "white") — The light's colour.
+- `core`: number (default 0.8) — Brightness of the core against the soft streak, 0 to 1.
+- `ghost`: number (default 0.3) — The faint second reflection beside the streak, 0 to 1.
+- `edge`: number (default 0.6) — How much the inner border catches the light, 0 to 1.
+- `blend`: "screen" | "overlay" | "soft-light" | "normal" (default "screen") — How the light mixes with the card.
+- `intro`: boolean (default true) — One sweep across the first time the card comes into view.
+- `interval`: number (default 0) — A sweep every so many ms while on screen; 0 never.
+- `sweepKey`: string | number — Change it to send a sweep across now.
+- `disabled`: boolean (default false) — No glint at all.
+- `className`: string — Classes for the card box; its radius is the glass's. Other HTML attributes and handlers pass through.
+
+Notes:
+- Accessibility: the glare and rim are aria-hidden and pointer-events none; the children keep their roles and tab order, and keyboard focus inside the card brings the light to the focused control (the same end state the pointer reaches).
+- Reduced motion: no following, steering, sliding or sweeps — the light rests a third of the way across at the resting angle, and hover and focus brighten it in place with a cross-fade.
+- Theming: light only brightens, so the glint shows on mid and dark surfaces and fades into near-white ones; use blend="overlay" for a glossier look on mid-tones.
+- Performance: no loop of its own — motion values and springs run only while settling. The intro observer disconnects after its sweep, and interval sweeps run only on screen in a visible tab.
+- Touch: the glint follows a finger until the page starts scrolling, then slides off.
+
+### Float Field (KQ-1401) — `float-field`
+Particles that drift away from your touch.
+
+A few hundred soft motes rise through the box behind your content on a gentle seeded sway, in three depths from small far points to large out-of-focus discs. The pointer carries a bubble of clear air whose centre trails it on springs.glide's constants and whose radius opens on springs.glide and closes on springs.drift, so motes crowd along its rim and drift back in behind it; a press releases a burst that throws nearby motes upward and sends a fountain of sparks after them. Keyboard focus on a control inside opens the bubble around it, and Enter or Space on it bursts from its centre.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/float-field`
+
+Props:
+- `count`: number (default 220) — How many motes fill a 760×232 box; a box of another size gets proportionally more or fewer.
+- `rise`: number (default 24) — How fast the motes rise, in px per second; near motes rise faster than far ones.
+- `repel`: number (default 0.6) — How hard the pointer's bubble pushes motes away, 0 to 1; 0 is no bubble.
+- `radius`: number (default 84) — The bubble's radius in px, never more than 40% of the box's shorter side.
+- `turbulence`: number (default 0.5) — How much the motes sway sideways as they rise, 0 to 1.
+- `size`: number (default 2.6) — The base radius of a mote in px; depth scales it from about half to twice that.
+- `glow`: number (default 0.5) — How soft a halo each mote carries, from a crisp dot at 0 to a wide glow at 1.
+- `burst`: number (default 0.6) — How strong a press's burst is, 0 to 1; 0 turns bursts off.
+- `colors`: string[] (default ["var(--accent-bright)", "var(--signal)", "var(--ink-3)"]) — Mote colours, any CSS colours, resolved on the element so they follow the theme; the first is the most common.
+- `interactive`: boolean (default true) — Respond to the pointer, presses and keyboard focus.
+- `paused`: boolean (default false) — Freeze the field where it is.
+- `seed`: number (default 11) — Seed for the motes' arrangement and sway.
+- `dpr`: number (default 2) — The highest device pixel ratio the canvas draws at (never above 2).
+- `onBurst`: (point: { x: number; y: number }) => void — Fires when a press or a keyboard activation releases a burst, with its point in the box.
+- `className`: string — Classes for the box; size it here.
+- `children`: React.ReactNode — Content laid over the field; it keeps every click, focus and key.
+
+Notes:
+- The field is aria-hidden decoration under your content: the canvas never takes a click, and the wrapper only listens, so every button and link inside works as it would without it.
+- Keyboard visitors get the same bubble: focusing a control inside opens clear air around it, and Enter or Space on it releases the burst from its centre.
+- One 2D canvas with pre-drawn sprites and no allocation per frame. The loop runs only on screen with the tab visible and not paused, and rations itself to about 30 fps while nobody touches it; the backing store caps its device pixel ratio at 2.
+- Colours resolve from tokens on the component's own element and redraw when the theme changes, so the motes read on light and dark surfaces alike; give the box its background with className.
+- Under reduced motion the field is one still scatter, denser low than high, and the pointer and presses leave it alone.
+
+### Logo Parade (KQ-1402) — `logo-parade`
+A conveyor of marks that slows to look.
+
+An endless conveyor of marks with edge fades, built in the DOM so every mark stays crisp and real. A row's speed is a spring on springs.drift's constants, so under the pointer it brakes smoothly to a stop and picks back up when the pointer leaves, while the mark under the pointer lifts on springs.snap and takes its colour as the rest stay muted; rows drag 1:1 and a flick hands its velocity to the same spring, so the conveyor spins away, leans into the throw and glides back to cruising speed, with further rows running the other way. Linked or selectable marks sit on a roving tabindex where Left and Right move between them and the row glides on springs.glide to centre the focused one; plain marks make the row the focus stop and the arrows step it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/logo-parade`
+
+Props:
+- `items`: LogoParadeItem[] — The marks, each `{ id, name, mark, color?, href? }`; the mark paints with currentColor and may use var(--mark-color) for an accent that turns to `color` when looked at.
+- `speed`: number (default 40) — Cruising speed in px per second.
+- `gap`: number (default 48) — Space between marks in px.
+- `rows`: number (default 2) — How many rows, 1 to 3; each further row runs the other way, half a set along.
+- `direction`: "left" | "right" (default "left") — Which way the first row travels.
+- `hoverSpeed`: number (default 0) — The share of the cruising speed a row keeps under the pointer, 0 to 1; 0 brakes it to a stop.
+- `lift`: number (default 4) — How far the looked-at mark lifts, in px.
+- `muted`: number (default 0.6) — How grey and faint the marks at rest are, 0 to 1.
+- `fade`: number (default 56) — Width of the edge fades in px, never more than a fifth of the row.
+- `skew`: number (default 0.5) — How far a fast row leans into its travel, 0 to 1.
+- `size`: "sm" | "md" | "lg" (default "md") — Row height and mark size.
+- `draggable`: boolean (default true) — Let rows be dragged and flicked.
+- `paused`: boolean (default false) — Stop the conveyor; marks still answer the pointer and keys.
+- `label`: string (default "Logos") — The accessible name of the list of marks.
+- `onSelect`: (item: LogoParadeItem) => void — Called when a mark without an href is pressed or activated with Enter.
+- `onLook`: (item: LogoParadeItem | null) => void — Called when the mark being looked at (hovered or focused) changes, with null when none is.
+- `className`: string — Classes for the wall.
+
+Notes:
+- Moving content needs a way to stop it: pass `paused` from a Pause control of your own, as the demo does. Hovering or focusing a row also stops it, and reduced motion keeps every row still.
+- The first row is a real list that holds each mark once by its `name`; echo copies and further rows are hidden from assistive technology and out of the tab order, so a wall of six marks is six list items and one Tab stop.
+- Give marks an `href` or pass `onSelect` to make them links or buttons on a roving tabindex: Left and Right move between them, Home and End jump, Enter activates, and the row glides to centre the focused mark. A release at the end of a drag never activates the mark under it.
+- Marks inherit colour: draw them with currentColor for the wordmark and var(--mark-color) for an accent, and give each item a `color` (a token or any CSS colour) for the look it takes when hovered.
+- Each row runs its own animation frame only while it moves on screen; a row braked to a stop under the pointer costs nothing until the pointer leaves.
+
+### Lock On (KQ-1403) — `lock-on`
+A reticle that locks onto what you point at.
+
+A target cursor bounded to the container it wraps: a hotspot dot sits exactly under the pointer while a reticle of four corner brackets trails it on a house spring and turns slowly, a little faster as it travels. When the pointer reaches an interactive child the brackets snap outward to frame it on springs.snap while the rotation unwinds to square, with a lock flash and an optional tick, and leaving releases them back to the pointer on springs.glide. Keyboard focus locks onto the focused control the same way and gives the system cursor back.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/lock-on`
+
+Props:
+- `corner`: number (default 10) — Length of each bracket's arms, in px.
+- `spin`: number (default 40) — How fast the idle reticle turns, in degrees per second; travel adds a little more.
+- `color`: "cobalt" | "signal" | "amber" | "ink" | string (default "cobalt") — The reticle's colour: a named tone or any CSS colour.
+- `size`: number (default 32) — The idle reticle's size, in px.
+- `padding`: number (default 6) — Space between a locked target and its frame, in px.
+- `thickness`: number (default 2) — Bracket stroke width, in px.
+- `follow`: "flick" | "snap" | "glide" (default "snap") — The house spring the idle reticle trails the pointer on.
+- `targets`: string (default interactive elements) — What the reticle locks onto, as a CSS selector; disabled controls never lock.
+- `hideCursor`: boolean (default true) — Hide the system cursor inside the container while a mouse is there; text fields keep theirs.
+- `flash`: boolean (default true) — Flash the frame when it locks.
+- `dot`: boolean (default true) — Show a hotspot dot exactly under the pointer.
+- `rest`: boolean (default true) — With nobody pointing, rest the frame dimly on the first target, or on one marked data-lock-home.
+- `sound`: boolean (default false) — Play a tick when the reticle locks, pitched by the target's width; never before the page has had a click, tap or key.
+- `disabled`: boolean (default false) — Turn the reticle off and give the cursor back.
+- `onLock`: (target: HTMLElement | null) => void — Called with the element the reticle locks onto, and with null when it lets go.
+- `className`: string — Classes for the container.
+- `children`: React.ReactNode — The content the reticle roams over; it keeps every click, focus and key.
+
+Notes:
+- The reticle is an aria-hidden layer with pointer-events none: buttons, links and fields inside keep their own clicks, focus and keys. The system cursor is hidden only inside the container and only for a mouse, comes back on leave and as soon as a key is pressed, and text fields keep their I-beam.
+- Keyboard focus locks the frame onto the focused control (it pairs well with your own focus ring), so Tab walks the reticle through the content exactly as the pointer does.
+- Mark a control with data-lock-target to make anything lockable, data-lock-home to choose where the frame rests, or pass `targets` to narrow the selector.
+- Under reduced motion nothing spins or springs: the reticle follows the dot exactly and a lock jumps onto its target with a short fade.
+- DOM only: four brackets, a flash and a dot positioned from motion values. An animation frame runs only to turn the idle reticle while a mouse is inside and on screen; a locked or resting reticle costs nothing.
+
+### Halo Rings (KQ-1404) — `halo-rings`
+Rings that ripple out from your cursor.
+
+Rings of light ripple out from a source that trails the pointer, drawn in one WebGL2 pass under your content: each ring spreads, thins and fades, and because every ring is a short wave packet summed as a wave, offset rings that cross add and cancel into a fine lattice. The source follows the pointer on a damped spring blended between springs.glide and springs.drift by `lag`, so a sweep leaves a wake of crossing rings, and a press sends a bright ring that cuts through the rest. Keyboard focus moves the source to the focused control and Enter or Space on it sends the bright ring.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/halo-rings`
+
+Props:
+- `pulse`: number (default 1.2) — Rings sent per second while the pointer is in; three quarters of that at rest.
+- `width`: number (default 8) — A new ring's width in px; it thins as it spreads.
+- `colors`: "tide" | "dusk" | "ember" | "mono" | string[] (default "tide") — A named palette, or two CSS colours a ring travels between as it ages; resolved on the element so they follow the theme.
+- `speed`: number (default 120) — How fast a ring spreads, in px per second.
+- `reach`: number (default 300) — How far a ring travels before it has faded out, in px, never past the box's diagonal.
+- `lag`: number (default 0.5) — How far the source trails the pointer, from springs.glide at 0 to springs.drift at 1.
+- `interference`: number (default 0.6) — From plain glowing rings at 0 to wave packets whose crests add and cancel where they cross at 1.
+- `intensity`: number (default 0.7) — How bright the rings are, 0 to 1.
+- `origin`: [number, number] (default [0.5, 0.5]) — Where the source rests with nobody pointing, as x and y fractions of the box.
+- `ambient`: boolean (default true) — Keep pulsing from origin while nobody points; off, the rings die away and the loop stops.
+- `interactive`: boolean (default true) — Follow the pointer and keyboard focus; a press sends a bright ring.
+- `layer`: "under" | "over" (default "under") — Draw the rings under the content or over it.
+- `paused`: boolean (default false) — Freeze the rings where they are.
+- `dpr`: number (default 2) — The highest device pixel ratio the canvas draws at (never above 2).
+- `onRing`: (point: { x: number; y: number }) => void — Fires when a press or a keyboard activation sends a bright ring, with its point in the box.
+- `className`: string — Classes for the box; size it here.
+- `children`: React.ReactNode — Content over (or under) the rings; it keeps every click, focus and key.
+
+Notes:
+- The rings are an aria-hidden canvas with pointer-events none; the wrapper only listens, so every control inside keeps its clicks, focus and keys. Keyboard visitors move the source by focusing a control and send the bright ring with Enter or Space.
+- One WebGL2 context and one draw per frame, with up to 24 rings in a uniform array. The loop runs only while a ring is alive or the source is pulsing, on screen with the tab visible; resting, it draws every other frame, and with ambient off it stops once the last ring fades. The backing store caps its device pixel ratio at 2.
+- Without WebGL2, or after a lost context, the same rings are stroked on a 2D canvas (without the interference); before the first frame a CSS still of soft rings stands in.
+- Palettes resolve from tokens on the component's own element and re-resolve on a theme change; on a dark page the brightest crossings burn toward white, on a light one they stay pigment.
+- Under reduced motion the rings are one still ripple around origin, and a press re-centres it instantly.
+
+### Laser Sheet (KQ-1405) — `laser-sheet`
+A beam that sweeps and scatters off the page.
+
+A volumetric laser sheet in a hazy room, drawn per pixel in one WebGL2 pass behind your content: an emitter near the top fans a thin sheet of light down through drifting haze, the haze glows in proportion to the path each view ray travels inside the sheet (faint and textured while it faces you, a bright blade as it turns edge-on), dust glints only as it crosses the plane, and the sheet meets the floor in a crisp bright line with a spill of light around it. It sweeps back and forth on its own; the pointer steers it instead, the angle trailing on a damped spring blended between springs.glide and springs.drift by `lag`, and a press fires a pulse down the sheet that flares the line where it lands. Keyboard focus aims the sheet at the focused control and Enter or Space on it fires.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/laser-sheet`
+
+Props:
+- `haze`: number (default 0.55) — How thick the air is, 0 to 1: from clear air where only the floor line shows to a dense, glowing fan.
+- `sweep`: number (default 0.35) — How fast the sheet sweeps on its own, from holding still at 0 to a pass every couple of seconds at 1.
+- `color`: "cobalt" | "signal" | "ember" | "rose" | string (default "cobalt") — The beam's colour: a named tone or any CSS colour, resolved on the element so it follows the theme.
+- `spread`: number (default 32) — Half the fan's opening, in degrees.
+- `range`: number (default 50) — How far the sheet swings either way, in degrees.
+- `lag`: number (default 0.5) — How far the beam trails the pointer, from springs.glide at 0 to springs.drift at 1.
+- `dust`: number (default 0.5) — How much dust glints in the sheet, 0 to 1.
+- `glow`: number (default 0.7) — How bright the floor line and its spill are, 0 to 1.
+- `grid`: boolean (default true) — Draw a faint perspective grid on the floor.
+- `source`: [number, number] (default [0.5, 0.08]) — Where the emitter hangs, as x and y fractions of the box (y up to 0.5).
+- `interactive`: boolean (default true) — Steer with the pointer and keyboard focus; a press fires a pulse down the sheet.
+- `paused`: boolean (default false) — Freeze the beam where it is.
+- `seed`: number (default 3) — Seed for the haze and the dust.
+- `dpr`: number (default 2) — The highest device pixel ratio the canvas draws at (never above 2).
+- `onFire`: () => void — Fires when a press or a keyboard activation fires a pulse.
+- `className`: string — Classes for the box; size it and give it its background here.
+- `children`: React.ReactNode — Content laid over the scene; it keeps every click, focus and key.
+
+Notes:
+- The scene is an aria-hidden canvas with pointer-events none behind your content; the wrapper only listens, so every control inside keeps its clicks, focus and keys. Keyboard visitors aim the sheet by focusing a control and fire it with Enter or Space.
+- The room is the box's own background: give it one with className (a surface token) and the floor, grid and beam are worked out from it. On a dark room the light adds and burns toward white; on a pale one the beam is laid down as pigment, so both themes read.
+- One WebGL2 context and one draw per frame. The loop runs only on screen with the tab visible and not paused; sweeping on its own it draws about 30 frames a second, every frame while steered or firing. The backing store caps its device pixel ratio at 2.
+- Without WebGL2, or after a lost context, a CSS still of the fan, its floor line and the emitter stands in; the same still shows before the first frame.
+- Under reduced motion the scene is one still frame with the sheet at a fixed angle; presses and focus re-aim it instantly and never fire.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

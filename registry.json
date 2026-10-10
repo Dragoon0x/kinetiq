@@ -35583,6 +35583,310 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "enter-stage",
+      "type": "registry:ui",
+      "title": "Enter Stage",
+      "description": "A wrapper that brings its direct children on stage in a cascade ranked by where they actually sit, so a grid arrives as one diagonal wave whose gaps open as it lands, all inside the 600 ms budget. Each preset carries its own spring: rise glides up, settle is set down on springs.snap with one overshoot, unfold swings down on a top hinge on springs.glide, and iris opens a clip while the piece drifts up to size; exits run in reverse on the exit ease and never spring. It adds no wrappers and no tab stops of its own — the children stay interactive in their own tab order, and tabbing into waiting content brings it on at once.",
+      "files": [
+        {
+          "path": "registry/ui/enter-stage.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1395"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "haze-fade",
+      "type": "registry:ui",
+      "title": "Haze Fade",
+      "description": "A fade-in wrapper whose content clears like haze lifting: three stacked backdrop-blur sheets, each masked a little ahead of the last, make a soft blur ramp that travels across on the move ease, while the content's own mask carries the fade and a brightness lift with it, so a headline sharpens letter by letter from one side to the other. As the front sets off the content rises a few pixels into place on springs.drift, and once clear the sheets and the mask are gone. The content is rendered once and stays selectable and interactive throughout; keyboard focus moving into hazed content clears it at once.",
+      "files": [
+        {
+          "path": "registry/ui/haze-fade.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1396"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "arc-border",
+      "type": "registry:ui",
+      "title": "Arc Border",
+      "description": "An electric frame around any children: a canvas draws a jagged current that hugs the content's rounded rectangle and re-strikes into a new shape several times a second, each strike a faint ghost strand, a glow pass, the coloured arc with a shadow halo and a hot core, while on a seeded schedule a bright bolt jumps across a corner and dies in 180 ms. Hover or focus inside charges it on springs.snap — the jag deepens, the glow swells, it strikes faster and jumps more — and the charge lets go on springs.drift so the hum lingers. The children stay fully interactive in their own tab order; the canvas never takes a pointer.",
+      "files": [
+        {
+          "path": "registry/ui/arc-border.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1397"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "moon-ring",
+      "type": "registry:ui",
+      "title": "Moon Ring",
+      "description": "Images or generated tiles on a tipped elliptical orbit around a centre object: one phase value drives every moon's position, depth scale, far-side softening and z-order, so moons pass behind the planet and back in front of it, while the ring revolves on its own until a visitor touches it. A drag spins it 1:1 and a release projects the throw, snaps to the nearest moon and lands on springs.drift with the release velocity, so a flick coasts several moons round; a click brings a moon round the shortest way on springs.glide, with an optional whoosh. It is a radio group: the front moon is checked and holds the tab stop, arrow keys bring the neighbours round, and Home and End the first and last.",
+      "files": [
+        {
+          "path": "registry/ui/moon-ring.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1398"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "block-dissolve",
+      "type": "registry:ui",
+      "title": "Block Dissolve",
+      "description": "A two-state transition for any two children: the first dissolves into the second block by block, each clipped by a path rebuilt every frame so even transparent content never shows through. The blocks come from a seeded quadtree and flip in a random, diagonal or pointer-led order with coarse blocks first and finer halves and quarters filling the holes, so the block size eases from coarse to fine as the dissolve finishes, and a faint glint rides the blocks that have just flipped; progress is one tween on the move ease and turns back over the same blocks if the pointer leaves early. With hover or press it is a single toggle button: Enter and Space swap it, touch taps swap it, and only the state on show is exposed to assistive technology.",
+      "files": [
+        {
+          "path": "registry/ui/block-dissolve.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1399"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "sheen-glass",
+      "type": "registry:ui",
+      "title": "Sheen Glass",
+      "description": "A glass glare over any card: a soft streak of light with a brighter core and a faint ghost reflection rides with the hand on a spring between flick and drift, turns toward perpendicular to the way the hand is travelling on springs.glide, and flares with pointer speed on springs.flick before sinking back on springs.drift. On leave it keeps going the way the hand went and slides off the edge while it fades on the exit ease, and a 1 px inner rim catches the light nearest the streak. Keyboard focus inside the card brings the light to the focused control; the card's children are untouched and fully interactive.",
+      "files": [
+        {
+          "path": "registry/ui/sheen-glass.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1400"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "float-field",
+      "type": "registry:ui",
+      "title": "Float Field",
+      "description": "A few hundred soft motes rise through the box behind your content on a gentle seeded sway, in three depths from small far points to large out-of-focus discs. The pointer carries a bubble of clear air whose centre trails it on springs.glide's constants and whose radius opens on springs.glide and closes on springs.drift, so motes crowd along its rim and drift back in behind it; a press releases a burst that throws nearby motes upward and sends a fountain of sparks after them. Keyboard focus on a control inside opens the bubble around it, and Enter or Space on it bursts from its centre.",
+      "files": [
+        {
+          "path": "registry/ui/float-field.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1401"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "logo-parade",
+      "type": "registry:ui",
+      "title": "Logo Parade",
+      "description": "An endless conveyor of marks with edge fades, built in the DOM so every mark stays crisp and real. A row's speed is a spring on springs.drift's constants, so under the pointer it brakes smoothly to a stop and picks back up when the pointer leaves, while the mark under the pointer lifts on springs.snap and takes its colour as the rest stay muted; rows drag 1:1 and a flick hands its velocity to the same spring, so the conveyor spins away, leans into the throw and glides back to cruising speed, with further rows running the other way. Linked or selectable marks sit on a roving tabindex where Left and Right move between them and the row glides on springs.glide to centre the focused one; plain marks make the row the focus stop and the arrows step it.",
+      "files": [
+        {
+          "path": "registry/ui/logo-parade.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1402"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "lock-on",
+      "type": "registry:ui",
+      "title": "Lock On",
+      "description": "A target cursor bounded to the container it wraps: a hotspot dot sits exactly under the pointer while a reticle of four corner brackets trails it on a house spring and turns slowly, a little faster as it travels. When the pointer reaches an interactive child the brackets snap outward to frame it on springs.snap while the rotation unwinds to square, with a lock flash and an optional tick, and leaving releases them back to the pointer on springs.glide. Keyboard focus locks onto the focused control the same way and gives the system cursor back.",
+      "files": [
+        {
+          "path": "registry/ui/lock-on.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1403"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "halo-rings",
+      "type": "registry:ui",
+      "title": "Halo Rings",
+      "description": "Rings of light ripple out from a source that trails the pointer, drawn in one WebGL2 pass under your content: each ring spreads, thins and fades, and because every ring is a short wave packet summed as a wave, offset rings that cross add and cancel into a fine lattice. The source follows the pointer on a damped spring blended between springs.glide and springs.drift by `lag`, so a sweep leaves a wake of crossing rings, and a press sends a bright ring that cuts through the rest. Keyboard focus moves the source to the focused control and Enter or Space on it sends the bright ring.",
+      "files": [
+        {
+          "path": "registry/ui/halo-rings.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1404"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "laser-sheet",
+      "type": "registry:ui",
+      "title": "Laser Sheet",
+      "description": "A volumetric laser sheet in a hazy room, drawn per pixel in one WebGL2 pass behind your content: an emitter near the top fans a thin sheet of light down through drifting haze, the haze glows in proportion to the path each view ray travels inside the sheet (faint and textured while it faces you, a bright blade as it turns edge-on), dust glints only as it crosses the plane, and the sheet meets the floor in a crisp bright line with a spill of light around it. It sweeps back and forth on its own; the pointer steers it instead, the angle trailing on a damped spring blended between springs.glide and springs.drift by `lag`, and a press fires a pulse down the sheet that flares the line where it lands. Keyboard focus aims the sheet at the focused control and Enter or Space on it fires.",
+      "files": [
+        {
+          "path": "registry/ui/laser-sheet.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1405"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
