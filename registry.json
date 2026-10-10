@@ -36354,6 +36354,508 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "chevron-tide",
+      "type": "registry:ui",
+      "title": "Chevron Tide",
+      "description": "A herringbone cloth as a background, drawn crisply in one WebGL2 pass with the content on top: two long swells of different length and heading pass through the weave, every row of chevrons rises and falls with them, and each stripe is a rounded rib that runs light to shade across its width, more so at the crest, where a soft sheen rolls with the swell while the troughs settle into shade. The pointer lifts a mound of cloth that trails it on springs.glide and rises on springs.drift, and a press on the cloth sends a ring swell out across the weave. It is decoration and never takes focus; keyboard focus landing on a control inside moves the mound there and sends a softer ring.",
+      "files": [
+        {
+          "path": "registry/ui/chevron-tide.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1425"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "louver-light",
+      "type": "registry:ui",
+      "title": "Louver Light",
+      "description": "An architectural louvre wall as a background, drawn in one WebGL2 pass with the content in front: rows of fine slats, cut into blades by thin mullions, each turning rigidly on its long axis as a rolling wave crosses the wall, so a blade's face brightens and glints as it turns toward a soft light above and bands of light travel across, while blades turned edge-on open onto a shadowed recess. The pointer bends the wave around itself, its place on springs.glide and its pull on springs.drift, and a press flips the slats over in a ring that runs out from it, each blade landing its half turn on the recoil spring. It never takes focus; keyboard focus on a control inside bends the wave there and flips a small ring from it.",
+      "files": [
+        {
+          "path": "registry/ui/louver-light.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1426"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "shape-swell",
+      "type": "registry:ui",
+      "title": "Shape Swell",
+      "description": "A grid of small circles, rounded squares, plus signs and triangles as a background, each a signed distance field in one WebGL2 pass so every edge stays crisp, with the content on top: a diagonal swell rolls through, and a shape rising toward the crest grows, turns and fills with colour while one sinking into the trough shrinks, turns home and fades to a fine outline. The pointer raises a crest of its own, placed on springs.glide and lifted on springs.drift, and a press sends a ring crest across the grid that pops every shape it passes. It never takes focus; keyboard focus on a control inside raises the crest there and sends a softer ring.",
+      "files": [
+        {
+          "path": "registry/ui/shape-swell.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1427"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "glass-drift",
+      "type": "registry:ui",
+      "title": "Glass Drift",
+      "description": "Seeded glass shards floating in shallow 3D over a soft colour field, as a background with the content on top: each shard wanders, tilts and turns on its own and refracts the field behind it in WebGL2, magnified, shifted by its tilt and bent hard across a bevelled rim where the colours part a little, tinted toward glass, brighter as it turns edge-on, with a crisp rim lit on the side toward the light and a soft shadow beneath. The pointer parts the shards, each moving aside on springs.glide and drifting home on springs.drift, and a press puffs them outward with a little spin before the drift spring brings them back. It never takes focus; keyboard focus on a control inside parts the glass around it and puffs gently.",
+      "files": [
+        {
+          "path": "registry/ui/glass-drift.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1428"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "fiber-mist",
+      "type": "registry:ui",
+      "title": "Fiber Mist",
+      "description": "Hundreds of fine fibres drifting through haze as a background, with the content on top: each fibre is a streamline of a slowly turning curl-noise flow, traced from an anchor the flow itself carries, so they curve together and never knot, drawn in Canvas 2D as a fine core inside a faint halo that adds light where fibres cross in a dark haze and deepens like ink silk in a pale one. The pointer combs them, its path laid into the flow so nearby fibres align to it and relax back within about a second and a half, its place on springs.glide and its presence on springs.drift, and a press stirs them aside in a spiral. It never takes focus; keyboard focus on a control inside draws the fibres into a level stream through it.",
+      "files": [
+        {
+          "path": "registry/ui/fiber-mist.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1429"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "tube-glow",
+      "type": "registry:ui",
+      "title": "Tube Glow",
+      "description": "A slowly shifting colour field seen through a curved picture tube, as a background with the content in front and perfectly crisp: domain-warped noise through a four-stop ramp, bowed by barrel distortion into a rounded picture that falls into a dark phosphor rim, laid with fine scanlines that close where the light is bright, an aperture grille, a slowly breathing bloom, a rolling sync bar and a soft reflection on the glass, all in two WebGL2 passes. The curve leans toward the pointer, placed on springs.glide and eased in on springs.drift, while the reflection slides the other way, and a press degausses the tube: the colour swirls round the press and the guns part, ringing down on the recoil spring. It never takes focus; keyboard focus on a control inside leans the curve toward it and degausses softly.",
+      "files": [
+        {
+          "path": "registry/ui/tube-glow.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1430"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "night-veil",
+      "type": "registry:ui",
+      "title": "Night Veil",
+      "description": "A quiet hero background: a near-black ground with a faint coloured undertone and two to four layers of soft noise veil drifting at their own scales and headings, closed by a soft vignette, breathing slowly so a headline sits on something alive; on a light page the same recipe is a pale mist. The pointer lifts a gentle light under the veil, its place following on springs.glide and its presence arriving on springs.drift, and a press draws a deep breath in on the glide spring and out on drift that parts the veil around the hand; keyboard focus on a control inside is the hand there, with a softer breath.",
+      "files": [
+        {
+          "path": "registry/ui/night-veil.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1443"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "beacon-pillar",
+      "type": "registry:ui",
+      "title": "Beacon Pillar",
+      "description": "A background of one vertical pillar of light standing on a floor and rising past the top of the frame: a near-white core, a coloured body and a faint halo with heat wavering at its edges, a pool of light and a rippled reflection on the floor, and motes drifting up through the column in three depths. The pillar leans toward the pointer, planted at the floor and bending more the higher it climbs, on springs.drift, and a press sends a surge up it through a critically damped drift-spring impulse that brightens the column, hurries the motes and rings out across the floor on the enter easing; keyboard focus on a control inside is the hand there, with a half surge.",
+      "files": [
+        {
+          "path": "registry/ui/beacon-pillar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1444"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "drape-silk",
+      "type": "registry:ui",
+      "title": "Drape Silk",
+      "description": "A background of silk filling the box: long hanging folds that meander, fan out as they fall and drift slowly, raked by a soft key light with an anisotropic shine stretched along the threads, so the sheen slides along the folds as they move, and a fine plain weave breaking it where the screen can hold it. The hand lifts the cloth, its place following on springs.glide and its presence on springs.drift; a press takes it up higher and on release it drops on springs.recoil with two small bounces, a ripple runs out from where it fell and the folds shift into a new arrangement on drift. Keyboard focus on a control inside takes the cloth up gently there, and focus leaving lets it fall the same way.",
+      "files": [
+        {
+          "path": "registry/ui/drape-silk.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1445"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "drift-lines",
+      "type": "registry:ui",
+      "title": "Drift Lines",
+      "description": "A Canvas 2D background of long thin lines floating across the frame at different depths: each a gentle seeded curve drifting sideways at a pace set by its depth and bobbing on its own long period, so neighbours now and then cross, with near lines thicker, softer and lower in contrast and far ones hair-thin and crisp. The pointer shifts the parallax by depth on springs.glide, and a press racks focus to the depth of the line nearest the pointer on the glide spring, sharpening that plane and softening the rest, before it drifts back to rest on springs.drift; keyboard focus on a control inside racks focus to the line nearest it.",
+      "files": [
+        {
+          "path": "registry/ui/drift-lines.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1446"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "window-shafts",
+      "type": "registry:ui",
+      "title": "Window Shafts",
+      "description": "A background of a wall in shade with late sun coming through a tall window that is never seen: the light lands as a skewed patch, the window's image along the sun's direction with soft shadow bars from its mullions and transoms, the beams cross the air as parallel shafts broken by drifting haze, and dust glints only where a beam catches it, while the sun sways and slides so the bars drift. The pointer moves the sun, turning its angle and changing the patch's length on springs.drift, and a press stirs the dust into a swirl through a critically damped drift-spring impulse; keyboard focus on a control inside moves the sun toward it with a softer stir.",
+      "files": [
+        {
+          "path": "registry/ui/window-shafts.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1447"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "crown-rays",
+      "type": "registry:ui",
+      "title": "Crown Rays",
+      "description": "A background of volumetric rays fanning down from a source just above the frame through a soft haze: seeded rays of their own widths and brightness, the crown turning slowly as a pendulum and every ray breathing on its own period, the haze breaking them into shafts and scattering light between them, burning toward white near the source. The source follows the pointer along the top on springs.drift so the crown swings with weight, and a press breaks the light: a bright front runs down the rays on the enter easing, strongest toward the press, while a critically damped drift-spring impulse brightens the crown and thins the haze; keyboard focus on a control inside moves the source over it with a softer pulse.",
+      "files": [
+        {
+          "path": "registry/ui/crown-rays.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1448"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "pixel-bloom",
+      "type": "registry:ui",
+      "title": "Pixel Bloom",
+      "description": "A background of square pixels that bloom: a ring leaves the point you press at 300 px/s and every pixel it reaches turns over about the axis facing it, onto its colour on the springs.recoil constants and on home on springs.glide after a short hold, so each pixel spins once through its colour and the bloom travels out as a ragged ring with the field closing behind it (a long hold lets the pixels land, two small bounces on their stops, and fills the bloom in). Past the reach the ring only knocks pixels on springs.snap, so the bloom fades into the field. A resting pointer blooms where it rests, the pixel under a hovering pointer warms toward the colour, soft blooms open on their own every few seconds, and keyboard focus on a control inside blooms from that control.",
+      "files": [
+        {
+          "path": "registry/ui/pixel-bloom.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1449"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "color-fold",
+      "type": "registry:ui",
+      "title": "Color Fold",
+      "description": "A background of ribbons of paint folded round one another: each ribbon's centreline bends in two slow travelling waves, the ribbons overlap and plait over and under each other, and each one turns over along its length — pinching to a crease where it is edge-on and showing its darker back where it has turned — with a soft shadow on whatever lies beneath it. The pointer is a hand in the paint: the ribbons part around it, its place following on springs.glide and its presence arriving on springs.drift, and a press throws a fold, a ring that leaves the press and turns every ribbon right over as it passes; keyboard focus on a control inside parts the ribbons there and throws a softer fold.",
+      "files": [
+        {
+          "path": "registry/ui/color-fold.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1450"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "iris-watch",
+      "type": "registry:ui",
+      "title": "Iris Watch",
+      "description": "A background that is one enormous iris seen close up — fibrous strands from the pupil to a darkening limbus, a warmer burst inside a zig-zag collarette, dark crypts, a deep pupil and a window of light on the cornea — that watches: the eye turns toward the pointer on a heavy, critically damped spring with the springs.drift ratio (its stiffness set by tracking), the iris sliding and foreshortening as the ball turns. The pupil breathes and narrows as the pointer comes near, a press flashes it small on a stiff spring before it opens again as the flash fades, it blinks now and then and glances about when nobody is near; keyboard focus on a control inside draws its gaze to that control.",
+      "files": [
+        {
+          "path": "registry/ui/iris-watch.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1451"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "harp-strings",
+      "type": "registry:ui",
+      "title": "Harp Strings",
+      "description": "A background of horizontal strings that ring: each is a real fixed–fixed string solved by up to eight standing-wave modes, each turning at its own frequency and fading at its own rate, so a pluck is exact superposition and dies away the way a string does, treble strings shivering faster than bass ones and brightening toward their colour as they ring. A passing pointer catches the nearest string, bends it 1:1 round the hand and lets it go when the hand pushes through, so a slow pass drags each string before it twangs and a fast strum sweeps every one it crosses; a press grabs a string, the drag pulls it 1:1 with rubber-banding and the release plucks it with the hand's speed, and keyboard focus on a control inside strums the strings behind it.",
+      "files": [
+        {
+          "path": "registry/ui/harp-strings.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1452"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "sweep-scope",
+      "type": "registry:ui",
+      "title": "Sweep Scope",
+      "description": "A background that is a radar scope: range rings with their numbers, faint spokes and ticks, and a beam that nods across the upper half from a centre on the bottom edge (or turns full circle from the middle), its afterglow exact — every half-degree of bearing remembers when the beam last crossed it — lighting ground clutter as it rakes it, while vessels drifting across show only where the beam last painted them, each paint fading into a dotted track. A press places a contact whose corner brackets close in on springs.snap; nothing shows there until the sweep finds it, when the blip lands on springs.recoil and a ping ring opens, and keyboard focus on a control inside places a contact at that control.",
+      "files": [
+        {
+          "path": "registry/ui/sweep-scope.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1453"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "polar-glow",
+      "type": "registry:ui",
+      "title": "Polar Glow",
+      "description": "A background of a night sky with an aurora barely there in it: broad, blurred curtains whose lower edges fold in three slow travelling waves, their light rising from the edge and fading upward from the palette's lower colour to its upper one, brighter where a sheet folds toward you, over a faint star field that shows only on a dark page — low contrast by design, so a headline sits on it comfortably. The curtain nearest the pointer brightens around it, each curtain's light following its own springs.drift so it hands over smoothly as the hand moves (the hand itself follows on springs.glide); a press sends a surge running out both ways along the nearest curtain, and keyboard focus on a control inside brightens the curtain nearest it and sends a softer surge.",
+      "files": [
+        {
+          "path": "registry/ui/polar-glow.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1454"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

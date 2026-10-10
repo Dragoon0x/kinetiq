@@ -1492,6 +1492,24 @@ import { MosaicTrailDemo } from "@/registry/demos/mosaic-trail.demo";
 import { CubeFieldDemo } from "@/registry/demos/cube-field.demo";
 import { MoltenMarkDemo } from "@/registry/demos/molten-mark.demo";
 import { FilmGrainDemo } from "@/registry/demos/film-grain.demo";
+import { ChevronTideDemo } from "@/registry/demos/chevron-tide.demo";
+import { LouverLightDemo } from "@/registry/demos/louver-light.demo";
+import { ShapeSwellDemo } from "@/registry/demos/shape-swell.demo";
+import { GlassDriftDemo } from "@/registry/demos/glass-drift.demo";
+import { FiberMistDemo } from "@/registry/demos/fiber-mist.demo";
+import { TubeGlowDemo } from "@/registry/demos/tube-glow.demo";
+import { NightVeilDemo } from "@/registry/demos/night-veil.demo";
+import { BeaconPillarDemo } from "@/registry/demos/beacon-pillar.demo";
+import { DrapeSilkDemo } from "@/registry/demos/drape-silk.demo";
+import { DriftLinesDemo } from "@/registry/demos/drift-lines.demo";
+import { WindowShaftsDemo } from "@/registry/demos/window-shafts.demo";
+import { CrownRaysDemo } from "@/registry/demos/crown-rays.demo";
+import { PixelBloomDemo } from "@/registry/demos/pixel-bloom.demo";
+import { ColorFoldDemo } from "@/registry/demos/color-fold.demo";
+import { IrisWatchDemo } from "@/registry/demos/iris-watch.demo";
+import { HarpStringsDemo } from "@/registry/demos/harp-strings.demo";
+import { SweepScopeDemo } from "@/registry/demos/sweep-scope.demo";
+import { PolarGlowDemo } from "@/registry/demos/polar-glow.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2998,4 +3016,22 @@ export const demos: Record<string, ComponentType> = {
   "cube-field": CubeFieldDemo,
   "molten-mark": MoltenMarkDemo,
   "film-grain": FilmGrainDemo,
+  "chevron-tide": ChevronTideDemo,
+  "louver-light": LouverLightDemo,
+  "shape-swell": ShapeSwellDemo,
+  "glass-drift": GlassDriftDemo,
+  "fiber-mist": FiberMistDemo,
+  "tube-glow": TubeGlowDemo,
+  "night-veil": NightVeilDemo,
+  "beacon-pillar": BeaconPillarDemo,
+  "drape-silk": DrapeSilkDemo,
+  "drift-lines": DriftLinesDemo,
+  "window-shafts": WindowShaftsDemo,
+  "crown-rays": CrownRaysDemo,
+  "pixel-bloom": PixelBloomDemo,
+  "color-fold": ColorFoldDemo,
+  "iris-watch": IrisWatchDemo,
+  "harp-strings": HarpStringsDemo,
+  "sweep-scope": SweepScopeDemo,
+  "polar-glow": PolarGlowDemo,
 };

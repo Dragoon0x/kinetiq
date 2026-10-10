@@ -295,4 +295,76 @@ export const CANVAS_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/film-grain.demo").then((m) =>
       mod(m.FilmGrainDemo, m.tweaks),
     ),
+  "chevron-tide": () =>
+    import("@/registry/demos/chevron-tide.demo").then((m) =>
+      mod(m.ChevronTideDemo, m.tweaks),
+    ),
+  "louver-light": () =>
+    import("@/registry/demos/louver-light.demo").then((m) =>
+      mod(m.LouverLightDemo, m.tweaks),
+    ),
+  "shape-swell": () =>
+    import("@/registry/demos/shape-swell.demo").then((m) =>
+      mod(m.ShapeSwellDemo, m.tweaks),
+    ),
+  "glass-drift": () =>
+    import("@/registry/demos/glass-drift.demo").then((m) =>
+      mod(m.GlassDriftDemo, m.tweaks),
+    ),
+  "fiber-mist": () =>
+    import("@/registry/demos/fiber-mist.demo").then((m) =>
+      mod(m.FiberMistDemo, m.tweaks),
+    ),
+  "tube-glow": () =>
+    import("@/registry/demos/tube-glow.demo").then((m) =>
+      mod(m.TubeGlowDemo, m.tweaks),
+    ),
+  "night-veil": () =>
+    import("@/registry/demos/night-veil.demo").then((m) =>
+      mod(m.NightVeilDemo, m.tweaks),
+    ),
+  "beacon-pillar": () =>
+    import("@/registry/demos/beacon-pillar.demo").then((m) =>
+      mod(m.BeaconPillarDemo, m.tweaks),
+    ),
+  "drape-silk": () =>
+    import("@/registry/demos/drape-silk.demo").then((m) =>
+      mod(m.DrapeSilkDemo, m.tweaks),
+    ),
+  "drift-lines": () =>
+    import("@/registry/demos/drift-lines.demo").then((m) =>
+      mod(m.DriftLinesDemo, m.tweaks),
+    ),
+  "window-shafts": () =>
+    import("@/registry/demos/window-shafts.demo").then((m) =>
+      mod(m.WindowShaftsDemo, m.tweaks),
+    ),
+  "crown-rays": () =>
+    import("@/registry/demos/crown-rays.demo").then((m) =>
+      mod(m.CrownRaysDemo, m.tweaks),
+    ),
+  "pixel-bloom": () =>
+    import("@/registry/demos/pixel-bloom.demo").then((m) =>
+      mod(m.PixelBloomDemo, m.tweaks),
+    ),
+  "color-fold": () =>
+    import("@/registry/demos/color-fold.demo").then((m) =>
+      mod(m.ColorFoldDemo, m.tweaks),
+    ),
+  "iris-watch": () =>
+    import("@/registry/demos/iris-watch.demo").then((m) =>
+      mod(m.IrisWatchDemo, m.tweaks),
+    ),
+  "harp-strings": () =>
+    import("@/registry/demos/harp-strings.demo").then((m) =>
+      mod(m.HarpStringsDemo, m.tweaks),
+    ),
+  "sweep-scope": () =>
+    import("@/registry/demos/sweep-scope.demo").then((m) =>
+      mod(m.SweepScopeDemo, m.tweaks),
+    ),
+  "polar-glow": () =>
+    import("@/registry/demos/polar-glow.demo").then((m) =>
+      mod(m.PolarGlowDemo, m.tweaks),
+    ),
 };
