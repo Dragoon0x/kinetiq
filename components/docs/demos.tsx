@@ -1542,6 +1542,17 @@ import { RippleLatticeDemo } from "@/registry/demos/ripple-lattice.demo";
 import { PollenFlowDemo } from "@/registry/demos/pollen-flow.demo";
 import { DotTideDemo } from "@/registry/demos/dot-tide.demo";
 import { ThreadDriftDemo } from "@/registry/demos/thread-drift.demo";
+import { NightDriveDemo } from "@/registry/demos/night-drive.demo";
+import { OilFilmDemo } from "@/registry/demos/oil-film.demo";
+import { TideLinesDemo } from "@/registry/demos/tide-lines.demo";
+import { BendGridDemo } from "@/registry/demos/bend-grid.demo";
+import { BeadPitDemo } from "@/registry/demos/bead-pit.demo";
+import { GlowOrbDemo } from "@/registry/demos/glow-orb.demo";
+import { LetterFieldDemo } from "@/registry/demos/letter-field.demo";
+import { TileDriftDemo } from "@/registry/demos/tile-drift.demo";
+import { ShapeLatticeDemo } from "@/registry/demos/shape-lattice.demo";
+import { ChromePoolDemo } from "@/registry/demos/chrome-pool.demo";
+import { PaintVortexDemo } from "@/registry/demos/paint-vortex.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -3098,4 +3109,15 @@ export const demos: Record<string, ComponentType> = {
   "pollen-flow": PollenFlowDemo,
   "dot-tide": DotTideDemo,
   "thread-drift": ThreadDriftDemo,
+  "night-drive": NightDriveDemo,
+  "oil-film": OilFilmDemo,
+  "tide-lines": TideLinesDemo,
+  "bend-grid": BendGridDemo,
+  "bead-pit": BeadPitDemo,
+  "glow-orb": GlowOrbDemo,
+  "letter-field": LetterFieldDemo,
+  "tile-drift": TileDriftDemo,
+  "shape-lattice": ShapeLatticeDemo,
+  "chrome-pool": ChromePoolDemo,
+  "paint-vortex": PaintVortexDemo,
 };

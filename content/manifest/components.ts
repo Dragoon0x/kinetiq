@@ -113790,4 +113790,1733 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the skein holds that composed moment, nothing gathers, and a press lights the bends round it where they lie.",
     ],
   },
+  {
+    name: "night-drive",
+    type: "registry:ui",
+    title: "Night Drive",
+    description:
+      "A background of a highway at night seen from a moving car, drawn as a long exposure: one WebGL2 pass casts every pixel onto the road, the light plane and its mirror under the wet asphalt, so oncoming headlights stream toward you in pale trails, taillights pull away to the vanishing point in red, dashes rush past and lamps pass overhead with long reflections while the road sweeps through slow bends. The pointer steers across your lanes on the springs.glide constants, and holding a press warps — speed, trail length and field of view stretch on glide and ease back to a cruise on springs.drift. Keyboard focus on a control inside steers toward it and surges.",
+    files: [
+      {
+        path: "registry/ui/night-drive.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "glsl"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1473",
+    },
+    tagline: "Streaks of light on an endless road.",
+    keywords: [
+      "light trails",
+      "highway",
+      "night drive",
+      "long exposure",
+      "webgl",
+      "hero background",
+      "warp",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The content on top of the road: a hero line, a heading, a call to action.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "How fast the car cruises, 0 (parked, the scene holds still) to 2.",
+      },
+      {
+        name: "lanes",
+        type: "number",
+        defaultValue: "4",
+        description:
+          "Lanes across the road, 2 to 6; the left half is oncoming.",
+      },
+      {
+        name: "colors",
+        type: '"sodium" | "neon" | "ice" | "accent" | readonly string[]',
+        defaultValue: '"sodium"',
+        description:
+          "Headlights, taillights and street lamps: a named set, or three CSS colours of your own in that order.",
+      },
+      {
+        name: "traffic",
+        type: "number",
+        defaultValue: "0.6",
+        description: "How busy the road is, 0 (empty) to 1 (nose to tail).",
+      },
+      {
+        name: "streak",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "The exposure: how long each light's trail runs, 0 (short dashes) to 1 (long ribbons).",
+      },
+      {
+        name: "curve",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How hard the road bends through its sweeping curves, 0 (dead straight) to 1.",
+      },
+      {
+        name: "reflection",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How wet the asphalt is: how strongly every light is mirrored in it, 0 to 1.",
+      },
+      {
+        name: "lamps",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Street lamps along both shoulders, with their pools and reflections.",
+      },
+      {
+        name: "warpFactor",
+        type: "number",
+        defaultValue: "5",
+        description:
+          "How many times faster the car goes at full warp, 1 to 10.",
+      },
+      {
+        name: "warp",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Hold the warp from outside: a button, a key, a scroll position. The pointer's own hold works either way.",
+      },
+      {
+        name: "onWarpChange",
+        type: "(warping: boolean) => void",
+        description:
+          "Fires when the visitor's hold puts the car into warp (true) or lets it ease back to a cruise (false).",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The pointer steers across the lanes and a held press warps; keyboard focus inside steers and surges.",
+      },
+      {
+        name: "pointerStrength",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How far the hand steers the car across its lanes, 0 to 1.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Hold the scene still; steering and the warp still answer.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "Seeds the traffic and the bends, so two roads never match.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "onActiveChange",
+        type: "(active: boolean) => void",
+        description:
+          "Fires when the pointer or keyboard focus starts (true) or stops (false) steering.",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-full w-full"',
+        description: "Sizes and shapes the box.",
+      },
+    ],
+    usageNotes: [
+      "The road is decoration: the canvas, its CSS stand-in and the colour carriers are aria-hidden, and your children sit above in their own layer with focus, clicks and selection intact. Presses on your controls never warp.",
+      "Keyboard: a control inside taking keyboard focus steers the car toward it and gives a short warp surge. No tab stop of its own; to give the warp to a key or button of your own, drive the `warp` prop.",
+      "The sky and the asphalt come from the page's background token, so a dark page gets night and a light page blue hour; the lights keep their own colours. Keep the headline in the upper 40 % where the sky is.",
+      "Under reduced motion the long exposure is one still frame; steering lands exactly where the pointer is, and a hold swaps to the warped frame and back with no travel.",
+      "One fullscreen draw at three quarters of the capped device pixel ratio, only on screen in a visible page; at speed 0 or paused the loop stops once the springs settle. Without WebGL2, or after a lost context, a CSS night road stands in.",
+    ],
+  },
+  {
+    name: "oil-film",
+    type: "registry:ui",
+    title: "Oil Film",
+    description:
+      "A background of oil floating on a dark wet ground, its colour computed rather than painted: a WebGL2 shader builds the film's thickness from noise warped by noise and wound into spiral arms, then turns thickness into colour by thin-film interference summed across nine wavelengths, so the colours fall in a puddle's true order — dark where the film is thinnest, deep blue, magenta and gold, pearl where it lies thick. Moving the pointer stirs it with vortex pairs that carry the oil along the stroke and spread as they settle, and a press touches the film like a drop of solvent: a ring spreads on the springs.glide constants and the colours race outward round a dark eye that slowly heals. Keyboard focus on a control inside touches the film behind it.",
+    files: [
+      {
+        path: "registry/ui/oil-film.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "glsl"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1474",
+    },
+    tagline: "The colour of light on oil.",
+    keywords: [
+      "thin film",
+      "iridescent",
+      "interference",
+      "oil",
+      "webgl",
+      "shader",
+      "hero background",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The content on top of the film: a hero line, a heading, a call to action.",
+      },
+      {
+        name: "thickness",
+        type: "number",
+        defaultValue: "0.45",
+        description:
+          "How thick the oil lies, 0 (a breath of film: deep, dark colour) to 1 (a thick slick: washed pearl).",
+      },
+      {
+        name: "swirl",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How far the film is wound into spiral arms, 0 (loose clouds) to 1 (tight whorls).",
+      },
+      {
+        name: "saturation",
+        type: "number",
+        defaultValue: "0.7",
+        description:
+          "How much colour the light carries, 0 (pearl and grey) to 1 (full interference colour).",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "0.5",
+        description: "How fast the film drifts and winds, 0 (still) to 2.",
+      },
+      {
+        name: "scale",
+        type: "number",
+        defaultValue: "360",
+        description: "The size of one patch of colour, px.",
+      },
+      {
+        name: "sheen",
+        type: "number",
+        defaultValue: "0.45",
+        description:
+          "A broad soft reflection of the sky across the wet surface, 0 to 1.",
+      },
+      {
+        name: "ground",
+        type: "string",
+        description:
+          "The wet ground under the oil. Defaults to a dark pigment in the page's hue.",
+      },
+      {
+        name: "grain",
+        type: "number",
+        defaultValue: "0.25",
+        description: "A whisper of grain that also hides banding, 0 to 1.",
+      },
+      {
+        name: "settle",
+        type: "number",
+        defaultValue: "5200",
+        description:
+          "How long a stir or a touch takes to settle back into the film, ms.",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The pointer stirs the film and a press touches it; keyboard focus inside touches it too.",
+      },
+      {
+        name: "pointerStrength",
+        type: "number",
+        defaultValue: "0.6",
+        description: "How hard the hand stirs, 0 to 1.",
+      },
+      {
+        name: "radius",
+        type: "number",
+        defaultValue: "140",
+        description:
+          "How far a stir reaches and how wide a touch's ring spreads, px.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Hold the film still; the hand still stirs and touches it.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "1",
+        description: "Seeds the film, so two puddles never match.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "onActiveChange",
+        type: "(active: boolean) => void",
+        description:
+          "Fires when the pointer or keyboard focus starts (true) or stops (false) stirring the film.",
+      },
+      {
+        name: "onTouchFilm",
+        type: "(x: number, y: number) => void",
+        description:
+          "Fires when a press or keyboard focus touches the film, with the point in the box's own px.",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-full w-full"',
+        description: "Sizes and shapes the box.",
+      },
+    ],
+    usageNotes: [
+      "The film is decoration: the canvas, its CSS stand-in and the colour carriers are aria-hidden, and your children sit above in their own layer with focus, clicks and selection intact. Presses on your controls never touch the film.",
+      "Keyboard: a control inside taking keyboard focus touches the film behind it, rings and all. No tab stop of its own.",
+      "The ground is a pigment at a fixed lightness in the page's hue, so it is the same dark puddle on a light page and a dark one; put the headline on a panel. Pass `ground` for a ground of your own.",
+      "Under reduced motion one still frame is drawn and stirring is not animated; a touch shows its finished ring as one still and the film returns in a single swap after `settle`.",
+      "One fullscreen draw at 0.6 of the capped device pixel ratio, thirty frames a second while it only drifts and every frame while a stir or touch settles, nothing off screen or in a hidden page. Without WebGL2, or after a lost context, a CSS still of the puddle stands in.",
+    ],
+  },
+  {
+    name: "tide-lines",
+    type: "registry:ui",
+    title: "Tide Lines",
+    description:
+      "A background of surf seen from a cliff: parallel lines stacked in depth from a horizon to the shore, bunched by perspective, each the water's surface along one depth — three seeded swell trains with peaked crests that shoal as they come in, so the front lines run higher and brighter — with every line hiding the water behind it and foam riding the crests. The pointer is a wind that raises a mound of swell under it, following on the springs.glide constants and arriving on springs.drift, and a press sends in a set: one long wave that rolls to the shore and breaks in a burst of spray. Keyboard focus on a control inside sends a set from behind it.",
+    files: [
+      {
+        path: "registry/ui/tide-lines.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1475",
+    },
+    tagline: "Layered lines rolling like surf.",
+    keywords: [
+      "waves",
+      "surf",
+      "ridgelines",
+      "ocean",
+      "lines background",
+      "canvas",
+      "hero background",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The content on top of the water: a hero line, a heading, a call to action.",
+      },
+      {
+        name: "lines",
+        type: "number",
+        defaultValue: "36",
+        description:
+          "How many lines of water are stacked from the horizon to the shore, 12 to 64.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "0.5",
+        description: "How high the swell runs, 0 (glassy) to 1 (big surf).",
+      },
+      {
+        name: "color",
+        type: '"cobalt" | "signal" | "ink" | "coral" | string',
+        defaultValue: '"cobalt"',
+        description: "The lines' colour: a named token or any CSS colour.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "1",
+        description: "How fast the swell rolls in, 0 (still) to 2.",
+      },
+      {
+        name: "period",
+        type: "number",
+        defaultValue: "260",
+        description:
+          "The swell's wavelength along the shore, px at the front line.",
+      },
+      {
+        name: "foam",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "Foam at the crests and spray where waves break, 0 (none) to 1.",
+      },
+      {
+        name: "horizon",
+        type: "number",
+        defaultValue: "0.18",
+        description:
+          "Where the farthest line sits, as a share of the height from the top, 0 to 0.6.",
+      },
+      {
+        name: "weight",
+        type: "number",
+        defaultValue: "1.6",
+        description: "The front line's width, px; far lines are finer.",
+      },
+      {
+        name: "ground",
+        type: "string",
+        defaultValue: '"var(--background)"',
+        description: "The water's ground, behind and between the lines.",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The pointer raises the swell and a press sends in a set; keyboard focus inside sends one too.",
+      },
+      {
+        name: "pointerStrength",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How much the hand raises the swell and how big a set it sends, 0 to 1.",
+      },
+      {
+        name: "radius",
+        type: "number",
+        defaultValue: "180",
+        description: "How far the hand's wind reaches, px.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Hold the water still; the hand and sets still move it.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "1",
+        description: "Seeds the swell, so two seas never match.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "onActiveChange",
+        type: "(active: boolean) => void",
+        description:
+          "Fires when the pointer or keyboard focus starts (true) or stops (false) raising the swell.",
+      },
+      {
+        name: "onSet",
+        type: "() => void",
+        description: "Fires when a press or keyboard focus sends in a set.",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-full w-full"',
+        description: "Sizes and shapes the box.",
+      },
+    ],
+    usageNotes: [
+      "The sea is decoration: the canvas, its CSS stand-in and the colour carriers are aria-hidden, and your children sit above in their own layer with focus, clicks and selection intact. Presses on your controls never send a set.",
+      "Keyboard: a control inside taking keyboard focus raises the swell there and sends a set from behind it. No tab stop of its own.",
+      "Lines take a token (cobalt, signal, ink, coral) or any CSS colour, resolved on the element and re-read when the theme changes; far lines fade toward the ground and foam is the line pulled toward the ink, pale on dark and inked on light.",
+      "Under reduced motion one still frame is drawn: the hand's mound lands where it is, and a set shows as one still frame at its break, gone again after 1.4 s.",
+      "Canvas 2D, one path per line sampled every 6 px; thirty frames a second while it only rolls and every frame while the hand or a set moves, nothing off screen or in a hidden page, and the loop stops when paused and still.",
+    ],
+  },
+  {
+    name: "bend-grid",
+    type: "registry:ui",
+    title: "Bend Grid",
+    description:
+      "A background of square prints hung on a wall in a grid that bends under the hand as if a lens were pressed into rubber: one WebGL2 pass draws every pixel through the lens, so the tiles under the hand swell, the gutters bend round them and a thin coloured fringe shows where the bend is steepest. The lens follows the hand on the springs.glide constants and its depth runs on springs.recoil, so a press sinks it with one overshoot and a lifted hand lets the rubber spring back flat through two small bounces. Keyboard focus on a control inside presses the lens behind it for one beat; the prints are sixteen seeded compositions in five pigments, or your own pictures.",
+    files: [
+      {
+        path: "registry/ui/bend-grid.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "glsl"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1476",
+    },
+    tagline: "An image grid that bends under your hand.",
+    keywords: [
+      "image grid",
+      "lens",
+      "distortion",
+      "gallery wall",
+      "webgl",
+      "chromatic",
+      "hero background",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The content on top of the wall: a hero line, a heading, a call to action.",
+      },
+      {
+        name: "grid",
+        type: "number",
+        defaultValue: "6",
+        description: "How many tiles across, 3 to 10; rows fill the height.",
+      },
+      {
+        name: "strength",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How deep the lens presses into the wall, 0 (barely) to 1 (deep).",
+      },
+      {
+        name: "radius",
+        type: "number",
+        defaultValue: "170",
+        description: "How far the lens reaches round the hand, px.",
+      },
+      {
+        name: "images",
+        type: "readonly string[]",
+        description:
+          "Pictures for the tiles (URLs, cropped to fill). Without them the wall hangs its own seeded prints.",
+      },
+      {
+        name: "palette",
+        type: '"gallery" | "accent" | "garden" | "mono" | readonly string[]',
+        defaultValue: '"gallery"',
+        description:
+          "The prints' five pigments: a named set, or five CSS colours of your own (paper first, ink last).",
+      },
+      {
+        name: "gap",
+        type: "number",
+        defaultValue: "8",
+        description: "The gutter between tiles, px.",
+      },
+      {
+        name: "corner",
+        type: "number",
+        defaultValue: "6",
+        description: "Each tile's corner radius, px.",
+      },
+      {
+        name: "chroma",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "A thin coloured fringe where the wall bends, 0 (none) to 1.",
+      },
+      {
+        name: "drift",
+        type: "number",
+        defaultValue: "0.3",
+        description:
+          "How fast the wall pans by on its slow diagonal, 0 (still) to 1.",
+      },
+      {
+        name: "wall",
+        type: "string",
+        defaultValue: '"var(--background)"',
+        description: "The wall itself, seen in the gutters.",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The pointer and keyboard focus press the lens into the wall.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Hold the wall still; the lens still presses.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "Seeds the prints and their order, so two walls never match.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "onActiveChange",
+        type: "(active: boolean) => void",
+        description:
+          "Fires when the pointer or keyboard focus starts (true) or stops (false) bending the wall.",
+      },
+      {
+        name: "onPressChange",
+        type: "(pressed: boolean) => void",
+        description:
+          "Fires when a press sinks the lens in (true) and when it lets go (false).",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-full w-full"',
+        description: "Sizes and shapes the box.",
+      },
+    ],
+    usageNotes: [
+      "The wall is decoration: the canvas, its CSS stand-in, the colour carriers and any `images` are aria-hidden, and your children sit above in their own layer with focus, clicks and selection intact. Pictures that carry meaning belong in your content, with alt text.",
+      "Keyboard: a control inside taking keyboard focus brings the lens to it and presses it in for one beat, so the rubber lets go the way a released press does. No tab stop of its own.",
+      "Prints are pigments at fixed lightness, the same in both themes; the gutters take the `wall` colour, the page's background by default. `images` load cross-origin into the atlas, so serve them with CORS headers.",
+      "Under reduced motion the wall does not pan, and the lens lands where the hand is at its resting depth with no spring; a press and release are two instant swaps.",
+      "One fullscreen draw at the capped device pixel ratio; the atlas is painted and uploaded with mipmaps only when the seed, palette, theme or pictures change. Thirty frames a second while it only pans, nothing off screen or in a hidden page. Without WebGL2, or after a lost context, a CSS tile wall stands in.",
+    ],
+  },
+  {
+    name: "bead-pit",
+    type: "registry:ui",
+    title: "Bead Pit",
+    description:
+      "A background whose floor is a pit of glossy glass beads under simple 2D physics: a position-based solve at 120 Hz with gravity, collisions through a spatial hash, bouncing floor and walls and static friction, drawn as shaded spheres with soft contact shadows, sized so the beads fill the same depth at any width. The pointer is a round paddle that pushes beads aside and lends them its speed, and a click pops the beads on top of the pile into the air with a soft blup chord when sound is on; the loop sleeps once every bead is still. Keyboard focus on a control inside pops the beads behind it.",
+    files: [
+      {
+        path: "registry/ui/bead-pit.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1477",
+    },
+    tagline: "A pit of glossy beads you can stir.",
+    keywords: [
+      "physics",
+      "ball pit",
+      "beads",
+      "particles",
+      "canvas",
+      "playful background",
+      "gravity",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The content on top of the pit: a hero line, a heading, a call to action.",
+      },
+      {
+        name: "count",
+        type: "number",
+        defaultValue: "160",
+        description:
+          "How many beads lie in the pit, 20 to 400; more beads are smaller, so the pit fills the same depth.",
+      },
+      {
+        name: "gravity",
+        type: "number",
+        defaultValue: "1",
+        description: "How hard the beads fall, 0 (they drift) to 2 (heavy).",
+      },
+      {
+        name: "palette",
+        type: '"candy" | "accent" | "pearl" | "ember" | readonly string[]',
+        defaultValue: '"candy"',
+        description:
+          "The beads' glass: a named set of pigments, or CSS colours of your own.",
+      },
+      {
+        name: "fill",
+        type: "number",
+        defaultValue: "0.42",
+        description:
+          "How deep the pit is filled, as a share of the height, 0.1 to 0.8.",
+      },
+      {
+        name: "bounce",
+        type: "number",
+        defaultValue: "0.3",
+        description:
+          "How lively a bead bounces off the floor, the walls and the others, 0 (dead) to 0.8.",
+      },
+      {
+        name: "gloss",
+        type: "number",
+        defaultValue: "0.7",
+        description:
+          "How glossy the glass is: the size and strength of each highlight, 0 (matte) to 1.",
+      },
+      {
+        name: "stir",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How much of the hand's speed a stirred bead takes, 0 (it is only pushed aside) to 1.",
+      },
+      {
+        name: "radius",
+        type: "number",
+        defaultValue: "40",
+        description: "The hand's reach in the pit, px.",
+      },
+      {
+        name: "pop",
+        type: "number",
+        defaultValue: "8",
+        description: "How many beads a click pops into the air, 1 to 24.",
+      },
+      {
+        name: "popHeight",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How high a popped bead flies, as a share of the height, 0 to 1.",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The pointer stirs the pit and a click pops beads; keyboard focus inside pops them too.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Freeze the beads where they are.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "1",
+        description: "Seeds the beads' colours, sizes and places.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Pops answer with a soft blup and each popped bead lands with a quieter one. Off unless asked for.",
+      },
+      {
+        name: "onActiveChange",
+        type: "(active: boolean) => void",
+        description:
+          "Fires when the pointer starts (true) or stops (false) stirring the pit.",
+      },
+      {
+        name: "onPop",
+        type: "(count: number) => void",
+        description: "Fires on every pop, with how many beads went up.",
+      },
+      {
+        name: "onSettle",
+        type: "() => void",
+        description: "Fires when every bead has come to rest.",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-full w-full"',
+        description: "Sizes and shapes the box.",
+      },
+    ],
+    usageNotes: [
+      "The pit is decoration: the canvas, its CSS stand-in and the colour carriers are aria-hidden, and your children sit above in their own layer with focus, clicks and selection intact. Clicks on your controls never pop beads.",
+      "Keyboard: a control inside taking keyboard focus pops the beads behind it, sound included when on. No tab stop of its own.",
+      "Sound only answers the visitor — a pop and the landings it causes — and stays silent until the page has had a click, tap or key press.",
+      "Bead colours are pigments at fixed lightness, the same beads in both themes; the pit sits on your page's background. Keep the headline in the upper part of the box, above `fill`.",
+      "Under reduced motion the pile is drawn still and the hand does not move it; a pop is run to rest off screen and shown as one swap, the moved beads ringed for a moment.",
+      "Canvas 2D with one sprite per colour; the loop runs only while something moves, on screen, in a visible page, and sleeps once every bead is still. Nothing is allocated per frame.",
+    ],
+  },
+  {
+    name: "glow-orb",
+    type: "registry:ui",
+    title: "Glow Orb",
+    description:
+      "A background built to sit behind a headline: one soft orb of light whose surface is a living noise of colour, sampled on the sphere's own normal so it turns like a lit globe of gas, bright at the core and cooler toward a limb with no hard rim, inside a wide halo. It breathes on a slow asymmetric cycle; its halo leans toward the pointer, following on the springs.glide constants and arriving on springs.drift, and a press draws a deep breath on glide that is let out on drift with a soft ring leaving the limb. Keyboard focus on a control inside leans the halo there and takes a gentler breath; without WebGL2 a CSS orb still breathes and leans.",
+    files: [
+      {
+        path: "registry/ui/glow-orb.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "glsl"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1478",
+    },
+    tagline: "A soft orb of light that breathes.",
+    keywords: [
+      "orb",
+      "glow",
+      "breathing",
+      "gradient sphere",
+      "webgl",
+      "hero background",
+      "calm",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The content on top of the light: a headline, a line, a call to action.",
+      },
+      {
+        name: "size",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "The orb's diameter, as a share of the box's short side, 0.2 to 0.9.",
+      },
+      {
+        name: "palette",
+        type: '"aurora" | "accent" | "ember" | "lagoon" | readonly string[]',
+        defaultValue: '"aurora"',
+        description:
+          "A named palette, or four CSS colours of your own, darkest first.",
+      },
+      {
+        name: "breath",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How deeply the orb breathes, 0 (still) to 1: how much it swells and brightens on each breath.",
+      },
+      {
+        name: "breathDuration",
+        type: "number",
+        defaultValue: "7000",
+        description: "One whole breath, in and out, ms.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How fast the colour flows over its surface, 0 (still) to 2.",
+      },
+      {
+        name: "detail",
+        type: "number",
+        defaultValue: "0.55",
+        description:
+          "How much structure the surface carries, 0 (smooth) to 1 (fine).",
+      },
+      {
+        name: "halo",
+        type: "number",
+        defaultValue: "0.6",
+        description: "How wide and bright the halo is, 0 to 1.",
+      },
+      {
+        name: "lean",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How far the halo leans toward the pointer, 0 (not at all) to 1.",
+      },
+      {
+        name: "x",
+        type: "number",
+        defaultValue: "0.5",
+        description: "The orb's centre across the box, 0 (left) to 1 (right).",
+      },
+      {
+        name: "y",
+        type: "number",
+        defaultValue: "0.5",
+        description: "The orb's centre down the box, 0 (top) to 1 (bottom).",
+      },
+      {
+        name: "grain",
+        type: "number",
+        defaultValue: "0.2",
+        description: "A whisper of grain that also hides banding, 0 to 1.",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The pointer and keyboard focus lean the halo, and a press draws a deep breath.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Hold the orb still mid-breath; the hand still leans it.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "1",
+        description: "Seeds the surface, so two orbs never match.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "onActiveChange",
+        type: "(active: boolean) => void",
+        description:
+          "Fires when the pointer or keyboard focus starts (true) or stops (false) leaning the halo.",
+      },
+      {
+        name: "onBreathChange",
+        type: "(inhaling: boolean) => void",
+        description:
+          "Fires as each breath turns: true when it starts to breathe in, false when it starts to breathe out.",
+      },
+      {
+        name: "onDeepBreath",
+        type: "(drawn: boolean) => void",
+        description:
+          "Fires when a press draws a deep breath (true) and when it is let out (false).",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-full w-full"',
+        description: "Sizes and shapes the box.",
+      },
+    ],
+    usageNotes: [
+      "The orb is decoration: the canvas, the CSS orb and the colour carriers are aria-hidden, and your children sit above in their own layer with focus, clicks and selection intact. Presses on your controls never draw a breath.",
+      "Keyboard: a control inside taking keyboard focus leans the halo toward it and takes a gentler deep breath. No tab stop of its own.",
+      "On a dark page the orb is light added to the ground; on a light page the same recipe tints the paper. Palette colours are pigments mixed a tenth into the page, re-read when the theme changes. Give the headline a soft panel where it crosses the bright core.",
+      '`onBreathChange` lets a calm or onboarding screen follow the breath ("breathe in", "breathe out"); avoid announcing it through a live region, which would speak every few seconds.',
+      "Under reduced motion one still frame is drawn mid-breath; the lean lands exactly where the pointer is and a deep breath is an instant swap while held.",
+      "One fullscreen draw at 0.6 of the capped device pixel ratio, thirty frames a second while it only breathes and every frame while the hand works, nothing off screen or in a hidden page. Without WebGL2, or after a lost context, the CSS orb breathes with the Web Animations API and leans toward the hand.",
+    ],
+  },
+  {
+    name: "letter-field",
+    type: "registry:ui",
+    title: "Letter Field",
+    description:
+      "A background of quiet capital letters in a grid, with your content on top: two slow waves with organic fronts sweep it, and where their narrow crests pass the letters roll over to new ones and glint, so a band of change travels through a page that otherwise stands still. Every few seconds a word surfaces where nothing covers it — its letters roll in on the cascade, land with a small drop on springs.recoil and take a heavier weight at full colour, hold, then break up back into the field. The pointer calms the letters near it (place on springs.glide, presence on springs.drift) and holds any word it rests on; keyboard focus on a control inside brings the calm there.",
+    files: [
+      {
+        path: "registry/ui/letter-field.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1479",
+    },
+    tagline: "A field of letters that rearrange themselves.",
+    keywords: [
+      "letter grid",
+      "word search",
+      "typographic background",
+      "animated background",
+      "hero background",
+      "canvas",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The content on top of the letters: a hero line, a heading, a call to action.",
+      },
+      {
+        name: "rate",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "The field's clock, 0 (held) to 2: how fast the waves of change travel and how often words surface.",
+      },
+      {
+        name: "words",
+        type: '"studio" | "garden" | "harbor" | "none" | readonly string[]',
+        defaultValue: '"studio"',
+        description:
+          'What surfaces: a named set of words, your own list of single words, or "none" for letters only.',
+      },
+      {
+        name: "color",
+        type: '"ink" | "accent" | "signal" | "ember" | string',
+        defaultValue: '"ink"',
+        description:
+          "The ink: a named token colour or any CSS colour. Idle letters are this, sunk toward the page; words are it at full strength.",
+      },
+      {
+        name: "size",
+        type: "number",
+        defaultValue: "15",
+        description: "Letter size, px (10 to 32).",
+      },
+      {
+        name: "font",
+        type: '"sans" | "mono"',
+        defaultValue: '"sans"',
+        description: "The inherited sans or the mono face.",
+      },
+      {
+        name: "glyphs",
+        type: "string",
+        defaultValue: '"ABCDEFGHIJKLMNOPQRSTUVWXYZ"',
+        description: "The letters the field draws from.",
+      },
+      {
+        name: "dim",
+        type: "number",
+        defaultValue: "0.66",
+        description:
+          "How far idle letters sink into the page, 0 (as strong as words) to 1 (barely there).",
+      },
+      {
+        name: "hold",
+        type: "number",
+        defaultValue: "2400",
+        description: "How long a formed word stays readable, ms of field time.",
+      },
+      {
+        name: "maxWords",
+        type: "number",
+        defaultValue: "2",
+        description: "Words readable at once, 0 to 4.",
+      },
+      {
+        name: "avoidCovered",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Words only surface where nothing opaque or textual in your content covers them.",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The pointer and keyboard focus calm the letters near them.",
+      },
+      {
+        name: "pointerStrength",
+        type: "number",
+        defaultValue: "0.85",
+        description: "How still the letters under the hand go, 0 to 1.",
+      },
+      {
+        name: "radius",
+        type: "number",
+        defaultValue: "120",
+        description: "How far the hand's calm reaches, px.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Hold the field and its words where they are.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "1",
+        description: "Seeds the letters, the waves and where words land.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "onWord",
+        type: "(word: string) => void",
+        description: "Fires with each word once it has fully formed.",
+      },
+      {
+        name: "onActiveChange",
+        type: "(active: boolean) => void",
+        description:
+          "Fires when the pointer or keyboard focus starts (true) or stops (false) calming the field.",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-full w-full"',
+        description: "Sizes and shapes the box.",
+      },
+    ],
+    usageNotes: [
+      "The field is decoration: the canvas, its server-rendered stand-in and the colour carrier are aria-hidden, and the words are not announced. Your children sit above in their own layer with focus, clicks and selection intact.",
+      "Keyboard: a control inside taking keyboard focus brings the calm to it; blur releases it. The field has no tab stop of its own.",
+      "With avoidCovered on, words never surface under an element of your content that has a background, a backdrop filter or text of its own, so a headline panel keeps the field readable around it.",
+      "Colour is resolved on the element and re-read when the theme changes; the named colours are text tokens, so the letters keep their contrast in light and dark. Raise dim for a quieter page behind long copy.",
+      "Under reduced motion the field is still: one word at a time shows, and every five seconds it crossfades to the next. Nothing travels or springs.",
+      "Canvas 2D from a glyph atlas, redrawing only the cells that change, with the device pixel ratio capped at 2; nothing runs off screen or in a hidden page, and a paused field or rate 0 stops once its last letter settles.",
+    ],
+  },
+  {
+    name: "tile-drift",
+    type: "registry:ui",
+    title: "Tile Drift",
+    description:
+      "A background of rows of tiles drifting sideways past each other on a plane tilted back in perspective, with your content on top: alternate rows run opposite ways at seeded speeds, and the tiles are generated prints in the page's pigments or your own images. A sweep of the pointer surges the rows near it — arriving on springs.flick and easing back on springs.drift — and a sideways drag grabs the row under the finger 1:1 and throws it on release, the throw relaxing back to the row's cruise on a velocity spring with drift's constants. Keyboard focus on a control inside surges the rows behind it.",
+    files: [
+      {
+        path: "registry/ui/tile-drift.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1480",
+    },
+    tagline: "Rows of tiles drifting past each other.",
+    keywords: [
+      "tile marquee",
+      "image wall",
+      "perspective rows",
+      "gallery background",
+      "animated background",
+      "hero background",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The content on top of the wall: a hero line, a heading, a call to action.",
+      },
+      {
+        name: "rows",
+        type: "number",
+        defaultValue: "4",
+        description: "Rows of tiles across the box, 2 to 8.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "1",
+        description: "How fast the rows cruise, 0 (still) to 2.",
+      },
+      {
+        name: "tilt",
+        type: "number",
+        defaultValue: "14",
+        description:
+          "How far the plane leans back in perspective, degrees (0 to 35); it turns a third of that too.",
+      },
+      {
+        name: "images",
+        type: "readonly string[]",
+        description:
+          "Image URLs to show on the tiles, covering each one. Without them the tiles are generated prints.",
+      },
+      {
+        name: "colors",
+        type: "readonly string[]",
+        defaultValue: "five token-derived pigments",
+        description:
+          "The pigments the generated prints are made from, as CSS colours (2 to 6).",
+      },
+      {
+        name: "aspect",
+        type: "number",
+        defaultValue: "1.3",
+        description: "A tile's width over its height (0.5 to 2.5).",
+      },
+      {
+        name: "gap",
+        type: "number",
+        defaultValue: "10",
+        description: "Space between tiles and between rows, px (0 to 32).",
+      },
+      {
+        name: "radius",
+        type: "number",
+        defaultValue: "8",
+        description: "Tile corner radius, px (0 to 24).",
+      },
+      {
+        name: "variation",
+        type: "number",
+        defaultValue: "0.5",
+        description: "How differently the rows cruise, 0 (all alike) to 1.",
+      },
+      {
+        name: "fade",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How far the wall fades into the page at its edges, 0 (hard edge) to 1.",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The pointer and keyboard focus stir the rows, and rows can be grabbed.",
+      },
+      {
+        name: "pointerStrength",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How hard a sweep of the hand surges the rows near it, 0 to 1.",
+      },
+      {
+        name: "grab",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "A sideways drag grabs the row under it and a release throws it.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Hold the cruise; the hand can still stir and throw the rows.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "Seeds the prints, the row speeds and where each row starts.",
+      },
+      {
+        name: "onActiveChange",
+        type: "(active: boolean) => void",
+        description:
+          "Fires when the rows start (true) or stop (false) answering the hand: a surge, a grab or a throw coasting.",
+      },
+      {
+        name: "onFling",
+        type: "(row: number, velocity: number) => void",
+        description:
+          "Fires when a grabbed row is let go, with its row (0 at the top) and its throw, px/s.",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-full w-full"',
+        description: "Sizes and shapes the box.",
+      },
+    ],
+    usageNotes: [
+      'The wall is decoration: the plane, its tiles and any images (alt="") are aria-hidden, and your children sit above in their own layer with focus and clicks intact. Presses on your controls never grab a row.',
+      "Keyboard: a control inside taking keyboard focus surges the rows behind it, the same answer a sweep of the hand gets. The wall has no tab stop of its own.",
+      "On touch the wall takes sideways drags only (touch-action: pan-y), so the page still scrolls under a vertical swipe.",
+      "Pass images for your own work; they load lazily and cover each tile. The generated prints use pigments mixed a tenth into the page, so they sit in both themes; give your own colors as any CSS colours.",
+      "Under reduced motion the rows hold still; a drag still moves the row under the finger and it stays where it is let go, with no coast and no surge.",
+      "Transform-only: one translate per row per frame, on screen in a visible page only, and the loop stops once a paused or speed-0 wall has settled.",
+    ],
+  },
+  {
+    name: "shape-lattice",
+    type: "registry:ui",
+    title: "Shape Lattice",
+    description:
+      "A background lattice of small plates — squares, crosses or arrows — that turn in 3D to face the hand, with your content on top: plates under the hand look straight up at full size and those further off tip toward it, foreshortened down to slivers, so the lattice draws rings around whatever it is looking at. The turning travels — each plate faces where the hand was distance / waveSpeed seconds ago and arrives on its own spring with glide's stiffness softened by distance — while the hand's place follows on springs.glide and its presence on springs.drift. A press sends a ring of plates tumbling over in a full flip; with no hand near, a slow light wanders the lattice and the plates track it, and keyboard focus on a control inside brings the hand there with a softer ring.",
+    files: [
+      {
+        path: "registry/ui/shape-lattice.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1481",
+    },
+    tagline: "A lattice of shapes that turn to face you.",
+    keywords: [
+      "lattice",
+      "heliostat",
+      "facing tiles",
+      "pointer wave",
+      "animated background",
+      "hero background",
+      "canvas",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The content on top of the lattice: a hero line, a heading, a call to action.",
+      },
+      {
+        name: "shape",
+        type: '"square" | "cross" | "arrow"',
+        defaultValue: '"square"',
+        description: "The plate every cell holds.",
+      },
+      {
+        name: "spacing",
+        type: "number",
+        defaultValue: "26",
+        description: "Distance between plate centres, px (12 to 64).",
+      },
+      {
+        name: "color",
+        type: '"ink" | "accent" | "signal" | "ember" | string',
+        defaultValue: '"ink"',
+        description:
+          "The plates' colour: a named token colour or any CSS colour.",
+      },
+      {
+        name: "size",
+        type: "number",
+        defaultValue: "0.56",
+        description: "A plate's size as a share of the spacing (0.2 to 0.95).",
+      },
+      {
+        name: "reach",
+        type: "number",
+        defaultValue: "150",
+        description:
+          "How high the hand hovers over the lattice, px: lower turns far plates further onto their edges.",
+      },
+      {
+        name: "waveSpeed",
+        type: "number",
+        defaultValue: "420",
+        description: "How fast the turning travels out from the hand, px/s.",
+      },
+      {
+        name: "damping",
+        type: "number",
+        defaultValue: "0.5",
+        description: "How the plates arrive, 0 (wobbly) to 1 (no overshoot).",
+      },
+      {
+        name: "light",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How much the plates catch the light as they turn, 0 (flat) to 1.",
+      },
+      {
+        name: "wander",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "With no hand near, a slow light wanders the lattice and the plates track it.",
+      },
+      {
+        name: "flip",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "A press on the lattice (or keyboard focus arriving inside) sends a ring of plates tumbling over.",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The pointer and keyboard focus are what the plates turn to face.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Hold the wandering light still; the hand still turns the plates.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "1",
+        description: "Seeds the wandering light's path.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "onActiveChange",
+        type: "(active: boolean) => void",
+        description:
+          "Fires when the pointer or keyboard focus starts (true) or stops (false) turning the plates.",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-full w-full"',
+        description: "Sizes and shapes the box.",
+      },
+    ],
+    usageNotes: [
+      "The lattice is decoration: the canvas, its server-rendered SVG pattern and the colour carrier are aria-hidden, and your children sit above in their own layer with focus and clicks intact. Presses on your controls never flip the lattice.",
+      "Keyboard: a control inside taking keyboard focus becomes what the plates face, with a softer flip from it; blur hands back to the wandering light. No tab stop of its own.",
+      "The named colours are text tokens, resolved on the element and re-read when the theme changes, so the thin plates keep their contrast in light and dark.",
+      "Under reduced motion there is no wander, wave, spring or flip: the plates face a resting light in one still frame and re-face the pointer at once on each move.",
+      "Canvas 2D in six fills a frame however many plates; nothing runs off screen or in a hidden page, the wandering light is drawn at thirty frames a second, and with wander off the loop stops once every plate has settled.",
+    ],
+  },
+  {
+    name: "chrome-pool",
+    type: "registry:ui",
+    title: "Chrome Pool",
+    description:
+      "A background that is a pool of liquid chrome seen across its surface, with your content on top: a WebGL2 shader meets the pool for every pixel through a tilted camera, takes its slope from five slow analytic swells and reflects a soft studio — a graded cyclorama, a broad key, strip lights and a dark flag — through a fresnel on the metal's tint, so the lights run over it as flowing lines. The pointer resting on it presses a shallow dimple with a raised rim and a press drives it deep; a moving hand leaves its dimples behind, each a spring with springs.recoil's stiffness and `bounce` for its damping, so they spring back past level into a small bump and wobble home. Keyboard focus on a control inside taps a dimple there.",
+    files: [
+      {
+        path: "registry/ui/chrome-pool.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "glsl"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1482",
+    },
+    tagline: "A pool of liquid chrome.",
+    keywords: [
+      "liquid chrome",
+      "liquid metal",
+      "reflection",
+      "webgl",
+      "shader",
+      "animated background",
+      "hero background",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The content on top of the metal: a hero line, a heading, a call to action.",
+      },
+      {
+        name: "tint",
+        type: '"chrome" | "gold" | "rose" | "cobalt" | string',
+        defaultValue: '"chrome"',
+        description: "The metal's colour: a named finish or any CSS colour.",
+      },
+      {
+        name: "ripple",
+        type: "number",
+        defaultValue: "0.5",
+        description: "How much the surface swells, 0 (a mirror) to 1.",
+      },
+      {
+        name: "roughness",
+        type: "number",
+        defaultValue: "0.25",
+        description:
+          "How soft the reflections are, 0 (mirror sharp) to 1 (satin).",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "0.6",
+        description: "How fast the swells move, 0 (held) to 2.",
+      },
+      {
+        name: "scale",
+        type: "number",
+        defaultValue: "300",
+        description: "The length of a swell, px at the middle of the frame.",
+      },
+      {
+        name: "angle",
+        type: "number",
+        defaultValue: "34",
+        description:
+          "How steeply the pool is seen, degrees (20 grazing to 70 looking down).",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The pointer and keyboard focus press dimples into the metal.",
+      },
+      {
+        name: "pointerStrength",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How deep a press goes, 0 to 1; resting the pointer presses a quarter of it.",
+      },
+      {
+        name: "radius",
+        type: "number",
+        defaultValue: "70",
+        description: "A dimple's size where it is pressed, px.",
+      },
+      {
+        name: "bounce",
+        type: "number",
+        defaultValue: "0.55",
+        description:
+          "How springy a dimple is coming back, 0 (settles dead) to 1 (wobbles).",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Hold the swells still; dimples still press and spring back.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "1",
+        description: "Seeds the swells' headings and lengths.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "onPressChange",
+        type: "(pressed: boolean) => void",
+        description:
+          "Fires when a press drives a dimple in (true) and when it lets go (false).",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-full w-full"',
+        description: "Sizes and shapes the box.",
+      },
+    ],
+    usageNotes: [
+      "The pool is decoration: the canvas, its CSS stand-in and the colour carriers are aria-hidden, and your children sit above in their own layer with focus and clicks intact. Presses on your controls never dimple the metal.",
+      "Keyboard: a control inside taking keyboard focus taps a dimple at it, pressed and let go. No tab stop of its own.",
+      "The studio is drawn from the page's own background and foreground, so the pool is high-key on a light page and low-key on a dark one; the finishes are pigments at fixed lightness. Put a panel or strong type over it.",
+      "Under reduced motion one still frame is drawn; a dimple appears where the pointer rests or presses and lifts at once on release, with no spring and no wobble.",
+      "One fullscreen pass with uniforms only, at three quarters of the capped device pixel ratio: thirty frames a second while it only swells, every frame while a dimple springs, nothing off screen or in a hidden page. Without WebGL2, or after a lost context, a CSS still of brushed chrome stands in.",
+    ],
+  },
+  {
+    name: "paint-vortex",
+    type: "registry:ui",
+    title: "Paint Vortex",
+    description:
+      "A background of colour bands twisted into a slow spiral and rendered as felt, with your content on top: a WebGL2 shader paints square blocks from a logarithmic spiral about the eye, its arms bent by slow noise and flowing gently inward, and felts every block with its own lightness, a pillowed edge, fibres and interleaving where two colours meet. The hand pulls the eye toward it, its place on springs.glide and the pull's presence on springs.drift; a press stirs the paint through a twist spring with springs.recoil's constants, so the arms wind tight, slosh back loose past rest and settle in two beats. Keyboard focus on a control inside pulls the eye there with a softer stir.",
+    files: [
+      {
+        path: "registry/ui/paint-vortex.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "glsl"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1483",
+    },
+    tagline: "Colours swirled into a slow vortex.",
+    keywords: [
+      "vortex",
+      "spiral",
+      "felt",
+      "pixel texture",
+      "webgl",
+      "animated background",
+      "hero background",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The content on top of the paint: a hero line, a heading, a call to action.",
+      },
+      {
+        name: "twist",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How tightly the bands wind round the eye, 0 (loose arms) to 1 (a tight coil).",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How fast the bands flow in along the arms, 0 (still) to 2.",
+      },
+      {
+        name: "palette",
+        type: '"dusk" | "sage" | "clay" | "ink" | readonly string[]',
+        defaultValue: '"dusk"',
+        description:
+          "A named palette, or 3 to 6 CSS colours of your own, darkest first.",
+      },
+      {
+        name: "bands",
+        type: "number",
+        defaultValue: "7",
+        description: "Colour bands round a full turn, 3 to 12.",
+      },
+      {
+        name: "pixel",
+        type: "number",
+        defaultValue: "6",
+        description: "The felt's block size, px (2 to 16).",
+      },
+      {
+        name: "felt",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How much the blocks felt: fibres, soft edges and mixing where colours meet, 0 to 1.",
+      },
+      {
+        name: "warp",
+        type: "number",
+        defaultValue: "0.35",
+        description:
+          "How far the arms bend like paint rather than ruled curves, 0 to 1.",
+      },
+      {
+        name: "origin",
+        type: "readonly [number, number]",
+        defaultValue: "[0.68, 0.5]",
+        description:
+          "Where the eye rests, as fractions of the box's width and height.",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The pointer and keyboard focus pull the eye, and a press stirs the paint.",
+      },
+      {
+        name: "pointerStrength",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How far the hand pulls the eye and how hard a press stirs, 0 to 1.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Hold the paint still; the hand still pulls and stirs it.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "1",
+        description: "Seeds the felt and the bend of the arms.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "onActiveChange",
+        type: "(active: boolean) => void",
+        description:
+          "Fires when the pointer or keyboard focus starts (true) or stops (false) pulling the eye.",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-full w-full"',
+        description: "Sizes and shapes the box.",
+      },
+    ],
+    usageNotes: [
+      "The vortex is decoration: the canvas, its CSS stand-in and the colour carriers are aria-hidden, and your children sit above in their own layer with focus and clicks intact. Presses on your controls never stir the paint.",
+      "Keyboard: a control inside taking keyboard focus pulls the eye toward it with a softer stir; blur lets it go home. No tab stop of its own.",
+      "Set origin away from your headline (the default rests right of centre) so the busiest part of the spiral sits beside the copy, not under it.",
+      "The named palettes are low-chroma dyes mixed a tenth into the page, so the felt sits in light and dark alike; ink follows your accent token.",
+      "Under reduced motion one still frame is drawn; the eye moves straight to where the hand pulls it and presses do not stir.",
+      "One fullscreen pass with uniforms only: thirty frames a second while it only turns, every frame while the hand works, nothing off screen or in a hidden page. Without WebGL2, or after a lost context, a CSS still of the palette stands in.",
+    ],
+  },
 ];

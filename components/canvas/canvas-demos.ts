@@ -495,4 +495,48 @@ export const CANVAS_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/thread-drift.demo").then((m) =>
       mod(m.ThreadDriftDemo, m.tweaks),
     ),
+  "night-drive": () =>
+    import("@/registry/demos/night-drive.demo").then((m) =>
+      mod(m.NightDriveDemo, m.tweaks),
+    ),
+  "oil-film": () =>
+    import("@/registry/demos/oil-film.demo").then((m) =>
+      mod(m.OilFilmDemo, m.tweaks),
+    ),
+  "tide-lines": () =>
+    import("@/registry/demos/tide-lines.demo").then((m) =>
+      mod(m.TideLinesDemo, m.tweaks),
+    ),
+  "bend-grid": () =>
+    import("@/registry/demos/bend-grid.demo").then((m) =>
+      mod(m.BendGridDemo, m.tweaks),
+    ),
+  "bead-pit": () =>
+    import("@/registry/demos/bead-pit.demo").then((m) =>
+      mod(m.BeadPitDemo, m.tweaks),
+    ),
+  "glow-orb": () =>
+    import("@/registry/demos/glow-orb.demo").then((m) =>
+      mod(m.GlowOrbDemo, m.tweaks),
+    ),
+  "letter-field": () =>
+    import("@/registry/demos/letter-field.demo").then((m) =>
+      mod(m.LetterFieldDemo, m.tweaks),
+    ),
+  "tile-drift": () =>
+    import("@/registry/demos/tile-drift.demo").then((m) =>
+      mod(m.TileDriftDemo, m.tweaks),
+    ),
+  "shape-lattice": () =>
+    import("@/registry/demos/shape-lattice.demo").then((m) =>
+      mod(m.ShapeLatticeDemo, m.tweaks),
+    ),
+  "chrome-pool": () =>
+    import("@/registry/demos/chrome-pool.demo").then((m) =>
+      mod(m.ChromePoolDemo, m.tweaks),
+    ),
+  "paint-vortex": () =>
+    import("@/registry/demos/paint-vortex.demo").then((m) =>
+      mod(m.PaintVortexDemo, m.tweaks),
+    ),
 };
