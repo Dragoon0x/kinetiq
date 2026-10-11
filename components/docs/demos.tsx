@@ -1587,6 +1587,42 @@ import { TickSpringDemo } from "@/registry/demos/tick-spring.demo";
 import { StarPeekDemo } from "@/registry/demos/star-peek.demo";
 import { HeatHoldDemo } from "@/registry/demos/heat-hold.demo";
 import { SquashSwitchDemo } from "@/registry/demos/squash-switch.demo";
+import { SatinRakeDemo } from "@/registry/demos/satin-rake.demo";
+import { ThreadHourglassDemo } from "@/registry/demos/thread-hourglass.demo";
+import { SeaLevelDemo } from "@/registry/demos/sea-level.demo";
+import { DustDevilDemo } from "@/registry/demos/dust-devil.demo";
+import { StarGeodeDemo } from "@/registry/demos/star-geode.demo";
+import { TidalPairDemo } from "@/registry/demos/tidal-pair.demo";
+import { BeachScrawlDemo } from "@/registry/demos/beach-scrawl.demo";
+import { LogRainDemo } from "@/registry/demos/log-rain.demo";
+import { AsciiHearthDemo } from "@/registry/demos/ascii-hearth.demo";
+import { BandedGiantDemo } from "@/registry/demos/banded-giant.demo";
+import { EchoSounderDemo } from "@/registry/demos/echo-sounder.demo";
+import { TaffyPullDemo } from "@/registry/demos/taffy-pull.demo";
+import { BulbMarqueeDemo } from "@/registry/demos/bulb-marquee.demo";
+import { ReedTypeDemo } from "@/registry/demos/reed-type.demo";
+import { IncenseScriptDemo } from "@/registry/demos/incense-script.demo";
+import { CutoutLettersDemo } from "@/registry/demos/cutout-letters.demo";
+import { BookendTypeDemo } from "@/registry/demos/bookend-type.demo";
+import { LetterDiceDemo } from "@/registry/demos/letter-dice.demo";
+import { AnagramSortDemo } from "@/registry/demos/anagram-sort.demo";
+import { CausticTypeDemo } from "@/registry/demos/caustic-type.demo";
+import { ArmillaryWordsDemo } from "@/registry/demos/armillary-words.demo";
+import { BladeTypeDemo } from "@/registry/demos/blade-type.demo";
+import { CrestReaderDemo } from "@/registry/demos/crest-reader.demo";
+import { BuntingLineDemo } from "@/registry/demos/bunting-line.demo";
+import { PleatFieldDemo } from "@/registry/demos/pleat-field.demo";
+import { LimbDawnDemo } from "@/registry/demos/limb-dawn.demo";
+import { RatioLoopDemo } from "@/registry/demos/ratio-loop.demo";
+import { SeamLightDemo } from "@/registry/demos/seam-light.demo";
+import { FacetLaserDemo } from "@/registry/demos/facet-laser.demo";
+import { HexCoffersDemo } from "@/registry/demos/hex-coffers.demo";
+import { FlutedTumblerDemo } from "@/registry/demos/fluted-tumbler.demo";
+import { FibreLampDemo } from "@/registry/demos/fibre-lamp.demo";
+import { MoireBandDemo } from "@/registry/demos/moire-band.demo";
+import { BlockHorizonDemo } from "@/registry/demos/block-horizon.demo";
+import { TraceCurrentDemo } from "@/registry/demos/trace-current.demo";
+import { PocketSkyDemo } from "@/registry/demos/pocket-sky.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -3188,4 +3224,40 @@ export const demos: Record<string, ComponentType> = {
   "star-peek": StarPeekDemo,
   "heat-hold": HeatHoldDemo,
   "squash-switch": SquashSwitchDemo,
+  "satin-rake": SatinRakeDemo,
+  "thread-hourglass": ThreadHourglassDemo,
+  "sea-level": SeaLevelDemo,
+  "dust-devil": DustDevilDemo,
+  "star-geode": StarGeodeDemo,
+  "tidal-pair": TidalPairDemo,
+  "beach-scrawl": BeachScrawlDemo,
+  "log-rain": LogRainDemo,
+  "ascii-hearth": AsciiHearthDemo,
+  "banded-giant": BandedGiantDemo,
+  "echo-sounder": EchoSounderDemo,
+  "taffy-pull": TaffyPullDemo,
+  "bulb-marquee": BulbMarqueeDemo,
+  "reed-type": ReedTypeDemo,
+  "incense-script": IncenseScriptDemo,
+  "cutout-letters": CutoutLettersDemo,
+  "bookend-type": BookendTypeDemo,
+  "letter-dice": LetterDiceDemo,
+  "anagram-sort": AnagramSortDemo,
+  "caustic-type": CausticTypeDemo,
+  "armillary-words": ArmillaryWordsDemo,
+  "blade-type": BladeTypeDemo,
+  "crest-reader": CrestReaderDemo,
+  "bunting-line": BuntingLineDemo,
+  "pleat-field": PleatFieldDemo,
+  "limb-dawn": LimbDawnDemo,
+  "ratio-loop": RatioLoopDemo,
+  "seam-light": SeamLightDemo,
+  "facet-laser": FacetLaserDemo,
+  "hex-coffers": HexCoffersDemo,
+  "fluted-tumbler": FlutedTumblerDemo,
+  "fibre-lamp": FibreLampDemo,
+  "moire-band": MoireBandDemo,
+  "block-horizon": BlockHorizonDemo,
+  "trace-current": TraceCurrentDemo,
+  "pocket-sky": PocketSkyDemo,
 };

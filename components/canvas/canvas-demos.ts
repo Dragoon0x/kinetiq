@@ -675,4 +675,148 @@ export const CANVAS_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/squash-switch.demo").then((m) =>
       mod(m.SquashSwitchDemo, m.tweaks),
     ),
+  "satin-rake": () =>
+    import("@/registry/demos/satin-rake.demo").then((m) =>
+      mod(m.SatinRakeDemo, m.tweaks),
+    ),
+  "thread-hourglass": () =>
+    import("@/registry/demos/thread-hourglass.demo").then((m) =>
+      mod(m.ThreadHourglassDemo, m.tweaks),
+    ),
+  "sea-level": () =>
+    import("@/registry/demos/sea-level.demo").then((m) =>
+      mod(m.SeaLevelDemo, m.tweaks),
+    ),
+  "dust-devil": () =>
+    import("@/registry/demos/dust-devil.demo").then((m) =>
+      mod(m.DustDevilDemo, m.tweaks),
+    ),
+  "star-geode": () =>
+    import("@/registry/demos/star-geode.demo").then((m) =>
+      mod(m.StarGeodeDemo, m.tweaks),
+    ),
+  "tidal-pair": () =>
+    import("@/registry/demos/tidal-pair.demo").then((m) =>
+      mod(m.TidalPairDemo, m.tweaks),
+    ),
+  "beach-scrawl": () =>
+    import("@/registry/demos/beach-scrawl.demo").then((m) =>
+      mod(m.BeachScrawlDemo, m.tweaks),
+    ),
+  "log-rain": () =>
+    import("@/registry/demos/log-rain.demo").then((m) =>
+      mod(m.LogRainDemo, m.tweaks),
+    ),
+  "ascii-hearth": () =>
+    import("@/registry/demos/ascii-hearth.demo").then((m) =>
+      mod(m.AsciiHearthDemo, m.tweaks),
+    ),
+  "banded-giant": () =>
+    import("@/registry/demos/banded-giant.demo").then((m) =>
+      mod(m.BandedGiantDemo, m.tweaks),
+    ),
+  "echo-sounder": () =>
+    import("@/registry/demos/echo-sounder.demo").then((m) =>
+      mod(m.EchoSounderDemo, m.tweaks),
+    ),
+  "taffy-pull": () =>
+    import("@/registry/demos/taffy-pull.demo").then((m) =>
+      mod(m.TaffyPullDemo, m.tweaks),
+    ),
+  "bulb-marquee": () =>
+    import("@/registry/demos/bulb-marquee.demo").then((m) =>
+      mod(m.BulbMarqueeDemo, m.tweaks),
+    ),
+  "reed-type": () =>
+    import("@/registry/demos/reed-type.demo").then((m) =>
+      mod(m.ReedTypeDemo, m.tweaks),
+    ),
+  "incense-script": () =>
+    import("@/registry/demos/incense-script.demo").then((m) =>
+      mod(m.IncenseScriptDemo, m.tweaks),
+    ),
+  "cutout-letters": () =>
+    import("@/registry/demos/cutout-letters.demo").then((m) =>
+      mod(m.CutoutLettersDemo, m.tweaks),
+    ),
+  "bookend-type": () =>
+    import("@/registry/demos/bookend-type.demo").then((m) =>
+      mod(m.BookendTypeDemo, m.tweaks),
+    ),
+  "letter-dice": () =>
+    import("@/registry/demos/letter-dice.demo").then((m) =>
+      mod(m.LetterDiceDemo, m.tweaks),
+    ),
+  "anagram-sort": () =>
+    import("@/registry/demos/anagram-sort.demo").then((m) =>
+      mod(m.AnagramSortDemo, m.tweaks),
+    ),
+  "caustic-type": () =>
+    import("@/registry/demos/caustic-type.demo").then((m) =>
+      mod(m.CausticTypeDemo, m.tweaks),
+    ),
+  "armillary-words": () =>
+    import("@/registry/demos/armillary-words.demo").then((m) =>
+      mod(m.ArmillaryWordsDemo, m.tweaks),
+    ),
+  "blade-type": () =>
+    import("@/registry/demos/blade-type.demo").then((m) =>
+      mod(m.BladeTypeDemo, m.tweaks),
+    ),
+  "crest-reader": () =>
+    import("@/registry/demos/crest-reader.demo").then((m) =>
+      mod(m.CrestReaderDemo, m.tweaks),
+    ),
+  "bunting-line": () =>
+    import("@/registry/demos/bunting-line.demo").then((m) =>
+      mod(m.BuntingLineDemo, m.tweaks),
+    ),
+  "pleat-field": () =>
+    import("@/registry/demos/pleat-field.demo").then((m) =>
+      mod(m.PleatFieldDemo, m.tweaks),
+    ),
+  "limb-dawn": () =>
+    import("@/registry/demos/limb-dawn.demo").then((m) =>
+      mod(m.LimbDawnDemo, m.tweaks),
+    ),
+  "ratio-loop": () =>
+    import("@/registry/demos/ratio-loop.demo").then((m) =>
+      mod(m.RatioLoopDemo, m.tweaks),
+    ),
+  "seam-light": () =>
+    import("@/registry/demos/seam-light.demo").then((m) =>
+      mod(m.SeamLightDemo, m.tweaks),
+    ),
+  "facet-laser": () =>
+    import("@/registry/demos/facet-laser.demo").then((m) =>
+      mod(m.FacetLaserDemo, m.tweaks),
+    ),
+  "hex-coffers": () =>
+    import("@/registry/demos/hex-coffers.demo").then((m) =>
+      mod(m.HexCoffersDemo, m.tweaks),
+    ),
+  "fluted-tumbler": () =>
+    import("@/registry/demos/fluted-tumbler.demo").then((m) =>
+      mod(m.FlutedTumblerDemo, m.tweaks),
+    ),
+  "fibre-lamp": () =>
+    import("@/registry/demos/fibre-lamp.demo").then((m) =>
+      mod(m.FibreLampDemo, m.tweaks),
+    ),
+  "moire-band": () =>
+    import("@/registry/demos/moire-band.demo").then((m) =>
+      mod(m.MoireBandDemo, m.tweaks),
+    ),
+  "block-horizon": () =>
+    import("@/registry/demos/block-horizon.demo").then((m) =>
+      mod(m.BlockHorizonDemo, m.tweaks),
+    ),
+  "trace-current": () =>
+    import("@/registry/demos/trace-current.demo").then((m) =>
+      mod(m.TraceCurrentDemo, m.tweaks),
+    ),
+  "pocket-sky": () =>
+    import("@/registry/demos/pocket-sky.demo").then((m) =>
+      mod(m.PocketSkyDemo, m.tweaks),
+    ),
 };
