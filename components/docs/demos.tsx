@@ -1623,6 +1623,42 @@ import { MoireBandDemo } from "@/registry/demos/moire-band.demo";
 import { BlockHorizonDemo } from "@/registry/demos/block-horizon.demo";
 import { TraceCurrentDemo } from "@/registry/demos/trace-current.demo";
 import { PocketSkyDemo } from "@/registry/demos/pocket-sky.demo";
+import { OpticalMixDemo } from "@/registry/demos/optical-mix.demo";
+import { SteamWordsDemo } from "@/registry/demos/steam-words.demo";
+import { WordHuntDemo } from "@/registry/demos/word-hunt.demo";
+import { SalonWalkDemo } from "@/registry/demos/salon-walk.demo";
+import { FormationFlightDemo } from "@/registry/demos/formation-flight.demo";
+import { CycloramaRoomDemo } from "@/registry/demos/cyclorama-room.demo";
+import { PaternosterCardsDemo } from "@/registry/demos/paternoster-cards.demo";
+import { CelluloidCoilDemo } from "@/registry/demos/celluloid-coil.demo";
+import { PrismGateDemo } from "@/registry/demos/prism-gate.demo";
+import { PetalGalleryDemo } from "@/registry/demos/petal-gallery.demo";
+import { CrateDigDemo } from "@/registry/demos/crate-dig.demo";
+import { YearbookGridDemo } from "@/registry/demos/yearbook-grid.demo";
+import { PauseBloomDemo } from "@/registry/demos/pause-bloom.demo";
+import { BevelGaugeDemo } from "@/registry/demos/bevel-gauge.demo";
+import { BeadFountainDemo } from "@/registry/demos/bead-fountain.demo";
+import { LeafDappleDemo } from "@/registry/demos/leaf-dapple.demo";
+import { GoldMendDemo } from "@/registry/demos/gold-mend.demo";
+import { LightWandDemo } from "@/registry/demos/light-wand.demo";
+import { ShutterSpillDemo } from "@/registry/demos/shutter-spill.demo";
+import { BookSpinesDemo } from "@/registry/demos/book-spines.demo";
+import { LensTurretDemo } from "@/registry/demos/lens-turret.demo";
+import { BokehOrbitDemo } from "@/registry/demos/bokeh-orbit.demo";
+import { SeedheadGalleryDemo } from "@/registry/demos/seedhead-gallery.demo";
+import { GateRingsDemo } from "@/registry/demos/gate-rings.demo";
+import { PlanktonWakeDemo } from "@/registry/demos/plankton-wake.demo";
+import { ImpastoKnifeDemo } from "@/registry/demos/impasto-knife.demo";
+import { PlasmaLampDemo } from "@/registry/demos/plasma-lamp.demo";
+import { DartCursorDemo } from "@/registry/demos/dart-cursor.demo";
+import { MagpieCursorDemo } from "@/registry/demos/magpie-cursor.demo";
+import { BoardTilesDemo } from "@/registry/demos/board-tiles.demo";
+import { SerpentinePopDemo } from "@/registry/demos/serpentine-pop.demo";
+import { FlipbookPathDemo } from "@/registry/demos/flipbook-path.demo";
+import { GelClingDemo } from "@/registry/demos/gel-cling.demo";
+import { MicaDriftDemo } from "@/registry/demos/mica-drift.demo";
+import { BowRibbonDemo } from "@/registry/demos/bow-ribbon.demo";
+import { BranchDraftDemo } from "@/registry/demos/branch-draft.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -3260,4 +3296,40 @@ export const demos: Record<string, ComponentType> = {
   "block-horizon": BlockHorizonDemo,
   "trace-current": TraceCurrentDemo,
   "pocket-sky": PocketSkyDemo,
+  "optical-mix": OpticalMixDemo,
+  "steam-words": SteamWordsDemo,
+  "word-hunt": WordHuntDemo,
+  "salon-walk": SalonWalkDemo,
+  "formation-flight": FormationFlightDemo,
+  "cyclorama-room": CycloramaRoomDemo,
+  "paternoster-cards": PaternosterCardsDemo,
+  "celluloid-coil": CelluloidCoilDemo,
+  "prism-gate": PrismGateDemo,
+  "petal-gallery": PetalGalleryDemo,
+  "crate-dig": CrateDigDemo,
+  "yearbook-grid": YearbookGridDemo,
+  "pause-bloom": PauseBloomDemo,
+  "bevel-gauge": BevelGaugeDemo,
+  "bead-fountain": BeadFountainDemo,
+  "leaf-dapple": LeafDappleDemo,
+  "gold-mend": GoldMendDemo,
+  "light-wand": LightWandDemo,
+  "shutter-spill": ShutterSpillDemo,
+  "book-spines": BookSpinesDemo,
+  "lens-turret": LensTurretDemo,
+  "bokeh-orbit": BokehOrbitDemo,
+  "seedhead-gallery": SeedheadGalleryDemo,
+  "gate-rings": GateRingsDemo,
+  "plankton-wake": PlanktonWakeDemo,
+  "impasto-knife": ImpastoKnifeDemo,
+  "plasma-lamp": PlasmaLampDemo,
+  "dart-cursor": DartCursorDemo,
+  "magpie-cursor": MagpieCursorDemo,
+  "board-tiles": BoardTilesDemo,
+  "serpentine-pop": SerpentinePopDemo,
+  "flipbook-path": FlipbookPathDemo,
+  "gel-cling": GelClingDemo,
+  "mica-drift": MicaDriftDemo,
+  "bow-ribbon": BowRibbonDemo,
+  "branch-draft": BranchDraftDemo,
 };

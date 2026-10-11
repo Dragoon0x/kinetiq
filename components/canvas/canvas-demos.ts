@@ -819,4 +819,148 @@ export const CANVAS_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/pocket-sky.demo").then((m) =>
       mod(m.PocketSkyDemo, m.tweaks),
     ),
+  "optical-mix": () =>
+    import("@/registry/demos/optical-mix.demo").then((m) =>
+      mod(m.OpticalMixDemo, m.tweaks),
+    ),
+  "steam-words": () =>
+    import("@/registry/demos/steam-words.demo").then((m) =>
+      mod(m.SteamWordsDemo, m.tweaks),
+    ),
+  "word-hunt": () =>
+    import("@/registry/demos/word-hunt.demo").then((m) =>
+      mod(m.WordHuntDemo, m.tweaks),
+    ),
+  "salon-walk": () =>
+    import("@/registry/demos/salon-walk.demo").then((m) =>
+      mod(m.SalonWalkDemo, m.tweaks),
+    ),
+  "formation-flight": () =>
+    import("@/registry/demos/formation-flight.demo").then((m) =>
+      mod(m.FormationFlightDemo, m.tweaks),
+    ),
+  "cyclorama-room": () =>
+    import("@/registry/demos/cyclorama-room.demo").then((m) =>
+      mod(m.CycloramaRoomDemo, m.tweaks),
+    ),
+  "paternoster-cards": () =>
+    import("@/registry/demos/paternoster-cards.demo").then((m) =>
+      mod(m.PaternosterCardsDemo, m.tweaks),
+    ),
+  "celluloid-coil": () =>
+    import("@/registry/demos/celluloid-coil.demo").then((m) =>
+      mod(m.CelluloidCoilDemo, m.tweaks),
+    ),
+  "prism-gate": () =>
+    import("@/registry/demos/prism-gate.demo").then((m) =>
+      mod(m.PrismGateDemo, m.tweaks),
+    ),
+  "petal-gallery": () =>
+    import("@/registry/demos/petal-gallery.demo").then((m) =>
+      mod(m.PetalGalleryDemo, m.tweaks),
+    ),
+  "crate-dig": () =>
+    import("@/registry/demos/crate-dig.demo").then((m) =>
+      mod(m.CrateDigDemo, m.tweaks),
+    ),
+  "yearbook-grid": () =>
+    import("@/registry/demos/yearbook-grid.demo").then((m) =>
+      mod(m.YearbookGridDemo, m.tweaks),
+    ),
+  "pause-bloom": () =>
+    import("@/registry/demos/pause-bloom.demo").then((m) =>
+      mod(m.PauseBloomDemo, m.tweaks),
+    ),
+  "bevel-gauge": () =>
+    import("@/registry/demos/bevel-gauge.demo").then((m) =>
+      mod(m.BevelGaugeDemo, m.tweaks),
+    ),
+  "bead-fountain": () =>
+    import("@/registry/demos/bead-fountain.demo").then((m) =>
+      mod(m.BeadFountainDemo, m.tweaks),
+    ),
+  "leaf-dapple": () =>
+    import("@/registry/demos/leaf-dapple.demo").then((m) =>
+      mod(m.LeafDappleDemo, m.tweaks),
+    ),
+  "gold-mend": () =>
+    import("@/registry/demos/gold-mend.demo").then((m) =>
+      mod(m.GoldMendDemo, m.tweaks),
+    ),
+  "light-wand": () =>
+    import("@/registry/demos/light-wand.demo").then((m) =>
+      mod(m.LightWandDemo, m.tweaks),
+    ),
+  "shutter-spill": () =>
+    import("@/registry/demos/shutter-spill.demo").then((m) =>
+      mod(m.ShutterSpillDemo, m.tweaks),
+    ),
+  "book-spines": () =>
+    import("@/registry/demos/book-spines.demo").then((m) =>
+      mod(m.BookSpinesDemo, m.tweaks),
+    ),
+  "lens-turret": () =>
+    import("@/registry/demos/lens-turret.demo").then((m) =>
+      mod(m.LensTurretDemo, m.tweaks),
+    ),
+  "bokeh-orbit": () =>
+    import("@/registry/demos/bokeh-orbit.demo").then((m) =>
+      mod(m.BokehOrbitDemo, m.tweaks),
+    ),
+  "seedhead-gallery": () =>
+    import("@/registry/demos/seedhead-gallery.demo").then((m) =>
+      mod(m.SeedheadGalleryDemo, m.tweaks),
+    ),
+  "gate-rings": () =>
+    import("@/registry/demos/gate-rings.demo").then((m) =>
+      mod(m.GateRingsDemo, m.tweaks),
+    ),
+  "plankton-wake": () =>
+    import("@/registry/demos/plankton-wake.demo").then((m) =>
+      mod(m.PlanktonWakeDemo, m.tweaks),
+    ),
+  "impasto-knife": () =>
+    import("@/registry/demos/impasto-knife.demo").then((m) =>
+      mod(m.ImpastoKnifeDemo, m.tweaks),
+    ),
+  "plasma-lamp": () =>
+    import("@/registry/demos/plasma-lamp.demo").then((m) =>
+      mod(m.PlasmaLampDemo, m.tweaks),
+    ),
+  "dart-cursor": () =>
+    import("@/registry/demos/dart-cursor.demo").then((m) =>
+      mod(m.DartCursorDemo, m.tweaks),
+    ),
+  "magpie-cursor": () =>
+    import("@/registry/demos/magpie-cursor.demo").then((m) =>
+      mod(m.MagpieCursorDemo, m.tweaks),
+    ),
+  "board-tiles": () =>
+    import("@/registry/demos/board-tiles.demo").then((m) =>
+      mod(m.BoardTilesDemo, m.tweaks),
+    ),
+  "serpentine-pop": () =>
+    import("@/registry/demos/serpentine-pop.demo").then((m) =>
+      mod(m.SerpentinePopDemo, m.tweaks),
+    ),
+  "flipbook-path": () =>
+    import("@/registry/demos/flipbook-path.demo").then((m) =>
+      mod(m.FlipbookPathDemo, m.tweaks),
+    ),
+  "gel-cling": () =>
+    import("@/registry/demos/gel-cling.demo").then((m) =>
+      mod(m.GelClingDemo, m.tweaks),
+    ),
+  "mica-drift": () =>
+    import("@/registry/demos/mica-drift.demo").then((m) =>
+      mod(m.MicaDriftDemo, m.tweaks),
+    ),
+  "bow-ribbon": () =>
+    import("@/registry/demos/bow-ribbon.demo").then((m) =>
+      mod(m.BowRibbonDemo, m.tweaks),
+    ),
+  "branch-draft": () =>
+    import("@/registry/demos/branch-draft.demo").then((m) =>
+      mod(m.BranchDraftDemo, m.tweaks),
+    ),
 };
