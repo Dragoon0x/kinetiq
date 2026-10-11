@@ -1659,6 +1659,42 @@ import { GelClingDemo } from "@/registry/demos/gel-cling.demo";
 import { MicaDriftDemo } from "@/registry/demos/mica-drift.demo";
 import { BowRibbonDemo } from "@/registry/demos/bow-ribbon.demo";
 import { BranchDraftDemo } from "@/registry/demos/branch-draft.demo";
+import { MeltSwapDemo } from "@/registry/demos/melt-swap.demo";
+import { AvatarJarDemo } from "@/registry/demos/avatar-jar.demo";
+import { FieldLoupeDemo } from "@/registry/demos/field-loupe.demo";
+import { BurningGlassDemo } from "@/registry/demos/burning-glass.demo";
+import { LiquifyPrintDemo } from "@/registry/demos/liquify-print.demo";
+import { LanternRiseDemo } from "@/registry/demos/lantern-rise.demo";
+import { RingShepherdDemo } from "@/registry/demos/ring-shepherd.demo";
+import { RubberBeltDemo } from "@/registry/demos/rubber-belt.demo";
+import { HandSetDemo } from "@/registry/demos/hand-set.demo";
+import { OffRegisterDemo } from "@/registry/demos/off-register.demo";
+import { PlumbCursorDemo } from "@/registry/demos/plumb-cursor.demo";
+import { RiverScriptDemo } from "@/registry/demos/river-script.demo";
+import { NotepadFlipDemo } from "@/registry/demos/notepad-flip.demo";
+import { FireflyLettersDemo } from "@/registry/demos/firefly-letters.demo";
+import { BreakShotDemo } from "@/registry/demos/break-shot.demo";
+import { CreaseSwapDemo } from "@/registry/demos/crease-swap.demo";
+import { CapillaryCursorDemo } from "@/registry/demos/capillary-cursor.demo";
+import { MarginPencilDemo } from "@/registry/demos/margin-pencil.demo";
+import { NightSideDemo } from "@/registry/demos/night-side.demo";
+import { TurnstileCardsDemo } from "@/registry/demos/turnstile-cards.demo";
+import { WrapWallDemo } from "@/registry/demos/wrap-wall.demo";
+import { BandCompareDemo } from "@/registry/demos/band-compare.demo";
+import { SandFurrowDemo } from "@/registry/demos/sand-furrow.demo";
+import { SweepStudioDemo } from "@/registry/demos/sweep-studio.demo";
+import { DrumPlotterDemo } from "@/registry/demos/drum-plotter.demo";
+import { SteelCardDemo } from "@/registry/demos/steel-card.demo";
+import { TableSpinnerDemo } from "@/registry/demos/table-spinner.demo";
+import { GlassTrioDemo } from "@/registry/demos/glass-trio.demo";
+import { AmbientSpillDemo } from "@/registry/demos/ambient-spill.demo";
+import { YearRingsDemo } from "@/registry/demos/year-rings.demo";
+import { BurnerCardDemo } from "@/registry/demos/burner-card.demo";
+import { CurtainCountDemo } from "@/registry/demos/curtain-count.demo";
+import { WordWindowDemo } from "@/registry/demos/word-window.demo";
+import { EnvelopeModalDemo } from "@/registry/demos/envelope-modal.demo";
+import { FoveaImageDemo } from "@/registry/demos/fovea-image.demo";
+import { DealtFeedDemo } from "@/registry/demos/dealt-feed.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -3332,4 +3368,40 @@ export const demos: Record<string, ComponentType> = {
   "mica-drift": MicaDriftDemo,
   "bow-ribbon": BowRibbonDemo,
   "branch-draft": BranchDraftDemo,
+  "melt-swap": MeltSwapDemo,
+  "avatar-jar": AvatarJarDemo,
+  "field-loupe": FieldLoupeDemo,
+  "burning-glass": BurningGlassDemo,
+  "liquify-print": LiquifyPrintDemo,
+  "lantern-rise": LanternRiseDemo,
+  "ring-shepherd": RingShepherdDemo,
+  "rubber-belt": RubberBeltDemo,
+  "hand-set": HandSetDemo,
+  "off-register": OffRegisterDemo,
+  "plumb-cursor": PlumbCursorDemo,
+  "river-script": RiverScriptDemo,
+  "notepad-flip": NotepadFlipDemo,
+  "firefly-letters": FireflyLettersDemo,
+  "break-shot": BreakShotDemo,
+  "crease-swap": CreaseSwapDemo,
+  "capillary-cursor": CapillaryCursorDemo,
+  "margin-pencil": MarginPencilDemo,
+  "night-side": NightSideDemo,
+  "turnstile-cards": TurnstileCardsDemo,
+  "wrap-wall": WrapWallDemo,
+  "band-compare": BandCompareDemo,
+  "sand-furrow": SandFurrowDemo,
+  "sweep-studio": SweepStudioDemo,
+  "drum-plotter": DrumPlotterDemo,
+  "steel-card": SteelCardDemo,
+  "table-spinner": TableSpinnerDemo,
+  "glass-trio": GlassTrioDemo,
+  "ambient-spill": AmbientSpillDemo,
+  "year-rings": YearRingsDemo,
+  "burner-card": BurnerCardDemo,
+  "curtain-count": CurtainCountDemo,
+  "word-window": WordWindowDemo,
+  "envelope-modal": EnvelopeModalDemo,
+  "fovea-image": FoveaImageDemo,
+  "dealt-feed": DealtFeedDemo,
 };

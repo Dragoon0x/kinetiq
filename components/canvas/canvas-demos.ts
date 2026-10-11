@@ -963,4 +963,148 @@ export const CANVAS_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/branch-draft.demo").then((m) =>
       mod(m.BranchDraftDemo, m.tweaks),
     ),
+  "melt-swap": () =>
+    import("@/registry/demos/melt-swap.demo").then((m) =>
+      mod(m.MeltSwapDemo, m.tweaks),
+    ),
+  "avatar-jar": () =>
+    import("@/registry/demos/avatar-jar.demo").then((m) =>
+      mod(m.AvatarJarDemo, m.tweaks),
+    ),
+  "field-loupe": () =>
+    import("@/registry/demos/field-loupe.demo").then((m) =>
+      mod(m.FieldLoupeDemo, m.tweaks),
+    ),
+  "burning-glass": () =>
+    import("@/registry/demos/burning-glass.demo").then((m) =>
+      mod(m.BurningGlassDemo, m.tweaks),
+    ),
+  "liquify-print": () =>
+    import("@/registry/demos/liquify-print.demo").then((m) =>
+      mod(m.LiquifyPrintDemo, m.tweaks),
+    ),
+  "lantern-rise": () =>
+    import("@/registry/demos/lantern-rise.demo").then((m) =>
+      mod(m.LanternRiseDemo, m.tweaks),
+    ),
+  "ring-shepherd": () =>
+    import("@/registry/demos/ring-shepherd.demo").then((m) =>
+      mod(m.RingShepherdDemo, m.tweaks),
+    ),
+  "rubber-belt": () =>
+    import("@/registry/demos/rubber-belt.demo").then((m) =>
+      mod(m.RubberBeltDemo, m.tweaks),
+    ),
+  "hand-set": () =>
+    import("@/registry/demos/hand-set.demo").then((m) =>
+      mod(m.HandSetDemo, m.tweaks),
+    ),
+  "off-register": () =>
+    import("@/registry/demos/off-register.demo").then((m) =>
+      mod(m.OffRegisterDemo, m.tweaks),
+    ),
+  "plumb-cursor": () =>
+    import("@/registry/demos/plumb-cursor.demo").then((m) =>
+      mod(m.PlumbCursorDemo, m.tweaks),
+    ),
+  "river-script": () =>
+    import("@/registry/demos/river-script.demo").then((m) =>
+      mod(m.RiverScriptDemo, m.tweaks),
+    ),
+  "notepad-flip": () =>
+    import("@/registry/demos/notepad-flip.demo").then((m) =>
+      mod(m.NotepadFlipDemo, m.tweaks),
+    ),
+  "firefly-letters": () =>
+    import("@/registry/demos/firefly-letters.demo").then((m) =>
+      mod(m.FireflyLettersDemo, m.tweaks),
+    ),
+  "break-shot": () =>
+    import("@/registry/demos/break-shot.demo").then((m) =>
+      mod(m.BreakShotDemo, m.tweaks),
+    ),
+  "crease-swap": () =>
+    import("@/registry/demos/crease-swap.demo").then((m) =>
+      mod(m.CreaseSwapDemo, m.tweaks),
+    ),
+  "capillary-cursor": () =>
+    import("@/registry/demos/capillary-cursor.demo").then((m) =>
+      mod(m.CapillaryCursorDemo, m.tweaks),
+    ),
+  "margin-pencil": () =>
+    import("@/registry/demos/margin-pencil.demo").then((m) =>
+      mod(m.MarginPencilDemo, m.tweaks),
+    ),
+  "night-side": () =>
+    import("@/registry/demos/night-side.demo").then((m) =>
+      mod(m.NightSideDemo, m.tweaks),
+    ),
+  "turnstile-cards": () =>
+    import("@/registry/demos/turnstile-cards.demo").then((m) =>
+      mod(m.TurnstileCardsDemo, m.tweaks),
+    ),
+  "wrap-wall": () =>
+    import("@/registry/demos/wrap-wall.demo").then((m) =>
+      mod(m.WrapWallDemo, m.tweaks),
+    ),
+  "band-compare": () =>
+    import("@/registry/demos/band-compare.demo").then((m) =>
+      mod(m.BandCompareDemo, m.tweaks),
+    ),
+  "sand-furrow": () =>
+    import("@/registry/demos/sand-furrow.demo").then((m) =>
+      mod(m.SandFurrowDemo, m.tweaks),
+    ),
+  "sweep-studio": () =>
+    import("@/registry/demos/sweep-studio.demo").then((m) =>
+      mod(m.SweepStudioDemo, m.tweaks),
+    ),
+  "drum-plotter": () =>
+    import("@/registry/demos/drum-plotter.demo").then((m) =>
+      mod(m.DrumPlotterDemo, m.tweaks),
+    ),
+  "steel-card": () =>
+    import("@/registry/demos/steel-card.demo").then((m) =>
+      mod(m.SteelCardDemo, m.tweaks),
+    ),
+  "table-spinner": () =>
+    import("@/registry/demos/table-spinner.demo").then((m) =>
+      mod(m.TableSpinnerDemo, m.tweaks),
+    ),
+  "glass-trio": () =>
+    import("@/registry/demos/glass-trio.demo").then((m) =>
+      mod(m.GlassTrioDemo, m.tweaks),
+    ),
+  "ambient-spill": () =>
+    import("@/registry/demos/ambient-spill.demo").then((m) =>
+      mod(m.AmbientSpillDemo, m.tweaks),
+    ),
+  "year-rings": () =>
+    import("@/registry/demos/year-rings.demo").then((m) =>
+      mod(m.YearRingsDemo, m.tweaks),
+    ),
+  "burner-card": () =>
+    import("@/registry/demos/burner-card.demo").then((m) =>
+      mod(m.BurnerCardDemo, m.tweaks),
+    ),
+  "curtain-count": () =>
+    import("@/registry/demos/curtain-count.demo").then((m) =>
+      mod(m.CurtainCountDemo, m.tweaks),
+    ),
+  "word-window": () =>
+    import("@/registry/demos/word-window.demo").then((m) =>
+      mod(m.WordWindowDemo, m.tweaks),
+    ),
+  "envelope-modal": () =>
+    import("@/registry/demos/envelope-modal.demo").then((m) =>
+      mod(m.EnvelopeModalDemo, m.tweaks),
+    ),
+  "fovea-image": () =>
+    import("@/registry/demos/fovea-image.demo").then((m) =>
+      mod(m.FoveaImageDemo, m.tweaks),
+    ),
+  "dealt-feed": () =>
+    import("@/registry/demos/dealt-feed.demo").then((m) =>
+      mod(m.DealtFeedDemo, m.tweaks),
+    ),
 };
