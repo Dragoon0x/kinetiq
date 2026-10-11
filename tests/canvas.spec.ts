@@ -113,6 +113,9 @@ test.describe("canvas gallery", () => {
   test("the wall never scrolls sideways on a phone and makes no sound before a gesture", async ({
     page,
   }) => {
+    // One column on a phone: the whole wall is a long scroll, and every step
+    // mounts more demos, so this walk needs more than the default budget.
+    test.setTimeout(240_000);
     await countAudio(page);
     await page.setViewportSize({ width: 390, height: 844 });
     const errors: string[] = [];
