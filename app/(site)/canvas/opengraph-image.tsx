@@ -11,7 +11,7 @@ const card = () =>
     eyebrow: ["CANVAS", `${formatCount(canvas.length)} ${noun}`],
     title: "Motion you can see, touch and keep.",
     tagline:
-      "Text that arrives and settles, micro-interactions with real physics, cursor and reveal effects, and living backgrounds.",
+      "Visual components and 3D scenes, text that arrives and settles, micro-interactions with real physics and living backgrounds.",
     path: "/canvas",
     accent: "violet",
     stats: [
@@ -24,7 +24,7 @@ const card = () =>
 export const size = OG_SIZE;
 export const contentType = "image/png";
 export const alt =
-  "Kinetiq Canvas: original animated text, micro-interactions, cursor effects and living backgrounds for React.";
+  "Kinetiq Canvas: original visual components, 3D scenes, animated text, micro-interactions and living backgrounds for React.";
 
 // The counts are read from the catalog at build time, so every release
 // carries the real numbers.

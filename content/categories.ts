@@ -194,7 +194,7 @@ export const CATEGORIES: Category[] = [
     slug: "canvas",
     label: "Canvas",
     blurb:
-      "Visual craft, made to be felt \u2014 text that arrives and settles, micro-interactions with real physics, cursor and reveal effects, and living backgrounds.",
+      "Visual craft, made to be felt \u2014 visual components and 3D scenes, text that arrives and settles, micro-interactions with real physics, cursor and reveal effects, and living backgrounds.",
   },
 ];
 

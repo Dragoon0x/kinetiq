@@ -17,7 +17,7 @@ import { pageMeta } from "@/lib/seo";
 import { breadcrumbLd, webPageLd } from "@/lib/structured-data";
 
 const DESCRIPTION =
-  "Canvas: original React animation pieces made with care — text that arrives and settles, micro-interactions with real physics, cursor and reveal effects, and living WebGL backgrounds. Every piece is live, tweakable and ready to install.";
+  "Canvas: original React animation pieces made with care — visual components and 3D scenes, text that arrives and settles, micro-interactions with real physics, cursor and reveal effects, and living WebGL backgrounds. Every piece is live, tweakable and ready to install.";
 
 export const metadata: Metadata = pageMeta({
   title: "Canvas",
@@ -105,10 +105,10 @@ export default function CanvasPage() {
             Motion you can see, touch and keep.
           </h1>
           <p className="mt-6 max-w-xl text-lg text-balance text-ink-2">
-            Type that arrives and settles, micro-interactions with real physics,
-            cursor and reveal effects, and living backgrounds — each one
-            original. Play with any piece right here, tune it on the stage, then
-            take the exact code with you.
+            Visual components and 3D scenes, type that arrives and settles,
+            micro-interactions with real physics, cursor and reveal effects, and
+            living backgrounds — each one original. Play with any piece right
+            here, tune it on the stage, then take the exact code with you.
           </p>
         </div>
       </section>
