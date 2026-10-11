@@ -37369,6 +37369,1196 @@ Notes:
 - Theming: smoke follows `smokeColor` (the foreground token) and the model `modelColor`, both re-read when the theme changes, so the tunnel is white smoke on a dark page and ink on a light one.
 - Set `stallAngle`, `camber` and `thickness` to match the section you are showing; the flow pattern, the lift that winds the tip's tube and the puffs' race over the top all follow from them.
 
+### Root Exchange (KQ-1811) — `root-exchange`
+One hub feeding many, in pulses you can read.
+
+A hub feeding a ring of nodes through fine, root-like paths: neighbours share a trunk that forks half way, each trunk as thick as the flow it carries, and pulses of light leave the hub along every route at that node's share of the total, so the busy ones visibly draw more. Hovering or tabbing to a node lights its route and shows its label, value and share in a tag that rises on springs.snap; a press reverses its flow, the route's direction springing through zero on springs.snap so pulses already in flight slow, stop and run home while the node kicks on springs.recoil and its chevron turns. Arrow keys walk the ring and Enter or Space reverses the focused node.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/root-exchange`
+
+Props:
+- `nodes`: { id: string; label: string; value: number }[] (default defaultRootNodes) — The nodes the hub feeds; each value's share of the total sets its pulse rate and its route's thickness.
+- `hubLabel`: string (default "Hub") — What the hub is, for its accessible name and announcements.
+- `format`: (value: number) => string (default en-US grouping) — Prints a node's value in its tag and accessible name.
+- `reversed / defaultReversed`: string[] (default []) — Ids of the nodes whose flow runs back to the hub, controlled or initial.
+- `onReversedChange`: (ids: string[]) => void — Fires from the press that reversed or restored a node, with the new ids.
+- `onActiveChange`: (id: string | null) => void — Fires when hover or keyboard focus brings a node forward, or lets it go.
+- `pulseRate`: number (default 4) — Pulses a second leaving the hub in all, shared out by value.
+- `travel`: number (default 1800) — Time for a pulse to cross an average route, ms; every pulse moves at the same speed in pixels.
+- `curve`: number (default 0.55) — How far the roots wander off a straight line, 0 (schematic) to 1 (gnarled).
+- `rootlets`: number (default 0.5) — How many hair-fine side rootlets the routes shed, 0 to 1.
+- `palette`: "cobalt" | "signal" | "amber" | "ink" (default "cobalt") — The colourway, from the theme's tokens.
+- `colors`: { route?: string; pulse?: string; hub?: string } — CSS colours that replace parts of palette.
+- `seed`: number (default 7) — Seeds where the nodes sit and how the roots wander.
+- `paused`: boolean (default false) — Freezes the pulses where they are.
+- `dpr`: number (default 2) — Cap on the pulse canvas's device pixel ratio, at most 2.
+- `label`: string (default "Flow from the hub") — The node group's accessible name.
+- `disabled`: boolean (default false) — Nodes cannot be focused or reversed; the flow still runs.
+- `className`: string (default "h-56 w-full") — Sizes the box.
+
+Notes:
+- Keyboard: the nodes are one tab stop with a roving focus. Arrow keys walk the ring in order, Home and End jump, Enter or Space reverses the focused node (aria-pressed), and the change is announced once from the press that caused it.
+- The layout is measured from the box and seeded, so server and client draw the same roots; the pulses live on a Canvas 2D layer with a fixed pool and pre-sampled routes, nothing allocated per frame.
+- The pulse loop runs only while the box is on screen, the page is visible, the piece is not paused and motion is allowed; the canvas's device pixel ratio is capped at 2.
+- Under reduced motion each route carries still beads graded toward where it flows and a chevron, and a reversal flips them at once with no kick.
+- Palettes are token colours (cobalt, signal, amber, ink) and read on light and dark pages; on a dark page the pulses add light, on a light one they stay the hue.
+
+### Ice Cube (KQ-1812) — `ice-cube`
+A melting cube that bends what it slides over.
+
+A clear ice cube slides across a picture after the pointer on a per-frame glide spring, turning with the curve of its slide, and bends the picture per pixel in one WebGL2 pass: bevelled facets displace it, the top magnifies it through frosted cracks and a cloudy core, a cold highlight runs along the top edge and a pale shadow holds a bright caustic. Sliding melts it — it shrinks, rounds and softens and lays meltwater into a ping-pong field that bends the picture too before it dries — and a click drops a fresh cube that lands on springs.recoil with a splash. Keyboard focus on anything inside parks the cube on it, and a drop button that appears on focus takes Enter or Space.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/ice-cube`
+
+Props:
+- `children`: React.ReactNode — Content laid over the picture: headlines, buttons, links. It stays fully interactive.
+- `image`: { src?: string; alt?: string } — The picture under the cube, drawn cover-fit. Without a src, a cloth is drawn from the theme.
+- `pattern`: "gingham" | "tiles" | "linen" (default "gingham") — The drawn cloth when there is no src.
+- `melt`: number (default 0.4) — How fast it melts as it slides, 0 (never) to 1 (a few seconds of sliding).
+- `facets`: number (default 0.7) — Facet sharpness, 0 (soft, rounded sides) to 1 (flat facets with hard folds).
+- `trail`: number (default 0.5) — How much meltwater it leaves and how long the trail takes to dry, 0 to 1.
+- `size`: number (default 68) — The fresh cube's edge, px; it never exceeds a third of the box's height.
+- `refraction`: number (default 0.6) — How hard the ice and the water bend the picture, 0 to 1.
+- `frost`: number (default 0.5) — Frosted cracks and the cloudy core inside the ice, 0 to 1.
+- `tint`: string (default "oklch(from var(--accent-bright) 0.9 0.05 calc(h - 40))") — The colour of the ice, any CSS colour.
+- `rest`: { x: number; y: number } (default { x: 0.74, y: 0.55 }) — Where the cube rests before anyone moves it, as fractions of the box.
+- `interactive`: boolean (default true) — The pointer moves the cube and a click drops a fresh one.
+- `paused`: boolean (default false) — Holds the cube and the water where they are.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `sound`: boolean (default false) — A clack when a fresh cube lands or the cube hits the frame. Off unless asked for.
+- `onDrop`: (count: number) => void — Fires when a fresh cube is dropped, with how many cubes there have been.
+- `onMelt`: (left: number) => void — Fires as the cube melts, with how much of it is left (1 to 0.2) in 5% steps.
+- `onMelted`: () => void — Fires when the cube has melted into a puddle.
+- `dropLabel`: string (default "Drop a fresh cube") — The keyboard's drop button, shown on focus.
+- `disabled`: boolean (default false) — Nothing moves the cube and the drop button is off.
+- `className`: string (default "h-56 w-full") — Sizes the box.
+
+Notes:
+- Keyboard: focusing anything inside the box (Tab) parks the cube on it; after the children, a Drop a fresh cube button appears on focus and Enter or Space drops one where the cube is, announced once.
+- The children sit above the picture and stay fully interactive; clicks on links and buttons never drop a cube, and touch follows only while the finger is down (touch-action pan-y keeps vertical scrolling).
+- The draw loop runs only while something changes — the cube sliding, a landing, water drying — and only on screen on a visible page; at rest it stops. Water is a quarter-resolution field and the canvas's device pixel ratio is capped at 2.
+- Without WebGL2, after a lost context, or with a cross-origin picture that has no CORS, the picture stays plain and a glassy drawn cube still slides and drops.
+- Under reduced motion the cube rests still and refracting at rest, does not melt or leave water, and focus or a click moves it at once with no fall.
+- The drawn cloth takes its colours from the theme, so it is light gingham on a light page and a dark one on a dark page; pass image.src for your own picture.
+
+### Catseye Marble (KQ-1813) — `catseye-marble`
+Roll a glass marble and watch its ribbon turn.
+
+A glass marble in a felt tray, ray traced per pixel in one WebGL2 pass: the studio reflected by Fresnel with a highlight as sharp as gloss, three twisted vanes found by marching the refracted ray, the felt seen magnified and flipped through the far side, and on the felt a soft shadow holding a ribbon-tinted caustic. Drag it and it follows 1:1 with its orientation integrated as true rolling, so the ribbon turns the way a real marble's does; released, it coasts on rolling friction, bounces off the wall with a soft clack and settles. Arrow keys nudge it with the same physics and Home rolls it back on springs.glide.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/catseye-marble`
+
+Props:
+- `ribbon`: "ember" | "lagoon" | "moss" | "ink" (default "ember") — The ribbon's colourway.
+- `colors`: string[] — Up to three CSS colours, one per vane, that replace ribbon.
+- `gloss`: number (default 0.6) — How glossy the glass is: the reflection's strength and the highlight's sharpness, 0 to 1.
+- `roll`: number (default 0.4) — Rolling friction, 0 (a slick table that lets it run) to 1 (felt that stops it quickly).
+- `size`: number (default 64) — The marble's diameter, px; never more than 36% of the tray's shorter side.
+- `twist`: number (default 0.5) — How far the vanes turn from one pole to the other, 0 (flat) to 1 (a turn and a half).
+- `tint`: string (default "oklch(from var(--accent-bright) 0.95 0.02 calc(h - 50))") — The glass's colour, any CSS colour; the thicker the glass, the more it shows.
+- `table`: string (default "color-mix(in oklab, var(--bg-2) 86%, var(--ink-3))") — The tray's felt, any CSS colour.
+- `defaultPosition`: { x: number; y: number } (default { x: 0.42, y: 0.5 }) — Where the marble starts, as fractions of the tray.
+- `resetKey`: string | number — Any change rolls the marble back to where it started.
+- `onRoll`: () => void — Fires when the marble starts rolling from rest.
+- `onRest`: (position: { x: number; y: number }) => void — Fires when the marble comes to rest, with where (fractions of the tray).
+- `onBounce`: (speed: number) => void — Fires when the marble hits the tray's wall, with its speed into the wall, px/s.
+- `interactive`: boolean (default true) — Dragging and the keys roll it.
+- `sound`: boolean (default false) — A soft clack off the tray's wall. Off unless asked for.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `label`: string (default "Glass marble") — The tray's accessible name.
+- `disabled`: boolean (default false) — Nothing rolls it.
+- `className`: string (default "h-56 w-full") — Sizes the tray.
+
+Notes:
+- Keyboard: the tray is one button. Arrow keys nudge the marble (Shift harder) so it rolls, coasts and bounces like a throw; Home rolls it back; when it settles after a key the tray says Resting. once.
+- Pointer and touch: drag anywhere to roll it 1:1 (the tray is touch-action none, so a finger rolls rather than scrolls); a tap on the glass flicks it away from the finger.
+- It draws only while the marble moves and once on mount, resize and theme change; the loop stops at rest, off screen and on a hidden page. The canvas's device pixel ratio is capped at 2.
+- Without WebGL2 or after a lost context, a drawn marble with gradients and a turning ribbon still drags, coasts and bounces.
+- Under reduced motion a drag still rolls it 1:1 but it stops on release, the keys step it 24 px at once and Home places it back.
+- The ribbon colours are fixed lightnesses of the theme's hues and the felt follows the theme's surface, so it reads on light and dark pages.
+
+### Event Lens (KQ-1814) — `event-lens`
+A dark mass that bends your headline into rings.
+
+A black hole on a real headline: the browser lays out the words, each word is painted into a texture where it was set, and one WebGL2 pass lenses that picture through the point-lens equation, so the words behind the mass bend into arcs, a flipped image appears inside the Einstein radius and whatever is right behind becomes a ring round the shadow, swirled by spin, with a thin smoky accretion disc and a bright photon edge. Drag it and it follows 1:1 while its disc flares on springs.flick; release and it drifts back to rest on springs.drift carrying the throw. Arrow keys move it on springs.glide and Escape, Enter or Home let it drift home.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/event-lens`
+
+Props:
+- `headline`: string (default "Everything bends toward what matters.") — The headline the mass bends; real text, read by assistive technology.
+- `subline`: string — A smaller line under the headline, bent too.
+- `as`: "h1" | "h2" | "h3" | "p" (default "h2") — The element the headline renders as.
+- `image`: { src?: string; alt?: string } — A picture behind the words, drawn cover-fit; same-origin or CORS-enabled.
+- `backdrop`: "grid" | "dots" | "plain" (default "grid") — What lies behind the words: the house grid, a dot field or nothing.
+- `mass`: number (default 0.6) — How heavy the mass is: the size of its shadow and how hard it bends, 0.2 to 1.
+- `disk`: number (default 0.6) — How bright the accretion disc and the photon edge burn, 0 to 1.
+- `spin`: number (default 0.5) — How fast it spins: the disc's turn, its lopsided glow and the swirl of the bent light, 0 to 1.
+- `diskColor`: string (default "oklch(from var(--warn) 0.8 0.15 calc(h - 22))") — The disc's colour, any CSS colour.
+- `rest`: { x: number; y: number } (default { x: 0.72, y: 0.5 }) — Where the mass rests, as fractions of the box.
+- `interactive`: boolean (default true) — Dragging and the keys move it.
+- `paused`: boolean (default false) — Stops the disc turning.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `label`: string (default "Event lens") — The lens's accessible name.
+- `onHoldChange`: (held: boolean) => void — Fires when the mass is taken hold of (true) and let go (false).
+- `onRest`: () => void — Fires when the mass has drifted back to rest.
+- `disabled`: boolean (default false) — Nothing moves it.
+- `className`: string (default "h-56 w-full") — Sizes the box.
+
+Notes:
+- Keyboard: the mass is a button with a round focus ring that travels with it. Arrow keys move it 16 px (Shift 48 px) on the glide spring, quick presses adding up; Escape, Enter or Home let it drift home, and so does leaving it with Tab.
+- The headline is a real heading, always in the accessibility tree: it turns transparent, not hidden, while its lensed copy is drawn beneath it, and the words are repainted on resize, font load and theme change.
+- The pass draws while the mass moves or the disc turns, only on screen on a visible page and never when paused; the canvas's device pixel ratio is capped at 2.
+- Without WebGL2, after a lost context or with a cross-origin picture that has no CORS, the headline shows plainly with a drawn mass — shadow, photon ring and tilted disc — that still drags and drifts home.
+- Under reduced motion the disc is still, a drag still moves the mass 1:1 and it returns to rest at once on release; the keys step it at once.
+
+### Gel Scroller (KQ-1815) — `gel-scroller`
+Soft beams rolling through colour like stage gels.
+
+A stage seen from the house: floor lamps throw soft washes up a cyc through drifting haze, each behind a gel scroller whose strip of taped gels rolls past the lens, so the seam between two gels travels up the beam and, with no cue held, colour chases along the row. Hovering previews the cue under the pointer and a click takes it: every strip rolls the shortest way round on a spring with the springs.snap constants capped at the motor's speed, running through the gels between and braking onto the frame together with one crisp overshoot. The cue rail is a radiogroup — arrows, Home and End take cues and Escape lets the strips roll free.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/gel-scroller`
+
+Props:
+- `cues`: "spectrum" | "dusk" | "neon" | "theatre" | { name: string; color: string }[] (default "spectrum") — The gels on every strip, in order: a preset or your own list (2 to 12).
+- `haze`: number (default 0.55) — How much haze hangs in the air: more shows the beams and blurs them into one another, 0 to 1.
+- `roll`: number (default 4) — The scroller motor's top speed, in gel frames a second.
+- `value / defaultValue`: number | null (default null) — The cue every strip holds, or null to let them roll; controlled or initial.
+- `onValueChange`: (value: number | null) => void — Fires from the click, tap or key that took (or let go of) a cue.
+- `beams`: number (default 6) — How many lamps stand along the floor, 3 to 9.
+- `spread`: number (default 0.5) — How wide each wash spreads, 0 to 1.
+- `intensity`: number (default 1) — How bright the lamps burn, 0 to 1.5.
+- `chase`: number (default 0.35) — How fast the strips roll on their own while no cue is held, frames a second; 0 holds them.
+- `floor`: boolean (default true) — A stage floor with pools of light under the lamps.
+- `backdrop`: string (default "oklch(0.17 0.02 258)") — The cyclorama behind the beams, any CSS colour; a dark stage by default in both themes.
+- `interactive`: boolean (default true) — Hovering previews a cue and a click takes it.
+- `paused`: boolean (default false) — Freezes the haze and the strips.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `label`: string (default "Lighting cue") — The cue rail's accessible name.
+- `disabled`: boolean (default false) — The rail cannot be used; the strips still roll.
+- `className`: string (default "h-56 w-full") — Sizes the stage.
+
+Notes:
+- Keyboard: the cue rail along the top is a radiogroup with one tab stop. Arrow keys, Home and End take a cue as they move, Escape lets the strips roll free (and is handled, so a surrounding dialog stays open); the held cue is announced once.
+- Pointer: the stage is divided into one zone per cue; hovering previews that cue, a click or tap takes it, and clicking the held cue again lets go. Touch keeps vertical scrolling (touch-action pan-y).
+- The haze is ambient: the pass runs at half resolution and only while the stage is on screen, the page is visible and it is not paused; the canvas's device pixel ratio is capped at 2.
+- Without WebGL2 or after a lost context the washes are blurred CSS gradients whose colours still follow the strips at the lamps.
+- Under reduced motion nothing chases and the haze is still; taking a cue cross-fades every wash to it in 240 ms, never rolling through the gels between.
+
+### Desk Spike (KQ-1816) — `desk-spike`
+Notes on a spike; tear off the top to read on.
+
+A desk spike with notes impaled on it, seen at a three-quarter angle in real CSS 3D: a heavy base, a steel needle drawn from the top slip's hole to its point, and paper slips from data turned a little about it, each curled at a corner. A click or Space tears the top slip off — it tugs up on springs.flick, slides up the needle and rips over the point, its hole tearing ragged, then flutters away on the exit ease to reveal the next — and Backspace brings the last one back over the point and down the needle to land on springs.recoil. An empty spike refills in a cascade on the next click.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/desk-spike`
+
+Props:
+- `slips`: "orders" | "messages" | "wire" | "receipts" | { id: string; kind?: string; title: string; lines?: string[]; meta?: string; stamp?: string }[] (default "orders") — The notes on the spike, top first: a preset or your own (up to nine).
+- `tilt`: number (default 0.5) — How far the slips turn about the needle, 0 (squared up) to 1 (a loose pile).
+- `paperTone`: "white" | "canary" | "pink" | "mixed" (default "white") — The paper: white, canary, pink, or the three carbon copies in turn.
+- `value / defaultValue`: number (default 0) — How many slips are torn off the top, controlled or initial.
+- `onValueChange`: (value: number) => void — Fires from the click or key that tore off, put back or refilled, with the new count.
+- `onTear`: (slip: DeskSpikeSlip) => void — Fires when a slip is torn off, with the slip.
+- `onRestore`: (slip: DeskSpikeSlip) => void — Fires when a slip goes back on the spike, with the slip.
+- `curl`: number (default 0.5) — How far each slip's corner curls up, 0 to 1.
+- `angle`: number (default 36) — How far the desk tips away from you, degrees, 20 to 50.
+- `ink`: string (default "oklch(from var(--ink) 0.27 0.02 h)") — The print's colour, any CSS colour.
+- `refill`: boolean (default true) — A click on the empty spike puts every slip back.
+- `seed`: number (default 4) — Seeds each slip's turn, flight and torn hole.
+- `sound`: boolean (default false) — A paper rip when a slip tears free, and a soft one when it lands. Off unless asked for.
+- `label`: string (default "Note spike") — The spike's accessible name.
+- `disabled`: boolean (default false) — Nothing tears.
+- `className`: string (default "h-[34rem] w-full") — Sizes the scene.
+
+Notes:
+- Keyboard: the spike is one button named for the top slip. Space or Enter tears it off, Backspace puts the last one back, and on an empty spike Space or Enter refills it; each change is announced once with how many slips are left.
+- The top slip's text is real text in an article; the slips beneath and the torn ones are hidden from assistive technology until they are on top.
+- Pure DOM and CSS 3D transforms driven by one progress value per slip: nothing runs at rest, and every tear, put-back and refill finishes cleanly if it is interrupted.
+- Under reduced motion there is no tug, flight or landing: slips fade out and back in, and the torn holes and the count still change.
+- Paper and ink are fixed pigments of the theme's hues, so the notes read the same on light and dark pages; pass your own slips for tickets, messages or receipts.
+
+### Flambe Pan (KQ-1817) — `flambe-pan`
+Tip the pan and the flames flare off its edge.
+
+A copper pan on a dark range, held by its handle: a drag follows the hand 1:1, up to tip the far lip toward the gas and sideways to slide it over the grate, and a release sets it back level on springs.glide with the throw's velocity. When the lip dips past the catch angle the spirit catches, a front of fire running across the sauce from the low lip, and additive tongues of flame flare up, leaning with the tilt and trailing the pan through the air while the room takes their light; a quick shake gusts them higher before they burn down to a few blue licks and go out. Enter or Space tosses the pan (a tip on springs.snap and back on glide) when it is out and shakes it while it burns.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/flambe-pan`
+
+Props:
+- `height`: number (default 0.7) — How tall the flare stands, as a share of the room above the pan, 0.2 to 1.
+- `gust`: number (default 0.6) — How much a quick shake feeds the flames, 0 to 1.
+- `hue`: number (default 52) — The flame's OKLCH hue at fixed lightness: 52 brandy orange, 30 deep red, 80 gold, 140 copper green.
+- `burnTime`: number (default 3.2) — Seconds the spirit burns before the last blue lick goes out, 1 to 8.
+- `catchAngle`: number (default 12) — Degrees the far lip must dip before it catches, 6 to 24.
+- `maxTilt`: number (default 30) — The furthest the pan tips before it rubber-bands, 16 to 40 degrees.
+- `lean`: number (default 0.6) — How far the tongues lean with the tilt and trail the pan's motion, 0 to 1.
+- `density`: number (default 0.7) — How full the flame is, 0.3 (a few tongues) to 1 (a dense sheet).
+- `metal`: "copper" | "steel" | "iron" (default "copper") — The pan's metal.
+- `rangeColor`: string (default a dark steel pigment) — The cooktop's colour.
+- `trigger`: "inView" | "mount" | "manual" (default "inView") — When the pan tips itself once to show the flare (silently): first seen, at mount, or never.
+- `sound`: boolean (default false) — Play the flare when the visitor catches the spirit or gusts it with a shake.
+- `onFlameChange`: (state: "out" | "flaring" | "licks") => void — Fires when the flame catches, burns down to blue licks, or goes out.
+- `label`: string (default "Flambé pan") — The scene's accessible name.
+- `paused`: boolean (default false) — Hold the flame still where it is; the pan can still be moved.
+- `disabled`: boolean (default false) — No tipping, tossing or shaking.
+- `seed`: number (default 1) — Seeds the flame's tongues.
+- `dpr`: number (default 2) — Cap on the canvas's pixel ratio, at most 2.
+- `children`: ReactNode — Overlay content drawn above the scene; it never takes the pointer.
+- `className`: string — Classes for the root; give it a size (the demo uses aspect-[16/10]).
+
+Notes:
+- Keyboard: the scene is one role=button described by a hint. Enter or Space tosses the pan past the catch and back when the flame is out or low, and shakes it (three quick slides that gust the flame) while it flares: the same end states as a drag. A polite live region says Flaring, Burning down to blue licks, and Out.
+- Touch: the drag is two-dimensional (tilt and slide), so the scene sets touch-action: none; a tap tosses the pan like Enter.
+- Reduced motion: the pan follows the hand without springs and is set level at once; a catch shows a still, seeded flame that is redrawn smaller in calm steps as it burns down, and the room's light still comes up. Feedback stays, motion goes.
+- Performance: one Canvas 2D layer at a capped pixel ratio, sprites pre-rendered once per hue, particles in preallocated typed arrays. The loop runs only on screen, in a visible tab and while something burns or moves; out and level, it stops.
+- Sound only answers the visitor: the automatic first toss (trigger) is silent, and the flare plays only when sound is on and the visitor's own tip or shake caused it.
+- The scene is drawn in fixed pigments (a dark range and copper), so it reads the same on light and dark pages.
+
+### Mitre Joint (KQ-1818) — `mitre-joint`
+Four lengths of frame meet at the corners.
+
+A border for any content built like a picture frame: four lengths of moulding with mitred ends, each shaded across its own width by a flat, cove or gilt profile so a real seam shows where two meet. When first seen the lengths slide in from beyond their edges on springs.glide a stagger apart; as the last one seats the corners click, the frame settling on springs.flick with the seams flashing, and a crisp glow runs once round the bevel from the top-left corner both ways before it settles to a quiet sheen. Hover, or keyboard focus inside the content, lifts the frame on glide and turns the light toward the pointer, the lengths facing it brightening and a highlight sliding along the moulding.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/mitre-joint`
+
+Props:
+- `children`: ReactNode — The content inside the frame; it keeps its own semantics and focus.
+- `profile`: "flat" | "cove" | "gilt" (default "gilt") — The moulding's profile: a flat lacquered rail, a walnut cove, or gilt with beads.
+- `bevel`: number (default 14) — The moulding's width in px, 6 to 28.
+- `glow`: "gold" | "accent" | "frost" | "ember" | string (default "gold") — The light that runs along the bevel once the corners meet: a preset or any CSS colour.
+- `color`: string (default by profile) — The moulding's colour: the page's ink (flat), walnut (cove) or gold leaf (gilt) unless set.
+- `trigger`: "inView" | "mount" | "manual" (default "inView") — When the frame assembles: first seen, at mount, or only when assembled says so.
+- `assembled`: boolean — Controls the frame: true slides the lengths in, false takes them apart. Undefined lets trigger decide.
+- `once`: boolean (default true) — Assemble only the first time it is seen; false assembles again on every return.
+- `delay`: number (default 0) — Wait before the first length moves, ms.
+- `stagger`: number (default 60) — Time between the four lengths setting off, ms, 0 to 150.
+- `onAssembled`: () => void — Fires when the last corner clicks home.
+- `lift`: number (default 2) — How far hover or focus inside lifts the frame, px, 0 to 6 (the shadow stays inside the root).
+- `highlight`: number (default 0.6) — Strength of the highlight that follows the pointer along the moulding, 0 to 1.
+- `sheen`: number (default 0.5) — The quiet sheen the glow settles to, 0 to 1.
+- `interactive`: boolean (default true) — Hover and focus lift the frame and move its light.
+- `sound`: boolean (default false) — Play the click when the corners meet, only when the visitor's own action assembled it.
+- `className`: string — Classes for the root (width, margins).
+- `contentClassName`: string — Classes for the opening that holds the content (padding, background).
+
+Notes:
+- The frame is decoration: every painted layer is aria-hidden and pointer-events: none, so links, buttons and fields inside keep their own semantics, tab order and clicks. Keyboard focus inside (focus-visible) lifts the frame like hover and parks the highlight on the edge nearest the focused element.
+- Reduced motion: the frame fades in already assembled with no slide, settle or glow run, the sheen fades up instead, and nothing lifts; the light still turns toward the pointer because it is colour, not travel.
+- Performance: four clipped divs and motion values, no canvas and no loop. The glow is an SVG drawn only while it runs, measured with a ResizeObserver; geometry is calc() on a CSS variable, so any size works.
+- Sound only answers the visitor: an automatic assembly (in view, at mount) is silent; the click plays when sound is on and assembled flipped to true right after a click or key press.
+- Themes: the flat profile mixes the page's ink tokens, so it inverts with the theme; cove and gilt are fixed pigments that read on both. Pass color to match a brand.
+
+### Swatch Ladder (KQ-1819) — `swatch-ladder`
+Colour strips in a slow wave; lift one to read.
+
+A row of paint-chip strips, each a ladder of chips computed in OKLCH from the palest tint at the top to a shade as deep as you set at the foot, rising and falling in a slow wave that travels across the row. Pointing at a strip, or arrowing to it, lifts it clear on springs.snap with one crisp overshoot while its neighbours part on springs.glide, and the readout gives its name, code and the chip under the pointer in OKLCH with its light reflectance value; a click copies that chip as oklch() and a check pops onto it on springs.flick. It is a horizontal listbox: Left and Right move between paints, Up and Down step lighter and darker, Enter copies, Escape lowers the strip.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/swatch-ladder`
+
+Props:
+- `swatches`: { name, hue, chroma, code? }[] (default twelve invented paints) — The paints, one strip each; chips are computed in OKLCH from hue and chroma.
+- `strips`: number (default 8) — How many strips stand in the row, 3 to 12 (never more than swatches).
+- `steps`: number (default 7) — Chips on each strip, palest to deepest, 4 to 9.
+- `wave`: number (default 0.5) — How far the strips rise and fall in the travelling wave, 0 (still) to 1.
+- `period`: number (default 6) — Seconds for one swell to pass, 2 to 14.
+- `shade`: number (default 0.6) — How deep the darkest chip goes: 0 keeps to pale tints, 1 runs almost to black.
+- `lift`: number (default 16) — How far a strip lifts clear when it is read, px, 6 to 28.
+- `height`: number (default 144) — Height of a strip, px.
+- `value / defaultValue`: number | null (default null) — The strip being read, controlled or initial.
+- `onValueChange`: (index: number | null) => void — Fires from the hover, touch or key that lifted or lowered a strip.
+- `onCopy`: (color: string, info: { name, code?, step }) => void — Fires when a chip is copied, with its colour as oklch(L C H).
+- `paper`: string (default a warm paper pigment) — The strips' card stock.
+- `showReadout`: boolean (default true) — Show the line under the row that reads the lifted strip.
+- `label`: string (default "Paint swatches") — The row's accessible name, also shown in the readout at rest.
+- `paused`: boolean (default false) — Hold the wave still.
+- `disabled`: boolean (default false) — No lifting or copying.
+- `className`: string — Classes for the root.
+
+Notes:
+- Keyboard: one tab stop, a horizontal listbox with aria-activedescendant. Left and Right move between paints, Home and End jump, Up and Down step lighter and darker within the strip, Enter or Space copies the chip, Escape lowers the strip. Each option is labelled with its name, code, tint, oklch() value and LRV, and copies are announced politely.
+- Copy uses the Clipboard API; where it is unavailable the readout and the announcement say so and show the value instead. onCopy fires either way with the colour string.
+- Reduced motion: no travelling wave (the row holds a still, staggered arc) and the lift is an instant change; the ring, the readout and the copy check still answer.
+- Performance: DOM only. One requestAnimationFrame loop writes a transform per strip; it runs only on screen, in a visible tab, and while the wave is live or a spring is moving. wave={0} or paused lets it stop once settled.
+- The strips are physical card stock in a fixed paper pigment and the chips are absolute OKLCH colours, so the card reads the same on light and dark pages; the readout uses the page's ink tokens.
+
+### Spiral Engraving (KQ-1820) — `spiral-engraving`
+A picture cut as one spiral line that turns inward.
+
+A round plate engraved with one continuous spiral line whose width swells where the picture is dark and thins to an unbroken hairline where it is light, drawn per pixel in one WebGL2 pass that samples the picture at each pixel's own position. As the plate turns the line flows inward like a vortex while the picture holds still within it; a drag round the plate turns it 1:1 and a release keeps the throw's spin, easing back to the resting turn over a time set by friction. The first time it is seen the line swells from a hairline into the picture as a front runs out from the spindle. Arrow keys flick it either way, Enter flings it and Home brakes it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/spiral-engraving`
+
+Props:
+- `pitch`: number (default 4) — Distance between neighbouring turns of the line, CSS px, 3 to 10.
+- `contrast`: number (default 1.2) — How hard the picture's tones are pushed apart, 0.5 to 2.
+- `spin`: number (default 20) — The resting spin in turns per minute, 0 to 60; the line flows by one pitch per turn.
+- `subject`: "moon" | "peak" | "bloom" (default "moon") — The picture drawn in code when there is no src.
+- `src`: string — An image URL to engrave (CORS-enabled); the subject stands in while it loads or if it cannot be read.
+- `alt`: string (default by subject) — What the picture shows, for assistive technology.
+- `ink`: string (default "var(--foreground)") — The line's colour. A light ink on dark paper prints a white-line engraving (the line swells in light tones).
+- `paper`: string (default "var(--card)") — The plate's colour.
+- `thin`: number (default 0.08) — The line's width in the lightest tones as a share of the pitch, 0 to 0.4; it never breaks.
+- `bold`: number (default 0.9) — The line's width in the darkest tones as a share of the pitch, 0.5 to 1.
+- `friction`: number (default 0.5) — How quickly a fling slows back to the resting spin: 0 coasts long, 1 stops short.
+- `direction`: "inward" | "outward" (default "inward") — Which way the line flows as the plate turns.
+- `reveal`: "inView" | "mount" | "none" (default "inView") — When the line swells from a hairline into the picture.
+- `onSpinChange`: (state: "still" | "turning" | "flung") => void — Fires when the plate comes to rest, settles into its resting spin, or is flung faster.
+- `label`: string (default "Spin the plate") — The plate's accessible name.
+- `paused`: boolean (default false) — Hold the plate still; a drag still turns it.
+- `disabled`: boolean (default false) — No dragging or keys.
+- `dpr`: number (default 2) — Cap on the canvas's pixel ratio, at most 2.
+- `className`: string — Classes for the root; it is square, so give it a width.
+
+Notes:
+- Keyboard: the plate is a role=button described by the picture's alt and a hint. Right and Up flick it with the spin, Left and Down against it, Enter or Space fling it, Home brakes it to its resting turn: the same end states as a drag. A polite live region says Flung, Turning or Still.
+- Touch: the drag turns the plate round its centre in two dimensions, so the plate sets touch-action: none; a tap gives it a small flick.
+- Reduced motion: no resting spin, no coasting and no cut animation; the picture is engraved at once and a drag (or a key, by a fixed step) still turns it, stopping where it is released.
+- Performance: one WebGL2 pass at a capped pixel ratio; the tone map is drawn once per subject or image. The loop runs only on screen, in a visible tab and while the plate turns; spin 0 and settled draws nothing. Context loss stops the loop and rebuilds on restore; without WebGL2 the same line is drawn as a ribbon on a 2D canvas, redrawn only while dragged.
+- Themes: ink and paper default to the page's foreground and card tokens, read from the component's own node and re-read when the theme changes; on a dark page the line becomes a white-line engraving rather than a negative.
+- The server draws an even hairline spiral (the uncut plate), so the first paint is designed before WebGL starts.
+
+### Pinscreen Swell (KQ-1821) — `pinscreen-swell`
+A pin toy that takes the shape of passing waves.
+
+A pin-art toy seen face-on: a dense grid of steel pin heads in a dark plate, each drawn as a lit dome tilted by its neighbours' heights, so soft swells rolling underneath read as a rippling relief, with pins pushed back sinking into shadow and raised ones throwing short shadows. Pressing with the pointer leaves an impression of the path that relaxes and softens over a few seconds, and a click pushes in a deep round dent on springs.recoil, the pins bouncing back twice with a faint ring risen round it. Arrow keys move a press cursor, Shift with an arrow drags an impression, and Enter or Space pushes a dent.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/pinscreen-swell`
+
+Props:
+- `pitch`: number (default 9) — Distance between pins, CSS px, 5 to 16.
+- `depth`: number (default 0.6) — How far the pins travel: the strength of the relief, 0 to 1.
+- `light`: number (default 315) — Where the light comes from, degrees clockwise from the top (315 is the upper left).
+- `waves`: number (default 0.5) — How high the swell rolling underneath lifts the pins, 0 (flat) to 1.
+- `speed`: number (default 0.4) — How fast the swell rolls, 0 to 1.
+- `scale`: number (default 1) — The size of the swell's waves, 0.5 (choppy) to 2 (long).
+- `brush`: number (default 2.5) — The radius of a pressed pointer's impression, in pins, 1 to 6.
+- `dent`: number (default 6) — The radius of the dent a click pushes in, in pins, 2 to 12.
+- `relax`: number (default 3) — Seconds for an impression to relax back, 0.5 to 10.
+- `pinColor`: string (default a steel pigment) — The pins' metal; any CSS colour.
+- `plateColor`: string (default a dark plate pigment) — The face plate; any CSS colour.
+- `interactive`: boolean (default true) — Pressing, clicking and keys leave impressions (and the surface takes focus).
+- `onDent`: (col: number, row: number) => void — Fires when a click or key pushes in a dent, with its pin column and row (from 1).
+- `label`: string (default "Pin screen") — The pin screen's accessible name.
+- `paused`: boolean (default false) — Hold the swell still; impressions still relax.
+- `seed`: number (default 1) — Seeds the swell.
+- `dpr`: number (default 2) — Cap on the canvas's pixel ratio, at most 2.
+- `className`: string — Classes for the root; give it a height.
+
+Notes:
+- Keyboard: the surface is a focusable group (roledescription pin screen) described by a hint. Arrow keys move a press cursor two pins at a time, Shift with an arrow drags an impression along the way, Enter or Space pushes a dent at the cursor; each dent is announced with its column and row.
+- Touch: pressing is two-dimensional, so the surface sets touch-action: none; a tap pushes a dent and a press-drag leaves a trail.
+- Reduced motion: the swell holds still at a designed moment (the relief still reads) and dents go in without the recoil bounce; impressions still relax as a gentle fade of the relief.
+- Performance: two WebGL2 passes, one texel per pin for the heights and five texel fetches per pixel; the impression map is a small float grid allocated only on resize. The loop runs only on screen in a visible tab, at thirty frames a second while only the swell rolls, and stops when the swell is off (waves 0 or paused) and every impression has relaxed. Context loss is handled; without WebGL2 a CSS pin grid stands in, the same as the server's first paint.
+- The pins and plate are fixed metal pigments that read on light and dark pages; pass pinColor and plateColor for brass on walnut or chrome on white.
+
+### Ice Floes (KQ-1822) — `ice-floes`
+Pictures on drifting floes across a dark sea.
+
+An endless field of ice floes drifting on dark water, seen in CSS 3D from above at an angle, each a seeded irregular slab with a cyan body under the water, a visible thickness and a picture laid on its snow. Dragging glides over the water with the point under the finger held 1:1 and a throw that glides out; the floes have inertia, so they lag, bump as circles and turn with the slip of each bump. The first time it is seen the floes surface, near ones first; a click or Enter lifts a floe out of the water on springs.glide, turning it to face you with its caption and leaving a ring on the water, and lowering lands it back on springs.recoil with two bobs. Arrow keys move between floes on screen, the field gliding on springs.drift to keep the focused one in view; Home and End go to the first and last pictures and Escape lowers.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/ice-floes`
+
+Props:
+- `items`: { src?, alt, caption?, note? }[] (default ten postcards drawn in code) — The pictures, one per floe, repeating across the field.
+- `value / defaultValue`: number | null (default null) — The item whose floe is lifted out of the water, controlled or initial.
+- `onValueChange`: (index: number | null) => void — Fires from the click or key that lifted or lowered a floe.
+- `density`: number (default 0.6) — How crowded the water is, 0.2 (scattered) to 1 (packed).
+- `drift`: number (default 0.35) — How fast the current carries the field, 0 (still water) to 1.
+- `tint`: number (default 215) — The water's hue in degrees, at a fixed dark lightness.
+- `heading`: number (default 200) — The way the floes travel on screen, degrees clockwise from up (180 comes straight toward you).
+- `tilt`: number (default 50) — How steeply you look down at the water, degrees from straight down, 35 to 62.
+- `size`: number (default 1) — Floe size, 0.7 to 1.4.
+- `jostle`: number (default 0.5) — How much the floes lag, bump and turn when the water is moved, 0 to 1.
+- `friction`: number (default 0.5) — How quickly a fling glides to a stop: 0 glides long, 1 stops short.
+- `label`: string (default "Ice floes") — The field's accessible name.
+- `paused`: boolean (default false) — Still water: no current and no bobbing; a drag still moves the field.
+- `disabled`: boolean (default false) — No dragging, lifting or keys.
+- `seed`: number (default 7) — Seeds the floes' shapes and places.
+- `className`: string — Classes for the root; give it a height.
+
+Notes:
+- Keyboard: the field is one tab stop, a listbox (roledescription ice field) whose options are the items, rendered on the server; the 3D floes are aria-hidden copies. Arrow keys move a focus ring to the nearest floe in that direction on screen and aria-activedescendant follows its item; Home and End go to the first and last pictures; Enter or Space lifts or lowers; Escape lowers. Lifts are announced with caption and note.
+- Touch: the drag is two-dimensional, so the field sets touch-action: none; a tap on a floe lifts it and a tap on the water lowers it.
+- Reduced motion: no current, bobbing, jostle or surfacing; a drag still moves the field 1:1 and stops on release, and a lifted floe is shown raised and facing you at once with its neighbours dimmed and the caption faded in.
+- Performance: CSS 3D on the compositor with no canvas; at most 48 floes, one transform and opacity write per floe per frame, floes off screen set to visibility hidden. The loop runs only on screen, in a visible tab, and while the current flows or something still moves; drift 0 and settled draws nothing.
+- The sea, ice and postcards are fixed pigments (the water's hue is tint), so the field reads the same on light and dark pages; pass items with src for your own pictures.
+
+### Text Bottle (KQ-1823) — `text-bottle`
+A bottle of typed water you can tip.
+
+A bottle typed on a fixed grid of monospace cells: its glass is one ring of edge glyphs that re-letters itself as it turns, and its water is a density ramp over a shallow-water simulation that conserves volume, so tipping it makes the water lag, run up the glass and slosh back. Dragging turns it 1:1 and a release projects the throw and lands on springs.glide with the release velocity; arrow keys tip it on springs.snap, whose one overshoot slops the water. Past the lip the water pours out of the neck in gulps as a ballistic stream of glyphs into a puddle, and stood upright it refills from a dripping tap.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/text-bottle`
+
+Props:
+- `tilt / defaultTilt`: number (default 0) — The bottle's angle in degrees, negative left and positive right; controlled or the uncontrolled start.
+- `onTiltChange`: (tilt: number) => void — Fires from the drag release or the key that tipped it, with the new angle in whole degrees.
+- `viscosity`: number (default 0.35) — How thick the liquid is, 0 (water: quick waves, a fast glug) to 1 (syrup: slow, damped, a slow pour).
+- `charset`: "ascii" | "blocks" | "dots" | "binary" (default "ascii") — The glyphs the water is typed in, light to heavy.
+- `ramp`: string — A custom density ramp, light to heavy, starting with a space; overrides charset.
+- `fill`: number (default 0.7) — How full the bottle starts and refills to, 0 to 1.
+- `maxTilt`: number (default 135) — The furthest it tips either way, 30 to 170 degrees.
+- `refill`: number (default 7000) — How long an upright bottle takes to refill from empty, ms; 0 never refills.
+- `cellSize`: number (default 10) — The grid's font size in px; smaller is a finer, denser bottle.
+- `waterColor`: string (default "var(--accent-bright)") — The water, any CSS colour, drawn at fixed lightness so it reads on both themes.
+- `glassColor`: string — The glass outline, any CSS colour; defaults to the ink at two thirds.
+- `onStateChange`: (state: TextBottleState, level: number) => void — Fires when it starts or stops pouring, sloshing or refilling, or runs empty, with the level 0 to 1.
+- `onLevelChange`: (level: number) => void — Fires as the level passes each 5% step while it pours or refills.
+- `sound`: boolean (default false) — A glug loop while it pours, only after a tip by hand or key.
+- `label`: string (default "Bottle of water") — The slider's accessible name.
+- `paused`: boolean (default false) — Freezes the water: no waves, pouring or refilling; the bottle still turns.
+- `disabled`: boolean (default false) — No tipping by hand or key.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `className`: string — Sizes the piece; it fills a 448px-tall box by default.
+
+Notes:
+- It is a role="slider" for the angle: arrow keys tip it 10° (Shift 30°), PageUp/PageDown 45°, Home/End all the way, Enter or Space stand it upright. Its valuetext says the angle, the level and whether it is pouring or refilling, and a polite status says "Pouring.", "Empty." and "Full again." once each.
+- Under reduced motion the bottle turns at once and the water stays dead level; a pour still drains the level, drawn as a still column of glyphs, and a refill still raises it — the level is information, the slosh is not.
+- One Canvas 2D: per frame a few thousand signed-distance tests, a 60-column wave step at 240 Hz and glyphs drawn grouped by colour, with every buffer preallocated. The loop runs only while the bottle is on screen, the tab is visible and something moves, and stops once the water settles.
+- The glug is a loop that starts only after a visitor's drag or key tips the bottle past its lip, follows the flow and the level, and stops when the pour ends, on unmount or when sound is turned off.
+- Give it a tall box (360×560 or so): the bottle is sized so it still fits when tipped all the way, and the stream falls into the space below it. The server renders the upright bottle as SVG text; the canvas fades in over it.
+
+### Folded Steel (KQ-1824) — `folded-steel`
+Twist the billet and the pattern comes up.
+
+A polished bar of pattern-welded steel drawn per pixel in WebGL2: every pixel works out which layer of the twisted, pressed billet it was ground from, so twisting brings up chevrons and roses and folding presses waves into ladder rungs, etched dark with a crystalline grain and lit by a brushed sheen that follows the pointer on springs.glide. Dragging twists and folds it 1:1 and a release projects the throw and glides there; arrow keys step on springs.snap. A double click or Enter quenches it: a cool temper flash runs out from the strike and the layers relax straight on springs.drift, and the first time it is seen the etch comes up along it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/folded-steel`
+
+Props:
+- `twist / defaultTwist`: number (default 0.75) — How far the billet is twisted, in turns along the bar, −3 to 3; controlled or the uncontrolled start.
+- `onTwistChange`: (twist: number) => void — Fires from the drag release, key or quench that changed the twist, rounded to 0.05 turn.
+- `fold / defaultFold`: number (default 0.2) — How deeply the layers are pressed into waves and ladder rungs, 0 to 1; controlled or the uncontrolled start.
+- `onFoldChange`: (fold: number) => void — Fires from the drag release, key or quench that changed the fold, rounded to 0.05.
+- `layers`: number (default 24) — How many layers were welded into the billet, 8 to 64.
+- `etch`: number (default 0.6) — How deep the acid bit: 0 a polished blank, 1 dark sunk layers with a crystalline grain.
+- `rungs`: number (default 7) — How many ladder rungs a full fold presses along the bar, 3 to 14.
+- `sheen`: number (default 0.7) — The brushed sheen under the light, 0 to 1.
+- `brightColor`: string — The nickel-bright layers, any CSS colour; defaults to a cool steel from the tokens.
+- `darkColor`: string — The etched carbon layers, any CSS colour; defaults to a deep blued grey.
+- `sheenColor`: string — The light's colour on the brushed surface; defaults to a cool white.
+- `reveal`: "inView" | "mount" | "none" (default "inView") — When the etch first comes up: the first time it is seen, at mount, or already etched.
+- `onQuench`: () => void — Fires when a double click or Enter quenches the bar to straight layers.
+- `interactive`: boolean (default true) — The light follows the pointer and drags twist and fold.
+- `label`: string (default "Pattern-welded steel bar") — The slider's accessible name.
+- `seed`: number (default 7) — Seeds the hand-forged wobble in the layers.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `disabled`: boolean (default false) — No twisting, folding or quenching.
+- `className`: string — Sizes the piece; the bar fills it less a small margin. 144px tall by default.
+
+Notes:
+- It is a role="slider" for the twist (−3 to 3 turns): ←/→ twist a quarter turn (Shift a whole one), PageUp/PageDown one turn, Home/End the limits, ↑/↓ fold by 10%, Enter quenches. The valuetext names the twist, the fold and the pattern they make; a quench is announced.
+- Under reduced motion the etch is there at once, twist and fold changes land without a spring, the sheen jumps to the pointer and the quench has no flash — every state still shows.
+- One WebGL2 fragment pass, drawn only when something changes (a spring, the light, the reveal or the quench) — there is no idle loop — and only while on screen with the tab visible. A lost context falls back to the CSS still and is rebuilt on restore; without WebGL2 the still bar (straight layers and a sheen) stays.
+- foldedSteelPattern(twist, fold) is exported for a status line: it names the pattern a smith would see — straight, waves, ladder, twist or rose.
+- Colours are resolved from the props on the component's own element and re-read when the theme changes; the metal keeps its own lightness so it reads on either page.
+
+### Tilled Horizon (KQ-1825) — `tilled-horizon`
+Wavy furrows running to a low, striped sun.
+
+A two-tone print of a ploughed field at dusk: furrows run away from you as fine wavy ribbons over rolling hills toward a low sun striped by haze, each drawn near to far so a crest hides the furrow behind it, heavy where the slope turns from the sun and hairline where it faces it, with the furrows in line with the sun taking its ink. The field glides slowly toward you. The pointer, or keyboard focus moving onto a control laid over it, slides the sun along the horizon on the springs.drift constants and the light rolls across every hill with it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/tilled-horizon`
+
+Props:
+- `children`: React.ReactNode — Content laid over the field in its own layer; it keeps every click and focus.
+- `spacing`: number (default 11) — The furrows' spacing at the near edge, px: small is a fine engraving, large a few broad ribbons.
+- `roll`: number (default 0.5) — How much the land rolls, 0 a flat field to 1 steep hills that hide the furrows behind them.
+- `palette`: "dusk" | "harvest" | "indigo" | "moss" (default "dusk") — The two inks the print is pulled in; the paper follows the page.
+- `inkColor`: string — Overrides the land's ink, any CSS colour.
+- `sunColor`: string — Overrides the sun's ink, any CSS colour.
+- `paperColor`: string — Overrides the paper; defaults to the page's background, warmed.
+- `speed`: number (default 1) — How fast the field glides toward you, 0 (still) to 3.
+- `horizon`: number (default 0.42) — Where the horizon sits, as a share of the height from the top, 0.2 to 0.7.
+- `sunSize`: number (default 0.24) — The sun's diameter as a share of the height, 0.08 to 0.5.
+- `haze`: number (default 0.6) — How strongly the haze stripes the sun and the sky, 0 to 1.
+- `sun / defaultSun`: number (default 0.62) — Where the sun sits along the horizon, 0 left to 1 right; controlled or the uncontrolled start.
+- `onSunChange`: (sun: number) => void — Fires when the pointer, a key or focus moves the sun, rounded to 0.01.
+- `interactive`: boolean (default true) — The pointer over the scene, and focus moving between its children, steer the sun.
+- `focusable`: boolean (default false) — Makes the scene a slider tab stop that steers the sun with the arrow keys, for a field with no controls on it.
+- `label`: string (default "Sun position") — Names the sun slider when focusable.
+- `paused`: boolean (default false) — Holds the field still; the sun still moves.
+- `seed`: number (default 5) — Seeds the hills and the ridge.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `className`: string — Sizes the scene; 256px tall by default.
+
+Notes:
+- The painted scene is decoration (aria-hidden); children render above it and keep their clicks and focus. Keyboard focus landing on a child (focus-visible) moves the sun under it; with focusable the scene itself becomes a role="slider" (←/→ step 5%, Shift 20%, Home/End the ends).
+- Under reduced motion the field is a still print and the sun moves to the pointer at once, without drifting.
+- Canvas 2D: the furrows are batched into a few strokes by weight and fade, on an ink layer allocated only on resize, with the sun's glow laid source-atop. The loop runs only while on screen, the tab is visible and it is gliding or the sun is moving.
+- The paper mixes from the page background and the inks are mixed toward the foreground, so the print reads on both themes; colours are re-read when the theme changes. The server renders a CSS still of the sun and a fan of furrows.
+
+### Pulled Sugar (KQ-1826) — `pulled-sugar`
+Glossy candy pulled and folded in slow loops.
+
+A candy-pulling machine whose two arm pins orbit opposite ways round a fixed middle pin, with a rope of striped sugar looped over all three: a soft body of particles under gravity, carried by the pins' grip, that stretches plastically and necks thin where it is pulled and slowly gathers back. Every pass folds it over the middle pin, the stripes doubling along the rope from the fold until they read as satin, while a gloss highlight runs along the side of each span that faces a swaying light. Dragging an arm turns it 1:1 and the release sets the motor's speed, forwards or reversed, the flywheel easing to it on the springs.drift constants; arrow keys step the speed.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/pulled-sugar`
+
+Props:
+- `speed / defaultSpeed`: number (default 18) — The motor's speed in turns a minute, negative runs it backwards; controlled or the uncontrolled start.
+- `onSpeedChange`: (speed: number) => void — Fires from the throw, key or stop that changed the motor's speed, in whole turns a minute.
+- `stretch`: number (default 0.5) — How readily the sugar stretches, 0 stiff to 1 soft with long sags and thin necks.
+- `gloss`: number (default 0.6) — How glassy the candy is, 0 matte to 1 a sharp, bright highlight.
+- `palette`: "berry" | "mint" | "honey" | "lilac" (default "berry") — The candy's three colours.
+- `colors`: string[] — Three CSS colours for the stripes, overriding palette.
+- `batch`: number (default 8) — Folds before a fresh batch drops on; 0 keeps pulling the same one.
+- `maxSpeed`: number (default 60) — The fastest the motor turns either way, 10 to 90 turns a minute.
+- `ropeWidth`: number (default 24) — The rope's thickness before it is pulled, in the machine's own units (it is drawn 280 wide).
+- `onFold`: (folds: number, stripes: number) => void — Fires on every fold, and with 0 when a fresh batch starts, with the folds so far in this batch and the stripes across the rope.
+- `label`: string (default "Candy puller speed") — The slider's accessible name.
+- `paused`: boolean (default false) — Stops the machine and the candy where they are.
+- `disabled`: boolean (default false) — No dragging or keys.
+- `seed`: number (default 3) — Seeds the stripes' order.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `className`: string — Sizes the piece; the machine scales to fit and centres. 224px tall by default.
+
+Notes:
+- It is a role="slider" for the motor speed: ←/→ (↓/↑) step 6 turns a minute (Shift 18), Home/End run it flat out backwards or forwards, Space stops and restarts it, Enter drops a fresh batch. The valuetext gives the direction, the speed and the stripes.
+- Under reduced motion the arms do not turn and the candy hangs still on the pins; speed changes are still reported, and a fresh batch swaps in place.
+- Canvas 2D with every buffer preallocated: a 120-particle rope at 120 Hz with ten constraint passes, drawn in fifteen chunks of stripe polygons. The loop runs only while on screen, the tab is visible and the motor turns or the rope is still moving; at rest it stops.
+- Letting go of a still arm leaves the motor at its speed; a throw sets a new one, which is how a drag reverses it. Candy colours are pigments at fixed lightness from the tokens, so they read the same on both themes.
+
+### Spin Art (KQ-1827) — `spin-art`
+Spin the disc; paint throws itself into spirals.
+
+A spin-art turntable: drag round the card and it turns 1:1, then coasts from the release velocity on bearing friction and air drag; tap to drip. A drip lands as a blot with a little splash and breaks into threads that run outward under the spin's centrifugal pull while, in the card's own frame, the Coriolis effect bends them back against it — loose petals at a slow spin, long tight spirals at a fast one — with a gloss on the wet paint that fades as it dries matte. Arrow keys spin it up, Enter drips, Space brakes and Escape clears.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/spin-art`
+
+Props:
+- `friction`: number (default 0.4) — How quickly the disc coasts down, 0 spinning on for many seconds to 1 stopping almost at once.
+- `drips`: number (default 9) — The size of each drip, px of blot: small drips throw fine threads, big ones heavy ribbons.
+- `palette`: "primary" | "sunset" | "sea" | "ink" (default "primary") — The paints, used in turn.
+- `colors`: string[] — CSS colours to drip in turn, overriding palette.
+- `defaultSpin`: number (default 0) — The speed the disc starts at, turns a minute; negative is anticlockwise.
+- `onSpinChange`: (rpm: number) => void — Fires as the spin passes each 10 turns a minute and when it stops, from the hand, key or friction that changed it.
+- `maxSpin`: number (default 360) — The fastest a throw or a key can spin it, 60 to 600 turns a minute.
+- `runniness`: number (default 0.6) — How runny the paint is, 0 thick with short throws to 1 thin with long threads.
+- `dryTime`: number (default 3000) — How long paint stays wet and glossy, and can still be flung, ms.
+- `intro`: boolean (default true) — The first time it is seen the disc spins up and three drips land.
+- `onDrip`: (count: number) => void — Fires after each drip lands, with the drips on the card.
+- `onClear`: () => void — Fires when the card is cleared.
+- `sound`: boolean (default false) — A whir while the disc turns, after you spin it.
+- `label`: string (default "Spin-art turntable") — The slider's accessible name.
+- `disabled`: boolean (default false) — No spinning, dripping or clearing.
+- `seed`: number (default 4) — Seeds where keyboard drips land and how each one breaks up.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `className`: string — Sizes the piece; the disc fits inside and centres. 224px tall by default.
+
+Notes:
+- It is a role="slider" for the spin in turns a minute: ←/→ (↓/↑) add 30 either way (Shift 90), Home/End spin it flat out, Space brakes, Enter drips, Escape clears (it calls preventDefault so a surrounding dialog stays open). Drips and clears are announced.
+- Under reduced motion the card does not visibly turn: each drip resolves straight to its finished spiral using the spin at that moment, and a clear is instant; the spin value still changes and is announced.
+- Canvas 2D with one paint layer the size of the card, kept across resizes; rivulets come from a preallocated pool. The loop runs only while on screen and something moves — the spin, wet paint, a splash or a clear — and stops when the card is still and dry.
+- The whir is a loop that answers only the visitor's own spin (a drag or a key), follows the speed, and stops when the disc stops, on unmount or when sound is turned off; the intro is silent.
+
+### Lanyard Badge (KQ-1828) — `lanyard-badge`
+A tiny LED badge you cycle through its patterns.
+
+A small LED badge hanging on a printed lanyard: behind a smoked lens a crisp grid of square LEDs runs rippling waves in four PWM steps, the messages scrolling in a 5×7 pixel face, or simple pictures wiped in column by column, and two buttons on its edge cycle the mode and the brightness, each press travelling in on springs.flick with a click. Dragging the badge swings it on its lanyard as a pendulum held to its strap; on release a damped pendulum takes the throw while the badge rocks on its clip, a lighter hinge that lags and overshoots before both settle. The face is a button: Enter or Space push it, the arrow keys push it either way.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/lanyard-badge`
+
+Props:
+- `mode / defaultMode`: "waves" | "name" | "pictures" | "auto" (default "auto") — What the screen runs: rippling waves, the messages scrolling, pictures, or all three in turn; controlled or the uncontrolled start.
+- `onModeChange`: (mode: LanyardBadgeMode) => void — Fires from the mode button with the new mode.
+- `brightness / defaultBrightness`: number (default 0.75) — How bright the LEDs are: 0.25, 0.5, 0.75 or 1; controlled or the uncontrolled start.
+- `onBrightnessChange`: (brightness: number) => void — Fires from the brightness button with the new level.
+- `messages`: string[] (default ["FIELDLINE"]) — The messages the name mode scrolls in turn; letters, digits and simple punctuation.
+- `pitch`: number (default 5) — LED pitch in px, 4 to 8: a finer pitch fits more, smaller LEDs.
+- `color`: "amber" | "red" | "green" | "blue" | string (default "amber") — The LEDs' colour: a preset or any CSS colour.
+- `strapColor`: string — The lanyard's colour; defaults to a deep navy from the tokens.
+- `strapText`: string (default "FIELDLINE") — The word printed along the lanyard.
+- `speed`: number (default 1) — How fast the screen runs — scrolling, ripples and pictures — 0.25 to 3.
+- `swing`: number (default 0.6) — How freely the badge swings, 0 settling at once to 1 swinging on and on.
+- `sound`: boolean (default false) — A click from the side buttons.
+- `label`: string (default "LED badge") — The badge's accessible name.
+- `paused`: boolean (default false) — Freezes the screen.
+- `disabled`: boolean (default false) — No buttons, swinging or keys.
+- `className`: string — Sizes the piece; the badge scales to its width. 224px tall by default.
+
+Notes:
+- The side buttons are real buttons named for what they do ("Mode: Waves. Next: Name", "Brightness 3 of 4"); a polite status announces each change once. The face is a role="button" ("Swing the badge") whose description says what the screen shows: Enter or Space push it, ←/→ push it either way.
+- Under reduced motion the badge hangs still (a drag does nothing, a push is acknowledged in the status) and the screen shows still pages that turn every 2.4 s on a timer instead of a loop; the buttons still change the screen.
+- The LEDs are one Canvas 2D redrawn at thirty frames a second only while the badge is on screen, the tab is visible and the screen is not paused; the swing is motion values set from a fixed-step pendulum in the same loop, capped so the badge never swings out of its box.
+- The badge's width follows its container (164–228px) and a narrow box shows fewer LEDs rather than smaller ones. The housing and the LEDs keep their own colours on both themes; the engraved marks beside the buttons use the ink token.
+
+### Streak Pager (KQ-1829) — `streak-pager`
+Swipe between slides and the stars streak sideways.
+
+A slide pager over a quiet starfield: drag, swipe or press the arrows and the stars are thrown into sideways streaks that sweep into a warp point on the edge the slides travel toward, then shrink back to points as the new slide lands on springs.glide with the throw's velocity. A fast flick stretches the streaks further and tints them, a long jump warps hardest, and a landed slide's kicker rule draws in on springs.flick while the dots stretch on springs.snap. It is a carousel with one tab stop on the slides (arrow keys, Home and End), a dot tablist with roving focus and previous and next buttons.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/streak-pager`
+
+Props:
+- `items`: StreakPagerItem[] (default four Waylight survey slides) — The slides: title, alt, and optional kicker, body, caption and image src; pictures are drawn in code when src is absent.
+- `value / defaultValue`: number (default 0) — The slide on screen, by index (controlled / initial).
+- `onValueChange`: (index: number) => void — Fires from the drag, key, button or dot that chose a new slide.
+- `streak`: number (default 0.6) — How far the stars stretch into streaks at full speed, 0 to 1.
+- `density`: number (default 0.5) — How many stars fill the sky, 0 to 1.
+- `tint`: string (default "var(--accent-bright)") — The colour a fast swipe tints the streaks, any CSS colour.
+- `parallax`: number (default 0.5) — How far the stars drift with the slides, 0 (fixed sky) to 1.
+- `horizon`: number (default 0.5) — Height of the warp point on the edge, 0 (top) to 1 (bottom).
+- `loop`: boolean (default false) — Carry on from the last slide to the first.
+- `interval`: number (default 0) — Autoplay every this many ms while nobody is using the pager; 0 never.
+- `controls`: boolean (default true) — Show the dots and the previous and next buttons.
+- `seed`: number (default 7) — Seeds the starfield.
+- `onLand`: (index: number) => void — Fires when a new slide has come to rest.
+- `label`: string (default "Slides") — The carousel's accessible name.
+- `disabled`: boolean (default false) — No dragging, keys or buttons.
+- `dpr`: number (default 2) — Cap on the starfield's device pixel ratio, at most 2.
+- `className`: string — Sizes the pager; give it a height. Defaults to h-56 w-full.
+
+Notes:
+- Keyboard: the slide area is one tab stop — Left and Right move a slide, Home and End jump; the dots are a tablist with roving focus; Previous and Next report aria-disabled at the ends instead of losing focus. Each landed slide is announced once, politely.
+- Reduced motion: slides cross-fade instead of travelling, the sky stays still and autoplay is off; a swipe past 40px still turns the page and the dots and count still update.
+- Performance: the stars are one Canvas 2D layer drawn in three strokes per frame, only while the pager moves or the streaks are relaxing, only on screen and while the tab is visible; at rest it is a still frame. DPR is capped at `dpr`.
+- Theming: the sky is the card surface and the stars are the foreground colour, so it reads as a night sky in dark mode and a star chart in light mode; colours re-resolve when the theme changes.
+- Autoplay (`interval`) pauses on hover, focus, drag, off screen and under reduced motion; at the last slide it comes back round to the first.
+
+### Acrylic Pour (KQ-1830) — `acrylic-pour`
+Tilt the canvas; poured colours drift into cells.
+
+A small canvas of poured acrylic: dragging tips it in 3D 1:1 under the hand and the paint runs downhill in WebGL2, each colour at its own pace so the rings shear and stretch, while lacy cells of a lighter layer open where the film thins. Released, the canvas settles level on springs.drift with the throw's velocity and the paint stays where it ran; a tap pours a new seeded composition that floods out cup by cup over the old one. The canvas is focusable: the arrow keys tilt it gently while held and Enter or Space pours anew.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/acrylic-pour`
+
+Props:
+- `seed / defaultSeed`: number (default 1) — The composition (controlled / initial); a new seed pours a new one over the old.
+- `onSeedChange`: (seed: number) => void — Fires from the tap or key that asked for a new pour.
+- `cells`: number (default 0.55) — How much the lighter layer breaks through as lacy cells, 0 to 1.
+- `tilt`: number (default 0.6) — How far a drag tips the canvas and how freely the paint runs, 0 to 1.
+- `palette`: "tide" | "ember" | "moss" | "dusk" | string[] (default "tide") — The paints: a named set, or up to five CSS colours.
+- `pours`: number (default 4) — How many cups were poured, 2 to 7.
+- `viscosity`: number (default 0.5) — How thick the paint is: runny and far-flowing (0) to heavy and creeping (1).
+- `gloss`: number (default 0.6) — How glossy the wet paint looks, 0 to 1.
+- `base`: string (default titanium white) — The lighter layer that shows through the cells, any CSS colour.
+- `sound`: boolean (default false) — Play a pour while the paint runs.
+- `onFlowChange`: (flowing: boolean) => void — Fires when the paint starts and stops flowing.
+- `label`: string (default "Acrylic pour") — Names the canvas for assistive technology.
+- `disabled`: boolean (default false) — Shows the pour but takes no input.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `className`: string — Sizes the component (default h-52 w-full); the canvas is the largest square inside.
+
+Notes:
+- Keyboard: the canvas is one tab stop; hold an arrow key to tilt it that way (two keys tilt diagonally), let go to level it, and press Enter or Space for a new composition, which is announced.
+- Reduced motion: the canvas no longer tips in 3D and a new pour cross-fades instead of flooding; the paint still follows a drag, because that is direct manipulation.
+- Performance: the flow is a 128×128 half-float map advected only while the canvas is tilted or a pour floods in, on screen and while the tab is visible; at rest the canvas is a single still frame. DPR is capped at `dpr`, context loss rebuilds it, and without WebGL2 a still pour is drawn in CSS from the same seed.
+- Sound (`sound`): a pour loop follows the flow — louder and higher the steeper the tilt — and always stops when the paint settles; it never starts before the visitor has interacted with the page.
+- Palettes are pigments taken from the theme tokens at fixed lightness, so a pour looks the same in light and dark themes; pass `palette` as five CSS colours for your own.
+
+### Vantage Cube (KQ-1831) — `vantage-cube`
+A cube of loose letters that reads from one angle.
+
+A wireframe cube of loose letters floating at different depths that turns to follow the pointer on a spring set by `lag`: from most angles it is a scatter, but at each word's vantage its letters line up in perspective, one size on one baseline. Near a vantage the cube is drawn toward it and inside `snap` degrees it locks on springs.snap — the word brightens, a rule draws under it and a glint sweeps across it — and leaving the box drifts it home on springs.drift to lock again. It is a slider over the words: arrow keys turn the cube to the next or previous word on springs.glide, Home and End jump.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/vantage-cube`
+
+Props:
+- `words`: VantageCubeWord[] (default FIELD, LINE, DRIFT, NORTH) — The words hidden in the cube, each with the yaw and pitch (degrees) it reads from.
+- `value / defaultValue`: number (default 0) — The word the cube shows, by index (controlled / initial).
+- `onValueChange`: (index: number) => void — Fires when a different word locks, from the pointer, a drag or a key.
+- `density`: number (default 0.5) — How many loose letters fill the cube besides the words, 0 to 1.
+- `depth`: number (default 0.6) — How far the letters are spread in depth, 0 (nearly flat) to 1 (the whole cube).
+- `lag`: number (default 0.45) — How lazily the cube follows the pointer, 0 (at once) to 1 (slow and heavy).
+- `snap`: number (default 7) — How close to a vantage, in degrees, the cube snaps to it and locks.
+- `range`: number (default 50) — How far the cube turns toward the pointer at the box's edge, in degrees.
+- `perspective`: number (default 3.2) — Viewing distance in cube widths; lower is a stronger wide-angle look.
+- `glint`: boolean (default true) — Sweep a glint across a word when it locks.
+- `edges`: boolean (default true) — Draw the cube's edges.
+- `seed`: number (default 3) — Seeds where the letters float.
+- `onLock`: (index: number) => void — Fires each time a word locks, including a return to the same word.
+- `label`: string (default "Word cube") — The cube's accessible name.
+- `disabled`: boolean (default false) — No following, dragging or keys.
+- `className`: string — Sizes the cube's box; give it a height. Defaults to h-52 w-full.
+
+Notes:
+- Keyboard: the cube is a slider over its words — Left/Right (or Up/Down) turn to the previous or next word, Home and End jump — and the locked word is announced once; aria-valuetext always names the current word.
+- Reduced motion: the cube holds still at the current word's vantage, ignores the pointer, and keys swap words with a short cross-fade instead of a turn.
+- Performance: every letter's 3D place is a static transform computed once from the seed; only the cube's own rotation and a few CSS variables change per frame, and the spring loop stops as soon as the cube settles or leaves the screen.
+- Choose vantages at least three `snap` widths apart and within `range` (pitch within 0.7 × range) so each is reachable by the pointer; loose letters are placed clear of every word's row so each word reads clean.
+- The cube is sized from its box with container units, so it renders the same on the server and fits any height; touch and pen drag it 1:1 and a release locks to a vantage near where the throw would land.
+
+### Pillow Print (KQ-1832) — `pillow-print`
+A puffed vinyl card that dimples where you press.
+
+An image card printed on an inflated vinyl pillow: a WebGL2 mesh bulges out, draws in at the middle of each edge and wrinkles where the welded seam gathers into the corners, under a softbox gloss that slides across the bulge as the pillow leans toward the pointer on the glide spring. Pressing pushes a soft dimple in under the finger on the snap spring, drawing the print into it while the rest puffs out to keep its air; letting go pops it back on an underdamped spring set by `stiffness`, overshooting into a little bump and wobbling level. It is a real button: Space or Enter held presses at a point the arrow keys move, key up releases, and Escape lets go of a held press.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/pillow-print`
+
+Props:
+- `src`: string — An image to print instead of the drawn pass; for WebGL it must be same-origin or CORS.
+- `alt`: string (default a description of the drawn pass) — What the print shows, for assistive technology.
+- `puff`: number (default 0.6) — How inflated the pillow is, 0 (nearly flat) to 1 (fully puffed).
+- `gloss`: number (default 0.6) — How glossy the vinyl is, 0 (satin) to 1 (wet shine).
+- `stiffness`: number (default 0.5) — How firm the pillow is: soft and slow with three wobbles (0) to quick with one (1).
+- `depth`: number (default 0.6) — How deep a press pushes in, 0 to 1.
+- `radius`: number (default 0.45) — How wide the dimple is, 0 (a fingertip) to 1 (a palm).
+- `wrinkle`: number (default 0.5) — How much the vinyl wrinkles at its welded seams, 0 to 1.
+- `tilt`: number (default 0.4) — How far the pillow leans toward the pointer, 0 to 1.
+- `sound`: boolean (default false) — Play the vinyl's blups on press and release.
+- `onPress`: () => void — Fires as a press pushes in.
+- `onRelease`: () => void — Fires as a press lets go.
+- `label`: string (default "Pillow print") — Names the pillow for assistive technology.
+- `disabled`: boolean (default false) — Shows the pillow but takes no presses.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `className`: string — Sizes the box (default h-52 w-full); the pillow is the largest 1.42:1 card inside.
+
+Notes:
+- Keyboard: the pillow is a button — hold Space or Enter to press at the keyboard point (a ring shows where), move it with the arrow keys, even while held, and let go to release; Escape releases a held press.
+- Reduced motion: no lean and no wobble; the dimple still appears under a press and eases straight back on a short tween.
+- Performance: one 72×72 mesh lit per pixel from the same height function, drawn only while a press, a wobble or the lean is moving, on screen and while the tab is visible. DPR is capped at `dpr`; context loss rebuilds it.
+- Without WebGL2 (and as the server's first frame) the print shows as a CSS pillow card with shading and a dimple drawn where it is pressed, so nothing is lost on older devices.
+- Sound (`sound`): a low blup as the press goes in and a brighter one as it pops back, panned to where it was pressed.
+
+### Graded Wash (KQ-1833) — `graded-wash`
+Two colours pulled down a tilted board into one.
+
+A sheet of cold-press paper on a tilted board receives a graded watercolour wash: a flat brush lays it stroke by stroke, each stroke tops up a bead of wet paint along the bottom of the painted area, and the colour it carries hands over from the first to the second while the bead mixes what it holds, so the change is a true gradation. Between strokes gravity creeps the bead down the slope; dragging tips the board 1:1 in 3D — steeper, flatter or leaning — and the water runs along the bead to the low side, pooling and running further there, before the board settles back on springs.drift with the throw's velocity. Where the bead lingers it leaves soft tide lines, the wash dries lighter than it went on, and the board is focusable: the arrow keys tip it while held and Enter or Space lays a new wash.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/graded-wash`
+
+Props:
+- `colors`: "dusk" | "tide" | "ember" | "moss" | [string, string] (default "dusk") — The two colours, top into bottom: a named pair or two CSS colours.
+- `wetness`: number (default 0.6) — How much water the wash carries: dry brush and quick to dry (0) to soft, pooling and slow to dry (1).
+- `tilt`: number (default 12) — The board's resting slope in degrees, 0 (the bead stalls) to 30 (it runs).
+- `lean`: number (default 0) — The board's resting lean to the side, −1 (left low) to 1 (right low).
+- `strokes`: number (default 7) — How many strokes lay the wash, 4 to 12.
+- `pace`: number (default 460) — How long one stroke takes to cross the paper, in ms.
+- `grain`: number (default 0.5) — How much tooth the paper has, 0 (smooth) to 1 (rough and granulating).
+- `trigger`: "inView" | "mount" | "manual" (default "inView") — When the first wash is laid.
+- `washKey`: number (default 0) — Change it to lay a new wash from outside.
+- `onStateChange`: (state: "ready" | "painting" | "drying" | "dry", stroke: number) => void — Fires as the wash paints (once per stroke), dries and is dry.
+- `onComplete`: () => void — Fires when a wash has dried.
+- `label`: string (default "Watercolour wash") — Names the board for assistive technology.
+- `disabled`: boolean (default false) — Shows the wash but takes no input.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `className`: string — Sizes the board; give it a height. Defaults to h-52 w-full.
+
+Notes:
+- Keyboard: the board is one tab stop — hold Left or Right to lean it, Up or Down to flatten or steepen it, let go to settle it, and press Enter or Space to lay a new wash; painting, drying and dry are announced politely.
+- Reduced motion: no brush travel and no board movement — each wash is computed to dry at once with the current tilt and cross-fades in.
+- Performance: the paper is a Canvas 2D grid at half the CSS size, composed with one putImageData and one scaled drawImage per frame, only while paint is wet, on screen and while the tab is visible; a dry wash is a still canvas. DPR is capped at `dpr`.
+- Colour: pixels are light through the two pigments mixed in absorbance on the paper's own colour, so the hand-over passes through a real subtractive middle; the paper and paints are pigments from the theme tokens at fixed lightness, the same in light and dark themes.
+- Before the first wash (and on the server) the paper shows a finished CSS wash of the same two colours, so the card never looks blank.
+
+### Fog Cloche (KQ-1834) — `fog-cloche`
+Fog under glass that spills out when lifted.
+
+A glass cloche over a cushion of moss in a small vitrine lit from above, with fog slowly swirling under the glass: soft puffs circle the vertical axis, rising in the middle and sinking at the sides. A press lifts the glass on springs.snap and the fog rolls out from under the rim, lowest first, over the wooden base and across the floor to both sides, spreading and thinning away; pressing again brings the glass down on springs.glide, it settles with a small springs.recoil rock, and new fog breathes up out of the moss until the dome is full. The glass is a real toggle button with aria-pressed, so Space and Enter lift and lower it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/fog-cloche`
+
+Props:
+- `lifted / defaultLifted`: boolean (default false) — Whether the glass is lifted (controlled / initial).
+- `onLiftedChange`: (lifted: boolean) => void — Fires from the press or key that lifted or lowered the glass.
+- `density`: number (default 0.6) — How much fog the glass holds, 0 (a few wisps) to 1 (thick).
+- `swirl`: number (default 0.5) — How fast the fog turns under the glass, 0 (still) to 1 (a slow whirl).
+- `spill`: number (default 0.6) — How far the fog runs across the floor when it spills, 0 (pools at the base) to 1 (to the edges).
+- `light`: number (default 0.7) — How strong the light from above is, 0 to 1.
+- `fogColor`: string (default a pale cool white) — The fog's colour, any CSS colour.
+- `gather`: number (default 2600) — How long the fog takes to gather again under the lowered glass, in ms.
+- `autoLower`: number (default 0) — Lower the glass by itself this many ms after it is lifted; 0 never.
+- `paused`: boolean (default false) — Freeze the fog.
+- `seed`: number (default 5) — Seeds the fog and the moss.
+- `label`: string (default "Cloche") — The glass's accessible name, completed with lift or lower.
+- `disabled`: boolean (default false) — No lifting or lowering.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `className`: string — Sizes the vitrine; give it a height. Defaults to h-52 w-full.
+
+Notes:
+- Keyboard: the glass is a native toggle button — Space or Enter lifts and lowers it, aria-pressed reports lifted, its name says what pressing will do, and each change is announced once.
+- Reduced motion: the glass cross-fades between down and up instead of travelling, and the fog is a still cloud that fades out when lifted and back in over `gather` when lowered.
+- Performance: the fog is up to 180 soft puffs drawn from one cached sprite on a Canvas 2D layer; it animates only while on screen, visible and not `paused`, and once lifted the loop stops as soon as the spilled fog has thinned away. DPR is capped at `dpr`.
+- The vitrine is a dim alcove in both themes (fixed art from the theme tokens at fixed lightness), so the fog reads on a light page and a dark one; `fogColor` can tint it.
+- Before the live fog is drawn (and on the server) the dome shows a soft still fog, so the first frame is finished.
+
+### Etched Bricks (KQ-1835) — `etched-bricks`
+An image laid in glass bricks, one letter each.
+
+A wall of glass blocks, each etched with one character chosen from a density ramp by the brightness of the picture behind it, so clear glass, light marks and dense letters together read as the picture, with every block glowing warm in proportion as if lit from behind. Every few seconds a slow diagonal band of light sweeps through the wall and each block it crosses turns once on its vertical axis on the springs.snap constants, thinning to a sliver over its dark slot, swapping to another character of the same weight at the halfway point and glinting along its bevel while edge-on; the pointer carries a lamp of its own whose core turns the blocks it reaches, once each. The wall is a real button: arrow keys move the lamp and Enter or Space sends a sweep.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/etched-bricks`
+
+Props:
+- `src`: string — A picture of your own to lay in the wall (same origin, or served with CORS). Without one, scene is drawn.
+- `scene`: "dawn" | "peak" | "moon" (default "dawn") — The picture drawn in code when there is no src: a sun half risen over the sea, a snow peak under the moon, or a crescent moon over hills.
+- `alt`: string (default the scene's description) — What the picture shows; it names the wall for assistive technology.
+- `ramp`: string[] (default defaultEtchedRamp) — The density ramp, darkest first: one entry per level, its characters the alternates a brick turns between.
+- `brick`: number (default 22) — Brick width in px; rows and columns are fitted to the box and the bricks stretched a little to fill it.
+- `bevel`: number (default 0.5) — How deep the bevel and the pillowed face read, 0 (flat glass) to 1.
+- `glow`: number (default 0.6) — How strongly the backlight and the lamp light the glass, 0 to 1.
+- `light`: string (default "oklch(from var(--warn) 0.88 0.11 calc(h - 8))") — The backlight's colour; lit glass is the glass plus this light, summed in linear light.
+- `glass`: string (default a deep --accent pigment mixed into the page) — The glass's own tint where no light comes through.
+- `sweep`: boolean (default true) — Send a slow sweep of light through the wall every sweepEvery ms.
+- `sweepEvery`: number (default 6500) — Time between sweeps, in ms.
+- `sweepDuration`: number (default 2600) — How long one sweep takes to cross the wall, in ms.
+- `radius`: number (default 76) — The pointer lamp's radius, in px.
+- `flip`: boolean (default true) — Bricks turn over to a new character as light passes them.
+- `paused`: boolean (default false) — Hold the wall still: no sweeps, though the lamp still lights it.
+- `onSweep`: () => void — Fires as a sweep starts, whether from the timer, a click or a key.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `disabled`: boolean (default false) — Shows the wall but takes no input.
+- `className`: string (default "h-full w-full") — Sizes the wall; it fills its parent by default.
+
+Notes:
+- The wall is a transparent native button over the canvas, named by alt and described by a hint. Keyboard focus lights a lamp at the centre with a ring round it; arrow keys move it a brick at a time (Shift for three), and Enter, Space or a click sends a sweep. Touch lights the lamp under the finger while vertical scrolling stays with the page.
+- Under reduced motion nothing travels or turns: the wall rests under a still diagonal wash, the lamp lights it directly, a block the lamp reaches changes its character on a 150 ms cross-fade, and a click or key brightens the whole wall and fades it back.
+- Canvas 2D drawn from sprites made once per size (bevel, glint and a glyph atlas) and a 64-step colour ramp, so a frame allocates nothing. The loop runs only while a sweep crosses, a block turns or the lamp eases; between sweeps a timer waits, and both stop off screen and in a hidden tab.
+- Colours are the canvas's own computed colours, re-read when the theme changes; the glass mixes into the page so the wall sits in light and dark themes, and the light is a pigment that looks the same in both.
+- A src picture is sampled once per layout (three by three samples per brick); it must be same-origin or served with CORS, or the drawn scene stays.
+
+### Flip Sequins (KQ-1836) — `flip-sequins`
+Brush the sequins and they flip to the other side.
+
+A panel of glossy two-faced sequins in overlapping rows that you draw on by brushing: the sequins under the brush turn over in the direction of travel, each disc squashing along the stroke, changing face at 90° and opening out again on its own spring at the springs.snap constants (ζ 0.83, loosened toward a flutter by wobble), with a glint running along its axis while edge-on. Brushing with the fabric's nap turns them over and brushing back smooths them home, so pictures and words can be drawn and erased; a long still press sends a ring out from the finger that turns every flipped sequin home inside one 600 ms beat. Arrow keys brush, Shift lifts the brush, Enter or Space turns the sequins under it and Backspace smooths the panel.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/flip-sequins`
+
+Props:
+- `sequin`: number (default 18) — Sequin diameter, in px.
+- `flipColor`: "rose" | "gold" | "teal" | "ink" | string (default "rose") — The colour of the other face: a named pigment or any CSS colour.
+- `shine`: number (default 0.6) — How glossy the faces are and how bright the glint is as one turns, 0 to 1.
+- `color`: string (default a satin from --ink-2) — The home face's colour.
+- `fabric`: string (default the page, deepened) — The fabric showing between the sequins.
+- `nap`: number (default 45) — The fabric's nap in degrees: brushing along it turns sequins over, brushing against it smooths them home; strokes across it do nothing.
+- `brushOn`: "hover" | "press" (default "hover") — A mouse brushes on hover, or only while its button is down. Touch and pen always brush while pressed.
+- `radius`: number (default 1.1) — The brush's reach, in sequins.
+- `wobble`: number (default 0.25) — How loose each turn is, 0 (one crisp overshoot) to 1 (a fluttering settle).
+- `holdToSmooth`: number (default 550) — How long a still press must be held to smooth the whole field, in ms.
+- `text`: string (default "") — A word turned over into the field when it is laid out, fitted to its width, so the first frame says something.
+- `onFlipChange`: (flipped: number, total: number) => void — Fires from the stroke, press or key that changed the field (and once when it is laid out), with how many sequins show their other face.
+- `onSmooth`: () => void — Fires when a long press or Backspace smooths the field.
+- `sound`: boolean (default false) — A shimmer as sequins turn, pitched up for over and down for home, after a visitor's stroke or key.
+- `label`: string (default "Sequin panel") — The field's accessible name.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `disabled`: boolean (default false) — Shows the field but takes no input.
+- `className`: string (default "h-full w-full") — Sizes the panel; it fills its parent by default.
+
+Notes:
+- The panel is a transparent native button over the canvas, named by label and described by a hint written from the nap. Arrow keys move a ringed brush one sequin and brush the way they move; Shift with an arrow lifts the brush, Enter or Space turns the sequins under it, and Backspace or Delete smooths the panel. The flipped count is spoken after a key, never per pointer move.
+- Touch draws exactly as a pressed mouse does, so the panel takes touch-action: none while enabled; a disabled panel hands scrolling back to the page.
+- Under reduced motion nothing turns or travels: a brushed sequin cross-fades between its faces in 150 ms and smoothing is one 240 ms fade; the gloss stops following the pointer. Drawing works exactly the same.
+- Canvas 2D from an atlas of both faces at four gloss levels, built once per size and colour; still sequins are one drawImage each and only turning ones take a transform. The loop runs only while a sequin turns or the smoothing ring travels, and never off screen or in a hidden tab.
+- Sound plays only for the visitor's own strokes, presses and keys, and never before the page has had a click, tap or key press, so a hover across a fresh page stays silent.
+
+### Catenary Glow (KQ-1837) — `catenary-glow`
+Sagging wires at dusk with warmth running along.
+
+Power lines strung between wooden poles across a dusk sky, hanging in true catenary sags and glowing faintly, while every few seconds a warm current runs along each wire in turn, top line first: a short bright pulse with a long fading tail whose halo widens as it passes. Every span is a string held at both insulators and integrated as a damped wave at 120 Hz, so a pointer brushing across a wire strikes the node it crossed with the stroke's own speed and a gentle travelling wave runs out both ways, reflects at the poles and dies away, the wire brightening while it moves. Arrow keys choose a wire and a point along it, Enter or Space plucks it, and a tap or click near a wire plucks it there.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/catenary-glow`
+
+Props:
+- `children`: React.ReactNode — Content over the sky, in its own layer: a headline, a reading, a call to action.
+- `wires`: number (default 4) — How many lines are strung between the poles, 2 to 6.
+- `sag`: number (default 0.5) — How deep the catenaries hang, 0 (taut) to 1 (slack); the lowest line always clears the hills.
+- `warmth`: number (default 0.65) — The colour of the current and the glow: 0 a cool white, 1 deep amber.
+- `span`: number (default fitted) — Distance between poles in px; by default fitted so two to four poles show.
+- `interval`: number (default 5200) — Time between currents, in ms.
+- `speed`: number (default 460) — How fast a current runs along a wire, in px per second.
+- `sway`: number (default 0.6) — How readily a brush or pluck sets the wires swinging, 0 to 1.
+- `stars`: boolean (default true) — A few faint early stars.
+- `interactive`: boolean (default true) — The pointer and keys can set the wires swaying.
+- `paused`: boolean (default false) — Hold the currents; the wires still sway when brushed.
+- `onPluck`: (wire: number) => void — Fires when a tap, click or key plucks a wire, with its index from the top.
+- `label`: string (default "Power lines at dusk") — The scene's accessible name, for the keyboard's way in.
+- `disabled`: boolean (default false) — Shows the scene but takes no input.
+- `className`: string (default "h-full w-full") — Sizes the scene; it fills its parent by default.
+
+Notes:
+- A transparent native button behind the children is the keyboard's way in: Up and Down choose a wire (its halo brightens and a ring marks the pluck point), Left and Right move along it, Enter or Space plucks it, and Escape lets go, handled so a surrounding dialog stays open. Children render above in their own layer and keep their own semantics.
+- Under reduced motion nothing travels or sways: each wire's warm glow fades in where it hangs and out again at the same cadence, and a brush, tap or pluck brightens the wire for a moment instead of moving it.
+- One SVG whose sky, hills, poles and stars are static server-rendered markup. Per frame only the moving wires' paths and the pulse gradients' ends are written straight to their nodes, with no React render; the loop runs only while a current travels or a wire moves, and both it and the interval timer stop off screen and in a hidden tab.
+- The dusk is fixed art built from token hues at fixed lightness, so it reads the same on light and dark pages; put light text over it (text-primary-foreground reads on the sky and hills).
+- Touch keeps vertical scrolling (touch-action: pan-y): a tap near a wire plucks it, and a short brush sways the wires before the page takes the gesture.
+
+### Bias Stripes (KQ-1838) — `bias-stripes`
+Diagonal stripes that stretch toward your hand.
+
+Bands of colour run across the frame at an angle like fabric cut on the bias, and the cloth reaches for the hand: a Gaussian pull draws every point toward the pointer, so the stripes bend toward it, the band under the hand is drawn thin, its neighbours bunch beside it and the bands further out stretch to reach in, while a moving hand drags the bias along a little. The hand follows the pointer on the springs.glide constants and the pull rises on them; when the hand leaves, the pull relaxes on a softer spring that swings past flat by springiness and settles, and a click snaps a ripple through as a wave packet that kinks every band it crosses. Arrow keys move a ringed hand, Enter or Space ripples from it and Escape lets go.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/bias-stripes`
+
+Props:
+- `children`: React.ReactNode — Content on top of the cloth, in its own layer; its controls keep their presses.
+- `angle`: number (default 45) — The bias: the stripes' angle from horizontal, in degrees.
+- `pull`: number (default 0.6) — How hard the hand draws the cloth, and how big a ripple is, 0 to 1; held short of folding the cloth through itself.
+- `palette`: "ember" | "tide" | "orchard" | "dusk" (default "ember") — The dye set, four pigments repeating, the same in either theme.
+- `colors`: string[] — Colours of your own, repeating in order; overrides palette.
+- `stripe`: number (default 26) — Band width, in px.
+- `reach`: number (default 110) — How far the pull reaches, in px; held under 45 % of the shorter side.
+- `drag`: number (default 0.4) — How much a moving hand drags the bias along with it, 0 to 1.
+- `springiness`: number (default 0.5) — How far the cloth overshoots past flat when the hand lets go, 0 (none) to 1 (a visible bounce).
+- `ripple`: boolean (default true) — A click or tap snaps a ripple through the cloth.
+- `texture`: boolean (default true) — A fine twill over the bands and soft fold shading where the cloth is pulled.
+- `interactive`: boolean (default true) — The pointer and keys pull the cloth.
+- `onRipple`: (x: number, y: number) => void — Fires when a click, tap or key sends a ripple, with its centre in px from the top left.
+- `label`: string (default "Striped cloth") — The cloth's accessible name, for the keyboard's way in.
+- `disabled`: boolean (default false) — Shows the cloth but takes no input.
+- `className`: string (default "h-full w-full") — Sizes the cloth; it fills its parent by default.
+
+Notes:
+- A transparent native button behind the children is the keyboard's way in: focus places a ringed hand at the centre, arrow keys move it (Shift for larger steps), Enter or Space sends a ripple from it, and Escape lets go, handled so a surrounding dialog stays open; blur lets go too.
+- The pointer is read from the container, so children stay fully interactive and a press on one of their controls never ripples the cloth. Touch pulls while the finger is down, so an enabled cloth takes touch-action: none.
+- Under reduced motion there are no springs and nothing travels: the cloth takes the pull's exact shape at the hand on each move and lets go at once, and a click draws a ring that fades in 240 ms instead of a ripple.
+- One SVG polygon per band. Boundaries are sampled every 8 px and pushed through the field only while the hand, the pull or a ripple moves, and only near the hand unless a ripple is travelling; settled bands are exact four-point polygons and the loop stops, and it never runs off screen or in a hidden tab.
+- Palettes are pigments at fixed lightness taken from the theme's hues, so a cloth reads the same on light and dark pages; pass colors for a brand's own dyes.
+
+### Interlace Load (KQ-1839) — `interlace-load`
+An image arriving the old way, pass by pass.
+
+An image that arrives the way old progressive images did: coarse blocks first, then each pass fills the gaps at a finer resolution behind a faint scan line running down the frame, the picture above the line at the new resolution and below it still at the last, with the freshly arrived rows briefly brighter, until the last pass lands the sharp picture with one small lift of light that settles away. The scheme is interlaced rows stretched over the rows still missing, a halving grid of up to seven passes, or a coarse-to-fine averaged scan, and each pass's time follows how much data it carries. It starts when half in view, on mount, from a Load button or from the play prop, and a Load again button fades in on an enter tween once it has landed.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/interlace-load`
+
+Props:
+- `src`: string — The picture to load, cover-fitted. Without one, a lake valley at first light is drawn in code.
+- `alt`: string (default "A lake valley at first light") — What the picture shows.
+- `scheme`: "rows" | "grid" | "scan" (default "grid") — How the passes arrive: interlaced rows, a halving grid (width, then height), or a coarse-to-fine averaged scan.
+- `passes`: number (default 7) — How many passes, 3 to 7; the first is coarser the more there are, and the last is always the sharp picture.
+- `speed`: number (default 1) — How fast the data arrives, as a multiple of a 3.2 s load.
+- `trigger`: "inView" | "mount" | "button" | "manual" (default "inView") — What starts the load: being half in view, mounting, a Load button over the placeholder, or the play prop alone.
+- `play`: boolean — Starts the load when it turns true and clears back to waiting when it turns false; overrides trigger.
+- `delay`: number (default 200) — A wait before the first pass, in ms.
+- `scanLine`: boolean (default true) — The faint scan line the data arrives behind, and the brighter fresh rows above it.
+- `replayButton`: boolean (default true) — A small Load again button once the picture has landed.
+- `onPassChange`: (pass: number, total: number) => void — Fires as each pass begins, counting from 1.
+- `onComplete`: () => void — Fires when the last pass lands.
+- `caption`: React.ReactNode — A caption laid over the lower left of the picture, shown in every phase.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `className`: string (default "h-full w-full") — Sizes the frame; it fills its parent by default.
+
+Notes:
+- The picture is a role="img" element named by alt and aria-busy while it loads; a polite live region says "Loading image." and "Image loaded.", never once per pass. The Load and Load again buttons sit outside the image as native buttons with names, h-8 boxes and solid focus rings.
+- Under reduced motion there is no scan line and nothing travels: each pass appears whole on a 150 ms cross-fade from the last and holds for its share of the time, because the passes are the information; the landing is a fade.
+- Canvas 2D. The picture is drawn or decoded once per size, and every pass's picture is a small canvas scaled up without smoothing, so a frame is two drawImage calls, a gradient band and a line. The loop runs only while loading; off screen or in a hidden tab its clock stops and the load resumes where it was.
+- A src image needs no CORS: its pixels are drawn, never read. Changing scheme, passes or speed once a load has started replays it on the new schedule, so the change is seen at once; before it starts nothing moves.
+- The placeholder is the server's first frame: the surface token with a hairline hatch and a small mono mark, so it sits in either theme until the picture arrives.
+
+### Carriage Windows (KQ-1840) — `carriage-windows`
+Drag the carriage; the view slides past each window.
+
+A carousel built as the side of a railway carriage seen from the platform, a painted body with a cream window band, rounded windows each holding a view, and wheelsets on a rail. Dragging moves the carriage 1:1 while each view slides more slowly behind its glass, offset by the window's distance from the middle times the parallax, so every window has depth and the glass's reflection slides the other way with the speed; a flick is projected to where it would rest and the carriage runs to the nearest window on the springs.glide constants seeded with the release velocity. Rail joints lie every 96 px, and each time a wheel rolls over one the body dips and recovers on springs.recoil and, with sound on, a soft clack plays, so a fast flick clatters and an arrival gives one last clack; arrow keys step a window, Home and End go to the ends.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/carriage-windows`
+
+Props:
+- `items`: { src?: string; alt: string; caption?: string }[] (default defaultCarriageItems) — The views, one per window; without a src each is drawn in code (six views along a coast line by default).
+- `value / defaultValue`: number (default 0) — The window at the centre, controlled or initial.
+- `onValueChange`: (index: number) => void — Fires from the drag, flick, click or key that brought a new window to the centre.
+- `parallax`: number (default 0.55) — How far behind the views seem, 0 (painted on the glass) to 1 (far away).
+- `gap`: number (default 22) — The panel between windows, in px.
+- `radius`: number (default 14) — The windows' corner radius, in px.
+- `windowWidth`: number (default fitted) — Window width in px; by default fitted to the height and held to 72 % of the box.
+- `livery`: "green" | "maroon" | "navy" | "cream" (default "green") — The carriage's paint, pigments that read the same in either theme.
+- `friction`: number (default 0.5) — How soon a flick runs down, 0 (coasts far) to 1 (stops short).
+- `captions`: boolean (default true) — Small name plates under the windows.
+- `sound`: boolean (default false) — A soft clack as the wheels cross each rail joint, after a visitor's drag, flick or key.
+- `label`: string (default "Carriage windows") — The carousel's accessible name.
+- `disabled`: boolean (default false) — No moving.
+- `className`: string (default "h-full w-full") — Sizes the carriage; it fills its parent by default.
+
+Notes:
+- The root is a labelled carousel (role group, aria-roledescription carousel) and the one tab stop: Left and Right (or Up and Down) step a window, Home and End go to the ends, and a click on a window brings it to the middle. Each window is a slide labelled "3 of 6: Pine valley" holding its view as an image named by alt, and a polite live region announces the window that arrives.
+- Touch keeps vertical scrolling (touch-action: pan-y); a horizontal drag moves the carriage 1:1, rubber-bands past either end and is projected on release.
+- Under reduced motion the carriage still follows a drag, but a release or key moves it on a 150 ms tween with no jolt, no wheel spin and no sliding reflection; the parallax holds as geometry.
+- Everything per frame is a motion value: the carriage's x, the body's jolt, the wheels' turn and each view's offset (a transform of x, rounded to 0.01 px), so nothing re-renders while it moves and nothing runs at rest.
+- Sound plays only for the visitor's own drag, flick, click or key, at most every 45 ms, panned to the wheel that crossed; a host changing value moves the carriage silently.
+
+### Dichroic Wall (KQ-1841) — `dichroic-wall`
+Glass tiles that change colour as you move.
+
+A wall of dichroic glass tiles whose colours are computed from thin-film interference: each tile passes one hue and reflects its complement, and both slide with the angle you see it from, so as the pointer (your eye) moves the tiles shift colour, the eye following on springs.glide. Each tile reads where you stood a moment ago in proportion to its distance, so a change rolls across the wall as a travelling wave, and the tiles are set slightly askew so neighbours never quite match; a click, Enter or Space flashes the wall white for a beat in a ring from the click. Arrow keys move the eye from a full-surface button under the content, Escape stands you back in the centre, and the first sight sweeps the eye across once on springs.drift.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/dichroic-wall`
+
+Props:
+- `children`: React.ReactNode — Content on top of the glass: a headline, a caption card, a call to action.
+- `tiles`: number (default 5) — How many tiles fit the wall's shorter side, 3 to 12: fewer rows make larger tiles.
+- `shift`: number (default 0.6) — How far a tile's colour swings with the angle you see it from, 0 to 1.
+- `gap`: number (default 3) — The grout between tiles, px, 0 to 12.
+- `radius`: number (default 3) — A tile's corner radius, px.
+- `askew`: number (default 0.4) — How far each tile is set off square in its bed, 0 (a perfect grid) to 1 (visibly hand-laid).
+- `film`: "prism" | "lagoon" | "orchid" | "frost" (default "prism") — The coating: a mixed prism, teal and amber, orchid and green, or a pale frost.
+- `backlight`: number (default 0.6) — How much light comes through the glass rather than off it, 0 to 1: high shows the transmitted colours, low their complements.
+- `waveSpeed`: number (default 12) — How fast a change of angle travels across the wall, tiles per second.
+- `flash`: number (default 0.85) — How bright a click's flash is, 0 (no flash) to 1 (full white).
+- `interactive`: boolean (default true) — The pointer and the keys move where you stand; off, the wall holds its view.
+- `sweep`: boolean (default true) — On first sight the eye crosses the wall once, so a wave of colour runs over it.
+- `drift`: boolean (default false) — With no pointer on it, the eye wanders slowly by itself (the wall never rests).
+- `paused`: boolean (default false) — Hold the wall still: nothing animates until it is unpaused.
+- `seed`: number (default 1) — Seeds every tile's film, turn and tilt.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `label`: string (default "Dichroic glass wall") — The accessible name of the wall's surface button.
+- `onFlash`: () => void — Fires when a click, Enter or Space flashes the wall.
+- `disabled`: boolean (default false) — No pointer, keys or flash; the wall rests at its centre view.
+- `className`: string (default "h-full w-full") — Sizes and shapes the box.
+
+Notes:
+- Keyboard: a full-surface button under the content is one tab stop. Arrow keys move where you stand (Shift for longer steps), Enter or Space flash the wall, Escape returns you to the centre; where you stand is announced politely. Keyboard focus on a control inside the content moves the eye to that control.
+- Reduced motion: the colours still follow the pointer and keys, but they change everywhere at once (no travelling wave), the first-sight sweep and drift are off, and the flash is a short even brightening rather than a ring.
+- Performance: one WebGL2 fullscreen pass; every tile's film, turn and tilt are hashed in the shader, so there are no textures. The loop runs only while the eye moves, a wave is in flight or a flash fades — and only on screen in a visible page. DPR is capped at 2 and resizes go through ResizeObserver.
+- Without WebGL2 (or after a lost context) a CSS still of the glass stays in place and turns its hue as you move, through one filter on one layer.
+- Theming: grout, the reflected room and the backlight resolve from tokens on the component's own element and are re-read when the theme changes; tile colours hold their lightness so the wall reads in light and dark.
+- Content in children stays fully interactive; a click on a control in it belongs to the control, a click anywhere else flashes the glass.
+
+### Buoy Tags (KQ-1842) — `buoy-tags`
+Labels that bob on the water and drift to you.
+
+A tag picker floating on water: pill-shaped toggle buttons moored on slack lines ride a gently moving surface, a slow swell lifting and rocking one float after another while a small heightfield carries every ripple. The pointer makes a current, so the tags drift toward you within the slack of their moorings and bump softly into each other as capsules that trade momentum and spin, then drift home. Pressing a tag dunks it under the water and it comes back up on springs.recoil inside a splash ring that rocks its neighbours, selected or cleared; tags are real buttons in reading order, Enter and Space dunk them, and keyboard focus pulls the current to the focused tag.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/buoy-tags`
+
+Props:
+- `tags`: BuoyTag[] (default defaultBuoyTags) — The tags on the water: { id, label, color? }.
+- `value / defaultValue`: string[] (default []) — The ids of the selected tags; controlled or initial.
+- `onValueChange`: (ids: string[]) => void — Fires from the press or key that dunked a tag, with the new selection.
+- `multiple`: boolean (default true) — Several tags may be selected; off, choosing one clears the rest.
+- `bob`: number (default 0.5) — How high the swell runs, 0 (flat calm) to 1: how much the tags bob and rock.
+- `drift`: number (default 0.5) — How strongly the hand's current pulls the tags and how much slack their moorings give, 0 to 1.
+- `depth`: number (default 0.5) — How deep the water is, 0 to 1: its colour, the length of the moorings, how far shadows fall and how long the swell runs.
+- `moorings`: boolean (default true) — Draw each tag's mooring line down into the water.
+- `splash`: number (default 0.7) — How big a dunk's splash is, 0 to 1: the rings and the waves that rock the neighbours.
+- `interactive`: boolean (default true) — The hand (pointer or keyboard focus) makes a current the tags drift on.
+- `paused`: boolean (default false) — Hold the water and the tags still.
+- `seed`: number (default 1) — Seeds the swell and the moorings.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `sound`: boolean (default false) — Play the plips of a dunk. Off unless asked for.
+- `label`: string (default "Tags") — The group's accessible name.
+- `onDunk`: (id: string) => void — Fires when a tag is dunked, with its id.
+- `disabled`: boolean (default false) — No presses; the water lies still.
+- `className`: string (default "h-56 w-full") — Sizes the water.
+
+Notes:
+- Keyboard: each tag is a toggle button (aria-pressed) in reading order inside a labelled group; Tab moves between them and Enter or Space dunks one through the same path as a press. Keyboard focus draws the current to the focused tag, and the new selection is announced politely ("Kelp selected. 3 selected.").
+- Reduced motion: the water lies still, the tags sit at home with no current or collisions, and a press swaps the selected look at once with a short opacity dip and a ring that fades in place.
+- Performance: one requestAnimationFrame loop runs the swell, the ripple grid (8px cells) and the tag physics, only on screen in a visible page; with bob at 0 it settles and stops. The water is shaded at grid resolution and scaled up smoothly onto one Canvas 2D layer, and tag positions go to motion values rather than React state.
+- Layout: homes come from a centred flex-wrap cluster measured on mount and on resize, so the tags wrap naturally at any width; give the component a height (className) that fits your tag count.
+- Theming: water, crests and lines resolve from tokens mixed into the page background on the component's own element and are re-read on theme change; floats use pigments at fixed lightness so they read in light and dark.
+
+### Night Facade (KQ-1843) — `night-facade`
+A building's windows lighting and dimming at night.
+
+A tall apartment block at night whose small square windows each keep their own seeded schedule — warm lamps, blue screens, a kitchen's tube, the stairwell's fluorescent — so it runs from a busy early evening to a handful of night owls, while rooms go dark and light again, screens flicker and figures pass behind a few lit windows at the hour you leave it on. A rail down the right side is a vertical slider: dragging it moves the moon along its arc, deepens the sky and lets the windows answer one after another, each after its own short delay, before the thumb settles on the quarter hour on springs.snap. Up and Down move a step, Page Up and Page Down an hour, and Home and End go to 18:00 and 04:00.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/night-facade`
+
+Props:
+- `hour / defaultHour`: number (default 21) — The hour, 18 (6 pm) to 28 (4 am), 24 being midnight; controlled or initial.
+- `onHourChange`: (hour: number) => void — Fires from the drag or key that moved the night, with the new hour on the step.
+- `floors`: number (default 10) — Floors of windows, 4 to 18.
+- `columns`: number — Windows across; by default as many as the width takes at the floor height.
+- `warmth`: number (default 0.6) — Lamp colour, 0 (cool white) to 1 (deep tungsten amber).
+- `step`: number (default 15) — Minutes the rail snaps to.
+- `silhouettes`: boolean (default true) — Figures pass behind a few lit windows now and then.
+- `flicker`: boolean (default true) — Screens flicker blue and the stairwell tube stutters.
+- `beacon`: boolean (default true) — The red light on the antenna blinks.
+- `rail`: boolean (default true) — Show the hour rail down the right side.
+- `paused`: boolean (default false) — Hold the building still: no flicker, no figures, no rooms changing.
+- `seed`: number (default 1) — Seeds who lives where and their hours.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `label`: string (default "Apartment building at night") — The picture's accessible name; the hour and lit count are added to it.
+- `disabled`: boolean (default false) — The rail does not move.
+- `className`: string (default "h-[520px] w-full") — Sizes the box.
+
+Notes:
+- Keyboard: the rail's thumb is a vertical slider (role="slider") whose value text reads the time and the lit count; Down and Up move a step the way the thumb moves, Page Down and Page Up an hour, Home and End 18:00 and 04:00. The picture is one image whose name carries the hour and the number of lit windows.
+- Reduced motion: nothing flickers, no figures pass, rooms do not come and go, the beacon holds steady and the moon steps rather than glides; windows still change with the hour by short cross-fades, because the hour is the information.
+- Performance: the architecture is server-rendered SVG with the windows lit for the first hour, so the first paint is finished. The light is one Canvas 2D layer drawn from pre-rendered sprites; ambient life runs at 24 frames a second, transitions at full rate, and nothing runs off screen, in a hidden page or while paused.
+- Controlled use: pass hour and onHourChange; a host that changes hour moves the night with the same spring a key does. clockOf(hour) is exported for printing the time the same way the rail does.
+- The night is drawn in fixed pigments, so it is the same scene in light and dark themes; give it a rounded border from your own tokens to seat it on the page.
+
+### Guest Pointers (KQ-1844) — `guest-pointers`
+Named pointers from a session, moving live.
+
+A shared document visited by named collaborator pointers replaying recorded paths against its measured anchors: they glide, hover, drag-select words in their own colour, leave short chat bubbles and tick boxes or press buttons, each on a loop of its own. Positions arrive the way a network delivers them, as samples a few times a second, and the smoothing prop is a critically damped follower between them, from jumpy to buttery, with each name tag trailing its tip on springs.snap. Clicking a tag or a name in the presence toolbar follows that guest — the view zooms in and pans with them on a glide-stiff, critically damped camera and the frame takes their colour — and Escape (or the chip's button) goes back to the overview.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/guest-pointers`
+
+Props:
+- `guests`: GuestPointer[] (default defaultGuests) — Who might be here: { id, name, color?, steps? }, steps being the recorded path against the document's anchors.
+- `count`: number (default 3) — How many of them are here, 1 to 5.
+- `tagStyle`: "pill" | "flag" | "initials" (default "pill") — How a pointer's name is worn: a pill beside it, a flag at its tip, or initials.
+- `smoothing`: number (default 0.6) — How the pointers glide between the samples the network delivers, 0 (jumps) to 1 (buttery, a little behind).
+- `following / defaultFollowing`: string | null (default null) — The guest the view follows, or null for the overview; controlled or initial.
+- `onFollowingChange`: (id: string | null) => void — Fires from the tag, button or Escape that started or stopped following.
+- `speed`: number (default 1) — Replay speed, 0.5 to 2.
+- `sampleRate`: number (default 12) — Samples a second the network delivers per pointer.
+- `bubbles`: boolean (default true) — Guests leave chat bubbles.
+- `selections`: boolean (default true) — Guests select text.
+- `followZoom`: number (default 1) — Zoom while following; never less than the overview.
+- `title`: string (default "Spring launch plan") — The document's title.
+- `paused`: boolean (default false) — Stop the replay where it is.
+- `label`: string (default "Shared document") — The view's accessible name.
+- `className`: string (default "h-[520px] w-full") — Sizes the view.
+
+Notes:
+- Keyboard: the presence bar is a toolbar with roving focus — Left and Right (or Home and End) move between people, Enter or Space follows or stops following (aria-pressed), and Escape anywhere in the view stops following. Starting and stopping are announced politely. The tags on the pointers are pointer-only duplicates of those buttons.
+- Reduced motion: pointers step between the places they stop instead of gliding, the camera cuts to its target instead of panning, and bubbles fade; selections, presses and following still happen, because they are what the guests did.
+- Performance: one requestAnimationFrame loop drives the replay, the sample followers and the camera, only on screen in a visible page and not when paused. Positions go to motion values; React renders only on discrete events (a word selected, a bubble, a press).
+- Layout: the board lays itself out wide or tall to suit the view and is centred by CSS for the first paint; scripts address anchors (data-anchor ids such as "p1.11", "approve", "chart"), measured after layout, so they survive font and size changes. Near the right edge tags and bubbles hang to the left of the tip.
+- Theming: the board uses surface and ink tokens; guest colours are pigments at a fixed lightness dark enough for white type in either theme.
+
+### Mangle Press (KQ-1845) — `mangle-press`
+Plain pages go in; printed results roll out.
+
+A press seen from above: plain grey pages slide in from the left, are drawn under heavy steel rollers and come out on the right as finished results — a card, a chart, a poster, a ticket, a report, a badge — that land on a fanned pile on springs.recoil. Each pair of rollers is a stage and every part of a sheet shows the stage it has passed, clipped exactly at each nip, while the rollers turn by the distance the paper moves, ride up over each sheet and drop back with a bounce. A flywheel motor drives it; winding the crank turns the rollers 1:1 and the flywheel carries the wind, and the crank is a button whose Right, Enter or Space wind one document through on springs.glide, Left winds one back and Home and End go to the first and last.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/mangle-press`
+
+Props:
+- `items`: MangleItem[] (default defaultMangleItems) — The documents in the queue: { id, title, kind?, input?, output? }; they go round and round.
+- `speed`: number (default 1) — The motor's pace, 0.25× to 2×.
+- `rollers`: number (default 2) — Rollers on the press, in pairs: 2, 4 or 6. Each pair is a stage — colour, then detail, then varnish.
+- `palette`: "studio" | "garden" | "harbour" | "ember" (default "studio") — The inks the results come out in.
+- `heft`: number (default 0.6) — How heavy the rollers are, 0 to 1: a heavy press carries a wind for longer.
+- `squeeze`: number (default 0.6) — How hard the rollers press, 0 to 1: how far they ride up over a sheet and how plain the crease is.
+- `spacing`: number (default 0.35) — Space between sheets in the queue, 0 to 1.
+- `crank`: boolean (default true) — Show the crank.
+- `paused`: boolean (default false) — The motor is off: the press turns only when wound or stepped.
+- `sound`: boolean (default false) — Play the press's creak while you wind it. Off unless asked for.
+- `label`: string (default "Press") — The press's accessible name.
+- `onResult`: (item: MangleItem, index: number) => void — Fires when a finished result lands on the pile, with the item and its place in the queue.
+- `disabled`: boolean (default false) — No winding and no steps.
+- `className`: string (default "h-56 w-full") — Sizes the box.
+
+Notes:
+- Keyboard: the crank is a button labelled "Wind the press". Right (or Down), Enter and Space wind one document through, Left (or Up) winds the last one back, Home and End go to the first and last of the queue; every result that lands is announced politely ("Printed: Spring catalogue, a card.").
+- Reduced motion: the motor is off and nothing slides; keys and crank taps swap to the next result at once with a short dip, and a wind lands on the nearest whole document.
+- Performance: everything — sheets, their stage clips, the rollers' knurled surfaces and the crank — derives from one feed motion value; React renders only when a sheet enters or leaves the drawn window. One requestAnimationFrame loop runs the flywheel while the press turns and on screen, and stops when paused and still.
+- Content: each item draws one of six results in the chosen palette, or pass input and output nodes of your own; they fill the sheet and are clipped by the stages like the drawn ones.
+- Sound: the creak only answers the visitor — winding or stepping — and stops when they let go or the step settles.
+
+### Petri Stack (KQ-1846) — `petri-stack`
+A tilted stack of dishes, each with a picture.
+
+A gallery as a tilted stack of glass petri dishes in real CSS 3D, each holding its picture like a specimen under a lid, with thin stacked rims, a glass tint, a soft shadow between layers and refraction at the rim where the picture bends into the glass. A click, a key or a flick sends the top dish off: it lifts and slides out on springs.glide with the flick's velocity, drops while the rest of the stack rises a level in a cascade, and tucks in underneath to land on springs.recoil with a glassy clack, bringing the next picture up; hovering or keyboard focus lifts the top lid on springs.snap. The stack is a focusable carousel where Right, Down, Enter and Space send the top dish down, Left and Up bring the bottom one back, Home and End jump, and a drag follows 1:1 and commits by projection.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/petri-stack`
+
+Props:
+- `items`: PetriItem[] (default defaultPetriItems) — The dishes, top first: { src?, alt, caption?, art? }; without src or art a specimen is drawn in code.
+- `value / defaultValue`: number (default 0) — The dish on top; controlled or initial.
+- `onValueChange`: (index: number) => void — Fires from the click, key or drag that changed the top dish, with its index.
+- `tilt`: number (default 55) — How far the stack leans back from you, 10 to 75 degrees: low looks down on it, high sees it side on.
+- `gap`: number (default 12) — Air between one dish and the next, px, 2 to 32.
+- `glass`: "clear" | "sea" | "amber" | "smoke" (default "clear") — The glass's tint.
+- `visible`: number (default 5) — How many dishes show in the stack, 2 to 7; the rest wait unseen beneath.
+- `lift`: number (default 8) — How far hovering or focus lifts the top lid, px.
+- `refraction`: number (default 0.6) — How strongly the glass bends the picture at the rim, 0 to 1.
+- `height`: number (default 232) — Height of the stage, px; the dishes size themselves to fit it and the width.
+- `sound`: boolean (default false) — Play the glassy clack as a dish lands. Off unless asked for.
+- `label`: string (default "Specimens") — The stack's accessible name.
+- `disabled`: boolean (default false) — No clicks, keys or drags.
+- `className`: string — Classes for the root.
+
+Notes:
+- Keyboard: the stack is one tab stop (role region, aria-roledescription carousel). Right, Down, Enter and Space send the top dish to the bottom, Left and Up bring the bottom dish back to the top, Home and End go to the first and last; the dish now on top is announced politely, and only it is exposed as a labelled slide.
+- Reduced motion: no slide, lift or cascade — the stack holds still, the dishes take their new places at once and the new top picture cross-fades in; the lid does not lift.
+- Performance: pure DOM and CSS 3D with motion values on each dish; nothing runs at rest, and only the top two dishes draw the refraction ring.
+- Images: pass src (with alt) for photographs, or art for your own drawing; the defaults are specimens drawn in seeded SVG, the same on the server and in the browser.
+- Controlled use: a host that changes value gets the same choreography (one step either way, or a glide for longer jumps); a host that refuses a change keeps its dish on top and the dragged dish returns.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

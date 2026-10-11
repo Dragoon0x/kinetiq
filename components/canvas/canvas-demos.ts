@@ -1251,4 +1251,148 @@ export const CANVAS_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/smoke-tunnel.demo").then((m) =>
       mod(m.SmokeTunnelDemo, m.tweaks),
     ),
+  "root-exchange": () =>
+    import("@/registry/demos/root-exchange.demo").then((m) =>
+      mod(m.RootExchangeDemo, m.tweaks),
+    ),
+  "ice-cube": () =>
+    import("@/registry/demos/ice-cube.demo").then((m) =>
+      mod(m.IceCubeDemo, m.tweaks),
+    ),
+  "catseye-marble": () =>
+    import("@/registry/demos/catseye-marble.demo").then((m) =>
+      mod(m.CatseyeMarbleDemo, m.tweaks),
+    ),
+  "event-lens": () =>
+    import("@/registry/demos/event-lens.demo").then((m) =>
+      mod(m.EventLensDemo, m.tweaks),
+    ),
+  "gel-scroller": () =>
+    import("@/registry/demos/gel-scroller.demo").then((m) =>
+      mod(m.GelScrollerDemo, m.tweaks),
+    ),
+  "desk-spike": () =>
+    import("@/registry/demos/desk-spike.demo").then((m) =>
+      mod(m.DeskSpikeDemo, m.tweaks),
+    ),
+  "flambe-pan": () =>
+    import("@/registry/demos/flambe-pan.demo").then((m) =>
+      mod(m.FlambePanDemo, m.tweaks),
+    ),
+  "mitre-joint": () =>
+    import("@/registry/demos/mitre-joint.demo").then((m) =>
+      mod(m.MitreJointDemo, m.tweaks),
+    ),
+  "swatch-ladder": () =>
+    import("@/registry/demos/swatch-ladder.demo").then((m) =>
+      mod(m.SwatchLadderDemo, m.tweaks),
+    ),
+  "spiral-engraving": () =>
+    import("@/registry/demos/spiral-engraving.demo").then((m) =>
+      mod(m.SpiralEngravingDemo, m.tweaks),
+    ),
+  "pinscreen-swell": () =>
+    import("@/registry/demos/pinscreen-swell.demo").then((m) =>
+      mod(m.PinscreenSwellDemo, m.tweaks),
+    ),
+  "ice-floes": () =>
+    import("@/registry/demos/ice-floes.demo").then((m) =>
+      mod(m.IceFloesDemo, m.tweaks),
+    ),
+  "streak-pager": () =>
+    import("@/registry/demos/streak-pager.demo").then((m) =>
+      mod(m.StreakPagerDemo, m.tweaks),
+    ),
+  "acrylic-pour": () =>
+    import("@/registry/demos/acrylic-pour.demo").then((m) =>
+      mod(m.AcrylicPourDemo, m.tweaks),
+    ),
+  "vantage-cube": () =>
+    import("@/registry/demos/vantage-cube.demo").then((m) =>
+      mod(m.VantageCubeDemo, m.tweaks),
+    ),
+  "pillow-print": () =>
+    import("@/registry/demos/pillow-print.demo").then((m) =>
+      mod(m.PillowPrintDemo, m.tweaks),
+    ),
+  "graded-wash": () =>
+    import("@/registry/demos/graded-wash.demo").then((m) =>
+      mod(m.GradedWashDemo, m.tweaks),
+    ),
+  "fog-cloche": () =>
+    import("@/registry/demos/fog-cloche.demo").then((m) =>
+      mod(m.FogClocheDemo, m.tweaks),
+    ),
+  "text-bottle": () =>
+    import("@/registry/demos/text-bottle.demo").then((m) =>
+      mod(m.TextBottleDemo, m.tweaks),
+    ),
+  "folded-steel": () =>
+    import("@/registry/demos/folded-steel.demo").then((m) =>
+      mod(m.FoldedSteelDemo, m.tweaks),
+    ),
+  "tilled-horizon": () =>
+    import("@/registry/demos/tilled-horizon.demo").then((m) =>
+      mod(m.TilledHorizonDemo, m.tweaks),
+    ),
+  "pulled-sugar": () =>
+    import("@/registry/demos/pulled-sugar.demo").then((m) =>
+      mod(m.PulledSugarDemo, m.tweaks),
+    ),
+  "spin-art": () =>
+    import("@/registry/demos/spin-art.demo").then((m) =>
+      mod(m.SpinArtDemo, m.tweaks),
+    ),
+  "lanyard-badge": () =>
+    import("@/registry/demos/lanyard-badge.demo").then((m) =>
+      mod(m.LanyardBadgeDemo, m.tweaks),
+    ),
+  "etched-bricks": () =>
+    import("@/registry/demos/etched-bricks.demo").then((m) =>
+      mod(m.EtchedBricksDemo, m.tweaks),
+    ),
+  "flip-sequins": () =>
+    import("@/registry/demos/flip-sequins.demo").then((m) =>
+      mod(m.FlipSequinsDemo, m.tweaks),
+    ),
+  "catenary-glow": () =>
+    import("@/registry/demos/catenary-glow.demo").then((m) =>
+      mod(m.CatenaryGlowDemo, m.tweaks),
+    ),
+  "bias-stripes": () =>
+    import("@/registry/demos/bias-stripes.demo").then((m) =>
+      mod(m.BiasStripesDemo, m.tweaks),
+    ),
+  "interlace-load": () =>
+    import("@/registry/demos/interlace-load.demo").then((m) =>
+      mod(m.InterlaceLoadDemo, m.tweaks),
+    ),
+  "carriage-windows": () =>
+    import("@/registry/demos/carriage-windows.demo").then((m) =>
+      mod(m.CarriageWindowsDemo, m.tweaks),
+    ),
+  "dichroic-wall": () =>
+    import("@/registry/demos/dichroic-wall.demo").then((m) =>
+      mod(m.DichroicWallDemo, m.tweaks),
+    ),
+  "buoy-tags": () =>
+    import("@/registry/demos/buoy-tags.demo").then((m) =>
+      mod(m.BuoyTagsDemo, m.tweaks),
+    ),
+  "night-facade": () =>
+    import("@/registry/demos/night-facade.demo").then((m) =>
+      mod(m.NightFacadeDemo, m.tweaks),
+    ),
+  "guest-pointers": () =>
+    import("@/registry/demos/guest-pointers.demo").then((m) =>
+      mod(m.GuestPointersDemo, m.tweaks),
+    ),
+  "mangle-press": () =>
+    import("@/registry/demos/mangle-press.demo").then((m) =>
+      mod(m.ManglePressDemo, m.tweaks),
+    ),
+  "petri-stack": () =>
+    import("@/registry/demos/petri-stack.demo").then((m) =>
+      mod(m.PetriStackDemo, m.tweaks),
+    ),
 };

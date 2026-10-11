@@ -1731,6 +1731,42 @@ import { PastelBandDemo } from "@/registry/demos/pastel-band.demo";
 import { BullseyePanesDemo } from "@/registry/demos/bullseye-panes.demo";
 import { ColonnadePassDemo } from "@/registry/demos/colonnade-pass.demo";
 import { SmokeTunnelDemo } from "@/registry/demos/smoke-tunnel.demo";
+import { RootExchangeDemo } from "@/registry/demos/root-exchange.demo";
+import { IceCubeDemo } from "@/registry/demos/ice-cube.demo";
+import { CatseyeMarbleDemo } from "@/registry/demos/catseye-marble.demo";
+import { EventLensDemo } from "@/registry/demos/event-lens.demo";
+import { GelScrollerDemo } from "@/registry/demos/gel-scroller.demo";
+import { DeskSpikeDemo } from "@/registry/demos/desk-spike.demo";
+import { FlambePanDemo } from "@/registry/demos/flambe-pan.demo";
+import { MitreJointDemo } from "@/registry/demos/mitre-joint.demo";
+import { SwatchLadderDemo } from "@/registry/demos/swatch-ladder.demo";
+import { SpiralEngravingDemo } from "@/registry/demos/spiral-engraving.demo";
+import { PinscreenSwellDemo } from "@/registry/demos/pinscreen-swell.demo";
+import { IceFloesDemo } from "@/registry/demos/ice-floes.demo";
+import { StreakPagerDemo } from "@/registry/demos/streak-pager.demo";
+import { AcrylicPourDemo } from "@/registry/demos/acrylic-pour.demo";
+import { VantageCubeDemo } from "@/registry/demos/vantage-cube.demo";
+import { PillowPrintDemo } from "@/registry/demos/pillow-print.demo";
+import { GradedWashDemo } from "@/registry/demos/graded-wash.demo";
+import { FogClocheDemo } from "@/registry/demos/fog-cloche.demo";
+import { TextBottleDemo } from "@/registry/demos/text-bottle.demo";
+import { FoldedSteelDemo } from "@/registry/demos/folded-steel.demo";
+import { TilledHorizonDemo } from "@/registry/demos/tilled-horizon.demo";
+import { PulledSugarDemo } from "@/registry/demos/pulled-sugar.demo";
+import { SpinArtDemo } from "@/registry/demos/spin-art.demo";
+import { LanyardBadgeDemo } from "@/registry/demos/lanyard-badge.demo";
+import { EtchedBricksDemo } from "@/registry/demos/etched-bricks.demo";
+import { FlipSequinsDemo } from "@/registry/demos/flip-sequins.demo";
+import { CatenaryGlowDemo } from "@/registry/demos/catenary-glow.demo";
+import { BiasStripesDemo } from "@/registry/demos/bias-stripes.demo";
+import { InterlaceLoadDemo } from "@/registry/demos/interlace-load.demo";
+import { CarriageWindowsDemo } from "@/registry/demos/carriage-windows.demo";
+import { DichroicWallDemo } from "@/registry/demos/dichroic-wall.demo";
+import { BuoyTagsDemo } from "@/registry/demos/buoy-tags.demo";
+import { NightFacadeDemo } from "@/registry/demos/night-facade.demo";
+import { GuestPointersDemo } from "@/registry/demos/guest-pointers.demo";
+import { ManglePressDemo } from "@/registry/demos/mangle-press.demo";
+import { PetriStackDemo } from "@/registry/demos/petri-stack.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -3476,4 +3512,40 @@ export const demos: Record<string, ComponentType> = {
   "bullseye-panes": BullseyePanesDemo,
   "colonnade-pass": ColonnadePassDemo,
   "smoke-tunnel": SmokeTunnelDemo,
+  "root-exchange": RootExchangeDemo,
+  "ice-cube": IceCubeDemo,
+  "catseye-marble": CatseyeMarbleDemo,
+  "event-lens": EventLensDemo,
+  "gel-scroller": GelScrollerDemo,
+  "desk-spike": DeskSpikeDemo,
+  "flambe-pan": FlambePanDemo,
+  "mitre-joint": MitreJointDemo,
+  "swatch-ladder": SwatchLadderDemo,
+  "spiral-engraving": SpiralEngravingDemo,
+  "pinscreen-swell": PinscreenSwellDemo,
+  "ice-floes": IceFloesDemo,
+  "streak-pager": StreakPagerDemo,
+  "acrylic-pour": AcrylicPourDemo,
+  "vantage-cube": VantageCubeDemo,
+  "pillow-print": PillowPrintDemo,
+  "graded-wash": GradedWashDemo,
+  "fog-cloche": FogClocheDemo,
+  "text-bottle": TextBottleDemo,
+  "folded-steel": FoldedSteelDemo,
+  "tilled-horizon": TilledHorizonDemo,
+  "pulled-sugar": PulledSugarDemo,
+  "spin-art": SpinArtDemo,
+  "lanyard-badge": LanyardBadgeDemo,
+  "etched-bricks": EtchedBricksDemo,
+  "flip-sequins": FlipSequinsDemo,
+  "catenary-glow": CatenaryGlowDemo,
+  "bias-stripes": BiasStripesDemo,
+  "interlace-load": InterlaceLoadDemo,
+  "carriage-windows": CarriageWindowsDemo,
+  "dichroic-wall": DichroicWallDemo,
+  "buoy-tags": BuoyTagsDemo,
+  "night-facade": NightFacadeDemo,
+  "guest-pointers": GuestPointersDemo,
+  "mangle-press": ManglePressDemo,
+  "petri-stack": PetriStackDemo,
 };
