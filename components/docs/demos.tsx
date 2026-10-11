@@ -1767,6 +1767,42 @@ import { NightFacadeDemo } from "@/registry/demos/night-facade.demo";
 import { GuestPointersDemo } from "@/registry/demos/guest-pointers.demo";
 import { ManglePressDemo } from "@/registry/demos/mangle-press.demo";
 import { PetriStackDemo } from "@/registry/demos/petri-stack.demo";
+import { GeodesicSpinDemo } from "@/registry/demos/geodesic-spin.demo";
+import { SlowSyncDemo } from "@/registry/demos/slow-sync.demo";
+import { MarshLightDemo } from "@/registry/demos/marsh-light.demo";
+import { PaceBoardDemo } from "@/registry/demos/pace-board.demo";
+import { EavesDripDemo } from "@/registry/demos/eaves-drip.demo";
+import { CardStuntDemo } from "@/registry/demos/card-stunt.demo";
+import { SandPortraitDemo } from "@/registry/demos/sand-portrait.demo";
+import { HeadwindCardsDemo } from "@/registry/demos/headwind-cards.demo";
+import { CartwheelDeckDemo } from "@/registry/demos/cartwheel-deck.demo";
+import { FreightSidingsDemo } from "@/registry/demos/freight-sidings.demo";
+import { CorePlaneDemo } from "@/registry/demos/core-plane.demo";
+import { NodeLeapDemo } from "@/registry/demos/node-leap.demo";
+import { AntColumnDemo } from "@/registry/demos/ant-column.demo";
+import { ReadoutSkewDemo } from "@/registry/demos/readout-skew.demo";
+import { FascicleRunDemo } from "@/registry/demos/fascicle-run.demo";
+import { TidalBoreDemo } from "@/registry/demos/tidal-bore.demo";
+import { DripClockDemo } from "@/registry/demos/drip-clock.demo";
+import { LotusBeadsDemo } from "@/registry/demos/lotus-beads.demo";
+import { TableSpreadDemo } from "@/registry/demos/table-spread.demo";
+import { GlassineAlbumDemo } from "@/registry/demos/glassine-album.demo";
+import { CoasterTrackDemo } from "@/registry/demos/coaster-track.demo";
+import { HeatPuttyDemo } from "@/registry/demos/heat-putty.demo";
+import { PicketArcDemo } from "@/registry/demos/picket-arc.demo";
+import { PassingCumulusDemo } from "@/registry/demos/passing-cumulus.demo";
+import { FluteBubblesDemo } from "@/registry/demos/flute-bubbles.demo";
+import { QuiltedFieldsDemo } from "@/registry/demos/quilted-fields.demo";
+import { RackAisleDemo } from "@/registry/demos/rack-aisle.demo";
+import { NacreousSkyDemo } from "@/registry/demos/nacreous-sky.demo";
+import { SpooledPrintsDemo } from "@/registry/demos/spooled-prints.demo";
+import { SkylineBrushDemo } from "@/registry/demos/skyline-brush.demo";
+import { FlickerPrintsDemo } from "@/registry/demos/flicker-prints.demo";
+import { FilingTrayDemo } from "@/registry/demos/filing-tray.demo";
+import { ThumbFlipbookDemo } from "@/registry/demos/thumb-flipbook.demo";
+import { CounterDiveDemo } from "@/registry/demos/counter-dive.demo";
+import { PegMigrationDemo } from "@/registry/demos/peg-migration.demo";
+import { SecondContactDemo } from "@/registry/demos/second-contact.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -3548,4 +3584,40 @@ export const demos: Record<string, ComponentType> = {
   "guest-pointers": GuestPointersDemo,
   "mangle-press": ManglePressDemo,
   "petri-stack": PetriStackDemo,
+  "geodesic-spin": GeodesicSpinDemo,
+  "slow-sync": SlowSyncDemo,
+  "marsh-light": MarshLightDemo,
+  "pace-board": PaceBoardDemo,
+  "eaves-drip": EavesDripDemo,
+  "card-stunt": CardStuntDemo,
+  "sand-portrait": SandPortraitDemo,
+  "headwind-cards": HeadwindCardsDemo,
+  "cartwheel-deck": CartwheelDeckDemo,
+  "freight-sidings": FreightSidingsDemo,
+  "core-plane": CorePlaneDemo,
+  "node-leap": NodeLeapDemo,
+  "ant-column": AntColumnDemo,
+  "readout-skew": ReadoutSkewDemo,
+  "fascicle-run": FascicleRunDemo,
+  "tidal-bore": TidalBoreDemo,
+  "drip-clock": DripClockDemo,
+  "lotus-beads": LotusBeadsDemo,
+  "table-spread": TableSpreadDemo,
+  "glassine-album": GlassineAlbumDemo,
+  "coaster-track": CoasterTrackDemo,
+  "heat-putty": HeatPuttyDemo,
+  "picket-arc": PicketArcDemo,
+  "passing-cumulus": PassingCumulusDemo,
+  "flute-bubbles": FluteBubblesDemo,
+  "quilted-fields": QuiltedFieldsDemo,
+  "rack-aisle": RackAisleDemo,
+  "nacreous-sky": NacreousSkyDemo,
+  "spooled-prints": SpooledPrintsDemo,
+  "skyline-brush": SkylineBrushDemo,
+  "flicker-prints": FlickerPrintsDemo,
+  "filing-tray": FilingTrayDemo,
+  "thumb-flipbook": ThumbFlipbookDemo,
+  "counter-dive": CounterDiveDemo,
+  "peg-migration": PegMigrationDemo,
+  "second-contact": SecondContactDemo,
 };

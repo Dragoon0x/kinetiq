@@ -1395,4 +1395,148 @@ export const CANVAS_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/petri-stack.demo").then((m) =>
       mod(m.PetriStackDemo, m.tweaks),
     ),
+  "geodesic-spin": () =>
+    import("@/registry/demos/geodesic-spin.demo").then((m) =>
+      mod(m.GeodesicSpinDemo, m.tweaks),
+    ),
+  "slow-sync": () =>
+    import("@/registry/demos/slow-sync.demo").then((m) =>
+      mod(m.SlowSyncDemo, m.tweaks),
+    ),
+  "marsh-light": () =>
+    import("@/registry/demos/marsh-light.demo").then((m) =>
+      mod(m.MarshLightDemo, m.tweaks),
+    ),
+  "pace-board": () =>
+    import("@/registry/demos/pace-board.demo").then((m) =>
+      mod(m.PaceBoardDemo, m.tweaks),
+    ),
+  "eaves-drip": () =>
+    import("@/registry/demos/eaves-drip.demo").then((m) =>
+      mod(m.EavesDripDemo, m.tweaks),
+    ),
+  "card-stunt": () =>
+    import("@/registry/demos/card-stunt.demo").then((m) =>
+      mod(m.CardStuntDemo, m.tweaks),
+    ),
+  "sand-portrait": () =>
+    import("@/registry/demos/sand-portrait.demo").then((m) =>
+      mod(m.SandPortraitDemo, m.tweaks),
+    ),
+  "headwind-cards": () =>
+    import("@/registry/demos/headwind-cards.demo").then((m) =>
+      mod(m.HeadwindCardsDemo, m.tweaks),
+    ),
+  "cartwheel-deck": () =>
+    import("@/registry/demos/cartwheel-deck.demo").then((m) =>
+      mod(m.CartwheelDeckDemo, m.tweaks),
+    ),
+  "freight-sidings": () =>
+    import("@/registry/demos/freight-sidings.demo").then((m) =>
+      mod(m.FreightSidingsDemo, m.tweaks),
+    ),
+  "core-plane": () =>
+    import("@/registry/demos/core-plane.demo").then((m) =>
+      mod(m.CorePlaneDemo, m.tweaks),
+    ),
+  "node-leap": () =>
+    import("@/registry/demos/node-leap.demo").then((m) =>
+      mod(m.NodeLeapDemo, m.tweaks),
+    ),
+  "ant-column": () =>
+    import("@/registry/demos/ant-column.demo").then((m) =>
+      mod(m.AntColumnDemo, m.tweaks),
+    ),
+  "readout-skew": () =>
+    import("@/registry/demos/readout-skew.demo").then((m) =>
+      mod(m.ReadoutSkewDemo, m.tweaks),
+    ),
+  "fascicle-run": () =>
+    import("@/registry/demos/fascicle-run.demo").then((m) =>
+      mod(m.FascicleRunDemo, m.tweaks),
+    ),
+  "tidal-bore": () =>
+    import("@/registry/demos/tidal-bore.demo").then((m) =>
+      mod(m.TidalBoreDemo, m.tweaks),
+    ),
+  "drip-clock": () =>
+    import("@/registry/demos/drip-clock.demo").then((m) =>
+      mod(m.DripClockDemo, m.tweaks),
+    ),
+  "lotus-beads": () =>
+    import("@/registry/demos/lotus-beads.demo").then((m) =>
+      mod(m.LotusBeadsDemo, m.tweaks),
+    ),
+  "table-spread": () =>
+    import("@/registry/demos/table-spread.demo").then((m) =>
+      mod(m.TableSpreadDemo, m.tweaks),
+    ),
+  "glassine-album": () =>
+    import("@/registry/demos/glassine-album.demo").then((m) =>
+      mod(m.GlassineAlbumDemo, m.tweaks),
+    ),
+  "coaster-track": () =>
+    import("@/registry/demos/coaster-track.demo").then((m) =>
+      mod(m.CoasterTrackDemo, m.tweaks),
+    ),
+  "heat-putty": () =>
+    import("@/registry/demos/heat-putty.demo").then((m) =>
+      mod(m.HeatPuttyDemo, m.tweaks),
+    ),
+  "picket-arc": () =>
+    import("@/registry/demos/picket-arc.demo").then((m) =>
+      mod(m.PicketArcDemo, m.tweaks),
+    ),
+  "passing-cumulus": () =>
+    import("@/registry/demos/passing-cumulus.demo").then((m) =>
+      mod(m.PassingCumulusDemo, m.tweaks),
+    ),
+  "flute-bubbles": () =>
+    import("@/registry/demos/flute-bubbles.demo").then((m) =>
+      mod(m.FluteBubblesDemo, m.tweaks),
+    ),
+  "quilted-fields": () =>
+    import("@/registry/demos/quilted-fields.demo").then((m) =>
+      mod(m.QuiltedFieldsDemo, m.tweaks),
+    ),
+  "rack-aisle": () =>
+    import("@/registry/demos/rack-aisle.demo").then((m) =>
+      mod(m.RackAisleDemo, m.tweaks),
+    ),
+  "nacreous-sky": () =>
+    import("@/registry/demos/nacreous-sky.demo").then((m) =>
+      mod(m.NacreousSkyDemo, m.tweaks),
+    ),
+  "spooled-prints": () =>
+    import("@/registry/demos/spooled-prints.demo").then((m) =>
+      mod(m.SpooledPrintsDemo, m.tweaks),
+    ),
+  "skyline-brush": () =>
+    import("@/registry/demos/skyline-brush.demo").then((m) =>
+      mod(m.SkylineBrushDemo, m.tweaks),
+    ),
+  "flicker-prints": () =>
+    import("@/registry/demos/flicker-prints.demo").then((m) =>
+      mod(m.FlickerPrintsDemo, m.tweaks),
+    ),
+  "filing-tray": () =>
+    import("@/registry/demos/filing-tray.demo").then((m) =>
+      mod(m.FilingTrayDemo, m.tweaks),
+    ),
+  "thumb-flipbook": () =>
+    import("@/registry/demos/thumb-flipbook.demo").then((m) =>
+      mod(m.ThumbFlipbookDemo, m.tweaks),
+    ),
+  "counter-dive": () =>
+    import("@/registry/demos/counter-dive.demo").then((m) =>
+      mod(m.CounterDiveDemo, m.tweaks),
+    ),
+  "peg-migration": () =>
+    import("@/registry/demos/peg-migration.demo").then((m) =>
+      mod(m.PegMigrationDemo, m.tweaks),
+    ),
+  "second-contact": () =>
+    import("@/registry/demos/second-contact.demo").then((m) =>
+      mod(m.SecondContactDemo, m.tweaks),
+    ),
 };

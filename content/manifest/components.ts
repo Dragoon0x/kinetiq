@@ -148524,4 +148524,5535 @@ export const components: KinetiqItem[] = [
       "Controlled use: a host that changes value gets the same choreography (one step either way, or a glide for longer jumps); a host that refuses a change keeps its dish on top and the dragged dish returns.",
     ],
   },
+  {
+    name: "geodesic-spin",
+    type: "registry:ui",
+    title: "Geodesic Spin",
+    description:
+      "A wireframe geodesic sphere you spin by hand: it turns 1:1 under a drag, coasts on the release velocity for as long as its inertia allows and eases back to a slow turntable spin, its near struts lit from a light high on the left and its front hubs catching a glint that slides from hub to hub. Past a speed every strut splits at its middle, the new hubs pushed out from the old chords to the sphere on the snap spring's one overshoot while the new struts draw out from their centres, and as it coasts down the frame merges back on glide. The arrow keys spin it (Shift for more), so repeated presses split it as a flick does, and Home brakes it.",
+    files: [
+      {
+        path: "registry/ui/geodesic-spin.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1853",
+    },
+    tagline: "Spin the frame; faster spins subdivide it.",
+    keywords: [
+      "geodesic",
+      "sphere",
+      "wireframe",
+      "spin",
+      "inertia",
+      "subdivision",
+      "3d",
+    ],
+    props: [
+      {
+        name: "frequency",
+        type: "number",
+        defaultValue: "2",
+        description:
+          "Geodesic frequency at rest, 1 to 4: a 2V frame has 80 faces, a 4V frame 320.",
+      },
+      {
+        name: "maxFrequency",
+        type: "number",
+        defaultValue: "8",
+        description:
+          "The finest frame a fast spin reaches, 2 to 8; levels double from the base frequency.",
+      },
+      {
+        name: "splitAt",
+        type: "number",
+        defaultValue: "3.2",
+        description:
+          "Spin speed in rad/s that splits the first level; each further level needs 1.8 times more, and a level merges back below 0.65 of its threshold.",
+      },
+      {
+        name: "inertia",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How long a flick coasts, 0 (it stops almost at once) to 1 (it coasts for seconds).",
+      },
+      {
+        name: "strut",
+        type: "number",
+        defaultValue: "1.2",
+        description: "Strut weight in px, 0.5 to 2.5.",
+      },
+      {
+        name: "idleSpin",
+        type: "number",
+        defaultValue: "0.2",
+        description:
+          "The turntable spin it returns to when left alone, rad/s; 0 lets it come to rest and stop drawing.",
+      },
+      {
+        name: "tilt",
+        type: "number",
+        defaultValue: "16",
+        description: "How far the rest pose leans toward you, degrees.",
+      },
+      {
+        name: "glint",
+        type: "number",
+        defaultValue: "0.7",
+        description:
+          "Strength of the specular glints on the near hubs, 0 to 1.",
+      },
+      {
+        name: "perspective",
+        type: "number",
+        defaultValue: "0.35",
+        description:
+          "How much nearer struts are drawn larger, 0 (orthographic) to 1.",
+      },
+      {
+        name: "color",
+        type: "string",
+        defaultValue: '"var(--ink-2)"',
+        description: "Strut colour, any CSS colour.",
+      },
+      {
+        name: "lightColor",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description: "The colour lit struts and glints turn toward.",
+      },
+      {
+        name: "readout",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Show the frequency and face count in the corner.",
+      },
+      {
+        name: "onFrequencyChange",
+        type: "(frequency: number, faces: number) => void",
+        description:
+          "Fires when a split or merge completes, and once at mount, with the frequency and face count.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Hold the frame still; a drag still turns it.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "No drag and no keys.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Geodesic frame"',
+        description: "Accessible name.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-52 w-full"',
+        description: "Sizes the box; the sphere fits its shorter side.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the sphere is one focusable group. Arrow keys add spin about the matching axis (Shift for a bigger push), so a run of presses splits the frame exactly as a flick does; Home brakes it, and Escape brakes it only when it is spinning (otherwise Escape is left to the page). Each completed split or merge is announced once.",
+      "Meshes are built once per frequency and cached; a frame rotates the hubs with one matrix and strokes the struts as six light-binned paths, so even the 8V frame (1,920 struts) is a handful of draw calls. Nothing runs off screen or in a hidden tab, and with `idleSpin={0}` the loop stops once the sphere is still.",
+      "Under reduced motion it turns only while dragged or stepped by a key (15° a press) and never coasts; the frequency still follows the speed you give it, but levels change by a short cross-fade instead of splitting.",
+      "Colours come from `color` and `lightColor` resolved on the component, re-read when the theme changes; on a light page the glints take the light colour deepened rather than white.",
+      "The server renders a still SVG of the base frame at rest, so the first paint is finished before the canvas takes over.",
+    ],
+  },
+  {
+    name: "slow-sync",
+    type: "registry:ui",
+    title: "Slow Sync",
+    description:
+      "A field of soft dots, each blinking on its own rhythm, that slowly falls into step: every dot is a pulse-coupled oscillator whose flash nudges its neighbours — a late one advanced, an early one held back — so patches agree first, waves of light sweep the field, and a weak pull toward the mean dissolves the last whirling cores until it beats as one pulse, over about a minute at the default coupling. A click scatters the timing in a patch: a ring opens on the snap spring, the dots it passes are pushed out and come home on recoil, and the patch blinks out of step until its neighbours draw it back. With the field focused, the arrow keys move the patch and Enter scatters it.",
+    files: [
+      {
+        path: "registry/ui/slow-sync.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1854",
+    },
+    tagline: "Scattered blinks that slowly fall into step.",
+    keywords: [
+      "synchrony",
+      "fireflies",
+      "oscillators",
+      "dots",
+      "hero background",
+      "waves",
+      "pulse",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description: "Content above the field; it stays fully interactive.",
+      },
+      {
+        name: "coupling",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How strongly a flash nudges its neighbours, 0 (they never agree) to 1 (they lock in seconds).",
+      },
+      {
+        name: "count",
+        type: "number",
+        defaultValue: "220",
+        description:
+          "How many dots on a 720 × 208 field, 20 to 600; other sizes keep the same density.",
+      },
+      {
+        name: "warmth",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "The colour of the light, cool moon-white (0) through firefly green (0.5) to amber (1).",
+      },
+      {
+        name: "color",
+        type: "string",
+        description: "Any CSS colour for the light; overrides warmth.",
+      },
+      {
+        name: "period",
+        type: "number",
+        defaultValue: "1.8",
+        description: "Mean time between one dot's blinks, s.",
+      },
+      {
+        name: "spread",
+        type: "number",
+        defaultValue: "0.35",
+        description:
+          "How different the dots' own rhythms are, 0 to 1; more spread means more waves and slower agreement.",
+      },
+      {
+        name: "reach",
+        type: "number",
+        defaultValue: "1.6",
+        description: "How far a flash is felt, in dot spacings, 1 to 3.",
+      },
+      {
+        name: "glow",
+        type: "number",
+        defaultValue: "0.6",
+        description: "Size and strength of a flash's halo, 0 to 1.",
+      },
+      {
+        name: "dotSize",
+        type: "number",
+        defaultValue: "3",
+        description: "Dot radius at rest, px.",
+      },
+      {
+        name: "patch",
+        type: "number",
+        defaultValue: "0.2",
+        description: "Radius of a scatter, as a fraction of the field's width.",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description: "A click on the field, or Enter, scatters a patch.",
+      },
+      {
+        name: "onScatter",
+        type: "(x: number, y: number) => void",
+        description:
+          "Fires when a patch is scattered, with its centre as fractions of the field.",
+      },
+      {
+        name: "onSyncChange",
+        type: "(sync: number) => void",
+        description:
+          "How in step the field is, 0 (scattered) to 1 (one pulse), rounded to 2 dp, at most four times a second.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Freeze the field.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "7",
+        description: "Seeds the layout, the rhythms and the starting phases.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Blinking field"',
+        description: "Accessible name.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-52 w-full"',
+        description: "Sizes the field.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: the field is one focusable group with a hint. Arrow keys move a reticle the size of the patch, Home centres it, and Enter or Space scatters there, so the keyboard reaches the same state as a click. A scatter is announced, and "In step" is announced once when the field next agrees — never per blink.',
+      "`onSyncChange` reports the field's order parameter (the length of the mean of every dot's phase as a unit vector), so a host can narrate progress or trigger something when the field agrees.",
+      "One Canvas 2D layer of two pre-rendered sprites per dot; neighbour lists are built once per layout through a spatial hash, so a step is linear in the dot count. Nothing runs off screen, in a hidden tab or while `paused`, and the backing store is capped at `dpr`.",
+      "Under reduced motion nothing blinks: each dot glows steadily by how in step it is with its neighbours, re-read every 600 ms and cross-faded, so the field still visibly evens out and a scattered patch shows as a dim island that recovers.",
+      "On a dark page flashes are added light with a hot centre; on a light page the same dots are drawn as pigment with a softer halo, so they read in both themes. Flashes stay well under three per second per dot.",
+    ],
+  },
+  {
+    name: "marsh-light",
+    type: "registry:ui",
+    title: "Marsh Light",
+    description:
+      "A pale light over a night marsh, keeping just out of reach: a small orb drifts above dark water wrapped in slow curls of smoke that are wound round it, lit by it and left trailing when it moves, while the water carries its long broken reflection under reeds and a low mist. Reach toward it and it slips away to the side with more room on a critically damped spring, harder the closer you come; stop, and it waits at a polite distance. Corner it against the frame and it goes out and blooms back in elsewhere, its halo swelling once on the snap spring; keyboard focus on anything in your content calls it over, and with the scene focused the arrow keys move a hand it shies from.",
+    files: [
+      {
+        path: "registry/ui/marsh-light.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "glsl"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1855",
+    },
+    tagline: "A pale light in smoke, keeping just out of reach.",
+    keywords: [
+      "will-o'-the-wisp",
+      "orb",
+      "smoke",
+      "shader",
+      "night scene",
+      "pointer",
+      "hero",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "Content above the marsh; it stays fully interactive, wears the dark tokens, and keyboard focus inside it calls the light over.",
+      },
+      {
+        name: "shyness",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "Its polite distance and how briskly it slips away, 0 (70 px, unhurried) to 1 (200 px, quick).",
+      },
+      {
+        name: "smoke",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How thick the smoke curls around it are, 0 (clear air) to 1.",
+      },
+      {
+        name: "hue",
+        type: "number",
+        defaultValue: "150",
+        description:
+          "The light's hue in degrees: 150 a pale marsh green, 200 cold blue, 60 a candle's gold.",
+      },
+      {
+        name: "size",
+        type: "number",
+        defaultValue: "7",
+        description: "The bright core's radius, px.",
+      },
+      {
+        name: "glow",
+        type: "number",
+        defaultValue: "0.7",
+        description: "Halo size and brightness, 0 to 1.",
+      },
+      {
+        name: "drift",
+        type: "number",
+        defaultValue: "0.4",
+        description: "How far and how fast it wanders when left alone, 0 to 1.",
+      },
+      {
+        name: "waterLine",
+        type: "number",
+        defaultValue: "0.68",
+        description: "Where the water begins, as a fraction of the height.",
+      },
+      {
+        name: "reeds",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Reeds and bulrushes along the water's edge.",
+      },
+      {
+        name: "summonOnFocus",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Keyboard focus inside the content calls the light to the focused element.",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The pointer, and the arrow keys when the scene has focus, move it; off, it only wanders.",
+      },
+      {
+        name: "onVanish",
+        type: "() => void",
+        description: "Fires when it is cornered and reappears somewhere else.",
+      },
+      {
+        name: "onStateChange",
+        type: '(state: "wandering" | "shy" | "waiting" | "gone" | "summoned") => void',
+        description: "Fires when what it is doing changes.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Hold the scene still.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "5",
+        description: "Seeds its wandering and the reeds.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Marsh light"',
+        description: "Accessible name.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description:
+          "Cap on the canvas's pixel ratio, at most 2 (the soft scene never draws above 1.25).",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-52 w-full"',
+        description: "Sizes the scene.",
+      },
+    ],
+    usageNotes: [
+      "The light following keyboard focus is a bonus, never a requirement: your content keeps its own focus order and rings. With the scene itself focused, the arrow keys (Shift for bigger steps) move a dashed hand ring that it shies from exactly as from the pointer, so the keyboard can corner it too. A vanish is announced once.",
+      "One WebGL2 pass over a fullscreen triangle; the orb is steered in JS and handed to the shader as uniforms, and the smoke is only computed near the light. The scene draws at no more than 1.25× pixel ratio, stops off screen and in a hidden tab, survives context loss, and without WebGL2 keeps a CSS still with a CSS orb that still keeps its distance.",
+      "The marsh is night in both themes (its colours come from `hue`, mixed toward black), so the component puts its content under the dark tokens: `text-foreground`, `bg-primary` and the rest read correctly on it whatever the page's theme.",
+      "Under reduced motion the smoke and water are still and the light does not drift or flee: come within its distance and it fades out and back in at the far side; focus inside the content fades it in beside the focused element.",
+      "The cursor is never hidden, and pointer tracking is read from the scene's own box, so links and buttons inside keep their clicks.",
+    ],
+  },
+  {
+    name: "pace-board",
+    type: "registry:ui",
+    title: "Pace Board",
+    description:
+      "A display that swaps one value for the next with real motion: the new value arrives fast from the side on a spring between flick and recoil set by its overshoot, runs past its rest and on the way back is caught like a detent — locked, with a short judder — while the old one accelerates away stretching from its trailing edge. Both carry a horizontal motion blur in proportion to their own speed, an SVG blur in x only that is switched off at rest, so the faster a value moves the more it smears. Values cycle from a list or follow a live number, optionally swapping only the characters that changed; a cycling board pauses on hover, and with keyboard focus Space pauses and resumes it while Left, Right, Home and End step through it.",
+    files: [
+      {
+        path: "registry/ui/pace-board.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1856",
+    },
+    tagline: "Words swap at speed, smeared by their own motion.",
+    keywords: [
+      "rotating text",
+      "word swap",
+      "motion blur",
+      "counter",
+      "headline",
+      "ticker",
+      "spring",
+    ],
+    props: [
+      {
+        name: "values",
+        type: "readonly string[]",
+        description: "Words to cycle through, one at a time.",
+      },
+      {
+        name: "value",
+        type: "string | number",
+        description:
+          "A live value: every change swaps it in; numbers go through `format`. Wins over `values`.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue: "grouped thousands",
+        description: "Formats a number `value`.",
+      },
+      {
+        name: "index / defaultIndex",
+        type: "number",
+        defaultValue: "0",
+        description: "The shown entry of `values`, controlled or not.",
+      },
+      {
+        name: "onIndexChange",
+        type: "(index: number) => void",
+        description:
+          "Fires from the timer, key or click that moved it, with the new index.",
+      },
+      {
+        name: "interval",
+        type: "number",
+        defaultValue: "2400",
+        description: "Time each entry holds before the next swaps in, ms.",
+      },
+      {
+        name: "blur",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "Motion-blur strength, 0 (none) to 1 (a heavy smear at speed).",
+      },
+      {
+        name: "overshoot",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How far a new value runs past its rest before it locks, and how hard it judders, 0 to 1.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "1",
+        description: "Spring speed, 0.5 (unhurried) to 2 (snappy).",
+      },
+      {
+        name: "travel",
+        type: "number",
+        defaultValue: "0.9",
+        description: "How far a new value comes from, in widths of its window.",
+      },
+      {
+        name: "from",
+        type: '"right" | "left" | "auto"',
+        defaultValue: '"right"',
+        description:
+          "The side new values arrive from; auto brings rising numbers from the right and falling ones from the left. Stepping back reverses it.",
+      },
+      {
+        name: "swap",
+        type: '"word" | "chars"',
+        defaultValue: '"word"',
+        description:
+          "Swap the whole value, or only the characters that changed, each in its own window.",
+      },
+      {
+        name: "stagger",
+        type: "number",
+        defaultValue: "28",
+        description:
+          "Time between characters in chars mode, ms, starting on the side the motion comes from.",
+      },
+      {
+        name: "trigger",
+        type: '"mount" | "inView" | "manual"',
+        defaultValue: '"inView"',
+        description:
+          "When `values` start cycling: at mount, the first time it is seen, or never (keys, clicks and `index` only).",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Stop cycling; live values still swap.",
+      },
+      {
+        name: "onPausedChange",
+        type: "(paused: boolean) => void",
+        description: "Fires when Space pauses or resumes the cycle.",
+      },
+      {
+        name: "progress",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Draw a hairline under the value that fills until the next swap.",
+      },
+      {
+        name: "reserve",
+        type: "string",
+        description:
+          "A sample whose width is always kept, so a growing number never shifts the layout.",
+      },
+      {
+        name: "align",
+        type: '"start" | "center" | "end"',
+        defaultValue: '"start"',
+        description: "Where the value sits in its kept width.",
+      },
+      {
+        name: "as",
+        type: "React.ElementType",
+        defaultValue: '"span"',
+        description: "The element to render.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          "Read before the value by assistive technology; names a cycling board.",
+      },
+      {
+        name: "live",
+        type: '"off" | "polite"',
+        defaultValue: '"off"',
+        description:
+          "Announce each new value politely; off by default so a cycling board never chatters.",
+      },
+      {
+        name: "onSwap",
+        type: "(text: string) => void",
+        description: "Fires as a swap starts, with the new text.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Font size, weight and colour inherit; style it like text.",
+      },
+    ],
+    usageNotes: [
+      'A cycling board is a focusable group described as rotating text: Space pauses and resumes it (the pause WCAG asks of moving content), Left/Right and Up/Down step, Home and End jump, a click steps forward, and hovering pauses it. Pauses are announced; the values themselves are announced only with `live="polite"`.',
+      "The current value is in the accessibility tree exactly once; the moving layers are hidden from it. The widest value (or `reserve`) keeps its width, so the sentence around the board never shifts as words swap.",
+      "Font size, weight, colour and line height inherit, and the travel, overshoot and judder scale with the window, so it works from a caption to a hero heading. Use `tabular-nums` for numbers in `chars` mode so digits share one width.",
+      "Each moving layer gets its own SVG blur in x only, written per frame from the layer's velocity and switched off (`filter: none`) below a quarter pixel, so a resting value costs nothing and is pin sharp. The cycle timer runs only in view and while the tab is shown.",
+      "Under reduced motion the old value fades out and the new one fades in, in place, on a short tween — no travel, blur or judder — and the cycle, steps and live values still change.",
+    ],
+  },
+  {
+    name: "eaves-drip",
+    type: "registry:ui",
+    title: "Eaves Drip",
+    description:
+      "A small pixel-art cottage in quiet rain, and the water's whole way down: drops fall at the wind's angle and burst on the tiles leaving a wet glint, some of the water runs down the roof into the gutter and along it to the end, where a drop swells at the lip, lets go and falls into a puddle that slowly grows, each landing opening a ring. The pointer is the wind — lean either side of the middle and the rain leans with you, eased over a few hundred milliseconds — and a click sends a gust from that side that lifts a sheet of spray off the roof, the gutter and the puddle, which falls back as scattered drops. The scene is focusable: Left and Right step the wind and Enter sends a gust.",
+    files: [
+      {
+        path: "registry/ui/eaves-drip.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1857",
+    },
+    tagline: "Pixel rain on a roof, running off the eaves.",
+    keywords: [
+      "pixel art",
+      "rain",
+      "weather",
+      "roof",
+      "puddle",
+      "wind",
+      "scene",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "Content above the scene, such as a caption; it stays fully interactive.",
+      },
+      {
+        name: "rainRate",
+        type: "number",
+        defaultValue: "0.5",
+        description: "How hard it rains, 0 (a few drops) to 1 (a downpour).",
+      },
+      {
+        name: "pixel",
+        type: "number",
+        defaultValue: "3",
+        description: "The size of one cell of the pixel art, 2 to 6 px.",
+      },
+      {
+        name: "puddle",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How big the puddle may grow, 0 (a few cells) to 1 (wide).",
+      },
+      {
+        name: "wind",
+        type: "number",
+        defaultValue: "0.25",
+        description:
+          "The resting wind, -1 (blowing left) to 1 (blowing right).",
+      },
+      {
+        name: "gust",
+        type: "number",
+        defaultValue: "0.7",
+        description: "Strength of a click's gust, 0 to 1.",
+      },
+      {
+        name: "palette",
+        type: '"auto" | "day" | "dusk" | "night"',
+        defaultValue: '"auto"',
+        description:
+          "The scene's colours: an overcast day on a light page and a night with a lit window on a dark one, or fixed.",
+      },
+      {
+        name: "windowLight",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Light the cottage window.",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The pointer sets the wind, a click sends a gust, and the keys do both.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Plips as a gust's spray and the next drips land; silent until a visitor clicks or presses a key.",
+      },
+      {
+        name: "onGust",
+        type: "(direction: -1 | 1) => void",
+        description: "Fires when a gust is sent, with the way it blows.",
+      },
+      {
+        name: "onWindChange",
+        type: "(wind: number) => void",
+        description:
+          "Fires when the wind settles to a new value, rounded to one decimal.",
+      },
+      {
+        name: "onPuddleChange",
+        type: "(fill: number) => void",
+        description:
+          "How full the puddle is, 0 to 1, rounded to two decimals, at most twice a second.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Freeze the rain.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "2",
+        description: "Seeds the tiles, the hills and the rain.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Rain on a roof"',
+        description: "Accessible name.",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-52 w-full"',
+        description: "Sizes the scene.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the scene is one focusable group with a hint. Left and Right step the wind a quarter at a time (announced), Enter or Space sends a gust the way the wind blows, so a keyboard reaches everything a pointer does. A gust is announced from the click or key that sent it.",
+      "Sound only answers a visitor: with `sound`, a gust arms plips for under two seconds, timed to the spray and the drips landing in the puddle and panned by where they land; the ambient rain is always silent.",
+      "Performance: the canvas is the size of the grid (about 240 × 70 cells in a 720 × 208 box) and CSS scales it up with `image-rendering: pixelated`, so there is no pixel-ratio cost. The still scene is rasterised once into a buffer; each frame copies it and writes only the moving cells from fixed-size pools, then one putImageData. Nothing runs off screen, in a hidden tab or while `paused`.",
+      'With `palette="auto"` the scene follows the page: an overcast day on a light page, a night with a warm lit window on a dark one; captions inside take matching tokens. Fixed palettes put their content under the matching theme so it stays readable.',
+      "Under reduced motion it is a still frame: the rain is frozen at the wind's angle (and redrawn when the wind changes), the puddle shows two rings, and a gust shows a still sheet of spray that clears after 400 ms.",
+    ],
+  },
+  {
+    name: "card-stunt",
+    type: "registry:ui",
+    title: "Card Stunt",
+    description:
+      "A grandstand of tiny seated figures, each holding a card at the chest, together making a mosaic that steps through a routine of pictures and words. Each change arrives as a wave of flips: every card turns half over about its horizontal axis as the front reaches its holder — sweeping, rising, bursting from the centre or running on the diagonal, each holder a few hundredths early or late — darkening as it goes edge-on so you glimpse the face behind it, and landing on the snap spring showing its other side; between frames a stadium ripple sometimes rolls across. Pointing at a section makes it jump the gun and flip early; a click steps on, and with the stand focused Right and Left step the routine (back runs the wave the other way), Home and End jump and Space pauses it.",
+    files: [
+      {
+        path: "registry/ui/card-stunt.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1858",
+    },
+    tagline: "A stand of flip cards making waves and pictures.",
+    keywords: [
+      "card stunt",
+      "mosaic",
+      "stadium",
+      "flip",
+      "wave",
+      "pixel font",
+      "crowd",
+    ],
+    props: [
+      {
+        name: "frames",
+        type: "readonly CardStuntFrame[]",
+        defaultValue: "defaultCardStuntFrames",
+        description:
+          'The pictures and words, in order: each `{ text }` (set in a 3 × 5 pixel font), `{ picture }` (rows of 0–3) or `{ draw(col, row, cols, rows) }`, with an optional `label` and `wave` ("sweep" | "rise" | "burst" | "diagonal").',
+      },
+      {
+        name: "rows",
+        type: "number",
+        defaultValue: "8",
+        description:
+          "Tiers of seats, 4 to 12; the columns follow the width so seats stay near square.",
+      },
+      {
+        name: "wave",
+        type: "number",
+        defaultValue: "1",
+        description: "Speed of the flip front across the stand, 0.25 to 3.",
+      },
+      {
+        name: "palette",
+        type: '"home" | "sunset" | "harbor" | "ink"',
+        defaultValue: '"home"',
+        description:
+          "Four card pigments: entries 0 (field), 1 (light), 2 (accent) and 3 (deep).",
+      },
+      {
+        name: "colors",
+        type: "readonly string[]",
+        description: "Four CSS colours for entries 0–3; overrides `palette`.",
+      },
+      {
+        name: "interval",
+        type: "number",
+        defaultValue: "3200",
+        description:
+          "Time from one frame to the next while auto-playing, the wave included, ms.",
+      },
+      {
+        name: "index / defaultIndex",
+        type: "number",
+        defaultValue: "0",
+        description: "The frame shown, controlled or not.",
+      },
+      {
+        name: "onIndexChange",
+        type: "(index: number) => void",
+        description:
+          "Fires from the key, click or timer that moved it, with the new index.",
+      },
+      {
+        name: "autoPlay",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Step through the frames on its own while in view.",
+      },
+      {
+        name: "ripple",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Let a stadium ripple roll across the stand between frames.",
+      },
+      {
+        name: "earlyFlip",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Seats near the pointer jump the gun and flip to the next frame early.",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Clicks, hover and the keys.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Swishes that travel with a step's wave and a quiet one for an early flip; silent until a visitor clicks or presses a key.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Hold the current frame.",
+      },
+      {
+        name: "onPausedChange",
+        type: "(paused: boolean) => void",
+        description: "Fires when Space pauses or resumes auto-play.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "4",
+        description: "Seeds faces, hair, shirts and each holder's timing.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Card stunt"',
+        description: "Accessible name.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-52 w-full"',
+        description: "Sizes the stand.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: the stand is one focusable group. Right/Down step to the next frame, Left/Up to the previous one with the wave reversed, Home and End jump, and Space pauses or resumes auto-play (the pause moving content needs). Each step a visitor makes is announced with the frame\'s label ("Frame 2 of 4: GO"); timed steps are not announced.',
+      "Give each frame a `label`: it is what assistive technology hears. Text frames use a built-in 3 × 5 pixel font (A–Z, 0–9 and a few marks) scaled to the stand, so keep words short enough for narrow stands (two or three letters at a phone's width).",
+      "Performance: the stand and its people are drawn once per size to an offscreen layer; a frame redraws only the cards (a rect each) and only while a wave, ripple or flip is live, then the loop stops. The auto-play timer runs only in view and while the tab is shown, and the backing store is capped at `dpr`.",
+      'Card colours are pigments (the same in both themes); the stand behind them takes `--secondary`, so it sits in a light or a dark page. Pass `colors` to use your own tokens, e.g. `["var(--accent-bright)", "var(--card)", "var(--signal)", "var(--ink)"]`.',
+      "Under reduced motion there are no waves, flips or ripples: a step cross-fades the whole mosaic in 150 ms and early flips change colour at once.",
+    ],
+  },
+  {
+    name: "sand-portrait",
+    type: "registry:ui",
+    title: "Sand Portrait",
+    description:
+      "A picture laid in coloured sand on a canvas: every grain keeps a home and a colour sampled from the picture, a tone of its own and a bead's highlight. Dragging sweeps an eddy along the stroke that drags grains with it and turns them the way the stroke curves, and a flick throws it on; when the stroke stops the sand flows home grain by grain from the bottom up, each on its own spring with the springs.drift constants and a sideways curl, so the picture rebuilds in curling streams. A tap swirls everything into a turning two-armed spiral on springs.glide constants while the colours turn toward the next picture, then the spiral slowly unwinds from the outside in into the new one; Right, Enter and Space swirl forward, Left back, Home and End to the ends.",
+    files: [
+      {
+        path: "registry/ui/sand-portrait.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1847",
+    },
+    tagline: "A picture in sand; sweep it and it remakes itself.",
+    keywords: [
+      "sand",
+      "particles",
+      "gallery",
+      "carousel",
+      "swirl",
+      "image",
+      "canvas",
+    ],
+    props: [
+      {
+        name: "items",
+        type: "SandPortraitItem[]",
+        defaultValue: "defaultSandPortraits",
+        description:
+          "The pictures: { src?, alt, caption? }; an item without src pours a drawn print.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "number",
+        defaultValue: "0",
+        description: "The picture shown; controlled or initial.",
+      },
+      {
+        name: "onValueChange",
+        type: "(index: number) => void",
+        description:
+          "Fires from the tap or key that asked for another picture, with its index.",
+      },
+      {
+        name: "grains",
+        type: "number",
+        defaultValue: "3200",
+        description:
+          "How many grains make the picture, 600 (a coarse mosaic) to 8000 (fine sand).",
+      },
+      {
+        name: "sweep",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How wide and how hard a sweep catches the sand, 0 (a fingertip) to 1 (a palm).",
+      },
+      {
+        name: "reform",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "How quickly the picture rebuilds, 0.25 (lingers) to 2.5 (snaps back).",
+      },
+      {
+        name: "curl",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How much returning grains curl on their way home, 0 (straight) to 1.",
+      },
+      {
+        name: "swirl",
+        type: "number",
+        defaultValue: "1.6",
+        description:
+          "How many turns the spiral's arms wind when the picture changes, 0.5 to 3.",
+      },
+      {
+        name: "texture",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "Grain-to-grain variation in tone, 0 (flat colour) to 1 (coarse, mixed sand).",
+      },
+      {
+        name: "hold",
+        type: "number",
+        defaultValue: "220",
+        description:
+          "How long the sand waits after a stroke stops before it flows back, ms.",
+      },
+      {
+        name: "tray",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "A sand-coloured floor and a shaded rim; off, the grains lie on whatever is behind.",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Sweeping with the pointer and tapping for the next picture. Keys always work.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Hold every grain where it is.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "Seeds the grain grid and its tones, so two trays never match.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "300",
+        description: "Height of the tray, px.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Sand picture"',
+        description: "The tray's accessible name.",
+      },
+      {
+        name: "onStateChange",
+        type: '(state: "still" | "sweeping" | "settling" | "swirling") => void',
+        description: "Fires when the sand starts or stops moving.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "No sweeps, taps or keys; the tray dims.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the tray.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the tray is one tab stop, a labelled carousel. Right, Enter and Space swirl into the next picture, Left into the previous one, Home and End to the first and last; the new picture is spoken politely from the key that chose it. A sweep is transient — the picture always comes back — so it needs no key of its own.",
+      "Reduced motion: a sweep leaves a dimmed trail that fades back instead of moving grains, and a new picture cross-fades into the grains in place from the bottom up.",
+      "Performance: nothing runs at rest. One requestAnimationFrame loop steps the grains in typed arrays and stamps them into a single ImageData only while sand is loose, swirling or changing colour, and only while the tray is on screen and the page visible; it stops the moment every grain is home. The canvas caps its pixel ratio at 2.",
+      "Pictures: an item's src must be same-origin or CORS-enabled to be sampled; anything else falls back to a drawn print. Drawn prints use token pigments at fixed lightness, so they look the same in light and dark themes.",
+      "The server renders the print itself in SVG under a fine screen of grain shadows, so the first paint is already the picture; the canvas fades in over it.",
+    ],
+  },
+  {
+    name: "headwind-cards",
+    type: "registry:ui",
+    title: "Headwind Cards",
+    description:
+      "A row of standing cards that lean into the drag like walkers into wind: the row follows the hand 1:1 and rubber-bands past its ends, and each card skews about its foot in proportion to the row's speed, the cards at the leading end furthest, each on its own spring so a change of direction runs down the row as a wave. A throw is projected to the card it would rest on and the row springs there on springs.glide with the release velocity, while every card stands back up on a spring of the given stiffness at the recoil damping ratio, rocking just past upright before it settles. Arrow keys step one card on springs.snap with half the lean, Home and End travel to the ends on springs.glide, and a click on another card brings it in.",
+    files: [
+      {
+        path: "registry/ui/headwind-cards.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1848",
+    },
+    tagline: "Cards that lean into the drag like walkers.",
+    keywords: [
+      "carousel",
+      "cards",
+      "lean",
+      "skew",
+      "momentum",
+      "spring",
+      "gallery",
+    ],
+    props: [
+      {
+        name: "items",
+        type: "HeadwindCard[]",
+        defaultValue: "defaultHeadwindCards",
+        description: "The cards: { src?, alt, caption?, detail?, art? }.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "number",
+        defaultValue: "0",
+        description: "The current card; controlled or initial.",
+      },
+      {
+        name: "onValueChange",
+        type: "(index: number) => void",
+        description:
+          "Fires from the throw, click or key that chose a card, with the card the row will settle on.",
+      },
+      {
+        name: "skew",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "How hard the cards lean into the motion, 0 (upright) to 2.",
+      },
+      {
+        name: "stiffness",
+        type: "number",
+        defaultValue: "380",
+        description:
+          "Stiffness of the spring that stands the cards back up, 120 (loose, rocking) to 900 (quick).",
+      },
+      {
+        name: "gap",
+        type: "number",
+        defaultValue: "16",
+        description: "Space between cards, px.",
+      },
+      {
+        name: "cardWidth",
+        type: "number",
+        defaultValue: "168",
+        description:
+          "A card's width, px; held to 72% of the row on narrow screens.",
+      },
+      {
+        name: "aspect",
+        type: "number",
+        defaultValue: "1.18",
+        description: "A card's height as a share of its width.",
+      },
+      {
+        name: "maxLean",
+        type: "number",
+        defaultValue: "14",
+        description: "The most a card may lean, degrees.",
+      },
+      {
+        name: "spread",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How much more the leading cards lean than the trailing ones, 0 (all alike) to 1.",
+      },
+      {
+        name: "friction",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How quickly a throw dies away, 0 (coasts far) to 1 (stops short).",
+      },
+      {
+        name: "align",
+        type: '"start" | "center"',
+        defaultValue: '"start"',
+        description:
+          "Where the current card rests: at the start of the row or in its middle.",
+      },
+      {
+        name: "streaks",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Faint wind lines drifting through the gaps while the row moves fast.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Cards"',
+        description: "The row's accessible name.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "No drags, clicks or keys; the row dims.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the root region.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the row is one tab stop, a labelled carousel. Left and Right step one card with a smaller lean, Home and End go to the ends; the chosen card is spoken politely. Each card is a labelled slide, and cards wholly outside the row are hidden from assistive technology and inert.",
+      "Reduced motion: nothing leans and no wind lines show. A drag still moves the row under the hand, a release finishes on a short tween, and keys jump with a brief dip in opacity.",
+      "Performance: nothing runs at rest. One requestAnimationFrame loop turns the row's speed into lean targets and steps each card's spring only while the row or a lean is moving; the row's width is cached by a resize observer so the loop never reads layout.",
+      "Layout uses container units: the card width is the smaller of cardWidth and 72% of the row, so the server frame is already composed at any width and a phone shows one and a half cards.",
+      "Each card skews about its foot, so its height never changes and nothing leaves the row's box; cards lean apart rather than into each other because the leading ones lean furthest.",
+    ],
+  },
+  {
+    name: "cartwheel-deck",
+    type: "registry:ui",
+    title: "Cartwheel Deck",
+    description:
+      "A row of cards standing on a floor, front card at the left and each further card a little smaller. Advancing sends the front card cartwheeling end over end along the floor to the back: it turns whole turns while it travels, always resting on its lowest corner so it rises onto each corner and drops onto each edge, shrinking to the back card's size, with a floor shadow as wide as its projection; it lands upright with a squash on the recoil spring, a hop sized by bounce and a thud, while the rest shuffle forward on springs.glide in a short cascade. The tumble runs on the glide calibration retimed to the duration, so a card tipped by hand carries its throw into it; Right, Enter and Space advance, Left reverses the tumble, and Home and End tumble through to the first and last card.",
+    files: [
+      {
+        path: "registry/ui/cartwheel-deck.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1849",
+    },
+    tagline: "Each card cartwheels into place as it advances.",
+    keywords: [
+      "carousel",
+      "deck",
+      "cartwheel",
+      "tumble",
+      "cards",
+      "bounce",
+      "gallery",
+    ],
+    props: [
+      {
+        name: "items",
+        type: "CartwheelCard[]",
+        defaultValue: "defaultCartwheelCards",
+        description:
+          "The cards, front to back: { src?, alt, caption?, detail?, art? }.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "number",
+        defaultValue: "0",
+        description: "The card at the front; controlled or initial.",
+      },
+      {
+        name: "onValueChange",
+        type: "(index: number) => void",
+        description:
+          "Fires from the click, swipe or key that moved the deck, with the new front card.",
+      },
+      {
+        name: "spin",
+        type: "number",
+        defaultValue: "1",
+        description: "Whole turns a card makes on its way to the back, 1 to 3.",
+      },
+      {
+        name: "bounce",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How lively the landing is, 0 (lands dead) to 1 (hops twice).",
+      },
+      {
+        name: "gap",
+        type: "number",
+        defaultValue: "14",
+        description:
+          "Space between cards when the row fits, px; a narrow row overlaps them evenly instead.",
+      },
+      {
+        name: "depth",
+        type: "number",
+        defaultValue: "0.08",
+        description:
+          "How much smaller each card further back stands, 0 to 0.2 of the front card.",
+      },
+      {
+        name: "duration",
+        type: "number",
+        defaultValue: "640",
+        description: "Roughly how long one tumble takes at one turn, ms.",
+      },
+      {
+        name: "aspect",
+        type: "number",
+        defaultValue: "0.72",
+        description: "A card's width as a share of its height.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "240",
+        description:
+          "Height of the stage, px; the cards are sized so a tumbling card always clears its top.",
+      },
+      {
+        name: "shadow",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Shadows on the floor that stretch as a card turns.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Cards"',
+        description: "The deck's accessible name.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Play a thud as each card lands. Off unless asked for.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "No clicks, swipes or keys; the deck dims.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the root region.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the deck is one tab stop, a labelled carousel. Right, Enter and Space send the front card to the back, Left brings the back card to the front, Home and End tumble through to the first and last card one card at a time; the new front card is spoken politely and is the only slide exposed to assistive technology.",
+      "Reduced motion: no tumble or shuffle travel. The cards take their new places with a short dip in opacity, a swipe needs a real distance or flick, and the value and the thud still follow.",
+      "Hand feel: dragging right tips the front card onto its corner 1:1 under the finger, dragging left tips the back card toward the front; past a third of a card or with a flick it goes and carries the throw into the tumble, otherwise it rocks back on the recoil spring.",
+      "Performance: nothing runs at rest. Each card's position, angle, size, squash and shadow are motion values; floor contact is computed from the angle in the animation's own update, never in React state, and tumbles queue so rapid keys never stack.",
+      "Layout is pure CSS with container units, so the server frame is right at any width: natural spacing while the row fits, an even overlap like a fanned deck when it does not.",
+    ],
+  },
+  {
+    name: "freight-sidings",
+    type: "registry:ui",
+    title: "Freight Sidings",
+    description:
+      "A rail yard seen from above and turned so the tracks cross the frame on a diagonal: loaded lines alternate with empty sidings, and each line carries a train of flat cars loaded with pictures, its head car showing a marker lamp. Page scroll moves the trains in alternating directions at their own speeds, a sideways drag scrubs the yard 1:1 under the hand with a flick carried on, and left alone each train shunts slowly back and forth; every train follows its target on its own spring and slows to a crawl under the pointer or keyboard. Clicking a car rolls it to the front: it uncouples on springs.flick, switches onto the siding on springs.glide, rolls past the cars ahead while they back up, switches back at the head and couples, and the jolt runs down the train car by car on the recoil spring; the yard is a grid where arrows move between cars and Enter rolls one to the front.",
+    files: [
+      {
+        path: "registry/ui/freight-sidings.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1850",
+    },
+    tagline: "Pictures riding freight cars on tilted tracks.",
+    keywords: [
+      "gallery",
+      "rail yard",
+      "trains",
+      "scroll",
+      "diagonal",
+      "images",
+      "shunting",
+    ],
+    props: [
+      {
+        name: "items",
+        type: "FreightSidingsItem[]",
+        defaultValue: "defaultFreightItems",
+        description:
+          "The pictures, dealt round the trains in turn: { src?, alt, caption? }.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "number",
+        description:
+          "The picture last rolled to the front of its train; controlled or initial. Nothing is chosen until a car is.",
+      },
+      {
+        name: "onValueChange",
+        type: "(index: number) => void",
+        description:
+          "Fires from the click or key that rolled a car to the front, with its picture's index.",
+      },
+      {
+        name: "tilt",
+        type: "number",
+        defaultValue: "24",
+        description:
+          "How far the yard is turned, degrees, -40 to 40; the tracks cross the frame on this diagonal.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "How far the trains travel for each pixel of scroll or drag, 0 to 2.",
+      },
+      {
+        name: "gap",
+        type: "number",
+        defaultValue: "12",
+        description: "Space between coupled cars, px.",
+      },
+      {
+        name: "trains",
+        type: "number",
+        defaultValue: "3",
+        description: "How many trains run in the yard, 2 to 6.",
+      },
+      {
+        name: "carLength",
+        type: "number",
+        defaultValue: "108",
+        description: "A car's length, px.",
+      },
+      {
+        name: "drift",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How far each train shunts back and forth on its own while you watch, 0 (still) to 1.",
+      },
+      {
+        name: "slow",
+        type: "number",
+        defaultValue: "0.8",
+        description:
+          "How much a train under the pointer or keyboard slows, 0 (not at all) to 1 (to a crawl).",
+      },
+      {
+        name: "scroll",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Scrolling the page moves the trains.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "560",
+        description: "Height of the yard, px.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Rail yard"',
+        description: "The yard's accessible name.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play the couplers' clacks, and the rail joints under a drag. Off unless asked for.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Hold every train where it is; clicks still roll cars to the front.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "No drags, clicks or keys; the yard dims.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the yard.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the yard is a grid with one tab stop. Arrow keys move between cars along a train (left and right follow the screen) and between trains, Home and End go to the first and last car, Enter or Space rolls the focused car to the front and keeps focus on it; a focused train slows and shunts so the car is in view, and the move is announced politely.",
+      "Reduced motion: no drift, no scroll or drag travel, and a car takes the head place with a short cross-fade; the marker lamp still moves and the clack still plays.",
+      "Performance: one requestAnimationFrame loop drives each train's spring and the shunt clock, only while the yard is on screen and the page visible; with drift off it stops when every train has settled. Page scroll is read from one passive capture listener, and cars are transformed elements over CSS-gradient tracks, with no canvas.",
+      "Sound answers only the visitor: couplers on a click or key, and quiet rail-joint clacks only while a hand drags the yard, never on scroll.",
+      "The yard is a window onto a longer line: trains reach past the frame's edges, and the frame clips with paint containment so nothing draws outside its box.",
+    ],
+  },
+  {
+    name: "core-plane",
+    type: "registry:ui",
+    title: "Core Plane",
+    description:
+      "A plane of ferrite memory cores strung on fine wires, drawn on a canvas: eight columns from bit 7 to bit 0 and as many rows as fit, each core a small ring at ±45° threaded by its row, column and sense wires, lit when it holds a 1, and each row labelled with its character and hex. Typing writes each character's UTF-8 bytes into the next row the way the real thing does: a spark runs along the row wire while sparks run down the column wire of every bit that changes, and where each pair meets the core flips with a stutter scaled by flicker and a tiny burst, a bit every few milliseconds left to right; Backspace erases the last row, older rows fade, and an idle job reads random cores with a faint blink. The writing happens in a real text input, so the keyboard is simply typing; reduced motion swaps the sparks for a short cross-fade timed on durations.base.",
+    files: [
+      {
+        path: "registry/ui/core-plane.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1851",
+    },
+    tagline: "Type and watch each bit flip in a grid of cores.",
+    keywords: [
+      "core memory",
+      "bits",
+      "binary",
+      "typing",
+      "input",
+      "retro computing",
+      "canvas",
+    ],
+    props: [
+      {
+        name: "value / defaultValue",
+        type: "string",
+        defaultValue: '""',
+        description: "The text written to the plane; controlled or initial.",
+      },
+      {
+        name: "onValueChange",
+        type: "(text: string) => void",
+        description: "Fires as the visitor types, with the new text.",
+      },
+      {
+        name: "cores",
+        type: "number",
+        defaultValue: "10",
+        description:
+          "Diameter of a core, px, 6 to 18: finer cores fit more rows.",
+      },
+      {
+        name: "flicker",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How hard a core stutters as it flips, 0 (a clean flip) to 1.",
+      },
+      {
+        name: "wire",
+        type: '"copper" | "brass" | "silver" | string',
+        defaultValue: '"copper"',
+        description: "The wires' colour: a preset, or any CSS colour.",
+      },
+      {
+        name: "fade",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How much older rows fade as new ones are written, 0 (none) to 1.",
+      },
+      {
+        name: "idle",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Let a background job read random cores when the plane is idle.",
+      },
+      {
+        name: "readRate",
+        type: "number",
+        defaultValue: "1.2",
+        description: "How many cores the idle job reads a second.",
+      },
+      {
+        name: "bitDelay",
+        type: "number",
+        defaultValue: "26",
+        description: "Time between bits of a write, ms.",
+      },
+      {
+        name: "maxLength",
+        type: "number",
+        defaultValue: "64",
+        description: "Most characters the input takes.",
+      },
+      {
+        name: "placeholder",
+        type: "string",
+        defaultValue: '"Type to write"',
+        description: "Shown in the empty input.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Write to core memory"',
+        description: "The input's accessible name.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "176",
+        description: "Height of the plane, px.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play a tick for every core that flips while you type. Off unless asked for.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Hold the plane still: writes land without sparks and the idle job rests.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "No typing; the plane dims.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the wrapper.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard and assistive technology: writing happens in a real labelled text input with a visible prompt, so typing, editing and pasting all work as usual; the plane is an image whose name lists the characters it holds, and a polite announcement gives the last character's hex and bit count once typing pauses.",
+      "Reduced motion: no sparks, stutter or idle reads. Cores cross-fade to their new values on a short tween, and labels and fades still follow every keystroke, because the bits are information.",
+      "Performance: the canvas redraws only while a write, erase or read is in flight; the idle job is a timer that schedules only while the plane is on screen, the page is visible and nothing is being typed. A long paste animates only the rows that stay visible.",
+      "Sound answers only typing: one tick per flipped core, pitched by its bit; the idle job and a host's changes to value are silent.",
+      "Theming: wires, lit cores, ferrite and sparks are token pigments resolved on the plane's own element and re-read when the theme changes; on a pale board the sparks draw as a darker hot streak so they still read.",
+    ],
+  },
+  {
+    name: "node-leap",
+    type: "registry:ui",
+    title: "Node Leap",
+    description:
+      "A background of long soft filaments drifting through the dark on a slow current, each threaded with small beads, drawn in Canvas 2D with the content above. Signals do not flow: a signal rests on a bead, then jumps to the next in a quick streak of light, and the bead it lands on flares and cools; where two filaments drift close a faint glimmer passes between their beads, and a signal may jump across, arcing over the gap and carrying on along the other filament. The pointer is a gentle current that pushes the filaments aside, each point drifting back on a spring with the springs.drift constants, and a press sends a new signal from the nearest bead; the field is decoration and never takes focus, so the keyboard goes straight to the content above it.",
+    files: [
+      {
+        path: "registry/ui/node-leap.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1852",
+    },
+    tagline: "Signals that hop from bead to bead along a strand.",
+    keywords: [
+      "background",
+      "network",
+      "signals",
+      "filaments",
+      "nodes",
+      "hero",
+      "canvas",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The content above the field: a hero line, a heading, a call to action.",
+      },
+      {
+        name: "strands",
+        type: "number",
+        defaultValue: "7",
+        description: "How many filaments drift through the field, 2 to 16.",
+      },
+      {
+        name: "hopRate",
+        type: "number",
+        defaultValue: "3",
+        description:
+          "How often a signal hops to its next bead, per second, 0.5 to 8.",
+      },
+      {
+        name: "glow",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How far a lit bead's light spreads, 0 (bare beads) to 1 (blooming).",
+      },
+      {
+        name: "beads",
+        type: "number",
+        defaultValue: "14",
+        description: "Beads threaded on each filament, 6 to 24.",
+      },
+      {
+        name: "signals",
+        type: "number",
+        defaultValue: "2",
+        description: "Signals travelling on each filament, 1 to 4.",
+      },
+      {
+        name: "current",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "The pace of the slow current the filaments drift on, 0 (still) to 2.",
+      },
+      {
+        name: "cross",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "The chance a signal jumps across where two filaments drift close, 0 to 1.",
+      },
+      {
+        name: "colors",
+        type: "readonly string[]",
+        defaultValue:
+          '["var(--accent-bright)", "var(--signal)", "oklch(from var(--warn) 0.8 0.14 h)"]',
+        description:
+          "Signal colours, as CSS colours (up to four); each signal takes one.",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The pointer is a gentle current, and a press sends a new signal.",
+      },
+      {
+        name: "pointerStrength",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How strongly the pointer's current moves the filaments, 0 to 1.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Hold everything still.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "1",
+        description: "Seeds the filaments, their beads and the signals' walks.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "onCrossing",
+        type: "() => void",
+        description:
+          "Fires each time a signal jumps across from one filament to another.",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-full w-full"',
+        description: "Sizes and shapes the box.",
+      },
+    ],
+    usageNotes: [
+      "The field is decoration: the canvas is aria-hidden and never takes focus or clicks, and children render above it in their own layer, fully interactive and in the tab order. Pointer influence is read from the container, so a press on a button above the field is just a press.",
+      "Reduced motion: a still frame of the filaments at rest with beads lit as if mid-relay; no hopping, drift or pointer current.",
+      "Performance: one requestAnimationFrame loop runs only while the field is on screen, the page is visible and it is not paused; it uses typed arrays and one pre-rendered glow sprite per colour, caps the pixel ratio at 2 and resizes through a resize observer. The server renders an SVG still of the same filaments.",
+      "Theming: the ground, filaments and signal colours are tokens resolved on the component's own element and re-read when the theme changes; light adds on a dark page and draws as ink and pigment on a light one.",
+    ],
+  },
+  {
+    name: "ant-column",
+    type: "registry:ui",
+    title: "Ant Column",
+    description:
+      "A pixel-art colony on a Canvas 2D grid, run as a two-scent forager model: ants pour out of the nest, follow food scent with three sensors and a seeded wander, and an ant that reaches the pointer's scent or a crumb walks home on the home scent and its own bearing, laying food scent, so within seconds the search condenses into a neat single-file column round every pebble and every element marked data-obstacle. The scent follows the pointer on springs.glide, so the column's head swings after it and the body wobbles as the ants re-route; a click drops a crumb that lands on springs.recoil and is carried home a bit at a time while the nest's rim flicks bright. The keyboard's way in is one focus stop: arrow keys move the scent, Enter or Space drops a crumb at it, Escape lifts it.",
+    files: [
+      {
+        path: "registry/ui/ant-column.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1859",
+    },
+    tagline: "Pixel ants that find their way to your pointer.",
+    keywords: [
+      "ants",
+      "colony",
+      "pheromone",
+      "pixel art",
+      "simulation",
+      "pathfinding",
+      "cursor",
+    ],
+    props: [
+      {
+        name: "ants",
+        type: "number",
+        defaultValue: "140",
+        description: "How many ants live in the nest, 10 to 400.",
+      },
+      {
+        name: "pheromone",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How strong and how lasting the scent trails are, 0 (faint, quick to fade, loose paths) to 1 (bold, lasting, a tight column).",
+      },
+      {
+        name: "pixel",
+        type: "number",
+        defaultValue: "3",
+        description:
+          "The size of one pixel of the colony, in px, 2 to 6. Ants are two pixels long.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "0.5",
+        description: "How fast the ants walk, 0 to 1.",
+      },
+      {
+        name: "wander",
+        type: "number",
+        defaultValue: "0.3",
+        description:
+          "How much each ant meanders off its line, 0 (marching) to 1 (dithering).",
+      },
+      {
+        name: "nest",
+        type: "AntColumnPoint",
+        defaultValue: "{ x: 0.1, y: 0.72 }",
+        description: "Where the nest's mouth sits, as fractions of the box.",
+      },
+      {
+        name: "crumbs",
+        type: "readonly AntColumnPoint[]",
+        defaultValue: "[{ x: 0.86, y: 0.32 }]",
+        description:
+          "Crumbs already on the ground when the colony starts, as fractions of the box.",
+      },
+      {
+        name: "crumbSize",
+        type: "number",
+        defaultValue: "18",
+        description:
+          "How many bits a crumb breaks into: one ant carries one bit home.",
+      },
+      {
+        name: "obstacles",
+        type: "readonly AntColumnPebble[]",
+        defaultValue: "two pebbles",
+        description:
+          "Pebbles the ants walk round: centres as fractions of the box, radii in px.",
+      },
+      {
+        name: "avoidContent",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Ants also walk round any element inside the colony marked data-obstacle, such as a card in your content.",
+      },
+      {
+        name: "antColor",
+        type: "string",
+        defaultValue: '"var(--foreground)"',
+        description:
+          "The ants' colour, any CSS colour; resolved on the element so it follows the theme.",
+      },
+      {
+        name: "trailColor",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description: "The scent trails' colour.",
+      },
+      {
+        name: "crumbColor",
+        type: "string",
+        defaultValue: '"oklch(from var(--warn) 0.8 c h)"',
+        description:
+          "The crumbs' colour: a pigment at a fixed lightness, so it reads the same in both themes.",
+      },
+      {
+        name: "earthColor",
+        type: "string",
+        defaultValue: '"var(--ink-3)"',
+        description: "The nest mound's and the pebbles' colour.",
+      },
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "Content above the colony: a heading, a card, a call to action. Mark a card data-obstacle and the column routes round it.",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The pointer leaves a scent the ants seek and a click drops a crumb; the keys do both.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Hold the colony where it is.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Ant colony"',
+        description: "Names the colony for assistive technology.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "3",
+        description:
+          "Seeds every ant's wander and every crumb's shape, so two colonies never walk alike.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "onCarry",
+        type: "(total: number) => void",
+        description:
+          "Fires each time an ant brings a bit home, with the colony's total so far.",
+      },
+      {
+        name: "onCrumb",
+        type: "(x: number, y: number) => void",
+        description:
+          "Fires when a crumb is dropped, with its place in px from the box's top left.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Shows the colony at work but takes no input.",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-56 w-full"',
+        description: "Sizes the box.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the colony is one focus stop (a button behind your content). Focus puts the scent down in a free spot; arrow keys move it (Shift for bigger steps), Enter or Space drops a crumb at it, Escape lifts it. A click or tap drops a crumb where it lands; a touch drag moves the scent.",
+      "Reduced motion: the column is laid at once along the shortest route round every obstacle (a grid search pulled taut) and holds still; a dropped crumb still empties into the nest a bit a second, so the count keeps climbing.",
+      "Performance: a fixed 60 Hz step on small typed arrays, one putImageData and one scaled drawImage a frame, nothing allocated per frame. The loop runs only while the colony is on screen, the tab is visible and something lives; once every ant is home and the scent has gone, it stops until the next input.",
+      "Content: children sit above the colony and stay fully interactive. Mark a card or heading with data-obstacle and the ants route round it; the colony re-reads its outline whenever it resizes.",
+      "Theming: every colour is resolved on the element and re-read when the theme changes; crumbs are a pigment at a fixed lightness so they read the same on light and dark pages.",
+    ],
+  },
+  {
+    name: "readout-skew",
+    type: "registry:ui",
+    title: "Readout Skew",
+    description:
+      "A small studio seen through a rolling-shutter camera, drawn per pixel in one WebGL2 pass: a band sweeps down the frame every readout and each row shows the scene as it was when the band last crossed it, so a spinning propeller bends into curved petals that re-form every sweep and the puck, whose position is kept for four seconds at 60 Hz, leans and wobbles like jelly when it moves fast, while the static grid and floor never bend. The puck is a real slider: a drag follows 1:1 and rubber-bands past the stops, a release slides on with friction and bounces off them, and a click on the track or the arrow, Page, Home and End keys send it on springs.snap, quick enough to lean; a puck released past a stop returns on springs.glide.",
+    files: [
+      {
+        path: "registry/ui/readout-skew.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "glsl",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1860",
+    },
+    tagline: "A scan band that bends anything moving fast.",
+    keywords: [
+      "rolling shutter",
+      "camera",
+      "propeller",
+      "distortion",
+      "webgl",
+      "scan line",
+      "slider",
+    ],
+    props: [
+      {
+        name: "readout",
+        type: "number",
+        defaultValue: "600",
+        description:
+          "How long the band takes to read the frame top to bottom, in ms, 200 to 2000. Slower readout, stronger bends.",
+      },
+      {
+        name: "bands",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "How many strips the sensor reads at once, 1 to 4: the bends repeat strip by strip with a seam between.",
+      },
+      {
+        name: "skew",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "How far each row's moment is pushed, 0 (no distortion: every row now) to 2 (twice the honest skew).",
+      },
+      {
+        name: "spin",
+        type: "number",
+        defaultValue: "2.4",
+        description:
+          "How fast the propeller turns, in revolutions a second, 0 to 6.",
+      },
+      {
+        name: "blades",
+        type: "number",
+        defaultValue: "3",
+        description: "How many blades the propeller has, 2 to 6.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "number",
+        defaultValue: "— / 0.3",
+        description:
+          "The puck's place along its track, 0 to 1: controlled, or where it starts when uncontrolled.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: number) => void",
+        description:
+          "Fires from the drag, click or key that moved the puck, with where it will come to rest, 0 to 1.",
+      },
+      {
+        name: "glow",
+        type: "number",
+        defaultValue: "0.6",
+        description: "How bright the scan band's roll of light is, 0 to 1.",
+      },
+      {
+        name: "bladeColor",
+        type: "string",
+        defaultValue: '"var(--foreground)"',
+        description:
+          "The propeller's colour, any CSS colour; resolved on the element so it follows the theme.",
+      },
+      {
+        name: "puckColor",
+        type: "string",
+        defaultValue: '"oklch(from var(--accent-bright) 0.66 c h)"',
+        description: "The puck's colour: a pigment at a fixed lightness.",
+      },
+      {
+        name: "bandColor",
+        type: "string",
+        defaultValue: '"var(--signal)"',
+        description: "The scan band's colour.",
+      },
+      {
+        name: "hud",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Show the viewfinder's corner marks and readout label.",
+      },
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "Content above the scene: a caption, a heading, a call to action.",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description: "The puck can be dragged, thrown and moved with the keys.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Hold the band and the propeller where they are; the puck still answers.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Puck"',
+        description: "Names the puck's slider for assistive technology.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Shows the scene but takes no input.",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-56 w-full"',
+        description: "Sizes the box.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the puck is a real slider (0 to 100 percent along its track). Arrow keys move it 5 percent, Page Up and Page Down 25, Home and End to the stops, each on the snap spring, fast enough that the shutter leans it on the way.",
+      "Reduced motion: the band and the clock stop and the frame becomes one still capture whose rows keep their readout ages, so the propeller still shows its petals; the puck moves straight to each new place with no lean, and readout, bands and skew still redraw the still.",
+      "Performance: one fragment pass with no loops over the scene; the puck's history is a preallocated 256-sample buffer uploaded as 64 vec4 uniforms. The loop runs only while the scene is on screen, the tab is visible and it is not paused; a paused scene draws only when the puck moves.",
+      "Fallback: without WebGL2 the server's still stays, a capture traced row by row in JS with the same readout maths, and the slider still works.",
+      "Theming: colours are resolved on the element and re-read on theme change; on dark pages the band adds light, on light pages it tints.",
+    ],
+  },
+  {
+    name: "fascicle-run",
+    type: "registry:ui",
+    title: "Fascicle Run",
+    description:
+      "An endless flight down the inside of a nerve bundle, drawn per pixel in one WebGL2 pass with your content on top: every view ray is intersected with four concentric layers of a curving tube, so soft translucent fibres spiral along the walls with real parallax between layers, narrow at regular nodes, and carry signals racing past in both directions that flare at the nodes they jump between; at intervals a branch opens in the wall and the nearest fibres bend toward it and peel away. The pointer steers the camera across the bundle on springs.drift's constants with a gentle bank, and a held press speeds the flight up on the same spring, widening the view and stretching the signals into streaks. The keyboard's way in is a button behind your content: arrow keys steer, holding Space or Enter speeds up, Escape recentres.",
+    files: [
+      {
+        path: "registry/ui/fascicle-run.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "glsl",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1861",
+    },
+    tagline: "Fly down a nerve bundle as signals race past.",
+    keywords: [
+      "tunnel",
+      "flight",
+      "nerve",
+      "fibres",
+      "signals",
+      "webgl",
+      "hero background",
+    ],
+    props: [
+      {
+        name: "strands",
+        type: "number",
+        defaultValue: "24",
+        description:
+          "How many fibres line the bundle, across all its layers, 8 to 48.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "1",
+        description: "How fast the flight cruises, 0 (hovering) to 2.",
+      },
+      {
+        name: "pulse",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How often signals race along each fibre, 0 (a rare pulse) to 1 (a busy bundle).",
+      },
+      {
+        name: "boost",
+        type: "number",
+        defaultValue: "3",
+        description:
+          "How many times faster the flight goes while a press is held, 1 to 6.",
+      },
+      {
+        name: "curve",
+        type: "number",
+        defaultValue: "0.5",
+        description: "How much the bundle bends, 0 (dead straight) to 1.",
+      },
+      {
+        name: "branches",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How often a side branch opens and fibres peel away into it, 0 (never) to 1 (often).",
+      },
+      {
+        name: "steer",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How far the pointer steers the camera within the bundle, 0 to 1.",
+      },
+      {
+        name: "fiberColor",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "The fibres' colour, any CSS colour; resolved on the element so it follows the theme.",
+      },
+      {
+        name: "pulseColor",
+        type: "string",
+        defaultValue: '"var(--signal)"',
+        description: "The signals' colour.",
+      },
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "Content above the flight: a hero line, a heading, a call to action.",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The pointer steers and a held press speeds up; the keys do both.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Hold the flight and the signals where they are; steering still answers.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Nerve bundle flight"',
+        description: "Names the flight for assistive technology.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "5",
+        description:
+          "Seeds the fibres' places, the signals and the branches, so two bundles never match.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "onBoostChange",
+        type: "(boosting: boolean) => void",
+        description:
+          "Fires when the visitor's hold speeds the flight up (true) or lets it ease back (false).",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Shows the flight but takes no input.",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-56 w-full"',
+        description: "Sizes the box.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the flight is one focus stop (a button behind your content). Arrow keys steer the camera within the bundle, holding Space or Enter speeds the flight up until the key is released, and Escape recentres. A polite status says when it speeds up and when it cruises again.",
+      "Reduced motion: the flight is one still frame with a branch opening just ahead and signals held mid-race; steering and the hold are switched off and the hint says so.",
+      "Performance: one fragment pass, four layers with three fibre lookups each and analytic depth. Large boxes render at three-quarter resolution; the loop runs only while the flight is on screen, the tab is visible and it is not paused. Context loss is handled and rebuilt on restore.",
+      "Theming: the tissue's tone comes from the page: a dark page gives a deep, self-lit bundle with glowing fibres, a light page a pale milky one where fibres read as soft blue lines and signals as saturated light. Colours are re-read when the theme changes.",
+      "Without WebGL2 the server's still stays: fibres converging on a soft glow, drawn with CSS gradients in the theme's colours.",
+    ],
+  },
+  {
+    name: "tidal-bore",
+    type: "registry:ui",
+    title: "Tidal Bore",
+    description:
+      "A river seen from above at an angle at dusk, drawn per pixel in one WebGL2 pass with your content on top: screen points are cast onto the water so the meandering river narrows into a hazy far reach between dark banks, and the water mirrors the dusk sky more at grazing angles, with the low sun's glitter. A single long wave runs upriver against the current, a steep front with its crest and a train of whelps; the low sun shines through the thin crest as a glowing thread, it breaks into lace-white foam at the banks and outer bends, and the next bore enters every interval. The pointer sets the bore's height on springs.glide and leaving eases it back on springs.drift; a click sends a bore at once. The height is a real slider: Up and Down set it, Enter or Space sends a bore, Escape hands it back to the prop.",
+    files: [
+      {
+        path: "registry/ui/tidal-bore.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "glsl",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1862",
+    },
+    tagline: "One long wave running upriver at dusk.",
+    keywords: [
+      "river",
+      "wave",
+      "dusk",
+      "water",
+      "webgl",
+      "landscape",
+      "hero background",
+    ],
+    props: [
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How tall the bore stands, 0 (a ripple) to 1 (a breaking wall). The pointer and keys set it live; leaving returns here.",
+      },
+      {
+        name: "glow",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How strongly the crest glows where the low sun shines through it, 0 to 1.",
+      },
+      {
+        name: "interval",
+        type: "number",
+        defaultValue: "9",
+        description: "Seconds between one bore and the next, 4 to 20.",
+      },
+      {
+        name: "current",
+        type: "number",
+        defaultValue: "0.5",
+        description: "How fast the river runs down toward you, 0 (still) to 1.",
+      },
+      {
+        name: "meander",
+        type: "number",
+        defaultValue: "0.6",
+        description: "How hard the river bends, 0 (a straight channel) to 1.",
+      },
+      {
+        name: "foam",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How much white water breaks at the banks and bends, 0 to 1.",
+      },
+      {
+        name: "dusk",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How late in the evening it is, 0 (golden hour) to 1 (the last light).",
+      },
+      {
+        name: "sunColor",
+        type: "string",
+        defaultValue: '"oklch(from var(--warn) 0.8 c h)"',
+        description:
+          "The low sun's colour: a pigment at a fixed lightness, so it reads the same in both themes.",
+      },
+      {
+        name: "waterColor",
+        type: "string",
+        defaultValue: '"var(--accent)"',
+        description:
+          "The water's own tone, any CSS colour; resolved on the element so it follows the theme.",
+      },
+      {
+        name: "gauge",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Show the tide gauge at the right edge, which reads the bore's height.",
+      },
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "Content above the river: a hero line, a heading, a call to action.",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The pointer sets the height and a click sends a bore; the keys do both.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Hold the river and its bores where they are.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Bore height"',
+        description: "Names the height control for assistive technology.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "2",
+        description: "Seeds the river's bends, so two rivers never match.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "onBore",
+        type: "(count: number) => void",
+        description:
+          "Fires when a bore starts upriver, with how many have run so far.",
+      },
+      {
+        name: "onHeightChange",
+        type: "(height: number) => void",
+        description:
+          "Fires from the pointer or key that set a new height, 0 to 1.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Shows the river running but takes no input.",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-56 w-full"',
+        description: "Sizes the box.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the river is one focus stop, a vertical slider for the bore's height. Up and Down move it 5 percent, Page Up and Page Down 20, Home and End to the ends; Enter or Space sends the next bore at once; Escape hands the height back to the prop. A tap sends a bore and a vertical touch drag sets the height.",
+      "Reduced motion: one still frame with a bore held two-fifths up the river, its crest lit and its whitecaps at the banks; a new height redraws it at once, and a bore sent is counted and announced with a single fade of the crest's light.",
+      "Performance: one fragment pass with an analytic bore profile and short noise for the current and the foam; large boxes render at three-quarter resolution. The loop runs only while the river is on screen, the tab is visible and it is not paused.",
+      "Theming: the sky, the water and the banks are mixed from the page's tone, the water colour and the sun pigment, so a dark page shows the last light and a light page golden hour; colours are re-read when the theme changes.",
+      "Without WebGL2 the server's still stays: dark banks closing on the river in perspective, a warm haze and one glowing crest.",
+    ],
+  },
+  {
+    name: "drip-clock",
+    type: "registry:ui",
+    title: "Drip Clock",
+    description:
+      "A minimal water clock seen from above, in Canvas 2D: a drop falls into a dark stone basin every second, seen shrinking as it falls with its shadow sliding in, flicks a small crown of spray and sends one thin ring outward, a lit crest over a dark trough; when the ring reaches the lip it lights that second's tick, so the sixty ticks fill round the rim, and in lively water a fainter reflection runs back in to the centre. At the sixtieth tick the rim drains in one cascade and the minute's drop lands with a double ring; tempo can follow the wall clock or a prop. A click drops a drop of your own whose ring crosses the clock's and sounds a plip; the basin is a real button whose aim follows the arrow keys on springs.snap, with Enter or Space dropping at it and Escape hiding it.",
+    files: [
+      {
+        path: "registry/ui/drip-clock.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1863",
+    },
+    tagline: "One drop a second, each ring keeping time.",
+    keywords: [
+      "clock",
+      "timer",
+      "water",
+      "ripple",
+      "seconds",
+      "canvas",
+      "ambient",
+    ],
+    props: [
+      {
+        name: "tempo",
+        type: '"clock" | "slow" | "fast" | number',
+        defaultValue: '"clock"',
+        description:
+          'What sets the drops: "clock" lands one on every second of the wall clock; "slow" (40 a minute), "fast" (120 a minute) or a number of drops a minute follow this prop instead.',
+      },
+      {
+        name: "damping",
+        type: "number",
+        defaultValue: "0.45",
+        description:
+          "How quickly a ring loses its light, 0 (lively water: rings reach the lip bright and run back in) to 1 (still, heavy water).",
+      },
+      {
+        name: "tone",
+        type: '"ink" | "jade" | "copper" | "night"',
+        defaultValue: '"ink"',
+        description:
+          "The basin's stone and the rings' light, as pigments that read the same in both themes; also the drop's pitch.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play a plip when your own drop lands. The clock's drops are always silent.",
+      },
+      {
+        name: "ringSpeed",
+        type: "number",
+        defaultValue: "110",
+        description:
+          "How fast a ring runs outward, in px a second at a 94 px basin, 40 to 300.",
+      },
+      {
+        name: "ticks",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Show the sixty ticks on the lip that the rings light.",
+      },
+      {
+        name: "basinColor",
+        type: "string",
+        description: "The basin's colour, overriding the tone.",
+      },
+      {
+        name: "ringColor",
+        type: "string",
+        description: "The rings' colour, overriding the tone.",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description: "A click (or Enter at the aim) adds a drop of your own.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Stop the drops; rings already in the water run out.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Water clock"',
+        description: "Names the clock for assistive technology.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "onTick",
+        type: "(second: number) => void",
+        description:
+          "Fires when a ring reaches the lip and lights its tick, with the second it counts, 0 to 59.",
+      },
+      {
+        name: "onMinute",
+        type: "() => void",
+        description:
+          "Fires when the sixtieth tick lights and the minute rolls over.",
+      },
+      {
+        name: "onDrop",
+        type: "(x: number, y: number) => void",
+        description:
+          "Fires when your drop lands, with its place in px from the basin's centre.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Shows the clock keeping time but takes no drops.",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"size-56"',
+        description:
+          "Sizes the box; the basin is the largest circle that fits.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: the basin is a real button. Arrow keys move an aim on the water (Shift for bigger steps), Enter or Space drops a drop at it, Escape hides the aim. A hidden timer reads the seconds counted; a polite status says "Drop added." and "Minute complete." and nothing every second.',
+      "Sound: only your own drops sound, a plip pitched by the tone and panned by where it lands, and only when sound is on; the clock's drops never make a sound.",
+      "Reduced motion: no ring travels or reflects and no drop is seen falling: each drop shows a still ring that fades, the ticks still light each second and still drain at the minute, and your drops show where they land.",
+      "Performance: Canvas 2D with at most 24 rings and one cached light gradient; one timer at a time sets the next drop and it is cleared while the clock is off screen or the tab is hidden, then re-aligned to the wall clock on return. DPR is capped.",
+      "Theming: each tone is a pair of pigments taken from the theme's hues at fixed lightness, so the stone and its light read the same on a light page and a dark one; basinColor and ringColor override them.",
+    ],
+  },
+  {
+    name: "lotus-beads",
+    type: "registry:ui",
+    title: "Lotus Beads",
+    description:
+      "Beads of water on a waxy leaf, drawn per pixel in one WebGL2 pass as one smooth field, so two that come close join with a neck; each is shaded as water on a leaf that repels it, with the veined leaf beneath magnified and turned over, a dark rim, a sharp highlight, light gathered on the far side and the bright caustic it focuses into its own shadow. Dragged, a bead follows the finger 1:1 and rolls on with little friction when let go; nearing another it stretches a neck toward it, and past the merge distance the two snap into one larger bead, volume and momentum kept, that jiggles with the springs.recoil damping ratio and settles round, while a throw faster than splitSpeed splits it into droplets that fan out and roll apart. Every bead is a real button: Tab moves between them, arrow keys roll the focused one, Enter or Space flicks it so it splits, and focus stays with the bead you rolled through a merge.",
+    files: [
+      {
+        path: "registry/ui/lotus-beads.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+      "glsl",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1864",
+    },
+    tagline: "Water beads on a leaf that merge as they meet.",
+    keywords: [
+      "water",
+      "droplets",
+      "metaballs",
+      "merge",
+      "physics",
+      "webgl",
+      "leaf",
+    ],
+    props: [
+      {
+        name: "beads",
+        type: "number",
+        defaultValue: "7",
+        description: "How many beads sit on the leaf at the start, 3 to 14.",
+      },
+      {
+        name: "tension",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "Surface tension, 0 (soft, flat beads that reach for each other from far off) to 1 (tight, round beads that hold apart until they touch).",
+      },
+      {
+        name: "tint",
+        type: "number",
+        defaultValue: "0.2",
+        description:
+          "How much colour the water carries, 0 (clear) to 1 (deeply tinted).",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play the beads' sounds: a blup as two merge, a higher one as a bead splits.",
+      },
+      {
+        name: "friction",
+        type: "number",
+        defaultValue: "0.35",
+        description:
+          "How soon a rolling bead stops, 0 (it glides on and on) to 1 (it stops short).",
+      },
+      {
+        name: "splitSpeed",
+        type: "number",
+        defaultValue: "1100",
+        description:
+          "How fast a throw must be to split a bead into droplets, in px a second, 500 to 3000.",
+      },
+      {
+        name: "leafColor",
+        type: "string",
+        defaultValue: '"oklch(from var(--success) 0.58 calc(c * 0.62) h)"',
+        description:
+          "The leaf's colour: a pigment at a fixed lightness, so it reads the same in both themes.",
+      },
+      {
+        name: "waterColor",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description: "The colour the water takes on as tint rises.",
+      },
+      {
+        name: "lightAngle",
+        type: "number",
+        defaultValue: "225",
+        description:
+          "Where the light comes from, in degrees: 0 from the right, 90 from below, 225 from the upper left.",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Beads can be dragged, thrown and rolled with the keys.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Shows the leaf but takes no input.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "7",
+        description: "Seeds where the beads sit and how big they are.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "onMerge",
+        type: "(beads: number) => void",
+        description:
+          "Fires when two beads merge, with how many beads are left.",
+      },
+      {
+        name: "onSplit",
+        type: "(pieces: number) => void",
+        description:
+          "Fires when a bead splits, with how many droplets it made.",
+      },
+      {
+        name: "onBeadsChange",
+        type: "(beads: number) => void",
+        description:
+          "Fires whenever the number of beads changes, with the new count.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Water beads"',
+        description: "Names the group of beads for assistive technology.",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-56 w-full"',
+        description: "Sizes the box.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: every bead is a button in a labelled group. Tab moves between beads, arrow keys roll the focused one (Shift for a harder push), Enter or Space flicks it so it splits; focus stays with the bead you rolled when it merges into another. A polite status reports each merge and split with the new count.",
+      "Reduced motion: drags still follow the finger, but nothing rolls on or wobbles. A bead let go near another merges at once, arrow keys move a bead one step, and a split sets its droplets down around it.",
+      "Sound: a blup as two beads merge, lower for a bigger bead, and a higher one as a bead splits; only with sound on and only after the visitor has touched the page.",
+      "Performance: one fragment pass over at most 24 beads; the physics steps at 120 Hz only while a bead moves, wobbles or is held, and the frame is drawn on demand once the leaf is still. Bead buttons are positioned by direct style writes, not by React state.",
+      "To start again, remount with a new key (the demo's Reset does this) or change seed or beads.",
+    ],
+  },
+  {
+    name: "table-spread",
+    type: "registry:ui",
+    title: "Table Spread",
+    description:
+      "A deck squared on a felt table that sweeps into a long, even line under the hand: every card the hand passes is left at its slot while the rest ride on beneath it, and a release commits by projection on springs.glide carrying the hand's velocity. Flicking the first card sends a turnover wave down the spread — each card lifting, turning about its long edge in perspective and landing as the front passes, at turnSpeed cards a second — while a hovered card raises its edge on springs.flick and a picked card steps out of the line and flips face up on springs.snap. The cards are real buttons in a roving tabindex: arrows and Home/End move, Enter picks, T turns the spread over and Escape gathers the deck.",
+    files: [
+      {
+        path: "registry/ui/table-spread.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1865",
+    },
+    tagline: "Sweep a deck across the table, then turn it over.",
+    keywords: ["cards", "deck", "spread", "flip", "felt", "turnover", "pick"],
+    props: [
+      {
+        name: "cards",
+        type: "TableSpreadCard[]",
+        defaultValue: "defaultTableSpreadCards",
+        description:
+          "The deck, bottom card first: { id, rank, suit }. Fifteen seeded cards by default.",
+      },
+      {
+        name: "spacing",
+        type: "number",
+        defaultValue: "0.4",
+        description:
+          "How much of each card shows in the spread, as a fraction of its width; a narrow table tightens it to fit.",
+      },
+      {
+        name: "turnSpeed",
+        type: "number",
+        defaultValue: "22",
+        description:
+          "How fast the turnover wave runs along the spread, in cards per second.",
+      },
+      {
+        name: "felt",
+        type: '"green" | "navy" | "claret" | "slate" | string',
+        defaultValue: '"green"',
+        description: "The cloth: a preset pigment or any CSS colour.",
+      },
+      {
+        name: "backColor",
+        type: "string",
+        defaultValue: "a claret pigment",
+        description: "The colour printed on the card backs, any CSS colour.",
+      },
+      {
+        name: "spread / defaultSpread",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Whether the deck lies spread across the table.",
+      },
+      {
+        name: "onSpreadChange",
+        type: "(spread: boolean) => void",
+        description:
+          "Fires from the sweep, tap or key that spread or gathered the deck.",
+      },
+      {
+        name: "faceUp / defaultFaceUp",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Whether the spread lies face up. A host that changes it gets the same wave a flick would.",
+      },
+      {
+        name: "onFaceUpChange",
+        type: "(faceUp: boolean) => void",
+        description:
+          "Fires when a turnover wave the visitor started has turned the whole spread.",
+      },
+      {
+        name: "picked / defaultPicked",
+        type: "string | null",
+        defaultValue: "null",
+        description: "The id of the card picked out of the line, or null.",
+      },
+      {
+        name: "onPickedChange",
+        type: "(id: string | null) => void",
+        description:
+          "Fires from the tap or key that picked a card or put it back.",
+      },
+      {
+        name: "lift",
+        type: "number",
+        defaultValue: "6",
+        description: "How far a hovered card's edge rises, px.",
+      },
+      {
+        name: "intro",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Spread the deck by itself the first time it comes into view, silently.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Deck of cards"',
+        description: "The table's accessible name.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Paper sounds for the sweep, each card the wave lands and the pick.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Shows the table as it is; nothing sweeps, turns or picks.",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-56"',
+        description:
+          "Size the table with a height class; the cards follow its height and the spacing tightens to fit its width.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the squared deck is a button (Enter, Space or Right spreads it and focus moves to the first card); in the spread the cards are a roving tabindex — Left/Right and Home/End move, Enter or Space picks or puts back, T turns the whole spread over, Escape gathers it and returns focus to the deck.",
+      "Pointer: drag the deck right to sweep it out (left to gather); flick the first card toward the rest to start the turnover wave — once about four cards are over it carries on by itself; a tap picks a card. The table is touch-pan-y, so vertical page scrolling still works over it.",
+      "Reduced motion: nothing travels or turns — the spread appears laid with a short fade, a turnover swaps every card's face with a cross-fade and a pick steps out of the line at once; values and announcements are unchanged.",
+      "Accessibility: a face-down card is named only by its place (“Card 4 of 15, face down”); its rank and suit are spoken once it is face up or picked. Spread, gather, turn and pick are announced politely.",
+      "Performance: there is no loop — motion values only move during a gesture or a commit, as transforms on composited cards; the felt's fibre is a static SVG filter painted once.",
+      "Theming: the felt, card stock and inks are fixed pigments so the table reads the same in light and dark; pass any CSS colour to felt or backColor.",
+    ],
+  },
+  {
+    name: "glassine-album",
+    type: "registry:ui",
+    title: "Glassine Album",
+    description:
+      "A photo album opened flat, its heavy card pages holding mounted prints with a sheet of cobweb-printed glassine between every leaf. Drag a page toward the spine and its edge stays under the finger; the tissue lying on it floats over first on springs.drift, its outer panels billowing on light under-damped springs while the print beneath mists or clears, then the page turns on a spring sprung from weight and lands with a slight bounce. The album is a carousel region: arrows and Page Up/Down turn, Home and End jump, and Enter or Space lifts or lays the tissue.",
+    files: [
+      {
+        path: "registry/ui/glassine-album.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1866",
+    },
+    tagline: "An old album, tissue leaves and all, turned by hand.",
+    keywords: [
+      "album",
+      "photo",
+      "page turn",
+      "gallery",
+      "tissue",
+      "carousel",
+      "3d",
+    ],
+    props: [
+      {
+        name: "photos",
+        type: "GlassineAlbumPhoto[]",
+        defaultValue: "defaultGlassineAlbumPhotos",
+        description:
+          "The prints in order, one per page on both sides of every leaf: { src?, alt, caption? }. Eight sepia and silver prints drawn in code by default.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Summers at Saltmarsh"',
+        description:
+          "The album's name, lettered on the bookplate inside the front cover.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "number",
+        defaultValue: "0",
+        description:
+          "The open spread: 0 is inside the front cover, the last shows the back endpaper.",
+      },
+      {
+        name: "onValueChange",
+        type: "(spread: number) => void",
+        description:
+          "Fires from the drag, tap or key that turned to a new spread.",
+      },
+      {
+        name: "weight",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How heavy the card pages are, 0 to 1: heavy pages turn slower and carry more momentum into their landing.",
+      },
+      {
+        name: "tissue",
+        type: "number",
+        defaultValue: "0.55",
+        description:
+          "How opaque the glassine is, 0 to 1, and so how misted a print beneath it looks.",
+      },
+      {
+        name: "paperTone",
+        type: '"cream" | "black" | "dove" | "sage"',
+        defaultValue: '"black"',
+        description:
+          "The card the pages are made of, with a caption ink to match.",
+      },
+      {
+        name: "flutter",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How much the tissue billows as it floats over, 0 to 1; 0 turns it as one flat sheet.",
+      },
+      {
+        name: "corners",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Mount the prints with photo corners.",
+      },
+      {
+        name: "printed",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Print the faint cobweb on the tissue.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: "the title",
+        description: "The album's accessible name.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Paper sounds: a light one as a tissue lifts, a heavier one as a page lifts, a low one as it lands.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Shows the album as it is; nothing turns.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Size the album by its width; its height follows (open left and right from 560px, top and bottom below).",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the album is one focusable carousel region — Right and Page Down turn forward, Left and Page Up back (Down and Up too when it opens top and bottom), Home and End jump to the covers, Enter or Space lifts or lays the tissue; every turn announces the pages and their captions.",
+      "Pointer: drag a page's free edge toward the spine (a flick commits by projection); a tap on a page lifts or lays its tissue, or turns the page when the tissue is already clear of it. The album is touch-pan-y open wide and touch-pan-x open tall, so the page still scrolls the other way.",
+      "Reduced motion: nothing rotates or billows — a turn cross-fades the spread and a tissue fades from one page to the other, while the misting of the print beneath still follows it.",
+      "Performance: only the tissue's panel flutter runs a frame loop, and only while it moves, on screen, in a visible page; pages and tissues are separate layers carrying their own transforms, and the misted print is a copy blurred once by an SVG filter, cross-faded by opacity.",
+      "Theming: the board, card stock, inks and glassine are fixed pigments, so the album reads the same in light and dark; prints are plain images (any src), drawn in code by default.",
+      "Layout: the album lays itself out by its own width with a container query, so it can sit in a narrow card (top-bound) and a wide plate (left and right) without a prop.",
+    ],
+  },
+  {
+    name: "coaster-track",
+    type: "registry:ui",
+    title: "Coaster Track",
+    description:
+      "A marquee drawn as a roller coaster in fine line work, its sentence riding one letter to a car: towed up the chain lift, slowed by gravity on every climb and hurried down every drop, eased by rolling friction and stopped on the brake run, so the sentence bunches over the crests, stretches on the drops and rides upside down through the loop. Holding the lift hill grabs the chain, which runs up to towBoost times faster on springs.snap and eases back on springs.drift when let go; a drag along it tows at the finger's pace. The chain is a real button — hold Space or Enter to tow — and the sentence is read once from an sr-only copy.",
+    files: [
+      {
+        path: "registry/ui/coaster-track.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1867",
+    },
+    tagline: "A sentence riding a coaster through its loops.",
+    keywords: [
+      "marquee",
+      "text",
+      "roller coaster",
+      "physics",
+      "loop",
+      "ticker",
+      "svg",
+    ],
+    props: [
+      {
+        name: "text",
+        type: "string",
+        description:
+          "The sentence the cars carry, split by grapheme so emoji and accents ride whole.",
+      },
+      {
+        name: "as",
+        type: '"p" | "h1" | "h2" | "h3" | "span" | "div"',
+        defaultValue: '"p"',
+        description:
+          "The element that carries the sentence, once, for assistive technology.",
+      },
+      {
+        name: "track",
+        type: '"classic" | "camel" | "twin" | CoasterPoint[]',
+        defaultValue: '"classic"',
+        description:
+          "A preset ride built to the box — classic (drop, hump, loop), camel (falling humps), twin (two loops) — or your own { x, y, lift? } points in 0–1 of the box, smoothed into a curve.",
+      },
+      {
+        name: "gravity",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "How hard the drops pull, 0.4 to 2: more gravity, faster drops, more bunching and stretching.",
+      },
+      {
+        name: "spacing",
+        type: "number",
+        defaultValue: "1.25",
+        description: "Car spacing at the station, in em.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "5",
+        description:
+          "Station speed in em per second; the chain lift runs a little slower.",
+      },
+      {
+        name: "towBoost",
+        type: "number",
+        defaultValue: "2.6",
+        description: "How many times faster the chain tows while it is held.",
+      },
+      {
+        name: "friction",
+        type: "number",
+        defaultValue: "0.2",
+        description: "Rolling friction, 0 to 1.",
+      },
+      {
+        name: "separator",
+        type: "string",
+        defaultValue: '" · "',
+        description: "Ridden between one pass of the sentence and the next.",
+      },
+      {
+        name: "cars",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Draw the little cars under the letters; off, the letters ride bare.",
+      },
+      {
+        name: "supports",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Draw the support struts down to the ground.",
+      },
+      {
+        name: "trackColor",
+        type: "string",
+        defaultValue: '"var(--ink-3)"',
+        description: "The track's colour, any CSS colour.",
+      },
+      {
+        name: "carColor",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description: "The cars' colour, and the chain's while it tows.",
+      },
+      {
+        name: "trigger",
+        type: '"inView" | "hover"',
+        defaultValue: '"inView"',
+        description:
+          "Ride whenever the track is on screen, or only while it is hovered or holds focus.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Hold every car where it is.",
+      },
+      {
+        name: "onLap",
+        type: "(laps: number) => void",
+        description:
+          "Fires each time a whole pass of the sentence has left the track, with the count.",
+      },
+      {
+        name: "onTowChange",
+        type: "(towing: boolean) => void",
+        description: "Fires when the chain is grabbed and when it is let go.",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-48"',
+        description:
+          "Size the ride with a height class; the letters take the inherited font size and the track is rebuilt to the box.",
+      },
+    ],
+    usageNotes: [
+      "Accessibility: the sentence is read once from an sr-only copy in the `as` element; the drawing and every riding letter are hidden from assistive technology. The chain lift is a real button (aria-pressed while towing): hold Space or Enter to tow, an assistive click tows for a moment.",
+      "Pointer: press and hold anywhere over the lift hill to grab the chain; drag along it to tow at your own pace. The handle is touch-none, so a tow never scrolls the page.",
+      "Reduced motion: nothing rides — the sentence is parked along the station and the lift, letters standing on the track — and holding the chain changes only its state.",
+      'Performance: one frame loop moves the cars, writing one transform per visible car, and only while the ride is on screen, the page visible and not paused (or hovered, with trigger="hover"). The track is sampled once per size; each fresh ride is pre-rolled silently to steady flow, so it never starts bunched at the platform.',
+      "Layout: the ride is rebuilt to its box — on a narrow box the drop shrinks and optional humps and loops drop out rather than running off the edge; on a wide one drops and humps stretch to ride it edge to edge.",
+      "Theming: track and cars default to tokens and letters use the foreground colour, so it reads in light and dark; the server renders the parked frame and the live ride cross-fades in over it.",
+    ],
+  },
+  {
+    name: "heat-putty",
+    type: "registry:ui",
+    title: "Heat Putty",
+    description:
+      "A soft blob of thermochromic putty on a stone slab: a resting pointer warms the spot beneath it and a halo of colour spreads outward through the palette as the heat diffuses in a small WebGL2 field, while the putty slumps wider and lower on springs.drift's constants as it warms. Moving away lets it cool fastest where it is thin, so the colour draws back from its edges inward and a rested hand leaves a fading print; a press squashes it on springs.snap and lets it go on springs.recoil with two wobbles. The putty is a button: focus puts a hand on it, arrow keys move the hand and Space or Enter held presses.",
+    files: [
+      {
+        path: "registry/ui/heat-putty.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "glsl"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1868",
+    },
+    tagline: "Soft putty that blushes colour where you warm it.",
+    keywords: [
+      "putty",
+      "thermochromic",
+      "heat",
+      "webgl",
+      "shader",
+      "squash",
+      "touch",
+    ],
+    props: [
+      {
+        name: "warmth",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "How quickly a resting hand warms the putty, 0.2 to 2; a moving hand warms it far less.",
+      },
+      {
+        name: "cooling",
+        type: "number",
+        defaultValue: "1",
+        description: "How quickly it cools back, 0.2 to 2.",
+      },
+      {
+        name: "palette",
+        type: '"mood" | "sunset" | "glacier" | "orchid" | string[]',
+        defaultValue: '"sunset"',
+        description:
+          "The thermochromic pigment from cool to hot: a preset, or 2–5 CSS colours mixed in linear light.",
+      },
+      {
+        name: "handprints",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How long a rested hand's print lingers, 0 (gone at once) to 1 (a long while).",
+      },
+      {
+        name: "slump",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How much warmth softens the putty so it slumps wider and lower, 0 to 1.",
+      },
+      {
+        name: "squash",
+        type: "number",
+        defaultValue: "0.6",
+        description: "How far a press flattens it, 0 to 1.",
+      },
+      {
+        name: "hand",
+        type: "number",
+        defaultValue: "30",
+        description:
+          "The radius of a warm touch, px; a press warms a palm half as wide again.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "7",
+        description: "The blob's outline: any number gives its own lump.",
+      },
+      {
+        name: "slab",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Draw the stone slab it rests on (the page's own surface colour); off, it sits on whatever is behind with its contact shadow.",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Pointer, touch and keys warm and press it.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Hold the putty as it is: no warming, no cooling.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Device-pixel-ratio cap for the canvas, at most 2.",
+      },
+      {
+        name: "onHeatChange",
+        type: "(heat: number) => void",
+        description:
+          "Fires with the putty's mean warmth, in tenths, as it changes.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Thermochromic putty"',
+        description: "The putty's accessible name.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Shows the putty as it is; nothing warms or presses it.",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-56"',
+        description:
+          "Size with a height class; the putty fits the box's height.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the putty is a button — keyboard focus puts a hand (a ring) on it that warms where it rests, arrow keys move it (Shift for longer steps), Space or Enter held presses; Warm, Hot and Cooled are announced politely as the mean warmth crosses them.",
+      "Pointer and touch: resting warms, moving barely does, pressing squashes and warms a palm-sized print. The putty is touch-none, so pressing and moving on it never scrolls the page.",
+      "Reduced motion: the putty never slumps, squashes or wobbles; the colour still spreads and cools, because the colour is the information.",
+      "Performance: one small WebGL2 heat field (at most 128 cells wide, half-float where supported) and one shading pass, drawn only while there is heat, a hand or a spring moving, on screen and in a visible page; it stops when the putty has cooled and settled. DPR is capped at 2, context loss is handled and everything is disposed on unmount.",
+      "Fallback: without WebGL2 a drawn blob in the palette's coolest pigment stands in; the server renders the same stand-in, so the first paint is never blank.",
+      "Theming: the palette is fixed pigment so the colours read the same in both themes; the slab is the page's surface token, re-read when the theme changes.",
+    ],
+  },
+  {
+    name: "picket-arc",
+    type: "registry:ui",
+    title: "Picket Arc",
+    description:
+      "A night sky as a background, drawn in one WebGL2 pass behind its content: deep blue-black over a low ridge with faint airglow and sparse twinkling stars, crossed by a single narrow arc of violet light with a row of short green streaks hanging beneath it like a picket fence, each flickering on its own and drifting along the arc as the arc sweeps slowly across. The pointer bends the part of the arc nearest it toward itself on springs.glide's constants, and a horizontal drag carries the arc 1:1 and lets a throw coast on before the slow sweep resumes. The sky is aria-hidden and never takes a click from the content; the keyboard's way in is a transparent button behind it, where Left and Right sweep the arc and Up and Down bend it.",
+    files: [
+      {
+        path: "registry/ui/picket-arc.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "glsl"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1869",
+    },
+    tagline: "A narrow violet arc with a green picket fence.",
+    keywords: [
+      "background",
+      "night sky",
+      "aurora",
+      "arc",
+      "webgl",
+      "shader",
+      "hero",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "Content shown above the sky, in its own layer; its links and buttons keep their clicks.",
+      },
+      {
+        name: "sweep",
+        type: "number",
+        defaultValue: "0.6",
+        description: "How fast the arc sweeps across the sky, 0 (still) to 2.",
+      },
+      {
+        name: "pickets",
+        type: "number",
+        defaultValue: "28",
+        description:
+          "How many green pickets hang beneath the arc, 8 to 64; a narrow sky shows proportionally fewer.",
+      },
+      {
+        name: "hue",
+        type: "number",
+        defaultValue: "305",
+        description: "The arc's hue, degrees on the OKLCH wheel.",
+      },
+      {
+        name: "fenceHue",
+        type: "number",
+        defaultValue: "150",
+        description: "The fence's hue, degrees.",
+      },
+      {
+        name: "arcWidth",
+        type: "number",
+        defaultValue: "1",
+        description: "How thick the arc and its halo are, 0.5 to 2.",
+      },
+      {
+        name: "flicker",
+        type: "number",
+        defaultValue: "0.6",
+        description: "How much the pickets flicker, 0 to 1.",
+      },
+      {
+        name: "stars",
+        type: "number",
+        defaultValue: "0.5",
+        description: "How many stars, 0 to 1.",
+      },
+      {
+        name: "bend",
+        type: "number",
+        defaultValue: "0.6",
+        description: "How far the pointer bends the arc toward itself, 0 to 1.",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The pointer bends the arc, a drag sweeps it, and the keyboard control is present.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Hold the sky still.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "11",
+        description: "Places the stars and shapes the ridge.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Device-pixel-ratio cap for the canvas, at most 2.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Night sky with a violet arc"',
+        description: "The keyboard control's accessible name.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Size the sky; it fills its box, so give it a height.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: a transparent button behind the content is the sky's way in — Left and Right sweep the arc (Shift for a long sweep), Up and Down bend it; it shows a focus ring inset on the sky and never sits above the content.",
+      "Pointer: the hovering pointer bends the arc toward itself and it relaxes when the pointer leaves; a horizontal drag anywhere on the sky (not on the content's links and buttons) carries the arc 1:1 and a throw coasts on. The sky is touch-pan-y, so the page still scrolls.",
+      "Reduced motion: a still frame — no sweep, flicker or drift — redrawn only when the size, a prop or a key changes it; a drag or key moves the arc in one step.",
+      "Performance: one fragment pass, drawn only while on screen and in a visible page (and not paused); DPR is capped at 2 with a 0.75 render scale on dense screens, context loss is handled, and a CSS-drawn sky stands in on the server and without WebGL2.",
+      "Theming: the night is fixed pigment and reads the same in light and dark; put light text over it. The arc and fence take any hue.",
+    ],
+  },
+  {
+    name: "passing-cumulus",
+    type: "registry:ui",
+    title: "Passing Cumulus",
+    description:
+      "A loading and thinking indicator: a field of soft dots shaded like beads in sunlight, with a small cumulus's shadow passing over it. While busy the cloud gathers, its puffs swelling in one after another on springs.drift's constants, and drifts across; the dots beneath swell and dim, each easing toward its own shade with a lag so a soft wake trails behind, and the next cloud gathers as one leaves. When the state turns done the cloud thins away and the whole field lifts evenly to full sun on the same spring. It is a polite status region that says the state in words; it takes no input.",
+    files: [
+      {
+        path: "registry/ui/passing-cumulus.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1870",
+    },
+    tagline: "Busy is a cloud drifting over a field of dots.",
+    keywords: [
+      "loader",
+      "spinner",
+      "thinking",
+      "status",
+      "dots",
+      "progress",
+      "canvas",
+    ],
+    props: [
+      {
+        name: "state",
+        type: '"idle" | "busy" | "done"',
+        defaultValue: '"busy"',
+        description:
+          "What the work is doing: a cloud drifts while busy and thins away when done, and the field lifts to full sun.",
+      },
+      {
+        name: "cloud",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "The cloud's size relative to the field's height, 0.4 to 1.6.",
+      },
+      {
+        name: "dotSize",
+        type: "number",
+        defaultValue: "7",
+        description:
+          "Dot diameter, px, 3 to 12; the field fills its box with whole rows and columns.",
+      },
+      {
+        name: "pitch",
+        type: "number",
+        defaultValue: "2.4",
+        description: "Dot spacing as a multiple of the dot size.",
+      },
+      {
+        name: "drift",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "How fast the cloud drifts across, as a multiple of its natural pace.",
+      },
+      {
+        name: "swell",
+        type: "number",
+        defaultValue: "0.5",
+        description: "How much a shaded dot grows, 0 to 1.",
+      },
+      {
+        name: "dim",
+        type: "number",
+        defaultValue: "0.55",
+        description:
+          "How much a shaded dot darkens toward the shade colour, 0 to 1.",
+      },
+      {
+        name: "sunColor",
+        type: "string",
+        defaultValue: "a warm pigment from --warn",
+        description:
+          "The dots in sunlight, any CSS colour; their highlight and rim are mixed from it.",
+      },
+      {
+        name: "shadeColor",
+        type: "string",
+        defaultValue: "a cool pigment from --accent-bright",
+        description: "The dots in the cloud's shadow, any CSS colour.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Working"',
+        description: "What the work is, spoken while busy (“Working…”).",
+      },
+      {
+        name: "labels",
+        type: 'Partial<Record<"idle" | "busy" | "done", string>>',
+        description:
+          "What the status says in each state, replacing “Ready.”, “<label>…” and “Done.”.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "3",
+        description: "Shapes the clouds; each new cloud is a variation on it.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Hold the field as it is.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Device-pixel-ratio cap for the canvas, at most 2.",
+      },
+      {
+        name: "onSettle",
+        type: '(state: "idle" | "busy" | "done") => void',
+        description:
+          "Fires once a state's change has finished drawing — for done, when the field is fully lit.",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-28"',
+        description: "Size the field with a height class.",
+      },
+    ],
+    usageNotes: [
+      "Accessibility: the component is a polite status region whose text says the state (“Working…”, “Done.”, “Ready.” or your labels); the field is aria-hidden. It takes no input and never holds focus.",
+      "Reduced motion: no cloud drifts — its shadow rests in the middle of the field and breathes by opacity alone while busy, and done still lifts the field to full sun.",
+      "Performance: Canvas 2D with two dot sprites painted once per size or colour; the loop runs only while busy or while a change settles, on screen and in a visible page, then stops (onSettle). DPR is capped at 2; the server renders the same dots in CSS so the first paint is never blank.",
+      "Theming: the sun and shade pigments are taken from tokens at fixed lightness, so the beads read the same in light and dark; colours are re-read when the theme changes.",
+      "Usage: drive `state` from your request — busy while it runs, done when it returns — and keep it mounted; it costs nothing at rest.",
+    ],
+  },
+  {
+    name: "flute-bubbles",
+    type: "registry:ui",
+    title: "Flute Bubbles",
+    description:
+      "A tall flute of sparkling wine seen side-on: fine bubbles rise in steady strings from nucleation points on the walls and the point of the bowl, each born tiny, growing as it climbs and quickening with its size, catching the light on the way up and popping at the surface in a small ring that now and then flicks a droplet above the wine. Tapping the glass shivers its surface on springs.recoil and releases a burst of fresh streams from the wall nearest the press; left alone the wine slowly goes flat until Top up pours a thin stream in and a mousse swells on springs.glide and settles. The glass and Top up are real buttons, so Space and Enter tap the walls in turn and top it up.",
+    files: [
+      {
+        path: "registry/ui/flute-bubbles.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1871",
+    },
+    tagline: "Fine bubbles rising from points in the glass.",
+    keywords: [
+      "champagne",
+      "bubbles",
+      "sparkling wine",
+      "fizz",
+      "glass",
+      "canvas",
+      "pour",
+    ],
+    props: [
+      {
+        name: "streams",
+        type: "number",
+        defaultValue: "7",
+        description:
+          "How many points on the glass give off a stream of bubbles, 2 to 16.",
+      },
+      {
+        name: "fizz",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How lively the wine is, 0 (slow, sparse strings) to 1 (tight, quick ones).",
+      },
+      {
+        name: "tint",
+        type: '"straw" | "rose" | "amber" | "water"',
+        defaultValue: '"straw"',
+        description:
+          "The wine's colour, a pigment that looks the same in both themes.",
+      },
+      {
+        name: "liquidColor",
+        type: "string",
+        description:
+          "Any CSS colour for the wine; it deepens toward the point of the bowl. Overrides tint.",
+      },
+      {
+        name: "fill",
+        type: "number",
+        defaultValue: "0.8",
+        description: "How full the bowl is, 0.5 to 0.92.",
+      },
+      {
+        name: "bubbleSize",
+        type: "number",
+        defaultValue: "0.5",
+        description: "Bubble size, 0 (the finest bead) to 1 (coarser).",
+      },
+      {
+        name: "glint",
+        type: "number",
+        defaultValue: "0.7",
+        description: "How brightly bubbles catch the light, 0 to 1.",
+      },
+      {
+        name: "burst",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How many fresh streams a tap on the glass releases, 0 to 1.",
+      },
+      {
+        name: "flatAfter",
+        type: "number",
+        defaultValue: "45000",
+        description:
+          "ms for the glass to go flat after a top-up; 0 keeps it lively for ever.",
+      },
+      {
+        name: "mousse",
+        type: "boolean",
+        defaultValue: "true",
+        description: "A foam head swells on a top-up and settles.",
+      },
+      {
+        name: "onTap",
+        type: '(side: "left" | "right" | "point") => void',
+        description:
+          "Fires when the glass is tapped, with the wall the fresh streams rise from.",
+      },
+      {
+        name: "onTopUp",
+        type: "() => void",
+        description: "Fires when the glass is topped up.",
+      },
+      {
+        name: "onFizzChange",
+        type: '(state: "lively" | "settling" | "flat") => void',
+        description:
+          "Fires when the wine turns lively, starts settling or goes flat.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A sizzle after each tap and top-up — only for the visitor's own press.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Hold every bubble where it is.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "Seeds where the streams start and how every bubble is born.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Glass of sparkling wine"',
+        description: "The glass's accessible name.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "The glass takes no taps and cannot be topped up.",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-[30rem] w-full"',
+        description:
+          "Sizes the piece; the flute keeps its shape and centres in it.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the glass is a button — Space or Enter taps it, alternating the left wall, the right wall and the point of the bowl; Top up is a second button. A polite status says where the fresh streams rose and when the glass goes flat.",
+      "Reduced motion shows a still photograph of the glass: every stream frozen mid-rise. A tap redraws it with the fresh streams, a top-up shows the mousse for a moment, and nothing travels.",
+      "Bubbles are a pooled 2D canvas (no allocation per frame) over crisp SVG glass; the loop runs only while the glass is on screen, the page visible and not paused, and the backing store is capped at `dpr`.",
+      "The glass and the room are token colours and re-read on a theme change; the wine is pigment (fixed lightness from the warn, danger or accent hue) so it looks the same in light and dark.",
+      "Give the piece a height: it is a size container and fits the 160 × 460 flute inside whatever box it gets.",
+      "Sound is a single sizzle loop after each tap or top-up, only for the visitor's own press, and it always stops.",
+    ],
+  },
+  {
+    name: "quilted-fields",
+    type: "registry:ui",
+    title: "Quilted Fields",
+    description:
+      "An endless low flight over farmland laid out like a patchwork quilt, drawn per pixel in one WebGL2 pass: irregular plots of furrows, drilled rows, pasture, flowering crops and fallow, each padded a little toward its middle and divided by hedgerows drawn as stitching — a wandering dark seam with a pale running stitch beside it and trees at the corners — fading into a soft haze at the horizon. The pointer banks the flight on the springs.drift constants, the horizon rolling with it while the flight turns and the quilt sweeps sideways, and a new season re-dyes the fields one by one from the horizon in. The bank chip at the foot is a real slider: arrows bank 5°, Page keys 10°, Home and End to the limits.",
+    files: [
+      {
+        path: "registry/ui/quilted-fields.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "glsl",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1872",
+    },
+    tagline: "A low flight over fields stitched like a quilt.",
+    keywords: [
+      "patchwork",
+      "farmland",
+      "flight",
+      "aerial",
+      "shader",
+      "seasons",
+      "hero background",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "Content over the flight: a hero line, a caption. It stays fully interactive.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "0.4",
+        description: "How fast the flight goes, 0 (hovering) to 1 (brisk).",
+      },
+      {
+        name: "altitude",
+        type: "number",
+        defaultValue: "0.35",
+        description:
+          "How high the flight is, 0 (hedge-top) to 1 (high over the quilt).",
+      },
+      {
+        name: "season",
+        type: '"spring" | "summer" | "harvest" | "winter"',
+        defaultValue: '"summer"',
+        description:
+          "The fields' palette; a change re-dyes the quilt field by field from the horizon in.",
+      },
+      {
+        name: "bank / defaultBank",
+        type: "number",
+        defaultValue: "0",
+        description:
+          "The bank angle in degrees, −18 (left) to 18 (right); controlled or uncontrolled.",
+      },
+      {
+        name: "onBankChange",
+        type: "(degrees: number) => void",
+        description:
+          "Fires from the hover, drag or key that banked the flight, with whole degrees.",
+      },
+      {
+        name: "followPointer",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "A hovering mouse or pen banks the flight; a finger drags sideways.",
+      },
+      {
+        name: "levelOnLeave",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Level the wings when the pointer leaves.",
+      },
+      {
+        name: "fieldSize",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How big the fields are, 0 (small plots) to 1 (broad fields).",
+      },
+      {
+        name: "hedgerows",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How heavy the hedgerow stitching is, 0 (none) to 1 (thick seams with trees).",
+      },
+      {
+        name: "haze",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How much the distance fades into the haze, 0 (clear) to 1 (soft).",
+      },
+      {
+        name: "palette",
+        type: "string[]",
+        description:
+          "Four CSS colours for the fields, overriding the season's own.",
+      },
+      {
+        name: "skyColor",
+        type: "string",
+        defaultValue: "a pale (light) or dusk (dark) tint of the accent token",
+        description:
+          "The sky over the horizon, any CSS colour; a dark sky turns the light to evening.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Hold the flight where it is.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "Seeds the plots, their crops and where the flight starts.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Bank"',
+        description: "The bank control's accessible name.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "The flight cannot be banked.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Sizes the piece; it fills its parent by default.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: the bank chip is a role="slider" with an aria-valuetext such as "Banking 10 degrees left"; arrows bank 5°, Page Up and Down 10°, Home and End to the limits, and the shown bank eases there exactly as it does under the pointer.',
+      "Reduced motion holds one still frame: no flight, the bank applied at once and a season change in a single recolour.",
+      "One fragment pass at a reduced render scale above DPR 1.5, run only while on screen, visible and flying, banking or re-dyeing; a paused or reduced-motion flight draws only when something changes. Context loss is handled and a projected-quad SVG still stands in without WebGL2 (and on the server).",
+      "Field colours are pigment, the same in both themes; the sky defaults to an accent tint, and a dark sky (the dark theme) lowers and warms the light into an evening flight.",
+      "Children render above the flight and stay interactive; give long headlines a soft scrim, since the horizon rolls under them as the flight banks.",
+    ],
+  },
+  {
+    name: "rack-aisle",
+    type: "registry:ui",
+    title: "Rack Aisle",
+    description:
+      "A dark aisle of server racks seen down its length in one-point perspective: cabinets on both sides lined with servers and tiny status lights, a ruled raised floor running to a lit doorway and a cable tray overhead. Every activity light blinks at a rate that follows its rack's load from data, a slow band of light sweeps down the aisle, and a rack whose data spikes flickers amber and pools amber light on the floor in front of it. Hovering a rack lifts it on springs.snap with a tooltip of its name and load and the pointer sways the view on springs.drift; the racks are a roving set of buttons — Up and Down walk the aisle, Left and Right cross it, Home and End jump to its ends, Enter pins and Escape unpins.",
+    files: [
+      {
+        path: "registry/ui/rack-aisle.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1873",
+    },
+    tagline: "A row of racks, status lights blinking with load.",
+    keywords: [
+      "server rack",
+      "data centre",
+      "status lights",
+      "load",
+      "perspective",
+      "monitoring",
+      "canvas",
+    ],
+    props: [
+      {
+        name: "items",
+        type: "RackAisleItem[]",
+        defaultValue: "generated R01…",
+        description:
+          "The racks, two per row: even indices on the left, odd on the right, nearest row first; each { id, name?, load?, spike? }.",
+      },
+      {
+        name: "racks",
+        type: "number",
+        defaultValue: "6",
+        description: "How many racks stand on each side of the aisle, 3 to 10.",
+      },
+      {
+        name: "load",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "The aisle's load, 0 (idle winks) to 1 (busy chatter), for racks whose data gives none.",
+      },
+      {
+        name: "sweep",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How bright the light sweeping down the aisle is, 0 (off) to 1.",
+      },
+      {
+        name: "sweepPeriod",
+        type: "number",
+        defaultValue: "7000",
+        description: "ms for one pass of the sweep down the aisle.",
+      },
+      {
+        name: "spikeAt",
+        type: "number",
+        defaultValue: "0.92",
+        description: "A load at or above this counts as a spike, 0 to 1.",
+      },
+      {
+        name: "units",
+        type: "number",
+        defaultValue: "11",
+        description: "Servers per rack, 6 to 16.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string | null",
+        defaultValue: "null",
+        description: "The pinned rack's id; controlled or uncontrolled.",
+      },
+      {
+        name: "onValueChange",
+        type: "(id: string | null) => void",
+        description:
+          "Fires from the click or key that pinned or unpinned a rack.",
+      },
+      {
+        name: "parallax",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How far the pointer sways the view down the aisle, 0 to 1.",
+      },
+      {
+        name: "ledColor",
+        type: "string",
+        defaultValue: "a green pigment from the signal token",
+        description: "Activity lights, any CSS colour.",
+      },
+      {
+        name: "spikeColor",
+        type: "string",
+        defaultValue: "an amber pigment from the warn token",
+        description: "A spiking rack's lights, any CSS colour.",
+      },
+      {
+        name: "roomColor",
+        type: "string",
+        defaultValue: "a dim tint of the accent token, by theme",
+        description:
+          "The room, any CSS colour; racks and floor are shaded from it.",
+      },
+      {
+        name: "site",
+        type: "string",
+        defaultValue: '"Basinworks east, row 4"',
+        description: "Printed before a rack's name in its tooltip.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Hold every light where it is.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "Seeds the loads of racks without data and every light's rhythm.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Server aisle"',
+        description: "The aisle's accessible name.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "No hover, pin or keys.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Sizes the aisle; it fills its parent by default.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: one tab stop; Up and Down walk along the aisle, Left and Right cross it, Home and End jump to the nearest and farthest rack on that side. Focus lifts the rack and shows its tooltip, Enter or Space pins it (aria-pressed), Escape unpins.",
+      'Each rack button is named with its load ("R07, 61% load, load spike"), and a polite status announces a spike once, at its onset in the data.',
+      "Reduced motion holds every light steady (lit in proportion to load), sets the sweep as a still band mid-aisle and shows spiking racks in steady amber; lifts and tooltips appear at once.",
+      "A 2D canvas: the room, racks and bezels are cached on an offscreen layer rebuilt only when the size, theme, layout or sway changes, and the lights run at 30 frames a second, only on screen and visible.",
+      "Feed it live data by passing new items: loads ease to their new values and a spike flag (or a load past spikeAt) flips a rack to amber with a floor glow that eases in and out.",
+    ],
+  },
+  {
+    name: "nacreous-sky",
+    type: "registry:ui",
+    title: "Nacreous Sky",
+    description:
+      "A pale dusk sky crossed by thin, high clouds drifting in two veils, drawn per pixel in one WebGL2 pass with the sun hidden behind them: wherever a cloud thins near the sun its edge diffracts into soft iridescent bands of rose, green and blue, laid as contours of angular distance from the sun over a droplet size that wanders across the cloud, while denser cloud near the sun takes a silver lining. Moving the pointer moves the sun along its arc on the springs.glide constants, so the colour slides along every thinning edge, and when the pointer leaves the sun drifts home to its resting angle on springs.drift. The sun marker on the rail at the foot is a real slider: arrows move it 3°, Page keys 15°, Home and End to either end of the arc.",
+    files: [
+      {
+        path: "registry/ui/nacreous-sky.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "glsl",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1874",
+    },
+    tagline: "Thin cloud edges catching pastel colour.",
+    keywords: [
+      "iridescent clouds",
+      "dusk sky",
+      "pastel",
+      "diffraction",
+      "shader",
+      "hero background",
+      "sun",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "Content over the sky: a hero line, a caption. It stays fully interactive.",
+      },
+      {
+        name: "sunAngle",
+        type: "number",
+        defaultValue: "0",
+        description:
+          "Where the sun rests behind the clouds, in degrees from −60 (left) to 60 (right). The pointer moves it from here.",
+      },
+      {
+        name: "onSunAngleChange",
+        type: "(degrees: number) => void",
+        description:
+          "Fires from the hover, drag or key that moved the sun, with whole degrees.",
+      },
+      {
+        name: "thinness",
+        type: "number",
+        defaultValue: "0.55",
+        description:
+          "How thin the clouds are, 0 (heavy veils) to 1 (gossamer, with more edge to colour).",
+      },
+      {
+        name: "saturation",
+        type: "number",
+        defaultValue: "0.55",
+        description:
+          "How strong the iridescent colour is, 0 (pearl-white) to 1 (vivid pastel).",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "0.3",
+        description:
+          "How fast the clouds drift, 0 (still) to 1 (a brisk high wind).",
+      },
+      {
+        name: "coverage",
+        type: "number",
+        defaultValue: "0.55",
+        description: "How much of the sky the clouds cover, 0 to 1.",
+      },
+      {
+        name: "followPointer",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "A hovering mouse or pen moves the sun; a finger drags along the rail or taps.",
+      },
+      {
+        name: "returnOnLeave",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "When the pointer leaves, the sun drifts back to sunAngle.",
+      },
+      {
+        name: "skyColors",
+        type: "[string, string]",
+        defaultValue:
+          "pale dusk tints (light) or a deep twilight (dark) from the tokens",
+        description: "The sky's top and horizon, CSS colours.",
+      },
+      {
+        name: "sunColor",
+        type: "string",
+        defaultValue: "a warm near-white from the warn hue",
+        description: "The sun's light, any CSS colour.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Hold the clouds where they are.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "1",
+        description: "Seeds the clouds' shapes.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Sun position"',
+        description: "The sun control's accessible name.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "The sun does not move.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Sizes the sky; it fills its parent by default.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: the sun marker is a role="slider" (−60…60, aria-valuetext such as "Sun 20 degrees left of centre"); arrows move it 3°, Page Up and Down 15°, Home and End to the ends, and the sun eases there exactly as under the pointer.',
+      "sunAngle is the sun's resting place: the pointer moves the sun from it and, with returnOnLeave, it drifts back; a new sunAngle moves the sun there without firing onSunAngleChange.",
+      "Reduced motion holds one still frame: the clouds do not drift and the sun moves at once to each new angle.",
+      "Soft cloud renders at half (DPR ≥ 1.5) or three-quarter scale, at 30 frames a second while only drifting and every frame while the sun eases, only on screen and visible. Context loss is handled and an SVG still stands in without WebGL2 (and on the server).",
+      "The sky defaults to token tints chosen by theme — a pale dusk on a light page, a deep twilight on a dark one — and re-reads them on a theme change; pass skyColors and sunColor to set your own.",
+    ],
+  },
+  {
+    name: "spooled-prints",
+    type: "registry:ui",
+    title: "Spooled Prints",
+    description:
+      "Paper ribbons of printed pictures run between pairs of flanged spools, each roll leaning its own way down the piece: scrolling the page winds every roll at its own pace and in its own direction, the push coasting down so the ribbons glide on and settle while the marks on each spool's wound paper turn with them, and a slow drift keeps them winding at rest. A ribbon drags 1:1 along its length and flicks with the release velocity; hovering slows it and lifts the print under the pointer on springs.snap, and clicking opens the print in a viewer inside the piece that straightens from the roll's lean on springs.glide. It is a carousel with one tab stop: Left and Right step along a roll and wind it so the print comes to the middle on springs.glide, Up and Down change rolls, Home and End jump, Enter opens and Escape closes.",
+    files: [
+      {
+        path: "registry/ui/spooled-prints.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1875",
+    },
+    tagline: "Pictures wound between spools, gliding as you scroll.",
+    keywords: [
+      "gallery",
+      "carousel",
+      "scroll",
+      "prints",
+      "spools",
+      "photo strip",
+      "lightbox",
+    ],
+    props: [
+      {
+        name: "items",
+        type: "SpooledPrintsItem[]",
+        defaultValue: "defaultSpooledPrintsItems",
+        description:
+          "The pictures, in order ({ src?, alt, caption? }); every roll carries them all, each starting at its own place. Without src a drawn scene stands in.",
+      },
+      {
+        name: "tilt",
+        type: "number",
+        defaultValue: "12",
+        description:
+          "How far the rolls lean, in degrees, 0 (flat strips) to 24 (steep, crossing ribbons).",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "How fast the rolls wind, 0 to 2 ×: their pace at rest and how far a scroll carries them.",
+      },
+      {
+        name: "spools",
+        type: "number",
+        defaultValue: "3",
+        description: "How many rolls run down the piece, 2 to 4.",
+      },
+      {
+        name: "spoolSize",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How big the spools are, 0 (slim bobbins) to 1 (fat reels).",
+      },
+      {
+        name: "drift",
+        type: "number",
+        defaultValue: "0.25",
+        description:
+          "How briskly the rolls wind on their own at rest, 0 (still) to 1.",
+      },
+      {
+        name: "hoverSlow",
+        type: "number",
+        defaultValue: "0.8",
+        description:
+          "How much a hovered roll slows, 0 (not at all) to 1 (it stops).",
+      },
+      {
+        name: "lift",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How far the print under the pointer lifts toward you, 0 to 1.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "number | null",
+        defaultValue: "null",
+        description:
+          "The index of the print open in the viewer, or null; controlled or uncontrolled.",
+      },
+      {
+        name: "onValueChange",
+        type: "(index: number | null) => void",
+        description:
+          "Fires from the click or key that opened, stepped or closed the viewer.",
+      },
+      {
+        name: "paperColor",
+        type: "string",
+        defaultValue: "a warm cream pigment",
+        description: "The ribbons' paper, any CSS colour.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Prints"',
+        description: "Names the gallery for assistive technology.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "1",
+        description: "Seeds each roll's lean, pace and where it starts.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Shows the rolls and takes no input.",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: '"h-[34rem] w-full"',
+        description: "Sizes the piece; pass a height with any width.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: the piece is one tab stop (region, aria-roledescription="carousel"); Left and Right step along a roll and wind it so that print comes to the middle, Up and Down move between rolls, Home and End jump to the first and last print, Enter or Space opens the viewer. A focused print holds its roll still.',
+      "The viewer is a modal dialog inside the piece: focus moves to Close, Tab is trapped, Left and Right step prints, Escape closes (and is not passed on) and focus returns to the print that opened it.",
+      "Reduced motion holds the rolls still: scrolling does not wind them, a flick does not coast, keyboard steps jump and hover marks the print with a ring instead of lifting it; the viewer cross-fades.",
+      "One frame loop drives every roll through motion values (no React state per frame) and stops when nothing moves; scrolling is read by one passive capture listener and only counted while the piece is on screen.",
+      "Prints are pigment and paper, the same in both themes; pass items with src for real photographs — roll slots that repeat a picture are hidden from assistive technology, so each picture is announced once.",
+    ],
+  },
+  {
+    name: "skyline-brush",
+    type: "registry:ui",
+    title: "Skyline Brush",
+    description:
+      "A seeded city plan seen from above at an angle — a street grid of blocks cut into plots, parks, a river across one corner and district names lying on the ground in the plan's own perspective. Brushing the pointer across it raises every block it passes into a tower that springs up on the springs.snap constants with one crisp overshoot, its floors appearing lit from the bottom up, and casts a long shadow across the streets from a low sun; after a moment the towers sink back to their footprints on a soft ease, so a stroke leaves a ridge that subsides like a wake. The districts are a listbox: keyboard focus raises the active district and traces it on the ground, arrows move between districts, Enter pins one so it stays raised and Escape clears it.",
+    files: [
+      {
+        path: "registry/ui/skyline-brush.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1876",
+    },
+    tagline: "Brush the plan and the blocks rise into towers.",
+    keywords: [
+      "city",
+      "skyline",
+      "towers",
+      "brush",
+      "axonometric",
+      "massing",
+      "canvas",
+    ],
+    props: [
+      {
+        name: "districts",
+        type: "SkylineBrushDistrict[]",
+        defaultValue: "defaultSkylineBrushDistricts",
+        description:
+          "The districts the plan is divided into, 2 to 8; each { id, name, height? }, height 0–1 setting how tall it builds.",
+      },
+      {
+        name: "maxHeight",
+        type: "number",
+        defaultValue: "36",
+        description:
+          "The tallest a tower can rise, in floors, 8 to 60. A change replays the preview stroke.",
+      },
+      {
+        name: "falloff",
+        type: "number",
+        defaultValue: "0.45",
+        description:
+          "How far the brush's raise reaches, 0 (a fine pen: only the blocks under it) to 1 (a broad swell).",
+      },
+      {
+        name: "lights",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "The share of windows lit, 0 (dark glass) to 1 (every window).",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string | null",
+        defaultValue: "null",
+        description:
+          "The pinned district's id, or null; a pinned district stays raised. Controlled or uncontrolled.",
+      },
+      {
+        name: "onValueChange",
+        type: "(id: string | null) => void",
+        description:
+          "Fires from the tap or key that pinned or cleared a district.",
+      },
+      {
+        name: "radius",
+        type: "number",
+        defaultValue: "48",
+        description: "The brush's reach on screen, px.",
+      },
+      {
+        name: "hold",
+        type: "number",
+        defaultValue: "1100",
+        description: "ms a brushed tower stands before it starts to sink.",
+      },
+      {
+        name: "sinkDuration",
+        type: "number",
+        defaultValue: "2600",
+        description: "ms a tower takes to sink back to its footprint.",
+      },
+      {
+        name: "shadow",
+        type: "number",
+        defaultValue: "1.2",
+        description: "How long the low sun's shadows run, 0 (none) to 2.",
+      },
+      {
+        name: "intro",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "On first view, one stroke raises a band across the plan and lets it sink.",
+      },
+      {
+        name: "groundColor",
+        type: "string",
+        defaultValue:
+          "a paper (light) or night (dark) tint of the accent token",
+        description:
+          "The ground, any CSS colour; streets and blocks are shaded from it.",
+      },
+      {
+        name: "buildingColor",
+        type: "string",
+        defaultValue: "a pale (light) or slate (dark) tint of the accent token",
+        description:
+          "The towers' facades, any CSS colour; the shaded face, roofs and dark windows follow from it.",
+      },
+      {
+        name: "windowColor",
+        type: "string",
+        defaultValue: "a warm pigment from the warn token",
+        description: "Lit windows, any CSS colour.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "Seeds the plan: streets, plots, parks, the river and every window.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"City plan"',
+        description: "The plan's accessible name.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "No brushing, taps or keys.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Sizes the plan; it fills its parent by default.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the plan is a listbox with one tab stop and aria-activedescendant on its districts; focus raises the active district and traces it, arrows move to the next or previous, Home and End jump, Enter or Space pins it (it stays raised after focus leaves) and Escape clears the pin. A polite status names the district, its towers and the tallest.",
+      "Touch: a sideways drag brushes (the piece is touch-action: pan-y, so vertical swipes still scroll the page) and a tap pins the district under it.",
+      "Reduced motion changes heights at once: brushed towers stand for the same hold and sinking time and then drop in one step, and the intro stroke does not run.",
+      "Canvas 2D: the ground (streets, blocks, parks, river, names and every resting footprint) is cached on an offscreen layer and only redrawn on a resize, theme or plan change; windows are drawn per face through one affine transform, and nothing runs once every tower has settled or while the plan is off screen.",
+      "The plan is laid out for its box: wide, square and tall boxes get their own seeded plan, and in narrow boxes the towers are drawn taller than true scale so the skyline still fills the sky above the plan.",
+      "Changing maxHeight, falloff or lights after mount replays the one-stroke preview, so a new height, reach or lighting shows at once rather than on the next brush.",
+    ],
+  },
+  {
+    name: "flicker-prints",
+    type: "registry:ui",
+    title: "Flicker Prints",
+    description:
+      "A carousel of lenticular postcards on a shallow drum, where each card's viewing angle picks its frame, so as a card turns through the curve its few frames of motion play: a door opens, a heron lifts, a wave breaks. Frames hold then flip over a narrow band of angles, interleaved strip by strip under visible ridges while a highlight rides every ridge crest and a broad sheen sweeps the card. Dragging turns the drum 1:1 and scrubs every card at once, settling on the card the throw was heading for on springs.glide with the release velocity; a mouse tilts the front card toward it, and a tap or Space rocks it through its motion on snap and back on recoil. Left and Right step, Home and End jump.",
+    files: [
+      {
+        path: "registry/ui/flicker-prints.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1877",
+    },
+    tagline: "Postcards that move as they turn past you.",
+    keywords: [
+      "lenticular",
+      "postcard",
+      "carousel",
+      "flip animation",
+      "3d drum",
+      "gallery",
+      "tilt card",
+    ],
+    props: [
+      {
+        name: "items",
+        type: '{ alt: string; caption?: string; src?: string; frames?: string[]; scene?: "door" | "heron" | "wave" | "lamp" | "sail" | "poppy" }[]',
+        defaultValue: "six drawn harbour scenes",
+        description:
+          "The postcards, front to back. `frames` plays real frame images; a single `src` becomes a depth flip; otherwise a drawn scene.",
+      },
+      {
+        name: "frames",
+        type: "number",
+        defaultValue: "5",
+        description:
+          "How many frames each card holds, 2 to 8: two flip, eight play.",
+      },
+      {
+        name: "ridges",
+        type: "number",
+        defaultValue: "28",
+        description:
+          "Lenticular ridges across a card, 12 to 60: chunky bands to a fine screen.",
+      },
+      {
+        name: "curve",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How deeply the drum curves, 0 to 1: a flat strip to a deep drum whose cards swing hard.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "number",
+        defaultValue: "— / 0",
+        description: "The card in front, controlled or initial.",
+      },
+      {
+        name: "onValueChange",
+        type: "(index: number) => void",
+        description:
+          "Fires from the drag, tap or key that brought a new card to the front.",
+      },
+      {
+        name: "blend",
+        type: "number",
+        defaultValue: "0.35",
+        description:
+          "How long a flip between frames lasts, 0 to 1: a snap to a long banded blend.",
+      },
+      {
+        name: "sheen",
+        type: "number",
+        defaultValue: "0.55",
+        description: "How strongly the ridges catch the light, 0 to 1.",
+      },
+      {
+        name: "tilt",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How far the front card tilts toward a hovering pointer, 0 to 1, playing its own frames.",
+      },
+      {
+        name: "paper",
+        type: "string",
+        defaultValue: "a cream pigment",
+        description: "The card stock, any CSS colour.",
+      },
+      {
+        name: "captions",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Print the front card's caption under the carousel.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Postcards"',
+        description: "The carousel's accessible name.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "No turning, tilting or stepping.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the root; it fills its container's width and sizes its cards from it.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the carousel is one focusable region; Left and Right step one card, Home and End jump, Space or Enter rocks the front card through its motion. The new card is announced politely.",
+      "Reduced motion: the drum steps without travel, there is no hover tilt or rock, and every card holds the frame its resting angle shows, so the row still reads as a sequence of moments.",
+      "Performance: DOM and SVG only, no canvas and no loop; one motion value drives the drum and its change handler writes each card's transform, frame and sheen directly, only when they change. Nothing runs once settled.",
+      "The cards are printed objects in fixed pigments, so they look the same in light and dark themes; captions and dots use the theme tokens.",
+      "Card geometry is in units of the card width, sized by container query (58% of the width on phones, 44% up to 340px wider), so it fits any column without measuring.",
+    ],
+  },
+  {
+    name: "filing-tray",
+    type: "registry:ui",
+    title: "Filing Tray",
+    description:
+      "A scroll-linked stack: inside whatever scrolls it, each card slides up and files itself onto a tray near the top, and as the next card slides over it the filed card tilts a little to one side, sinks a hair and dims, so a small untidy pile grows above the card being read, every older card's top edge peeking above the next while the tray's label counts the pile. Each card's cover depth is measured from the scroll and the shown depth follows it on a critically damped spring with the springs.glide constants, so tilts settle like paper a breath behind the scroll, and a landing card presses the pile on the springs.recoil constants. Scrolling back lifts the cards off in order; Tab or Arrow Down moves to the next card and files the one before, Arrow Up lifts it back.",
+    files: [
+      {
+        path: "registry/ui/filing-tray.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1878",
+    },
+    tagline: "Each card files itself on the pile as you read.",
+    keywords: [
+      "stacking cards",
+      "scroll stack",
+      "sticky cards",
+      "scroll-linked",
+      "card pile",
+      "reading list",
+      "tray",
+    ],
+    props: [
+      {
+        name: "cards",
+        type: "{ id: string; title: string; body?: ReactNode; meta?: string; tag?: string }[]",
+        defaultValue: "defaultFilingCards",
+        description: "The cards, in reading order.",
+      },
+      {
+        name: "tilt",
+        type: "number",
+        defaultValue: "3",
+        description:
+          "How far a filed card tilts, 0 to 8 degrees, alternating sides: a square stack to a loose pile.",
+      },
+      {
+        name: "fade",
+        type: "number",
+        defaultValue: "0.45",
+        description: "How far a filed card dims as more land on it, 0 to 1.",
+      },
+      {
+        name: "offset",
+        type: "number",
+        defaultValue: "8",
+        description:
+          "How much of each filed card's top edge peeks above the next, 0 to 16 px.",
+      },
+      {
+        name: "inset",
+        type: "number",
+        defaultValue: "34",
+        description:
+          "Where the first filed card sticks, px below the top of the scroll container; the tray's label sits above it.",
+      },
+      {
+        name: "maxDepth",
+        type: "number",
+        defaultValue: "5",
+        description:
+          "How many filed cards keep peeking; deeper ones sink out of sight.",
+      },
+      {
+        name: "gap",
+        type: "number",
+        defaultValue: "16",
+        description: "Space between cards that are still to be read, px.",
+      },
+      {
+        name: "settle",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "A card that lands presses the pile and settles with a small bounce.",
+      },
+      {
+        name: "tray",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Draw the tray behind the pile, with its count on a label strip.",
+      },
+      {
+        name: "trayLabel",
+        type: "string",
+        defaultValue: '"Filed"',
+        description: "The word on the tray's label before the count.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "1",
+        description: "Seeds which way and how far each card tilts.",
+      },
+      {
+        name: "headingLevel",
+        type: "2 | 3 | 4 | 5 | 6",
+        defaultValue: "3",
+        description: "Heading level of the card titles.",
+      },
+      {
+        name: "onFiledChange",
+        type: "(count: number) => void",
+        description:
+          "Fires from the scroll that filed or lifted a card, with how many are filed.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Filing tray"',
+        description: "The stack's accessible name.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the root; it takes the width of its column.",
+      },
+    ],
+    usageNotes: [
+      "Place it inside the element that scrolls (an overflow-y: auto box, or the page): it sticks its cards with CSS position: sticky and reads that container's scroll, so no ancestor between them may clip with overflow: hidden.",
+      "Keyboard: every card is focusable; Tab or Arrow Down (J) moves to the next card and scrolls it to the reading position, filing the one before; Arrow Up (K) lifts it back; Home and End jump. The filed count is announced politely once the scroll rests.",
+      "Reduced motion: the pile still forms and filed cards still dim, because filed is information; there is no tilt, sink, landing press or spring lag, and keyboard moves jump instead of smooth-scrolling.",
+      "Performance: one passive scroll listener; positions are read in one batch and styles written in one animation frame; the spring loop stops as soon as every card has settled, and nothing runs while the stack is off screen.",
+      "Cards take any content as `body`; their heights are measured each frame, so text that wraps differently at narrow widths still stacks correctly.",
+    ],
+  },
+  {
+    name: "thumb-flipbook",
+    type: "registry:ui",
+    title: "Thumb Flipbook",
+    description:
+      "A pocket flipbook lying on the table, taped at its spine, a thumb on the bottom-right corner holding the waiting pages' corners curled into a fan. Riffling lets the pages go one after another: each top page curls up past the thumb and turns away over the spine, revealing the next drawing, so the ink drawing in view moves (a boat on a rolling swell under a gull, a seamless loop) and a fast riffle keeps several pages in the air. Every page's peel springs toward the hand: the page under a drag tracks the finger on springs.flick and released pages flick past on springs.snap at the riffle rate, a flick coasts to where the throw would rest, and scrolling the page riffles forward and back; it is a slider, so arrows turn a page, Page Up and Page Down a loop, Home and End riffle to either end and Space riffles one loop.",
+    files: [
+      {
+        path: "registry/ui/thumb-flipbook.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1879",
+    },
+    tagline: "Scroll to riffle the pages and the drawing moves.",
+    keywords: [
+      "flipbook",
+      "page curl",
+      "riffle",
+      "scroll animation",
+      "frame animation",
+      "canvas",
+      "paper",
+    ],
+    props: [
+      {
+        name: "images",
+        type: "string[]",
+        description:
+          "One picture per frame, drawn on the pages in order; replaces the drawn loop.",
+      },
+      {
+        name: "frames",
+        type: "number",
+        defaultValue: "12",
+        description:
+          "Drawings in the loop, 6 to 24: a choppy loop to a fluid one. Ignored with `images`.",
+      },
+      {
+        name: "pages",
+        type: "number",
+        defaultValue: "48",
+        description: "Pages in the book, 12 to 120.",
+      },
+      {
+        name: "bend",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How far the thumb curls the waiting pages, 0 to 1: a slight lift to a tall fan.",
+      },
+      {
+        name: "riffle",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "Riffle speed, 0 to 1: a slow heavy peel to a quick flutter — pages per px of drag or scroll, and how fast each page flicks past.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "number",
+        defaultValue: "— / 0",
+        description:
+          "Pages turned, 0 to `pages`, controlled or initial; a new value riffles to it.",
+      },
+      {
+        name: "onValueChange",
+        type: "(page: number) => void",
+        description:
+          "Fires from the drag, scroll or key that turned a page, with the pages turned.",
+      },
+      {
+        name: "scroll",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Scrolling the page (or any scroll container) riffles the book forward and back.",
+      },
+      {
+        name: "thumb",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Draw the thumb holding the pages.",
+      },
+      {
+        name: "paper",
+        type: "string",
+        defaultValue: "a warm white pigment",
+        description: "The pages, any CSS colour.",
+      },
+      {
+        name: "ink",
+        type: "string",
+        defaultValue: "from the ink token at a fixed lightness",
+        description: "The drawing's ink, any CSS colour.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: "a red pigment from the danger token",
+        description: "The drawing's one colour, any CSS colour.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A paper crinkle as each page leaves the thumb. Off unless asked for.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Flipbook"',
+        description: "The book's accessible name.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "No riffling by hand, scroll or key.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Sizes the book's box; 8:5 and the full width by default.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the book is a slider (pages turned, with the drawing number in its value text); Right and Up turn a page, Left and Down turn back, Page Up and Page Down turn a whole loop, Home and End riffle to either end, Space or Enter riffles one loop.",
+      "Reduced motion: pages change in place with no flight or curl spring, scrolling leaves the book alone, and keys and drags still turn whole pages; the book rests with a gentle held curl.",
+      "Performance: Canvas 2D at a device pixel ratio capped at 2; page textures are drawn once per size and colour, each curled strip draws only its own slice, and the animation loop runs only while a page is in the air — never off screen or in a hidden tab.",
+      "Scroll riffling reads how far the book moves on screen, so it works inside any scroll container or the page without configuration; turn it off with `scroll={false}`.",
+      "Sound is silent until the visitor has clicked, tapped or pressed a key, since a scroll is not a user activation.",
+    ],
+  },
+  {
+    name: "counter-dive",
+    type: "registry:ui",
+    title: "Counter Dive",
+    description:
+      "A giant word in a geometric monoline alphabet drawn in code, its strokes filled with a picture on a plain ground; as its scroll container scrolls through the section, the pinned stage magnifies the word around one letter's hole (the O of BROOK by default) and slides it to the middle of the frame. The hole is a window: the ground inside it thins away to show the picture beyond at its own depth, the strokes rush out past the edges as a flat ink, and you pass through into the picture, where the caption rises in; scrolling back pulls you out through the same hole. The shown progress follows the scroll on a critically damped spring with the springs.glide constants and the scale is exponential in progress, so the dive keeps a steady speed through depth; on the focused stage Down, Page Down and Space dive deeper, Up and Page Up back out, and Home and End jump to either end.",
+    files: [
+      {
+        path: "registry/ui/counter-dive.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1880",
+    },
+    tagline: "Scroll through the hole in a letter into the picture.",
+    keywords: [
+      "zoom through text",
+      "scroll zoom",
+      "text mask",
+      "hero",
+      "scroll-linked",
+      "letter counter",
+      "image reveal",
+    ],
+    props: [
+      {
+        name: "word",
+        type: "string",
+        defaultValue: '"BROOK"',
+        description:
+          "The word, in capitals A–Z and spaces; other characters are dropped.",
+      },
+      {
+        name: "letter",
+        type: 'number | "auto"',
+        defaultValue: '"auto"',
+        description:
+          "Which letter to dive through, by its index in the word, or the most central letter with a hole.",
+      },
+      {
+        name: "weight",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "Stroke weight of the letters, 0 to 1: hairline letters with wide counters to heavy ones with portholes.",
+      },
+      {
+        name: "zoom",
+        type: "number",
+        defaultValue: "90",
+        description:
+          "How far the word magnifies, 40 to 200: a gentle dive to a rush through the hole.",
+      },
+      {
+        name: "range",
+        type: "number",
+        defaultValue: "900",
+        description: "Scroll distance the dive takes, px (400 to 1600).",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "480",
+        description:
+          "Height of the pinned stage, px. Give it the height of the scroll container it sits in.",
+      },
+      {
+        name: "src",
+        type: "string",
+        defaultValue: "a drawn valley at dusk",
+        description: "The picture: in the letters, and beyond the hole.",
+      },
+      {
+        name: "alt",
+        type: "string",
+        defaultValue: "describes the drawn valley",
+        description: "Describes the picture for assistive technology.",
+      },
+      {
+        name: "ground",
+        type: "string",
+        defaultValue: '"var(--background)"',
+        description: "The plain ground the word sits on, any CSS colour.",
+      },
+      {
+        name: "ink",
+        type: "string",
+        defaultValue: "a dusk pigment",
+        description:
+          "The flat colour the strokes become as they magnify past you, any CSS colour.",
+      },
+      {
+        name: "as",
+        type: '"h1" | "h2" | "h3"',
+        defaultValue: '"h2"',
+        description:
+          "The element that carries the word for assistive technology.",
+      },
+      {
+        name: "children",
+        type: "ReactNode",
+        description: "Shown in the picture once you are through.",
+      },
+      {
+        name: "onProgressChange",
+        type: "(progress: number) => void",
+        description:
+          "Fires as the dive progresses, 0 to 1, from the scroll that moved it.",
+      },
+      {
+        name: "onPhaseChange",
+        type: '(phase: "word" | "diving" | "through") => void',
+        description:
+          "Fires when the dive moves between the word, diving and through.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the section; it takes the width of its column and the height of `height` plus `range`.",
+      },
+    ],
+    usageNotes: [
+      "Place it inside the element that scrolls (an overflow-y: auto box, or the page) with no clipping ancestor in between: the stage pins with position: sticky and the dive reads that container's scroll. Set `height` to the container's visible height so the stage fills it.",
+      "Keyboard: the stage is focusable; Down, Page Down and Space dive deeper, Up and Page Up back out, Home and End jump to the start or the end by scrolling the container, so pointer and keyboard reach the same states. Arriving in the picture and returning to the word are announced politely.",
+      "Accessibility: the word is a real heading (visually hidden; the SVG is decoration) and `alt` describes the picture.",
+      "Reduced motion: nothing zooms; the word holds still and, past half the range, the picture and the caption cross-fade in over it, and back out before half.",
+      "Performance: one SVG; each frame writes only the transforms and opacities that changed, rounded, and the smoothing loop stops as soon as the dive catches up with the scroll; nothing runs off screen.",
+    ],
+  },
+  {
+    name: "peg-migration",
+    type: "registry:ui",
+    title: "Peg Migration",
+    description:
+      "A backlit pegboard whose translucent coloured pegs glow with the light behind the board and make a picture: a drawn one, a word in a 5 × 7 peg alphabet, or any image reduced to pegs. To change pictures the pegs migrate: pegs already right stay put, the rest are matched to the nearest hole that needs their colour and travel there hole to hole in up to five short arcs, leaving the light and casting a shadow as they lift and landing with a flash and the springs.recoil squash, their departures staggered by distance from where you clicked so the board changes in a wave while spare pegs hop off the nearer side and new ones hop in. A click, Enter, Space or Right shows the next picture, Left the previous, and Home and End the first and last.",
+    files: [
+      {
+        path: "registry/ui/peg-migration.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1881",
+    },
+    tagline: "Pegs hop hole to hole to make the next picture.",
+    keywords: [
+      "pegboard",
+      "led sign",
+      "pixel art",
+      "image transition",
+      "particles",
+      "canvas",
+      "glow",
+    ],
+    props: [
+      {
+        name: "images",
+        type: "{ alt: string; src?: string; text?: string; color?: number; draw?: (u: number, v: number, aspect: number) => number }[]",
+        defaultValue: "a sun on the sea, a koi, a moon over a ridge, a tulip",
+        description:
+          "The pictures, in order: an image reduced to pegs, a word in the peg alphabet, or a drawing function returning a colour index (or -1) for each hole.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "number",
+        defaultValue: "— / 0",
+        description: "The picture showing, controlled or initial.",
+      },
+      {
+        name: "onValueChange",
+        type: "(index: number) => void",
+        description:
+          "Fires from the click or key that asked for another picture.",
+      },
+      {
+        name: "pitch",
+        type: "number",
+        defaultValue: "13",
+        description:
+          "Distance between holes, px (9 to 21): a fine board to a chunky toy.",
+      },
+      {
+        name: "hopSpeed",
+        type: "number",
+        defaultValue: "1",
+        description: "How quickly pegs hop, 0.5 to 2.",
+      },
+      {
+        name: "glow",
+        type: "number",
+        defaultValue: "0.6",
+        description: "How far each peg's light blooms around it, 0 to 1.",
+      },
+      {
+        name: "colors",
+        type: "string[]",
+        defaultValue: "seven pigments from the tokens",
+        description:
+          "The peg colours, any CSS colours; pictures index into them.",
+      },
+      {
+        name: "board",
+        type: "string",
+        defaultValue: "a near-black pigment",
+        description: "The board's colour, any CSS colour.",
+      },
+      {
+        name: "hopHeight",
+        type: "number",
+        defaultValue: "0.5",
+        description: "How high pegs arc as they hop, 0 to 1.",
+      },
+      {
+        name: "spread",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How long the wave takes to cross the board, 0 (all at once) to 1 (a slow sweep).",
+      },
+      {
+        name: "interval",
+        type: "number",
+        defaultValue: "0",
+        description:
+          "Moves to the next picture on its own every so many ms while on screen and not hovered or focused; 0 never.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "1",
+        description: "Seeds the small differences in each peg's timing.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A tick as each peg lands, pitched by its colour. Off unless asked for.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Pegboard"',
+        description: "The board's accessible name.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "No changing pictures.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Sizes the board; 3:1 and the full width by default.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the board is one focusable group named with the picture it shows; Enter, Space or Right shows the next picture (Right sweeps from the left edge), Left the previous, Home and End the first and last. The new picture is announced politely.",
+      "Reduced motion: no hops; the old picture fades out where it stands and the new one fades in, because the picture is the information.",
+      "Performance: Canvas 2D at a device pixel ratio capped at 2; the board and every peg and glow sprite are drawn once per size and colour, a settled board is one blit, and the loop runs only while pegs are moving — never off screen or in a hidden tab. Auto-advance pauses off screen, in a hidden tab, and while hovered or focused.",
+      "Images are reduced on the client: each hole samples the picture and takes the nearest peg colour, and dark or transparent areas leave holes empty, so a high-contrast image on black reads best. Images from another origin need CORS.",
+      "Text uses a 5 × 7 peg alphabet, doubled when the board is big enough and set in 3 × 5 when it is narrow.",
+    ],
+  },
+  {
+    name: "second-contact",
+    type: "registry:ui",
+    title: "Second Contact",
+    description:
+      "A solar eclipse you drive: drag the dark moon (anywhere on the sky moves it 1:1; a tap glides it there on springs.glide) and as it covers more of the sun the sky deepens through twilight to night, a ring of sunset lights the horizon and stars come out. The moon's limb is a seeded profile of mountains and valleys, so near totality the last crescent breaks into Baily's beads of light through the valleys, then one diamond ring with the inner corona already showing, then totality: a pearly corona with long helmet streamers and fine striations drifting in colour around the hue, and pink prominences on the limb. One WebGL2 pass draws the scene while the light is measured on the CPU (the visible share of the disc, and the gaps at 720 angles round the limb gathered into beads); the moon is a slider of how much of the sun is covered, so arrow keys move it in fine steps near the sun, Home sets it at totality and End back where it began, and releasing leaves it where it is.",
+    files: [
+      {
+        path: "registry/ui/second-contact.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "glsl",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1882",
+    },
+    tagline: "Drag the moon over the sun and wait for the ring.",
+    keywords: [
+      "eclipse",
+      "corona",
+      "diamond ring",
+      "shader",
+      "webgl",
+      "sun",
+      "sky",
+    ],
+    props: [
+      {
+        name: "value / defaultValue",
+        type: "{ x: number; y: number }",
+        defaultValue: "— / { x: -0.95, y: 0.28 }",
+        description:
+          "Where the moon's centre is, in sun radii from the sun's centre, y down; controlled or initial.",
+      },
+      {
+        name: "onValueChange",
+        type: "(point: { x: number; y: number }) => void",
+        description: "Fires from the drag, tap or key that moved the moon.",
+      },
+      {
+        name: "onPhaseChange",
+        type: '(phase: "clear" | "partial" | "beads" | "diamond" | "totality") => void',
+        description:
+          "Fires when the eclipse moves between clear, partial, beads, the diamond ring and totality.",
+      },
+      {
+        name: "corona",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How far the corona reaches, 0 to 1: a tight bright collar to streamers past three radii.",
+      },
+      {
+        name: "beads",
+        type: "number",
+        defaultValue: "0.7",
+        description:
+          "How bright the last light is, 0 to 1: faint pinpricks to blazing beads and a big diamond.",
+      },
+      {
+        name: "hue",
+        type: "number",
+        defaultValue: "200",
+        description: "The corona's tint, a hue in degrees.",
+      },
+      {
+        name: "sunSize",
+        type: "number",
+        defaultValue: "0.21",
+        description:
+          "The sun's radius as a share of the shorter side, 0.12 to 0.32.",
+      },
+      {
+        name: "prominences",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How many pink prominences stand on the limb at totality, 0 to 1.",
+      },
+      {
+        name: "stars",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Stars come out as the sky darkens.",
+      },
+      {
+        name: "sky",
+        type: "string",
+        defaultValue: "a pigment from the accent token",
+        description: "The daytime sky, any CSS colour.",
+      },
+      {
+        name: "night",
+        type: "string",
+        defaultValue: "a deep blue pigment",
+        description: "The sky at totality, any CSS colour.",
+      },
+      {
+        name: "shimmer",
+        type: "number",
+        defaultValue: "0.4",
+        description: "How much the beads and the corona shimmer, 0 to 1.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "7",
+        description:
+          "Seeds the moon's mountains and valleys and the corona's streamers.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Eclipse"',
+        description: "The scene's accessible name.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "No dragging or keys.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Sizes the scene; it fills its parent by default.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the moon is a focusable slider whose value is the share of the sun covered, with the phase in its value text; arrow keys move it in their direction (in fine steps near the sun, where the beads and the ring are, and big steps with Shift), Home sets it at totality and End back where it began. Phase changes are announced politely.",
+      "Reduced motion: the scene is still — no corona drift and no shimmer — and a tap moves the moon at once instead of gliding; the moon still follows a drag 1:1 and every phase still renders.",
+      "Performance: one WebGL2 pass at a 0.75 render scale on dense screens with the device pixel ratio capped at 2; it draws only when the moon moves, plus a slow loop while the corona or beads show on screen. Context loss is handled and the scene redraws on restore; without WebGL2 a CSS scene of sky, sun, corona and moon follows the same value and phases.",
+      "Give it a height: it fills its parent, and the sun's size is a share of the shorter side, so it suits a square card or a wide hero.",
+    ],
+  },
 ];
