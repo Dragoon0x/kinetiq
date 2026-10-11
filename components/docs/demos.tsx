@@ -1695,6 +1695,42 @@ import { WordWindowDemo } from "@/registry/demos/word-window.demo";
 import { EnvelopeModalDemo } from "@/registry/demos/envelope-modal.demo";
 import { FoveaImageDemo } from "@/registry/demos/fovea-image.demo";
 import { DealtFeedDemo } from "@/registry/demos/dealt-feed.demo";
+import { ShopLightDemo } from "@/registry/demos/shop-light.demo";
+import { ShadowBoxDemo } from "@/registry/demos/shadow-box.demo";
+import { DropletSwapDemo } from "@/registry/demos/droplet-swap.demo";
+import { PinDepthDemo } from "@/registry/demos/pin-depth.demo";
+import { GraphHorizonDemo } from "@/registry/demos/graph-horizon.demo";
+import { SnowDriveDemo } from "@/registry/demos/snow-drive.demo";
+import { HarmonicBandsDemo } from "@/registry/demos/harmonic-bands.demo";
+import { PendantDropDemo } from "@/registry/demos/pendant-drop.demo";
+import { RainLampDemo } from "@/registry/demos/rain-lamp.demo";
+import { RedshiftJumpDemo } from "@/registry/demos/redshift-jump.demo";
+import { BistableSeaDemo } from "@/registry/demos/bistable-sea.demo";
+import { SingingBowlDemo } from "@/registry/demos/singing-bowl.demo";
+import { CrestFringeDemo } from "@/registry/demos/crest-fringe.demo";
+import { BeadworkLoomDemo } from "@/registry/demos/beadwork-loom.demo";
+import { CycloneJarDemo } from "@/registry/demos/cyclone-jar.demo";
+import { MercuryGateDemo } from "@/registry/demos/mercury-gate.demo";
+import { LumenChorusDemo } from "@/registry/demos/lumen-chorus.demo";
+import { AgateSliceDemo } from "@/registry/demos/agate-slice.demo";
+import { WillowShellDemo } from "@/registry/demos/willow-shell.demo";
+import { PlayParachuteDemo } from "@/registry/demos/play-parachute.demo";
+import { ShowerRadiantDemo } from "@/registry/demos/shower-radiant.demo";
+import { TubeRackDemo } from "@/registry/demos/tube-rack.demo";
+import { ForecastGlowDemo } from "@/registry/demos/forecast-glow.demo";
+import { AnaglyphCardDemo } from "@/registry/demos/anaglyph-card.demo";
+import { PoleTrailsDemo } from "@/registry/demos/pole-trails.demo";
+import { GhostingLcdDemo } from "@/registry/demos/ghosting-lcd.demo";
+import { HeadingGlyphsDemo } from "@/registry/demos/heading-glyphs.demo";
+import { SeaPrintoutDemo } from "@/registry/demos/sea-printout.demo";
+import { DendriteReachDemo } from "@/registry/demos/dendrite-reach.demo";
+import { TorusPuzzleDemo } from "@/registry/demos/torus-puzzle.demo";
+import { CondenserCoilDemo } from "@/registry/demos/condenser-coil.demo";
+import { CornerTideDemo } from "@/registry/demos/corner-tide.demo";
+import { PastelBandDemo } from "@/registry/demos/pastel-band.demo";
+import { BullseyePanesDemo } from "@/registry/demos/bullseye-panes.demo";
+import { ColonnadePassDemo } from "@/registry/demos/colonnade-pass.demo";
+import { SmokeTunnelDemo } from "@/registry/demos/smoke-tunnel.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -3404,4 +3440,40 @@ export const demos: Record<string, ComponentType> = {
   "envelope-modal": EnvelopeModalDemo,
   "fovea-image": FoveaImageDemo,
   "dealt-feed": DealtFeedDemo,
+  "shop-light": ShopLightDemo,
+  "shadow-box": ShadowBoxDemo,
+  "droplet-swap": DropletSwapDemo,
+  "pin-depth": PinDepthDemo,
+  "graph-horizon": GraphHorizonDemo,
+  "snow-drive": SnowDriveDemo,
+  "harmonic-bands": HarmonicBandsDemo,
+  "pendant-drop": PendantDropDemo,
+  "rain-lamp": RainLampDemo,
+  "redshift-jump": RedshiftJumpDemo,
+  "bistable-sea": BistableSeaDemo,
+  "singing-bowl": SingingBowlDemo,
+  "crest-fringe": CrestFringeDemo,
+  "beadwork-loom": BeadworkLoomDemo,
+  "cyclone-jar": CycloneJarDemo,
+  "mercury-gate": MercuryGateDemo,
+  "lumen-chorus": LumenChorusDemo,
+  "agate-slice": AgateSliceDemo,
+  "willow-shell": WillowShellDemo,
+  "play-parachute": PlayParachuteDemo,
+  "shower-radiant": ShowerRadiantDemo,
+  "tube-rack": TubeRackDemo,
+  "forecast-glow": ForecastGlowDemo,
+  "anaglyph-card": AnaglyphCardDemo,
+  "pole-trails": PoleTrailsDemo,
+  "ghosting-lcd": GhostingLcdDemo,
+  "heading-glyphs": HeadingGlyphsDemo,
+  "sea-printout": SeaPrintoutDemo,
+  "dendrite-reach": DendriteReachDemo,
+  "torus-puzzle": TorusPuzzleDemo,
+  "condenser-coil": CondenserCoilDemo,
+  "corner-tide": CornerTideDemo,
+  "pastel-band": PastelBandDemo,
+  "bullseye-panes": BullseyePanesDemo,
+  "colonnade-pass": ColonnadePassDemo,
+  "smoke-tunnel": SmokeTunnelDemo,
 };

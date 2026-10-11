@@ -1107,4 +1107,148 @@ export const CANVAS_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/dealt-feed.demo").then((m) =>
       mod(m.DealtFeedDemo, m.tweaks),
     ),
+  "shop-light": () =>
+    import("@/registry/demos/shop-light.demo").then((m) =>
+      mod(m.ShopLightDemo, m.tweaks),
+    ),
+  "shadow-box": () =>
+    import("@/registry/demos/shadow-box.demo").then((m) =>
+      mod(m.ShadowBoxDemo, m.tweaks),
+    ),
+  "droplet-swap": () =>
+    import("@/registry/demos/droplet-swap.demo").then((m) =>
+      mod(m.DropletSwapDemo, m.tweaks),
+    ),
+  "pin-depth": () =>
+    import("@/registry/demos/pin-depth.demo").then((m) =>
+      mod(m.PinDepthDemo, m.tweaks),
+    ),
+  "graph-horizon": () =>
+    import("@/registry/demos/graph-horizon.demo").then((m) =>
+      mod(m.GraphHorizonDemo, m.tweaks),
+    ),
+  "snow-drive": () =>
+    import("@/registry/demos/snow-drive.demo").then((m) =>
+      mod(m.SnowDriveDemo, m.tweaks),
+    ),
+  "harmonic-bands": () =>
+    import("@/registry/demos/harmonic-bands.demo").then((m) =>
+      mod(m.HarmonicBandsDemo, m.tweaks),
+    ),
+  "pendant-drop": () =>
+    import("@/registry/demos/pendant-drop.demo").then((m) =>
+      mod(m.PendantDropDemo, m.tweaks),
+    ),
+  "rain-lamp": () =>
+    import("@/registry/demos/rain-lamp.demo").then((m) =>
+      mod(m.RainLampDemo, m.tweaks),
+    ),
+  "redshift-jump": () =>
+    import("@/registry/demos/redshift-jump.demo").then((m) =>
+      mod(m.RedshiftJumpDemo, m.tweaks),
+    ),
+  "bistable-sea": () =>
+    import("@/registry/demos/bistable-sea.demo").then((m) =>
+      mod(m.BistableSeaDemo, m.tweaks),
+    ),
+  "singing-bowl": () =>
+    import("@/registry/demos/singing-bowl.demo").then((m) =>
+      mod(m.SingingBowlDemo, m.tweaks),
+    ),
+  "crest-fringe": () =>
+    import("@/registry/demos/crest-fringe.demo").then((m) =>
+      mod(m.CrestFringeDemo, m.tweaks),
+    ),
+  "beadwork-loom": () =>
+    import("@/registry/demos/beadwork-loom.demo").then((m) =>
+      mod(m.BeadworkLoomDemo, m.tweaks),
+    ),
+  "cyclone-jar": () =>
+    import("@/registry/demos/cyclone-jar.demo").then((m) =>
+      mod(m.CycloneJarDemo, m.tweaks),
+    ),
+  "mercury-gate": () =>
+    import("@/registry/demos/mercury-gate.demo").then((m) =>
+      mod(m.MercuryGateDemo, m.tweaks),
+    ),
+  "lumen-chorus": () =>
+    import("@/registry/demos/lumen-chorus.demo").then((m) =>
+      mod(m.LumenChorusDemo, m.tweaks),
+    ),
+  "agate-slice": () =>
+    import("@/registry/demos/agate-slice.demo").then((m) =>
+      mod(m.AgateSliceDemo, m.tweaks),
+    ),
+  "willow-shell": () =>
+    import("@/registry/demos/willow-shell.demo").then((m) =>
+      mod(m.WillowShellDemo, m.tweaks),
+    ),
+  "play-parachute": () =>
+    import("@/registry/demos/play-parachute.demo").then((m) =>
+      mod(m.PlayParachuteDemo, m.tweaks),
+    ),
+  "shower-radiant": () =>
+    import("@/registry/demos/shower-radiant.demo").then((m) =>
+      mod(m.ShowerRadiantDemo, m.tweaks),
+    ),
+  "tube-rack": () =>
+    import("@/registry/demos/tube-rack.demo").then((m) =>
+      mod(m.TubeRackDemo, m.tweaks),
+    ),
+  "forecast-glow": () =>
+    import("@/registry/demos/forecast-glow.demo").then((m) =>
+      mod(m.ForecastGlowDemo, m.tweaks),
+    ),
+  "anaglyph-card": () =>
+    import("@/registry/demos/anaglyph-card.demo").then((m) =>
+      mod(m.AnaglyphCardDemo, m.tweaks),
+    ),
+  "pole-trails": () =>
+    import("@/registry/demos/pole-trails.demo").then((m) =>
+      mod(m.PoleTrailsDemo, m.tweaks),
+    ),
+  "ghosting-lcd": () =>
+    import("@/registry/demos/ghosting-lcd.demo").then((m) =>
+      mod(m.GhostingLcdDemo, m.tweaks),
+    ),
+  "heading-glyphs": () =>
+    import("@/registry/demos/heading-glyphs.demo").then((m) =>
+      mod(m.HeadingGlyphsDemo, m.tweaks),
+    ),
+  "sea-printout": () =>
+    import("@/registry/demos/sea-printout.demo").then((m) =>
+      mod(m.SeaPrintoutDemo, m.tweaks),
+    ),
+  "dendrite-reach": () =>
+    import("@/registry/demos/dendrite-reach.demo").then((m) =>
+      mod(m.DendriteReachDemo, m.tweaks),
+    ),
+  "torus-puzzle": () =>
+    import("@/registry/demos/torus-puzzle.demo").then((m) =>
+      mod(m.TorusPuzzleDemo, m.tweaks),
+    ),
+  "condenser-coil": () =>
+    import("@/registry/demos/condenser-coil.demo").then((m) =>
+      mod(m.CondenserCoilDemo, m.tweaks),
+    ),
+  "corner-tide": () =>
+    import("@/registry/demos/corner-tide.demo").then((m) =>
+      mod(m.CornerTideDemo, m.tweaks),
+    ),
+  "pastel-band": () =>
+    import("@/registry/demos/pastel-band.demo").then((m) =>
+      mod(m.PastelBandDemo, m.tweaks),
+    ),
+  "bullseye-panes": () =>
+    import("@/registry/demos/bullseye-panes.demo").then((m) =>
+      mod(m.BullseyePanesDemo, m.tweaks),
+    ),
+  "colonnade-pass": () =>
+    import("@/registry/demos/colonnade-pass.demo").then((m) =>
+      mod(m.ColonnadePassDemo, m.tweaks),
+    ),
+  "smoke-tunnel": () =>
+    import("@/registry/demos/smoke-tunnel.demo").then((m) =>
+      mod(m.SmokeTunnelDemo, m.tweaks),
+    ),
 };

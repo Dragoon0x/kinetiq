@@ -42053,6 +42053,1034 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "shop-light",
+      "type": "registry:ui",
+      "title": "Shop Light",
+      "description": "A room in the dark with a fluorescent batten hanging over your content. On reveal the tube starts the way a cold tube does: its cathodes glow orange at both ends, it tries to strike in uneven, seeded flashes with dim swims between them, and it catches dimmer and cooler than it will be, settling to full on springs.drift while its colour warms to the chosen temperature and the content rises a nudge into the lit pool on springs.glide. The light is composited rather than tinted, so the wall and the content are multiplied by it and the pool dies into the dark below. The pull cord is a real switch that follows a downward drag 1:1 and springs back on springs.recoil with the drag's velocity; Space or Enter pulls it, and keyboard focus entering the content in the dark switches the light on.",
+      "files": [
+        {
+          "path": "registry/ui/shop-light.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1626"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "shadow-box",
+      "type": "registry:ui",
+      "title": "Shadow Box",
+      "description": "A card built as a real box in CSS 3D: a framed window, inner walls running back to a sky panel, outside walls in the frame's colour, and layers of cut-paper scenery standing at their own depths. One side is open and the light falls in from it, so the walls are shaded by where they face, each layer's cut edge catches the light, and each casts a blurred shadow drawn on the layers behind it, which therefore moves with the surface it falls on as the box turns. The pointer tilts the box toward it on springs.glide and it drifts level on springs.drift when the pointer leaves. Keyboard focus starts a slow tour round the inside, arrow keys tilt it a quarter of the range and Home levels it.",
+      "files": [
+        {
+          "path": "registry/ui/shadow-box.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1627"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "droplet-swap",
+      "type": "registry:ui",
+      "title": "Droplet Swap",
+      "description": "A gallery whose transition is a drop of water. A drop rolls across the picture with the next one inside it, small and upside down as a ball lens shows it, its view sliding the other way as it moves, with a dark meniscus, a highlight, a cast shadow and a caustic, squashing along its path with speed and leaving a wet trail that dries. It gathers as it rolls, and at full size it bursts into a spreading circle of the new picture, upright, on the springs.glide constants, throwing a few splash beads and leaving a sheen that dries. Drag to steer: a drop forms under the finger and follows it 1:1, carrying the next picture right or the previous one left, and a flick rolls it on by projection. Arrow keys roll next and previous, Home and End roll to the ends, and dots choose a picture.",
+      "files": [
+        {
+          "path": "registry/ui/droplet-swap.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1628"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "pin-depth",
+      "type": "registry:ui",
+      "title": "Pin Depth",
+      "description": "Cards pinned to a cork board on pins of different lengths, each floating at its own height. The pointer is the viewer's eye: moving it slides every card against the cork by its height, the higher the further, so they pass one another in parallax, and since each shadow lies on the cork and stays put, the gap between a card and its shadow opens and closes while pin shafts show wherever the parallax uncovers them. The view follows on springs.glide and drifts level on springs.drift. Clicking a card lifts it off its pin on springs.snap, leaving the pin standing, and flies it to the middle as a close-up on springs.glide; Escape or the close button flies it home and drops it on its pin with springs.recoil. Arrow keys tilt the view and Home levels it.",
+      "files": [
+        {
+          "path": "registry/ui/pin-depth.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1629"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "graph-horizon",
+      "type": "registry:ui",
+      "title": "Graph Horizon",
+      "description": "A strip of graph paper running to a horizon in perspective, its minor and major lines rolling toward you, plotted as it comes: a pen per series rides a rail halfway out and swings to each value as the paper passes, so every series is drawn in its own lane as a curve on the paper. As each sample reaches the reading line near the bottom, the curve there lifts off the paper toward you on the settle of springs.snap, a quick rise, a held peak and the faintest dip, with its shadow left on the paper and its values printed beside it, then lays back down. Drag the paper and the grabbed point stays under the pointer; a flick coasts and the roll picks up again. Arrow keys roll one sample at a time on the springs.glide constants and read it out, Space starts and stops the roll, Home and End go to the ends.",
+      "files": [
+        {
+          "path": "registry/ui/graph-horizon.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1630"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "snow-drive",
+      "type": "registry:ui",
+      "title": "Snow Drive",
+      "description": "Driving at night into falling snow, in Canvas 2D: every flake is a point in 3D falling at its own rate, swaying on its own phase, pushed by the wind and coming at you at the car's speed, and it is lit only by the headlights, so flakes appear out of the dark as they enter the beams and vanish at their edges, far ones points, near ones soft discs, each streaking from where it was one exposure ago. Reflector posts flash past on a snow-covered road, the beams glow in the snowy air, and a few flakes land on the windscreen and melt. Holding a press or Space eases the speed up on the springs.glide constants until the flakes stretch into long streaks, and letting go eases back to the cruise on the springs.drift constants; the pointer slides the vanishing point after it and bends the road, arrow keys steer and Home straightens.",
+      "files": [
+        {
+          "path": "registry/ui/snow-drive.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1631"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "harmonic-bands",
+      "type": "registry:ui",
+      "title": "Harmonic Bands",
+      "description": "Layered strata of colour whose top edges are one travelling wave, the sum of a few harmonics of a fundamental, each tuned by a small vertical fader beneath; every band trails the one above by a phase lag, and dispersion decides whether the shape travels rigidly or keeps re-forming as each harmonic runs at its own speed. A change morphs the shape band by band on the glide spring, each lower band taking the new target a cascade step after the one above, while the palette slides with the spectrum from pale for a pure fundamental to deep when the upper harmonics lead. The faders follow a drag 1:1, rubber-band past either end and settle on snap with the release velocity, press on flick, and take the arrow, Page, Home and End keys.",
+      "files": [
+        {
+          "path": "registry/ui/harmonic-bands.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1632"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "pendant-drop",
+      "type": "registry:ui",
+      "title": "Pendant Drop",
+      "description": "A single drop of coloured liquid hangs from the top edge of its frame on surface tension over a shallow pool, drawn in one WebGL2 pass of signed distances joined by a smooth minimum whose reach is the viscosity and shaded as glass. Bring the pointer near and the drop leans and stretches toward it on a spring set by the viscosity, its neck thinning to a thread as the colour pools into the leading lobe; pull far enough and a droplet pinches off while the rest recoils home on the recoil spring's constants and refills from the film, and the droplet falls, is met by the pool and reabsorbed with a mound that rebounds on the same constants and ripples running out along the surface. The frame is a button: the arrow keys lean the drop and Down stretches it, Enter, Space or a click lets a drop fall, and Escape lets it hang straight.",
+      "files": [
+        {
+          "path": "registry/ui/pendant-drop.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1782"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "rain-lamp",
+      "type": "registry:ui",
+      "title": "Rain Lamp",
+      "description": "A retro rain lamp in a dim room: beads of glowing oil form at a brass crown and slide down a ring of taut threads around a small fern sculpture, accelerating toward a speed that grows with their size, merging with momentum kept where a faster bead catches a slower one, and landing in a shallow basin with a ring on the oil, while the ring turns slowly so threads pass behind the fern and across its front. Sweeping the pointer across the threads plucks every one it crosses: each rings as a decaying standing wave while its beads shiver and stall, then run on together, and the beads you shook loose plip as they land. The lamp is a button: Left and Right move a finger along the threads and Enter or Space plucks the one under it.",
+      "files": [
+        {
+          "path": "registry/ui/rain-lamp.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1783"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "redshift-jump",
+      "type": "registry:ui",
+      "title": "Redshift Jump",
+      "description": "A window onto a starfield drawn with real relativistic optics: press and hold, or hold Space or Enter, and the drive's rapidity climbs at constant thrust, so the stars bunch toward the direction of travel by aberration and shift blue, the rim thins and reddens, each star streaks by how fast it crosses the sky, and near top speed the visible sky collapses onto one bright ring where the Doppler factor is one. Let go at the peak and the ring flashes outward to white while the sky is reseeded for the next destination and the speed falls away on a critically damped curve with the glide spring's natural frequency, the new stars streaming back to their places as the destination's card rises on springs.glide; let go early and the drive spins down, and Escape aborts. A click from assistive technology flies the whole jump on autopilot.",
+      "files": [
+        {
+          "path": "registry/ui/redshift-jump.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1784"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "bistable-sea",
+      "type": "registry:ui",
+      "title": "Bistable Sea",
+      "description": "A slim e-paper display showing an open-sea swell under a low sun, rendered at e-paper resolution as a real perspective ocean (four wave trains, sky Fresnel, a sun-glitter path, foam on steep crests, cloud bands) and error-diffused to pure ink and paper. It refreshes like e-paper rather than video: each step of the sea rolls down the panel in bands, changed pixels flipping through their inverse before they land and keeping a faint ghost of what they were, and every few partials a full refresh flashes inverse, blanks and lands clean. The pointer tilts the device toward it on the glide spring with a sheen across the glass, a horizontal drag turns the bearing 1:1, and the device is a slider whose arrow, Page and Home keys turn the sea, each turn kicking it into a small tilt that settles on glide.",
+      "files": [
+        {
+          "path": "registry/ui/bistable-sea.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1785"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "singing-bowl",
+      "type": "registry:ui",
+      "title": "Singing Bowl",
+      "description": "A brass singing bowl full of water seen from above, drawn in one WebGL2 pass: circle the pointer round the rim, or hold Space, and the angular speed of your circling feeds energy into the water, which rises into a standing wave of petals at the wall and rings running inward whose order climbs with the speed on the drift spring's time scale, cross-fading so the petals visibly multiply. Stop and the energy drains at the damping rate while the rings let go from the centre out, the last petals dying at the wall, and the rim keeps a soft travelling glint that fades half as fast; a tap on the rim, or Enter at the keyboard's mallet, sends one clean ring across the water. The water is shaded from its height field, its slope reflecting the room and its curvature throwing caustics on the brass floor.",
+      "files": [
+        {
+          "path": "registry/ui/singing-bowl.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1786"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "crest-fringe",
+      "type": "registry:ui",
+      "title": "Crest Fringe",
+      "description": "A glass tank seen side-on, a slow train of soft Stokes waves inside, lit from behind by a broad lamp: where each crest curves it acts as a prism, seven wavelengths each brightest where the surface slope meets the lamp at that colour's own angle, so every wave's edge splits into a thin spectrum that runs along the wave and drops a faint rainbow fan into the water beneath it. The lamp's height is the light's angle and the component's value — a hovering mouse or a tapping finger sets it and the displayed angle eases there on the springs.glide constants, sliding the fringes from the back slope over the crest to the front. The lamp rail is a real slider: arrows move it 2°, Page keys 10°, Home and End to the ends.",
+      "files": [
+        {
+          "path": "registry/ui/crest-fringe.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1787"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "beadwork-loom",
+      "type": "registry:ui",
+      "title": "Beadwork Loom",
+      "description": "A panel of glass seed beads woven on a loom — wooden beams, warp threads between every column — whose beads take their colour from a moving picture (a slow wave, a seascape with a low sun and rolling swell, a turning flower, or any image or video), so the beadwork plays like a soft low-resolution screen, every bead shaded as a little glass barrel with its own round highlight. Each bead is also a node on a spring lattice, home on the springs.recoil constants and linked to its four neighbours: a drag grabs the warp under the finger 1:1, and on release it springs back past home in two bounces while the ripple runs along the rows, the picture bending with the beads and every highlight rolling with its bead. A tap, Space or Enter plays and pauses the picture; arrow keys tug the warp at the needle and let it go.",
+      "files": [
+        {
+          "path": "registry/ui/beadwork-loom.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1788"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "cyclone-jar",
+      "type": "registry:ui",
+      "title": "Cyclone Jar",
+      "description": "A tall glass jar of water and fine glitter, seen side-on and a little from above: drag in circles over it — the hand's travel around the jar's axis is torque, so circles spin it up and a scrub barely does — and a funnel forms down the middle, its depth following the spin on the springs.drift constants as it narrows, while the glitter, carried by a Rankine vortex and one closed secondary cell, spirals faster as it is drawn down toward the core and is thrown out under the surface. Stop and the spin dies away: the funnel slows, widens and collapses, and the flakes drift down fluttering and glinting to gather in a mound in the middle of the floor. Arrow keys push the water round (right clockwise, left anticlockwise), Enter or Space gives a full swirl, and a swish answers each half turn of the hand.",
+      "files": [
+        {
+          "path": "registry/ui/cyclone-jar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1789"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "mercury-gate",
+      "type": "registry:ui",
+      "title": "Mercury Gate",
+      "description": "A metal ring hanging in a place, a membrane of liquid mercury across it — a WebGL2 height field shaded as a near-perfect mirror with a crisp reflected horizon, slowly wobbling — drawing a faint stream of motes in from the card's edges. Hover or focus it and ripples run out from the pointer while the mercury parts on the springs.glide constants into a clear disc with a beaded meniscus, showing the place the gate leads to; a click or Enter dives through — a breath back, then the ring rushes past on an accelerating tween with streaks pouring outward and a soft flash — and the destination fills the card as the value changes. The ring re-forms behind you on springs.glide, still clear and showing where you came from, before the mercury flows back in on springs.drift. Arrow keys on the gate, or the marks beneath it (a radiogroup with roving focus), choose where it leads.",
+      "files": [
+        {
+          "path": "registry/ui/mercury-gate.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1790"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "lumen-chorus",
+      "type": "registry:ui",
+      "title": "Lumen Chorus",
+      "description": "A glowing horizon with thin filaments of light rising from it, one per value of a data series — a quiet equaliser drawn in light, each filament a hairline core with a soft glow, a bloom at its tip, a flare where it meets the horizon and a faint reflection on the wet ground below. When new values arrive every filament's height is a spring retargeted from where it stands, released left to right in a cascade; rise picks the spring from the calibration set (springs.drift, springs.glide, springs.snap) and the tips bloom with their speed and flare softly as they land. Hovering or arrowing reads one: it brightens, the rest dim, and a readout slides above it on springs.snap while the readings cross-fade in one cell; the chorus is a slider over the index, with Home and End.",
+      "files": [
+        {
+          "path": "registry/ui/lumen-chorus.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1791"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "agate-slice",
+      "type": "registry:ui",
+      "title": "Agate Slice",
+      "description": "A thin polished slice of banded agate held up to the light, drawn in one WebGL2 pass: an irregular nodule whose bands follow its outline inward as warped, scaled copies — opaque coloured layers, milky chalcedony that glows, fine laminations — round a small druse of quartz that glints as the lamp crosses it. New bands crystallise outward from the core in a slow loop, born soft and glowing, sharpening as they travel and hardening into the rough rind at the edge; the lamp behind the slice follows the pointer on the springs.drift constants, so the clear bands near it brighten and the far ones dim. A drag turns the slice 1:1 and a throw coasts on friction; as a slider of the angle, arrows turn it 15° on springs.glide, Page keys 45°, Home back to 0, and Shift with the arrows moves the lamp.",
+      "files": [
+        {
+          "path": "registry/ui/agate-slice.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1792"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "willow-shell",
+      "type": "registry:ui",
+      "title": "Willow Shell",
+      "description": "A firework display in one tall frame: a night sky over a far riverbank, the river below mirroring it in rippling strips. A click fires a shell from the bank on a real ballistic arc, shedding sparks, and at its apex it bursts with a flash that lifts the sky toward its colour: a willow hangs heavy stars whose strands droop with age and cool from white-gold to amber as they fade, a peony blooms round and twinkles out, and crossette comets split in a cross mid-flight, while smoke drifts on the wind and catches later flashes. The frame is a button: Left and Right move the aim mark along the bank on springs.snap and Enter or Space launches there; a scripted `sequence` plays a finale.",
+      "files": [
+        {
+          "path": "registry/ui/willow-shell.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1799"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "play-parachute",
+      "type": "registry:ui",
+      "title": "Play Parachute",
+      "description": "A playground parachute seen from above at an angle: bright silk panels round a small centre hole, sagging into a shallow bowl with each panel puffed between its seams, held at the hem by handle loops over a dotted ground. The canopy is a height field running the wave equation on a polar grid; drag near the rim and the hem rises 1:1 under the finger, shake it and waves roll inward and round with a satin sheen along the weave on every crest, and let go and the hem drops on springs.recoil with the hand's velocity. A tap throws the whole canopy up into a dome that settles slowly on its trapped air, tossing the little ball that rolls on the silk; the keyboard moves a ring between handles on springs.snap, Up lifts an edge on snap and lets it fall on recoil, and Enter throws.",
+      "files": [
+        {
+          "path": "registry/ui/play-parachute.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1800"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "shower-radiant",
+      "type": "registry:ui",
+      "title": "Shower Radiant",
+      "description": "A meteor shower over a dark conifer treeline: meteors appear at random round a radiant point and streak straight outward along fanning rays, short near the radiant where they come almost at you and long far from it, each brief and bright with a hot head, a tapering streak and a glowing train that lingers and spreads; now and then a slow fireball sheds fragments, lifts the sky and leaves a train that bends in the upper wind. Under the sky an hour scale with the night's activity curve is a real slider: dragging moves through the night 1:1 as the radiant climbs and the visible rate (the shower's rate, its activity and the radiant's altitude) rises toward the peak, and a release projects the throw and glides to a quarter hour on springs.glide with the release velocity. Arrow keys step a quarter hour, Shift and the Page keys an hour, Home and End go to dusk and dawn.",
+      "files": [
+        {
+          "path": "registry/ui/shower-radiant.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1801"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "tube-rack",
+      "type": "registry:ui",
+      "title": "Tube Rack",
+      "description": "A rack of glass test tubes, each filled to its value with glossy coloured liquid behind a front rail: a curved meniscus climbs the glass, a shine runs down the liquid and the glass has its own long glint. Every few seconds a slow wave runs along the rack and nudges each tube as it passes, so the surfaces tilt and rock back to level in turn on a damped oscillator. Pick a tube and drag on it: a target mark follows the finger 1:1 and the liquid pours to meet it, capped at a pour rate and settling on springs.glide's constants, with a thin stream falling from the mouth as it rises and bubbles climbing as it drains; each tube is a vertical slider under one tab stop, Left and Right move between tubes, Up and Down step, Page keys move a tenth, Home empties and End fills.",
+      "files": [
+        {
+          "path": "registry/ui/tube-rack.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1802"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "forecast-glow",
+      "type": "registry:ui",
+      "title": "Forecast Glow",
+      "description": "A soft, heavily blurred aurora over dark hills and a still lake whose strength follows an hourly activity forecast: the glow is computed per pixel into a small buffer and left to the browser to scale and blur, a few slow curtains rising from behind the ridge, fading upward and mirrored dimmer in the water. The timeline beneath, one bar per hour coloured by its reading, is a slider through the night: a drag moves the playhead 1:1, a release projects the throw and glides to a quarter hour on springs.glide with the release velocity, and the sky follows on springs.drift's constants, growing brighter and taller and shifting from its quiet colour toward its peak colour while the hour and the reading ride the playhead above. Arrow keys step a quarter hour, Shift and the Page keys an hour, Home and End go to the first and last hour.",
+      "files": [
+        {
+          "path": "registry/ui/forecast-glow.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1803"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "anaglyph-card",
+      "type": "registry:ui",
+      "title": "Anaglyph Card",
+      "description": "An image card split into two colour channels by a depth map: one WebGL2 pass samples the picture as a left and a right view, each shifted along the tilt by its depth with a short search so edges hold, and feeds them through the two filter colours, while whatever neither filter covers comes from the centred view so the picture at rest is exactly itself. Lean in with the pointer and the channels part in proportion to depth (the near reeds fringe the most, the far sky not at all) as near and far slide against each other and the card leans a few degrees under a soft glare, the tilt following on springs.glide's constants and returning on springs.drift's. A press toggles glasses mode, folding the split shut on springs.snap so only the parallax remains; it is a real toggle button, Enter or Space toggles, arrow keys hold a tilt, and Escape or Home levels the card.",
+      "files": [
+        {
+          "path": "registry/ui/anaglyph-card.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1804"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "pole-trails",
+      "type": "registry:ui",
+      "title": "Pole Trails",
+      "description": "A long exposure of the northern sky above a dark ridge: while the shutter is open every star traces an arc round the celestial pole at 15° per hour of sky, gathered at `exposure` minutes a second and tinted faintly by its temperature, while skyglow gathers on the horizon and an occasional meteor scores a straight streak that stays in the picture. A click, tap, Enter or Space closes the shutter — a curtain drops on springs.flick, the exposure clears and it lifts away on springs.glide over a fresh sky of points — and dragging moves the pole 1:1 so every arc re-centres live, a throw gliding on with its release velocity. Arrow keys move the pole and Home brings it back.",
+      "files": [
+        {
+          "path": "registry/ui/pole-trails.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1793"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "ghosting-lcd",
+      "type": "registry:ui",
+      "title": "Ghosting LCD",
+      "description": "A reflective monochrome LCD with visible pixel gaps that you draw on: the pointer lays a soft brush whose edges are dithered through a 4×4 Bayer matrix, and every pixel answers on the slow, smeary response of an old pocket screen — darkening on a quarter of `response` and clearing on all of it — so a quick stroke leaves a longer, fainter ghost than a slow one, and each lit pixel casts a faint shadow `depth` px onto the reflector. A press squeezes the crystal into a dark bloom whose radius rides springs.recoil out and back with two visible bounces as the glass flexes; Delete wipes the glass with a scan bar. It is a focusable screen: arrow keys draw with a blinking pen (Shift for a quicker stroke), Enter and Space press.",
+      "files": [
+        {
+          "path": "registry/ui/ghosting-lcd.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1794"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "heading-glyphs",
+      "type": "registry:ui",
+      "title": "Heading Glyphs",
+      "description": "A cursor trail set in monospaced type behind your content: every cell the pointer crosses takes the character that fits the stroke there — a dash, pipe or slash for its heading, a weight from dots to hashes for its speed — then cools down the ramp a character at a time while its ink walks from hot to cold, so a fast stroke lingers and a slow one is soon gone. A click stamps an asterisk whose eight rays reach out on springs.recoil, one cell past and back, and cool from the centre outward. Keyboard focus on any child draws a short underline stroke under it, and Enter or Space there stamps at its centre.",
+      "files": [
+        {
+          "path": "registry/ui/heading-glyphs.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1795"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "sea-printout",
+      "type": "registry:ui",
+      "title": "Sea Printout",
+      "description": "A strip of continuous-feed paper — sprocket holes punched down both margins, tear-off perforations, green-bar banding and a fold crease every page — rising out of a line printer as it prints a rolling sea in overstruck ASCII, one line per tick: each line is the next slice of three Stokes swells and a short chop, shaded by the slope facing the light with crests drawn as runs of tildes, the darkest tones struck twice a hair out of register. Each line arrives in a chain printer's scattered order and the paper ratchets up on springs.snap, one crisp overshoot per line; moving the pointer sideways sets the wind on springs.drift, leaning the swell and raising whitecaps. It is a real slider: arrow keys, Page Up and Down, Home and End set the wind.",
+      "files": [
+        {
+          "path": "registry/ui/sea-printout.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1796"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "dendrite-reach",
+      "type": "registry:ui",
+      "title": "Dendrite Reach",
+      "description": "Fluorescent nerve cells under a microscope: dendrites grow slowly out from each soma by branching, their tips carrying growth cones that feel about, and when a tip meets another cell's dendrite it either pulls back along its own path and turns away, or lunges the last pixels on springs.snap and forms a junction whose bouton blooms on springs.recoil. Cells fire at `pulse` Hz — the soma flashes and a front of light runs out along every branch — and at each junction the signal crosses after a synaptic delay, runs in to the partner's soma and fires it in turn. The pointer offers a cue that nearby tips grow toward and a click stimulates the nearest cell; as a focusable group, arrow keys move the cue, Enter stimulates and Escape clears the cue.",
+      "files": [
+        {
+          "path": "registry/ui/dendrite-reach.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1797"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "torus-puzzle",
+      "type": "registry:ui",
+      "title": "Torus Puzzle",
+      "description": "A square of glowing dots holding a simple picture whose rows and columns slide one cell at a time on springs.snap and wrap round the edges like a torus — the dot leaving one side is drawn again entering the other — while the moving line's track lifts behind it and its dots glow with its speed. On its own it scrambles itself and then solves back in a calm, deliberate sequence, the inverse of every step; drag any row or column and it follows 1:1, wraps as far as you pull and snaps to a whole step with the release velocity, and after a quiet spell it solves from wherever you left it. Solved, the lit dots swell and land on springs.recoil in a cascade from the centre. It is a real grid: arrow keys move between dots, wrapping at the edges, and Shift with an arrow slides the row or column.",
+      "files": [
+        {
+          "path": "registry/ui/torus-puzzle.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1798"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "condenser-coil",
+      "type": "registry:ui",
+      "title": "Condenser Coil",
+      "description": "A run of clear glass tubing coiled like a condenser, drawn in Canvas 2D, with liquid light flowing through it as segmented flow: seeded slugs parted by gas gaps, small bubbles swaying across the bore as they ride, and the light glowing brighter wherever the coil doubles back on itself (a fold weight found once per shape). The pointer warms the glass, quickening the flow and raising bubbles at the warm spot; a click sends one bright slug through the whole run that launches with a flick, flashes every crossing and leaves the outlet in a flare that blooms with the springs.recoil overshoot. The keyboard's way in is a button behind the content: Enter or Space sends a slug, arrow keys move a warm hand along the glass, Escape lifts it.",
+      "files": [
+        {
+          "path": "registry/ui/condenser-coil.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1805"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "corner-tide",
+      "type": "registry:ui",
+      "title": "Corner Tide",
+      "description": "A centred grid of glowing tiles drawn per pixel in one WebGL2 pass, each a superellipse whose corner exponent rides a slow travelling field of two crossing waves, so bands of tiles soften toward circles and sharpen back toward squares while keeping their size, each lit from within by a round core and a halo summed over its neighbours. The pointer pushes its own rounded patch through the grid, following on springs.glide and swelling in on springs.drift; a click sends a squaring ripple outward and each tile it passes rings back with the springs.recoil damping ratio, its core flashing as it squares. The keyboard's way in is a button behind the content: arrow keys move the patch a tile at a time, Enter or Space sends a ripple from it, Escape lifts it.",
+      "files": [
+        {
+          "path": "registry/ui/corner-tide.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1806"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "pastel-band",
+      "type": "registry:ui",
+      "title": "Pastel Band",
+      "description": "A broad ribbon of colour waving across dark pastel paper, drawn per pixel in one WebGL2 pass: the paper has real tooth (fine grain, a felted scale and a faint honeycomb) and pigment lands only where the stick's pressure reaches past it, so the core is dense and the edges grainy, the sticks lie side by side and the grain picks between them where they meet, and diagonal strokes are laid afresh several times a second while the ribbon itself moves smoothly. The pointer bends the ribbon toward it, the pull following on springs.glide and letting go on springs.drift; a drag smudges the pastel softer along its path until fresh strokes replace it, and the first sighting lays the ribbon on from left to right on the enter easing. The keyboard's way in is a button behind the content: arrow keys move a hand that bends the ribbon, Shift with the arrows smudges, Enter or Space smudges where the hand is, Escape lifts it.",
+      "files": [
+        {
+          "path": "registry/ui/pastel-band.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1807"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "bullseye-panes",
+      "type": "registry:ui",
+      "title": "Bullseye Panes",
+      "description": "A view seen through a leaded window of bullseye glass, drawn per pixel in one WebGL2 pass: roundels in hexagonal rows, each spun crown glass that is thick at its centre with a pontil knob that turns its piece of the view over, swirled so the picture twists toward the middle, magnified there, rippled by spiral ridges and fringed with colour, between flatter quarries and rounded lead cames that each carry one thin highlight. The view drifts slowly behind the glass (a garden painted in code that wraps, or your own image or video), and the pointer shifts the viewpoint on springs.glide so the thick centres move most and every swirl turns with the hand; it returns, and the first sighting swings in, on springs.drift. The keyboard's way in is a button behind the content: arrow keys shift the viewpoint, Enter, Space or Escape bring it back to centre.",
+      "files": [
+        {
+          "path": "registry/ui/bullseye-panes.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1808"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "colonnade-pass",
+      "type": "registry:ui",
+      "title": "Colonnade Pass",
+      "description": "A walk along a sunlit cloister, ray-cast per pixel in one WebGL2 pass: fluted columns down the left with a lawn court beyond, a coffered ceiling, a paved walk and a wall with arched doors, and the sun's light coming in between the columns to lay bars of light and shade across the floor and up the wall, each shadow's penumbra widening with the distance to the column that casts it, faint shafts in the air and the eye adjusting as you pass from sun to shade. You walk at `pace` (and with `scroll`, with the nearest scroll container), the near columns sweeping past while the far ones creep; the pointer moves the sun, across for its angle so the bars lean and up and down for its height so they lengthen, following on springs.glide, and the first sighting swings the sun in from the far side on springs.drift. It is a slider: arrows, Page Up and Down, Home and End move the sun's angle, Up and Down its height.",
+      "files": [
+        {
+          "path": "registry/ui/colonnade-pass.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1809"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "smoke-tunnel",
+      "type": "registry:ui",
+      "title": "Smoke Tunnel",
+      "description": "A wind tunnel's test section in Canvas 2D with threads of smoke streaming past a wing model: the flow is real potential flow around a Joukowski aerofoil with the Kutta circulation, solved in closed form, so the smoke divides at the stagnation point, hugs the upper surface and leaves the trailing edge smoothly, and puffs released together at the rake are drawn by the time smoke takes to reach each point, so the ones over the top race ahead. From the tip a tube of haze peels away with two filaments and dust spiralling through it, wound tighter the more lift the wing makes. Drag the wing (its leading edge follows the finger 1:1) or use the keys; release projects the throw and the model locks on with springs.snap, and past the stall angle the threads leave the surface and tumble on curl noise, eddies roll off the separation point and the model buffets. It is a slider: arrows step a degree, Page Up and Down five, Home and End go to the ends, and crossing the stall is announced.",
+      "files": [
+        {
+          "path": "registry/ui/smoke-tunnel.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1810"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
