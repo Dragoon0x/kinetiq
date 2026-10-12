@@ -13,7 +13,7 @@
     "indexUrl": "https://www.kinetiqui.com/r/registry.json",
     "docsUrl": "https://www.kinetiqui.com",
     "counts": {
-      "components": 1674,
+      "components": 1684,
       "blocks": 152,
       "pages": 28,
       "templates": 10,
@@ -156374,6 +156374,163 @@
       }
     },
     {
+      "slug": "twin-preview",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Twin Preview",
+      "serial": "KQ-1673",
+      "tagline": "Type on the left; the page answers on the right.",
+      "description": "A page of markdown-ish source beside its rendered twin. Type on the left and the twin answers block by block: a block whose text changed lights with the accent wash and fades, a new block rises into place on springs.glide while its neighbours glide apart, and a removed one leaves on the exit ease as the rest close up. The caret's block is banded in the editor and railed in the twin with a tie line drawn across the gutter between them, all three moving together on springs.snap, and a lockstep switch scrolls the panes together block for block. A device radio group resizes the twin's frame on springs.glide with the page reflowing inside, and a theme switch previews it light or dark against the page. The toolbar is one tab stop (arrows move, Enter applies bold, italic, heading, list or link and returns to the editor), Alt+Up and Alt+Down jump between blocks in both the editor and the twin, and every switch, format and jump is announced.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "live preview",
+        "markdown editor",
+        "split pane",
+        "device frame",
+        "scroll sync",
+        "dark preview",
+        "content editor",
+        "docs"
+      ],
+      "props": [
+        {
+          "name": "split",
+          "type": "\"side\" | \"stack\"",
+          "defaultValue": "\"side\"",
+          "description": "Editor beside the twin, or above it. Below a 40rem container they always stack."
+        },
+        {
+          "name": "device",
+          "type": "string",
+          "defaultValue": "\"desktop\"",
+          "description": "The device the twin starts on, by id; the switch in the surface changes it, and a new value here applies it."
+        },
+        {
+          "name": "devices",
+          "type": "TwinDevice[]",
+          "defaultValue": "defaultTwinDevices",
+          "description": "The devices the switch offers, in order, each with a label, an icon kind and a frame width in px (null fills the pane)."
+        },
+        {
+          "name": "theme",
+          "type": "\"match\" | \"light\" | \"dark\"",
+          "defaultValue": "\"match\"",
+          "description": "The twin's theme: the page's own, or a light or dark preview; the switch changes it."
+        },
+        {
+          "name": "lockstep",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Whether the panes scroll together, block for block; the switch changes it."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "defaultValue": "defaultTwinSource",
+          "description": "The source: headings with #, lists with - or 1., quotes with >, bold, italic, code and links inline. Controlled or initial."
+        },
+        {
+          "name": "onChange",
+          "type": "(value: string, cause: TwinCause) => void",
+          "description": "Fires with the whole source after every keystroke or toolbar format, saying which."
+        },
+        {
+          "name": "onDeviceChange",
+          "type": "(device: TwinDevice) => void",
+          "description": "The device switch was pressed."
+        },
+        {
+          "name": "onThemeChange",
+          "type": "(theme: TwinTheme) => void",
+          "description": "The theme switch was pressed."
+        },
+        {
+          "name": "onLockstepChange",
+          "type": "(lockstep: boolean) => void",
+          "description": "The lockstep switch was pressed."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "defaultValue": "\"Start with a heading: # Title\"",
+          "description": "Shown in the editor when the source is empty."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the document has arrived: skeleton panes while loading, a retry when it failed."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after a failed load."
+        },
+        {
+          "name": "product",
+          "type": "string",
+          "defaultValue": "\"Gaugeworks Docs\"",
+          "description": "The product, above the title."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Calibration rollout\"",
+          "description": "The document's name, the heading."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "the title",
+          "description": "The surface's accessible name."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "540",
+          "description": "Height in px; both panes scroll inside it."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Read only: the source cannot change, though the twin's switches still work."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the surface."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the formatting toolbar is one tab stop (Left/Right, Home/End); Enter applies bold, italic, heading, list or link to the selection and returns focus to the editor, as do Ctrl/Cmd+B, I and K inside it. Heading cycles through levels 1 to 3 and off. Alt+Up and Alt+Down jump the caret between blocks in the editor, and do the same in the twin, which is a focusable document region. The device and theme switches are radio groups (arrows choose, Home/End jump to the ends) and lockstep is a switch.",
+        "Reduced motion: nothing rises or travels. New blocks appear in place and removed ones fade, the band, rail and tie jump to the caret's block, the frame takes its new width at once and the switch indicators sit still. The changed-block wash still fades, and every count, frame width and announcement still changes.",
+        "Blocks keep their identity across edits by a longest-common-subsequence match of their raw lines, so a keystroke revises a block rather than replacing it and only a genuinely new block rises. The editor's band, the twin's rail and the tie line are driven by motion values and written straight to the DOM, so scrolling and typing never re-render for them; syncs are coalesced to one per frame and nothing runs once settled. Two ResizeObservers watch the panes; the mirror behind the textarea shares its width so wrapping matches.",
+        "Each switch, format and block jump is announced once in words, with the frame's width in pixels for a device and the block's kind and opening words for a jump. A change in the number of blocks is announced once typing has paused for 600ms, never per keystroke.",
+        "From a 40rem container the panes sit side by side with the tie line across the gutter when split is side; below it, or when split is stack, they stack with a hairline between them and the rail alone marks the twin's block. The product name shows from 30rem and the word count from 24rem. The twin's frame is a nested light or dark stage, so it re-resolves the surface, ink and accent tokens against its own theme."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/twin-preview",
+      "registryItemUrl": "https://www.kinetiqui.com/r/twin-preview.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/twin-preview",
+        "npm": "npx shadcn@latest add @kinetiq/twin-preview",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/twin-preview",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/twin-preview",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/twin-preview.json"
+      }
+    },
+    {
       "slug": "margin-help",
       "kind": "component",
       "type": "registry:ui",
@@ -156951,6 +157108,151 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/parcel-spec",
         "bun": "bunx --bun shadcn@latest add @kinetiq/parcel-spec",
         "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/parcel-spec.json"
+      }
+    },
+    {
+      "slug": "site-assessment",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Site Assessment",
+      "serial": "KQ-1678",
+      "tagline": "A survey form pinned to its site plan.",
+      "description": "A field survey beside its site plan: a schematic plot drawn from a small description, with one numbered pin per finding, and a form with one section per pin holding a title, a severity, a photo slot and a note under a meter that fills as the parts are given. Focusing a section finds its pin as one ring pulses out of it on springs.snap and the pin lifts and holds; pressing a pin scrolls its section into view. Add finding arms the plan with a crosshair that follows the pointer or walks on arrows, and a press drops a pin that lands on springs.recoil while its section glides in on springs.glide; pins drag to a better spot and settle on recoil, a severity change retints pin and badge with a bump on snap, a removed finding leaves on the exit ease as the rest renumber and close up, and the footer's counts by severity roll. The plan is an application region, the pins one roving stop, and the form is native.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "site plan",
+        "survey form",
+        "map pins",
+        "field inspection",
+        "findings",
+        "severity",
+        "crosshair placement",
+        "completeness meter"
+      ],
+      "props": [
+        {
+          "name": "planStyle",
+          "type": "\"line\" | \"filled\" | \"blueprint\"",
+          "defaultValue": "\"line\"",
+          "description": "How the plan is drawn: hairlines on the card, washed fills, or a blueprint with a grid."
+        },
+        {
+          "name": "pinStyle",
+          "type": "\"drop\" | \"dot\" | \"tag\"",
+          "defaultValue": "\"drop\"",
+          "description": "The pins' shape: a numbered marker standing on its point, a flat numbered dot, or a tag that also carries the title from a 40rem container."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"cozy\" | \"roomy\"",
+          "defaultValue": "\"cozy\"",
+          "description": "Section padding, type size and control heights."
+        },
+        {
+          "name": "plan",
+          "type": "SitePlan | null",
+          "defaultValue": "defaultSitePlan",
+          "description": "The site plan: a drawing size and its boundary, buildings, access and trees. Null means none was uploaded yet and the plan panel offers a drop zone."
+        },
+        {
+          "name": "severities",
+          "type": "SiteSeverity[]",
+          "defaultValue": "defaultSiteSeverities",
+          "description": "The severities a finding can take, each with a tone for its pins; the first is a new finding's."
+        },
+        {
+          "name": "findings / defaultFindings",
+          "type": "SiteFinding[]",
+          "defaultValue": "defaultSiteFindings",
+          "description": "The findings in pin order, each with a plan position, title, severity, note and photo. Controlled or initial."
+        },
+        {
+          "name": "onChange",
+          "type": "(findings: SiteFinding[], change: SiteChange) => void",
+          "description": "Fires with every finding after a pin is placed, moved or removed or a field changes, with the kind of change and the finding's id."
+        },
+        {
+          "name": "onSubmit",
+          "type": "(findings: SiteFinding[]) => void",
+          "description": "Submit was pressed with every finding titled."
+        },
+        {
+          "name": "onUploadPlan",
+          "type": "() => void",
+          "description": "The empty plan panel's button was pressed."
+        },
+        {
+          "name": "onAttachPhoto",
+          "type": "(finding: SiteFinding) => string | void",
+          "description": "A photo slot was pressed; return a name to store there, or nothing to store a placeholder."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the plan and findings have arrived: a skeleton plan and sections while loading, a retry when they failed."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after a failed load."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Site assessment\"",
+          "description": "The heading; the plan's label sits under it."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "the title",
+          "description": "The surface's accessible name."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "540",
+          "description": "Height in px; the form scrolls inside it."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Read only: no pin can be placed or moved and no field changes."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the surface."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the plan is an application region. Arrows move a crosshair (Shift for larger steps), Enter drops a pin there, Escape cancels. The pins are one roving stop: arrows move between them, Enter opens a pin's section, Shift+arrows nudge it, Delete removes it, Escape returns to the plan. The sections are a native form, and each severity is a radio group.",
+        "Reduced motion: no ring pulses and nothing glides. The active pin wears a still halo, new sections appear in place, scrolling to a section is instant, and every count, colour and announcement still changes.",
+        "The plan panel measures itself with one ResizeObserver and fits the drawing inside it at its own aspect ratio, so pins placed in plan units stay on their features at every size. Nothing runs continuously: the pulse is one ring that removes itself when it settles.",
+        "Every change is announced once: a placed or moved pin says what it is near and how far across and down it sits, a severity change names the severity, and a removed finding gives the count left. Each section's meter is a role=meter with its parts in words.",
+        "From a 40rem container the plan and the form sit side by side and the plan fills its column; below it the plan takes a fixed band above the form and the tag pins drop their titles. Pins are pigments at a fixed lightness so their numbers read in light and dark; the plan's own colours come from the tokens."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/site-assessment",
+      "registryItemUrl": "https://www.kinetiqui.com/r/site-assessment.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/site-assessment",
+        "npm": "npx shadcn@latest add @kinetiq/site-assessment",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/site-assessment",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/site-assessment",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/site-assessment.json"
       }
     },
     {
@@ -157605,6 +157907,1341 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/quick-capture",
         "bun": "bunx --bun shadcn@latest add @kinetiq/quick-capture",
         "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/quick-capture.json"
+      }
+    },
+    {
+      "slug": "batch-runner",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Batch Runner",
+      "serial": "KQ-1683",
+      "tagline": "Run one action over every selected row, and undo it.",
+      "description": "A bulk-action runner: a table of selected records, an action picker and a Run button. Running works the rows one by one as a cursor glides down the table on springs.glide and each row's status cell turns over on springs.snap, to done with a tick drawn on springs.flick or to failed in the danger colour with its reason, while the header's bar fills on glide and its counts roll on snap. Pause holds the cursor after the row in flight, Cancel lets that row finish and marks the rest skipped, and when the job settles a summary strip lands on springs.recoil with Retry failed, which runs only the failed rows again, and Undo, which reverses the done rows one by one with the cursor gliding back up. A dry-run switch previews what every row would get without changing anything. The table is a grid (arrows, Home/End, Space includes or leaves out a row), the actions are a listbox, and progress is announced in words.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "bulk action",
+        "batch run",
+        "progress cursor",
+        "retry failed",
+        "undo",
+        "dry run",
+        "data grid",
+        "admin table"
+      ],
+      "props": [
+        {
+          "name": "records",
+          "type": "BatchRecord[]",
+          "defaultValue": "defaultBatchRecords",
+          "description": "The selected records in table order: id, name, a detail line, team, role and when they were last active."
+        },
+        {
+          "name": "actions",
+          "type": "BatchAction[]",
+          "defaultValue": "defaultBatchActions",
+          "description": "The actions the picker offers: label, an optional target, the done and preview texts, and whether it can be undone."
+        },
+        {
+          "name": "action / defaultAction",
+          "type": "string",
+          "defaultValue": "the first action's id",
+          "description": "The chosen action, by id. Controlled or initial."
+        },
+        {
+          "name": "onActionChange",
+          "type": "(actionId: string) => void",
+          "description": "An action was chosen, from a press or an arrow key."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string[]",
+          "defaultValue": "every record's id",
+          "description": "The included record ids. Controlled or initial."
+        },
+        {
+          "name": "onChange",
+          "type": "(value: string[], change: BatchChange) => void",
+          "description": "A row was included or left out, with the whole set; the change names the row, or \"*\" for the header box."
+        },
+        {
+          "name": "run",
+          "type": "BatchRun",
+          "defaultValue": "defaultBatchRun",
+          "description": "Works one row and resolves with { ok } or { ok: false, reason }; a rejection fails the row. The default is a seeded simulator where about one row in ten fails the first time."
+        },
+        {
+          "name": "undo",
+          "type": "BatchRun",
+          "defaultValue": "defaultBatchUndo",
+          "description": "Reverses one done row when Undo is pressed."
+        },
+        {
+          "name": "concurrency",
+          "type": "number",
+          "defaultValue": "1",
+          "description": "How many rows are worked at once; the cursor spans every row in flight."
+        },
+        {
+          "name": "pace",
+          "type": "number",
+          "defaultValue": "180",
+          "description": "The least time the cursor spends on a row, in ms, so a fast backend still reads."
+        },
+        {
+          "name": "dryRun / defaultDryRun",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "The dry-run switch: Run becomes Preview and each row shows what it would get. Controlled or initial."
+        },
+        {
+          "name": "onDryRunChange",
+          "type": "(dryRun: boolean) => void",
+          "description": "The dry-run switch was flipped."
+        },
+        {
+          "name": "cursor",
+          "type": "\"bar\" | \"glow\" | \"none\"",
+          "defaultValue": "\"bar\"",
+          "description": "How the row in flight is marked: a bar at its edge with a light wash, a glow across it, or nothing."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"cozy\" | \"roomy\"",
+          "defaultValue": "\"cozy\"",
+          "description": "Row height and detail; compact drops the email and last-active lines."
+        },
+        {
+          "name": "onRowSettle",
+          "type": "(record: BatchRecord, outcome: BatchOutcome) => void",
+          "description": "A row settled as done, failed, skipped, previewed or reverted."
+        },
+        {
+          "name": "onFinish",
+          "type": "(summary: BatchSummary) => void",
+          "description": "A run, retry or undo finished or was cancelled, with the tally."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the records have arrived: skeleton rows while loading, a retry when they failed."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after a failed load."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Bulk action\"",
+          "description": "The heading."
+        },
+        {
+          "name": "product",
+          "type": "string",
+          "defaultValue": "\"Coldbrook Admin\"",
+          "description": "Named under the heading and in the empty state."
+        },
+        {
+          "name": "noun",
+          "type": "{ one: string; other: string }",
+          "defaultValue": "{ one: \"user\", other: \"users\" }",
+          "description": "What one record is called in counts and announcements."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "the title",
+          "description": "The surface's accessible name."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "540",
+          "description": "Height of the runner in px; the table scrolls inside it."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Read only: nothing can be picked, toggled or run."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the surface."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the table is a grid with one tab stop. Arrows move between cells and step over columns hidden at the current width, Home/End go to the first and last column, Ctrl+Home/End to the first and last row, PageUp/PageDown move eight rows, and Space or Enter includes or leaves out the row (on the header box, every row). The actions are a listbox: Left/Right or Up/Down choose, Home/End jump. Dry run is a switch; Run, Pause/Resume, Cancel, Retry failed, Undo and Clear are buttons.",
+        "Reduced motion: the cursor is placed on the row in flight rather than slid, the status cells and the pill cross-fade instead of turning or sliding, the strip fades in without landing, the tick appears drawn and the counts change in place. Every row's outcome, the tally and the pause, cancel and finish are still announced.",
+        "Nothing runs once a job settles: the cursor is one absolutely positioned bar placed from the rows' offsets in a layout effect and re-placed by one ResizeObserver, the table scrolls itself (never the page) to keep the row in flight in view, and the row spinner stops with the row. Pause lets the row in flight finish and then holds the queue; Cancel does the same and marks the rest skipped. Unmounting aborts the run's signal and clears every timer.",
+        "Progress is announced at most once every 1.2 seconds (\"17 of 24, 2 failed\"), with every failure and its reason announced at once and a final tally when the job settles. Each status cell carries its state and text as a label, rows carry aria-selected for inclusion, and the grid is aria-busy while a job runs.",
+        "From a 40rem container the actions share a line with the dry-run switch and the Run button and the Role column appears; from 30rem the Team column and the email line appear; below that the table is three columns and the toolbar stacks. Done, failed, previewed and skipped are drawn from the success, danger, accent and ink tokens so they read in light and dark."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/batch-runner",
+      "registryItemUrl": "https://www.kinetiqui.com/r/batch-runner.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/batch-runner",
+        "npm": "npx shadcn@latest add @kinetiq/batch-runner",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/batch-runner",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/batch-runner",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/batch-runner.json"
+      }
+    },
+    {
+      "slug": "plate-picker",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Plate Picker",
+      "serial": "KQ-1684",
+      "tagline": "Templates standing in a rack; lift one, pull it out.",
+      "description": "A template chooser drawn as a plate rack: every template stands as a wide card faced with a thumbnail of its page, leaning back on its rail. Hovering or focusing a plate lifts it forward and upright on springs.snap and its blurb reads out in the caption under the rack; pressing it pulls the plate out, the thumbnail growing from its slot into a readable mock page on springs.glide while the rack fades back and a field strip (title, owner) glides in beside it with the Use template button, and Back slides the page home to its slot on an exit tween. Category chips are a radio group that filters the rack, plates that no longer match fading out while the rest close up on springs.glide, and the search field matches names the same way; recently used plates stand in a short row above. The rack is a listbox with one roving stop: arrows move, Enter or Space opens, Escape backs out and returns focus to the plate.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "template picker",
+        "template gallery",
+        "new document",
+        "plate rack",
+        "shared element",
+        "category chips",
+        "listbox",
+        "docs"
+      ],
+      "props": [
+        {
+          "name": "templates",
+          "type": "PlateTemplate[]",
+          "defaultValue": "defaultPlateTemplates",
+          "description": "The templates in rack order: name, category, blurb, who keeps it, when it changed, and the mock page as blocks (title, heading, para, list, checks, table, meta)."
+        },
+        {
+          "name": "categories",
+          "type": "PlateCategory[]",
+          "defaultValue": "defaultPlateCategories",
+          "description": "The chip row's categories, in order; an All chip is added first with the total."
+        },
+        {
+          "name": "recent",
+          "type": "string[]",
+          "defaultValue": "defaultPlateRecent",
+          "description": "Template ids shown in the Recently used row, newest first; ids that match no template are skipped."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string | null",
+          "defaultValue": "null",
+          "description": "The id of the template pulled out for preview, or null. Controlled or initial."
+        },
+        {
+          "name": "onChange",
+          "type": "(id: string | null, template: PlateTemplate | null) => void",
+          "description": "Fires when a plate is pulled out, with its id and template, or slid home (null), including when a used plate slides home on its own."
+        },
+        {
+          "name": "onUse",
+          "type": "(template: PlateTemplate, fields: PlateFields) => void",
+          "description": "Use template was pressed, with the field strip's title (or an Untitled fallback) and owner."
+        },
+        {
+          "name": "defaultCategory",
+          "type": "string | null",
+          "defaultValue": "null",
+          "description": "The chip checked to begin with; null is All."
+        },
+        {
+          "name": "onCategoryChange",
+          "type": "(category: string | null) => void",
+          "description": "A category chip was chosen, from a press or an arrow key."
+        },
+        {
+          "name": "defaultQuery",
+          "type": "string",
+          "defaultValue": "\"\"",
+          "description": "The search field's initial text; it matches names only."
+        },
+        {
+          "name": "onQueryChange",
+          "type": "(query: string) => void",
+          "description": "The search text changed, including a clear."
+        },
+        {
+          "name": "owner",
+          "type": "string",
+          "defaultValue": "\"Mara Lind\"",
+          "description": "Who the field strip names as owner to begin with."
+        },
+        {
+          "name": "rackStyle",
+          "type": "\"rack\" | \"grid\" | \"list\"",
+          "defaultValue": "\"rack\"",
+          "description": "How the plates stand: leaning in a rack on their rails, flat in a grid, or as rows with the blurb inline."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"cozy\" | \"roomy\"",
+          "defaultValue": "\"cozy\"",
+          "description": "Plate size, spacing and the name's type size."
+        },
+        {
+          "name": "accent",
+          "type": "\"cobalt\" | \"signal\" | \"ink\"",
+          "defaultValue": "\"cobalt\"",
+          "description": "The colour of the checked chip, a lifted plate's edge and the Use template button."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the templates have arrived: skeleton chips and plates while loading, a retry when they failed."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after a failed load."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"New document\"",
+          "description": "The heading."
+        },
+        {
+          "name": "searchPlaceholder",
+          "type": "string",
+          "defaultValue": "\"Search templates\"",
+          "description": "The search field's placeholder and accessible name."
+        },
+        {
+          "name": "useLabel",
+          "type": "string",
+          "defaultValue": "\"Use template\"",
+          "description": "The primary button's text."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "the title",
+          "description": "The surface's accessible name."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "540",
+          "description": "Height in px; the rack and the preview scroll inside it."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Read only: no plate lifts out and nothing can be used."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the surface."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the rack and the Recently used row are listboxes with one roving stop each (Left/Right or Up/Down, Home/End; Down from the recent row drops into the rack and Up from the rack's first plate climbs back). Focus lifts a plate and reads its blurb; Enter or Space pulls it out and puts focus in the Title field; Enter there uses the template; Escape anywhere in the preview slides the plate home and returns focus to it. The chips are a radio group whose arrows move and check, and Escape in a non-empty search clears it.",
+        "Reduced motion: plates keep their lean and only their edge and shadow change when lifted; the preview, its backdrop and the field strip cross-fade instead of growing and sliding; filtered plates appear and vanish in place; the chip fill changes in place; and the Created check appears without its bounce. Every count, caption and announcement still changes.",
+        "The pull-out is one shared-element move: the thumbnail's rect is read once on the press and the preview page starts from it with a uniform scale (both are 4:5 sheets), so the mock page grows without distortion and nothing is measured on each frame. Back reads the slot once more and tweens home on easings.exit. Nothing runs when the rack is idle.",
+        "Each open, close, use, chip change and filter clear is announced once in words with the count of templates shown; a plate's accessible name carries its name, category and blurb, and the listbox is described by the caption under it. Use template lands a check on springs.recoil, announces what was created and for whom, then slides the plate home after 900ms and reports the close through onChange.",
+        "Plates fill an auto-fill grid from the density's minimum width, so a 330px card holds two cozy plates a row and a wide docs page five; the category tag on a plate shows from a 26rem container, the search field shares the header's line from 30rem, and the preview puts its page beside the field strip from 40rem and above it below that. Accents come from the cobalt, signal and ink tokens with a matching foreground, so every pairing reads in light and dark."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/plate-picker",
+      "registryItemUrl": "https://www.kinetiqui.com/r/plate-picker.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/plate-picker",
+        "npm": "npx shadcn@latest add @kinetiq/plate-picker",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/plate-picker",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/plate-picker",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/plate-picker.json"
+      }
+    },
+    {
+      "slug": "answer-slip",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Answer Slip",
+      "serial": "KQ-1689",
+      "tagline": "Suggested replies that type themselves into the composer.",
+      "description": "A quick-reply slip for a support inbox: the customer's thread on top, a slip of suggested replies under it, each a card with its reason and confidence, and a composer with a tone switch. Pressing a card folds the others away on the exit ease and places the reply in the composer, where it types in word by word on a quick cascade or cross-fades in; flipping the tone rewrites the greeting, apology, sign-off and contractions and cross-fades the text from one to the other. Send stamps the reply into the thread on springs.recoil and the slip reloads with a fresh set after a beat, Snooze and Escalate slide the ticket out and leave an Undo, and a Saved drawer glides in on springs.glide with a search over the saved replies. The cards are a listbox, Ctrl or Cmd+Enter sends from the textarea, the tone is a switch and Escape closes the drawer.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "support inbox",
+        "suggested replies",
+        "quick reply",
+        "composer",
+        "tone switch",
+        "saved replies",
+        "snooze escalate",
+        "help desk"
+      ],
+      "props": [
+        {
+          "name": "typing",
+          "type": "\"type\" | \"fade\"",
+          "defaultValue": "\"type\"",
+          "description": "How a placed reply arrives in the composer: word by word on a quick cascade, or as one cross-fade."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"cozy\" | \"roomy\"",
+          "defaultValue": "\"cozy\"",
+          "description": "Card padding, type size and the composer's height."
+        },
+        {
+          "name": "ticket",
+          "type": "AnswerTicket",
+          "defaultValue": "defaultAnswerTicket",
+          "description": "The ticket: reference, subject, customer and the thread so far. Replies sent from the slip are added after it."
+        },
+        {
+          "name": "suggestions / defaultSuggestions",
+          "type": "AnswerSuggestion[]",
+          "defaultValue": "defaultAnswerSuggestions",
+          "description": "The slip's cards, each with its reply, a confidence from 0 to 1 and a short reason. Controlled or initial."
+        },
+        {
+          "name": "suggestionRounds",
+          "type": "AnswerSuggestion[][]",
+          "defaultValue": "defaultAnswerRounds",
+          "description": "The fresh sets the slip reloads with after each send when uncontrolled, in turn and then round again."
+        },
+        {
+          "name": "savedReplies",
+          "type": "AnswerSavedReply[]",
+          "defaultValue": "defaultAnswerSavedReplies",
+          "description": "The drawer's saved replies, each with a title and text."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "defaultValue": "\"\"",
+          "description": "The draft in the composer. Controlled or initial."
+        },
+        {
+          "name": "onChange",
+          "type": "(draft: string, change: AnswerDraftChange) => void",
+          "description": "Fires from every keystroke, placed reply, tone change, send or clear that changed the draft, with its source and, for a tone change, how many phrases were rewritten."
+        },
+        {
+          "name": "tone / defaultTone",
+          "type": "\"friendly\" | \"formal\"",
+          "defaultValue": "\"friendly\"",
+          "description": "The composer's tone. Controlled or initial."
+        },
+        {
+          "name": "onToneChange",
+          "type": "(tone: AnswerTone) => void",
+          "description": "The tone switch was flipped."
+        },
+        {
+          "name": "onSend",
+          "type": "(reply: AnswerMessage, ticket: AnswerTicket) => void",
+          "description": "A reply was sent, with the ticket as it now reads. It is already in the thread."
+        },
+        {
+          "name": "onSnooze",
+          "type": "(ticket: AnswerTicket) => void",
+          "description": "Snooze was pressed; the ticket has slid out."
+        },
+        {
+          "name": "onEscalate",
+          "type": "(ticket: AnswerTicket) => void",
+          "description": "Escalate was pressed; the ticket has slid out."
+        },
+        {
+          "name": "onReopen",
+          "type": "(ticket: AnswerTicket, from: \"snoozed\" | \"escalated\") => void",
+          "description": "Undo brought a snoozed or escalated ticket back."
+        },
+        {
+          "name": "agent",
+          "type": "string",
+          "defaultValue": "\"Mila\"",
+          "description": "The agent's first name, signed under the suggestions and shown on sent replies."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the suggestions have arrived: skeleton cards while loading, a retry when they failed. The composer works either way."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after the suggestions failed to load."
+        },
+        {
+          "name": "reloadDelay",
+          "type": "number",
+          "defaultValue": "700",
+          "description": "How long the slip shows its skeleton after a send before the fresh set lands, in ms."
+        },
+        {
+          "name": "formatTime",
+          "type": "(at: number) => string",
+          "defaultValue": "UTC \"HH:MM\"",
+          "description": "Prints a message's time in the thread."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Fieldline Support\"",
+          "description": "The heading."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "the title",
+          "description": "The surface's accessible name."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "560",
+          "description": "Height of the surface in px; the thread and the slip scroll inside it."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Read only: nothing can be typed, placed or sent."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the surface."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the cards are a listbox with one tab stop (Up/Down or Left/Right, Home/End), and Enter or Space places a card in the composer and moves focus there. The composer is a native textarea where Ctrl or Cmd+Enter sends and any keystroke finishes a reply that is still typing in. The tone is a switch: Space or Enter flips it, Left sets friendly, Right sets formal. Saved opens a drawer that focuses its search field; Down moves into the listbox of replies, Enter uses one, and Escape closes the drawer and hands focus back to the Saved button. Snooze and Escalate hand focus to Undo.",
+        "Reduced motion: a placed reply appears in the composer at once, the other cards fade instead of folding, the sent reply fades into the thread without the landing, the ticket, the drawer and the fresh set cross-fade, and the tone switch moves without the spring. Every placement, rewrite, send, snooze, escalation and reload is still announced.",
+        "The typing cascade is one setInterval that adds a word per tick at the cascade(n) interval, finishes at once when the tab is hidden or the user types, and is cleared on unmount; the reload beat is one timeout. Nothing else runs between interactions. The tone rewrite is a fixed table of phrase pairs, so the same text flips back and forth without drift.",
+        "Each change is announced once in words: which suggestion was placed, how many phrases the tone rewrote, that the reply was sent and fresh suggestions are loading, and that a ticket was snoozed or escalated with Undo available. The thread is a log that keeps its newest message in view, and the sent reply's time follows the last message rather than the clock.",
+        "From a 40rem container the thread takes the left column and the slip and composer the right, the subject joins the header and the Saved drawer is a 320px panel on the right; below it everything stacks, the card list is capped so the thread keeps room, the subject sits over the thread and the drawer rises from the bottom; under 22rem the Snooze, Escalate and Saved buttons keep only their icons. Confidence bars and the open badge are washed from the status tokens so light and dark both read."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/answer-slip",
+      "registryItemUrl": "https://www.kinetiqui.com/r/answer-slip.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/answer-slip",
+        "npm": "npx shadcn@latest add @kinetiq/answer-slip",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/answer-slip",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/answer-slip",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/answer-slip.json"
+      }
+    },
+    {
+      "slug": "permission-primer",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Permission Primer",
+      "serial": "KQ-1690",
+      "tagline": "Explain a permission before the system asks.",
+      "description": "A primer screen shown before a mobile app's system permission prompt, so the real one is never a surprise: a drawn camera, map pin or bell whose hairline shapes draw themselves in on springs.glide (filled ones fade), the plain reason the app asks, what still works if the answer is no, and Continue and Not now. Continue raises a mock system dialog on springs.snap, a sheet from the foot or a card in the centre, where the viewer answers or the host answers through onAsk and the matching button presses itself. A grant stamps a badge on the illustration on springs.recoil with a check that draws on springs.flick and the primer settles into its ready card with a sample capture, place or notice gliding in; a denial stamps a cross and lays out the way back through Settings in a cascade. The dots under the title are a tablist with one tab stop, the slides glide between them, and the dialog holds Tab and gives focus back when it goes.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "pre-permission",
+        "permission priming",
+        "system prompt",
+        "camera location notifications",
+        "mock dialog",
+        "onboarding carousel",
+        "mobile",
+        "settings path"
+      ],
+      "props": [
+        {
+          "name": "illustration",
+          "type": "\"line\" | \"filled\"",
+          "defaultValue": "\"line\"",
+          "description": "How the illustration is drawn: hairline strokes that draw in, or filled shapes that fade in."
+        },
+        {
+          "name": "dialogStyle",
+          "type": "\"sheet\" | \"centre\"",
+          "defaultValue": "\"sheet\"",
+          "description": "Where the mock system dialog appears: a sheet rising from the foot, or a card in the centre."
+        },
+        {
+          "name": "accent",
+          "type": "\"cobalt\" | \"success\" | \"ink\"",
+          "defaultValue": "\"cobalt\"",
+          "description": "The colour of the illustration, the Continue button and a granted dot."
+        },
+        {
+          "name": "permissions",
+          "type": "PrimerPermission[]",
+          "defaultValue": "defaultPrimerPermissions",
+          "description": "The permissions the primer walks through, in carousel order: each with its kind (camera, location, notifications), title, feature, reason, what happens if declined, the system dialog's words, the settings steps and a preview."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "defaultValue": "the first permission",
+          "description": "The id of the permission shown. Controlled or initial."
+        },
+        {
+          "name": "onChange",
+          "type": "(id: string, permission: PrimerPermission, reason: PrimerChangeReason) => void",
+          "description": "The carousel moved, from a dot, an arrow key, Next or Not now."
+        },
+        {
+          "name": "decisions / defaultDecisions",
+          "type": "PrimerDecisions",
+          "defaultValue": "defaultPrimerDecisions",
+          "description": "Each permission's answer so far, by id; an id already granted opens on its ready card. Controlled or initial."
+        },
+        {
+          "name": "onDecisionsChange",
+          "type": "(decisions: PrimerDecisions) => void",
+          "description": "Fires with every answer so far after one lands."
+        },
+        {
+          "name": "onDecide",
+          "type": "(permission: PrimerPermission, decision: PrimerDecision) => void",
+          "description": "The system answered: the primer has already settled into its granted or denied state."
+        },
+        {
+          "name": "onAsk",
+          "type": "(permission: PrimerPermission) => PrimerDecision | Promise<PrimerDecision> | void",
+          "defaultValue": "the viewer answers",
+          "description": "Continue was pressed and the mock system dialog is up. Return the system's answer, or a promise of it, and the dialog presses that button itself; return nothing and the viewer answers in the mock."
+        },
+        {
+          "name": "onNotNow",
+          "type": "(permission: PrimerPermission) => void",
+          "description": "Not now was pressed; the carousel moves on to the next permission."
+        },
+        {
+          "name": "onOpenSettings",
+          "type": "(permission: PrimerPermission) => void",
+          "description": "Open settings was pressed after a denial."
+        },
+        {
+          "name": "appName",
+          "type": "string",
+          "defaultValue": "\"Basinworks Field\"",
+          "description": "The app's name, as the mock system dialog prints it."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the permissions and their state have arrived: a skeleton slide while loading, a retry when they failed."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after a failed load."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Before we ask\"",
+          "description": "The heading."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "the title",
+          "description": "The surface's accessible name."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "540",
+          "description": "Height of the surface in px; the primer scrolls inside it."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Read only: nothing can be asked, answered or moved."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the surface."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the dots are a tablist with one tab stop, where Left/Right and Home/End move the carousel and the slide follows; Continue, Not now, Next, Later and Open settings are buttons in reading order. The mock system dialog is a modal dialog: focus lands on Allow, Tab cycles between Don't allow and Allow, Escape puts the question away without an answer, and when the dialog goes focus lands on the slide's first button.",
+        "Reduced motion: the illustration appears whole instead of drawing, the slides and the dialog cross-fade in place, the badge and its check appear at once, the preview and the settings steps fade without the slide or the cascade, and the lit system button lands its answer without the beat. Every answer, move and dismissal is still announced.",
+        "Nothing runs once a slide has settled: the only timer is the beat a pressed system button stays lit before the dialog goes, and a host answer that resolves after unmount, after Escape or after a newer ask is ignored. A permission already granted when its slide opens settles without the stamp; only an answer that landed on this surface animates.",
+        "Each move is announced as the permission's title, its place in the carousel and its state; the mock dialog's question is read when it opens; each answer is announced with what it turned on, or how to turn it on later. The ready and denied slides keep the illustration with its badge, so the state is visible as well as spoken.",
+        "Below a 40rem container the slide stacks illustration over copy with the buttons at the foot and the centre dialog narrows to 18rem; from 40rem the illustration sits beside the copy in two columns and the buttons sit in a row; under 24rem the 'n of N' counter folds away and the dots carry it. The accent, its wash and the dialog's lit button are mixed from the accent, success or ink tokens, and a denial from the danger token, so light and dark both read."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/permission-primer",
+      "registryItemUrl": "https://www.kinetiqui.com/r/permission-primer.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/permission-primer",
+        "npm": "npx shadcn@latest add @kinetiq/permission-primer",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/permission-primer",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/permission-primer",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/permission-primer.json"
+      }
+    },
+    {
+      "slug": "ack-ladder",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Ack Ladder",
+      "serial": "KQ-1691",
+      "tagline": "Read every section, then initial the stamp.",
+      "description": "A policy to read and acknowledge: the document scrolls in a pane and a ladder stands beside it with one rung per section. As the end of a section scrolls into view its rung lights on springs.snap (a dot fills, a check draws on springs.flick, or a bar fills from the foot), a tie line draws from the rung toward the document and the section's margin rail fills, while the count at the foot rolls down and Acknowledge stays inert until every rung is lit. Acknowledging asks for the reader's initials; when they match, a stamp with the initials and the date lands on the document on springs.recoil, the rungs fade out in turn and the ladder closes into one done badge on the same spring, and the new version takes the top of the history on springs.glide. The pane is a focusable document region, the rungs are links with one tab stop (Up/Down, Home/End, Enter goes to the section), and the initials box takes Enter and Escape.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "policy acknowledgement",
+        "read receipt",
+        "scroll progress",
+        "ladder",
+        "initials",
+        "stamp",
+        "compliance",
+        "version history"
+      ],
+      "props": [
+        {
+          "name": "ladderSide",
+          "type": "\"right\" | \"left\"",
+          "defaultValue": "\"right\"",
+          "description": "Which side of the document the ladder stands on."
+        },
+        {
+          "name": "rungStyle",
+          "type": "\"fill\" | \"tick\" | \"bar\"",
+          "defaultValue": "\"fill\"",
+          "description": "What a rung does when its section is read: a dot fills, a check draws in a ring, or a bar fills from the foot."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"cozy\" | \"roomy\"",
+          "defaultValue": "\"cozy\"",
+          "description": "Type size, paragraph spacing and rung row height."
+        },
+        {
+          "name": "policy",
+          "type": "AckPolicy | null",
+          "defaultValue": "defaultAckPolicy",
+          "description": "The policy to read, with its title, version, effective date and sections; null reads as no policy assigned."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "AckValue",
+          "defaultValue": "defaultAckValue",
+          "description": "The ids of the sections read so far, in the order they were read. Controlled or initial."
+        },
+        {
+          "name": "onChange",
+          "type": "(value: AckValue, read: string[]) => void",
+          "description": "Fires when scrolling marks sections read, with the whole list and the ids just added."
+        },
+        {
+          "name": "acknowledgement",
+          "type": "AckAcknowledgement | null",
+          "description": "Controlled acknowledgement; null means not yet. Leave undefined and the ladder keeps its own."
+        },
+        {
+          "name": "onAcknowledge",
+          "type": "(acknowledgement: AckAcknowledgement) => void",
+          "description": "Fires once the initials matched and the stamp landed, with the policy id, version, initials and time."
+        },
+        {
+          "name": "history",
+          "type": "AckHistoryEntry[]",
+          "defaultValue": "defaultAckHistory",
+          "description": "Earlier versions already acknowledged, newest first."
+        },
+        {
+          "name": "signer",
+          "type": "{ name: string; initials: string }",
+          "defaultValue": "defaultAckSigner",
+          "description": "Who is acknowledging; the initials they must type."
+        },
+        {
+          "name": "now",
+          "type": "number",
+          "defaultValue": "the clock at the press",
+          "description": "The moment the stamp is dated, in ms."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the policy and history have arrived: a skeleton document and ladder while loading, a retry when they failed."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after a failed load."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Policy acknowledgement\"",
+          "description": "The heading."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "the title",
+          "description": "The surface's accessible name."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "540",
+          "description": "Height in px; the document scrolls inside it."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Read only: the document scrolls but nothing is marked read or acknowledged."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the surface."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the document pane is a focusable region, so arrow and Page keys scroll it and reading happens as it does with a pointer. The rungs are links with one tab stop: Up/Down (or Left/Right) move, Home/End jump, Enter scrolls to the section and focuses its heading. Next unread scrolls to the first dark rung. Acknowledge opens a small dialog whose initials box takes Enter to confirm and Escape to cancel; a mismatch is shown inline and focus stays in the box.",
+        "Reduced motion: rungs, tie lines and margin rails cross-fade in place instead of filling or drawing, the count swaps without travelling, the pane jumps instead of smooth-scrolling, the stamp fades in already at its angle and the ladder cross-fades straight to the done badge. Every read, the ready state and the stamp are still reached and announced.",
+        "A section counts as read once its end has been on screen (or the pane has reached its bottom), so sections already in view when the pane first measures are marked at once, and onChange can fire on mount. Reading is measured only on scroll events and by one ResizeObserver on the pane and the document; nothing runs between them. Dates are printed in UTC so the server and the client agree.",
+        "Each section read is announced once by name with the sections left; reaching the last one says Acknowledge is ready. Pressing Acknowledge early announces how many remain instead of opening the dialog. The stamp is announced with the version, the initials and the date, and focus lands on the done badge once it has mounted.",
+        "From a 36rem container the ladder stands beside the document with labels, tie lines and the history list; below it the rungs run in a row under the pane with the count beside them, the labels and history fold away, and the Next unread and Acknowledge buttons share one line. Progress takes the accent token, the stamp and badge the success token, so light and dark both read."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/ack-ladder",
+      "registryItemUrl": "https://www.kinetiqui.com/r/ack-ladder.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/ack-ladder",
+        "npm": "npx shadcn@latest add @kinetiq/ack-ladder",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/ack-ladder",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/ack-ladder",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/ack-ladder.json"
+      }
+    },
+    {
+      "slug": "role-tailor",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Role Tailor",
+      "serial": "KQ-1692",
+      "tagline": "Tailor what each role may do, cell by cell.",
+      "description": "A role and permissions editor: roles in a listbox on the left, and on the right a matrix grouped by area where every permission is one three-way cell whose indicator slides between None, View and Allow on springs.snap. Choosing a preset sets the whole matrix in a cascade; setting one cell by hand releases the preset chip and lands a Custom tag on springs.recoil. A row that needs another raises it, with a tie line drawing down the rail between the two cells on springs.glide and a note saying what was set and why; Compare to overlays another role's choices as dashed ghost marks and the member count rolls as the selected role changes. The matrix is a grid: Up and Down move, Left and Right lower and raise the cell, Space cycles it; the roles are a listbox and the presets a radio group.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "permissions matrix",
+        "roles",
+        "access control",
+        "segmented control",
+        "presets",
+        "dependencies",
+        "compare roles",
+        "admin"
+      ],
+      "props": [
+        {
+          "name": "controlStyle",
+          "type": "\"segmented\" | \"radios\" | \"switches\"",
+          "defaultValue": "\"segmented\"",
+          "description": "How each cell is drawn: a three-way segmented control whose indicator slides, a row of radios, or View and Allow switches."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"cozy\" | \"roomy\"",
+          "defaultValue": "\"cozy\"",
+          "description": "Row height and type size."
+        },
+        {
+          "name": "accent",
+          "type": "\"cobalt\" | \"signal\" | \"success\"",
+          "defaultValue": "\"cobalt\"",
+          "description": "The colour an allowed cell, the selected role and the chosen preset are drawn in."
+        },
+        {
+          "name": "roles / defaultRoles",
+          "type": "TailorRole[]",
+          "defaultValue": "defaultTailorRoles",
+          "description": "The roles, each with a level per permission id and the preset it matches (null once tailored by hand). Controlled or initial."
+        },
+        {
+          "name": "onChange",
+          "type": "(roles: TailorRole[], change: TailorChange) => void",
+          "description": "Fires with every role after a cell, preset, clone, new role or removal, and what changed, including any dependencies set along with it."
+        },
+        {
+          "name": "areas",
+          "type": "TailorArea[]",
+          "defaultValue": "defaultTailorAreas",
+          "description": "The matrix, grouped by area; a permission may be binary (None or Allow) and may require others."
+        },
+        {
+          "name": "presets",
+          "type": "TailorPreset[]",
+          "defaultValue": "defaultTailorPresets",
+          "description": "The presets a whole role can be set to, as chips."
+        },
+        {
+          "name": "members",
+          "type": "TailorMember[]",
+          "defaultValue": "defaultTailorMembers",
+          "description": "Everyone who holds a role; the header counts the selected role's and a role with members cannot be removed."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string | null",
+          "defaultValue": "\"editor\"",
+          "description": "The selected role's id. Controlled or initial."
+        },
+        {
+          "name": "onSelect",
+          "type": "(roleId: string) => void",
+          "description": "A role was selected from the list, by press or arrow."
+        },
+        {
+          "name": "defaultCompareTo",
+          "type": "string | null",
+          "defaultValue": "null",
+          "description": "The role whose choices are overlaid as ghost marks at first, by id."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the roles and matrix have arrived: skeleton rows while loading, a retry when they failed."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after a failed load."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Roles\"",
+          "description": "The heading."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "the title",
+          "description": "The surface's accessible name."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "540",
+          "description": "Height of the surface in px; the list and the matrix scroll inside it."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Read only: nothing can be changed, cloned or created."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the surface."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the matrix is a grid with one tab stop. Up and Down move between rows (Home/End to the first and last), Left and Right lower and raise the focused cell, Space or Enter cycles None, View, Allow. The roles are a listbox whose selection follows the arrows; Delete or Backspace removes a role with no members. The presets are a radio group: arrows move and apply, Space applies.",
+        "Reduced motion: indicators, dots and knobs appear in place, a preset sets every row at once instead of in a cascade, the tie line and its note simply appear, and the preset fill and Custom tag cross-fade. Every level, count and note still changes and is announced.",
+        "Nothing animates once settled: the tie line is measured once from the two cells when it is drawn and clears itself after a moment or on the next change. A preset's cascade staggers only the rows that actually change, on cascade(n).",
+        "Each change is announced once in words: the permission and its new level, what was set along with it and why, and when the role becomes custom or matches a preset again. Owner is locked: its cells read only, with a note to clone it.",
+        "From a 40rem container the roles stand in a column beside the matrix and each row shows its gloss; below it the roles become a row of chips above the matrix and the glosses hide. Allowed cells, the selected role and the chosen preset take the accent token; ghost marks are dashed ink so they read in light and dark."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/role-tailor",
+      "registryItemUrl": "https://www.kinetiqui.com/r/role-tailor.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/role-tailor",
+        "npm": "npx shadcn@latest add @kinetiq/role-tailor",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/role-tailor",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/role-tailor",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/role-tailor.json"
+      }
+    },
+    {
+      "slug": "wayfinding-dots",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Wayfinding Dots",
+      "serial": "KQ-1693",
+      "tagline": "A spotlight that walks a new user across the screen.",
+      "description": "A product tour over a mock app screen: a dot sits at each of the tour's stops and blooms once as the screen arrives, a ring on springs.snap that fades and stops rather than a pulse that never ends. Starting the tour cuts a spotlight out of a dim overlay, an SVG mask closing in from the whole screen onto the first stop on springs.glide, with a card beside or below it; Next glides the cutout across the screen to the next stop and the card follows, re-placing itself wherever there is room, and the last stop's Done lifts the overlay and lands a check in the foot on springs.recoil, after which the tour is remembered as completed. A row of dots at the foot shows progress and any stop can be chosen from it directly. The card is a dialog: arrows go Next and Back, Home and End jump to the ends, Escape skips, and the foot's dots are a tablist with a roving tab stop.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "product tour",
+        "onboarding",
+        "spotlight",
+        "coach marks",
+        "wayfinding dots",
+        "walkthrough",
+        "svg mask",
+        "feature tour"
+      ],
+      "props": [
+        {
+          "name": "stops",
+          "type": "TourStop[]",
+          "defaultValue": "defaultTourStops",
+          "description": "The tour's stops in order, each pointing at a target on the screen (nav, search, filter, new, row, detail or assign) with a title and a body."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "number | null",
+          "defaultValue": "null",
+          "description": "The index of the stop being shown, or null while the tour is closed. Controlled or initial."
+        },
+        {
+          "name": "onChange",
+          "type": "(index: number | null, reason: TourReason) => void",
+          "description": "Fires from the press or key that moved the tour, with the new index (null when it closed) and why: start, next, back, pick, skip or complete."
+        },
+        {
+          "name": "onComplete",
+          "type": "() => void",
+          "description": "The last stop's Done was pressed."
+        },
+        {
+          "name": "completed / defaultCompleted",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Whether this screen's tour has been taken before: the dots stay quiet, the foot shows a check and the button reads Replay tour. Controlled or initial."
+        },
+        {
+          "name": "screen",
+          "type": "\"jobs\" | \"crews\" | \"sites\"",
+          "defaultValue": "\"jobs\"",
+          "description": "Which mock screen sits under the tour; the targets keep their places on all three."
+        },
+        {
+          "name": "spotlight",
+          "type": "\"rounded\" | \"pill\" | \"none\"",
+          "defaultValue": "\"rounded\"",
+          "description": "The cutout's shape: rounded corners, a full pill, or no dimming at all with only the ring around the stop."
+        },
+        {
+          "name": "placement",
+          "type": "\"auto\" | \"below\" | \"beside\"",
+          "defaultValue": "\"auto\"",
+          "description": "Where the card sits. Auto tries beside the stop when the container is wide enough and there is room, else below; either falls to the other side when its own runs off the screen."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"cozy\" | \"roomy\"",
+          "defaultValue": "\"cozy\"",
+          "description": "Row heights and bar heights on the mock screen, and the card's padding and type size."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the screen has arrived: a skeleton screen while loading, a retry when it failed."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after a failed load."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Product tour\"",
+          "description": "The heading."
+        },
+        {
+          "name": "product",
+          "type": "string",
+          "defaultValue": "\"Fieldline\"",
+          "description": "The mock product's name, in the screen's top bar."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "the title",
+          "description": "The surface's accessible name."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "540",
+          "description": "Height in px; the screen takes what the header and the foot leave."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Read only: the tour cannot start, move or close."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the surface."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: Start tour (or Replay tour) opens the card and focuses it. On the card, Right or Down is Next, Left or Up is Back, Home and End jump to the first and last stop, Escape skips, and Enter on Done completes; focus returns to the start button when the tour ends. The foot's dots are a tablist: arrows and Home/End move between them, Enter or Space goes to that stop.",
+        "Reduced motion: the rings do not bloom and nothing travels. The spotlight and the card cross-fade from one stop to the next, the caret and the progress pill change in place, and the completion check fades in instead of landing. Every stop is still reached and announced.",
+        "Nothing runs continuously: each bloom is a one-shot mount animation and the overlay is a static mask between moves. One ResizeObserver watches the screen and every target, so the cutout, the dots and the card are re-placed on resize, density or screen changes without measuring during render; a second measures the card so it can be kept on screen.",
+        "Each move is announced once in words with the stop's number and title; skipping says where it stopped and completing says how many stops were seen. The card is a non-modal dialog labelled by its title and described by its body, and the active dot in the foot names the card as what it controls.",
+        "From a 40rem container the sidebar grows labels and the detail pane sits beside the list; below it the sidebar is an icon rail and the pane stacks under the list. From 30rem the product name, the sort chip and row metadata appear. Auto placement tries beside the stop from 640px and below under it. The dim sheet is the ink token at half strength and the ring the accent, so light and dark both read."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/wayfinding-dots",
+      "registryItemUrl": "https://www.kinetiqui.com/r/wayfinding-dots.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/wayfinding-dots",
+        "npm": "npx shadcn@latest add @kinetiq/wayfinding-dots",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/wayfinding-dots",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/wayfinding-dots",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/wayfinding-dots.json"
+      }
+    },
+    {
+      "slug": "practice-run",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Practice Run",
+      "serial": "KQ-1695",
+      "tagline": "Try the send before it is real, and keep the lessons.",
+      "description": "A sandbox for an action that matters: a payout form under a Practice switch. With practice on the surface wears a hatched border and a ribbon, and Submit produces a pretend result: a receipt that rises on springs.glide under a NOT REAL watermark and stamp, with a timeline of what would have happened whose steps tick in on springs.flick in a cascade with their times; a refused practice send comes back as a lesson instead, and every attempt is kept in a side list with its outcome. Switching practice off clears the pretend results on an exit ease and drops the ribbon, and the real Send then needs a hold, a fill crossing the button until a real receipt lands on springs.recoil. The form is native, the switch is a switch, the hold is Space held, and the attempts are a listbox where Enter reuses one and Delete forgets it.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "practice mode",
+        "sandbox",
+        "dry run",
+        "hold to confirm",
+        "pretend receipt",
+        "payout form",
+        "not real watermark",
+        "lessons"
+      ],
+      "props": [
+        {
+          "name": "ribbonStyle",
+          "type": "\"ribbon\" | \"banner\" | \"border\"",
+          "defaultValue": "\"ribbon\"",
+          "description": "How practice mode is flagged: a corner ribbon, a banner under the header, or the hatched border alone."
+        },
+        {
+          "name": "holdSeconds",
+          "type": "number",
+          "defaultValue": "1.2",
+          "description": "How long the real Send must be held, in seconds."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"cozy\" | \"roomy\"",
+          "defaultValue": "\"cozy\"",
+          "description": "Field heights, type size and padding."
+        },
+        {
+          "name": "schema",
+          "type": "PracticeField[]",
+          "defaultValue": "defaultPracticeSchema",
+          "description": "The form's fields in order: recipient, amount, schedule and memo, each with its kind, options, required and maxLength rules."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "PracticeValues",
+          "defaultValue": "defaultPracticeValues",
+          "description": "Field id to its text; amounts are decimal strings. Controlled or initial."
+        },
+        {
+          "name": "onChange",
+          "type": "(value: PracticeValues, change: PracticeChange) => void",
+          "description": "Fires from every keystroke or pick with all values and the field that changed; field \"*\" when an attempt was reused or the form was cleared."
+        },
+        {
+          "name": "practice / defaultPractice",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Practice mode. Controlled or initial."
+        },
+        {
+          "name": "onPracticeChange",
+          "type": "(practice: boolean) => void",
+          "description": "The practice switch was flipped."
+        },
+        {
+          "name": "onSubmit",
+          "type": "(values: PracticeValues, practice: boolean) => PracticeOutcome | void",
+          "description": "Called on every send with the practice flag. Return an outcome to replace the built-in simulator's."
+        },
+        {
+          "name": "balance",
+          "type": "number",
+          "defaultValue": "12400",
+          "description": "What the built-in simulator lets a payout draw on, in dollars; more is refused with a lesson."
+        },
+        {
+          "name": "attempts / defaultAttempts",
+          "type": "PracticeAttempt[]",
+          "defaultValue": "defaultPracticeAttempts",
+          "description": "The practice attempts kept in the side list, newest first, each with its values, outcome and lesson. Controlled or initial."
+        },
+        {
+          "name": "onAttemptsChange",
+          "type": "(attempts: PracticeAttempt[]) => void",
+          "description": "An attempt was added by a practice send or forgotten."
+        },
+        {
+          "name": "now",
+          "type": "number",
+          "defaultValue": "defaultPracticeNow",
+          "description": "The moment the receipt's times count from, in ms; never read from the clock, so the render is stable."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the form and attempts have arrived: skeleton fields and rows while loading, a retry when they failed."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after a failed load."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Send a payout\"",
+          "description": "The heading."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "the title",
+          "description": "The surface's accessible name."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "540",
+          "description": "Height in px; the form and the attempts scroll inside it."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Read only: nothing can be typed, switched or sent."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the surface."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the form is native and Enter in a field submits a practice send (with practice off it points at Send instead). The Practice switch is a switch. The real Send is held: Space or Enter down starts the hold, up before it fills lets go, Escape lets go. The attempts are a listbox: Up/Down and Home/End move, Enter or Space reuses an attempt's values in the form, Delete or Backspace forgets it, and focus lands on its neighbour.",
+        "Reduced motion: nothing rises, lands or travels. Receipts and refusals cross-fade in place, the ticks and the stamp appear at once, the ribbon fades, and the hold still fills, because its progress is information.",
+        "The hold is one motion value driven by animate(), not a frame loop: the fill follows it without a render per frame, it stops the moment the pointer or key lifts, and a hidden tab lets go of it. The hatched frame is a single masked gradient overlay, so practice mode costs no extra layout.",
+        "Each change is announced once in words: practice on or off, the pretend receipt's summary marked not real, a refusal with its lesson, a hold that was let go early, a real send, and an attempt reused or forgotten. A refused field is marked invalid, gets the reason as its description and takes focus.",
+        "From a 40rem container the attempts sit in a 15rem column beside the form and each column scrolls on its own; below it they stack and the whole body scrolls. The form goes to two columns from 28rem with the memo spanning both. Practice is drawn in the warn token, real receipts in success and refusals in danger, so both themes read."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/practice-run",
+      "registryItemUrl": "https://www.kinetiqui.com/r/practice-run.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/practice-run",
+        "npm": "npx shadcn@latest add @kinetiq/practice-run",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/practice-run",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/practice-run",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/practice-run.json"
       }
     },
     {

@@ -1866,6 +1866,16 @@ import { QuickCaptureDemo } from "@/registry/demos/quick-capture.demo";
 import { SharePerimeterDemo } from "@/registry/demos/share-perimeter.demo";
 import { DestinationPickerDemo } from "@/registry/demos/destination-picker.demo";
 import { ParcelSpecDemo } from "@/registry/demos/parcel-spec.demo";
+import { TwinPreviewDemo } from "@/registry/demos/twin-preview.demo";
+import { PlatePickerDemo } from "@/registry/demos/plate-picker.demo";
+import { SiteAssessmentDemo } from "@/registry/demos/site-assessment.demo";
+import { PermissionPrimerDemo } from "@/registry/demos/permission-primer.demo";
+import { AnswerSlipDemo } from "@/registry/demos/answer-slip.demo";
+import { BatchRunnerDemo } from "@/registry/demos/batch-runner.demo";
+import { PracticeRunDemo } from "@/registry/demos/practice-run.demo";
+import { RoleTailorDemo } from "@/registry/demos/role-tailor.demo";
+import { AckLadderDemo } from "@/registry/demos/ack-ladder.demo";
+import { WayfindingDotsDemo } from "@/registry/demos/wayfinding-dots.demo";
 /**
  * slug → live preview component. Every catalog item registers its demo here;
  * the docs template renders it inside a SpecimenPlate.
@@ -3744,4 +3754,14 @@ export const demos: Record<string, ComponentType> = {
   "share-perimeter": SharePerimeterDemo,
   "destination-picker": DestinationPickerDemo,
   "parcel-spec": ParcelSpecDemo,
+  "twin-preview": TwinPreviewDemo,
+  "plate-picker": PlatePickerDemo,
+  "site-assessment": SiteAssessmentDemo,
+  "permission-primer": PermissionPrimerDemo,
+  "answer-slip": AnswerSlipDemo,
+  "batch-runner": BatchRunnerDemo,
+  "practice-run": PracticeRunDemo,
+  "role-tailor": RoleTailorDemo,
+  "ack-ladder": AckLadderDemo,
+  "wayfinding-dots": WayfindingDotsDemo,
 };

@@ -46857,6 +46857,286 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "twin-preview",
+      "type": "registry:ui",
+      "title": "Twin Preview",
+      "description": "A page of markdown-ish source beside its rendered twin. Type on the left and the twin answers block by block: a block whose text changed lights with the accent wash and fades, a new block rises into place on springs.glide while its neighbours glide apart, and a removed one leaves on the exit ease as the rest close up. The caret's block is banded in the editor and railed in the twin with a tie line drawn across the gutter between them, all three moving together on springs.snap, and a lockstep switch scrolls the panes together block for block. A device radio group resizes the twin's frame on springs.glide with the page reflowing inside, and a theme switch previews it light or dark against the page. The toolbar is one tab stop (arrows move, Enter applies bold, italic, heading, list or link and returns to the editor), Alt+Up and Alt+Down jump between blocks in both the editor and the twin, and every switch, format and jump is announced.",
+      "files": [
+        {
+          "path": "registry/ui/twin-preview.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1673"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "plate-picker",
+      "type": "registry:ui",
+      "title": "Plate Picker",
+      "description": "A template chooser drawn as a plate rack: every template stands as a wide card faced with a thumbnail of its page, leaning back on its rail. Hovering or focusing a plate lifts it forward and upright on springs.snap and its blurb reads out in the caption under the rack; pressing it pulls the plate out, the thumbnail growing from its slot into a readable mock page on springs.glide while the rack fades back and a field strip (title, owner) glides in beside it with the Use template button, and Back slides the page home to its slot on an exit tween. Category chips are a radio group that filters the rack, plates that no longer match fading out while the rest close up on springs.glide, and the search field matches names the same way; recently used plates stand in a short row above. The rack is a listbox with one roving stop: arrows move, Enter or Space opens, Escape backs out and returns focus to the plate.",
+      "files": [
+        {
+          "path": "registry/ui/plate-picker.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1684"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "site-assessment",
+      "type": "registry:ui",
+      "title": "Site Assessment",
+      "description": "A field survey beside its site plan: a schematic plot drawn from a small description, with one numbered pin per finding, and a form with one section per pin holding a title, a severity, a photo slot and a note under a meter that fills as the parts are given. Focusing a section finds its pin as one ring pulses out of it on springs.snap and the pin lifts and holds; pressing a pin scrolls its section into view. Add finding arms the plan with a crosshair that follows the pointer or walks on arrows, and a press drops a pin that lands on springs.recoil while its section glides in on springs.glide; pins drag to a better spot and settle on recoil, a severity change retints pin and badge with a bump on snap, a removed finding leaves on the exit ease as the rest renumber and close up, and the footer's counts by severity roll. The plan is an application region, the pins one roving stop, and the form is native.",
+      "files": [
+        {
+          "path": "registry/ui/site-assessment.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1678"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "permission-primer",
+      "type": "registry:ui",
+      "title": "Permission Primer",
+      "description": "A primer screen shown before a mobile app's system permission prompt, so the real one is never a surprise: a drawn camera, map pin or bell whose hairline shapes draw themselves in on springs.glide (filled ones fade), the plain reason the app asks, what still works if the answer is no, and Continue and Not now. Continue raises a mock system dialog on springs.snap, a sheet from the foot or a card in the centre, where the viewer answers or the host answers through onAsk and the matching button presses itself. A grant stamps a badge on the illustration on springs.recoil with a check that draws on springs.flick and the primer settles into its ready card with a sample capture, place or notice gliding in; a denial stamps a cross and lays out the way back through Settings in a cascade. The dots under the title are a tablist with one tab stop, the slides glide between them, and the dialog holds Tab and gives focus back when it goes.",
+      "files": [
+        {
+          "path": "registry/ui/permission-primer.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1690"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "answer-slip",
+      "type": "registry:ui",
+      "title": "Answer Slip",
+      "description": "A quick-reply slip for a support inbox: the customer's thread on top, a slip of suggested replies under it, each a card with its reason and confidence, and a composer with a tone switch. Pressing a card folds the others away on the exit ease and places the reply in the composer, where it types in word by word on a quick cascade or cross-fades in; flipping the tone rewrites the greeting, apology, sign-off and contractions and cross-fades the text from one to the other. Send stamps the reply into the thread on springs.recoil and the slip reloads with a fresh set after a beat, Snooze and Escalate slide the ticket out and leave an Undo, and a Saved drawer glides in on springs.glide with a search over the saved replies. The cards are a listbox, Ctrl or Cmd+Enter sends from the textarea, the tone is a switch and Escape closes the drawer.",
+      "files": [
+        {
+          "path": "registry/ui/answer-slip.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1689"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "batch-runner",
+      "type": "registry:ui",
+      "title": "Batch Runner",
+      "description": "A bulk-action runner: a table of selected records, an action picker and a Run button. Running works the rows one by one as a cursor glides down the table on springs.glide and each row's status cell turns over on springs.snap, to done with a tick drawn on springs.flick or to failed in the danger colour with its reason, while the header's bar fills on glide and its counts roll on snap. Pause holds the cursor after the row in flight, Cancel lets that row finish and marks the rest skipped, and when the job settles a summary strip lands on springs.recoil with Retry failed, which runs only the failed rows again, and Undo, which reverses the done rows one by one with the cursor gliding back up. A dry-run switch previews what every row would get without changing anything. The table is a grid (arrows, Home/End, Space includes or leaves out a row), the actions are a listbox, and progress is announced in words.",
+      "files": [
+        {
+          "path": "registry/ui/batch-runner.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1683"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "practice-run",
+      "type": "registry:ui",
+      "title": "Practice Run",
+      "description": "A sandbox for an action that matters: a payout form under a Practice switch. With practice on the surface wears a hatched border and a ribbon, and Submit produces a pretend result: a receipt that rises on springs.glide under a NOT REAL watermark and stamp, with a timeline of what would have happened whose steps tick in on springs.flick in a cascade with their times; a refused practice send comes back as a lesson instead, and every attempt is kept in a side list with its outcome. Switching practice off clears the pretend results on an exit ease and drops the ribbon, and the real Send then needs a hold, a fill crossing the button until a real receipt lands on springs.recoil. The form is native, the switch is a switch, the hold is Space held, and the attempts are a listbox where Enter reuses one and Delete forgets it.",
+      "files": [
+        {
+          "path": "registry/ui/practice-run.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1695"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "role-tailor",
+      "type": "registry:ui",
+      "title": "Role Tailor",
+      "description": "A role and permissions editor: roles in a listbox on the left, and on the right a matrix grouped by area where every permission is one three-way cell whose indicator slides between None, View and Allow on springs.snap. Choosing a preset sets the whole matrix in a cascade; setting one cell by hand releases the preset chip and lands a Custom tag on springs.recoil. A row that needs another raises it, with a tie line drawing down the rail between the two cells on springs.glide and a note saying what was set and why; Compare to overlays another role's choices as dashed ghost marks and the member count rolls as the selected role changes. The matrix is a grid: Up and Down move, Left and Right lower and raise the cell, Space cycles it; the roles are a listbox and the presets a radio group.",
+      "files": [
+        {
+          "path": "registry/ui/role-tailor.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1692"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "ack-ladder",
+      "type": "registry:ui",
+      "title": "Ack Ladder",
+      "description": "A policy to read and acknowledge: the document scrolls in a pane and a ladder stands beside it with one rung per section. As the end of a section scrolls into view its rung lights on springs.snap (a dot fills, a check draws on springs.flick, or a bar fills from the foot), a tie line draws from the rung toward the document and the section's margin rail fills, while the count at the foot rolls down and Acknowledge stays inert until every rung is lit. Acknowledging asks for the reader's initials; when they match, a stamp with the initials and the date lands on the document on springs.recoil, the rungs fade out in turn and the ladder closes into one done badge on the same spring, and the new version takes the top of the history on springs.glide. The pane is a focusable document region, the rungs are links with one tab stop (Up/Down, Home/End, Enter goes to the section), and the initials box takes Enter and Escape.",
+      "files": [
+        {
+          "path": "registry/ui/ack-ladder.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1691"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "wayfinding-dots",
+      "type": "registry:ui",
+      "title": "Wayfinding Dots",
+      "description": "A product tour over a mock app screen: a dot sits at each of the tour's stops and blooms once as the screen arrives, a ring on springs.snap that fades and stops rather than a pulse that never ends. Starting the tour cuts a spotlight out of a dim overlay, an SVG mask closing in from the whole screen onto the first stop on springs.glide, with a card beside or below it; Next glides the cutout across the screen to the next stop and the card follows, re-placing itself wherever there is room, and the last stop's Done lifts the overlay and lands a check in the foot on springs.recoil, after which the tour is remembered as completed. A row of dots at the foot shows progress and any stop can be chosen from it directly. The card is a dialog: arrows go Next and Back, Home and End jump to the ends, Escape skips, and the foot's dots are a tablist with a roving tab stop.",
+      "files": [
+        {
+          "path": "registry/ui/wayfinding-dots.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1693"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

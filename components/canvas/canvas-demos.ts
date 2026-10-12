@@ -1787,4 +1787,44 @@ export const CANVAS_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/parcel-spec.demo").then((m) =>
       mod(m.ParcelSpecDemo, m.tweaks),
     ),
+  "twin-preview": () =>
+    import("@/registry/demos/twin-preview.demo").then((m) =>
+      mod(m.TwinPreviewDemo, m.tweaks),
+    ),
+  "plate-picker": () =>
+    import("@/registry/demos/plate-picker.demo").then((m) =>
+      mod(m.PlatePickerDemo, m.tweaks),
+    ),
+  "site-assessment": () =>
+    import("@/registry/demos/site-assessment.demo").then((m) =>
+      mod(m.SiteAssessmentDemo, m.tweaks),
+    ),
+  "permission-primer": () =>
+    import("@/registry/demos/permission-primer.demo").then((m) =>
+      mod(m.PermissionPrimerDemo, m.tweaks),
+    ),
+  "answer-slip": () =>
+    import("@/registry/demos/answer-slip.demo").then((m) =>
+      mod(m.AnswerSlipDemo, m.tweaks),
+    ),
+  "batch-runner": () =>
+    import("@/registry/demos/batch-runner.demo").then((m) =>
+      mod(m.BatchRunnerDemo, m.tweaks),
+    ),
+  "practice-run": () =>
+    import("@/registry/demos/practice-run.demo").then((m) =>
+      mod(m.PracticeRunDemo, m.tweaks),
+    ),
+  "role-tailor": () =>
+    import("@/registry/demos/role-tailor.demo").then((m) =>
+      mod(m.RoleTailorDemo, m.tweaks),
+    ),
+  "ack-ladder": () =>
+    import("@/registry/demos/ack-ladder.demo").then((m) =>
+      mod(m.AckLadderDemo, m.tweaks),
+    ),
+  "wayfinding-dots": () =>
+    import("@/registry/demos/wayfinding-dots.demo").then((m) =>
+      mod(m.WayfindingDotsDemo, m.tweaks),
+    ),
 };
