@@ -1833,6 +1833,39 @@ import { NameClashDemo } from "@/registry/demos/name-clash.demo";
 import { IncidentBridgeDemo } from "@/registry/demos/incident-bridge.demo";
 import { BlastRadiusDemo } from "@/registry/demos/blast-radius.demo";
 
+import { TripwireTunerDemo } from "@/registry/demos/tripwire-tuner.demo";
+import { RackElevationDemo } from "@/registry/demos/rack-elevation.demo";
+import { HeartbeatLedgerDemo } from "@/registry/demos/heartbeat-ledger.demo";
+import { ExceptionTriageDemo } from "@/registry/demos/exception-triage.demo";
+import { ProbeRelayDemo } from "@/registry/demos/probe-relay.demo";
+import { StatusDispatchDemo } from "@/registry/demos/status-dispatch.demo";
+import { GhostBaselineDemo } from "@/registry/demos/ghost-baseline.demo";
+import { GhostRowsDemo } from "@/registry/demos/ghost-rows.demo";
+import { OpenDayDemo } from "@/registry/demos/open-day.demo";
+import { EmptyRoomDemo } from "@/registry/demos/empty-room.demo";
+import { FirstEventDemo } from "@/registry/demos/first-event.demo";
+import { FormatSamplerDemo } from "@/registry/demos/format-sampler.demo";
+import { TokenLockerDemo } from "@/registry/demos/token-locker.demo";
+import { ChordRecorderDemo } from "@/registry/demos/chord-recorder.demo";
+import { MendListDemo } from "@/registry/demos/mend-list.demo";
+import { PingMatrixDemo } from "@/registry/demos/ping-matrix.demo";
+import { HazardShelfDemo } from "@/registry/demos/hazard-shelf.demo";
+import { AddressCascadeDemo } from "@/registry/demos/address-cascade.demo";
+import { ThemeFittingDemo } from "@/registry/demos/theme-fitting.demo";
+import { PagerRotaDemo } from "@/registry/demos/pager-rota.demo";
+import { ThreadFieldsDemo } from "@/registry/demos/thread-fields.demo";
+import { AttendeeRowsDemo } from "@/registry/demos/attendee-rows.demo";
+import { OfflineShelfDemo } from "@/registry/demos/offline-shelf.demo";
+import { MixedValuesDemo } from "@/registry/demos/mixed-values.demo";
+import { MarginHelpDemo } from "@/registry/demos/margin-help.demo";
+import { DraftKeeperDemo } from "@/registry/demos/draft-keeper.demo";
+import { CheckAnswersDemo } from "@/registry/demos/check-answers.demo";
+import { LeaveGuardDemo } from "@/registry/demos/leave-guard.demo";
+import { ReceiptReaderDemo } from "@/registry/demos/receipt-reader.demo";
+import { QuickCaptureDemo } from "@/registry/demos/quick-capture.demo";
+import { SharePerimeterDemo } from "@/registry/demos/share-perimeter.demo";
+import { DestinationPickerDemo } from "@/registry/demos/destination-picker.demo";
+import { ParcelSpecDemo } from "@/registry/demos/parcel-spec.demo";
 /**
  * slug → live preview component. Every catalog item registers its demo here;
  * the docs template renders it inside a SpecimenPlate.
@@ -3678,4 +3711,37 @@ export const demos: Record<string, ComponentType> = {
   "name-clash": NameClashDemo,
   "incident-bridge": IncidentBridgeDemo,
   "blast-radius": BlastRadiusDemo,
+  "tripwire-tuner": TripwireTunerDemo,
+  "rack-elevation": RackElevationDemo,
+  "heartbeat-ledger": HeartbeatLedgerDemo,
+  "exception-triage": ExceptionTriageDemo,
+  "probe-relay": ProbeRelayDemo,
+  "status-dispatch": StatusDispatchDemo,
+  "ghost-baseline": GhostBaselineDemo,
+  "ghost-rows": GhostRowsDemo,
+  "open-day": OpenDayDemo,
+  "empty-room": EmptyRoomDemo,
+  "first-event": FirstEventDemo,
+  "format-sampler": FormatSamplerDemo,
+  "token-locker": TokenLockerDemo,
+  "chord-recorder": ChordRecorderDemo,
+  "mend-list": MendListDemo,
+  "ping-matrix": PingMatrixDemo,
+  "hazard-shelf": HazardShelfDemo,
+  "address-cascade": AddressCascadeDemo,
+  "theme-fitting": ThemeFittingDemo,
+  "pager-rota": PagerRotaDemo,
+  "thread-fields": ThreadFieldsDemo,
+  "attendee-rows": AttendeeRowsDemo,
+  "offline-shelf": OfflineShelfDemo,
+  "mixed-values": MixedValuesDemo,
+  "margin-help": MarginHelpDemo,
+  "draft-keeper": DraftKeeperDemo,
+  "check-answers": CheckAnswersDemo,
+  "leave-guard": LeaveGuardDemo,
+  "receipt-reader": ReceiptReaderDemo,
+  "quick-capture": QuickCaptureDemo,
+  "share-perimeter": SharePerimeterDemo,
+  "destination-picker": DestinationPickerDemo,
+  "parcel-spec": ParcelSpecDemo,
 };

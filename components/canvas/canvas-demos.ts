@@ -1655,4 +1655,136 @@ export const CANVAS_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/blast-radius.demo").then((m) =>
       mod(m.BlastRadiusDemo, m.tweaks),
     ),
+  "tripwire-tuner": () =>
+    import("@/registry/demos/tripwire-tuner.demo").then((m) =>
+      mod(m.TripwireTunerDemo, m.tweaks),
+    ),
+  "rack-elevation": () =>
+    import("@/registry/demos/rack-elevation.demo").then((m) =>
+      mod(m.RackElevationDemo, m.tweaks),
+    ),
+  "heartbeat-ledger": () =>
+    import("@/registry/demos/heartbeat-ledger.demo").then((m) =>
+      mod(m.HeartbeatLedgerDemo, m.tweaks),
+    ),
+  "exception-triage": () =>
+    import("@/registry/demos/exception-triage.demo").then((m) =>
+      mod(m.ExceptionTriageDemo, m.tweaks),
+    ),
+  "probe-relay": () =>
+    import("@/registry/demos/probe-relay.demo").then((m) =>
+      mod(m.ProbeRelayDemo, m.tweaks),
+    ),
+  "status-dispatch": () =>
+    import("@/registry/demos/status-dispatch.demo").then((m) =>
+      mod(m.StatusDispatchDemo, m.tweaks),
+    ),
+  "ghost-baseline": () =>
+    import("@/registry/demos/ghost-baseline.demo").then((m) =>
+      mod(m.GhostBaselineDemo, m.tweaks),
+    ),
+  "ghost-rows": () =>
+    import("@/registry/demos/ghost-rows.demo").then((m) =>
+      mod(m.GhostRowsDemo, m.tweaks),
+    ),
+  "open-day": () =>
+    import("@/registry/demos/open-day.demo").then((m) =>
+      mod(m.OpenDayDemo, m.tweaks),
+    ),
+  "empty-room": () =>
+    import("@/registry/demos/empty-room.demo").then((m) =>
+      mod(m.EmptyRoomDemo, m.tweaks),
+    ),
+  "first-event": () =>
+    import("@/registry/demos/first-event.demo").then((m) =>
+      mod(m.FirstEventDemo, m.tweaks),
+    ),
+  "format-sampler": () =>
+    import("@/registry/demos/format-sampler.demo").then((m) =>
+      mod(m.FormatSamplerDemo, m.tweaks),
+    ),
+  "token-locker": () =>
+    import("@/registry/demos/token-locker.demo").then((m) =>
+      mod(m.TokenLockerDemo, m.tweaks),
+    ),
+  "chord-recorder": () =>
+    import("@/registry/demos/chord-recorder.demo").then((m) =>
+      mod(m.ChordRecorderDemo, m.tweaks),
+    ),
+  "mend-list": () =>
+    import("@/registry/demos/mend-list.demo").then((m) =>
+      mod(m.MendListDemo, m.tweaks),
+    ),
+  "ping-matrix": () =>
+    import("@/registry/demos/ping-matrix.demo").then((m) =>
+      mod(m.PingMatrixDemo, m.tweaks),
+    ),
+  "hazard-shelf": () =>
+    import("@/registry/demos/hazard-shelf.demo").then((m) =>
+      mod(m.HazardShelfDemo, m.tweaks),
+    ),
+  "address-cascade": () =>
+    import("@/registry/demos/address-cascade.demo").then((m) =>
+      mod(m.AddressCascadeDemo, m.tweaks),
+    ),
+  "theme-fitting": () =>
+    import("@/registry/demos/theme-fitting.demo").then((m) =>
+      mod(m.ThemeFittingDemo, m.tweaks),
+    ),
+  "pager-rota": () =>
+    import("@/registry/demos/pager-rota.demo").then((m) =>
+      mod(m.PagerRotaDemo, m.tweaks),
+    ),
+  "thread-fields": () =>
+    import("@/registry/demos/thread-fields.demo").then((m) =>
+      mod(m.ThreadFieldsDemo, m.tweaks),
+    ),
+  "attendee-rows": () =>
+    import("@/registry/demos/attendee-rows.demo").then((m) =>
+      mod(m.AttendeeRowsDemo, m.tweaks),
+    ),
+  "offline-shelf": () =>
+    import("@/registry/demos/offline-shelf.demo").then((m) =>
+      mod(m.OfflineShelfDemo, m.tweaks),
+    ),
+  "mixed-values": () =>
+    import("@/registry/demos/mixed-values.demo").then((m) =>
+      mod(m.MixedValuesDemo, m.tweaks),
+    ),
+  "margin-help": () =>
+    import("@/registry/demos/margin-help.demo").then((m) =>
+      mod(m.MarginHelpDemo, m.tweaks),
+    ),
+  "draft-keeper": () =>
+    import("@/registry/demos/draft-keeper.demo").then((m) =>
+      mod(m.DraftKeeperDemo, m.tweaks),
+    ),
+  "check-answers": () =>
+    import("@/registry/demos/check-answers.demo").then((m) =>
+      mod(m.CheckAnswersDemo, m.tweaks),
+    ),
+  "leave-guard": () =>
+    import("@/registry/demos/leave-guard.demo").then((m) =>
+      mod(m.LeaveGuardDemo, m.tweaks),
+    ),
+  "receipt-reader": () =>
+    import("@/registry/demos/receipt-reader.demo").then((m) =>
+      mod(m.ReceiptReaderDemo, m.tweaks),
+    ),
+  "quick-capture": () =>
+    import("@/registry/demos/quick-capture.demo").then((m) =>
+      mod(m.QuickCaptureDemo, m.tweaks),
+    ),
+  "share-perimeter": () =>
+    import("@/registry/demos/share-perimeter.demo").then((m) =>
+      mod(m.SharePerimeterDemo, m.tweaks),
+    ),
+  "destination-picker": () =>
+    import("@/registry/demos/destination-picker.demo").then((m) =>
+      mod(m.DestinationPickerDemo, m.tweaks),
+    ),
+  "parcel-spec": () =>
+    import("@/registry/demos/parcel-spec.demo").then((m) =>
+      mod(m.ParcelSpecDemo, m.tweaks),
+    ),
 };
