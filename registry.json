@@ -45118,6 +45118,821 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "raking-light",
+      "type": "registry:ui",
+      "title": "Raking Light",
+      "description": "An object on a light table, relit per pixel in WebGL2 by a lamp that lies low at its side, so the light skims the surface and every ridge throws a long shadow marched through a height map toward the lamp: the brush ridges of an oil sketch, a plate mark, an embossed fern and a blind-stamp in paper that look blank in flat light, the wedges in a clay tablet, or your own photo. The pointer's direction from the centre is the light's direction and its distance from the rim is its height, so moving in raises the light and flattens the shadows; the direction follows on springs.glide, the height on springs.drift, a click sets the lamp down with the marker landing on springs.recoil, and the first time it is seen the light comes down from overhead and the relief rises out of a flat picture. On the keyboard, Left and Right orbit the lamp and Up and Down raise and lower it.",
+      "files": [
+        {
+          "path": "registry/ui/raking-light.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1895"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "monospace-pond",
+      "type": "registry:ui",
+      "title": "Monospace Pond",
+      "description": "A paragraph of monospaced text that is also the surface of a pond: the words stay real, selectable DOM text, and a canvas redraws every character from a glyph atlas where the page laid it out, riding a damped wave equation simulated one character wide with walls that reflect. Swells shoulder the letters toward their crests and lift them, the crests turn them into denser glyphs from the ramp in the crest's ink while troughs thin the ink, and when the energy is gone the original text is drawn exactly again. The pointer drags a trough and its wake through the water as hard as it is quick; a click, a tap, Enter or keyboard focus drops a stone that falls, dents the surface and rings outward under a hairline ring while a crown of droplet glyphs hops out, and the arrow keys move a fingertip that glides between characters on springs.snap while Escape smooths the water away on springs.glide.",
+      "files": [
+        {
+          "path": "registry/ui/monospace-pond.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1896"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "tally-facets",
+      "type": "registry:ui",
+      "title": "Tally Facets",
+      "description": "A faceted sidebar beside a results list where every value carries a live count and a slim count bar, counted disjunctively so a facet's own picks never zero its siblings. Picking a value flicks its check in on springs.flick and, in the same frame, every other facet's bars glide to their new lengths on springs.glide while their counts roll; values that would now return nothing dim and sink to the foot of their group on glide, and results leave on the exit ease while the rest close up and returning rows rise in a cascade. Arrow keys walk every value in the order you see it, Space toggles, and below a 560px container the facets fold into a modal sheet whose buttons carry the live result count.",
+      "files": [
+        {
+          "path": "registry/ui/tally-facets.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1633"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "sieve-stack",
+      "type": "registry:ui",
+      "title": "Sieve Stack",
+      "description": "Active filters stacked as layers above a work-order table, each applied to what survived the layers above it, so every bar shows exactly what its filter costs: the rows it lets through as a solid fill, the rows it removes as a shaded band, bare track for what earlier layers took. Switching a layer off collapses its band and the returning rows pour back down the stack, every layer beneath widening on springs.glide a stagger after the one above while the table admits them in a cascade; the switch thumb snaps on springs.snap. A grip drags a layer 1:1 with its neighbours sliding aside on glide and the release settling with the throw's velocity, and Alt+Arrow moves a layer from any of its controls while Delete removes it.",
+      "files": [
+        {
+          "path": "registry/ui/sieve-stack.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1634"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "prose-filter",
+      "type": "registry:ui",
+      "title": "Prose Filter",
+      "description": "One search line that reads a sentence against a typed schema and turns it into field, operator and value chips docked above a results table. A phrase docks when you type the space after it: a ghost of its words rises a step and fades where they stood while the chip starts over them, scaled to their width, and flies to its slot on springs.snap with one crisp overshoot; results close up on springs.glide and arrive in a cascade. Words with more than one reading keep a dotted, dashed or wavy underline, Tab walks them and opens a listbox of meanings under the word, Enter docks the chosen one, and Backspace at the start of the line pulls the last chip back into editable text.",
+      "files": [
+        {
+          "path": "registry/ui/prose-filter.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1635"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "saved-lenses",
+      "type": "registry:ui",
+      "title": "Saved Lenses",
+      "description": "A row of saved views over a chip bar and a results list where switching views is a shared-element move: chips the two views have in common are the same elements and keep their slots, arriving chips take the slots departing ones leave, the differing ones slide out on the exit ease and in on springs.snap a cascade apart, and later chips glide on springs.glide only when a replaced chip is a different width. The tab mark slides on snap. Removing a chip or adding one from Filter makes a draft whose tab earns a modified dot on snap while Save, Save as new and Revert slide in on glide; views are a tablist with arrows, Home and End, and digits 1 to 9 pick a view from anywhere in the surface.",
+      "files": [
+        {
+          "path": "registry/ui/saved-lenses.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1636"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "brushed-windows",
+      "type": "registry:ui",
+      "title": "Brushed Windows",
+      "description": "A density ribbon of a month of events above an event list, where dragging across the ribbon cuts a frosted window that follows the pointer 1:1 and you may cut as many as you need, overlapping cuts joining. On release the window's edges settle onto bin boundaries on springs.snap with the drag's velocity, its soft handles swell in on snap, a chip for it pops into the row below, and the list regroups on springs.glide with one heading per window while rows outside every window fold away. Handles resize and the body moves a window 1:1; touch starts a cut with a long press; the ribbon is a slider cursor whose Enter cuts a day, and a focused window moves with the arrows, resizes with Shift and goes with Delete.",
+      "files": [
+        {
+          "path": "registry/ui/brushed-windows.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1637"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "wing-scales",
+      "type": "registry:ui",
+      "title": "Wing Scales",
+      "description": "A specimen of an invented blue butterfly drawn per pixel in one WebGL2 pass, zoomable from the whole insect down to the ridges of a single scale: rows of toothed scales laid like shingles, coloured by a thin-film term on their ridges, so the blue slides toward green and violet as the pointer rocks the specimen on a critically damped spring with the drift constants. The wheel (once focused), a pinch, double-click or the keys zoom about the pointer on the glide constants in log space; zoomed in, a drag pans 1:1 and a release throws by projection, and while you look the scales breathe in a slow wave that settles when you leave. Plus and minus zoom, Home and End jump to the wing or the ridges, Left and Right rock it, Shift with an arrow pans, and Escape returns to the whole wing.",
+      "files": [
+        {
+          "path": "registry/ui/wing-scales.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1889"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "hanging-scroll",
+      "type": "registry:ui",
+      "title": "Hanging Scroll",
+      "description": "A vertical gallery mounted on a long paper scroll hung from a turned rod: as its scroll container scrolls, the stage pins and the paper rolls up onto the rod, bowing off the wall before the roll while each picture bends over the front of it, foreshortening and darkening as it turns away, and the knobs on the rod turn exactly with the rolled length as the roll fattens. The shown progress follows the scroll on a critically damped spring with the glide constants, and the hanging part is a lightly damped pendulum that the roll's changes of speed kick into a slight sway, swinging quicker as the scroll shortens until the weighted bottom bar rises with the last picture. Down, Page Down and Space roll to the next picture, Up and Page Up back, and Home and End jump to either end.",
+      "files": [
+        {
+          "path": "registry/ui/hanging-scroll.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1890"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "drying-line",
+      "type": "registry:ui",
+      "title": "Drying Line",
+      "description": "Darkroom prints pegged to a sagging cord under a red safelight, on a pulley loop you pull past: a drag follows 1:1 and commits by projection to the nearest print on the glide spring with the release velocity, and the page's scroll pulls it too. Every print is a real pendulum and a torsion pendulum, swung about its peg by the line's acceleration and twisted by the air each its own way, damped by `sway`, so the glossy faces turn and a band of red light slides across them before they hang still and the loop stops. Clicking a print unclips it: the jaw opens on the flick spring and the print glides to the front with its darkroom note, and Back on the line or Escape carries it back as the jaw snaps shut on snap; Left and Right pull the line a print, Home and End go to the ends.",
+      "files": [
+        {
+          "path": "registry/ui/drying-line.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1891"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "fresnel-sheet",
+      "type": "registry:ui",
+      "title": "Fresnel Sheet",
+      "description": "A flat plastic Fresnel magnifier lying on a printed chart, drawn in one WebGL2 pass: through its concentric ridges a second picture, the same bay from the air, shows magnified about the sheet's centre and broken into rings, each flat facet a little out of register with its neighbours and fringed with rainbow where red and blue bend differently, while the risers catch the lamp, an anisotropic sheen fans across the rings and a glare band fixed in the room slides over the plastic. The sheet follows a drag 1:1 with its shadow lifting on the flick spring, and on release slides on with the release velocity and stops on friction, meeting the edge with a soft bounce on the snap spring; a tap on the chart glides it there on glide. The arrow keys move it (Shift for larger steps) and Home centres it.",
+      "files": [
+        {
+          "path": "registry/ui/fresnel-sheet.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1892"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "theatre-scrims",
+      "type": "registry:ui",
+      "title": "Theatre Scrims",
+      "description": "Painted gauzes hanging one behind another on a dark stage, drawn in one WebGL2 pass, with an eye that dollies through them as the page scrolls: each gauze is front-lit and solid while you are far from it, and as you approach its front light falls and the light behind it rises, so the painting fades to a faint image on glowing, uneven threads and the next scene, now lit, shows through small and deep in the frame. Passing through, the gauze billows toward you and ripples behind you, and the last painting is a solid back cloth; the shown progress follows the scroll on a critically damped spring with the glide constants, over a floor of boards with pools of light and haze lit by shafts from the flies. Down, Page Down and Space go to the next scene, Up and Page Up back, Home and End to either end.",
+      "files": [
+        {
+          "path": "registry/ui/theatre-scrims.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1893"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "slate-courses",
+      "type": "registry:ui",
+      "title": "Slate Courses",
+      "description": "A roof, face on, that a roofer slates as the page scrolls: slates fly in from above and toward you and lay themselves in courses from the eaves up, each course lapping the head of the one below and breaking joint by half a slate, working left to right on one course and back on the next, so a picture with a headline painted across it reads only once the courses are on. A slate's travel glides in on the glide spring and its scale lands on recoil, a small settle with a clack when sound is on; when the last course is laid a slow sheen crosses the roof, and scrolling back lifts the slates off top course first on exit tweens. Down, Page Down and Space lay the next course, Up and Page Up lift the top one, and Home and End lift all or lay all.",
+      "files": [
+        {
+          "path": "registry/ui/slate-courses.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1894"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "room-within",
+      "type": "registry:ui",
+      "title": "Room Within",
+      "description": "A story told as one long zoom: the stage is its own scroll container, each picture holds an opening exactly the stage's shape, and scrolling zooms into it until it fills the stage and becomes the next picture, which holds the next opening. The camera is one transform written straight from the scroll — a pure geometric scale about the opening's fixed point, so it grows from one steady spot and every level boundary is seamless — while the glass sheen slides off the window, the far room's haze lifts and the captions cross-fade with the zoom; a click on the opening, the depth gauge or Page Down travels there on springs.drift. Page Down, Space and Enter go in a level, Page Up, Shift+Space and Backspace come back out, Home and End jump to the ends.",
+      "files": [
+        {
+          "path": "registry/ui/room-within.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1883"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "zellige-wall",
+      "type": "registry:ui",
+      "title": "Zellige Wall",
+      "description": "A picture rebuilt from small glazed tiles, each an unevenly cut square set a hair askew in grout, its colour box-averaged from the picture and pulled toward the picture's own glazes, lit per pixel in one instanced WebGL2 draw with a pillowed face, a rolled rim that catches the light and a hairline of bare clay. Every tile has its own tilt spring, between the springs.snap and springs.recoil constants by wobble: tiles under the pointer lean toward it so a ring of glints follows the hand and rings back as it passes, and a click sends a ripple across the whole wall that kicks each tile outward as the front reaches it. Arrow keys move a keyboard lamp the tiles lean toward, and Enter or Space sends the ripple from it.",
+      "files": [
+        {
+          "path": "registry/ui/zellige-wall.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1884"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "thought-avalanche",
+      "type": "registry:ui",
+      "title": "Thought Avalanche",
+      "description": "A dark field of a few hundred nodes joined by faint, bowed filaments, where a click fires the nearest node and each firing sends glowing pulses on to its neighbours with a chance set by the branching ratio — counted over the neighbours that are not still resting — so an avalanche fizzles out below 1, swings between a handful and most of the field near it, and storms across everything above it. Pulses run along the curves at the conduction speed with short bright tails, the filaments they crossed keep an afterglow, fired nodes flash and then rest for the refractory time, and a ring blooms on the clicked node on the springs.snap constants. Arrow keys move a selection ring from node to node, Home returns it to the middle, and Enter or Space fires it.",
+      "files": [
+        {
+          "path": "registry/ui/thought-avalanche.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1885"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "planetarium-roof",
+      "type": "registry:ui",
+      "title": "Planetarium Roof",
+      "description": "A gallery seen from the floor of a planetarium: prints pinned to the inside of a dome overhead in loose constellations of three, over a faint graticule, pricked stars and constellation lines, each print posed by the Jacobian of an equisolid fisheye at its centre so the ones near the edge compress and turn as the dome curves away. Dragging turns the whole dome 1:1 under the finger and a release coasts on with the throw's velocity, decaying by inertia, while keyboard moves turn it to each print on the springs.glide constants. Clicking a print flies it down into focus — its pose decomposed into rotation, scales, shear and centre and tweened to an upright, centred print on springs.glide as the dome dims and the caption rises — and Escape, Close or a click on the dome flies it home.",
+      "files": [
+        {
+          "path": "registry/ui/planetarium-roof.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1886"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "slot-canyon",
+      "type": "registry:ui",
+      "title": "Slot Canyon",
+      "description": "An endless flight down a narrow sandstone slot canyon, raymarched in one WebGL2 pass: the walls are a distance field around a meandering centreline whose lean changes with height, so the slot winds one way at the floor and another overhead, banded with strata and carved with flowing flutes, glowing with light bounced down from a thin crack of sky — warm high up, violet-brown below. Where the crack opens, sun falls in shafts gathered by a short volumetric march through drifting dust, so the beams hang in the air and light the floor where they land. The pointer steers sideways and up toward the crack on the springs.glide constants, banking the camera so the canyon twists around you, and drifts home on springs.drift when it leaves; the arrow keys steer the same way, Home recentres and Space pauses the flight.",
+      "files": [
+        {
+          "path": "registry/ui/slot-canyon.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/glsl.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1887"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "switchback-trails",
+      "type": "registry:ui",
+      "title": "Switchback Trails",
+      "description": "A dusk view across a valley to a mountain road zigzagging down a slope in hairpins, its legs smaller and thinner the higher they climb, with cars driving it both ways — warm-white headlights coming down, red tail lights going up — slowing into every hairpin. Press and hold to open the shutter: an iris opens on the springs.snap constants, a readout counts the seconds, and each car's lights are drawn from where they were to where they are into an additive exposure layer, so white and red trails build along the hairpins, brightest where the cars slow, while the sky lifts as a long exposure does. Release and the iris closes on the exit ease as the photograph develops with a halation bloom, holds, and slowly fades; Space opens it while held, Enter toggles it, Escape closes it.",
+      "files": [
+        {
+          "path": "registry/ui/switchback-trails.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1888"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "hover-forecast",
+      "type": "registry:ui",
+      "title": "Hover Forecast",
+      "description": "A trip board whose filter menus show what an option would remove before you choose it: resting on an option turns the cards it would drop into dashed ghosts that fade and lean aside about their foot, row by row down the grid on springs.snap, while the forecast count rolls on snap and the share meter glides on springs.glide; leaving the option springs them back, and committing exits the ghosts on the exit ease while the survivors glide into place. Arrow keys move through each menu previewing as they go, Enter or Space commits, Escape abandons, and the trip cards are one roving tab stop moved by arrows across the measured columns.",
+      "files": [
+        {
+          "path": "registry/ui/hover-forecast.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1638"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "paint-matrix",
+      "type": "registry:ui",
+      "title": "Paint Matrix",
+      "description": "A two-facet filter you paint: sites down the side, statuses across the top, and each cell's job count tinted by heat. Dragging across cells paints them in or out (the first cell decides), each cell blooming with a soft wash out of the exact point the pointer entered on a slow enter tween while its count pops on springs.snap, and the jobs list beside it changes once the stroke ends, rows rising a cascade apart on springs.glide as the count rolls. It is a real grid with one roving cursor over cells and headings: arrows move, Space or Enter paints, Shift+Arrow paints as it travels, and a heading paints its whole line.",
+      "files": [
+        {
+          "path": "registry/ui/paint-matrix.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1639"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "veto-chips",
+      "type": "registry:ui",
+      "title": "Veto Chips",
+      "description": "A filter row where every value can be ignored, kept or ruled out: the first press keeps a chip as a check draws in on springs.flick, the second turns it over on a quick springs.snap flip to its muted, struck-through vetoed face and slides it into a separate Excluding row on springs.glide while the gap closes and the result count rolls, and a third flips it back and glides it home. Rows measure their chips once and gather what does not fit into a +N popover. The chips are one toolbar: arrows move, Space or Enter cycles, Shift+Space vetoes, Delete clears, and focus follows a chip to the row it lands in.",
+      "files": [
+        {
+          "path": "registry/ui/veto-chips.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1640"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "nested-ticks",
+      "type": "registry:ui",
+      "title": "Nested Ticks",
+      "description": "A filter tree of regions, crews and people with tri-state ticks and a summary that says the choice in words (\"All of Coldbrook crew, 2 of Basinworks crew\"). Ticking a parent sends a ripple down its open branch: each child whose tick changes lands on springs.snap a cascade step after the one above, its check drawing on springs.flick under a passing wash, while partial parents fill their tick halfway like a level; branches open on springs.glide and lazy ones load with a spinner row or offer Retry. It is an APG tree with one roving tab stop: arrows move, open and close, Space ticks, asterisk opens every sibling, and typed letters jump to a match while dimming the rest.",
+      "files": [
+        {
+          "path": "registry/ui/nested-ticks.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1641"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "drill-columns",
+      "type": "registry:ui",
+      "title": "Drill Columns",
+      "description": "A column browser for deep folders: each opened folder adds a column and the last previews the selected file with drawn art. Opening a folder slides the track left on springs.glide while the selected row's highlight stretches to its column's edge and a thin connector draws along the divider into the new column's heading on glide; stepping back retracts it on the exit ease, and the selection glides between rows on springs.snap. One roving tab stop runs through every column: arrows travel within and across columns, Enter opens, Space previews, F2 renames and M picks an item up to move, while rows can also be dragged 1:1 onto a folder that bumps on springs.recoil as it takes the drop.",
+      "files": [
+        {
+          "path": "registry/ui/drill-columns.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1642"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "space-reclaim",
+      "type": "registry:ui",
+      "title": "Space Reclaim",
+      "description": "A storage clean-up surface: a quota bar drawn per file type in one hue sits over the scan's biggest files, ranked by size with proportional bars, types and last-opened ages. Choosing a file lifts its chip out of the row and flies it into the To remove tray on springs.glide while a striped reclaimable part grows inside that type's segment of the quota bar; Remove drains each segment by exactly its stripe on glide as the used figure rolls down and the removed rows fold away — calm, never bouncy, because it is a deletion. The list is a multi-select listbox: arrows move, Space chooses, Shift extends a range, Enter opens, K keeps a file out of the suggestions, Delete goes to Remove and Escape clears.",
+      "files": [
+        {
+          "path": "registry/ui/space-reclaim.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1643"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "revision-reel",
+      "type": "registry:ui",
+      "title": "Revision Reel",
+      "description": "A version history you scrub like footage: dragging the reel's playhead follows the finger 1:1 and dissolves the file's preview from one save into the next by its fractional position, while the deck of version cards above fans open around it — a closed-form bell of extra room, a tilt away from the playhead and a lift for the card at it, all read from one motion value. Released, the playhead is thrown by projection and settles on the nearest version on springs.snap with the release velocity; Restore lifts the chosen card on snap while the host saves, then a new newest version is born where it was, carried to the top of the stack on springs.glide and set down on snap. The reel is a slider — Left and Right step, Page keys jump, Home and End, Enter restores, C marks two versions to compare side by side, D downloads, Escape closes the comparison — and becomes a listbox of versions at phone widths.",
+      "files": [
+        {
+          "path": "registry/ui/revision-reel.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1644"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "name-clash",
+      "type": "registry:ui",
+      "title": "Name Clash",
+      "description": "An upload conflict resolver that decides one clash at a time: the file in the folder and the one being uploaded arrive side by side, sliding together until they touch on springs.glide, and picking an action previews it on the cards themselves — Replace slides the old card under the new one on glide, Keep both parts them on springs.snap while the upload's name grows its \" (2)\", Skip sets the upload aside. Apply sinks the pair on the exit ease and deals the next, Apply to all settles the rest in a cascade while the counter rolls down on snap, and an empty queue closes the panel to a one-line receipt. The actions are a radiogroup — arrows pick and the cards answer — Enter applies from anywhere in the panel and A applies to every remaining conflict.",
+      "files": [
+        {
+          "path": "registry/ui/name-clash.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1645"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "incident-bridge",
+      "type": "registry:ui",
+      "title": "Incident Bridge",
+      "description": "A live incident workspace: a severity band over a toolbar, a timeline with a slim time axis and a pin per update, and the roles, affected Gaugeworks services and response checklist beside it. Changing severity floods the band with the new colour outward from the segment that was pressed — a circle clip on an enter tween, quicker to escalate than to calm — while the segment pill moves on springs.snap; every update drops in with its pin landing on the axis on springs.recoil and its entry sliding in on springs.glide as the rest glide down. U posts an update, R hands out a role from a menu, S goes to severity where arrows change it, Resolve sweeps the band quiet and lights the postmortem, stale data is flagged with its age and a null incident reads all clear.",
+      "files": [
+        {
+          "path": "registry/ui/incident-bridge.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1646"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "blast-radius",
+      "type": "registry:ui",
+      "title": "Blast Radius",
+      "description": "A service dependency map that answers who feels it when one service falls over: services sit in tidy layers computed from their calls (longest-path layering with barycentre sweeps), and every call is a curve whose weight is its traffic. Selecting a service runs the blast backwards up the calls one hop every ringSpeed ms — a pulse travels each edge, and as it lands the caller takes the impact tint and throws one ring that widens on springs.drift and fades, the impacted count rolls on springs.snap and the hop's rows rise into the list on springs.glide — while everything it never reaches dims; then it all settles. Every service is a button in the tab order where arrows move along the layout, Enter or Space selects and Escape clears, and below a 30rem container the map becomes an indented tree of hops.",
+      "files": [
+        {
+          "path": "registry/ui/blast-radius.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1647"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

@@ -154055,4 +154055,4380 @@ export const components: KinetiqItem[] = [
       "Give it a height: it fills its parent, and the sun's size is a share of the shorter side, so it suits a square card or a wide hero.",
     ],
   },
+  {
+    name: "raking-light",
+    type: "registry:ui",
+    title: "Raking Light",
+    description:
+      "An object on a light table, relit per pixel in WebGL2 by a lamp that lies low at its side, so the light skims the surface and every ridge throws a long shadow marched through a height map toward the lamp: the brush ridges of an oil sketch, a plate mark, an embossed fern and a blind-stamp in paper that look blank in flat light, the wedges in a clay tablet, or your own photo. The pointer's direction from the centre is the light's direction and its distance from the rim is its height, so moving in raises the light and flattens the shadows; the direction follows on springs.glide, the height on springs.drift, a click sets the lamp down with the marker landing on springs.recoil, and the first time it is seen the light comes down from overhead and the relief rises out of a flat picture. On the keyboard, Left and Right orbit the lamp and Up and Down raise and lower it.",
+    files: [
+      {
+        path: "registry/ui/raking-light.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "glsl"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1895",
+    },
+    tagline: "A low light that skims the surface for texture.",
+    keywords: [
+      "raking light",
+      "relight",
+      "depth map",
+      "emboss",
+      "impasto",
+      "webgl shadows",
+      "texture",
+    ],
+    props: [
+      {
+        name: "subject",
+        type: '"canvas" | "paper" | "tablet"',
+        description:
+          "The object on the table, drawn in code: an oil sketch, a sheet of embossed paper or a clay tablet.",
+        defaultValue: '"canvas"',
+      },
+      {
+        name: "src",
+        type: "string",
+        description:
+          "Your own photograph to relight instead (it must be readable across origins). Its height comes from depthSrc, or from its brightness.",
+      },
+      {
+        name: "depthSrc",
+        type: "string",
+        description: "A depth map for src, white for high, black for low.",
+      },
+      {
+        name: "alt",
+        type: "string",
+        description:
+          "What the image shows, for assistive technology. Each subject has its own description by default.",
+      },
+      {
+        name: "inscription",
+        type: "string",
+        description: "The words pressed around the paper's blind-stamp.",
+        defaultValue: '"COLD PRESSED · MADE BY HAND · NO. 14 ·"',
+      },
+      {
+        name: "elevation",
+        type: "number",
+        description:
+          "The raking angle: how many degrees above the surface the light skims when it lies at the edge, 2 to 40.",
+        defaultValue: "12",
+      },
+      {
+        name: "relief",
+        type: "number",
+        description:
+          "How tall the surface's ridges stand, 0 (flat print) to 1 (deep relief).",
+        defaultValue: "0.6",
+      },
+      {
+        name: "warmth",
+        type: "number",
+        description:
+          "The light's colour, 0 (cool north daylight) to 1 (warm tungsten); the shadows fill with the other.",
+        defaultValue: "0.55",
+      },
+      {
+        name: "softness",
+        type: "number",
+        description:
+          "The lamp's size, 0 (a pin-point with crisp shadows) to 1 (a softbox with soft ones).",
+        defaultValue: "0.35",
+      },
+      {
+        name: "gloss",
+        type: "number",
+        description:
+          "How much the surface glints where it faces the light, 0 (matte) to 1.",
+        defaultValue: "0.4",
+      },
+      {
+        name: "azimuth / defaultAzimuth",
+        type: "number",
+        description:
+          "The direction the resting light comes from, degrees clockwise from the top; controlled or uncontrolled.",
+        defaultValue: "290",
+      },
+      {
+        name: "onAzimuthChange",
+        type: "(azimuth: number) => void",
+        description:
+          "Fires when a click, a tap or the arrow keys set the light down in a new direction, in whole degrees.",
+      },
+      {
+        name: "onLightChange",
+        type: "(light: { azimuth: number; elevation: number; held: boolean }) => void",
+        description:
+          "Fires as the hand moves the lamp, with the light it is asking for, in whole degrees.",
+      },
+      {
+        name: "intro",
+        type: "boolean",
+        description:
+          "The light comes down from overhead to its raking angle the first time the object is seen.",
+        defaultValue: "true",
+      },
+      {
+        name: "showLamp",
+        type: "boolean",
+        description:
+          "Show a small lamp where the light comes from while it is held.",
+        defaultValue: "true",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        description: "The pointer and the keyboard move the lamp.",
+        defaultValue: "true",
+      },
+      {
+        name: "seed",
+        type: "number",
+        description:
+          "Seeds the brushstrokes, the paper's fibres and the wedges in the clay.",
+        defaultValue: "1",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+        defaultValue: "2",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "The accessible name of the lamp control.",
+        defaultValue: '"Lamp"',
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Sizes and shapes the box.",
+        defaultValue: '"h-56 w-full"',
+      },
+    ],
+    usageNotes: [
+      "Give the box a height (the default is h-56 w-full). The object is laid out for the box's own aspect and baked once — on first sight, and again only when the subject, seed, inscription, image, palette or size changes (size changes wait 140 ms for the resize to stop).",
+      "Keyboard: one focus stop. Left and Right orbit the lamp 15° (PageUp and PageDown 45°) and set that direction as the rest; Up and Down raise and lower it, Home lays it low and End lifts it overhead; blur lets it sink back to elevation. A polite live region reads the light once the keys settle.",
+      "Pointer: hovering holds the lamp, a click sets it down facing that way (onAzimuthChange), leaving lets it sink back. On touch, a sideways drag moves the lamp and lifting the finger sets it down; an upright swipe still scrolls the page.",
+      "Reduced motion: no intro and no springs — the light goes straight where the pointer or keys put it and sinks back at once; the object is still fully relit, because direction and height are information.",
+      "Cost: one fullscreen WebGL2 draw per frame only while the light moves, none when settled, off screen or in a hidden tab; the height buffer is half-float where it can be rendered, DPR capped at dpr. Without WebGL2, or after a lost context, a CSS still of the object washed from the resting side stays.",
+      "Bring your own photo with src (and depthSrc for a real depth map); it must be same-origin or served with CORS, and if it cannot be read the drawn subject is shown instead. The subjects' colours are pigments at fixed lightness, so they look the same in either theme.",
+    ],
+  },
+  {
+    name: "monospace-pond",
+    type: "registry:ui",
+    title: "Monospace Pond",
+    description:
+      "A paragraph of monospaced text that is also the surface of a pond: the words stay real, selectable DOM text, and a canvas redraws every character from a glyph atlas where the page laid it out, riding a damped wave equation simulated one character wide with walls that reflect. Swells shoulder the letters toward their crests and lift them, the crests turn them into denser glyphs from the ramp in the crest's ink while troughs thin the ink, and when the energy is gone the original text is drawn exactly again. The pointer drags a trough and its wake through the water as hard as it is quick; a click, a tap, Enter or keyboard focus drops a stone that falls, dents the surface and rings outward under a hairline ring while a crown of droplet glyphs hops out, and the arrow keys move a fingertip that glides between characters on springs.snap while Escape smooths the water away on springs.glide.",
+    files: [
+      {
+        path: "registry/ui/monospace-pond.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1896",
+    },
+    tagline: "A paragraph you can stir like still water.",
+    keywords: [
+      "water text",
+      "ascii",
+      "monospace",
+      "ripple",
+      "wave simulation",
+      "glyph ramp",
+      "text effect",
+    ],
+    props: [
+      {
+        name: "text",
+        type: "string",
+        description:
+          "The paragraph. Line breaks in it are kept; spaces wrap as usual.",
+        defaultValue: "a short reservoir note (MONOSPACE_POND_TEXT)",
+      },
+      {
+        name: "as",
+        type: '"p" | "div" | "blockquote"',
+        description: "The element the paragraph renders as.",
+        defaultValue: '"p"',
+      },
+      {
+        name: "damping",
+        type: "number",
+        description:
+          "How quickly the water settles, 0 (rings for seconds and rebounds off the edges) to 1 (settles like syrup).",
+        defaultValue: "0.35",
+      },
+      {
+        name: "ramp",
+        type: '"ascii" | "blocks" | "dots" | "marks" | string',
+        description:
+          "The glyphs a crest turns letters into, light to dense: a named ramp or your own string.",
+        defaultValue: '"ascii"',
+      },
+      {
+        name: "depth",
+        type: "number",
+        description:
+          "How deep the pond is, 0 to 1: deeper water carries waves faster and bends the letters further.",
+        defaultValue: "0.5",
+      },
+      {
+        name: "stir",
+        type: "number",
+        description:
+          "How hard the pointer drags waves through the text, 0 to 1.",
+        defaultValue: "0.6",
+      },
+      {
+        name: "radius",
+        type: "number",
+        description: "The pointer's footprint in characters, 1 to 6.",
+        defaultValue: "2.5",
+      },
+      {
+        name: "stone",
+        type: "number",
+        description: "How big a dropped stone is, 0 to 1.",
+        defaultValue: "0.7",
+      },
+      {
+        name: "crest",
+        type: "number",
+        description:
+          "How readily crests swap letters for ramp glyphs, 0 (only the highest) to 1 (any swell).",
+        defaultValue: "0.5",
+      },
+      {
+        name: "foam",
+        type: "boolean",
+        description:
+          "Word gaps froth with the lightest glyph on strong crests, so a ring reads across them.",
+        defaultValue: "true",
+      },
+      {
+        name: "ring",
+        type: "boolean",
+        description:
+          "A hairline ring rides out from every stone with the wavefront.",
+        defaultValue: "true",
+      },
+      {
+        name: "color",
+        type: "string",
+        description: "The ink of the text at rest.",
+        defaultValue: '"var(--foreground)"',
+      },
+      {
+        name: "crestColor",
+        type: "string",
+        description: "The ink the crests, the foam and the ring mix toward.",
+        defaultValue: '"var(--accent-bright)"',
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        description: "The pointer, touch and keyboard disturb the water.",
+        defaultValue: "true",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        description:
+          "Freeze the water where it is; it ignores the hand until unpaused.",
+        defaultValue: "false",
+      },
+      {
+        name: "intro",
+        type: "boolean",
+        description:
+          "One stone drops by itself the first time the paragraph is seen.",
+        defaultValue: "true",
+      },
+      {
+        name: "seed",
+        type: "number",
+        description:
+          "Where the intro stone falls and how a stone's droplets fly.",
+        defaultValue: "1",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+        defaultValue: "2",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "The pond's accessible name.",
+        defaultValue: '"Stir the water"',
+      },
+      {
+        name: "onStone",
+        type: "(at: { line: number; column: number }) => void",
+        description:
+          "Fires for every stone a click, a tap, Enter or keyboard focus drops, with its line and column (from 0).",
+      },
+      {
+        name: "onCalmChange",
+        type: "(calm: boolean) => void",
+        description:
+          "Fires when the water starts to move (false) and when it is still again (true).",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Sizes the box and sets its type: the font size is inherited.",
+      },
+    ],
+    usageNotes: [
+      "The paragraph is the real text — read once by assistive technology, selectable and copyable; the canvas under it is aria-hidden and only takes over drawing once it is ready, so the server render and any failure show plain text.",
+      "Keyboard: the pond is one focus stop (role group, roledescription pond). Focus drops a gentle stone where the fingertip rests; Left and Right move the fingertip a character, Up and Down a line, Home and End to the line's ends, stirring as it goes; Enter or Space drops a stone; Escape smooths the water away (and is left alone when the water is already still).",
+      "Reduced motion: nothing travels and nothing is displaced. A stone leaves a still ring of swapped glyphs and a hairline ring that cross-fade back to the text; the pointer leaves the text alone.",
+      "Cost: the water is a few thousand cells stepped at 120 Hz and the text a few hundred atlas draws a frame, only while the water moves, on screen and in a visible tab; settled, it draws the clean text once and stops. Layout and atlas rebuild on resize, font load and colour change; DPR capped at dpr.",
+      "Type: the font size is inherited and padding is in em, so it works from a caption to a lead paragraph. Positions come from the page's own layout, so any font works, though the swapped glyphs line up best in a monospaced one. Colours default to tokens and re-read on a theme change.",
+    ],
+  },
+  {
+    name: "tally-facets",
+    type: "registry:ui",
+    title: "Tally Facets",
+    description:
+      "A faceted sidebar beside a results list where every value carries a live count and a slim count bar, counted disjunctively so a facet's own picks never zero its siblings. Picking a value flicks its check in on springs.flick and, in the same frame, every other facet's bars glide to their new lengths on springs.glide while their counts roll; values that would now return nothing dim and sink to the foot of their group on glide, and results leave on the exit ease while the rest close up and returning rows rise in a cascade. Arrow keys walk every value in the order you see it, Space toggles, and below a 560px container the facets fold into a modal sheet whose buttons carry the live result count.",
+    files: [
+      {
+        path: "registry/ui/tally-facets.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1633",
+    },
+    tagline: "Pick a value; every other count answers.",
+    keywords: [
+      "faceted search",
+      "filters",
+      "facet counts",
+      "cross-filter",
+      "sidebar",
+      "results list",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "facets",
+        type: "TallyFacet[]",
+        defaultValue: "defaultTallyFacets",
+        description:
+          "The facets in order: { id, label, values?, badge? }. Values omitted are read from the rows, largest first; a badge facet shows as a pill on each result.",
+      },
+      {
+        name: "rows",
+        type: "TallyRow[]",
+        defaultValue: "defaultTallyRows",
+        description:
+          "The records counted and listed: { id, title, code, amount, at, facets } where facets maps facet id to value id.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "Record<string, string[]>",
+        defaultValue: "— / {}",
+        description: "Picked value ids by facet id, controlled or initial.",
+      },
+      {
+        name: "onValueChange",
+        type: "(selection) => void",
+        description:
+          "Fires with the whole selection after every pick, clear or chip removal.",
+      },
+      {
+        name: "onChange",
+        type: "(change: { facetId, valueId, selected, selection }) => void",
+        description:
+          "Fires once per decision with the value that changed and whether it is now picked.",
+      },
+      {
+        name: "onClear",
+        type: "() => void",
+        description: "Fires when Clear empties the selection.",
+      },
+      {
+        name: "onSaveView",
+        type: "(selection) => void",
+        description:
+          "Fires from Save view with the current selection; the button only shows when this is passed.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Loading stripes every bar and skeletons the results; error keeps the last counts, hatched, under a Retry banner.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Retry was pressed after a failed refresh.",
+      },
+      {
+        name: "density",
+        type: '"compact" | "cozy" | "roomy"',
+        defaultValue: '"cozy"',
+        description: "Facet row height (26, 30 or 36px) and type size.",
+      },
+      {
+        name: "barStyle",
+        type: '"bar" | "line" | "fill"',
+        defaultValue: '"bar"',
+        description:
+          "How a count is drawn: a slim bar under the label, a hairline rule, or a wash behind the whole row.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description: "Checks, bars, chips and the live count, any CSS colour.",
+      },
+      {
+        name: "sinkEmpty",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Values that would return nothing sink to the foot of their group.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "defaultTallyNow",
+        description:
+          'Today in ms, for the "3d ago" on each result; never read from the clock during render.',
+      },
+      {
+        name: "formatAmount",
+        type: "(amount: number) => string",
+        defaultValue: "whole US dollars",
+        description: "Formats each result's amount.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Orders"',
+        description:
+          "The heading over the results and the surface's accessible name.",
+      },
+      {
+        name: "itemLabel",
+        type: "{ one: string; other: string }",
+        defaultValue: '{ one: "order", other: "orders" }',
+        description: "What one result is called, in counts and announcements.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "520",
+        description:
+          "Height of the surface in px; the facets and the results scroll inside it.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Nothing can be picked, cleared or saved; the surface dims.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer surface.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: the facet list is one tab stop (roving tabindex). Up and Down walk every value in the order it is drawn, sunk values included, across groups; Home and End jump; Space or Enter toggles. Each value is a role="checkbox" named with its count ("North, 19 orders"), and empty values add "no matches" and aria-disabled. The result count is announced politely from the pick that changed it.',
+      "Below a 560px container the sidebar folds into a sheet behind a Filters button that shows how many values are picked. The sheet is a modal dialog: focus moves in and is trapped, Escape closes it and returns focus to the button, and its footer button reads the live result count.",
+      "Reduced motion: no glide, sink or rise — bars and counts jump to their new values, empty values dim and move instantly, the sheet fades in place and the loading stripes hold still. Counts and the result total still change, because they are the information.",
+      "Performance: nothing runs at rest. Bars are scaleX transforms and counts are motion values rendered as text, so a pick costs one React render and no per-frame renders. Sinking uses CSS order, so DOM order and keyboard focus never move under the visitor. The loading stripes run only while loading and on screen.",
+      "Counting is disjunctive: values in one facet are OR'd, facets are AND'd, and a facet's counts ignore its own picks. Bars measure against each facet's unfiltered maximum, so they only shrink as filters narrow, with a hairline tick at the unfiltered length.",
+    ],
+  },
+  {
+    name: "sieve-stack",
+    type: "registry:ui",
+    title: "Sieve Stack",
+    description:
+      "Active filters stacked as layers above a work-order table, each applied to what survived the layers above it, so every bar shows exactly what its filter costs: the rows it lets through as a solid fill, the rows it removes as a shaded band, bare track for what earlier layers took. Switching a layer off collapses its band and the returning rows pour back down the stack, every layer beneath widening on springs.glide a stagger after the one above while the table admits them in a cascade; the switch thumb snaps on springs.snap. A grip drags a layer 1:1 with its neighbours sliding aside on glide and the release settling with the throw's velocity, and Alt+Arrow moves a layer from any of its controls while Delete removes it.",
+    files: [
+      {
+        path: "registry/ui/sieve-stack.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1634",
+    },
+    tagline: "See exactly which filter is costing you rows.",
+    keywords: [
+      "filters",
+      "funnel",
+      "filter cost",
+      "reorder",
+      "work orders",
+      "data table",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "filters / defaultFilters",
+        type: "SieveFilter[]",
+        defaultValue: "— / defaultSieveFilters",
+        description:
+          "The filters in the order they are applied, controlled or initial: { id, label, field, op, value, active? } with op is, not, in, gte, lte or within (days from now).",
+      },
+      {
+        name: "onFiltersChange",
+        type: "(filters) => void",
+        description:
+          "Fires with every filter after a switch, reorder or removal.",
+      },
+      {
+        name: "rows",
+        type: "SieveRow[]",
+        defaultValue: "defaultSieveRows",
+        description: "The records the stack sieves: { id, ...fields }.",
+      },
+      {
+        name: "columns",
+        type: "SieveColumn[]",
+        defaultValue: "defaultSieveColumns",
+        description:
+          "The table's columns: { id, header, kind?: code | text | tag | due, hideBelow?: none | sm | md | lg, sub? }.",
+      },
+      {
+        name: "onToggle",
+        type: "(id, active, filters) => void",
+        description:
+          "Fires from the switch or key that turned a layer on or off.",
+      },
+      {
+        name: "onReorder",
+        type: "(ids, filters) => void",
+        description:
+          "Fires from the drop or Alt+Arrow that moved a layer, with the new order.",
+      },
+      {
+        name: "onRemove",
+        type: "(id, filters) => void",
+        description:
+          "Fires from the button or Delete key that removed a layer.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the rows have arrived; the stack keeps its shape in every state.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the rows failed to load.",
+      },
+      {
+        name: "bandStyle",
+        type: '"hatch" | "tint" | "dashed"',
+        defaultValue: '"hatch"',
+        description:
+          "How the rows a layer removes are drawn: diagonal hatching, a flat wash, or a dashed outline.",
+      },
+      {
+        name: "density",
+        type: '"compact" | "cozy" | "roomy"',
+        defaultValue: '"cozy"',
+        description:
+          "Layer height (36, 44 or 52px; shorter on phones) and table row padding.",
+      },
+      {
+        name: "palette",
+        type: '"ink" | "cobalt" | "ember" | "moss"',
+        defaultValue: '"cobalt"',
+        description:
+          "The hue of the surviving fill and the removed band; ember and moss are fixed-lightness pigments so they read the same in both themes.",
+      },
+      {
+        name: "pourStagger",
+        type: "number",
+        defaultValue: "70",
+        description:
+          "Delay per layer, ms, as returning rows pour down the stack.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "defaultSieveNow",
+        description: "Today in ms, for due dates and the within operator.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Work orders"',
+        description:
+          "The heading over the stack and the surface's accessible name.",
+      },
+      {
+        name: "itemLabel",
+        type: "{ one: string; other: string }",
+        defaultValue: '{ one: "work order", other: "work orders" }',
+        description: "What one row is called, in counts and announcements.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "520",
+        description:
+          "Height of the surface in px; the table scrolls inside it under a sticky header.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "No switching, moving or removing; the surface dims.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer surface.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: every layer has a grip button, a role="switch" named with what it removes ("Priority high or urgent, removes 13, 10 work orders remain") and a remove button. Alt+ArrowUp/Down on any of them moves the layer and keeps focus on that control; ArrowUp/Down on the grip also move it; ArrowUp/Down on a switch walk to the neighbouring switch; Delete or Backspace removes the layer and focus lands on a neighbour. Every change is announced politely.',
+      "Reduced motion: no pour cascade, no glide and no row rise — bands and fills reach their new widths in one short tween, rows appear in place, and a dragged layer still follows the finger but lands without a spring. The counts still change.",
+      "Performance: nothing runs at rest. Reorders are FLIPs on per-layer motion values (DOM order follows the visual order, focus is restored after the move), counts are motion values rendered as text, and a drag captures the pointer only after 4px so a tap on the grip is still a tap.",
+      "Each layer is applied to what survived the layers above it, so its cost depends on its place: moving a layer re-divides every band. When nothing gets through, the table names the layer whose removal would admit the most rows and offers to switch it off.",
+      "Below a 480px container every layer collapses to one line (grip, switch, label, surviving count) and its bar becomes the row's underlay; the table drops columns by each column's hideBelow and shows a column's sub field instead.",
+    ],
+  },
+  {
+    name: "prose-filter",
+    type: "registry:ui",
+    title: "Prose Filter",
+    description:
+      "One search line that reads a sentence against a typed schema and turns it into field, operator and value chips docked above a results table. A phrase docks when you type the space after it: a ghost of its words rises a step and fades where they stood while the chip starts over them, scaled to their width, and flies to its slot on springs.snap with one crisp overshoot; results close up on springs.glide and arrive in a cascade. Words with more than one reading keep a dotted, dashed or wavy underline, Tab walks them and opens a listbox of meanings under the word, Enter docks the chosen one, and Backspace at the start of the line pulls the last chip back into editable text.",
+    files: [
+      {
+        path: "registry/ui/prose-filter.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1635",
+    },
+    tagline: "Type what you want; the sentence becomes filters.",
+    keywords: [
+      "natural language search",
+      "query builder",
+      "filter chips",
+      "search bar",
+      "invoices",
+      "combobox",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "schema",
+        type: "ProseSchema",
+        defaultValue: "defaultProseSchema",
+        description:
+          "What the line can read: { noun: { one, other, words }, fields } with enum (options with words, optional lead words), money, date (lead words, primary) and code fields.",
+      },
+      {
+        name: "rows",
+        type: "ProseRow[]",
+        defaultValue: "defaultProseRows",
+        description: "The records the chips filter: { id, ...fields }.",
+      },
+      {
+        name: "defaultValue",
+        type: "string",
+        defaultValue: '""',
+        description:
+          "A sentence read on first render; its finished phrases dock straight away and doubtful words stay in the line.",
+      },
+      {
+        name: "placeholder",
+        type: "string",
+        defaultValue: '"Try: overdue invoices over 500 from Coldbrook"',
+        description: "The empty line's hint.",
+      },
+      {
+        name: "onQueryChange",
+        type: "(query: ProseQuery) => void",
+        description:
+          "Fires with { noun, clauses, text, unsure } on first render and whenever a chip docks, leaves, is pulled back or the line changes.",
+      },
+      {
+        name: "onApply",
+        type: "(query: ProseQuery) => void",
+        description:
+          "Fires from Enter or the apply button, after finished phrases have docked.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the results have arrived: loading shows skeleton rows, error a Try again.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the results failed to load.",
+      },
+      {
+        name: "chipStyle",
+        type: '"segment" | "soft" | "outline"',
+        defaultValue: '"segment"',
+        description:
+          "Chip look: field, operator and value in three tinted segments, one soft wash pill, or a hairline outline.",
+      },
+      {
+        name: "underlineStyle",
+        type: '"dotted" | "dashed" | "wavy"',
+        defaultValue: '"dotted"',
+        description: "The underline under words with more than one reading.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "Chips, underlines, read-phrase washes and the live count, any CSS colour.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "defaultProseNow",
+        description:
+          "Today in ms, for last month, this week, the last N days and month names (always the most recent one).",
+      },
+      {
+        name: "formatAmount",
+        type: "(amount: number) => string",
+        defaultValue: "whole US dollars",
+        description: "Formats amounts in chips and rows.",
+      },
+      {
+        name: "maxRows",
+        type: "number",
+        defaultValue: "40",
+        description:
+          "The most rows the table lists; it scrolls inside its box.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Invoices"',
+        description:
+          "The heading before the sentence names its noun; it takes the noun's name once it docks.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "520",
+        description: "Height of the surface in px.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "The line and the chips are inert; the surface dims.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer surface.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: the line is a real input with role="combobox". A phrase docks on the space after it, Enter docks what is finished and applies, Tab walks the doubtful words once each (opening a listbox of meanings, driven by aria-activedescendant) and then lets focus move on, ArrowUp/Down choose, Enter docks the meaning, Escape closes the list. Backspace at the start of the line pulls the last chip back to edit. Each chip is a button named "Remove Amount over $500"; dock and pull-back are announced politely.',
+      "Reduced motion: no flight and no rising ghost — the chip fades in at its slot while the words leave the line, the meanings list fades without rising, rows appear in place. Underlines, chips and counts all still show.",
+      "Typing, selection, IME, paste and undo stay native: the underlines and washes are painted on a mirror behind a transparent-background input, kept aligned with its scroll by a motion value. Nothing runs at rest; a dock is three short springs on one chip.",
+      "Reading is deterministic and local: the schema's words, comparators (over, under, at least, between N and M), dates against now (UTC) and #numbers. Bare numbers, month names with two date fields, recent, big and large are doubtful and wait for a choice. A newer clause on the same field replaces the older one. readProse and proseMatches are exported for hosts that run the query themselves.",
+      "When nothing matches, the table names the chip whose removal would admit the most rows and offers to remove it.",
+    ],
+  },
+  {
+    name: "saved-lenses",
+    type: "registry:ui",
+    title: "Saved Lenses",
+    description:
+      "A row of saved views over a chip bar and a results list where switching views is a shared-element move: chips the two views have in common are the same elements and keep their slots, arriving chips take the slots departing ones leave, the differing ones slide out on the exit ease and in on springs.snap a cascade apart, and later chips glide on springs.glide only when a replaced chip is a different width. The tab mark slides on snap. Removing a chip or adding one from Filter makes a draft whose tab earns a modified dot on snap while Save, Save as new and Revert slide in on glide; views are a tablist with arrows, Home and End, and digits 1 to 9 pick a view from anywhere in the surface.",
+    files: [
+      {
+        path: "registry/ui/saved-lenses.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1636",
+    },
+    tagline: "Switch views; only the filters that differ move.",
+    keywords: [
+      "saved views",
+      "filter chips",
+      "tabs",
+      "shared element",
+      "support queue",
+      "segments",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "views",
+        type: "LensView[]",
+        defaultValue: "defaultLensViews",
+        description:
+          "Seeds the saved views ({ id, name, filters: { field, value }[] }); the surface owns saves after that and reports them.",
+      },
+      {
+        name: "rows",
+        type: "LensRow[]",
+        defaultValue: "defaultLensRows",
+        description:
+          "The records each view filters: { id, code, title, due, ...fields }.",
+      },
+      {
+        name: "fields",
+        type: "LensField[]",
+        defaultValue: "defaultLensFields",
+        description:
+          'The filterable fields and their values offered by Filter; a field of kind "due" reads due dates against now (overdue, today, this week).',
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        defaultValue: "— / the first view",
+        description: "The active view id, controlled or initial.",
+      },
+      {
+        name: "onValueChange",
+        type: "(id: string) => void",
+        description:
+          "Fires with the new view id from the tab, arrow or digit that chose it.",
+      },
+      {
+        name: "onViewChange",
+        type: "(view, previous) => void",
+        description:
+          "Fires with the view switched to (including unsaved edits) and the one left.",
+      },
+      {
+        name: "onSaveView",
+        type: "(view, { asNew }) => void",
+        description:
+          "Fires from Save (asNew false) or Save as new (asNew true) with the saved view.",
+      },
+      {
+        name: "onRevert",
+        type: "(viewId: string) => void",
+        description:
+          "Fires from Revert with the view whose edits were dropped.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the active view's results have arrived; loading, empty and failed views each get a quiet panel.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed on a failed view.",
+      },
+      {
+        name: "tabStyle",
+        type: '"underline" | "pill" | "boxed"',
+        defaultValue: '"underline"',
+        description:
+          "How the active tab is marked: an underline, a tinted pill, or a raised box; the mark slides between tabs.",
+      },
+      {
+        name: "chipStyle",
+        type: '"soft" | "outline" | "solid"',
+        defaultValue: '"soft"',
+        description:
+          "Chip look: a soft wash, a hairline outline, or a solid fill.",
+      },
+      {
+        name: "cornerRadius",
+        type: "number",
+        defaultValue: "8",
+        description:
+          "Corner radius of chips, tabs, the menu and buttons, px (0 to 16).",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description: "The tab mark, chips and Save, any CSS colour.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "defaultLensNow",
+        description: "Today in ms, for due dates.",
+      },
+      {
+        name: "me",
+        type: "string",
+        defaultValue: '"Ines Park"',
+        description:
+          'Whose queue this is: an assignee chip with this value reads "Me".',
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Support queue"',
+        description:
+          "The heading over the views and the surface's accessible name.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "520",
+        description:
+          "Height of the surface in px; the results scroll inside it.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Views, chips and actions are inert; the surface dims.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer surface.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: the views are a role="tablist" with one tab stop; Left and Right move and select, Home and End jump, and digits 1 to 9 select view n from anywhere in the surface except a text field. Each tab says when it is edited. Chips are buttons named "Remove Account is Fernworks" (Delete or Backspace also remove), Filter is a menu button whose role="menu" takes focus, walks with the arrows and closes on Escape back to the button. Switches, edits and saves are announced politely.',
+      "Reduced motion: chips cross-fade in place (shared chips never move anyway), the tab mark and the modified dot appear without travel, rows fade in. Counts and contents still change.",
+      "Performance: no loop. A switch is one layout pass: shared chips keep their keys, so they are the same DOM nodes and do not animate at all; the strip's fade edges are CSS variables driven by motion values from scroll, never React state per frame.",
+      "Edits are drafts per view: switching away keeps a draft and its tab's dot, Save writes it back, Save as new names a copy (inline field, Enter saves, Escape cancels) and selects it, Revert drops it. A new value for a field replaces that field's chip in its slot.",
+      "Narrow surfaces turn the tabs into a horizontally scrolling strip with a fade on whichever edge has more, and keep the chosen tab in view without scrolling the page.",
+    ],
+  },
+  {
+    name: "brushed-windows",
+    type: "registry:ui",
+    title: "Brushed Windows",
+    description:
+      "A density ribbon of a month of events above an event list, where dragging across the ribbon cuts a frosted window that follows the pointer 1:1 and you may cut as many as you need, overlapping cuts joining. On release the window's edges settle onto bin boundaries on springs.snap with the drag's velocity, its soft handles swell in on snap, a chip for it pops into the row below, and the list regroups on springs.glide with one heading per window while rows outside every window fold away. Handles resize and the body moves a window 1:1; touch starts a cut with a long press; the ribbon is a slider cursor whose Enter cuts a day, and a focused window moves with the arrows, resizes with Shift and goes with Delete.",
+    files: [
+      {
+        path: "registry/ui/brushed-windows.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1637",
+    },
+    tagline: "Cut several time windows out of one busy month.",
+    keywords: [
+      "time range",
+      "brush",
+      "multiple ranges",
+      "event density",
+      "timeline filter",
+      "monitoring",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "events",
+        type: "GaugeEvent[]",
+        defaultValue: "defaultGaugeEvents",
+        description:
+          "The events the ribbon counts and the list shows: { id, at, title, source, level: info | warn | alert }.",
+      },
+      {
+        name: "windows / defaultWindows",
+        type: "{ id?, start, end }[]",
+        defaultValue: "— / defaultGaugeWindows",
+        description:
+          "The cut windows in ms, controlled or initial; ids are assigned when missing.",
+      },
+      {
+        name: "onWindowsChange",
+        type: "(windows) => void",
+        description:
+          "Fires with every window, in time order and with ids, after a cut, move, resize, merge or removal.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "defaultGaugeNow",
+        description:
+          "The end of the period in ms; the ribbon shows the days before it. Never read from the clock during render.",
+      },
+      {
+        name: "days",
+        type: "number",
+        defaultValue: "30",
+        description: "How many days the ribbon spans.",
+      },
+      {
+        name: "binSize",
+        type: "number",
+        defaultValue: "6",
+        description:
+          "Hours per bin, 1 to 24: the ribbon's grain and the step windows snap to and keys move by.",
+      },
+      {
+        name: "frostLevel",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How frosted a window's glass is, 0 (clear, tinted) to 1 (deep frost).",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "Windows, the density inside them, chips and the live count, any CSS colour.",
+      },
+      {
+        name: "maxWindows",
+        type: "number",
+        defaultValue: "6",
+        description: "Most windows at once; a cut past it replaces the oldest.",
+      },
+      {
+        name: "rowsPerWindow",
+        type: "number",
+        defaultValue: "5",
+        description: "Rows shown under each window's heading before Show all.",
+      },
+      {
+        name: "longPressMs",
+        type: "number",
+        defaultValue: "380",
+        description:
+          "How long a touch must hold before it starts a window, so a swipe still scrolls.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Loading draws a skeleton ribbon and rows; error keeps the ribbon's shape with a Try again.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the events failed to load.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Gaugeworks events"',
+        description:
+          "The heading over the ribbon and the surface's accessible name.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "520",
+        description: "Height of the surface in px; the list scrolls inside it.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "No cutting, moving or removing; the surface dims.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer surface.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: the ribbon is a role="slider" cursor over the period ("Sep 28, 06:00, 7 events"): Left and Right move a bin, Page Up and Page Down a day, Home and End jump, Enter or Space cuts a one-day window there and moves focus into it. A window is a focusable group: the arrows move it a bin, Shift with an arrow resizes its end, Alt and Shift its start, Delete or Backspace removes it and returns focus to the ribbon, Escape returns to the ribbon. Chips focus their window; their x removes it. Every change is announced politely.',
+      "Touch: the ribbon uses touch-action pan-y, and a cut starts only after a long press (longPressMs), so a vertical swipe scrolls the page and a quick horizontal swipe does nothing; after the hold a seed window appears under the finger and the drag draws it out.",
+      "Reduced motion: edges land on their bins without overshoot, handles appear, chips fade in and the list regroups without gliding. A window still follows the pointer during a cut: that is direct manipulation, not decoration.",
+      "Performance: nothing runs at rest. The ribbon's two paths are rebuilt only when the events, period or bin size change; window edges are motion values written 1:1 during a drag, so a drag causes no React render per frame; backdrop blur is limited to the window panes. The ribbon keeps its full width down to 316px, its labels thinning to one a week.",
+      "A stretch of a day and a half with no events is drawn as a flat dashed calm line labelled quiet, rather than a gap, so a refit or an outage reads as information.",
+    ],
+  },
+  {
+    name: "wing-scales",
+    type: "registry:ui",
+    title: "Wing Scales",
+    description:
+      "A specimen of an invented blue butterfly drawn per pixel in one WebGL2 pass, zoomable from the whole insect down to the ridges of a single scale: rows of toothed scales laid like shingles, coloured by a thin-film term on their ridges, so the blue slides toward green and violet as the pointer rocks the specimen on a critically damped spring with the drift constants. The wheel (once focused), a pinch, double-click or the keys zoom about the pointer on the glide constants in log space; zoomed in, a drag pans 1:1 and a release throws by projection, and while you look the scales breathe in a slow wave that settles when you leave. Plus and minus zoom, Home and End jump to the wing or the ridges, Left and Right rock it, Shift with an arrow pans, and Escape returns to the whole wing.",
+    files: [
+      {
+        path: "registry/ui/wing-scales.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "glsl",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1889",
+    },
+    tagline: "Iridescent ridges of a wing, shifting as you tilt.",
+    keywords: [
+      "butterfly",
+      "iridescent",
+      "zoom",
+      "webgl",
+      "macro",
+      "thin film",
+      "specimen",
+    ],
+    props: [
+      {
+        name: "zoom",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "Magnification shown, 1 (the whole wing) to maxZoom (the ridges of one scale); a new value glides the view there.",
+      },
+      {
+        name: "onZoomChange",
+        type: "(zoom: number) => void",
+        description:
+          "Fires from the wheel, pinch, drag or key that changed the magnification.",
+      },
+      {
+        name: "maxZoom",
+        type: "number",
+        defaultValue: "90",
+        description: "The deepest magnification, 8 to 160.",
+      },
+      {
+        name: "iridescence",
+        type: "number",
+        defaultValue: "0.75",
+        description:
+          "How strongly the ridges shine, 0 (dull pigment brown) to 1 (the full blue-green play).",
+      },
+      {
+        name: "tilt",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How far the wing rocks toward the pointer, 0 (held still) to 1 (26° each way).",
+      },
+      {
+        name: "film",
+        type: "number",
+        defaultValue: "420",
+        description:
+          "Thickness of the ridges' film in nanometres, 300 to 560: the colour family (gold, violet, blue, green).",
+      },
+      {
+        name: "ground",
+        type: "string",
+        defaultValue: '"oklch(0.26 0.03 45)"',
+        description: "The pigment under the film, any CSS colour.",
+      },
+      {
+        name: "markings",
+        type: '"band" | "eyespot" | "plain"',
+        defaultValue: '"band"',
+        description:
+          "The pattern of pigment scales: a spotted outer band, an eyespot on each hindwing, or plain.",
+      },
+      {
+        name: "breathe",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How far the scales lift as the wing breathes while you look, 0 to 1.",
+      },
+      {
+        name: "wheel",
+        type: '"focus" | "always" | "off"',
+        defaultValue: '"focus"',
+        description:
+          "When a plain wheel zooms: once the wing has focus (or with Ctrl or ⌘), always, or never. Pinch always zooms.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "7",
+        description: "Seeds the scales' small irregularities.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Butterfly wing"',
+        description: "Names the specimen for assistive technology.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Holds the scales flat: no breathing.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Shows the wing but takes no gestures or keys.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Sizes the box (default h-56 w-full); the insect is fitted inside it.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the wing is one focusable group — + and − (or Up and Down) zoom, Page Up and Page Down by ×3, Home the whole wing, End the ridges, Enter the next level, Left and Right rock it toward the light, Shift with an arrow pans, and Escape (handled only while zoomed) returns to ×1. A polite status reads the magnification when it settles.",
+      'Wheel etiquette: with wheel="focus" a plain wheel scrolls the page until the wing is clicked or focused (a hint says so); once it is, scrolling down looks deeper toward the ridges and up backs out. Ctrl or ⌘ with the wheel, and trackpad pinches, always zoom (spread to zoom in); at either zoom limit the wheel returns to the page. Touch pinches zoom, and the page still scrolls vertically over an unzoomed wing.',
+      "Reduced motion: no breathing, no tilt following the pointer and no glides — zoom, pan and key tilts change in place — while the colour and the magnification still show.",
+      "Performance: one fullscreen triangle with no textures, drawn only while a spring, the breath or a gesture is moving, on screen and with the tab visible; DPR is capped at `dpr`, context loss rebuilds, and without WebGL2 (and as the server's first frame) an SVG still of the same insect is shown.",
+      "Theming: the insect is fixed pigment art on a transparent canvas with a black-alpha shadow, so it sits on any card in light or dark; `ground` accepts tokens and is re-read when the theme changes.",
+    ],
+  },
+  {
+    name: "hanging-scroll",
+    type: "registry:ui",
+    title: "Hanging Scroll",
+    description:
+      "A vertical gallery mounted on a long paper scroll hung from a turned rod: as its scroll container scrolls, the stage pins and the paper rolls up onto the rod, bowing off the wall before the roll while each picture bends over the front of it, foreshortening and darkening as it turns away, and the knobs on the rod turn exactly with the rolled length as the roll fattens. The shown progress follows the scroll on a critically damped spring with the glide constants, and the hanging part is a lightly damped pendulum that the roll's changes of speed kick into a slight sway, swinging quicker as the scroll shortens until the weighted bottom bar rises with the last picture. Down, Page Down and Space roll to the next picture, Up and Page Up back, and Home and End jump to either end.",
+    files: [
+      {
+        path: "registry/ui/hanging-scroll.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1890",
+    },
+    tagline: "Pictures on a paper scroll rolling away overhead.",
+    keywords: [
+      "scroll gallery",
+      "scroll linked",
+      "paper roll",
+      "canvas",
+      "sticky",
+      "gallery",
+      "ink wash",
+    ],
+    props: [
+      {
+        name: "items",
+        type: "{ src?: string; alt: string; caption?: string }[]",
+        defaultValue: "defaultScrollItems",
+        description:
+          "The pictures, top to bottom; the default is five ink-wash views drawn in code.",
+      },
+      {
+        name: "curl",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How far the paper bows out before it meets the roll, 0 (straight into a tight roll) to 1 (a wide lifted curl).",
+      },
+      {
+        name: "rodSize",
+        type: "number",
+        defaultValue: "16",
+        description:
+          "Diameter of the top rod in px, 10 to 28: a slim rod bends the pictures sharply, a thick roller slowly.",
+      },
+      {
+        name: "paperTone",
+        type: '"rice" | "silk" | "kraft" | "indigo"',
+        defaultValue: '"rice"',
+        description: "The paper the pictures are mounted on.",
+      },
+      {
+        name: "mount",
+        type: "string",
+        description:
+          "Colour of the mounting bands and borders, any CSS colour; defaults to the tone's own.",
+      },
+      {
+        name: "sway",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How much the weighted bottom bar swings as the roll speeds up and slows, 0 to 1.",
+      },
+      {
+        name: "range",
+        type: "number",
+        defaultValue: "320",
+        description: "Scroll distance from one picture to the next, px.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "520",
+        description:
+          "Height of the pinned stage, px; give it the height of the scroll container it sits in.",
+      },
+      {
+        name: "cord",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Hang the rod from a cord and a nail.",
+      },
+      {
+        name: "onIndexChange",
+        type: "(index: number) => void",
+        description:
+          "Fires with the picture at the reading line, from the scroll or key that moved it.",
+      },
+      {
+        name: "onProgressChange",
+        type: "(progress: number) => void",
+        description:
+          "Fires as the paper rolls, 0 (all hanging) to 1 (rolled to the last picture).",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Hanging scroll"',
+        description: "Names the scroll for assistive technology.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the section.",
+      },
+    ],
+    usageNotes: [
+      "Place it inside a scroll container (or the page) and give `height` that container's visible height: the section is height + range × (pictures − 1) tall and its stage sticks while the paper rolls.",
+      "Keyboard: the stage is one focusable group — Down, Page Down and Space roll to the next picture, Up and Page Up back, Home and End to the ends — by scrolling the container, so pointer and keyboard reach the same states. Every picture's description and caption is in an sr-only list, and a polite status names the picture at the reading line.",
+      "Reduced motion: nothing rolls or sways; the scroll hangs flat and the current picture's panel cross-fades to the next as the reading line passes it, with the index and callbacks still updating.",
+      "Performance: one Canvas 2D; the paper is painted to an offscreen sheet once per layout, tone or picture load, and each frame is one drawImage for the hanging part plus about one strip per CSS pixel of the bow and the roll. The loop runs only while the roll or the pendulum moves, on screen and with the tab visible; DPR is capped at `dpr`.",
+      "The paper, wood and pictures are fixed pigments, so the scroll looks the same on a light or a dark page; the server renders a DOM still of the first picture that the canvas replaces.",
+    ],
+  },
+  {
+    name: "drying-line",
+    type: "registry:ui",
+    title: "Drying Line",
+    description:
+      "Darkroom prints pegged to a sagging cord under a red safelight, on a pulley loop you pull past: a drag follows 1:1 and commits by projection to the nearest print on the glide spring with the release velocity, and the page's scroll pulls it too. Every print is a real pendulum and a torsion pendulum, swung about its peg by the line's acceleration and twisted by the air each its own way, damped by `sway`, so the glossy faces turn and a band of red light slides across them before they hang still and the loop stops. Clicking a print unclips it: the jaw opens on the flick spring and the print glides to the front with its darkroom note, and Back on the line or Escape carries it back as the jaw snaps shut on snap; Left and Right pull the line a print, Home and End go to the ends.",
+    files: [
+      {
+        path: "registry/ui/drying-line.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1891",
+    },
+    tagline: "Prints pegged on a line, twisting as it pulls past.",
+    keywords: [
+      "carousel",
+      "photo gallery",
+      "darkroom",
+      "pendulum",
+      "drag",
+      "prints",
+      "physics",
+    ],
+    props: [
+      {
+        name: "items",
+        type: "{ src?: string; alt: string; caption?: string; note?: string; aspect?: number }[]",
+        defaultValue: "defaultDryingPrints",
+        description:
+          "The prints along the line; the default is eight black-and-white photographs drawn in code.",
+      },
+      {
+        name: "sway",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How freely the prints swing and twist, 0 (stiff, quickly still) to 1 (loose, long and wide).",
+      },
+      {
+        name: "sag",
+        type: "number",
+        defaultValue: "0.45",
+        description:
+          "How deep the cord sags between its hooks, 0 (taut) to 1 (a deep curve).",
+      },
+      {
+        name: "pegs",
+        type: '"wood" | "binder" | "film"',
+        defaultValue: '"wood"',
+        description:
+          "What holds each print: a wooden spring peg, a steel binder clip or a film clip.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "number",
+        defaultValue: "0",
+        description:
+          "The print at the middle of the room; a new controlled value pulls the line there.",
+      },
+      {
+        name: "onValueChange",
+        type: "(index: number) => void",
+        description:
+          "Fires from the drag, scroll or key that brought a new print to the middle.",
+      },
+      {
+        name: "onUnclip",
+        type: "(index: number | null) => void",
+        description:
+          "Fires when a print is unclipped to the front (its index) and when it goes back (null).",
+      },
+      {
+        name: "spacing",
+        type: "number",
+        defaultValue: "112",
+        description:
+          "Distance between prints on the line, px; the loop is always wider than the room.",
+      },
+      {
+        name: "scroll",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The page's scroll (or the nearest scroll container's) pulls the line too.",
+      },
+      {
+        name: "light",
+        type: "string",
+        defaultValue: '"oklch(0.66 0.19 32)"',
+        description: "The safelight's colour, any CSS colour.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Drying line"',
+        description: "Names the line for assistive technology.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Shows the line but takes no pulls, clicks or keys.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Sizes the room (default h-56 w-full).",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the prints are one tab stop with roving focus — Left and Right pull the line a print and focus travels with it, Home and End go to the first and last, Enter or Space unclips. The front print is a dialog: focus moves to Back on the line, Tab stays there, and Escape (prevented) clips it back and returns focus to the print.",
+      "Gestures: a horizontal drag with `touch-action: pan-y`, so the page still scrolls vertically on touch; a sideways wheel or trackpad swipe over the room pulls the line, and with `scroll` the page's own scroll winds it half as far without ever being taken from the page.",
+      "Reduced motion: nothing swings or twists and nothing flies; the line steps to the nearest print, keys move it in place, and the unclipped print fades in and out of the front.",
+      "Performance: DOM and SVG with one rAF loop writing transforms to the print nodes only while the line, a pendulum or a peg is moving, on screen and with the tab visible; it stops at rest. The page-scroll listener is passive.",
+      "The room is fixed darkroom art (a warm near-black wall, the safelight's glow, prints tinted by its light), so it reads the same on a light or dark page; `light` changes the lamp and the tint together.",
+    ],
+  },
+  {
+    name: "fresnel-sheet",
+    type: "registry:ui",
+    title: "Fresnel Sheet",
+    description:
+      "A flat plastic Fresnel magnifier lying on a printed chart, drawn in one WebGL2 pass: through its concentric ridges a second picture, the same bay from the air, shows magnified about the sheet's centre and broken into rings, each flat facet a little out of register with its neighbours and fringed with rainbow where red and blue bend differently, while the risers catch the lamp, an anisotropic sheen fans across the rings and a glare band fixed in the room slides over the plastic. The sheet follows a drag 1:1 with its shadow lifting on the flick spring, and on release slides on with the release velocity and stops on friction, meeting the edge with a soft bounce on the snap spring; a tap on the chart glides it there on glide. The arrow keys move it (Shift for larger steps) and Home centres it.",
+    files: [
+      {
+        path: "registry/ui/fresnel-sheet.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "glsl",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1892",
+    },
+    tagline: "Slide a ridged lens sheet to see the picture below.",
+    keywords: [
+      "magnifier",
+      "lens",
+      "reveal",
+      "webgl",
+      "drag",
+      "fresnel",
+      "map",
+    ],
+    props: [
+      {
+        name: "src",
+        type: "string",
+        description:
+          "The picture the sheet lies on; for WebGL it must be same-origin or CORS. Defaults to a drawn chart of a bay.",
+      },
+      {
+        name: "alt",
+        type: "string",
+        defaultValue: "a description of the drawn chart",
+        description: "What that picture shows, for assistive technology.",
+      },
+      {
+        name: "revealSrc",
+        type: "string",
+        description:
+          "The picture seen through the sheet, magnified about its centre. Defaults to the same bay drawn from the air.",
+      },
+      {
+        name: "revealAlt",
+        type: "string",
+        defaultValue: "a description of the drawn aerial view",
+        description: "What the picture through the sheet shows.",
+      },
+      {
+        name: "rings",
+        type: "number",
+        defaultValue: "16",
+        description:
+          "How many concentric facets the sheet has, 4 (coarse steps) to 40 (fine ridges).",
+      },
+      {
+        name: "magnify",
+        type: "number",
+        defaultValue: "2.2",
+        description: "How much the sheet magnifies, 1.2 to 4.",
+      },
+      {
+        name: "glare",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How bright the glare band and the ridges' sheen are, 0 (matte) to 1.",
+      },
+      {
+        name: "dispersion",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How strong the rainbow fringes are at each facet's edge, 0 to 1.",
+      },
+      {
+        name: "shape",
+        type: '"card" | "round"',
+        defaultValue: '"card"',
+        description: "A credit-card sheet or a round one.",
+      },
+      {
+        name: "size",
+        type: "number",
+        defaultValue: "0.8",
+        description: "The sheet's height as a share of the stage's, 0.4 to 1.",
+      },
+      {
+        name: "friction",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How quickly a thrown sheet stops, 0 (a long glide on smooth paper) to 1 (a quick stop).",
+      },
+      {
+        name: "position / defaultPosition",
+        type: "{ x: number; y: number }",
+        defaultValue: "{ x: 0.62, y: 0.5 }",
+        description:
+          "The sheet's centre as fractions of the stage; a new controlled value glides it there.",
+      },
+      {
+        name: "onPositionChange",
+        type: "(position: { x: number; y: number }) => void",
+        description:
+          "Fires from the drag, tap or key that moved the sheet, with where it will come to rest.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Fresnel sheet"',
+        description: "Names the sheet for assistive technology.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Shows the sheet but takes no drags, taps or keys.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Sizes the stage (default h-56 w-full).",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the sheet is a focusable group — the arrow keys move it 4% of the stage (16% with Shift) on the glide spring and Home centres it, through the same path that reports the position; a polite status names where it settled.",
+      "Touch: only the sheet itself takes `touch-action: none`, so the page still scrolls when a finger lands on the chart around it; a tap on the chart sends the sheet there.",
+      "Reduced motion: the sheet still follows a drag 1:1, but a release leaves it where it is (no slide or bounce), keys and taps move it in place, and the lift shadow switches instead of springing.",
+      "Performance: one fullscreen pass with two textures, drawn only while the sheet, its lift or a prop changes, on screen and with the tab visible — nothing runs at rest. DPR is capped at `dpr` and context loss rebuilds.",
+      "Without WebGL2 (and as the server's first frame) a CSS sheet shows the second picture magnified by background-size, with repeating radial ring lines and a glare gradient; both default pictures are fixed art, so the stage reads the same in light and dark.",
+    ],
+  },
+  {
+    name: "theatre-scrims",
+    type: "registry:ui",
+    title: "Theatre Scrims",
+    description:
+      "Painted gauzes hanging one behind another on a dark stage, drawn in one WebGL2 pass, with an eye that dollies through them as the page scrolls: each gauze is front-lit and solid while you are far from it, and as you approach its front light falls and the light behind it rises, so the painting fades to a faint image on glowing, uneven threads and the next scene, now lit, shows through small and deep in the frame. Passing through, the gauze billows toward you and ripples behind you, and the last painting is a solid back cloth; the shown progress follows the scroll on a critically damped spring with the glide constants, over a floor of boards with pools of light and haze lit by shafts from the flies. Down, Page Down and Space go to the next scene, Up and Page Up back, Home and End to either end.",
+    files: [
+      {
+        path: "registry/ui/theatre-scrims.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "glsl"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1893",
+    },
+    tagline: "Pass through painted gauzes that turn clear.",
+    keywords: [
+      "scroll scene",
+      "theatre",
+      "layers",
+      "webgl",
+      "depth",
+      "reveal",
+      "parallax",
+    ],
+    props: [
+      {
+        name: "items",
+        type: "{ src?: string; alt: string; caption?: string }[]",
+        defaultValue: "defaultScrims",
+        description:
+          "The paintings, front to back; the last is always the back cloth. The default is six scenes painted in code.",
+      },
+      {
+        name: "layers",
+        type: "number",
+        defaultValue: "4",
+        description:
+          "How many layers hang on the stage, 2 to 6: the first gauzes and the back cloth.",
+      },
+      {
+        name: "haze",
+        type: "number",
+        defaultValue: "0.45",
+        description:
+          "How smoky the stage is, 0 (clear air) to 1 (beams standing in the haze).",
+      },
+      {
+        name: "lighting",
+        type: '"warm" | "cool" | "dusk"',
+        defaultValue: '"warm"',
+        description:
+          "The lighting design: warm tungsten, cool moonlight or a dusk of rose and violet.",
+      },
+      {
+        name: "ripple",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How much a gauze billows and ripples as you pass through it, 0 to 1.",
+      },
+      {
+        name: "weave",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How brightly the gauze's threads glow when lit from behind, 0 to 1.",
+      },
+      {
+        name: "range",
+        type: "number",
+        defaultValue: "420",
+        description: "Scroll distance from one scene to the next, px.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "520",
+        description:
+          "Height of the pinned stage, px; give it the height of the scroll container it sits in.",
+      },
+      {
+        name: "proscenium",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Frame the stage with a proscenium and lay a floor of boards.",
+      },
+      {
+        name: "onLayerChange",
+        type: "(index: number) => void",
+        description:
+          "Fires with the scene in view, from the scroll or key that moved it.",
+      },
+      {
+        name: "onProgressChange",
+        type: "(progress: number) => void",
+        description:
+          "Fires as you dolly forward, 0 (the first gauze) to 1 (the back cloth).",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Stage"',
+        description: "Names the stage for assistive technology.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the section.",
+      },
+    ],
+    usageNotes: [
+      "Place it inside a scroll container (or the page) and give `height` that container's visible height: the section is height + range × (layers − 1) tall and its stage sticks while you dolly through.",
+      "Keyboard: the stage is one focusable group — Down, Page Down and Space go to the next scene, Up and Page Up back, Home and End to the ends — by scrolling the container, so pointer and keyboard reach the same states. Each painting's description and title is in an sr-only list and a polite status names the scene on arrival.",
+      "Reduced motion: no dolly and no ripple; the current painting stands front-lit in the frame and cross-fades to the next as the scroll passes each gauze. The same cross-fade is the fallback without WebGL2 and the server's first frame.",
+      "Performance: one fullscreen pass and one atlas texture (up to six paintings), drawn only while the progress or a ripple is changing, on screen and with the tab visible; nothing runs at rest. DPR is capped at `dpr` and context loss rebuilds.",
+      "The stage is fixed theatre art (a dark house, lit paintings), so it reads the same on a light or dark page; `lighting` changes the front light, the backlight and the haze together.",
+    ],
+  },
+  {
+    name: "slate-courses",
+    type: "registry:ui",
+    title: "Slate Courses",
+    description:
+      "A roof, face on, that a roofer slates as the page scrolls: slates fly in from above and toward you and lay themselves in courses from the eaves up, each course lapping the head of the one below and breaking joint by half a slate, working left to right on one course and back on the next, so a picture with a headline painted across it reads only once the courses are on. A slate's travel glides in on the glide spring and its scale lands on recoil, a small settle with a clack when sound is on; when the last course is laid a slow sheen crosses the roof, and scrolling back lifts the slates off top course first on exit tweens. Down, Page Down and Space lay the next course, Up and Page Up lift the top one, and Home and End lift all or lay all.",
+    files: [
+      {
+        path: "registry/ui/slate-courses.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1894",
+    },
+    tagline: "Tiles lay themselves in courses until it reads.",
+    keywords: [
+      "scroll reveal",
+      "tiles",
+      "headline",
+      "hero",
+      "scroll linked",
+      "roof",
+      "mosaic",
+    ],
+    props: [
+      {
+        name: "headline",
+        type: "string",
+        defaultValue: '"Fieldline Farm Stays"',
+        description:
+          "The words painted across the roof; also the heading assistive technology reads.",
+      },
+      {
+        name: "as",
+        type: '"h1" | "h2" | "h3"',
+        defaultValue: '"h2"',
+        description:
+          "The element that carries the headline for assistive technology.",
+      },
+      {
+        name: "src",
+        type: "string",
+        description:
+          "The picture the slates are cut from; defaults to a drawn farm valley at evening.",
+      },
+      {
+        name: "alt",
+        type: "string",
+        defaultValue: "a description of the drawn valley",
+        description: "What the picture shows, for assistive technology.",
+      },
+      {
+        name: "courses",
+        type: "number",
+        defaultValue: "7",
+        description:
+          "How many courses the roof has, 4 (a few big slates) to 10 (many small ones).",
+      },
+      {
+        name: "overlap",
+        type: "number",
+        defaultValue: "0.4",
+        description:
+          "How much of each slate the course above covers, 0.2 (a long exposed tail) to 0.6 (a deep lap).",
+      },
+      {
+        name: "stagger",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How far apart the slates of a course land, 0 (together) to 1 (one by one across).",
+      },
+      {
+        name: "cut",
+        type: '"square" | "round" | "point"',
+        defaultValue: '"square"',
+        description: "The shape of each slate's tail.",
+      },
+      {
+        name: "startCourses",
+        type: "number",
+        defaultValue: "2",
+        description: "How many courses are on before any scroll, 0 to 3.",
+      },
+      {
+        name: "paint",
+        type: "string",
+        defaultValue: '"oklch(0.97 0.01 90)"',
+        description:
+          "The colour of the sign paint, a concrete CSS colour (the paint is an image, so not a var).",
+      },
+      {
+        name: "range",
+        type: "number",
+        defaultValue: "900",
+        description: "Scroll distance for the whole roof, px.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "520",
+        description:
+          "Height of the pinned stage, px; give it the height of the scroll container it sits in.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Play a clack as each slate lands.",
+      },
+      {
+        name: "onCoursesChange",
+        type: "(laid: number) => void",
+        description:
+          "Fires with the number of whole courses laid, from the scroll or key that changed it.",
+      },
+      {
+        name: "onProgressChange",
+        type: "(progress: number) => void",
+        description: "Fires as the roof is laid, 0 to 1.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the section.",
+      },
+    ],
+    usageNotes: [
+      "Place it inside a scroll container (or the page) and give `height` that container's visible height: the section is height + range tall and its stage sticks while the courses go on. The headline is chalked on the felt before any slate is laid, so the first frame always reads.",
+      "Keyboard: the roof is one focusable group — Down, Page Down and Space lay the next course, Up and Page Up lift the top one, Home and End lift all or lay all — by scrolling the container. The headline is a real heading and the picture's description is sr-only; a polite status says how many courses are laid and when the roof is complete.",
+      "Reduced motion: no flights, settles or sheen; slates appear in place course by course on an opacity fade and fade out when lifted, while the count and callbacks still update.",
+      "Sound: `clack` as slates land, panned to where they land and played only after the visitor has clicked, tapped or pressed a key on the page (a scroll is not an activation); one per course under reduced motion.",
+      "Performance: DOM slates sharing two background images through CSS variables (the paint SVG is regenerated only on resize or a new headline); one passive, frame-coalesced scroll listener; the laid count is the only state the scroll changes, and animations run only while slates are in flight.",
+    ],
+  },
+  {
+    name: "room-within",
+    type: "registry:ui",
+    title: "Room Within",
+    description:
+      "A story told as one long zoom: the stage is its own scroll container, each picture holds an opening exactly the stage's shape, and scrolling zooms into it until it fills the stage and becomes the next picture, which holds the next opening. The camera is one transform written straight from the scroll — a pure geometric scale about the opening's fixed point, so it grows from one steady spot and every level boundary is seamless — while the glass sheen slides off the window, the far room's haze lifts and the captions cross-fade with the zoom; a click on the opening, the depth gauge or Page Down travels there on springs.drift. Page Down, Space and Enter go in a level, Page Up, Shift+Space and Backspace come back out, Home and End jump to the ends.",
+    files: [
+      {
+        path: "registry/ui/room-within.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1883",
+    },
+    tagline: "Scroll into a window that holds the next room.",
+    keywords: [
+      "recursive zoom",
+      "scroll story",
+      "infinite zoom",
+      "picture in picture",
+      "scrollytelling",
+      "gallery",
+      "window",
+    ],
+    props: [
+      {
+        name: "items",
+        type: "RoomWithinLevel[]",
+        defaultValue: "defaultRoomWithinLevels",
+        description:
+          "The pictures, outermost first, each { id?, src?, alt, caption?, detail?, art?, window? }; each one's opening holds the next.",
+      },
+      {
+        name: "depth",
+        type: "number",
+        defaultValue: "5",
+        description:
+          "How many levels deep the story goes, 2 to 6 (and no more than items).",
+      },
+      {
+        name: "frame",
+        type: '"window" | "gilt" | "mat" | "none"',
+        defaultValue: '"window"',
+        description:
+          "How each opening is framed: a painted casement with a sill, a gilt frame, a paper mat, or a seamless cut.",
+      },
+      {
+        name: "easing",
+        type: '"linear" | "dwell" | "snap"',
+        defaultValue: '"dwell"',
+        description:
+          "How scrolling maps to the zoom: steady, holding each picture still for a beat, or snapping every scroll to a picture.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "number",
+        defaultValue: "— / 0",
+        description: "The level shown. A new controlled value travels there.",
+      },
+      {
+        name: "onValueChange",
+        type: "(level: number) => void",
+        description:
+          "Fires from the scroll, key or click that brought a new level nearest, with that level.",
+      },
+      {
+        name: "scrollLength",
+        type: "number",
+        defaultValue: "1.2",
+        description:
+          "Scroll for one level, as a share of the stage's height, 0.5 to 3.",
+      },
+      {
+        name: "loop",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The deepest picture's opening holds the first room again.",
+      },
+      {
+        name: "captions",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Show each level's caption and detail over the picture.",
+      },
+      {
+        name: "rail",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Show the depth gauge on the right edge; its ticks travel to a level.",
+      },
+      {
+        name: "hint",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "On first view the camera leans a little way into the window and back, and a cue says to scroll.",
+      },
+      {
+        name: "height",
+        type: "number | string",
+        defaultValue: "420px",
+        description:
+          "The stage's height: px, or any CSS length. A className height works too.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Room within"',
+        description: "The story's accessible name.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "No scrolling, keys or clicks; the stage dims.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the stage.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: the stage is a focusable region (aria-roledescription "zooming story"); Page Down, Space and Enter travel one level in, Page Up, Shift+Space and Backspace one level out, Home and End to the ends, digits 1–9 to a level, and the arrow keys scroll natively in small steps. A polite live region announces "Level 2 of 5: Across the courtyard." as each level arrives.',
+      "Reduced motion: no zoom — the pictures cross-fade full-frame at the same scroll positions, the current picture's opening still shows the next one, and keyed or clicked travel jumps at once.",
+      "Performance: there is no animation loop. The camera, glass, haze, captions and gauge are written straight from scroll events; motion animates only a keyed or clicked travel. At most five pictures are in the DOM, as flat siblings laid into each other by CSS, so moving deeper never remounts one.",
+      "Openings (window: { x, y, size }) are placed in the art's 1000 × 1000 box, which is a square covering the stage, and keep the stage's aspect, so the zoom is seamless from a 316px phone to a 1200px plate and the server's first paint is already right.",
+      "Wheel and touch scrolling inside the stage drive the story and chain on to the page at either end; give it a height in the layout (height prop or a className) since it is its own scroll container.",
+    ],
+  },
+  {
+    name: "zellige-wall",
+    type: "registry:ui",
+    title: "Zellige Wall",
+    description:
+      "A picture rebuilt from small glazed tiles, each an unevenly cut square set a hair askew in grout, its colour box-averaged from the picture and pulled toward the picture's own glazes, lit per pixel in one instanced WebGL2 draw with a pillowed face, a rolled rim that catches the light and a hairline of bare clay. Every tile has its own tilt spring, between the springs.snap and springs.recoil constants by wobble: tiles under the pointer lean toward it so a ring of glints follows the hand and rings back as it passes, and a click sends a ripple across the whole wall that kicks each tile outward as the front reaches it. Arrow keys move a keyboard lamp the tiles lean toward, and Enter or Space sends the ripple from it.",
+    files: [
+      {
+        path: "registry/ui/zellige-wall.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "glsl"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1884",
+    },
+    tagline: "A picture set in glazed tiles that tilt to light.",
+    keywords: [
+      "mosaic",
+      "glazed tiles",
+      "ceramic",
+      "image effect",
+      "ripple",
+      "webgl",
+      "hover tilt",
+    ],
+    props: [
+      {
+        name: "src",
+        type: "string",
+        description:
+          "A picture to set in tiles (same-origin, or served with CORS). Without one, a drawn courtyard door is used.",
+      },
+      {
+        name: "alt",
+        type: "string",
+        defaultValue: "a description of the drawn courtyard",
+        description: "Describes the picture.",
+      },
+      {
+        name: "tile",
+        type: "number",
+        defaultValue: "14",
+        description: "Tile size, px, 8 to 28.",
+      },
+      {
+        name: "glaze",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "Glaze shine, 0 (matte clay) to 1 (wet glass): the strength and tightness of every highlight.",
+      },
+      {
+        name: "tilt",
+        type: "number",
+        defaultValue: "18",
+        description:
+          "How far a tile leans toward the pointer, degrees, 0 to 35.",
+      },
+      {
+        name: "radius",
+        type: "number",
+        defaultValue: "90",
+        description: "How far from the pointer tiles lean, px.",
+      },
+      {
+        name: "rippleSpeed",
+        type: "number",
+        defaultValue: "520",
+        description:
+          "How fast a click's ripple crosses the wall, px per second.",
+      },
+      {
+        name: "wobble",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How the tiles settle, 0 (one crisp overshoot, springs.snap) to 1 (a ringing wobble, springs.recoil).",
+      },
+      {
+        name: "jitter",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How unevenly the tiles are cut, 0 (machine-square) to 1 (hand-cut).",
+      },
+      {
+        name: "askew",
+        type: "number",
+        defaultValue: "2.5",
+        description: "How far a tile is set off square, degrees.",
+      },
+      {
+        name: "grout",
+        type: "string",
+        defaultValue: "a mix of the page background and ink",
+        description: "The grout between the tiles, any CSS colour.",
+      },
+      {
+        name: "light",
+        type: "number",
+        defaultValue: "-135",
+        description:
+          "The key light's direction, degrees (−135 is from the upper left).",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          'Tiles answer the pointer and keys; off, the wall is a still picture with role="img".',
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "7",
+        description: "Seeds the cut and set of every tile.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "onRipple",
+        type: "(origin: { x: number; y: number }) => void",
+        description:
+          "Fires from the click or key that sent a ripple, with its origin as shares of the wall (0–1).",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Glazed tile wall"',
+        description: "The wall's accessible name.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "No pointer, clicks or keys; the wall dims.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Sizes the wall; it fills its parent by default.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: the wall is a focusable group (aria-roledescription "tile wall"); the arrow keys move a lamp the tiles lean toward, exactly as they do to the pointer, Home recentres it, and Enter or Space sends the ripple from it. A polite live region says where each ripple came from; the picture\'s alt is read once.',
+      "Reduced motion: no tile ever tilts or rings — the wall is a still glazed mosaic; the pointer's lamp still lights a soft glint where it is, and a click or Enter brightens the glaze briefly instead of sending a wave.",
+      "Performance: one instanced draw (plus a shadow pass) for every tile; tilts live in a Float32Array uploaded with bufferSubData. The loop runs only while tiles move or a ripple travels, on screen and visible, and stops on a settled frame. DPR is capped, context loss is handled, and without WebGL2 the server's still — the picture under a grout grid — stays.",
+      "A src picture must be readable back (same origin or CORS); if it is not, the wall falls back to the drawn courtyard. Tiles are pulled less toward the palette for your own pictures so their colours survive.",
+      "The grout follows the page theme (re-read on a theme change); the glazes are pigments, so the mosaic itself looks the same on a light or a dark page.",
+    ],
+  },
+  {
+    name: "thought-avalanche",
+    type: "registry:ui",
+    title: "Thought Avalanche",
+    description:
+      "A dark field of a few hundred nodes joined by faint, bowed filaments, where a click fires the nearest node and each firing sends glowing pulses on to its neighbours with a chance set by the branching ratio — counted over the neighbours that are not still resting — so an avalanche fizzles out below 1, swings between a handful and most of the field near it, and storms across everything above it. Pulses run along the curves at the conduction speed with short bright tails, the filaments they crossed keep an afterglow, fired nodes flash and then rest for the refractory time, and a ring blooms on the clicked node on the springs.snap constants. Arrow keys move a selection ring from node to node, Home returns it to the middle, and Enter or Space fires it.",
+    files: [
+      {
+        path: "registry/ui/thought-avalanche.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1885",
+    },
+    tagline: "Seed a thought and watch how far it spreads.",
+    keywords: [
+      "neural network",
+      "branching process",
+      "avalanche",
+      "network graph",
+      "cascade",
+      "canvas",
+      "criticality",
+    ],
+    props: [
+      {
+        name: "branching",
+        type: "number",
+        defaultValue: "1.1",
+        description:
+          "How many neighbours a firing sets off on average, 0.5 (fizzles) to 2 (storms); about 1 is critical.",
+      },
+      {
+        name: "refractory",
+        type: "number",
+        defaultValue: "1600",
+        description:
+          "How long a fired node rests before it can fire again, ms.",
+      },
+      {
+        name: "hue",
+        type: "number",
+        defaultValue: "195",
+        description:
+          "The glow's hue, degrees 0–360; the dark field takes a trace of it.",
+      },
+      {
+        name: "density",
+        type: "number",
+        defaultValue: "14",
+        description: "Nodes per 100 × 100 px of field, 2 to 40.",
+      },
+      {
+        name: "connections",
+        type: "number",
+        defaultValue: "5",
+        description: "Each node's nearest neighbours it is joined to, 2 to 8.",
+      },
+      {
+        name: "conduction",
+        type: "number",
+        defaultValue: "240",
+        description: "How fast a pulse runs along a filament, px per second.",
+      },
+      {
+        name: "glow",
+        type: "number",
+        defaultValue: "0.7",
+        description:
+          "How bright the pulses, afterglow and flashes are, 0 to 1.",
+      },
+      {
+        name: "intro",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The first time the field is in view, one avalanche starts by itself; it is silent and reports nothing.",
+      },
+      {
+        name: "spontaneous",
+        type: "number",
+        defaultValue: "0",
+        description:
+          "Stray firings a minute while the field is in view, 0 for none.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Freeze every pulse where it is.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "3",
+        description: "Seeds the network's layout and the chances.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "onAvalanche",
+        type: "(stats: ThoughtAvalancheStats) => void",
+        description:
+          'Fires as a visitor\'s avalanche starts, at each new generation, and when it ends, with { size, reach, generations, active, phase: "spreading" | "fizzled" | "faded" | "storm" }.',
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Thought field"',
+        description: "The field's accessible name.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "No clicks or keys; the field dims.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Sizes the field; it fills its parent by default.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: the field is a focusable group (aria-roledescription "thought field"); a keyboard focus shows a selection ring on the middle node, the arrow keys move it to the nearest node in that direction, Home brings it back, and Enter or Space fires it. A polite live region announces each avalanche once, when it ends: "48 thoughts over 6 steps, spread and faded."',
+      "Reduced motion: nothing travels — a firing resolves the whole cascade at once and draws its map (every node that fired and every filament it used) over the field, which holds and then fades on a CSS opacity transition; the sizes and steps still report.",
+      "Performance: Canvas 2D with the faint network painted once per size and colour; a frame draws only lit filaments, live pulses (a preallocated typed-array pool) and node flashes (one pre-rendered glow sprite). The loop runs only while something is lit or resting, on screen and visible, and stops after; DPR is capped.",
+      "The field is always dark — a night panel in both themes — with the glow from hue; give it a size (it fills its parent). A seeded thought always reaches at least one neighbour, so a click never does nothing; after that the branching ratio decides.",
+      "Within one avalanche a node tires (each further firing passes on half as much), so even a storm ends; spontaneous firings run on a timer only while the field is in view.",
+    ],
+  },
+  {
+    name: "planetarium-roof",
+    type: "registry:ui",
+    title: "Planetarium Roof",
+    description:
+      "A gallery seen from the floor of a planetarium: prints pinned to the inside of a dome overhead in loose constellations of three, over a faint graticule, pricked stars and constellation lines, each print posed by the Jacobian of an equisolid fisheye at its centre so the ones near the edge compress and turn as the dome curves away. Dragging turns the whole dome 1:1 under the finger and a release coasts on with the throw's velocity, decaying by inertia, while keyboard moves turn it to each print on the springs.glide constants. Clicking a print flies it down into focus — its pose decomposed into rotation, scales, shear and centre and tweened to an upright, centred print on springs.glide as the dome dims and the caption rises — and Escape, Close or a click on the dome flies it home.",
+    files: [
+      {
+        path: "registry/ui/planetarium-roof.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1886",
+    },
+    tagline: "Lie back and drag a ceiling of pictures.",
+    keywords: [
+      "dome gallery",
+      "fisheye",
+      "carousel",
+      "image gallery",
+      "planetarium",
+      "drag",
+      "lightbox",
+    ],
+    props: [
+      {
+        name: "items",
+        type: "PlanetariumImage[]",
+        defaultValue: "defaultPlanetariumImages",
+        description:
+          "The prints, { id?, src?, alt, caption?, detail?, art? }, hung in constellations of three in order.",
+      },
+      {
+        name: "fov",
+        type: "number",
+        defaultValue: "110",
+        description:
+          "Field of view across the dome, degrees, 70 to 150: a close dome or a wide sweep.",
+      },
+      {
+        name: "spacing",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "How far apart the constellations and their prints sit, 0.6 to 1.6.",
+      },
+      {
+        name: "inertia",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How long a throw coasts, 0 (stops dead) to 1 (coasts long).",
+      },
+      {
+        name: "value / defaultValue",
+        type: "number | null",
+        defaultValue: "— / null",
+        description: "The print in focus, or null for none.",
+      },
+      {
+        name: "onValueChange",
+        type: "(index: number | null) => void",
+        description:
+          "Fires from the click or key that brought a print into focus or sent it back.",
+      },
+      {
+        name: "drift",
+        type: "number",
+        defaultValue: "1.2",
+        description:
+          "How fast the dome turns by itself while idle, degrees a second; 0 holds it still.",
+      },
+      {
+        name: "altitude",
+        type: "number",
+        defaultValue: "84",
+        description:
+          "Where the view starts, degrees above the horizon (90 looks straight up).",
+      },
+      {
+        name: "cardSize",
+        type: "number",
+        defaultValue: "17",
+        description: "Each print's width on the dome, degrees.",
+      },
+      {
+        name: "graticule",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Draw the dome's altitude rings and meridians.",
+      },
+      {
+        name: "lines",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Join each constellation's prints with thin lines.",
+      },
+      {
+        name: "stars",
+        type: "number",
+        defaultValue: "140",
+        description: "How many stars are pricked into the dome.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "4",
+        description: "Seeds the constellations' shapes and the stars.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "480",
+        description: "The stage's height, px.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Planetarium gallery"',
+        description: "The gallery's accessible name.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "No turning, clicks or keys; the dome dims.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the stage.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: the prints are buttons with one tab stop (roving tabindex) inside a region with aria-roledescription "carousel"; Left and Right move between prints, Up and Down between constellations, Home and End to the first and last, and the dome turns to each. Enter or Space brings a print into focus and moves focus to Close; Left and Right switch prints in focus; Escape (handled, so the page never sees it) sends it back and returns focus to its print.',
+      "Reduced motion: the dome never drifts or coasts and keyboard moves turn it at once; a drag still turns it 1:1 under the finger, and a print in focus cross-fades in at the centre instead of flying.",
+      "Performance: one loop that runs only while the dome moves (a coast, a keyboard turn, or drift), on screen and visible; it writes each print's CSS matrix directly and redraws a small Canvas 2D layer of rings, stars and lines (DPR-capped). With drift 0 it is idle until touched.",
+      "The dome takes the page's surfaces and ink, so it is a pale plaster ceiling on a light page and a night sky on a dark one; the prints are pigment art or your src images, and the server renders every print already posed.",
+      "Touch turns the dome horizontally and leaves vertical swipes to the page (touch-action pan-y); mouse and pen turn it both ways.",
+    ],
+  },
+  {
+    name: "slot-canyon",
+    type: "registry:ui",
+    title: "Slot Canyon",
+    description:
+      "An endless flight down a narrow sandstone slot canyon, raymarched in one WebGL2 pass: the walls are a distance field around a meandering centreline whose lean changes with height, so the slot winds one way at the floor and another overhead, banded with strata and carved with flowing flutes, glowing with light bounced down from a thin crack of sky — warm high up, violet-brown below. Where the crack opens, sun falls in shafts gathered by a short volumetric march through drifting dust, so the beams hang in the air and light the floor where they land. The pointer steers sideways and up toward the crack on the springs.glide constants, banking the camera so the canyon twists around you, and drifts home on springs.drift when it leaves; the arrow keys steer the same way, Home recentres and Space pauses the flight.",
+    files: [
+      {
+        path: "registry/ui/slot-canyon.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "glsl"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1887",
+    },
+    tagline: "Fly the narrow slot, lit from a crack of sky.",
+    keywords: [
+      "canyon flight",
+      "raymarching",
+      "webgl shader",
+      "hero background",
+      "light shafts",
+      "sandstone",
+      "volumetric",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "Content over the flight: a hero line, a call to action. It stays fully interactive.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "0.35",
+        description: "How fast you fly, 0 (hanging still) to 1 (a fast run).",
+      },
+      {
+        name: "width",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "How wide the slot is, 0.6 (a squeeze) to 1.4 (a wider passage).",
+      },
+      {
+        name: "shafts",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "Sunlight through the crack, 0 (none) to 1 (bright shafts and lit floor).",
+      },
+      {
+        name: "steer",
+        type: "number",
+        defaultValue: "0.7",
+        description: "How far the pointer and arrow keys steer, 0 to 1.",
+      },
+      {
+        name: "twist",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How much the camera banks with the steer and the slot's own bends, 0 to 1.",
+      },
+      {
+        name: "dust",
+        type: "number",
+        defaultValue: "0.5",
+        description: "Dust hanging and glinting in the shafts, 0 to 1.",
+      },
+      {
+        name: "strata",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How strongly the rock is banded, 0 (plain) to 1 (bold strata).",
+      },
+      {
+        name: "colors",
+        type: "[string, string, string]",
+        defaultValue:
+          "sandstone pigments from the warn, danger and accent tokens",
+        description: "The lit rock, the shade, and the sky, as CSS colours.",
+      },
+      {
+        name: "paused / defaultPaused",
+        type: "boolean",
+        defaultValue: "— / false",
+        description: "The flight holds where it is.",
+      },
+      {
+        name: "onPausedChange",
+        type: "(paused: boolean) => void",
+        description:
+          "Fires from the Space key that paused or resumed the flight.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "2",
+        description: "Seeds the canyon's course and its cracks.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Slot canyon flight"',
+        description: "The scene's accessible name.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "No steering or keys.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Sizes the scene; it fills its parent by default.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: the scene is a focusable group (aria-roledescription "canyon flight"); the arrow keys steer left and right and look up and down exactly as the pointer does, Home recentres, and Space pauses and resumes the flight (announced politely). Children above it stay interactive and keep their own keys.',
+      "Reduced motion: one still frame from a fixed place in the canyon — no flight, no drifting dust; the arrow keys still turn the view and redraw it once.",
+      "Performance: the raymarch renders at half (DPR ≥ 1.5) or three-quarter scale with DPR capped; the loop runs only while flying or the steer settles, on screen and visible, and stops when paused. Context loss is handled, and without WebGL2 (and on the server) an SVG still of layered strata walls under a shaft stands in.",
+      "The canyon is painted from pigments, so it looks the same on a light or a dark page; pass colors to recolour the rock, the shade and the sky. A wide stage looks through a longer lens so the slot keeps its depth.",
+      "Give it a size (it fills its parent) and put your hero copy in children with a text shadow; the walls run dark at the bottom, where copy reads best.",
+    ],
+  },
+  {
+    name: "switchback-trails",
+    type: "registry:ui",
+    title: "Switchback Trails",
+    description:
+      "A dusk view across a valley to a mountain road zigzagging down a slope in hairpins, its legs smaller and thinner the higher they climb, with cars driving it both ways — warm-white headlights coming down, red tail lights going up — slowing into every hairpin. Press and hold to open the shutter: an iris opens on the springs.snap constants, a readout counts the seconds, and each car's lights are drawn from where they were to where they are into an additive exposure layer, so white and red trails build along the hairpins, brightest where the cars slow, while the sky lifts as a long exposure does. Release and the iris closes on the exit ease as the photograph develops with a halation bloom, holds, and slowly fades; Space opens it while held, Enter toggles it, Escape closes it.",
+    files: [
+      {
+        path: "registry/ui/switchback-trails.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1888",
+    },
+    tagline: "Hold the shutter over a winding mountain road.",
+    keywords: [
+      "long exposure",
+      "light trails",
+      "press and hold",
+      "night photography",
+      "canvas",
+      "mountain road",
+      "hero",
+    ],
+    props: [
+      {
+        name: "exposure",
+        type: "number",
+        defaultValue: "0",
+        description:
+          "Exposure compensation, EV −2 (faint streaks) to +2 (blown rivers of light): how fast light builds and how wide the trails bloom.",
+      },
+      {
+        name: "traffic",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How busy the road is, 0 (an empty pass) to 1 (a steady stream).",
+      },
+      {
+        name: "dusk",
+        type: "number",
+        defaultValue: "0.55",
+        description:
+          "The light, 0 (last warm light) to 1 (deep blue hour with stars).",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "boolean",
+        defaultValue: "— / false",
+        description: "The shutter is open.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(open: boolean) => void",
+        description:
+          "Fires from the press, release or key that opened or closed the shutter.",
+      },
+      {
+        name: "onExpose",
+        type: "(shot: { seconds: number; cars: number }) => void",
+        description:
+          "Fires as the shutter closes, with how long it was open and how many cars drew a trail.",
+      },
+      {
+        name: "fade",
+        type: "number",
+        defaultValue: "6000",
+        description:
+          "How long the developed photograph takes to fade back to the live view, ms.",
+      },
+      {
+        name: "develop",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The halation bloom that swells as the photograph develops.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "1",
+        description: "How fast the cars drive, 0.5 to 2.",
+      },
+      {
+        name: "maxExposure",
+        type: "number",
+        defaultValue: "30",
+        description: "The shutter closes by itself after this long, seconds.",
+      },
+      {
+        name: "lightColors",
+        type: "[string, string]",
+        defaultValue: "warm white and red pigments",
+        description: "Headlights and tail lights, CSS colours.",
+      },
+      {
+        name: "stars",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Stars come out as the dusk deepens.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Hold the live traffic still (an open shutter still records).",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "5",
+        description: "Seeds the mountains, the traffic and the stars.",
+      },
+      {
+        name: "dpr",
+        type: "number",
+        defaultValue: "2",
+        description: "Cap on the canvas's device pixel ratio, at most 2.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Hold to open the shutter"',
+        description: "The control's accessible name.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "No pressing or keys; the view dims.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Sizes the view; it fills its parent by default.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: the view is a role="button" with aria-pressed for the shutter; Space opens it while held and closes it on release (repeats are ignored), Enter opens and closes it for anyone who cannot hold a key, and Escape closes an open shutter (handled, so the page never sees it). A polite live region announces each photograph once: "Exposure 4.6 seconds, 9 cars."',
+      "Reduced motion: no moving lights in the live view; holding the shutter fades in a finished long exposure (the trails laid down at once) more fully the longer you hold, and release holds the photograph and fades it out — no bloom, and the iris cross-fades.",
+      "Performance: the dusk scene is painted once per size, tone and theme into an offscreen canvas; a frame is three drawImage calls and a short line per car (typed arrays, no per-frame allocation). Live traffic draws at 30 frames a second only while on screen and visible; an exposure or a fading photograph draws every frame; paused with the shutter closed and the photograph gone, nothing runs.",
+      "A press holds the shutter open until the pointer lifts anywhere on the page; a touch that turns into a scroll closes it. The view is painted from pigments, so the dusk looks the same on a light or a dark page; the server renders a still with the road and a pair of trails.",
+      "Give it a size (it fills its parent); in a cropped box the sky gives way first so the hairpins stay in view.",
+    ],
+  },
+  {
+    name: "hover-forecast",
+    type: "registry:ui",
+    title: "Hover Forecast",
+    description:
+      "A trip board whose filter menus show what an option would remove before you choose it: resting on an option turns the cards it would drop into dashed ghosts that fade and lean aside about their foot, row by row down the grid on springs.snap, while the forecast count rolls on snap and the share meter glides on springs.glide; leaving the option springs them back, and committing exits the ghosts on the exit ease while the survivors glide into place. Arrow keys move through each menu previewing as they go, Enter or Space commits, Escape abandons, and the trip cards are one roving tab stop moved by arrows across the measured columns.",
+    files: [
+      {
+        path: "registry/ui/hover-forecast.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1638",
+    },
+    tagline: "Preview what a filter removes before you commit.",
+    keywords: [
+      "filter preview",
+      "forecast",
+      "faceted filter",
+      "menu",
+      "ghost cards",
+      "results count",
+      "trip board",
+    ],
+    props: [
+      {
+        name: "ghostOpacity",
+        type: "number",
+        defaultValue: "0.3",
+        description:
+          "How faint a card the previewed option would remove becomes, 0–1.",
+      },
+      {
+        name: "layout",
+        type: '"cards" | "compact" | "rows"',
+        defaultValue: '"cards"',
+        description:
+          "Full trip cards with a route line, two-line compact cards, or one-line rows.",
+      },
+      {
+        name: "motionScale",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "Scales the ghosts' lean, their step aside and the stagger, 0–2; 0 keeps the fade only.",
+      },
+      {
+        name: "records",
+        type: "ForecastTrip[]",
+        defaultValue: "defaultForecastTrips",
+        description: "The trips on the board.",
+      },
+      {
+        name: "filters",
+        type: "ForecastFilter[]",
+        defaultValue: "defaultForecastFilters",
+        description:
+          "The filter menus in bar order; each option carries a match(trip) predicate.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "ForecastValue",
+        defaultValue: "{}",
+        description:
+          "The applied selection: filter id to option id, or null for any. Controlled or initial.",
+      },
+      {
+        name: "onApply",
+        type: "(value: ForecastValue, change: ForecastChange) => void",
+        description:
+          "Fires when an option is committed or the filters are reset, with the whole new selection.",
+      },
+      {
+        name: "onPreview",
+        type: "(preview: ForecastPreview | null) => void",
+        description:
+          "Fires when a preview starts, moves or ends, so results can be fetched ahead of the commit.",
+      },
+      {
+        name: "forecast",
+        type: "(value: ForecastValue) => number | Promise<number>",
+        defaultValue: "counts matching records",
+        description:
+          "The would-be total for a previewed selection; pending, zero and failed answers are each worded plainly.",
+      },
+      {
+        name: "onOpen",
+        type: "(trip: ForecastTrip) => void",
+        description: "A trip card was opened (click or Enter).",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the trips have arrived: skeleton cards while loading, a retry when they failed.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the trips failed to load.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"This week\'s trips"',
+        description: "The board's heading.",
+      },
+      {
+        name: "subtitle",
+        type: "string",
+        defaultValue: '"Waylight · 14–18 Oct"',
+        description: "The line under the heading.",
+      },
+      {
+        name: "noun",
+        type: "{ one: string; other: string }",
+        defaultValue: '{ one: "trip", other: "trips" }',
+        description: "What one record is called in counts and sentences.",
+      },
+      {
+        name: "formatFare",
+        type: "(fare: number) => string",
+        defaultValue: "whole dollars",
+        description: "Prints a fare.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: "the title",
+        description: "The board's accessible name.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only: menus do not open and cards do not open.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the surface; give it a height and the grid scrolls inside it.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the bar is a toolbar (Left/Right, Home/End); ArrowDown or Enter opens a menu on the applied option, Up/Down preview as they move, Enter or Space commits, Escape or Tab abandons and returns focus to the trigger. Trip cards are one tab stop moved by arrows.",
+      "Reduced motion: ghosts only cross-fade to ghostOpacity with their dashed outline; nothing leans, steps or staggers, digits swap and the meter jumps. The forecast itself still shows.",
+      "Ghosting is local to each option's match, so it is instant even when forecast returns a promise; the count and wording wait for the host's answer, and stale answers are dropped when forecast changes.",
+      "onPreview and onApply fire separately: start a fetch on preview and reuse it on apply. A keyboard preview is announced once through a polite live region after it settles.",
+      "Columns come from the container width (4 → 1) through container queries; give the surface a height and the grid scrolls inside it under the fixed bar. Idle cost is zero: every motion is a settled spring.",
+    ],
+  },
+  {
+    name: "paint-matrix",
+    type: "registry:ui",
+    title: "Paint Matrix",
+    description:
+      "A two-facet filter you paint: sites down the side, statuses across the top, and each cell's job count tinted by heat. Dragging across cells paints them in or out (the first cell decides), each cell blooming with a soft wash out of the exact point the pointer entered on a slow enter tween while its count pops on springs.snap, and the jobs list beside it changes once the stroke ends, rows rising a cascade apart on springs.glide as the count rolls. It is a real grid with one roving cursor over cells and headings: arrows move, Space or Enter paints, Shift+Arrow paints as it travels, and a heading paints its whole line.",
+    files: [
+      {
+        path: "registry/ui/paint-matrix.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1639",
+    },
+    tagline: "Paint the site and status pairs you care about.",
+    keywords: [
+      "facet matrix",
+      "heatmap filter",
+      "paint selection",
+      "two-facet filter",
+      "grid",
+      "jobs list",
+      "drag select",
+    ],
+    props: [
+      {
+        name: "cellShape",
+        type: '"tile" | "dot" | "bar"',
+        defaultValue: '"tile"',
+        description:
+          "How a cell draws its count: a tinted tile, a disc sized by the count, or a bar along its foot.",
+      },
+      {
+        name: "heatScale",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How strongly counts tint their cells, 0–1: 0 is flat, 1 a full heat ramp.",
+      },
+      {
+        name: "accent",
+        type: '"cobalt" | "signal" | "amber" | "graphite" | string',
+        defaultValue: '"cobalt"',
+        description:
+          "The paint and heat colour: a named token, or any CSS colour.",
+      },
+      {
+        name: "rows",
+        type: "PaintMatrixAxis[]",
+        defaultValue: "defaultPaintMatrixRows",
+        description:
+          "Sites, down the side; each may carry a short label for narrow containers.",
+      },
+      {
+        name: "columns",
+        type: "PaintMatrixAxis[]",
+        defaultValue: "defaultPaintMatrixColumns",
+        description: "Statuses, across the top.",
+      },
+      {
+        name: "counts",
+        type: "number[][]",
+        defaultValue: "counted from jobs",
+        description: "Jobs per pair, rows × columns.",
+      },
+      {
+        name: "jobs",
+        type: "PaintMatrixJob[]",
+        defaultValue: "defaultPaintMatrixJobs",
+        description:
+          "The jobs the list shows, each tied to a row and a column.",
+      },
+      {
+        name: "selection / defaultSelection",
+        type: "PaintMatrixPair[]",
+        defaultValue: "defaultPaintMatrixSelection",
+        description: "The painted pairs. Controlled or initial.",
+      },
+      {
+        name: "onSelectionChange",
+        type: "(pairs: PaintMatrixPair[]) => void",
+        description:
+          "Fires once per stroke, key or heading press, from the gesture that made the change.",
+      },
+      {
+        name: "onOpenJob",
+        type: "(job: PaintMatrixJob) => void",
+        description: "A job row was opened.",
+      },
+      {
+        name: "now",
+        type: "number | Date",
+        defaultValue: "defaultPaintMatrixNow",
+        description: "Today, for due labels; never read from the clock.",
+      },
+      {
+        name: "listLimit",
+        type: "number",
+        defaultValue: "30",
+        description: 'Most rows the list shows before "and N more".',
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the counts have arrived: cells shimmer on a diagonal while loading; a retry when they failed.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the counts failed to load.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Jobs by site"',
+        description: "The surface's heading.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: "the title",
+        description: "The grid's accessible name.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only: nothing can be painted or opened.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the surface; give it a height and the panes scroll inside it.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: one tab stop; arrows move a cursor that also covers the headings, Space or Enter paints or clears, Shift+Arrow paints as it moves, Home/End go to the row's ends and Ctrl+Home/End to the corners. A heading or the corner paints its whole line or every pair.",
+      "Reduced motion: washes cross-fade in and out instead of blooming, counts do not pop and list rows do not rise; the paint, the counts and the list still change.",
+      "A stroke touches React state only when it enters a new cell and is sampled along its path, so fast strokes skip nothing; the list and onSelectionChange update once per stroke. The paint surface is touch-action: none.",
+      "Empty pairs are hatched, aria-disabled and cannot be painted. Colours resolve from tokens through CSS variables, with heat fills at a fixed lightness so amber or graphite read the same in light and dark.",
+      "Side by side from a 44rem container, stacked below it with a sticky status heading; headings switch to their short labels when the matrix pane is narrow.",
+    ],
+  },
+  {
+    name: "veto-chips",
+    type: "registry:ui",
+    title: "Veto Chips",
+    description:
+      "A filter row where every value can be ignored, kept or ruled out: the first press keeps a chip as a check draws in on springs.flick, the second turns it over on a quick springs.snap flip to its muted, struck-through vetoed face and slides it into a separate Excluding row on springs.glide while the gap closes and the result count rolls, and a third flips it back and glides it home. Rows measure their chips once and gather what does not fit into a +N popover. The chips are one toolbar: arrows move, Space or Enter cycles, Shift+Space vetoes, Delete clears, and focus follows a chip to the row it lands in.",
+    files: [
+      {
+        path: "registry/ui/veto-chips.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1640",
+    },
+    tagline: "Keep some values, rule others out, in one row.",
+    keywords: [
+      "include exclude",
+      "tri-state chips",
+      "filter chips",
+      "veto",
+      "faceted filter",
+      "overflow popover",
+      "work orders",
+    ],
+    props: [
+      {
+        name: "chipStyle",
+        type: '"soft" | "outline" | "solid"',
+        defaultValue: '"soft"',
+        description:
+          "Chip finish: tinted fills, hairline outlines, or solid kept chips.",
+      },
+      {
+        name: "flipAxis",
+        type: '"x" | "y" | "none"',
+        defaultValue: '"x"',
+        description:
+          "How a chip turns over to its vetoed face: tumbling about its horizontal axis, turning about its vertical one, or a cross-fade.",
+      },
+      {
+        name: "tone",
+        type: '"danger" | "warn" | "ink"',
+        defaultValue: '"danger"',
+        description: "The vetoed face's colour, muted: red, amber or ink.",
+      },
+      {
+        name: "groups",
+        type: "VetoGroup[]",
+        defaultValue: "defaultVetoGroups",
+        description:
+          "The groups of values (crews, materials, priorities) in bar order.",
+      },
+      {
+        name: "records",
+        type: "VetoRecord[]",
+        defaultValue: "defaultVetoRecords",
+        description:
+          "The records filtered, counted and listed; fields map a group id to a value id.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "VetoValue",
+        defaultValue: "defaultVetoValue",
+        description:
+          "The include and exclude sets of group:value keys. Controlled or initial.",
+      },
+      {
+        name: "onChange",
+        type: "(value: VetoValue, change: VetoChange) => void",
+        description:
+          "Fires from the press or key that changed a chip, with both sets and the change.",
+      },
+      {
+        name: "onOpenRecord",
+        type: "(record: VetoRecord) => void",
+        description: "A record row was opened.",
+      },
+      {
+        name: "showCounts",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Show each value's number of records in its chip.",
+      },
+      {
+        name: "listLimit",
+        type: "number",
+        defaultValue: "24",
+        description: 'Most rows the list shows before "and N more".',
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the filters and records have arrived: skeleton chips while loading, a retry when they failed.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after a failed load.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Work orders"',
+        description: "The heading.",
+      },
+      {
+        name: "noun",
+        type: "{ one: string; other: string }",
+        defaultValue: '{ one: "work order", other: "work orders" }',
+        description: "What one record is called in counts and announcements.",
+      },
+      {
+        name: "excludeLabel",
+        type: "string",
+        defaultValue: '"Excluding"',
+        description: "The second row's label.",
+      },
+      {
+        name: "excludeShortLabel",
+        type: "string",
+        defaultValue: '"Not"',
+        description: "Its short form, used when the rows stack.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: "the title",
+        description: "The surface's accessible name.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only: chips cannot change.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the surface; give it a height and the list scrolls inside it.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the chips and both +N buttons are one toolbar (Left/Right, Home/End). Space or Enter cycles ignore → keep → exclude, Shift+Space excludes directly (or restores an excluded value), Delete or Backspace clears, and focus follows the chip into the row it lands in. Escape closes a +N popover and returns focus to it.",
+      "Reduced motion: no flip and no travel; the face changes in place and the chip appears in its new row at once. The strike, the count and the list still update.",
+      "Every face of a chip has the same width, so each row measures once (one ResizeObserver) and never re-measures on a press. The Excluding row keeps its newest vetoes in view and folds older ones into +N.",
+      "Each change is announced once, after it lands, with the new count. A second press during a flip lands the first immediately rather than queueing.",
+      "From a 40rem container the chips and the Excluding row share one line; below it they stack and the label shortens. Veto colours are muted from the status tokens so they read in light and dark.",
+    ],
+  },
+  {
+    name: "nested-ticks",
+    type: "registry:ui",
+    title: "Nested Ticks",
+    description:
+      'A filter tree of regions, crews and people with tri-state ticks and a summary that says the choice in words ("All of Coldbrook crew, 2 of Basinworks crew"). Ticking a parent sends a ripple down its open branch: each child whose tick changes lands on springs.snap a cascade step after the one above, its check drawing on springs.flick under a passing wash, while partial parents fill their tick halfway like a level; branches open on springs.glide and lazy ones load with a spinner row or offer Retry. It is an APG tree with one roving tab stop: arrows move, open and close, Space ticks, asterisk opens every sibling, and typed letters jump to a match while dimming the rest.',
+    files: [
+      {
+        path: "registry/ui/nested-ticks.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1641",
+    },
+    tagline: "Pick a whole crew, or just two of its people.",
+    keywords: [
+      "tree filter",
+      "tri-state checkbox",
+      "hierarchical select",
+      "treeview",
+      "type-ahead",
+      "lazy tree",
+      "crews",
+    ],
+    props: [
+      {
+        name: "indent",
+        type: "number",
+        defaultValue: "18",
+        description:
+          "Pixels of indent per level; narrow containers indent at 60%.",
+      },
+      {
+        name: "tickStyle",
+        type: '"check" | "ring" | "gauge"',
+        defaultValue: '"check"',
+        description:
+          "A square with a drawn check, a ring with a dot, or a slim gauge that fills; partial parents fill halfway in each.",
+      },
+      {
+        name: "accent",
+        type: '"cobalt" | "signal" | "amber" | "graphite" | string',
+        defaultValue: '"cobalt"',
+        description:
+          "Tick and ripple colour: a named token, or any CSS colour.",
+      },
+      {
+        name: "nodes",
+        type: "NestedTickNode[]",
+        defaultValue: "defaultNestedTickNodes",
+        description:
+          "The tree; a node may be lazy, with a count of the leaves it holds before it loads.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string[]",
+        defaultValue: "defaultNestedTickValue",
+        description:
+          "The ticked leaves (an unloaded lazy branch counts as a leaf). Controlled or initial.",
+      },
+      {
+        name: "onChange",
+        type: "(leaves: string[]) => void",
+        description:
+          "Fires from the press or key that changed the ticks, with the leaf set in tree order.",
+      },
+      {
+        name: "expanded / defaultExpanded",
+        type: "string[]",
+        defaultValue: "defaultNestedTickExpanded",
+        description: "The open branches. Controlled or initial.",
+      },
+      {
+        name: "onExpandedChange",
+        type: "(expanded: string[]) => void",
+        description:
+          "Fires when a branch opens or closes, with every open branch.",
+      },
+      {
+        name: "onLoadChildren",
+        type: "(node: NestedTickNode) => Promise<NestedTickNode[]>",
+        description:
+          "Loads a lazy branch's children on first open; a rejection offers a Retry row.",
+      },
+      {
+        name: "stagger",
+        type: "number",
+        defaultValue: "cascade",
+        description:
+          "Milliseconds between ticks in a ripple, capped so a ripple stays under 600 ms.",
+      },
+      {
+        name: "typeaheadMs",
+        type: "number",
+        defaultValue: "900",
+        description: "How long typed letters keep finding and dimming.",
+      },
+      {
+        name: "noun",
+        type: "{ one: string; other: string }",
+        defaultValue: '{ one: "person", other: "people" }',
+        description: "What one leaf is called in counts and the summary.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Field crews"',
+        description: "The heading.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the tree has arrived: skeleton rows while loading, a retry when it failed.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the tree failed to load.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: "the title",
+        description: "The tree's accessible name.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only: nothing can be ticked.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the surface; give it a height and the tree scrolls inside it.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard (APG tree): Up/Down move, Right opens a branch or steps into it, Left closes it or steps out, Home/End jump, Space ticks (with the ripple), Enter ticks a person or opens a branch, * opens every sibling, letters type ahead (word starts first) and Escape clears an active type-ahead only.",
+      "Reduced motion: no ripple travel or rising rows; ticks change together with a short fade, branches open without travel, and the summary swaps. Ticks, counts and words still change.",
+      "Treeitems carry aria-checked true, false or mixed with aria-level, aria-setsize and aria-posinset; the summary is visible text and each change is announced once through a polite live region.",
+      "A lazy branch ticked before it loads is reported as its own id; when its children arrive they inherit the tick and onChange reports them instead.",
+      "No loops: ripple delays are computed once per press and the type-ahead uses one timer. The indent shrinks to 60% below a 19rem container.",
+    ],
+  },
+  {
+    name: "drill-columns",
+    type: "registry:ui",
+    title: "Drill Columns",
+    description:
+      "A column browser for deep folders: each opened folder adds a column and the last previews the selected file with drawn art. Opening a folder slides the track left on springs.glide while the selected row's highlight stretches to its column's edge and a thin connector draws along the divider into the new column's heading on glide; stepping back retracts it on the exit ease, and the selection glides between rows on springs.snap. One roving tab stop runs through every column: arrows travel within and across columns, Enter opens, Space previews, F2 renames and M picks an item up to move, while rows can also be dragged 1:1 onto a folder that bumps on springs.recoil as it takes the drop.",
+    files: [
+      {
+        path: "registry/ui/drill-columns.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1642",
+    },
+    tagline: "Walk deep folders without losing the path.",
+    keywords: [
+      "column browser",
+      "file manager",
+      "miller columns",
+      "folder tree",
+      "breadcrumb",
+      "file preview",
+      "drag to move",
+    ],
+    props: [
+      {
+        name: "columnWidth",
+        type: "number",
+        defaultValue: "200",
+        description:
+          "Width of each column in px; sets how far the track slides and how much of the path stays in view.",
+      },
+      {
+        name: "iconStyle",
+        type: '"tile" | "line" | "label"',
+        defaultValue: '"tile"',
+        description:
+          "Type icons in tinted tiles, plain line icons, or mono type labels.",
+      },
+      {
+        name: "accent",
+        type: '"cobalt" | "signal" | "amber" | "graphite" | string',
+        defaultValue: '"cobalt"',
+        description:
+          "Highlight, connector and folder tint: a named token, or any CSS colour.",
+      },
+      {
+        name: "folders",
+        type: "DrillNode[]",
+        defaultValue: "defaultDrillFolders",
+        description:
+          "The root's contents; a folder may be lazy and load through loadFolder.",
+      },
+      {
+        name: "rootLabel",
+        type: "string",
+        defaultValue: '"Basinworks"',
+        description: "The root column's heading and first crumb.",
+      },
+      {
+        name: "path / defaultPath",
+        type: "string[]",
+        defaultValue: "defaultDrillPath",
+        description:
+          "Ids from the root; a file at the end is previewed. Controlled or initial.",
+      },
+      {
+        name: "onPathChange",
+        type: "(path: string[]) => void",
+        description: "Fires from the press or key that moved along the path.",
+      },
+      {
+        name: "onOpen",
+        type: "(file: DrillNode, path: string[]) => void",
+        description: "A file was opened: Enter, Open, or a double-click.",
+      },
+      {
+        name: "onMove",
+        type: "(item: DrillNode, folder: DrillNode | null) => void",
+        description:
+          "An item was dropped on a folder (null is the root), by drag or with M then Enter.",
+      },
+      {
+        name: "onRename",
+        type: "(item: DrillNode, name: string) => void",
+        description: "An item was renamed with F2 or Rename.",
+      },
+      {
+        name: "loadFolder",
+        type: "(folder: DrillNode) => Promise<DrillNode[]>",
+        description:
+          "Loads a lazy folder's contents on first open: skeleton rows meanwhile, Retry in place on failure.",
+      },
+      {
+        name: "now",
+        type: "number | Date",
+        defaultValue: "defaultDrillNow",
+        description: "Now, for modified labels; never read from the clock.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the tree has arrived: skeleton columns while loading, a retry when it failed.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the tree failed to load.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"<rootLabel> files"',
+        description: "The browser's accessible name.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only: nothing opens, moves or renames.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the surface; give it a height and the columns scroll inside it.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: one tab stop across every column. Up/Down and Home/End move, Right steps into a folder (opening it), Left steps back and closes the column it left, Enter opens (a folder: step in; a file: onOpen), Space previews, F2 renames (Enter saves, Escape cancels), M picks an item up and Enter on a folder drops it; Escape cancels only an active move or rename.",
+      "Reduced motion: nothing slides or draws — the track jumps, columns and the connector appear in place, the drag chip still follows 1:1 but leaves without a spring. Path, preview, moves and renames all still work.",
+      "The connector path is rebuilt only on scroll, resize and selection change (a motion value, no React render) and pins to the column's edge, faded, when its row scrolls out of view. Idle cost is zero.",
+      "The browser keeps its own working copy of folders: moves, renames and loaded lazy folders land there and are reported through the callbacks; a new folders prop starts it over.",
+      "Below a 30rem container only the current column (or the preview) shows, full width, under a back crumb; deeper levels slide in from the right and back from the left. Preview art is drawn in SVG from tokens, never fetched.",
+    ],
+  },
+  {
+    name: "space-reclaim",
+    type: "registry:ui",
+    title: "Space Reclaim",
+    description:
+      "A storage clean-up surface: a quota bar drawn per file type in one hue sits over the scan's biggest files, ranked by size with proportional bars, types and last-opened ages. Choosing a file lifts its chip out of the row and flies it into the To remove tray on springs.glide while a striped reclaimable part grows inside that type's segment of the quota bar; Remove drains each segment by exactly its stripe on glide as the used figure rolls down and the removed rows fold away — calm, never bouncy, because it is a deletion. The list is a multi-select listbox: arrows move, Space chooses, Shift extends a range, Enter opens, K keeps a file out of the suggestions, Delete goes to Remove and Escape clears.",
+    files: [
+      {
+        path: "registry/ui/space-reclaim.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1643",
+    },
+    tagline: "Find what fills the drive and clear it calmly.",
+    keywords: [
+      "storage",
+      "disk usage",
+      "quota",
+      "clean up",
+      "file manager",
+      "large files",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "files",
+        type: "SpaceReclaimFile[]",
+        defaultValue: "defaultSpaceReclaimFiles",
+        description:
+          "The scan's candidates: { id, name, folder, type, size, lastOpened } with sizes in bytes and lastOpened in ms or null.",
+      },
+      {
+        name: "quota",
+        type: "{ total: number; used: number }",
+        defaultValue: "defaultSpaceReclaimQuota",
+        description: "The drive's size and everything in use, in bytes.",
+      },
+      {
+        name: "selected / defaultSelected",
+        type: "string[]",
+        defaultValue: "— / []",
+        description: "File ids chosen for removal, controlled or initial.",
+      },
+      {
+        name: "onSelectedChange",
+        type: "(ids: string[]) => void",
+        description: "Fires from the click or key that changed the selection.",
+      },
+      {
+        name: "onReclaim",
+        type: "(ids: string[], bytes: number) => void | Promise<unknown>",
+        description:
+          "Remove was confirmed. Return a promise to show the removal; a rejection keeps the selection and says nothing was removed.",
+      },
+      {
+        name: "onSkip",
+        type: "(file) => void",
+        description:
+          "A file was kept out of the suggestions (Keep, or K); it folds out of the list and nothing is deleted.",
+      },
+      {
+        name: "onOpen",
+        type: "(file) => void",
+        description: "A file was opened (Open, or Enter).",
+      },
+      {
+        name: "onRescan",
+        type: "() => void",
+        description: "Rescan or Retry was pressed.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "scanning" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Scanning shows progress and skeleton rows; error keeps the last results under a banner with Retry.",
+      },
+      {
+        name: "scanProgress",
+        type: "number",
+        defaultValue: "0",
+        description: "How far a running scan has got, 0 to 1.",
+      },
+      {
+        name: "scanPath",
+        type: "string",
+        description:
+          "The folder a running scan is reading, or where a failed one stopped.",
+      },
+      {
+        name: "scannedAt",
+        type: "number",
+        defaultValue: "three minutes before now",
+        description: "When the last scan finished, in ms.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "defaultSpaceReclaimNow",
+        description:
+          "The moment ages count from, in ms; never read from the clock during render.",
+      },
+      {
+        name: "barStyle",
+        type: '"bar" | "line" | "blocks"',
+        defaultValue: '"bar"',
+        description:
+          "How the quota and size bars are drawn: rounded bars, thin rules, or bars cut into cells.",
+      },
+      {
+        name: "density",
+        type: '"compact" | "cozy" | "roomy"',
+        defaultValue: '"cozy"',
+        description:
+          "Row height: one line, a meta line, or a meta line with the folder.",
+      },
+      {
+        name: "tone",
+        type: '"cobalt" | "moss" | "amber" | "ink"',
+        defaultValue: '"cobalt"',
+        description:
+          "The hue the quota family, the stripes, the checks and the size bars are drawn in.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Coldbrook workspace"',
+        description: "The workspace's name and the surface's accessible name.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "540",
+        description: "Height of the surface in px; the list scrolls inside it.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Nothing can be chosen, kept, opened or removed; the surface dims.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer surface.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the ranked list is one tab stop (a multi-select listbox with roving focus). Up and Down move, Home and End jump, Space chooses, Shift with Space or an arrow chooses a range from the anchor, Ctrl or Cmd with A chooses every file, Enter opens, K keeps a file out of the suggestions, Delete moves focus to Remove and Escape clears the selection. The hover Open and Keep buttons are pointer twins of Enter and K.",
+      'The quota bar is a role="meter" whose value text names what is chosen; choices, removals, failures and scan progress (in quarters) are announced politely. Remove stays focusable while it works, marked aria-busy.',
+      "Removal is optimistic: after onReclaim resolves the surface subtracts the removed files and folds their rows away; when the host passes new files or a new quota it trusts those instead. A rejected promise keeps the selection and says nothing was removed.",
+      "Reduced motion: chips appear in the tray without flying, rows fade out instead of folding, and the stripes, the drain and the used figure change at once. Scan progress still fills and every number still changes.",
+      "Performance: nothing runs at rest. The used figure and tray totals are motion values rendered as text, so a roll costs no React renders; the only loop is the Removing… rule while a removal is in flight. Below a 40rem container the tray docks at the foot with a Review disclosure.",
+    ],
+  },
+  {
+    name: "revision-reel",
+    type: "registry:ui",
+    title: "Revision Reel",
+    description:
+      "A version history you scrub like footage: dragging the reel's playhead follows the finger 1:1 and dissolves the file's preview from one save into the next by its fractional position, while the deck of version cards above fans open around it — a closed-form bell of extra room, a tilt away from the playhead and a lift for the card at it, all read from one motion value. Released, the playhead is thrown by projection and settles on the nearest version on springs.snap with the release velocity; Restore lifts the chosen card on snap while the host saves, then a new newest version is born where it was, carried to the top of the stack on springs.glide and set down on snap. The reel is a slider — Left and Right step, Page keys jump, Home and End, Enter restores, C marks two versions to compare side by side, D downloads, Escape closes the comparison — and becomes a listbox of versions at phone widths.",
+    files: [
+      {
+        path: "registry/ui/revision-reel.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1644",
+    },
+    tagline: "Scrub through every saved version of a file.",
+    keywords: [
+      "version history",
+      "revisions",
+      "restore",
+      "compare versions",
+      "timeline scrubber",
+      "file manager",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "versions / defaultVersions",
+        type: "RevisionVersion[]",
+        defaultValue: "— / defaultRevisionVersions",
+        description:
+          "Every save: { id, author, at, size, note, preview? }, shown oldest to newest by time. A missing preview gets a placeholder card.",
+      },
+      {
+        name: "onVersionsChange",
+        type: "(versions: RevisionVersion[]) => void",
+        description: "Fires with the whole list when a restore adds a version.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        defaultValue: "— / the newest",
+        description:
+          "The version at the playhead, by id, controlled or initial.",
+      },
+      {
+        name: "onValueChange",
+        type: "(id: string) => void",
+        description:
+          "Fires from the drag, tap or key that moved the playhead to a new version.",
+      },
+      {
+        name: "onRestore",
+        type: "(version) => void | Promise<unknown>",
+        description:
+          "Restore (or Enter). Return a promise to hold the card up while it saves; a rejection shows a failed card with Try again.",
+      },
+      {
+        name: "onCompare",
+        type: "(older, newer) => void",
+        description:
+          "Two versions were marked and opened side by side, older first.",
+      },
+      {
+        name: "onDownload",
+        type: "(version) => void",
+        description: "Download (or D) for the version at the playhead.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Loading shows placeholder cards and a skeleton reel; error shows Try again.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the history failed to load.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "defaultRevisionNow",
+        description:
+          "The moment ages count from, in ms; never read from the clock during render.",
+      },
+      {
+        name: "author",
+        type: "string",
+        defaultValue: '"You"',
+        description: "The name a restore is saved under.",
+      },
+      {
+        name: "fileName",
+        type: "string",
+        defaultValue: '"Waylight launch poster"',
+        description:
+          "The file's name, shown in the header and naming the surface.",
+      },
+      {
+        name: "reelStyle",
+        type: '"film" | "ticks" | "beads"',
+        defaultValue: '"film"',
+        description:
+          "How the reel is drawn: film frames with sprocket holes, ticks placed by time with day labels, or beads on a thread.",
+      },
+      {
+        name: "previewFit",
+        type: '"fit" | "fill" | "width"',
+        defaultValue: '"fit"',
+        description:
+          "How the preview sits in its pane: whole and letterboxed, cropped to fill, or fit to width and scrolled.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "Playhead, marks, the current card and Restore, any CSS colour.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "540",
+        description: "Height of the surface in px.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Nothing can be scrubbed, marked, restored or downloaded.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer surface.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: the reel is a role="slider" whose value text reads the version, its author, age and note. Left and Right step, Page Up and Page Down jump five, Home and End reach the first and latest, Enter restores, C marks a version (a second mark opens the comparison), D downloads and Escape closes the comparison or clears the marks. Below a 34rem container the reel becomes a listbox of versions, newest first, with the same keys.',
+      "Previews are any React node — an <img>, a canvas, an SVG. Images take object-fit from previewFit; a version with no preview gets a designed placeholder card instead of an empty pane.",
+      'Restoring is controlled-friendly: the component builds the new version ("Restored from v4") and reports the whole list through onVersionsChange; while it saves, Restore stays focusable and marked aria-busy, and a rejected promise shows a failed card with Try again and Dismiss.',
+      "Reduced motion: the deck holds still, evenly stacked, and the playhead moves at once; the preview still dissolves between versions while you drag, because the preview is the information. Restores appear in place.",
+      "Performance: one motion value drives the dissolve, the deck and the playhead through transforms, so scrubbing costs no React renders except when the playhead crosses a whole version. Nothing animates at rest; the deck's width comes from one ResizeObserver.",
+    ],
+  },
+  {
+    name: "name-clash",
+    type: "registry:ui",
+    title: "Name Clash",
+    description:
+      'An upload conflict resolver that decides one clash at a time: the file in the folder and the one being uploaded arrive side by side, sliding together until they touch on springs.glide, and picking an action previews it on the cards themselves — Replace slides the old card under the new one on glide, Keep both parts them on springs.snap while the upload\'s name grows its " (2)", Skip sets the upload aside. Apply sinks the pair on the exit ease and deals the next, Apply to all settles the rest in a cascade while the counter rolls down on snap, and an empty queue closes the panel to a one-line receipt. The actions are a radiogroup — arrows pick and the cards answer — Enter applies from anywhere in the panel and A applies to every remaining conflict.',
+    files: [
+      {
+        path: "registry/ui/name-clash.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1645",
+    },
+    tagline: "Two files, one name; decide in a glance.",
+    keywords: [
+      "upload conflict",
+      "file exists",
+      "replace or keep",
+      "duplicate name",
+      "file manager",
+      "upload",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "conflicts",
+        type: "NameClashConflict[]",
+        defaultValue: "defaultNameClashConflicts",
+        description:
+          "The queue: { id, existing, incoming }, each file { name, size, modified, author, kind?, seed? }.",
+      },
+      {
+        name: "action / defaultAction",
+        type: '"replace" | "keep" | "skip"',
+        defaultValue: '— / "keep"',
+        description:
+          "The action for the current conflict, controlled or initial.",
+      },
+      {
+        name: "onActionChange",
+        type: "(action) => void",
+        description: "Fires from the click or arrow key that picked an action.",
+      },
+      {
+        name: "onResolve",
+        type: "(conflict, action, name) => void",
+        description:
+          "Fires once per file as it is settled, with the name the upload ends up with (empty when skipped).",
+      },
+      {
+        name: "onDone",
+        type: "(results: NameClashResult[]) => void",
+        description:
+          "Fires when the queue empties, with every decision in order.",
+      },
+      {
+        name: "onCancel",
+        type: "(remaining: NameClashConflict[]) => void",
+        description:
+          "The close button was pressed; these conflicts are left unsettled.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Loading blanks the thumbnails and reads Comparing files; error explains the folder's file couldn't be read and makes Replace unavailable.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "defaultNameClashNow",
+        description:
+          "The moment ages count from, in ms; never read from the clock during render.",
+      },
+      {
+        name: "folder",
+        type: "string",
+        defaultValue: '"Coldbrook / Brand / Exports"',
+        description: "The destination folder, shown under the title.",
+      },
+      {
+        name: "nextName",
+        type: "(conflict) => string",
+        defaultValue: 'inserts " (2)" before the extension',
+        description:
+          "The name Keep both gives the upload; the part it adds grows in on the card.",
+      },
+      {
+        name: "cardLayout",
+        type: '"pair" | "stacked" | "tilted"',
+        defaultValue: '"pair"',
+        description:
+          "How the two cards meet: side by side, one above the other, or turned toward each other and overlapping the seam.",
+      },
+      {
+        name: "thumbSize",
+        type: "number",
+        defaultValue: "80",
+        description:
+          "Thumbnail edge in px, capped at 48 below a 32rem container.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "The chosen action, the upload's edge, the queue's current chip and Apply, any CSS colour.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Name clash"',
+        description: "The panel's heading and accessible name.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "540",
+        description:
+          "Height of the open panel in px; it glides down to a 64px receipt when the queue empties.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Nothing can be picked or applied.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the panel.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: the actions are a role="radiogroup" with one tab stop; all four arrows pick, Home and End jump, and the cards preview the choice. Enter applies from anywhere in the panel (a focused button keeps its own Enter), A applies the current action to every remaining conflict, and neither is taken while typing in a field. Escape is left to the host.',
+      'Every decision is announced politely ("Kept both: menu-board (2).png. 5 left."); the two cards are labelled figures whose names carry size, age and author, and when the queue empties focus moves to the receipt.',
+      "Thumbnails are drawn in code from each file's kind and seed (image, document, sheet, slides, audio), so the component needs no image files; pass different seeds to make two versions of a file look different.",
+      "Reduced motion: nothing slides — the pair appears in place, Replace dims the old card and badges it Will be replaced, Keep both shows the new name at once, and the close is a cross-fade. Every label, badge and count still changes.",
+      "Below a 32rem container the cards stack and meet vertically, the action icons drop and the thumbnails cap at 48px. Nothing runs at rest; one ResizeObserver reads the panel's width.",
+    ],
+  },
+  {
+    name: "incident-bridge",
+    type: "registry:ui",
+    title: "Incident Bridge",
+    description:
+      "A live incident workspace: a severity band over a toolbar, a timeline with a slim time axis and a pin per update, and the roles, affected Gaugeworks services and response checklist beside it. Changing severity floods the band with the new colour outward from the segment that was pressed — a circle clip on an enter tween, quicker to escalate than to calm — while the segment pill moves on springs.snap; every update drops in with its pin landing on the axis on springs.recoil and its entry sliding in on springs.glide as the rest glide down. U posts an update, R hands out a role from a menu, S goes to severity where arrows change it, Resolve sweeps the band quiet and lights the postmortem, stale data is flagged with its age and a null incident reads all clear.",
+    files: [
+      {
+        path: "registry/ui/incident-bridge.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1646",
+    },
+    tagline: "One room for the incident, from page to postmortem.",
+    keywords: [
+      "incident",
+      "on-call",
+      "severity",
+      "status timeline",
+      "monitoring",
+      "war room",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "incident / defaultIncident",
+        type: "BridgeIncident | null",
+        defaultValue: "— / defaultBridgeIncident",
+        description:
+          "The incident: { id, title, severity, state, openedAt, updatedAt, roles, services, updates, checklist }; null reads all clear.",
+      },
+      {
+        name: "onIncidentChange",
+        type: "(incident: BridgeIncident) => void",
+        description:
+          "Fires with the whole incident after every change made on the bridge.",
+      },
+      {
+        name: "onSeverityChange",
+        type: "(severity, previous) => void",
+        description:
+          "Severity was raised or lowered, from a press or an arrow key.",
+      },
+      {
+        name: "onPostUpdate",
+        type: "(update: BridgeUpdate) => void",
+        description:
+          "An update was posted from the composer; it is already on the timeline.",
+      },
+      {
+        name: "onResolve",
+        type: "(incident: BridgeIncident) => void",
+        description: "Resolve was pressed, with the resolved incident.",
+      },
+      {
+        name: "onAssignRole",
+        type: "(role, personId) => void",
+        description:
+          "A role (commander, scribe, comms) was handed to a person.",
+      },
+      {
+        name: "onRefresh",
+        type: "() => void",
+        description: "Refresh (stale data) or Retry (error) was pressed.",
+      },
+      {
+        name: "people",
+        type: "BridgePerson[]",
+        defaultValue: "defaultBridgePeople",
+        description: "Everyone who can hold a role or post: { id, name }.",
+      },
+      {
+        name: "lastIncident",
+        type: "{ id: string; resolvedAt: number }",
+        description: "Shown in the all-clear state.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Loading shows a skeleton band and timeline; error keeps the last state under a banner with its age and Retry.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "defaultBridgeNow",
+        description:
+          "The moment ages and the axis count from, in ms; never read from the clock during render.",
+      },
+      {
+        name: "staleAfter",
+        type: "number",
+        defaultValue: "300000",
+        description:
+          "How old updatedAt may get, in ms, before the data is flagged stale with its age.",
+      },
+      {
+        name: "author",
+        type: "string",
+        defaultValue: "the first person",
+        description: "The person posting from this bridge, by id.",
+      },
+      {
+        name: "severityPalette",
+        type: '"heat" | "cool" | "ink"',
+        defaultValue: '"heat"',
+        description:
+          "Severity colours: red to blue, violet to teal, or one ink whose weight carries severity.",
+      },
+      {
+        name: "density",
+        type: '"compact" | "cozy" | "roomy"',
+        defaultValue: '"cozy"',
+        description: "Entry padding, type size and row heights.",
+      },
+      {
+        name: "timelineSide",
+        type: '"left" | "right"',
+        defaultValue: '"left"',
+        description:
+          "Which column the timeline takes at tablet width, and which side of the entries its rail runs on.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "540",
+        description:
+          "Height of the bridge in px; its columns scroll inside it.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only: nothing can be posted, assigned or changed.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer surface.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: U opens the composer (Enter posts, Shift+Enter adds a line, Escape cancels), R opens the role menu for the first empty role (arrows, Home, End, Enter, Escape returns focus to its button), S focuses the severity radiogroup where arrows change it. The shortcuts never fire while typing in a field or inside a menu.",
+      'The timeline is a role="log" list, newest first, with every entry\'s time in the text; the axis above it is decorative. Severity, posts, roles, resolution and stale data are each announced once, politely.',
+      "Severity colours are pigments taken at a fixed lightness from the status tokens, so the band reads the same in both themes; text and small marks keep the plain tokens.",
+      "Reduced motion: the band cross-fades instead of sweeping, pins and entries fade in place, menus and the composer fade; every colour, count and entry still changes.",
+      "Below a 44rem container the timeline moves under the band and the roles, services and checklist follow it in one scrolling column. Nothing runs at rest: the sweep is one clip-path tween on one layer that is removed when it lands.",
+    ],
+  },
+  {
+    name: "blast-radius",
+    type: "registry:ui",
+    title: "Blast Radius",
+    description:
+      "A service dependency map that answers who feels it when one service falls over: services sit in tidy layers computed from their calls (longest-path layering with barycentre sweeps), and every call is a curve whose weight is its traffic. Selecting a service runs the blast backwards up the calls one hop every ringSpeed ms — a pulse travels each edge, and as it lands the caller takes the impact tint and throws one ring that widens on springs.drift and fades, the impacted count rolls on springs.snap and the hop's rows rise into the list on springs.glide — while everything it never reaches dims; then it all settles. Every service is a button in the tab order where arrows move along the layout, Enter or Space selects and Escape clears, and below a 30rem container the map becomes an indented tree of hops.",
+    files: [
+      {
+        path: "registry/ui/blast-radius.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1647",
+    },
+    tagline: "See who feels it when one service falls over.",
+    keywords: [
+      "dependency map",
+      "service graph",
+      "blast radius",
+      "impact analysis",
+      "monitoring",
+      "incident",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "services",
+        type: "BlastService[]",
+        defaultValue: "defaultBlastServices",
+        description:
+          "The services on the map: { id, name, team, health, rps }.",
+      },
+      {
+        name: "edges",
+        type: "BlastEdge[]",
+        defaultValue: "defaultBlastEdges",
+        description:
+          "Who calls whom: { from, to, traffic }. If `to` falls over, `from` feels it; traffic is drawn as line weight.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string | null",
+        defaultValue: "— / null",
+        description:
+          "The selected service, controlled or initial. An initial selection plays its blast once the map is in view.",
+      },
+      {
+        name: "onValueChange",
+        type: "(id: string | null) => void",
+        description: "Fires from the click or key that changed the selection.",
+      },
+      {
+        name: "onSelect",
+        type: "(service | null, impacted: BlastService[]) => void",
+        description:
+          "Fires with the selected service and every service its fall would reach.",
+      },
+      {
+        name: "onAcknowledge",
+        type: "(service, impacted) => void",
+        description: "Acknowledge was pressed for the selected service.",
+      },
+      {
+        name: "onOpenRunbook",
+        type: "(service) => void",
+        description: "Runbook was pressed for the selected service.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Loading draws faint dashed outlines where the services sit; error keeps the last map, desaturated, under a banner with its age and Retry.",
+      },
+      {
+        name: "updatedAt",
+        type: "number",
+        defaultValue: "six minutes before now",
+        description:
+          "When the map's data was fetched, in ms; an error shows its age.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "defaultBlastNow",
+        description:
+          "The moment ages count from, in ms; never read from the clock during render.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Retry was pressed after a failed refresh.",
+      },
+      {
+        name: "layoutDirection",
+        type: '"right" | "down"',
+        defaultValue: '"right"',
+        description:
+          "Layers run left to right, or top to bottom; the arrow keys follow.",
+      },
+      {
+        name: "ringSpeed",
+        type: "number",
+        defaultValue: "400",
+        description: "How long the blast takes to cross one hop, in ms.",
+      },
+      {
+        name: "nodeShape",
+        type: '"pill" | "dot" | "card"',
+        defaultValue: '"pill"',
+        description:
+          "How a service is drawn: a named pill, a health dot with its name, or a small card with team and traffic.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Service map"',
+        description: "The heading and the map's accessible name.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "540",
+        description: "Height of the surface in px.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Nothing can be selected or acknowledged.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer surface.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: every service is a button in the tab order, layer by layer, named with its health, traffic and number of callers and marked aria-pressed when selected. Arrow keys move along the layout (between layers) and across it (within a layer), Home and End reach the first and last service, Enter or Space selects and Escape clears. Below a 30rem container the map becomes a role="tree" of hops with one tab stop, Up, Down, Home, End and Enter.',
+      'The blast is announced once, when it has landed ("Basinworks queue selected. 5 services impacted across 3 hops."), never per hop. A service that is down blasts in the danger tone; a healthy one plays a what-if in the accent.',
+      "Layout is deterministic — longest-path layers and barycentre ordering computed from the props — so the server and the browser draw the same map; it is recomputed only when services, edges, direction or the measured size change.",
+      "Reduced motion: no pulses and no rings; the hops still light in order at ringSpeed, with fades, because the order is information, and the count updates per hop without rolling.",
+      "Performance: the blast is a finite choreography — a few tweens per hop, all stopped on reselect or unmount — and an initial selection waits until the map is in view. Nothing runs at rest. Under a 56rem container the hop list sits under the map in columns; wider, it is a side list.",
+    ],
+  },
 ];

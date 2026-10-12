@@ -1803,6 +1803,35 @@ import { ThumbFlipbookDemo } from "@/registry/demos/thumb-flipbook.demo";
 import { CounterDiveDemo } from "@/registry/demos/counter-dive.demo";
 import { PegMigrationDemo } from "@/registry/demos/peg-migration.demo";
 import { SecondContactDemo } from "@/registry/demos/second-contact.demo";
+import { RakingLightDemo } from "@/registry/demos/raking-light.demo";
+import { MonospacePondDemo } from "@/registry/demos/monospace-pond.demo";
+import { TallyFacetsDemo } from "@/registry/demos/tally-facets.demo";
+import { SieveStackDemo } from "@/registry/demos/sieve-stack.demo";
+import { ProseFilterDemo } from "@/registry/demos/prose-filter.demo";
+import { SavedLensesDemo } from "@/registry/demos/saved-lenses.demo";
+import { BrushedWindowsDemo } from "@/registry/demos/brushed-windows.demo";
+import { WingScalesDemo } from "@/registry/demos/wing-scales.demo";
+import { HangingScrollDemo } from "@/registry/demos/hanging-scroll.demo";
+import { DryingLineDemo } from "@/registry/demos/drying-line.demo";
+import { FresnelSheetDemo } from "@/registry/demos/fresnel-sheet.demo";
+import { TheatreScrimsDemo } from "@/registry/demos/theatre-scrims.demo";
+import { SlateCoursesDemo } from "@/registry/demos/slate-courses.demo";
+import { RoomWithinDemo } from "@/registry/demos/room-within.demo";
+import { ZelligeWallDemo } from "@/registry/demos/zellige-wall.demo";
+import { ThoughtAvalancheDemo } from "@/registry/demos/thought-avalanche.demo";
+import { PlanetariumRoofDemo } from "@/registry/demos/planetarium-roof.demo";
+import { SlotCanyonDemo } from "@/registry/demos/slot-canyon.demo";
+import { SwitchbackTrailsDemo } from "@/registry/demos/switchback-trails.demo";
+import { HoverForecastDemo } from "@/registry/demos/hover-forecast.demo";
+import { PaintMatrixDemo } from "@/registry/demos/paint-matrix.demo";
+import { VetoChipsDemo } from "@/registry/demos/veto-chips.demo";
+import { NestedTicksDemo } from "@/registry/demos/nested-ticks.demo";
+import { DrillColumnsDemo } from "@/registry/demos/drill-columns.demo";
+import { SpaceReclaimDemo } from "@/registry/demos/space-reclaim.demo";
+import { RevisionReelDemo } from "@/registry/demos/revision-reel.demo";
+import { NameClashDemo } from "@/registry/demos/name-clash.demo";
+import { IncidentBridgeDemo } from "@/registry/demos/incident-bridge.demo";
+import { BlastRadiusDemo } from "@/registry/demos/blast-radius.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -3620,4 +3649,33 @@ export const demos: Record<string, ComponentType> = {
   "counter-dive": CounterDiveDemo,
   "peg-migration": PegMigrationDemo,
   "second-contact": SecondContactDemo,
+  "raking-light": RakingLightDemo,
+  "monospace-pond": MonospacePondDemo,
+  "tally-facets": TallyFacetsDemo,
+  "sieve-stack": SieveStackDemo,
+  "prose-filter": ProseFilterDemo,
+  "saved-lenses": SavedLensesDemo,
+  "brushed-windows": BrushedWindowsDemo,
+  "wing-scales": WingScalesDemo,
+  "hanging-scroll": HangingScrollDemo,
+  "drying-line": DryingLineDemo,
+  "fresnel-sheet": FresnelSheetDemo,
+  "theatre-scrims": TheatreScrimsDemo,
+  "slate-courses": SlateCoursesDemo,
+  "room-within": RoomWithinDemo,
+  "zellige-wall": ZelligeWallDemo,
+  "thought-avalanche": ThoughtAvalancheDemo,
+  "planetarium-roof": PlanetariumRoofDemo,
+  "slot-canyon": SlotCanyonDemo,
+  "switchback-trails": SwitchbackTrailsDemo,
+  "hover-forecast": HoverForecastDemo,
+  "paint-matrix": PaintMatrixDemo,
+  "veto-chips": VetoChipsDemo,
+  "nested-ticks": NestedTicksDemo,
+  "drill-columns": DrillColumnsDemo,
+  "space-reclaim": SpaceReclaimDemo,
+  "revision-reel": RevisionReelDemo,
+  "name-clash": NameClashDemo,
+  "incident-bridge": IncidentBridgeDemo,
+  "blast-radius": BlastRadiusDemo,
 };

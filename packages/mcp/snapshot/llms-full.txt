@@ -36349,6 +36349,523 @@ Notes:
 - Under reduced motion the flow stops at its first frame and a new chord is drawn at once, colour and all; the fader fills move on a short tween.
 - Palettes are pigment: each stop takes a token's hue at a fixed lightness, so the strata look the same on light and dark pages and follow your accent. Pass any CSS colours as palette to use your own.
 
+### Tally Facets (KQ-1633) — `tally-facets`
+Pick a value; every other count answers.
+
+A faceted sidebar beside a results list where every value carries a live count and a slim count bar, counted disjunctively so a facet's own picks never zero its siblings. Picking a value flicks its check in on springs.flick and, in the same frame, every other facet's bars glide to their new lengths on springs.glide while their counts roll; values that would now return nothing dim and sink to the foot of their group on glide, and results leave on the exit ease while the rest close up and returning rows rise in a cascade. Arrow keys walk every value in the order you see it, Space toggles, and below a 560px container the facets fold into a modal sheet whose buttons carry the live result count.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/tally-facets`
+
+Props:
+- `facets`: TallyFacet[] (default defaultTallyFacets) — The facets in order: { id, label, values?, badge? }. Values omitted are read from the rows, largest first; a badge facet shows as a pill on each result.
+- `rows`: TallyRow[] (default defaultTallyRows) — The records counted and listed: { id, title, code, amount, at, facets } where facets maps facet id to value id.
+- `value / defaultValue`: Record<string, string[]> (default — / {}) — Picked value ids by facet id, controlled or initial.
+- `onValueChange`: (selection) => void — Fires with the whole selection after every pick, clear or chip removal.
+- `onChange`: (change: { facetId, valueId, selected, selection }) => void — Fires once per decision with the value that changed and whether it is now picked.
+- `onClear`: () => void — Fires when Clear empties the selection.
+- `onSaveView`: (selection) => void — Fires from Save view with the current selection; the button only shows when this is passed.
+- `status`: "ready" | "loading" | "error" (default "ready") — Loading stripes every bar and skeletons the results; error keeps the last counts, hatched, under a Retry banner.
+- `onRetry`: () => void — Retry was pressed after a failed refresh.
+- `density`: "compact" | "cozy" | "roomy" (default "cozy") — Facet row height (26, 30 or 36px) and type size.
+- `barStyle`: "bar" | "line" | "fill" (default "bar") — How a count is drawn: a slim bar under the label, a hairline rule, or a wash behind the whole row.
+- `accent`: string (default "var(--accent-bright)") — Checks, bars, chips and the live count, any CSS colour.
+- `sinkEmpty`: boolean (default true) — Values that would return nothing sink to the foot of their group.
+- `now`: number (default defaultTallyNow) — Today in ms, for the "3d ago" on each result; never read from the clock during render.
+- `formatAmount`: (amount: number) => string (default whole US dollars) — Formats each result's amount.
+- `title`: string (default "Orders") — The heading over the results and the surface's accessible name.
+- `itemLabel`: { one: string; other: string } (default { one: "order", other: "orders" }) — What one result is called, in counts and announcements.
+- `height`: number (default 520) — Height of the surface in px; the facets and the results scroll inside it.
+- `disabled`: boolean (default false) — Nothing can be picked, cleared or saved; the surface dims.
+- `className`: string — Classes for the outer surface.
+
+Notes:
+- Keyboard: the facet list is one tab stop (roving tabindex). Up and Down walk every value in the order it is drawn, sunk values included, across groups; Home and End jump; Space or Enter toggles. Each value is a role="checkbox" named with its count ("North, 19 orders"), and empty values add "no matches" and aria-disabled. The result count is announced politely from the pick that changed it.
+- Below a 560px container the sidebar folds into a sheet behind a Filters button that shows how many values are picked. The sheet is a modal dialog: focus moves in and is trapped, Escape closes it and returns focus to the button, and its footer button reads the live result count.
+- Reduced motion: no glide, sink or rise — bars and counts jump to their new values, empty values dim and move instantly, the sheet fades in place and the loading stripes hold still. Counts and the result total still change, because they are the information.
+- Performance: nothing runs at rest. Bars are scaleX transforms and counts are motion values rendered as text, so a pick costs one React render and no per-frame renders. Sinking uses CSS order, so DOM order and keyboard focus never move under the visitor. The loading stripes run only while loading and on screen.
+- Counting is disjunctive: values in one facet are OR'd, facets are AND'd, and a facet's counts ignore its own picks. Bars measure against each facet's unfiltered maximum, so they only shrink as filters narrow, with a hairline tick at the unfiltered length.
+
+### Sieve Stack (KQ-1634) — `sieve-stack`
+See exactly which filter is costing you rows.
+
+Active filters stacked as layers above a work-order table, each applied to what survived the layers above it, so every bar shows exactly what its filter costs: the rows it lets through as a solid fill, the rows it removes as a shaded band, bare track for what earlier layers took. Switching a layer off collapses its band and the returning rows pour back down the stack, every layer beneath widening on springs.glide a stagger after the one above while the table admits them in a cascade; the switch thumb snaps on springs.snap. A grip drags a layer 1:1 with its neighbours sliding aside on glide and the release settling with the throw's velocity, and Alt+Arrow moves a layer from any of its controls while Delete removes it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/sieve-stack`
+
+Props:
+- `filters / defaultFilters`: SieveFilter[] (default — / defaultSieveFilters) — The filters in the order they are applied, controlled or initial: { id, label, field, op, value, active? } with op is, not, in, gte, lte or within (days from now).
+- `onFiltersChange`: (filters) => void — Fires with every filter after a switch, reorder or removal.
+- `rows`: SieveRow[] (default defaultSieveRows) — The records the stack sieves: { id, ...fields }.
+- `columns`: SieveColumn[] (default defaultSieveColumns) — The table's columns: { id, header, kind?: code | text | tag | due, hideBelow?: none | sm | md | lg, sub? }.
+- `onToggle`: (id, active, filters) => void — Fires from the switch or key that turned a layer on or off.
+- `onReorder`: (ids, filters) => void — Fires from the drop or Alt+Arrow that moved a layer, with the new order.
+- `onRemove`: (id, filters) => void — Fires from the button or Delete key that removed a layer.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the rows have arrived; the stack keeps its shape in every state.
+- `onRetry`: () => void — Try again was pressed after the rows failed to load.
+- `bandStyle`: "hatch" | "tint" | "dashed" (default "hatch") — How the rows a layer removes are drawn: diagonal hatching, a flat wash, or a dashed outline.
+- `density`: "compact" | "cozy" | "roomy" (default "cozy") — Layer height (36, 44 or 52px; shorter on phones) and table row padding.
+- `palette`: "ink" | "cobalt" | "ember" | "moss" (default "cobalt") — The hue of the surviving fill and the removed band; ember and moss are fixed-lightness pigments so they read the same in both themes.
+- `pourStagger`: number (default 70) — Delay per layer, ms, as returning rows pour down the stack.
+- `now`: number (default defaultSieveNow) — Today in ms, for due dates and the within operator.
+- `title`: string (default "Work orders") — The heading over the stack and the surface's accessible name.
+- `itemLabel`: { one: string; other: string } (default { one: "work order", other: "work orders" }) — What one row is called, in counts and announcements.
+- `height`: number (default 520) — Height of the surface in px; the table scrolls inside it under a sticky header.
+- `disabled`: boolean (default false) — No switching, moving or removing; the surface dims.
+- `className`: string — Classes for the outer surface.
+
+Notes:
+- Keyboard: every layer has a grip button, a role="switch" named with what it removes ("Priority high or urgent, removes 13, 10 work orders remain") and a remove button. Alt+ArrowUp/Down on any of them moves the layer and keeps focus on that control; ArrowUp/Down on the grip also move it; ArrowUp/Down on a switch walk to the neighbouring switch; Delete or Backspace removes the layer and focus lands on a neighbour. Every change is announced politely.
+- Reduced motion: no pour cascade, no glide and no row rise — bands and fills reach their new widths in one short tween, rows appear in place, and a dragged layer still follows the finger but lands without a spring. The counts still change.
+- Performance: nothing runs at rest. Reorders are FLIPs on per-layer motion values (DOM order follows the visual order, focus is restored after the move), counts are motion values rendered as text, and a drag captures the pointer only after 4px so a tap on the grip is still a tap.
+- Each layer is applied to what survived the layers above it, so its cost depends on its place: moving a layer re-divides every band. When nothing gets through, the table names the layer whose removal would admit the most rows and offers to switch it off.
+- Below a 480px container every layer collapses to one line (grip, switch, label, surviving count) and its bar becomes the row's underlay; the table drops columns by each column's hideBelow and shows a column's sub field instead.
+
+### Prose Filter (KQ-1635) — `prose-filter`
+Type what you want; the sentence becomes filters.
+
+One search line that reads a sentence against a typed schema and turns it into field, operator and value chips docked above a results table. A phrase docks when you type the space after it: a ghost of its words rises a step and fades where they stood while the chip starts over them, scaled to their width, and flies to its slot on springs.snap with one crisp overshoot; results close up on springs.glide and arrive in a cascade. Words with more than one reading keep a dotted, dashed or wavy underline, Tab walks them and opens a listbox of meanings under the word, Enter docks the chosen one, and Backspace at the start of the line pulls the last chip back into editable text.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/prose-filter`
+
+Props:
+- `schema`: ProseSchema (default defaultProseSchema) — What the line can read: { noun: { one, other, words }, fields } with enum (options with words, optional lead words), money, date (lead words, primary) and code fields.
+- `rows`: ProseRow[] (default defaultProseRows) — The records the chips filter: { id, ...fields }.
+- `defaultValue`: string (default "") — A sentence read on first render; its finished phrases dock straight away and doubtful words stay in the line.
+- `placeholder`: string (default "Try: overdue invoices over 500 from Coldbrook") — The empty line's hint.
+- `onQueryChange`: (query: ProseQuery) => void — Fires with { noun, clauses, text, unsure } on first render and whenever a chip docks, leaves, is pulled back or the line changes.
+- `onApply`: (query: ProseQuery) => void — Fires from Enter or the apply button, after finished phrases have docked.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the results have arrived: loading shows skeleton rows, error a Try again.
+- `onRetry`: () => void — Try again was pressed after the results failed to load.
+- `chipStyle`: "segment" | "soft" | "outline" (default "segment") — Chip look: field, operator and value in three tinted segments, one soft wash pill, or a hairline outline.
+- `underlineStyle`: "dotted" | "dashed" | "wavy" (default "dotted") — The underline under words with more than one reading.
+- `accent`: string (default "var(--accent-bright)") — Chips, underlines, read-phrase washes and the live count, any CSS colour.
+- `now`: number (default defaultProseNow) — Today in ms, for last month, this week, the last N days and month names (always the most recent one).
+- `formatAmount`: (amount: number) => string (default whole US dollars) — Formats amounts in chips and rows.
+- `maxRows`: number (default 40) — The most rows the table lists; it scrolls inside its box.
+- `title`: string (default "Invoices") — The heading before the sentence names its noun; it takes the noun's name once it docks.
+- `height`: number (default 520) — Height of the surface in px.
+- `disabled`: boolean (default false) — The line and the chips are inert; the surface dims.
+- `className`: string — Classes for the outer surface.
+
+Notes:
+- Keyboard: the line is a real input with role="combobox". A phrase docks on the space after it, Enter docks what is finished and applies, Tab walks the doubtful words once each (opening a listbox of meanings, driven by aria-activedescendant) and then lets focus move on, ArrowUp/Down choose, Enter docks the meaning, Escape closes the list. Backspace at the start of the line pulls the last chip back to edit. Each chip is a button named "Remove Amount over $500"; dock and pull-back are announced politely.
+- Reduced motion: no flight and no rising ghost — the chip fades in at its slot while the words leave the line, the meanings list fades without rising, rows appear in place. Underlines, chips and counts all still show.
+- Typing, selection, IME, paste and undo stay native: the underlines and washes are painted on a mirror behind a transparent-background input, kept aligned with its scroll by a motion value. Nothing runs at rest; a dock is three short springs on one chip.
+- Reading is deterministic and local: the schema's words, comparators (over, under, at least, between N and M), dates against now (UTC) and #numbers. Bare numbers, month names with two date fields, recent, big and large are doubtful and wait for a choice. A newer clause on the same field replaces the older one. readProse and proseMatches are exported for hosts that run the query themselves.
+- When nothing matches, the table names the chip whose removal would admit the most rows and offers to remove it.
+
+### Saved Lenses (KQ-1636) — `saved-lenses`
+Switch views; only the filters that differ move.
+
+A row of saved views over a chip bar and a results list where switching views is a shared-element move: chips the two views have in common are the same elements and keep their slots, arriving chips take the slots departing ones leave, the differing ones slide out on the exit ease and in on springs.snap a cascade apart, and later chips glide on springs.glide only when a replaced chip is a different width. The tab mark slides on snap. Removing a chip or adding one from Filter makes a draft whose tab earns a modified dot on snap while Save, Save as new and Revert slide in on glide; views are a tablist with arrows, Home and End, and digits 1 to 9 pick a view from anywhere in the surface.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/saved-lenses`
+
+Props:
+- `views`: LensView[] (default defaultLensViews) — Seeds the saved views ({ id, name, filters: { field, value }[] }); the surface owns saves after that and reports them.
+- `rows`: LensRow[] (default defaultLensRows) — The records each view filters: { id, code, title, due, ...fields }.
+- `fields`: LensField[] (default defaultLensFields) — The filterable fields and their values offered by Filter; a field of kind "due" reads due dates against now (overdue, today, this week).
+- `value / defaultValue`: string (default — / the first view) — The active view id, controlled or initial.
+- `onValueChange`: (id: string) => void — Fires with the new view id from the tab, arrow or digit that chose it.
+- `onViewChange`: (view, previous) => void — Fires with the view switched to (including unsaved edits) and the one left.
+- `onSaveView`: (view, { asNew }) => void — Fires from Save (asNew false) or Save as new (asNew true) with the saved view.
+- `onRevert`: (viewId: string) => void — Fires from Revert with the view whose edits were dropped.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the active view's results have arrived; loading, empty and failed views each get a quiet panel.
+- `onRetry`: () => void — Try again was pressed on a failed view.
+- `tabStyle`: "underline" | "pill" | "boxed" (default "underline") — How the active tab is marked: an underline, a tinted pill, or a raised box; the mark slides between tabs.
+- `chipStyle`: "soft" | "outline" | "solid" (default "soft") — Chip look: a soft wash, a hairline outline, or a solid fill.
+- `cornerRadius`: number (default 8) — Corner radius of chips, tabs, the menu and buttons, px (0 to 16).
+- `accent`: string (default "var(--accent-bright)") — The tab mark, chips and Save, any CSS colour.
+- `now`: number (default defaultLensNow) — Today in ms, for due dates.
+- `me`: string (default "Ines Park") — Whose queue this is: an assignee chip with this value reads "Me".
+- `title`: string (default "Support queue") — The heading over the views and the surface's accessible name.
+- `height`: number (default 520) — Height of the surface in px; the results scroll inside it.
+- `disabled`: boolean (default false) — Views, chips and actions are inert; the surface dims.
+- `className`: string — Classes for the outer surface.
+
+Notes:
+- Keyboard: the views are a role="tablist" with one tab stop; Left and Right move and select, Home and End jump, and digits 1 to 9 select view n from anywhere in the surface except a text field. Each tab says when it is edited. Chips are buttons named "Remove Account is Fernworks" (Delete or Backspace also remove), Filter is a menu button whose role="menu" takes focus, walks with the arrows and closes on Escape back to the button. Switches, edits and saves are announced politely.
+- Reduced motion: chips cross-fade in place (shared chips never move anyway), the tab mark and the modified dot appear without travel, rows fade in. Counts and contents still change.
+- Performance: no loop. A switch is one layout pass: shared chips keep their keys, so they are the same DOM nodes and do not animate at all; the strip's fade edges are CSS variables driven by motion values from scroll, never React state per frame.
+- Edits are drafts per view: switching away keeps a draft and its tab's dot, Save writes it back, Save as new names a copy (inline field, Enter saves, Escape cancels) and selects it, Revert drops it. A new value for a field replaces that field's chip in its slot.
+- Narrow surfaces turn the tabs into a horizontally scrolling strip with a fade on whichever edge has more, and keep the chosen tab in view without scrolling the page.
+
+### Brushed Windows (KQ-1637) — `brushed-windows`
+Cut several time windows out of one busy month.
+
+A density ribbon of a month of events above an event list, where dragging across the ribbon cuts a frosted window that follows the pointer 1:1 and you may cut as many as you need, overlapping cuts joining. On release the window's edges settle onto bin boundaries on springs.snap with the drag's velocity, its soft handles swell in on snap, a chip for it pops into the row below, and the list regroups on springs.glide with one heading per window while rows outside every window fold away. Handles resize and the body moves a window 1:1; touch starts a cut with a long press; the ribbon is a slider cursor whose Enter cuts a day, and a focused window moves with the arrows, resizes with Shift and goes with Delete.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/brushed-windows`
+
+Props:
+- `events`: GaugeEvent[] (default defaultGaugeEvents) — The events the ribbon counts and the list shows: { id, at, title, source, level: info | warn | alert }.
+- `windows / defaultWindows`: { id?, start, end }[] (default — / defaultGaugeWindows) — The cut windows in ms, controlled or initial; ids are assigned when missing.
+- `onWindowsChange`: (windows) => void — Fires with every window, in time order and with ids, after a cut, move, resize, merge or removal.
+- `now`: number (default defaultGaugeNow) — The end of the period in ms; the ribbon shows the days before it. Never read from the clock during render.
+- `days`: number (default 30) — How many days the ribbon spans.
+- `binSize`: number (default 6) — Hours per bin, 1 to 24: the ribbon's grain and the step windows snap to and keys move by.
+- `frostLevel`: number (default 0.5) — How frosted a window's glass is, 0 (clear, tinted) to 1 (deep frost).
+- `accent`: string (default "var(--accent-bright)") — Windows, the density inside them, chips and the live count, any CSS colour.
+- `maxWindows`: number (default 6) — Most windows at once; a cut past it replaces the oldest.
+- `rowsPerWindow`: number (default 5) — Rows shown under each window's heading before Show all.
+- `longPressMs`: number (default 380) — How long a touch must hold before it starts a window, so a swipe still scrolls.
+- `status`: "ready" | "loading" | "error" (default "ready") — Loading draws a skeleton ribbon and rows; error keeps the ribbon's shape with a Try again.
+- `onRetry`: () => void — Try again was pressed after the events failed to load.
+- `title`: string (default "Gaugeworks events") — The heading over the ribbon and the surface's accessible name.
+- `height`: number (default 520) — Height of the surface in px; the list scrolls inside it.
+- `disabled`: boolean (default false) — No cutting, moving or removing; the surface dims.
+- `className`: string — Classes for the outer surface.
+
+Notes:
+- Keyboard: the ribbon is a role="slider" cursor over the period ("Sep 28, 06:00, 7 events"): Left and Right move a bin, Page Up and Page Down a day, Home and End jump, Enter or Space cuts a one-day window there and moves focus into it. A window is a focusable group: the arrows move it a bin, Shift with an arrow resizes its end, Alt and Shift its start, Delete or Backspace removes it and returns focus to the ribbon, Escape returns to the ribbon. Chips focus their window; their x removes it. Every change is announced politely.
+- Touch: the ribbon uses touch-action pan-y, and a cut starts only after a long press (longPressMs), so a vertical swipe scrolls the page and a quick horizontal swipe does nothing; after the hold a seed window appears under the finger and the drag draws it out.
+- Reduced motion: edges land on their bins without overshoot, handles appear, chips fade in and the list regroups without gliding. A window still follows the pointer during a cut: that is direct manipulation, not decoration.
+- Performance: nothing runs at rest. The ribbon's two paths are rebuilt only when the events, period or bin size change; window edges are motion values written 1:1 during a drag, so a drag causes no React render per frame; backdrop blur is limited to the window panes. The ribbon keeps its full width down to 316px, its labels thinning to one a week.
+- A stretch of a day and a half with no events is drawn as a flat dashed calm line labelled quiet, rather than a gap, so a refit or an outage reads as information.
+
+### Hover Forecast (KQ-1638) — `hover-forecast`
+Preview what a filter removes before you commit.
+
+A trip board whose filter menus show what an option would remove before you choose it: resting on an option turns the cards it would drop into dashed ghosts that fade and lean aside about their foot, row by row down the grid on springs.snap, while the forecast count rolls on snap and the share meter glides on springs.glide; leaving the option springs them back, and committing exits the ghosts on the exit ease while the survivors glide into place. Arrow keys move through each menu previewing as they go, Enter or Space commits, Escape abandons, and the trip cards are one roving tab stop moved by arrows across the measured columns.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/hover-forecast`
+
+Props:
+- `ghostOpacity`: number (default 0.3) — How faint a card the previewed option would remove becomes, 0–1.
+- `layout`: "cards" | "compact" | "rows" (default "cards") — Full trip cards with a route line, two-line compact cards, or one-line rows.
+- `motionScale`: number (default 1) — Scales the ghosts' lean, their step aside and the stagger, 0–2; 0 keeps the fade only.
+- `records`: ForecastTrip[] (default defaultForecastTrips) — The trips on the board.
+- `filters`: ForecastFilter[] (default defaultForecastFilters) — The filter menus in bar order; each option carries a match(trip) predicate.
+- `value / defaultValue`: ForecastValue (default {}) — The applied selection: filter id to option id, or null for any. Controlled or initial.
+- `onApply`: (value: ForecastValue, change: ForecastChange) => void — Fires when an option is committed or the filters are reset, with the whole new selection.
+- `onPreview`: (preview: ForecastPreview | null) => void — Fires when a preview starts, moves or ends, so results can be fetched ahead of the commit.
+- `forecast`: (value: ForecastValue) => number | Promise<number> (default counts matching records) — The would-be total for a previewed selection; pending, zero and failed answers are each worded plainly.
+- `onOpen`: (trip: ForecastTrip) => void — A trip card was opened (click or Enter).
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the trips have arrived: skeleton cards while loading, a retry when they failed.
+- `onRetry`: () => void — Try again was pressed after the trips failed to load.
+- `title`: string (default "This week's trips") — The board's heading.
+- `subtitle`: string (default "Waylight · 14–18 Oct") — The line under the heading.
+- `noun`: { one: string; other: string } (default { one: "trip", other: "trips" }) — What one record is called in counts and sentences.
+- `formatFare`: (fare: number) => string (default whole dollars) — Prints a fare.
+- `label`: string (default the title) — The board's accessible name.
+- `disabled`: boolean (default false) — Read only: menus do not open and cards do not open.
+- `className`: string — Classes for the surface; give it a height and the grid scrolls inside it.
+
+Notes:
+- Keyboard: the bar is a toolbar (Left/Right, Home/End); ArrowDown or Enter opens a menu on the applied option, Up/Down preview as they move, Enter or Space commits, Escape or Tab abandons and returns focus to the trigger. Trip cards are one tab stop moved by arrows.
+- Reduced motion: ghosts only cross-fade to ghostOpacity with their dashed outline; nothing leans, steps or staggers, digits swap and the meter jumps. The forecast itself still shows.
+- Ghosting is local to each option's match, so it is instant even when forecast returns a promise; the count and wording wait for the host's answer, and stale answers are dropped when forecast changes.
+- onPreview and onApply fire separately: start a fetch on preview and reuse it on apply. A keyboard preview is announced once through a polite live region after it settles.
+- Columns come from the container width (4 → 1) through container queries; give the surface a height and the grid scrolls inside it under the fixed bar. Idle cost is zero: every motion is a settled spring.
+
+### Paint Matrix (KQ-1639) — `paint-matrix`
+Paint the site and status pairs you care about.
+
+A two-facet filter you paint: sites down the side, statuses across the top, and each cell's job count tinted by heat. Dragging across cells paints them in or out (the first cell decides), each cell blooming with a soft wash out of the exact point the pointer entered on a slow enter tween while its count pops on springs.snap, and the jobs list beside it changes once the stroke ends, rows rising a cascade apart on springs.glide as the count rolls. It is a real grid with one roving cursor over cells and headings: arrows move, Space or Enter paints, Shift+Arrow paints as it travels, and a heading paints its whole line.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/paint-matrix`
+
+Props:
+- `cellShape`: "tile" | "dot" | "bar" (default "tile") — How a cell draws its count: a tinted tile, a disc sized by the count, or a bar along its foot.
+- `heatScale`: number (default 0.6) — How strongly counts tint their cells, 0–1: 0 is flat, 1 a full heat ramp.
+- `accent`: "cobalt" | "signal" | "amber" | "graphite" | string (default "cobalt") — The paint and heat colour: a named token, or any CSS colour.
+- `rows`: PaintMatrixAxis[] (default defaultPaintMatrixRows) — Sites, down the side; each may carry a short label for narrow containers.
+- `columns`: PaintMatrixAxis[] (default defaultPaintMatrixColumns) — Statuses, across the top.
+- `counts`: number[][] (default counted from jobs) — Jobs per pair, rows × columns.
+- `jobs`: PaintMatrixJob[] (default defaultPaintMatrixJobs) — The jobs the list shows, each tied to a row and a column.
+- `selection / defaultSelection`: PaintMatrixPair[] (default defaultPaintMatrixSelection) — The painted pairs. Controlled or initial.
+- `onSelectionChange`: (pairs: PaintMatrixPair[]) => void — Fires once per stroke, key or heading press, from the gesture that made the change.
+- `onOpenJob`: (job: PaintMatrixJob) => void — A job row was opened.
+- `now`: number | Date (default defaultPaintMatrixNow) — Today, for due labels; never read from the clock.
+- `listLimit`: number (default 30) — Most rows the list shows before "and N more".
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the counts have arrived: cells shimmer on a diagonal while loading; a retry when they failed.
+- `onRetry`: () => void — Try again was pressed after the counts failed to load.
+- `title`: string (default "Jobs by site") — The surface's heading.
+- `label`: string (default the title) — The grid's accessible name.
+- `disabled`: boolean (default false) — Read only: nothing can be painted or opened.
+- `className`: string — Classes for the surface; give it a height and the panes scroll inside it.
+
+Notes:
+- Keyboard: one tab stop; arrows move a cursor that also covers the headings, Space or Enter paints or clears, Shift+Arrow paints as it moves, Home/End go to the row's ends and Ctrl+Home/End to the corners. A heading or the corner paints its whole line or every pair.
+- Reduced motion: washes cross-fade in and out instead of blooming, counts do not pop and list rows do not rise; the paint, the counts and the list still change.
+- A stroke touches React state only when it enters a new cell and is sampled along its path, so fast strokes skip nothing; the list and onSelectionChange update once per stroke. The paint surface is touch-action: none.
+- Empty pairs are hatched, aria-disabled and cannot be painted. Colours resolve from tokens through CSS variables, with heat fills at a fixed lightness so amber or graphite read the same in light and dark.
+- Side by side from a 44rem container, stacked below it with a sticky status heading; headings switch to their short labels when the matrix pane is narrow.
+
+### Veto Chips (KQ-1640) — `veto-chips`
+Keep some values, rule others out, in one row.
+
+A filter row where every value can be ignored, kept or ruled out: the first press keeps a chip as a check draws in on springs.flick, the second turns it over on a quick springs.snap flip to its muted, struck-through vetoed face and slides it into a separate Excluding row on springs.glide while the gap closes and the result count rolls, and a third flips it back and glides it home. Rows measure their chips once and gather what does not fit into a +N popover. The chips are one toolbar: arrows move, Space or Enter cycles, Shift+Space vetoes, Delete clears, and focus follows a chip to the row it lands in.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/veto-chips`
+
+Props:
+- `chipStyle`: "soft" | "outline" | "solid" (default "soft") — Chip finish: tinted fills, hairline outlines, or solid kept chips.
+- `flipAxis`: "x" | "y" | "none" (default "x") — How a chip turns over to its vetoed face: tumbling about its horizontal axis, turning about its vertical one, or a cross-fade.
+- `tone`: "danger" | "warn" | "ink" (default "danger") — The vetoed face's colour, muted: red, amber or ink.
+- `groups`: VetoGroup[] (default defaultVetoGroups) — The groups of values (crews, materials, priorities) in bar order.
+- `records`: VetoRecord[] (default defaultVetoRecords) — The records filtered, counted and listed; fields map a group id to a value id.
+- `value / defaultValue`: VetoValue (default defaultVetoValue) — The include and exclude sets of group:value keys. Controlled or initial.
+- `onChange`: (value: VetoValue, change: VetoChange) => void — Fires from the press or key that changed a chip, with both sets and the change.
+- `onOpenRecord`: (record: VetoRecord) => void — A record row was opened.
+- `showCounts`: boolean (default true) — Show each value's number of records in its chip.
+- `listLimit`: number (default 24) — Most rows the list shows before "and N more".
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the filters and records have arrived: skeleton chips while loading, a retry when they failed.
+- `onRetry`: () => void — Try again was pressed after a failed load.
+- `title`: string (default "Work orders") — The heading.
+- `noun`: { one: string; other: string } (default { one: "work order", other: "work orders" }) — What one record is called in counts and announcements.
+- `excludeLabel`: string (default "Excluding") — The second row's label.
+- `excludeShortLabel`: string (default "Not") — Its short form, used when the rows stack.
+- `label`: string (default the title) — The surface's accessible name.
+- `disabled`: boolean (default false) — Read only: chips cannot change.
+- `className`: string — Classes for the surface; give it a height and the list scrolls inside it.
+
+Notes:
+- Keyboard: the chips and both +N buttons are one toolbar (Left/Right, Home/End). Space or Enter cycles ignore → keep → exclude, Shift+Space excludes directly (or restores an excluded value), Delete or Backspace clears, and focus follows the chip into the row it lands in. Escape closes a +N popover and returns focus to it.
+- Reduced motion: no flip and no travel; the face changes in place and the chip appears in its new row at once. The strike, the count and the list still update.
+- Every face of a chip has the same width, so each row measures once (one ResizeObserver) and never re-measures on a press. The Excluding row keeps its newest vetoes in view and folds older ones into +N.
+- Each change is announced once, after it lands, with the new count. A second press during a flip lands the first immediately rather than queueing.
+- From a 40rem container the chips and the Excluding row share one line; below it they stack and the label shortens. Veto colours are muted from the status tokens so they read in light and dark.
+
+### Nested Ticks (KQ-1641) — `nested-ticks`
+Pick a whole crew, or just two of its people.
+
+A filter tree of regions, crews and people with tri-state ticks and a summary that says the choice in words ("All of Coldbrook crew, 2 of Basinworks crew"). Ticking a parent sends a ripple down its open branch: each child whose tick changes lands on springs.snap a cascade step after the one above, its check drawing on springs.flick under a passing wash, while partial parents fill their tick halfway like a level; branches open on springs.glide and lazy ones load with a spinner row or offer Retry. It is an APG tree with one roving tab stop: arrows move, open and close, Space ticks, asterisk opens every sibling, and typed letters jump to a match while dimming the rest.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/nested-ticks`
+
+Props:
+- `indent`: number (default 18) — Pixels of indent per level; narrow containers indent at 60%.
+- `tickStyle`: "check" | "ring" | "gauge" (default "check") — A square with a drawn check, a ring with a dot, or a slim gauge that fills; partial parents fill halfway in each.
+- `accent`: "cobalt" | "signal" | "amber" | "graphite" | string (default "cobalt") — Tick and ripple colour: a named token, or any CSS colour.
+- `nodes`: NestedTickNode[] (default defaultNestedTickNodes) — The tree; a node may be lazy, with a count of the leaves it holds before it loads.
+- `value / defaultValue`: string[] (default defaultNestedTickValue) — The ticked leaves (an unloaded lazy branch counts as a leaf). Controlled or initial.
+- `onChange`: (leaves: string[]) => void — Fires from the press or key that changed the ticks, with the leaf set in tree order.
+- `expanded / defaultExpanded`: string[] (default defaultNestedTickExpanded) — The open branches. Controlled or initial.
+- `onExpandedChange`: (expanded: string[]) => void — Fires when a branch opens or closes, with every open branch.
+- `onLoadChildren`: (node: NestedTickNode) => Promise<NestedTickNode[]> — Loads a lazy branch's children on first open; a rejection offers a Retry row.
+- `stagger`: number (default cascade) — Milliseconds between ticks in a ripple, capped so a ripple stays under 600 ms.
+- `typeaheadMs`: number (default 900) — How long typed letters keep finding and dimming.
+- `noun`: { one: string; other: string } (default { one: "person", other: "people" }) — What one leaf is called in counts and the summary.
+- `title`: string (default "Field crews") — The heading.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the tree has arrived: skeleton rows while loading, a retry when it failed.
+- `onRetry`: () => void — Try again was pressed after the tree failed to load.
+- `label`: string (default the title) — The tree's accessible name.
+- `disabled`: boolean (default false) — Read only: nothing can be ticked.
+- `className`: string — Classes for the surface; give it a height and the tree scrolls inside it.
+
+Notes:
+- Keyboard (APG tree): Up/Down move, Right opens a branch or steps into it, Left closes it or steps out, Home/End jump, Space ticks (with the ripple), Enter ticks a person or opens a branch, * opens every sibling, letters type ahead (word starts first) and Escape clears an active type-ahead only.
+- Reduced motion: no ripple travel or rising rows; ticks change together with a short fade, branches open without travel, and the summary swaps. Ticks, counts and words still change.
+- Treeitems carry aria-checked true, false or mixed with aria-level, aria-setsize and aria-posinset; the summary is visible text and each change is announced once through a polite live region.
+- A lazy branch ticked before it loads is reported as its own id; when its children arrive they inherit the tick and onChange reports them instead.
+- No loops: ripple delays are computed once per press and the type-ahead uses one timer. The indent shrinks to 60% below a 19rem container.
+
+### Drill Columns (KQ-1642) — `drill-columns`
+Walk deep folders without losing the path.
+
+A column browser for deep folders: each opened folder adds a column and the last previews the selected file with drawn art. Opening a folder slides the track left on springs.glide while the selected row's highlight stretches to its column's edge and a thin connector draws along the divider into the new column's heading on glide; stepping back retracts it on the exit ease, and the selection glides between rows on springs.snap. One roving tab stop runs through every column: arrows travel within and across columns, Enter opens, Space previews, F2 renames and M picks an item up to move, while rows can also be dragged 1:1 onto a folder that bumps on springs.recoil as it takes the drop.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/drill-columns`
+
+Props:
+- `columnWidth`: number (default 200) — Width of each column in px; sets how far the track slides and how much of the path stays in view.
+- `iconStyle`: "tile" | "line" | "label" (default "tile") — Type icons in tinted tiles, plain line icons, or mono type labels.
+- `accent`: "cobalt" | "signal" | "amber" | "graphite" | string (default "cobalt") — Highlight, connector and folder tint: a named token, or any CSS colour.
+- `folders`: DrillNode[] (default defaultDrillFolders) — The root's contents; a folder may be lazy and load through loadFolder.
+- `rootLabel`: string (default "Basinworks") — The root column's heading and first crumb.
+- `path / defaultPath`: string[] (default defaultDrillPath) — Ids from the root; a file at the end is previewed. Controlled or initial.
+- `onPathChange`: (path: string[]) => void — Fires from the press or key that moved along the path.
+- `onOpen`: (file: DrillNode, path: string[]) => void — A file was opened: Enter, Open, or a double-click.
+- `onMove`: (item: DrillNode, folder: DrillNode | null) => void — An item was dropped on a folder (null is the root), by drag or with M then Enter.
+- `onRename`: (item: DrillNode, name: string) => void — An item was renamed with F2 or Rename.
+- `loadFolder`: (folder: DrillNode) => Promise<DrillNode[]> — Loads a lazy folder's contents on first open: skeleton rows meanwhile, Retry in place on failure.
+- `now`: number | Date (default defaultDrillNow) — Now, for modified labels; never read from the clock.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the tree has arrived: skeleton columns while loading, a retry when it failed.
+- `onRetry`: () => void — Try again was pressed after the tree failed to load.
+- `label`: string (default "<rootLabel> files") — The browser's accessible name.
+- `disabled`: boolean (default false) — Read only: nothing opens, moves or renames.
+- `className`: string — Classes for the surface; give it a height and the columns scroll inside it.
+
+Notes:
+- Keyboard: one tab stop across every column. Up/Down and Home/End move, Right steps into a folder (opening it), Left steps back and closes the column it left, Enter opens (a folder: step in; a file: onOpen), Space previews, F2 renames (Enter saves, Escape cancels), M picks an item up and Enter on a folder drops it; Escape cancels only an active move or rename.
+- Reduced motion: nothing slides or draws — the track jumps, columns and the connector appear in place, the drag chip still follows 1:1 but leaves without a spring. Path, preview, moves and renames all still work.
+- The connector path is rebuilt only on scroll, resize and selection change (a motion value, no React render) and pins to the column's edge, faded, when its row scrolls out of view. Idle cost is zero.
+- The browser keeps its own working copy of folders: moves, renames and loaded lazy folders land there and are reported through the callbacks; a new folders prop starts it over.
+- Below a 30rem container only the current column (or the preview) shows, full width, under a back crumb; deeper levels slide in from the right and back from the left. Preview art is drawn in SVG from tokens, never fetched.
+
+### Space Reclaim (KQ-1643) — `space-reclaim`
+Find what fills the drive and clear it calmly.
+
+A storage clean-up surface: a quota bar drawn per file type in one hue sits over the scan's biggest files, ranked by size with proportional bars, types and last-opened ages. Choosing a file lifts its chip out of the row and flies it into the To remove tray on springs.glide while a striped reclaimable part grows inside that type's segment of the quota bar; Remove drains each segment by exactly its stripe on glide as the used figure rolls down and the removed rows fold away — calm, never bouncy, because it is a deletion. The list is a multi-select listbox: arrows move, Space chooses, Shift extends a range, Enter opens, K keeps a file out of the suggestions, Delete goes to Remove and Escape clears.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/space-reclaim`
+
+Props:
+- `files`: SpaceReclaimFile[] (default defaultSpaceReclaimFiles) — The scan's candidates: { id, name, folder, type, size, lastOpened } with sizes in bytes and lastOpened in ms or null.
+- `quota`: { total: number; used: number } (default defaultSpaceReclaimQuota) — The drive's size and everything in use, in bytes.
+- `selected / defaultSelected`: string[] (default — / []) — File ids chosen for removal, controlled or initial.
+- `onSelectedChange`: (ids: string[]) => void — Fires from the click or key that changed the selection.
+- `onReclaim`: (ids: string[], bytes: number) => void | Promise<unknown> — Remove was confirmed. Return a promise to show the removal; a rejection keeps the selection and says nothing was removed.
+- `onSkip`: (file) => void — A file was kept out of the suggestions (Keep, or K); it folds out of the list and nothing is deleted.
+- `onOpen`: (file) => void — A file was opened (Open, or Enter).
+- `onRescan`: () => void — Rescan or Retry was pressed.
+- `status`: "ready" | "scanning" | "error" (default "ready") — Scanning shows progress and skeleton rows; error keeps the last results under a banner with Retry.
+- `scanProgress`: number (default 0) — How far a running scan has got, 0 to 1.
+- `scanPath`: string — The folder a running scan is reading, or where a failed one stopped.
+- `scannedAt`: number (default three minutes before now) — When the last scan finished, in ms.
+- `now`: number (default defaultSpaceReclaimNow) — The moment ages count from, in ms; never read from the clock during render.
+- `barStyle`: "bar" | "line" | "blocks" (default "bar") — How the quota and size bars are drawn: rounded bars, thin rules, or bars cut into cells.
+- `density`: "compact" | "cozy" | "roomy" (default "cozy") — Row height: one line, a meta line, or a meta line with the folder.
+- `tone`: "cobalt" | "moss" | "amber" | "ink" (default "cobalt") — The hue the quota family, the stripes, the checks and the size bars are drawn in.
+- `title`: string (default "Coldbrook workspace") — The workspace's name and the surface's accessible name.
+- `height`: number (default 540) — Height of the surface in px; the list scrolls inside it.
+- `disabled`: boolean (default false) — Nothing can be chosen, kept, opened or removed; the surface dims.
+- `className`: string — Classes for the outer surface.
+
+Notes:
+- Keyboard: the ranked list is one tab stop (a multi-select listbox with roving focus). Up and Down move, Home and End jump, Space chooses, Shift with Space or an arrow chooses a range from the anchor, Ctrl or Cmd with A chooses every file, Enter opens, K keeps a file out of the suggestions, Delete moves focus to Remove and Escape clears the selection. The hover Open and Keep buttons are pointer twins of Enter and K.
+- The quota bar is a role="meter" whose value text names what is chosen; choices, removals, failures and scan progress (in quarters) are announced politely. Remove stays focusable while it works, marked aria-busy.
+- Removal is optimistic: after onReclaim resolves the surface subtracts the removed files and folds their rows away; when the host passes new files or a new quota it trusts those instead. A rejected promise keeps the selection and says nothing was removed.
+- Reduced motion: chips appear in the tray without flying, rows fade out instead of folding, and the stripes, the drain and the used figure change at once. Scan progress still fills and every number still changes.
+- Performance: nothing runs at rest. The used figure and tray totals are motion values rendered as text, so a roll costs no React renders; the only loop is the Removing… rule while a removal is in flight. Below a 40rem container the tray docks at the foot with a Review disclosure.
+
+### Revision Reel (KQ-1644) — `revision-reel`
+Scrub through every saved version of a file.
+
+A version history you scrub like footage: dragging the reel's playhead follows the finger 1:1 and dissolves the file's preview from one save into the next by its fractional position, while the deck of version cards above fans open around it — a closed-form bell of extra room, a tilt away from the playhead and a lift for the card at it, all read from one motion value. Released, the playhead is thrown by projection and settles on the nearest version on springs.snap with the release velocity; Restore lifts the chosen card on snap while the host saves, then a new newest version is born where it was, carried to the top of the stack on springs.glide and set down on snap. The reel is a slider — Left and Right step, Page keys jump, Home and End, Enter restores, C marks two versions to compare side by side, D downloads, Escape closes the comparison — and becomes a listbox of versions at phone widths.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/revision-reel`
+
+Props:
+- `versions / defaultVersions`: RevisionVersion[] (default — / defaultRevisionVersions) — Every save: { id, author, at, size, note, preview? }, shown oldest to newest by time. A missing preview gets a placeholder card.
+- `onVersionsChange`: (versions: RevisionVersion[]) => void — Fires with the whole list when a restore adds a version.
+- `value / defaultValue`: string (default — / the newest) — The version at the playhead, by id, controlled or initial.
+- `onValueChange`: (id: string) => void — Fires from the drag, tap or key that moved the playhead to a new version.
+- `onRestore`: (version) => void | Promise<unknown> — Restore (or Enter). Return a promise to hold the card up while it saves; a rejection shows a failed card with Try again.
+- `onCompare`: (older, newer) => void — Two versions were marked and opened side by side, older first.
+- `onDownload`: (version) => void — Download (or D) for the version at the playhead.
+- `status`: "ready" | "loading" | "error" (default "ready") — Loading shows placeholder cards and a skeleton reel; error shows Try again.
+- `onRetry`: () => void — Try again was pressed after the history failed to load.
+- `now`: number (default defaultRevisionNow) — The moment ages count from, in ms; never read from the clock during render.
+- `author`: string (default "You") — The name a restore is saved under.
+- `fileName`: string (default "Waylight launch poster") — The file's name, shown in the header and naming the surface.
+- `reelStyle`: "film" | "ticks" | "beads" (default "film") — How the reel is drawn: film frames with sprocket holes, ticks placed by time with day labels, or beads on a thread.
+- `previewFit`: "fit" | "fill" | "width" (default "fit") — How the preview sits in its pane: whole and letterboxed, cropped to fill, or fit to width and scrolled.
+- `accent`: string (default "var(--accent-bright)") — Playhead, marks, the current card and Restore, any CSS colour.
+- `height`: number (default 540) — Height of the surface in px.
+- `disabled`: boolean (default false) — Nothing can be scrubbed, marked, restored or downloaded.
+- `className`: string — Classes for the outer surface.
+
+Notes:
+- Keyboard: the reel is a role="slider" whose value text reads the version, its author, age and note. Left and Right step, Page Up and Page Down jump five, Home and End reach the first and latest, Enter restores, C marks a version (a second mark opens the comparison), D downloads and Escape closes the comparison or clears the marks. Below a 34rem container the reel becomes a listbox of versions, newest first, with the same keys.
+- Previews are any React node — an <img>, a canvas, an SVG. Images take object-fit from previewFit; a version with no preview gets a designed placeholder card instead of an empty pane.
+- Restoring is controlled-friendly: the component builds the new version ("Restored from v4") and reports the whole list through onVersionsChange; while it saves, Restore stays focusable and marked aria-busy, and a rejected promise shows a failed card with Try again and Dismiss.
+- Reduced motion: the deck holds still, evenly stacked, and the playhead moves at once; the preview still dissolves between versions while you drag, because the preview is the information. Restores appear in place.
+- Performance: one motion value drives the dissolve, the deck and the playhead through transforms, so scrubbing costs no React renders except when the playhead crosses a whole version. Nothing animates at rest; the deck's width comes from one ResizeObserver.
+
+### Name Clash (KQ-1645) — `name-clash`
+Two files, one name; decide in a glance.
+
+An upload conflict resolver that decides one clash at a time: the file in the folder and the one being uploaded arrive side by side, sliding together until they touch on springs.glide, and picking an action previews it on the cards themselves — Replace slides the old card under the new one on glide, Keep both parts them on springs.snap while the upload's name grows its " (2)", Skip sets the upload aside. Apply sinks the pair on the exit ease and deals the next, Apply to all settles the rest in a cascade while the counter rolls down on snap, and an empty queue closes the panel to a one-line receipt. The actions are a radiogroup — arrows pick and the cards answer — Enter applies from anywhere in the panel and A applies to every remaining conflict.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/name-clash`
+
+Props:
+- `conflicts`: NameClashConflict[] (default defaultNameClashConflicts) — The queue: { id, existing, incoming }, each file { name, size, modified, author, kind?, seed? }.
+- `action / defaultAction`: "replace" | "keep" | "skip" (default — / "keep") — The action for the current conflict, controlled or initial.
+- `onActionChange`: (action) => void — Fires from the click or arrow key that picked an action.
+- `onResolve`: (conflict, action, name) => void — Fires once per file as it is settled, with the name the upload ends up with (empty when skipped).
+- `onDone`: (results: NameClashResult[]) => void — Fires when the queue empties, with every decision in order.
+- `onCancel`: (remaining: NameClashConflict[]) => void — The close button was pressed; these conflicts are left unsettled.
+- `status`: "ready" | "loading" | "error" (default "ready") — Loading blanks the thumbnails and reads Comparing files; error explains the folder's file couldn't be read and makes Replace unavailable.
+- `now`: number (default defaultNameClashNow) — The moment ages count from, in ms; never read from the clock during render.
+- `folder`: string (default "Coldbrook / Brand / Exports") — The destination folder, shown under the title.
+- `nextName`: (conflict) => string (default inserts " (2)" before the extension) — The name Keep both gives the upload; the part it adds grows in on the card.
+- `cardLayout`: "pair" | "stacked" | "tilted" (default "pair") — How the two cards meet: side by side, one above the other, or turned toward each other and overlapping the seam.
+- `thumbSize`: number (default 80) — Thumbnail edge in px, capped at 48 below a 32rem container.
+- `accent`: string (default "var(--accent-bright)") — The chosen action, the upload's edge, the queue's current chip and Apply, any CSS colour.
+- `title`: string (default "Name clash") — The panel's heading and accessible name.
+- `height`: number (default 540) — Height of the open panel in px; it glides down to a 64px receipt when the queue empties.
+- `disabled`: boolean (default false) — Nothing can be picked or applied.
+- `className`: string — Classes for the panel.
+
+Notes:
+- Keyboard: the actions are a role="radiogroup" with one tab stop; all four arrows pick, Home and End jump, and the cards preview the choice. Enter applies from anywhere in the panel (a focused button keeps its own Enter), A applies the current action to every remaining conflict, and neither is taken while typing in a field. Escape is left to the host.
+- Every decision is announced politely ("Kept both: menu-board (2).png. 5 left."); the two cards are labelled figures whose names carry size, age and author, and when the queue empties focus moves to the receipt.
+- Thumbnails are drawn in code from each file's kind and seed (image, document, sheet, slides, audio), so the component needs no image files; pass different seeds to make two versions of a file look different.
+- Reduced motion: nothing slides — the pair appears in place, Replace dims the old card and badges it Will be replaced, Keep both shows the new name at once, and the close is a cross-fade. Every label, badge and count still changes.
+- Below a 32rem container the cards stack and meet vertically, the action icons drop and the thumbnails cap at 48px. Nothing runs at rest; one ResizeObserver reads the panel's width.
+
+### Incident Bridge (KQ-1646) — `incident-bridge`
+One room for the incident, from page to postmortem.
+
+A live incident workspace: a severity band over a toolbar, a timeline with a slim time axis and a pin per update, and the roles, affected Gaugeworks services and response checklist beside it. Changing severity floods the band with the new colour outward from the segment that was pressed — a circle clip on an enter tween, quicker to escalate than to calm — while the segment pill moves on springs.snap; every update drops in with its pin landing on the axis on springs.recoil and its entry sliding in on springs.glide as the rest glide down. U posts an update, R hands out a role from a menu, S goes to severity where arrows change it, Resolve sweeps the band quiet and lights the postmortem, stale data is flagged with its age and a null incident reads all clear.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/incident-bridge`
+
+Props:
+- `incident / defaultIncident`: BridgeIncident | null (default — / defaultBridgeIncident) — The incident: { id, title, severity, state, openedAt, updatedAt, roles, services, updates, checklist }; null reads all clear.
+- `onIncidentChange`: (incident: BridgeIncident) => void — Fires with the whole incident after every change made on the bridge.
+- `onSeverityChange`: (severity, previous) => void — Severity was raised or lowered, from a press or an arrow key.
+- `onPostUpdate`: (update: BridgeUpdate) => void — An update was posted from the composer; it is already on the timeline.
+- `onResolve`: (incident: BridgeIncident) => void — Resolve was pressed, with the resolved incident.
+- `onAssignRole`: (role, personId) => void — A role (commander, scribe, comms) was handed to a person.
+- `onRefresh`: () => void — Refresh (stale data) or Retry (error) was pressed.
+- `people`: BridgePerson[] (default defaultBridgePeople) — Everyone who can hold a role or post: { id, name }.
+- `lastIncident`: { id: string; resolvedAt: number } — Shown in the all-clear state.
+- `status`: "ready" | "loading" | "error" (default "ready") — Loading shows a skeleton band and timeline; error keeps the last state under a banner with its age and Retry.
+- `now`: number (default defaultBridgeNow) — The moment ages and the axis count from, in ms; never read from the clock during render.
+- `staleAfter`: number (default 300000) — How old updatedAt may get, in ms, before the data is flagged stale with its age.
+- `author`: string (default the first person) — The person posting from this bridge, by id.
+- `severityPalette`: "heat" | "cool" | "ink" (default "heat") — Severity colours: red to blue, violet to teal, or one ink whose weight carries severity.
+- `density`: "compact" | "cozy" | "roomy" (default "cozy") — Entry padding, type size and row heights.
+- `timelineSide`: "left" | "right" (default "left") — Which column the timeline takes at tablet width, and which side of the entries its rail runs on.
+- `height`: number (default 540) — Height of the bridge in px; its columns scroll inside it.
+- `disabled`: boolean (default false) — Read only: nothing can be posted, assigned or changed.
+- `className`: string — Classes for the outer surface.
+
+Notes:
+- Keyboard: U opens the composer (Enter posts, Shift+Enter adds a line, Escape cancels), R opens the role menu for the first empty role (arrows, Home, End, Enter, Escape returns focus to its button), S focuses the severity radiogroup where arrows change it. The shortcuts never fire while typing in a field or inside a menu.
+- The timeline is a role="log" list, newest first, with every entry's time in the text; the axis above it is decorative. Severity, posts, roles, resolution and stale data are each announced once, politely.
+- Severity colours are pigments taken at a fixed lightness from the status tokens, so the band reads the same in both themes; text and small marks keep the plain tokens.
+- Reduced motion: the band cross-fades instead of sweeping, pins and entries fade in place, menus and the composer fade; every colour, count and entry still changes.
+- Below a 44rem container the timeline moves under the band and the roles, services and checklist follow it in one scrolling column. Nothing runs at rest: the sweep is one clip-path tween on one layer that is removed when it lands.
+
+### Blast Radius (KQ-1647) — `blast-radius`
+See who feels it when one service falls over.
+
+A service dependency map that answers who feels it when one service falls over: services sit in tidy layers computed from their calls (longest-path layering with barycentre sweeps), and every call is a curve whose weight is its traffic. Selecting a service runs the blast backwards up the calls one hop every ringSpeed ms — a pulse travels each edge, and as it lands the caller takes the impact tint and throws one ring that widens on springs.drift and fades, the impacted count rolls on springs.snap and the hop's rows rise into the list on springs.glide — while everything it never reaches dims; then it all settles. Every service is a button in the tab order where arrows move along the layout, Enter or Space selects and Escape clears, and below a 30rem container the map becomes an indented tree of hops.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/blast-radius`
+
+Props:
+- `services`: BlastService[] (default defaultBlastServices) — The services on the map: { id, name, team, health, rps }.
+- `edges`: BlastEdge[] (default defaultBlastEdges) — Who calls whom: { from, to, traffic }. If `to` falls over, `from` feels it; traffic is drawn as line weight.
+- `value / defaultValue`: string | null (default — / null) — The selected service, controlled or initial. An initial selection plays its blast once the map is in view.
+- `onValueChange`: (id: string | null) => void — Fires from the click or key that changed the selection.
+- `onSelect`: (service | null, impacted: BlastService[]) => void — Fires with the selected service and every service its fall would reach.
+- `onAcknowledge`: (service, impacted) => void — Acknowledge was pressed for the selected service.
+- `onOpenRunbook`: (service) => void — Runbook was pressed for the selected service.
+- `status`: "ready" | "loading" | "error" (default "ready") — Loading draws faint dashed outlines where the services sit; error keeps the last map, desaturated, under a banner with its age and Retry.
+- `updatedAt`: number (default six minutes before now) — When the map's data was fetched, in ms; an error shows its age.
+- `now`: number (default defaultBlastNow) — The moment ages count from, in ms; never read from the clock during render.
+- `onRetry`: () => void — Retry was pressed after a failed refresh.
+- `layoutDirection`: "right" | "down" (default "right") — Layers run left to right, or top to bottom; the arrow keys follow.
+- `ringSpeed`: number (default 400) — How long the blast takes to cross one hop, in ms.
+- `nodeShape`: "pill" | "dot" | "card" (default "pill") — How a service is drawn: a named pill, a health dot with its name, or a small card with team and traffic.
+- `title`: string (default "Service map") — The heading and the map's accessible name.
+- `height`: number (default 540) — Height of the surface in px.
+- `disabled`: boolean (default false) — Nothing can be selected or acknowledged.
+- `className`: string — Classes for the outer surface.
+
+Notes:
+- Keyboard: every service is a button in the tab order, layer by layer, named with its health, traffic and number of callers and marked aria-pressed when selected. Arrow keys move along the layout (between layers) and across it (within a layer), Home and End reach the first and last service, Enter or Space selects and Escape clears. Below a 30rem container the map becomes a role="tree" of hops with one tab stop, Up, Down, Home, End and Enter.
+- The blast is announced once, when it has landed ("Basinworks queue selected. 5 services impacted across 3 hops."), never per hop. A service that is down blasts in the danger tone; a healthy one plays a what-if in the accent.
+- Layout is deterministic — longest-path layers and barycentre ordering computed from the props — so the server and the browser draw the same map; it is recomputed only when services, edges, direction or the measured size change.
+- Reduced motion: no pulses and no rings; the hops still light in order at ringSpeed, with fades, because the order is information, and the count updates per hop without rolling.
+- Performance: the blast is a finite choreography — a few tweens per hop, all stopped on reselect or unmount — and an initial selection waits until the map is in view. Nothing runs at rest. Under a 56rem container the hop list sits under the map in columns; wider, it is a side list.
+
 ### Pendant Drop (KQ-1782) — `pendant-drop`
 A drop of colour that leans toward your hand.
 
@@ -39772,6 +40289,464 @@ Notes:
 - Reduced motion: the scene is still — no corona drift and no shimmer — and a tap moves the moon at once instead of gliding; the moon still follows a drag 1:1 and every phase still renders.
 - Performance: one WebGL2 pass at a 0.75 render scale on dense screens with the device pixel ratio capped at 2; it draws only when the moon moves, plus a slow loop while the corona or beads show on screen. Context loss is handled and the scene redraws on restore; without WebGL2 a CSS scene of sky, sun, corona and moon follows the same value and phases.
 - Give it a height: it fills its parent, and the sun's size is a share of the shorter side, so it suits a square card or a wide hero.
+
+### Room Within (KQ-1883) — `room-within`
+Scroll into a window that holds the next room.
+
+A story told as one long zoom: the stage is its own scroll container, each picture holds an opening exactly the stage's shape, and scrolling zooms into it until it fills the stage and becomes the next picture, which holds the next opening. The camera is one transform written straight from the scroll — a pure geometric scale about the opening's fixed point, so it grows from one steady spot and every level boundary is seamless — while the glass sheen slides off the window, the far room's haze lifts and the captions cross-fade with the zoom; a click on the opening, the depth gauge or Page Down travels there on springs.drift. Page Down, Space and Enter go in a level, Page Up, Shift+Space and Backspace come back out, Home and End jump to the ends.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/room-within`
+
+Props:
+- `items`: RoomWithinLevel[] (default defaultRoomWithinLevels) — The pictures, outermost first, each { id?, src?, alt, caption?, detail?, art?, window? }; each one's opening holds the next.
+- `depth`: number (default 5) — How many levels deep the story goes, 2 to 6 (and no more than items).
+- `frame`: "window" | "gilt" | "mat" | "none" (default "window") — How each opening is framed: a painted casement with a sill, a gilt frame, a paper mat, or a seamless cut.
+- `easing`: "linear" | "dwell" | "snap" (default "dwell") — How scrolling maps to the zoom: steady, holding each picture still for a beat, or snapping every scroll to a picture.
+- `value / defaultValue`: number (default — / 0) — The level shown. A new controlled value travels there.
+- `onValueChange`: (level: number) => void — Fires from the scroll, key or click that brought a new level nearest, with that level.
+- `scrollLength`: number (default 1.2) — Scroll for one level, as a share of the stage's height, 0.5 to 3.
+- `loop`: boolean (default true) — The deepest picture's opening holds the first room again.
+- `captions`: boolean (default true) — Show each level's caption and detail over the picture.
+- `rail`: boolean (default true) — Show the depth gauge on the right edge; its ticks travel to a level.
+- `hint`: boolean (default true) — On first view the camera leans a little way into the window and back, and a cue says to scroll.
+- `height`: number | string (default 420px) — The stage's height: px, or any CSS length. A className height works too.
+- `label`: string (default "Room within") — The story's accessible name.
+- `disabled`: boolean (default false) — No scrolling, keys or clicks; the stage dims.
+- `className`: string — Classes for the stage.
+
+Notes:
+- Keyboard: the stage is a focusable region (aria-roledescription "zooming story"); Page Down, Space and Enter travel one level in, Page Up, Shift+Space and Backspace one level out, Home and End to the ends, digits 1–9 to a level, and the arrow keys scroll natively in small steps. A polite live region announces "Level 2 of 5: Across the courtyard." as each level arrives.
+- Reduced motion: no zoom — the pictures cross-fade full-frame at the same scroll positions, the current picture's opening still shows the next one, and keyed or clicked travel jumps at once.
+- Performance: there is no animation loop. The camera, glass, haze, captions and gauge are written straight from scroll events; motion animates only a keyed or clicked travel. At most five pictures are in the DOM, as flat siblings laid into each other by CSS, so moving deeper never remounts one.
+- Openings (window: { x, y, size }) are placed in the art's 1000 × 1000 box, which is a square covering the stage, and keep the stage's aspect, so the zoom is seamless from a 316px phone to a 1200px plate and the server's first paint is already right.
+- Wheel and touch scrolling inside the stage drive the story and chain on to the page at either end; give it a height in the layout (height prop or a className) since it is its own scroll container.
+
+### Zellige Wall (KQ-1884) — `zellige-wall`
+A picture set in glazed tiles that tilt to light.
+
+A picture rebuilt from small glazed tiles, each an unevenly cut square set a hair askew in grout, its colour box-averaged from the picture and pulled toward the picture's own glazes, lit per pixel in one instanced WebGL2 draw with a pillowed face, a rolled rim that catches the light and a hairline of bare clay. Every tile has its own tilt spring, between the springs.snap and springs.recoil constants by wobble: tiles under the pointer lean toward it so a ring of glints follows the hand and rings back as it passes, and a click sends a ripple across the whole wall that kicks each tile outward as the front reaches it. Arrow keys move a keyboard lamp the tiles lean toward, and Enter or Space sends the ripple from it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/zellige-wall`
+
+Props:
+- `src`: string — A picture to set in tiles (same-origin, or served with CORS). Without one, a drawn courtyard door is used.
+- `alt`: string (default a description of the drawn courtyard) — Describes the picture.
+- `tile`: number (default 14) — Tile size, px, 8 to 28.
+- `glaze`: number (default 0.6) — Glaze shine, 0 (matte clay) to 1 (wet glass): the strength and tightness of every highlight.
+- `tilt`: number (default 18) — How far a tile leans toward the pointer, degrees, 0 to 35.
+- `radius`: number (default 90) — How far from the pointer tiles lean, px.
+- `rippleSpeed`: number (default 520) — How fast a click's ripple crosses the wall, px per second.
+- `wobble`: number (default 0.5) — How the tiles settle, 0 (one crisp overshoot, springs.snap) to 1 (a ringing wobble, springs.recoil).
+- `jitter`: number (default 0.5) — How unevenly the tiles are cut, 0 (machine-square) to 1 (hand-cut).
+- `askew`: number (default 2.5) — How far a tile is set off square, degrees.
+- `grout`: string (default a mix of the page background and ink) — The grout between the tiles, any CSS colour.
+- `light`: number (default -135) — The key light's direction, degrees (−135 is from the upper left).
+- `interactive`: boolean (default true) — Tiles answer the pointer and keys; off, the wall is a still picture with role="img".
+- `seed`: number (default 7) — Seeds the cut and set of every tile.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `onRipple`: (origin: { x: number; y: number }) => void — Fires from the click or key that sent a ripple, with its origin as shares of the wall (0–1).
+- `label`: string (default "Glazed tile wall") — The wall's accessible name.
+- `disabled`: boolean (default false) — No pointer, clicks or keys; the wall dims.
+- `className`: string — Sizes the wall; it fills its parent by default.
+
+Notes:
+- Keyboard: the wall is a focusable group (aria-roledescription "tile wall"); the arrow keys move a lamp the tiles lean toward, exactly as they do to the pointer, Home recentres it, and Enter or Space sends the ripple from it. A polite live region says where each ripple came from; the picture's alt is read once.
+- Reduced motion: no tile ever tilts or rings — the wall is a still glazed mosaic; the pointer's lamp still lights a soft glint where it is, and a click or Enter brightens the glaze briefly instead of sending a wave.
+- Performance: one instanced draw (plus a shadow pass) for every tile; tilts live in a Float32Array uploaded with bufferSubData. The loop runs only while tiles move or a ripple travels, on screen and visible, and stops on a settled frame. DPR is capped, context loss is handled, and without WebGL2 the server's still — the picture under a grout grid — stays.
+- A src picture must be readable back (same origin or CORS); if it is not, the wall falls back to the drawn courtyard. Tiles are pulled less toward the palette for your own pictures so their colours survive.
+- The grout follows the page theme (re-read on a theme change); the glazes are pigments, so the mosaic itself looks the same on a light or a dark page.
+
+### Thought Avalanche (KQ-1885) — `thought-avalanche`
+Seed a thought and watch how far it spreads.
+
+A dark field of a few hundred nodes joined by faint, bowed filaments, where a click fires the nearest node and each firing sends glowing pulses on to its neighbours with a chance set by the branching ratio — counted over the neighbours that are not still resting — so an avalanche fizzles out below 1, swings between a handful and most of the field near it, and storms across everything above it. Pulses run along the curves at the conduction speed with short bright tails, the filaments they crossed keep an afterglow, fired nodes flash and then rest for the refractory time, and a ring blooms on the clicked node on the springs.snap constants. Arrow keys move a selection ring from node to node, Home returns it to the middle, and Enter or Space fires it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/thought-avalanche`
+
+Props:
+- `branching`: number (default 1.1) — How many neighbours a firing sets off on average, 0.5 (fizzles) to 2 (storms); about 1 is critical.
+- `refractory`: number (default 1600) — How long a fired node rests before it can fire again, ms.
+- `hue`: number (default 195) — The glow's hue, degrees 0–360; the dark field takes a trace of it.
+- `density`: number (default 14) — Nodes per 100 × 100 px of field, 2 to 40.
+- `connections`: number (default 5) — Each node's nearest neighbours it is joined to, 2 to 8.
+- `conduction`: number (default 240) — How fast a pulse runs along a filament, px per second.
+- `glow`: number (default 0.7) — How bright the pulses, afterglow and flashes are, 0 to 1.
+- `intro`: boolean (default true) — The first time the field is in view, one avalanche starts by itself; it is silent and reports nothing.
+- `spontaneous`: number (default 0) — Stray firings a minute while the field is in view, 0 for none.
+- `paused`: boolean (default false) — Freeze every pulse where it is.
+- `seed`: number (default 3) — Seeds the network's layout and the chances.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `onAvalanche`: (stats: ThoughtAvalancheStats) => void — Fires as a visitor's avalanche starts, at each new generation, and when it ends, with { size, reach, generations, active, phase: "spreading" | "fizzled" | "faded" | "storm" }.
+- `label`: string (default "Thought field") — The field's accessible name.
+- `disabled`: boolean (default false) — No clicks or keys; the field dims.
+- `className`: string — Sizes the field; it fills its parent by default.
+
+Notes:
+- Keyboard: the field is a focusable group (aria-roledescription "thought field"); a keyboard focus shows a selection ring on the middle node, the arrow keys move it to the nearest node in that direction, Home brings it back, and Enter or Space fires it. A polite live region announces each avalanche once, when it ends: "48 thoughts over 6 steps, spread and faded."
+- Reduced motion: nothing travels — a firing resolves the whole cascade at once and draws its map (every node that fired and every filament it used) over the field, which holds and then fades on a CSS opacity transition; the sizes and steps still report.
+- Performance: Canvas 2D with the faint network painted once per size and colour; a frame draws only lit filaments, live pulses (a preallocated typed-array pool) and node flashes (one pre-rendered glow sprite). The loop runs only while something is lit or resting, on screen and visible, and stops after; DPR is capped.
+- The field is always dark — a night panel in both themes — with the glow from hue; give it a size (it fills its parent). A seeded thought always reaches at least one neighbour, so a click never does nothing; after that the branching ratio decides.
+- Within one avalanche a node tires (each further firing passes on half as much), so even a storm ends; spontaneous firings run on a timer only while the field is in view.
+
+### Planetarium Roof (KQ-1886) — `planetarium-roof`
+Lie back and drag a ceiling of pictures.
+
+A gallery seen from the floor of a planetarium: prints pinned to the inside of a dome overhead in loose constellations of three, over a faint graticule, pricked stars and constellation lines, each print posed by the Jacobian of an equisolid fisheye at its centre so the ones near the edge compress and turn as the dome curves away. Dragging turns the whole dome 1:1 under the finger and a release coasts on with the throw's velocity, decaying by inertia, while keyboard moves turn it to each print on the springs.glide constants. Clicking a print flies it down into focus — its pose decomposed into rotation, scales, shear and centre and tweened to an upright, centred print on springs.glide as the dome dims and the caption rises — and Escape, Close or a click on the dome flies it home.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/planetarium-roof`
+
+Props:
+- `items`: PlanetariumImage[] (default defaultPlanetariumImages) — The prints, { id?, src?, alt, caption?, detail?, art? }, hung in constellations of three in order.
+- `fov`: number (default 110) — Field of view across the dome, degrees, 70 to 150: a close dome or a wide sweep.
+- `spacing`: number (default 1) — How far apart the constellations and their prints sit, 0.6 to 1.6.
+- `inertia`: number (default 0.6) — How long a throw coasts, 0 (stops dead) to 1 (coasts long).
+- `value / defaultValue`: number | null (default — / null) — The print in focus, or null for none.
+- `onValueChange`: (index: number | null) => void — Fires from the click or key that brought a print into focus or sent it back.
+- `drift`: number (default 1.2) — How fast the dome turns by itself while idle, degrees a second; 0 holds it still.
+- `altitude`: number (default 84) — Where the view starts, degrees above the horizon (90 looks straight up).
+- `cardSize`: number (default 17) — Each print's width on the dome, degrees.
+- `graticule`: boolean (default true) — Draw the dome's altitude rings and meridians.
+- `lines`: boolean (default true) — Join each constellation's prints with thin lines.
+- `stars`: number (default 140) — How many stars are pricked into the dome.
+- `seed`: number (default 4) — Seeds the constellations' shapes and the stars.
+- `height`: number (default 480) — The stage's height, px.
+- `label`: string (default "Planetarium gallery") — The gallery's accessible name.
+- `disabled`: boolean (default false) — No turning, clicks or keys; the dome dims.
+- `className`: string — Classes for the stage.
+
+Notes:
+- Keyboard: the prints are buttons with one tab stop (roving tabindex) inside a region with aria-roledescription "carousel"; Left and Right move between prints, Up and Down between constellations, Home and End to the first and last, and the dome turns to each. Enter or Space brings a print into focus and moves focus to Close; Left and Right switch prints in focus; Escape (handled, so the page never sees it) sends it back and returns focus to its print.
+- Reduced motion: the dome never drifts or coasts and keyboard moves turn it at once; a drag still turns it 1:1 under the finger, and a print in focus cross-fades in at the centre instead of flying.
+- Performance: one loop that runs only while the dome moves (a coast, a keyboard turn, or drift), on screen and visible; it writes each print's CSS matrix directly and redraws a small Canvas 2D layer of rings, stars and lines (DPR-capped). With drift 0 it is idle until touched.
+- The dome takes the page's surfaces and ink, so it is a pale plaster ceiling on a light page and a night sky on a dark one; the prints are pigment art or your src images, and the server renders every print already posed.
+- Touch turns the dome horizontally and leaves vertical swipes to the page (touch-action pan-y); mouse and pen turn it both ways.
+
+### Slot Canyon (KQ-1887) — `slot-canyon`
+Fly the narrow slot, lit from a crack of sky.
+
+An endless flight down a narrow sandstone slot canyon, raymarched in one WebGL2 pass: the walls are a distance field around a meandering centreline whose lean changes with height, so the slot winds one way at the floor and another overhead, banded with strata and carved with flowing flutes, glowing with light bounced down from a thin crack of sky — warm high up, violet-brown below. Where the crack opens, sun falls in shafts gathered by a short volumetric march through drifting dust, so the beams hang in the air and light the floor where they land. The pointer steers sideways and up toward the crack on the springs.glide constants, banking the camera so the canyon twists around you, and drifts home on springs.drift when it leaves; the arrow keys steer the same way, Home recentres and Space pauses the flight.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/slot-canyon`
+
+Props:
+- `children`: React.ReactNode — Content over the flight: a hero line, a call to action. It stays fully interactive.
+- `speed`: number (default 0.35) — How fast you fly, 0 (hanging still) to 1 (a fast run).
+- `width`: number (default 1) — How wide the slot is, 0.6 (a squeeze) to 1.4 (a wider passage).
+- `shafts`: number (default 0.6) — Sunlight through the crack, 0 (none) to 1 (bright shafts and lit floor).
+- `steer`: number (default 0.7) — How far the pointer and arrow keys steer, 0 to 1.
+- `twist`: number (default 0.6) — How much the camera banks with the steer and the slot's own bends, 0 to 1.
+- `dust`: number (default 0.5) — Dust hanging and glinting in the shafts, 0 to 1.
+- `strata`: number (default 0.6) — How strongly the rock is banded, 0 (plain) to 1 (bold strata).
+- `colors`: [string, string, string] (default sandstone pigments from the warn, danger and accent tokens) — The lit rock, the shade, and the sky, as CSS colours.
+- `paused / defaultPaused`: boolean (default — / false) — The flight holds where it is.
+- `onPausedChange`: (paused: boolean) => void — Fires from the Space key that paused or resumed the flight.
+- `seed`: number (default 2) — Seeds the canyon's course and its cracks.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `label`: string (default "Slot canyon flight") — The scene's accessible name.
+- `disabled`: boolean (default false) — No steering or keys.
+- `className`: string — Sizes the scene; it fills its parent by default.
+
+Notes:
+- Keyboard: the scene is a focusable group (aria-roledescription "canyon flight"); the arrow keys steer left and right and look up and down exactly as the pointer does, Home recentres, and Space pauses and resumes the flight (announced politely). Children above it stay interactive and keep their own keys.
+- Reduced motion: one still frame from a fixed place in the canyon — no flight, no drifting dust; the arrow keys still turn the view and redraw it once.
+- Performance: the raymarch renders at half (DPR ≥ 1.5) or three-quarter scale with DPR capped; the loop runs only while flying or the steer settles, on screen and visible, and stops when paused. Context loss is handled, and without WebGL2 (and on the server) an SVG still of layered strata walls under a shaft stands in.
+- The canyon is painted from pigments, so it looks the same on a light or a dark page; pass colors to recolour the rock, the shade and the sky. A wide stage looks through a longer lens so the slot keeps its depth.
+- Give it a size (it fills its parent) and put your hero copy in children with a text shadow; the walls run dark at the bottom, where copy reads best.
+
+### Switchback Trails (KQ-1888) — `switchback-trails`
+Hold the shutter over a winding mountain road.
+
+A dusk view across a valley to a mountain road zigzagging down a slope in hairpins, its legs smaller and thinner the higher they climb, with cars driving it both ways — warm-white headlights coming down, red tail lights going up — slowing into every hairpin. Press and hold to open the shutter: an iris opens on the springs.snap constants, a readout counts the seconds, and each car's lights are drawn from where they were to where they are into an additive exposure layer, so white and red trails build along the hairpins, brightest where the cars slow, while the sky lifts as a long exposure does. Release and the iris closes on the exit ease as the photograph develops with a halation bloom, holds, and slowly fades; Space opens it while held, Enter toggles it, Escape closes it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/switchback-trails`
+
+Props:
+- `exposure`: number (default 0) — Exposure compensation, EV −2 (faint streaks) to +2 (blown rivers of light): how fast light builds and how wide the trails bloom.
+- `traffic`: number (default 0.5) — How busy the road is, 0 (an empty pass) to 1 (a steady stream).
+- `dusk`: number (default 0.55) — The light, 0 (last warm light) to 1 (deep blue hour with stars).
+- `open / defaultOpen`: boolean (default — / false) — The shutter is open.
+- `onOpenChange`: (open: boolean) => void — Fires from the press, release or key that opened or closed the shutter.
+- `onExpose`: (shot: { seconds: number; cars: number }) => void — Fires as the shutter closes, with how long it was open and how many cars drew a trail.
+- `fade`: number (default 6000) — How long the developed photograph takes to fade back to the live view, ms.
+- `develop`: boolean (default true) — The halation bloom that swells as the photograph develops.
+- `speed`: number (default 1) — How fast the cars drive, 0.5 to 2.
+- `maxExposure`: number (default 30) — The shutter closes by itself after this long, seconds.
+- `lightColors`: [string, string] (default warm white and red pigments) — Headlights and tail lights, CSS colours.
+- `stars`: boolean (default true) — Stars come out as the dusk deepens.
+- `paused`: boolean (default false) — Hold the live traffic still (an open shutter still records).
+- `seed`: number (default 5) — Seeds the mountains, the traffic and the stars.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `label`: string (default "Hold to open the shutter") — The control's accessible name.
+- `disabled`: boolean (default false) — No pressing or keys; the view dims.
+- `className`: string — Sizes the view; it fills its parent by default.
+
+Notes:
+- Keyboard: the view is a role="button" with aria-pressed for the shutter; Space opens it while held and closes it on release (repeats are ignored), Enter opens and closes it for anyone who cannot hold a key, and Escape closes an open shutter (handled, so the page never sees it). A polite live region announces each photograph once: "Exposure 4.6 seconds, 9 cars."
+- Reduced motion: no moving lights in the live view; holding the shutter fades in a finished long exposure (the trails laid down at once) more fully the longer you hold, and release holds the photograph and fades it out — no bloom, and the iris cross-fades.
+- Performance: the dusk scene is painted once per size, tone and theme into an offscreen canvas; a frame is three drawImage calls and a short line per car (typed arrays, no per-frame allocation). Live traffic draws at 30 frames a second only while on screen and visible; an exposure or a fading photograph draws every frame; paused with the shutter closed and the photograph gone, nothing runs.
+- A press holds the shutter open until the pointer lifts anywhere on the page; a touch that turns into a scroll closes it. The view is painted from pigments, so the dusk looks the same on a light or a dark page; the server renders a still with the road and a pair of trails.
+- Give it a size (it fills its parent); in a cropped box the sky gives way first so the hairpins stay in view.
+
+### Wing Scales (KQ-1889) — `wing-scales`
+Iridescent ridges of a wing, shifting as you tilt.
+
+A specimen of an invented blue butterfly drawn per pixel in one WebGL2 pass, zoomable from the whole insect down to the ridges of a single scale: rows of toothed scales laid like shingles, coloured by a thin-film term on their ridges, so the blue slides toward green and violet as the pointer rocks the specimen on a critically damped spring with the drift constants. The wheel (once focused), a pinch, double-click or the keys zoom about the pointer on the glide constants in log space; zoomed in, a drag pans 1:1 and a release throws by projection, and while you look the scales breathe in a slow wave that settles when you leave. Plus and minus zoom, Home and End jump to the wing or the ridges, Left and Right rock it, Shift with an arrow pans, and Escape returns to the whole wing.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/wing-scales`
+
+Props:
+- `zoom`: number (default 1) — Magnification shown, 1 (the whole wing) to maxZoom (the ridges of one scale); a new value glides the view there.
+- `onZoomChange`: (zoom: number) => void — Fires from the wheel, pinch, drag or key that changed the magnification.
+- `maxZoom`: number (default 90) — The deepest magnification, 8 to 160.
+- `iridescence`: number (default 0.75) — How strongly the ridges shine, 0 (dull pigment brown) to 1 (the full blue-green play).
+- `tilt`: number (default 0.6) — How far the wing rocks toward the pointer, 0 (held still) to 1 (26° each way).
+- `film`: number (default 420) — Thickness of the ridges' film in nanometres, 300 to 560: the colour family (gold, violet, blue, green).
+- `ground`: string (default "oklch(0.26 0.03 45)") — The pigment under the film, any CSS colour.
+- `markings`: "band" | "eyespot" | "plain" (default "band") — The pattern of pigment scales: a spotted outer band, an eyespot on each hindwing, or plain.
+- `breathe`: number (default 0.5) — How far the scales lift as the wing breathes while you look, 0 to 1.
+- `wheel`: "focus" | "always" | "off" (default "focus") — When a plain wheel zooms: once the wing has focus (or with Ctrl or ⌘), always, or never. Pinch always zooms.
+- `seed`: number (default 7) — Seeds the scales' small irregularities.
+- `label`: string (default "Butterfly wing") — Names the specimen for assistive technology.
+- `paused`: boolean (default false) — Holds the scales flat: no breathing.
+- `disabled`: boolean (default false) — Shows the wing but takes no gestures or keys.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `className`: string — Sizes the box (default h-56 w-full); the insect is fitted inside it.
+
+Notes:
+- Keyboard: the wing is one focusable group — + and − (or Up and Down) zoom, Page Up and Page Down by ×3, Home the whole wing, End the ridges, Enter the next level, Left and Right rock it toward the light, Shift with an arrow pans, and Escape (handled only while zoomed) returns to ×1. A polite status reads the magnification when it settles.
+- Wheel etiquette: with wheel="focus" a plain wheel scrolls the page until the wing is clicked or focused (a hint says so); once it is, scrolling down looks deeper toward the ridges and up backs out. Ctrl or ⌘ with the wheel, and trackpad pinches, always zoom (spread to zoom in); at either zoom limit the wheel returns to the page. Touch pinches zoom, and the page still scrolls vertically over an unzoomed wing.
+- Reduced motion: no breathing, no tilt following the pointer and no glides — zoom, pan and key tilts change in place — while the colour and the magnification still show.
+- Performance: one fullscreen triangle with no textures, drawn only while a spring, the breath or a gesture is moving, on screen and with the tab visible; DPR is capped at `dpr`, context loss rebuilds, and without WebGL2 (and as the server's first frame) an SVG still of the same insect is shown.
+- Theming: the insect is fixed pigment art on a transparent canvas with a black-alpha shadow, so it sits on any card in light or dark; `ground` accepts tokens and is re-read when the theme changes.
+
+### Hanging Scroll (KQ-1890) — `hanging-scroll`
+Pictures on a paper scroll rolling away overhead.
+
+A vertical gallery mounted on a long paper scroll hung from a turned rod: as its scroll container scrolls, the stage pins and the paper rolls up onto the rod, bowing off the wall before the roll while each picture bends over the front of it, foreshortening and darkening as it turns away, and the knobs on the rod turn exactly with the rolled length as the roll fattens. The shown progress follows the scroll on a critically damped spring with the glide constants, and the hanging part is a lightly damped pendulum that the roll's changes of speed kick into a slight sway, swinging quicker as the scroll shortens until the weighted bottom bar rises with the last picture. Down, Page Down and Space roll to the next picture, Up and Page Up back, and Home and End jump to either end.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/hanging-scroll`
+
+Props:
+- `items`: { src?: string; alt: string; caption?: string }[] (default defaultScrollItems) — The pictures, top to bottom; the default is five ink-wash views drawn in code.
+- `curl`: number (default 0.5) — How far the paper bows out before it meets the roll, 0 (straight into a tight roll) to 1 (a wide lifted curl).
+- `rodSize`: number (default 16) — Diameter of the top rod in px, 10 to 28: a slim rod bends the pictures sharply, a thick roller slowly.
+- `paperTone`: "rice" | "silk" | "kraft" | "indigo" (default "rice") — The paper the pictures are mounted on.
+- `mount`: string — Colour of the mounting bands and borders, any CSS colour; defaults to the tone's own.
+- `sway`: number (default 0.5) — How much the weighted bottom bar swings as the roll speeds up and slows, 0 to 1.
+- `range`: number (default 320) — Scroll distance from one picture to the next, px.
+- `height`: number (default 520) — Height of the pinned stage, px; give it the height of the scroll container it sits in.
+- `cord`: boolean (default true) — Hang the rod from a cord and a nail.
+- `onIndexChange`: (index: number) => void — Fires with the picture at the reading line, from the scroll or key that moved it.
+- `onProgressChange`: (progress: number) => void — Fires as the paper rolls, 0 (all hanging) to 1 (rolled to the last picture).
+- `label`: string (default "Hanging scroll") — Names the scroll for assistive technology.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `className`: string — Classes for the section.
+
+Notes:
+- Place it inside a scroll container (or the page) and give `height` that container's visible height: the section is height + range × (pictures − 1) tall and its stage sticks while the paper rolls.
+- Keyboard: the stage is one focusable group — Down, Page Down and Space roll to the next picture, Up and Page Up back, Home and End to the ends — by scrolling the container, so pointer and keyboard reach the same states. Every picture's description and caption is in an sr-only list, and a polite status names the picture at the reading line.
+- Reduced motion: nothing rolls or sways; the scroll hangs flat and the current picture's panel cross-fades to the next as the reading line passes it, with the index and callbacks still updating.
+- Performance: one Canvas 2D; the paper is painted to an offscreen sheet once per layout, tone or picture load, and each frame is one drawImage for the hanging part plus about one strip per CSS pixel of the bow and the roll. The loop runs only while the roll or the pendulum moves, on screen and with the tab visible; DPR is capped at `dpr`.
+- The paper, wood and pictures are fixed pigments, so the scroll looks the same on a light or a dark page; the server renders a DOM still of the first picture that the canvas replaces.
+
+### Drying Line (KQ-1891) — `drying-line`
+Prints pegged on a line, twisting as it pulls past.
+
+Darkroom prints pegged to a sagging cord under a red safelight, on a pulley loop you pull past: a drag follows 1:1 and commits by projection to the nearest print on the glide spring with the release velocity, and the page's scroll pulls it too. Every print is a real pendulum and a torsion pendulum, swung about its peg by the line's acceleration and twisted by the air each its own way, damped by `sway`, so the glossy faces turn and a band of red light slides across them before they hang still and the loop stops. Clicking a print unclips it: the jaw opens on the flick spring and the print glides to the front with its darkroom note, and Back on the line or Escape carries it back as the jaw snaps shut on snap; Left and Right pull the line a print, Home and End go to the ends.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/drying-line`
+
+Props:
+- `items`: { src?: string; alt: string; caption?: string; note?: string; aspect?: number }[] (default defaultDryingPrints) — The prints along the line; the default is eight black-and-white photographs drawn in code.
+- `sway`: number (default 0.5) — How freely the prints swing and twist, 0 (stiff, quickly still) to 1 (loose, long and wide).
+- `sag`: number (default 0.45) — How deep the cord sags between its hooks, 0 (taut) to 1 (a deep curve).
+- `pegs`: "wood" | "binder" | "film" (default "wood") — What holds each print: a wooden spring peg, a steel binder clip or a film clip.
+- `value / defaultValue`: number (default 0) — The print at the middle of the room; a new controlled value pulls the line there.
+- `onValueChange`: (index: number) => void — Fires from the drag, scroll or key that brought a new print to the middle.
+- `onUnclip`: (index: number | null) => void — Fires when a print is unclipped to the front (its index) and when it goes back (null).
+- `spacing`: number (default 112) — Distance between prints on the line, px; the loop is always wider than the room.
+- `scroll`: boolean (default true) — The page's scroll (or the nearest scroll container's) pulls the line too.
+- `light`: string (default "oklch(0.66 0.19 32)") — The safelight's colour, any CSS colour.
+- `label`: string (default "Drying line") — Names the line for assistive technology.
+- `disabled`: boolean (default false) — Shows the line but takes no pulls, clicks or keys.
+- `className`: string — Sizes the room (default h-56 w-full).
+
+Notes:
+- Keyboard: the prints are one tab stop with roving focus — Left and Right pull the line a print and focus travels with it, Home and End go to the first and last, Enter or Space unclips. The front print is a dialog: focus moves to Back on the line, Tab stays there, and Escape (prevented) clips it back and returns focus to the print.
+- Gestures: a horizontal drag with `touch-action: pan-y`, so the page still scrolls vertically on touch; a sideways wheel or trackpad swipe over the room pulls the line, and with `scroll` the page's own scroll winds it half as far without ever being taken from the page.
+- Reduced motion: nothing swings or twists and nothing flies; the line steps to the nearest print, keys move it in place, and the unclipped print fades in and out of the front.
+- Performance: DOM and SVG with one rAF loop writing transforms to the print nodes only while the line, a pendulum or a peg is moving, on screen and with the tab visible; it stops at rest. The page-scroll listener is passive.
+- The room is fixed darkroom art (a warm near-black wall, the safelight's glow, prints tinted by its light), so it reads the same on a light or dark page; `light` changes the lamp and the tint together.
+
+### Fresnel Sheet (KQ-1892) — `fresnel-sheet`
+Slide a ridged lens sheet to see the picture below.
+
+A flat plastic Fresnel magnifier lying on a printed chart, drawn in one WebGL2 pass: through its concentric ridges a second picture, the same bay from the air, shows magnified about the sheet's centre and broken into rings, each flat facet a little out of register with its neighbours and fringed with rainbow where red and blue bend differently, while the risers catch the lamp, an anisotropic sheen fans across the rings and a glare band fixed in the room slides over the plastic. The sheet follows a drag 1:1 with its shadow lifting on the flick spring, and on release slides on with the release velocity and stops on friction, meeting the edge with a soft bounce on the snap spring; a tap on the chart glides it there on glide. The arrow keys move it (Shift for larger steps) and Home centres it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/fresnel-sheet`
+
+Props:
+- `src`: string — The picture the sheet lies on; for WebGL it must be same-origin or CORS. Defaults to a drawn chart of a bay.
+- `alt`: string (default a description of the drawn chart) — What that picture shows, for assistive technology.
+- `revealSrc`: string — The picture seen through the sheet, magnified about its centre. Defaults to the same bay drawn from the air.
+- `revealAlt`: string (default a description of the drawn aerial view) — What the picture through the sheet shows.
+- `rings`: number (default 16) — How many concentric facets the sheet has, 4 (coarse steps) to 40 (fine ridges).
+- `magnify`: number (default 2.2) — How much the sheet magnifies, 1.2 to 4.
+- `glare`: number (default 0.5) — How bright the glare band and the ridges' sheen are, 0 (matte) to 1.
+- `dispersion`: number (default 0.5) — How strong the rainbow fringes are at each facet's edge, 0 to 1.
+- `shape`: "card" | "round" (default "card") — A credit-card sheet or a round one.
+- `size`: number (default 0.8) — The sheet's height as a share of the stage's, 0.4 to 1.
+- `friction`: number (default 0.5) — How quickly a thrown sheet stops, 0 (a long glide on smooth paper) to 1 (a quick stop).
+- `position / defaultPosition`: { x: number; y: number } (default { x: 0.62, y: 0.5 }) — The sheet's centre as fractions of the stage; a new controlled value glides it there.
+- `onPositionChange`: (position: { x: number; y: number }) => void — Fires from the drag, tap or key that moved the sheet, with where it will come to rest.
+- `label`: string (default "Fresnel sheet") — Names the sheet for assistive technology.
+- `disabled`: boolean (default false) — Shows the sheet but takes no drags, taps or keys.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `className`: string — Sizes the stage (default h-56 w-full).
+
+Notes:
+- Keyboard: the sheet is a focusable group — the arrow keys move it 4% of the stage (16% with Shift) on the glide spring and Home centres it, through the same path that reports the position; a polite status names where it settled.
+- Touch: only the sheet itself takes `touch-action: none`, so the page still scrolls when a finger lands on the chart around it; a tap on the chart sends the sheet there.
+- Reduced motion: the sheet still follows a drag 1:1, but a release leaves it where it is (no slide or bounce), keys and taps move it in place, and the lift shadow switches instead of springing.
+- Performance: one fullscreen pass with two textures, drawn only while the sheet, its lift or a prop changes, on screen and with the tab visible — nothing runs at rest. DPR is capped at `dpr` and context loss rebuilds.
+- Without WebGL2 (and as the server's first frame) a CSS sheet shows the second picture magnified by background-size, with repeating radial ring lines and a glare gradient; both default pictures are fixed art, so the stage reads the same in light and dark.
+
+### Theatre Scrims (KQ-1893) — `theatre-scrims`
+Pass through painted gauzes that turn clear.
+
+Painted gauzes hanging one behind another on a dark stage, drawn in one WebGL2 pass, with an eye that dollies through them as the page scrolls: each gauze is front-lit and solid while you are far from it, and as you approach its front light falls and the light behind it rises, so the painting fades to a faint image on glowing, uneven threads and the next scene, now lit, shows through small and deep in the frame. Passing through, the gauze billows toward you and ripples behind you, and the last painting is a solid back cloth; the shown progress follows the scroll on a critically damped spring with the glide constants, over a floor of boards with pools of light and haze lit by shafts from the flies. Down, Page Down and Space go to the next scene, Up and Page Up back, Home and End to either end.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/theatre-scrims`
+
+Props:
+- `items`: { src?: string; alt: string; caption?: string }[] (default defaultScrims) — The paintings, front to back; the last is always the back cloth. The default is six scenes painted in code.
+- `layers`: number (default 4) — How many layers hang on the stage, 2 to 6: the first gauzes and the back cloth.
+- `haze`: number (default 0.45) — How smoky the stage is, 0 (clear air) to 1 (beams standing in the haze).
+- `lighting`: "warm" | "cool" | "dusk" (default "warm") — The lighting design: warm tungsten, cool moonlight or a dusk of rose and violet.
+- `ripple`: number (default 0.6) — How much a gauze billows and ripples as you pass through it, 0 to 1.
+- `weave`: number (default 0.5) — How brightly the gauze's threads glow when lit from behind, 0 to 1.
+- `range`: number (default 420) — Scroll distance from one scene to the next, px.
+- `height`: number (default 520) — Height of the pinned stage, px; give it the height of the scroll container it sits in.
+- `proscenium`: boolean (default true) — Frame the stage with a proscenium and lay a floor of boards.
+- `onLayerChange`: (index: number) => void — Fires with the scene in view, from the scroll or key that moved it.
+- `onProgressChange`: (progress: number) => void — Fires as you dolly forward, 0 (the first gauze) to 1 (the back cloth).
+- `label`: string (default "Stage") — Names the stage for assistive technology.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `className`: string — Classes for the section.
+
+Notes:
+- Place it inside a scroll container (or the page) and give `height` that container's visible height: the section is height + range × (layers − 1) tall and its stage sticks while you dolly through.
+- Keyboard: the stage is one focusable group — Down, Page Down and Space go to the next scene, Up and Page Up back, Home and End to the ends — by scrolling the container, so pointer and keyboard reach the same states. Each painting's description and title is in an sr-only list and a polite status names the scene on arrival.
+- Reduced motion: no dolly and no ripple; the current painting stands front-lit in the frame and cross-fades to the next as the scroll passes each gauze. The same cross-fade is the fallback without WebGL2 and the server's first frame.
+- Performance: one fullscreen pass and one atlas texture (up to six paintings), drawn only while the progress or a ripple is changing, on screen and with the tab visible; nothing runs at rest. DPR is capped at `dpr` and context loss rebuilds.
+- The stage is fixed theatre art (a dark house, lit paintings), so it reads the same on a light or dark page; `lighting` changes the front light, the backlight and the haze together.
+
+### Slate Courses (KQ-1894) — `slate-courses`
+Tiles lay themselves in courses until it reads.
+
+A roof, face on, that a roofer slates as the page scrolls: slates fly in from above and toward you and lay themselves in courses from the eaves up, each course lapping the head of the one below and breaking joint by half a slate, working left to right on one course and back on the next, so a picture with a headline painted across it reads only once the courses are on. A slate's travel glides in on the glide spring and its scale lands on recoil, a small settle with a clack when sound is on; when the last course is laid a slow sheen crosses the roof, and scrolling back lifts the slates off top course first on exit tweens. Down, Page Down and Space lay the next course, Up and Page Up lift the top one, and Home and End lift all or lay all.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/slate-courses`
+
+Props:
+- `headline`: string (default "Fieldline Farm Stays") — The words painted across the roof; also the heading assistive technology reads.
+- `as`: "h1" | "h2" | "h3" (default "h2") — The element that carries the headline for assistive technology.
+- `src`: string — The picture the slates are cut from; defaults to a drawn farm valley at evening.
+- `alt`: string (default a description of the drawn valley) — What the picture shows, for assistive technology.
+- `courses`: number (default 7) — How many courses the roof has, 4 (a few big slates) to 10 (many small ones).
+- `overlap`: number (default 0.4) — How much of each slate the course above covers, 0.2 (a long exposed tail) to 0.6 (a deep lap).
+- `stagger`: number (default 0.5) — How far apart the slates of a course land, 0 (together) to 1 (one by one across).
+- `cut`: "square" | "round" | "point" (default "square") — The shape of each slate's tail.
+- `startCourses`: number (default 2) — How many courses are on before any scroll, 0 to 3.
+- `paint`: string (default "oklch(0.97 0.01 90)") — The colour of the sign paint, a concrete CSS colour (the paint is an image, so not a var).
+- `range`: number (default 900) — Scroll distance for the whole roof, px.
+- `height`: number (default 520) — Height of the pinned stage, px; give it the height of the scroll container it sits in.
+- `sound`: boolean (default false) — Play a clack as each slate lands.
+- `onCoursesChange`: (laid: number) => void — Fires with the number of whole courses laid, from the scroll or key that changed it.
+- `onProgressChange`: (progress: number) => void — Fires as the roof is laid, 0 to 1.
+- `className`: string — Classes for the section.
+
+Notes:
+- Place it inside a scroll container (or the page) and give `height` that container's visible height: the section is height + range tall and its stage sticks while the courses go on. The headline is chalked on the felt before any slate is laid, so the first frame always reads.
+- Keyboard: the roof is one focusable group — Down, Page Down and Space lay the next course, Up and Page Up lift the top one, Home and End lift all or lay all — by scrolling the container. The headline is a real heading and the picture's description is sr-only; a polite status says how many courses are laid and when the roof is complete.
+- Reduced motion: no flights, settles or sheen; slates appear in place course by course on an opacity fade and fade out when lifted, while the count and callbacks still update.
+- Sound: `clack` as slates land, panned to where they land and played only after the visitor has clicked, tapped or pressed a key on the page (a scroll is not an activation); one per course under reduced motion.
+- Performance: DOM slates sharing two background images through CSS variables (the paint SVG is regenerated only on resize or a new headline); one passive, frame-coalesced scroll listener; the laid count is the only state the scroll changes, and animations run only while slates are in flight.
+
+### Raking Light (KQ-1895) — `raking-light`
+A low light that skims the surface for texture.
+
+An object on a light table, relit per pixel in WebGL2 by a lamp that lies low at its side, so the light skims the surface and every ridge throws a long shadow marched through a height map toward the lamp: the brush ridges of an oil sketch, a plate mark, an embossed fern and a blind-stamp in paper that look blank in flat light, the wedges in a clay tablet, or your own photo. The pointer's direction from the centre is the light's direction and its distance from the rim is its height, so moving in raises the light and flattens the shadows; the direction follows on springs.glide, the height on springs.drift, a click sets the lamp down with the marker landing on springs.recoil, and the first time it is seen the light comes down from overhead and the relief rises out of a flat picture. On the keyboard, Left and Right orbit the lamp and Up and Down raise and lower it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/raking-light`
+
+Props:
+- `subject`: "canvas" | "paper" | "tablet" (default "canvas") — The object on the table, drawn in code: an oil sketch, a sheet of embossed paper or a clay tablet.
+- `src`: string — Your own photograph to relight instead (it must be readable across origins). Its height comes from depthSrc, or from its brightness.
+- `depthSrc`: string — A depth map for src, white for high, black for low.
+- `alt`: string — What the image shows, for assistive technology. Each subject has its own description by default.
+- `inscription`: string (default "COLD PRESSED · MADE BY HAND · NO. 14 ·") — The words pressed around the paper's blind-stamp.
+- `elevation`: number (default 12) — The raking angle: how many degrees above the surface the light skims when it lies at the edge, 2 to 40.
+- `relief`: number (default 0.6) — How tall the surface's ridges stand, 0 (flat print) to 1 (deep relief).
+- `warmth`: number (default 0.55) — The light's colour, 0 (cool north daylight) to 1 (warm tungsten); the shadows fill with the other.
+- `softness`: number (default 0.35) — The lamp's size, 0 (a pin-point with crisp shadows) to 1 (a softbox with soft ones).
+- `gloss`: number (default 0.4) — How much the surface glints where it faces the light, 0 (matte) to 1.
+- `azimuth / defaultAzimuth`: number (default 290) — The direction the resting light comes from, degrees clockwise from the top; controlled or uncontrolled.
+- `onAzimuthChange`: (azimuth: number) => void — Fires when a click, a tap or the arrow keys set the light down in a new direction, in whole degrees.
+- `onLightChange`: (light: { azimuth: number; elevation: number; held: boolean }) => void — Fires as the hand moves the lamp, with the light it is asking for, in whole degrees.
+- `intro`: boolean (default true) — The light comes down from overhead to its raking angle the first time the object is seen.
+- `showLamp`: boolean (default true) — Show a small lamp where the light comes from while it is held.
+- `interactive`: boolean (default true) — The pointer and the keyboard move the lamp.
+- `seed`: number (default 1) — Seeds the brushstrokes, the paper's fibres and the wedges in the clay.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `label`: string (default "Lamp") — The accessible name of the lamp control.
+- `className`: string (default "h-56 w-full") — Sizes and shapes the box.
+
+Notes:
+- Give the box a height (the default is h-56 w-full). The object is laid out for the box's own aspect and baked once — on first sight, and again only when the subject, seed, inscription, image, palette or size changes (size changes wait 140 ms for the resize to stop).
+- Keyboard: one focus stop. Left and Right orbit the lamp 15° (PageUp and PageDown 45°) and set that direction as the rest; Up and Down raise and lower it, Home lays it low and End lifts it overhead; blur lets it sink back to elevation. A polite live region reads the light once the keys settle.
+- Pointer: hovering holds the lamp, a click sets it down facing that way (onAzimuthChange), leaving lets it sink back. On touch, a sideways drag moves the lamp and lifting the finger sets it down; an upright swipe still scrolls the page.
+- Reduced motion: no intro and no springs — the light goes straight where the pointer or keys put it and sinks back at once; the object is still fully relit, because direction and height are information.
+- Cost: one fullscreen WebGL2 draw per frame only while the light moves, none when settled, off screen or in a hidden tab; the height buffer is half-float where it can be rendered, DPR capped at dpr. Without WebGL2, or after a lost context, a CSS still of the object washed from the resting side stays.
+- Bring your own photo with src (and depthSrc for a real depth map); it must be same-origin or served with CORS, and if it cannot be read the drawn subject is shown instead. The subjects' colours are pigments at fixed lightness, so they look the same in either theme.
+
+### Monospace Pond (KQ-1896) — `monospace-pond`
+A paragraph you can stir like still water.
+
+A paragraph of monospaced text that is also the surface of a pond: the words stay real, selectable DOM text, and a canvas redraws every character from a glyph atlas where the page laid it out, riding a damped wave equation simulated one character wide with walls that reflect. Swells shoulder the letters toward their crests and lift them, the crests turn them into denser glyphs from the ramp in the crest's ink while troughs thin the ink, and when the energy is gone the original text is drawn exactly again. The pointer drags a trough and its wake through the water as hard as it is quick; a click, a tap, Enter or keyboard focus drops a stone that falls, dents the surface and rings outward under a hairline ring while a crown of droplet glyphs hops out, and the arrow keys move a fingertip that glides between characters on springs.snap while Escape smooths the water away on springs.glide.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/monospace-pond`
+
+Props:
+- `text`: string (default a short reservoir note (MONOSPACE_POND_TEXT)) — The paragraph. Line breaks in it are kept; spaces wrap as usual.
+- `as`: "p" | "div" | "blockquote" (default "p") — The element the paragraph renders as.
+- `damping`: number (default 0.35) — How quickly the water settles, 0 (rings for seconds and rebounds off the edges) to 1 (settles like syrup).
+- `ramp`: "ascii" | "blocks" | "dots" | "marks" | string (default "ascii") — The glyphs a crest turns letters into, light to dense: a named ramp or your own string.
+- `depth`: number (default 0.5) — How deep the pond is, 0 to 1: deeper water carries waves faster and bends the letters further.
+- `stir`: number (default 0.6) — How hard the pointer drags waves through the text, 0 to 1.
+- `radius`: number (default 2.5) — The pointer's footprint in characters, 1 to 6.
+- `stone`: number (default 0.7) — How big a dropped stone is, 0 to 1.
+- `crest`: number (default 0.5) — How readily crests swap letters for ramp glyphs, 0 (only the highest) to 1 (any swell).
+- `foam`: boolean (default true) — Word gaps froth with the lightest glyph on strong crests, so a ring reads across them.
+- `ring`: boolean (default true) — A hairline ring rides out from every stone with the wavefront.
+- `color`: string (default "var(--foreground)") — The ink of the text at rest.
+- `crestColor`: string (default "var(--accent-bright)") — The ink the crests, the foam and the ring mix toward.
+- `interactive`: boolean (default true) — The pointer, touch and keyboard disturb the water.
+- `paused`: boolean (default false) — Freeze the water where it is; it ignores the hand until unpaused.
+- `intro`: boolean (default true) — One stone drops by itself the first time the paragraph is seen.
+- `seed`: number (default 1) — Where the intro stone falls and how a stone's droplets fly.
+- `dpr`: number (default 2) — Cap on the canvas's device pixel ratio, at most 2.
+- `label`: string (default "Stir the water") — The pond's accessible name.
+- `onStone`: (at: { line: number; column: number }) => void — Fires for every stone a click, a tap, Enter or keyboard focus drops, with its line and column (from 0).
+- `onCalmChange`: (calm: boolean) => void — Fires when the water starts to move (false) and when it is still again (true).
+- `className`: string — Sizes the box and sets its type: the font size is inherited.
+
+Notes:
+- The paragraph is the real text — read once by assistive technology, selectable and copyable; the canvas under it is aria-hidden and only takes over drawing once it is ready, so the server render and any failure show plain text.
+- Keyboard: the pond is one focus stop (role group, roledescription pond). Focus drops a gentle stone where the fingertip rests; Left and Right move the fingertip a character, Up and Down a line, Home and End to the line's ends, stirring as it goes; Enter or Space drops a stone; Escape smooths the water away (and is left alone when the water is already still).
+- Reduced motion: nothing travels and nothing is displaced. A stone leaves a still ring of swapped glyphs and a hairline ring that cross-fade back to the text; the pointer leaves the text alone.
+- Cost: the water is a few thousand cells stepped at 120 Hz and the text a few hundred atlas draws a frame, only while the water moves, on screen and in a visible tab; settled, it draws the clean text once and stops. Layout and atlas rebuild on resize, font load and colour change; DPR capped at dpr.
+- Type: the font size is inherited and padding is in em, so it works from a caption to a lead paragraph. Positions come from the page's own layout, so any font works, though the swapped glyphs line up best in a monospaced one. Colours default to tokens and re-read on a theme change.
 
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.

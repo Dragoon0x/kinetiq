@@ -1539,4 +1539,120 @@ export const CANVAS_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/second-contact.demo").then((m) =>
       mod(m.SecondContactDemo, m.tweaks),
     ),
+  "raking-light": () =>
+    import("@/registry/demos/raking-light.demo").then((m) =>
+      mod(m.RakingLightDemo, m.tweaks),
+    ),
+  "monospace-pond": () =>
+    import("@/registry/demos/monospace-pond.demo").then((m) =>
+      mod(m.MonospacePondDemo, m.tweaks),
+    ),
+  "tally-facets": () =>
+    import("@/registry/demos/tally-facets.demo").then((m) =>
+      mod(m.TallyFacetsDemo, m.tweaks),
+    ),
+  "sieve-stack": () =>
+    import("@/registry/demos/sieve-stack.demo").then((m) =>
+      mod(m.SieveStackDemo, m.tweaks),
+    ),
+  "prose-filter": () =>
+    import("@/registry/demos/prose-filter.demo").then((m) =>
+      mod(m.ProseFilterDemo, m.tweaks),
+    ),
+  "saved-lenses": () =>
+    import("@/registry/demos/saved-lenses.demo").then((m) =>
+      mod(m.SavedLensesDemo, m.tweaks),
+    ),
+  "brushed-windows": () =>
+    import("@/registry/demos/brushed-windows.demo").then((m) =>
+      mod(m.BrushedWindowsDemo, m.tweaks),
+    ),
+  "wing-scales": () =>
+    import("@/registry/demos/wing-scales.demo").then((m) =>
+      mod(m.WingScalesDemo, m.tweaks),
+    ),
+  "hanging-scroll": () =>
+    import("@/registry/demos/hanging-scroll.demo").then((m) =>
+      mod(m.HangingScrollDemo, m.tweaks),
+    ),
+  "drying-line": () =>
+    import("@/registry/demos/drying-line.demo").then((m) =>
+      mod(m.DryingLineDemo, m.tweaks),
+    ),
+  "fresnel-sheet": () =>
+    import("@/registry/demos/fresnel-sheet.demo").then((m) =>
+      mod(m.FresnelSheetDemo, m.tweaks),
+    ),
+  "theatre-scrims": () =>
+    import("@/registry/demos/theatre-scrims.demo").then((m) =>
+      mod(m.TheatreScrimsDemo, m.tweaks),
+    ),
+  "slate-courses": () =>
+    import("@/registry/demos/slate-courses.demo").then((m) =>
+      mod(m.SlateCoursesDemo, m.tweaks),
+    ),
+  "room-within": () =>
+    import("@/registry/demos/room-within.demo").then((m) =>
+      mod(m.RoomWithinDemo, m.tweaks),
+    ),
+  "zellige-wall": () =>
+    import("@/registry/demos/zellige-wall.demo").then((m) =>
+      mod(m.ZelligeWallDemo, m.tweaks),
+    ),
+  "thought-avalanche": () =>
+    import("@/registry/demos/thought-avalanche.demo").then((m) =>
+      mod(m.ThoughtAvalancheDemo, m.tweaks),
+    ),
+  "planetarium-roof": () =>
+    import("@/registry/demos/planetarium-roof.demo").then((m) =>
+      mod(m.PlanetariumRoofDemo, m.tweaks),
+    ),
+  "slot-canyon": () =>
+    import("@/registry/demos/slot-canyon.demo").then((m) =>
+      mod(m.SlotCanyonDemo, m.tweaks),
+    ),
+  "switchback-trails": () =>
+    import("@/registry/demos/switchback-trails.demo").then((m) =>
+      mod(m.SwitchbackTrailsDemo, m.tweaks),
+    ),
+  "hover-forecast": () =>
+    import("@/registry/demos/hover-forecast.demo").then((m) =>
+      mod(m.HoverForecastDemo, m.tweaks),
+    ),
+  "paint-matrix": () =>
+    import("@/registry/demos/paint-matrix.demo").then((m) =>
+      mod(m.PaintMatrixDemo, m.tweaks),
+    ),
+  "veto-chips": () =>
+    import("@/registry/demos/veto-chips.demo").then((m) =>
+      mod(m.VetoChipsDemo, m.tweaks),
+    ),
+  "nested-ticks": () =>
+    import("@/registry/demos/nested-ticks.demo").then((m) =>
+      mod(m.NestedTicksDemo, m.tweaks),
+    ),
+  "drill-columns": () =>
+    import("@/registry/demos/drill-columns.demo").then((m) =>
+      mod(m.DrillColumnsDemo, m.tweaks),
+    ),
+  "space-reclaim": () =>
+    import("@/registry/demos/space-reclaim.demo").then((m) =>
+      mod(m.SpaceReclaimDemo, m.tweaks),
+    ),
+  "revision-reel": () =>
+    import("@/registry/demos/revision-reel.demo").then((m) =>
+      mod(m.RevisionReelDemo, m.tweaks),
+    ),
+  "name-clash": () =>
+    import("@/registry/demos/name-clash.demo").then((m) =>
+      mod(m.NameClashDemo, m.tweaks),
+    ),
+  "incident-bridge": () =>
+    import("@/registry/demos/incident-bridge.demo").then((m) =>
+      mod(m.IncidentBridgeDemo, m.tweaks),
+    ),
+  "blast-radius": () =>
+    import("@/registry/demos/blast-radius.demo").then((m) =>
+      mod(m.BlastRadiusDemo, m.tweaks),
+    ),
 };
