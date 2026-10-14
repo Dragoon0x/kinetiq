@@ -1887,6 +1887,13 @@ import { LastSlotDemo } from "@/registry/demos/last-slot.demo";
 import { TrialRecapDemo } from "@/registry/demos/trial-recap.demo";
 import { TeaserLensDemo } from "@/registry/demos/teaser-lens.demo";
 import { GoalWeaveDemo } from "@/registry/demos/goal-weave.demo";
+import { WorkspaceLobbyDemo } from "@/registry/demos/workspace-lobby.demo";
+import { CreditRefillDemo } from "@/registry/demos/credit-refill.demo";
+import { PasskeyEnrolDemo } from "@/registry/demos/passkey-enrol.demo";
+import { InboxWaitDemo } from "@/registry/demos/inbox-wait.demo";
+import { AddOnTrayDemo } from "@/registry/demos/add-on-tray.demo";
+import { PauseInsteadDemo } from "@/registry/demos/pause-instead.demo";
+import { ResetMatchDemo } from "@/registry/demos/reset-match.demo";
 /**
  * slug → live preview component. Every catalog item registers its demo here;
  * the docs template renders it inside a SpecimenPlate.
@@ -3786,4 +3793,11 @@ export const demos: Record<string, ComponentType> = {
   "trial-recap": TrialRecapDemo,
   "teaser-lens": TeaserLensDemo,
   "goal-weave": GoalWeaveDemo,
+  "workspace-lobby": WorkspaceLobbyDemo,
+  "credit-refill": CreditRefillDemo,
+  "passkey-enrol": PasskeyEnrolDemo,
+  "inbox-wait": InboxWaitDemo,
+  "add-on-tray": AddOnTrayDemo,
+  "pause-instead": PauseInsteadDemo,
+  "reset-match": ResetMatchDemo,
 };

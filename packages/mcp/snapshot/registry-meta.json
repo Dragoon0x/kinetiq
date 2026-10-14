@@ -13,7 +13,7 @@
     "indexUrl": "https://www.kinetiqui.com/r/registry.json",
     "docsUrl": "https://www.kinetiqui.com",
     "counts": {
-      "components": 1695,
+      "components": 1702,
       "blocks": 152,
       "pages": 28,
       "templates": 10,
@@ -161051,6 +161051,1265 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/trial-recap",
         "bun": "bunx --bun shadcn@latest add @kinetiq/trial-recap",
         "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/trial-recap.json"
+      }
+    },
+    {
+      "slug": "add-on-tray",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Add-On Tray",
+      "serial": "KQ-1702",
+      "tagline": "Switch an add-on on and its line lands on the invoice.",
+      "description": "An add-ons tray for a billing page: the base plan with its price, a tray of add-on cards (a stepper for seats, switches for support, reports and a domain, a slider for storage) and the invoice preview beside them. Switching an add-on on lifts its card on springs.snap as the knob crosses and a check draws in on springs.flick, and a line slides into the invoice on springs.glide while the lines below it glide down and the total rolls; steppers and the slider roll their line's amount. The annual switch re-prices every figure with a cross-fade and lands a save-two-months badge on springs.recoil; removing a line strikes it through on springs.flick and it leaves on the exit ease. A proration note says what is charged today. Switches take Space, the stepper and slider take the arrows, and the invoice's remove buttons are one roving list.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "add-ons",
+        "billing",
+        "invoice preview",
+        "pricing",
+        "proration",
+        "annual billing",
+        "stepper",
+        "subscription"
+      ],
+      "props": [
+        {
+          "name": "invoicePlacement",
+          "type": "\"side\" | \"foot\"",
+          "defaultValue": "\"side\"",
+          "description": "Where the invoice preview sits: beside the tray from a 44rem container, or under it."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"cozy\" | \"roomy\"",
+          "defaultValue": "\"cozy\"",
+          "description": "Card padding, type size and row heights."
+        },
+        {
+          "name": "accent",
+          "type": "\"cobalt\" | \"signal\" | \"success\"",
+          "defaultValue": "\"cobalt\"",
+          "description": "The colour an added card, the switches and the badge take."
+        },
+        {
+          "name": "plan",
+          "type": "AddOnPlan",
+          "defaultValue": "defaultAddOnPlan",
+          "description": "The base plan the add-ons sit on, with its monthly and annual price in cents."
+        },
+        {
+          "name": "addOns",
+          "type": "AddOn[]",
+          "defaultValue": "defaultAddOns",
+          "description": "The add-ons on offer, in tray order: each a switch, a stepper or a slider with a price per unit for each cycle."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "AddOnValue",
+          "defaultValue": "defaultAddOnValue",
+          "description": "Quantities by add-on id; absent or 0 is off and a switch holds 1. Controlled or initial."
+        },
+        {
+          "name": "onChange",
+          "type": "(value: AddOnValue, change: AddOnChange) => void",
+          "description": "Fires from the switch, step, drag or key that changed an add-on, with every quantity and the change."
+        },
+        {
+          "name": "cycle / defaultCycle",
+          "type": "\"monthly\" | \"annual\"",
+          "defaultValue": "\"monthly\"",
+          "description": "The billing cycle. Controlled or initial."
+        },
+        {
+          "name": "onCycleChange",
+          "type": "(cycle: AddOnCycle) => void",
+          "description": "The annual switch was turned."
+        },
+        {
+          "name": "current",
+          "type": "AddOnValue",
+          "defaultValue": "{}",
+          "description": "What the subscription already carries; today's charge covers only the difference."
+        },
+        {
+          "name": "onCheckout",
+          "type": "(summary: AddOnSummary) => void",
+          "description": "The checkout button was pressed, with the lines, the total and today's charge as shown."
+        },
+        {
+          "name": "renewsAt",
+          "type": "number",
+          "defaultValue": "defaultAddOnRenewsAt",
+          "description": "When the current period ends and the full price starts, in ms."
+        },
+        {
+          "name": "now",
+          "type": "number",
+          "defaultValue": "defaultAddOnNow",
+          "description": "The day proration counts from, in ms; never read from the clock."
+        },
+        {
+          "name": "format",
+          "type": "(cents: number) => string",
+          "defaultValue": "formatCents",
+          "description": "Turns cents into printed money."
+        },
+        {
+          "name": "checkoutLabel",
+          "type": "string",
+          "defaultValue": "\"Update plan\"",
+          "description": "The checkout button's text."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the plan and prices have arrived: skeleton cards and lines while loading, a retry when they failed."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after a failed load."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Add-ons\"",
+          "description": "The heading."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "the title",
+          "description": "The surface's accessible name."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "540",
+          "description": "Height in px; the tray and the invoice scroll inside it."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Read only: nothing can be switched, stepped or dragged."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the surface."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: each switch is a switch (Space or Enter turns it), the seats stepper is a spinbutton (Up/Right and Down/Left step, Page keys step five, Home and End go to off and the most) and the storage slider is a slider with the same keys. The invoice's remove buttons are one roving list: Up/Down and Home/End move, Delete, Backspace or Enter removes, and focus moves on to the next line or to checkout. The cycle switch toggles with Space.",
+        "Reduced motion: cards do not lift, lines do not slide and digits do not roll; lines fade in place, every amount and price changes at once, and a removed line shows its strike whole before it fades. Every quantity, total and charge is still reached and announced.",
+        "Nothing runs continuously: the springs settle and stop, and the only timer is the beat a struck line holds before it leaves, which is cleared on unmount. The invoice is reconciled against the value, so a line struck by a host-side change leaves the same way as one removed from the tray. A slider drag writes the quantity on every move and announces once, on release.",
+        "Each change is announced once in words with the new total and today's charge: what was added or removed, or the new quantity and its amount. Controls carry value text (\"4 seats\", \"250 GB, $25.00 per month\", \"Off\") and the invoice lines carry their printed amounts.",
+        "From a 44rem container the invoice sits beside the tray (or, at the foot, its lines sit beside the total); below it they stack and the lines scroll inside a short list. The card grid goes to two columns from a 28rem tray. The accent, the lift's border and shadow and the badge are mixed from one token, so light and dark both read."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/add-on-tray",
+      "registryItemUrl": "https://www.kinetiqui.com/r/add-on-tray.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/add-on-tray",
+        "npm": "npx shadcn@latest add @kinetiq/add-on-tray",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/add-on-tray",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/add-on-tray",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/add-on-tray.json"
+      }
+    },
+    {
+      "slug": "pause-instead",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Pause Instead",
+      "serial": "KQ-1703",
+      "tagline": "Before you cancel: pause, and keep everything.",
+      "description": "A cancellation sheet that offers a pause before it lets go. Step one asks the reason as a radio group whose dot fills on springs.snap, with a text field unfolding under Something else; step two slides in on springs.glide with the alternatives tailored to that reason in a cascade: a pause whose months sit on a segmented control with an indicator sliding on springs.snap, a discount and a smaller plan. Opening Pause unfolds a calendar strip where the paused months hatch over on springs.glide one after another and the resume date drops onto its month on springs.recoil, with what is kept listed beneath. Cancel anyway stays in the foot, quieter, and arms on its first press with a bar draining for a few seconds, so only a second press inside that window goes through; either path ends on a summary card landing on springs.recoil with a tick drawn on springs.flick. Back and Escape slide the previous step in from the left, and the reasons, the offers and the months are radio groups that arrows move through.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "cancel flow",
+        "pause subscription",
+        "churn offer",
+        "save offer",
+        "segmented control",
+        "calendar strip",
+        "two-step confirm",
+        "stepped sheet"
+      ],
+      "props": [
+        {
+          "name": "reasons",
+          "type": "PauseReason[]",
+          "defaultValue": "defaultPauseReasons",
+          "description": "The reasons on step one, in order: id, label, an optional hint and whether a free-text field opens under it."
+        },
+        {
+          "name": "offers",
+          "type": "PauseOffer[]",
+          "defaultValue": "defaultPauseOffers",
+          "description": "Every alternative that can be offered (pause, discount or downgrade) with the reason ids it is tailored to; step two shows the ones that match."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "PauseState",
+          "defaultValue": "defaultPauseState",
+          "description": "The step, the chosen reason and its text, the open offer, the months and the outcome once confirmed. Controlled or initial."
+        },
+        {
+          "name": "onChange",
+          "type": "(value: PauseState, change: PauseChange) => void",
+          "description": "Fires from every press, key or keystroke that moved the flow, with the whole state and which field changed."
+        },
+        {
+          "name": "onPause",
+          "type": "(pause: PauseResult & { months: number; pausesAt: number; resumesAt: number }) => void",
+          "description": "Pause was confirmed: the reason, the months, when the pause starts and when billing resumes."
+        },
+        {
+          "name": "onCancel",
+          "type": "(cancel: PauseResult & { endsAt: number }) => void",
+          "description": "Cancel anyway was pressed a second time inside its window, with when the plan ends."
+        },
+        {
+          "name": "onAcceptOffer",
+          "type": "(offer: PauseOffer, result: PauseResult) => void",
+          "description": "A discount or a downgrade was taken."
+        },
+        {
+          "name": "onDone",
+          "type": "(outcome: PauseOutcome) => void",
+          "description": "Done was pressed on the summary card."
+        },
+        {
+          "name": "plan",
+          "type": "PausePlan",
+          "defaultValue": "defaultPausePlan",
+          "description": "The plan being left: name, monthly price and currency sign, used in every date and amount shown."
+        },
+        {
+          "name": "kept",
+          "type": "string[]",
+          "defaultValue": "defaultPauseKept",
+          "description": "What a pause keeps, ticked off under the calendar and again on the summary."
+        },
+        {
+          "name": "now",
+          "type": "number",
+          "defaultValue": "defaultPauseNow",
+          "description": "The moment the calendar strip starts from, in ms. Never read from the clock."
+        },
+        {
+          "name": "renewsAt",
+          "type": "number",
+          "defaultValue": "nine days after now",
+          "description": "The next renewal, in ms: a pause starts there, a discount or downgrade applies from there, and a cancellation ends there."
+        },
+        {
+          "name": "armSeconds",
+          "type": "number",
+          "defaultValue": "4",
+          "description": "How long Cancel anyway stays armed for its second press before it quietly disarms."
+        },
+        {
+          "name": "layout",
+          "type": "\"steps\" | \"single\"",
+          "defaultValue": "\"steps\"",
+          "description": "One step at a time with a Back link and a step counter, or the reasons beside the offers on one page."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"cozy\" | \"roomy\"",
+          "defaultValue": "\"cozy\"",
+          "description": "Row heights, card padding and type size."
+        },
+        {
+          "name": "tone",
+          "type": "\"cobalt\" | \"signal\" | \"ink\"",
+          "defaultValue": "\"cobalt\"",
+          "description": "The colour the open offer, the resume date and the summary are drawn in."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the offers have arrived: skeleton rows and cards while loading, a retry when they failed, with Cancel anyway still at hand."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after the offers failed to load."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Cancel your plan\"",
+          "description": "The heading."
+        },
+        {
+          "name": "subtitle",
+          "type": "string",
+          "defaultValue": "\"Basinworks\"",
+          "description": "The small line over the heading."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "the title",
+          "description": "The surface's accessible name."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "540",
+          "description": "Height in px; each step scrolls inside it."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Read only: nothing can be chosen, armed or confirmed."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the surface."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the reasons, the offer cards and the months are each a radio group with one tab stop; arrows move and choose, Home and End jump, and Tab goes on to the open offer's calendar and confirm button. Continue, Cancel anyway, Back and Done are ordinary buttons. Escape disarms a pending cancel, and otherwise goes back a step; focus lands on the new step's heading.",
+        "Reduced motion: steps cross-fade in place rather than sliding, the radio dots and the months indicator switch at once, the paused months grey without hatching across, the resume date and the summary card appear where they land, and the text field opens without unfolding. The arm bar still drains, because it is the measure of the window, and every state is still announced.",
+        "The arm countdown is one tween and one timeout, never a frame loop, and it disarms when the tab is hidden or the sheet leaves the screen (one IntersectionObserver, only while armed). Dates come from now and renewsAt, never from the clock, so the calendar is the same on the server and the client.",
+        "Each reason, each offer opened, each change of months (with the resume date and the saving), arming, disarming, every step change (with how many offers it holds) and each confirmed outcome is announced once in words; keystrokes in the text field are not read out one by one.",
+        "In the one-page layout the reasons sit beside the offers from a 40rem container and stack below it; the kept list takes two columns from 30rem. Months grey with the ink tokens, the arm state with the danger token and the open offer with the tone's accent, so everything reads in light and dark."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/pause-instead",
+      "registryItemUrl": "https://www.kinetiqui.com/r/pause-instead.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/pause-instead",
+        "npm": "npx shadcn@latest add @kinetiq/pause-instead",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/pause-instead",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/pause-instead",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/pause-instead.json"
+      }
+    },
+    {
+      "slug": "credit-refill",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Credit Refill",
+      "serial": "KQ-1704",
+      "tagline": "A tank of credits, and the refill that pours in.",
+      "description": "A credits balance in a tall tank with its refill beneath: the liquid glides to the level on springs.glide and, when it lands, the surface sloshes once on springs.recoil. Picking a preset or typing an amount pours it in before it is bought, a hatched ghost band rising above the liquid on glide for the part being added while the price and the forecast's days roll on springs.snap; the refill button hands the host the amount and the ghost becomes liquid when the balance rises. An auto-refill switch reveals a threshold slider and a monthly cap, the threshold doubling as an amber mark on the tank that follows the thumb on snap, and recent usage sits below as rows with a tiny bar each. Arrows move between presets and select them, Space flips the switch, arrows and Home/End work the slider and the cap, and every change is announced in words.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "credits",
+        "balance",
+        "refill",
+        "tank gauge",
+        "auto top-up",
+        "threshold slider",
+        "usage forecast",
+        "billing"
+      ],
+      "props": [
+        {
+          "name": "gauge",
+          "type": "\"tank\" | \"bar\" | \"ring\"",
+          "defaultValue": "\"tank\"",
+          "description": "How the balance is drawn: a tank of liquid with a surface that sloshes, a segmented bar, or a ring whose arc draws round."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"cozy\" | \"roomy\"",
+          "defaultValue": "\"cozy\"",
+          "description": "Padding, type size, row heights and the gauge's size."
+        },
+        {
+          "name": "accent",
+          "type": "\"cobalt\" | \"signal\" | \"success\"",
+          "defaultValue": "\"cobalt\"",
+          "description": "The liquid's colour, from the theme's tokens."
+        },
+        {
+          "name": "balance",
+          "type": "number",
+          "defaultValue": "defaultCreditBalance",
+          "description": "Credits in hand. Zero reads as empty: the tank is dry and an amber note says so."
+        },
+        {
+          "name": "capacity",
+          "type": "number",
+          "defaultValue": "5000",
+          "description": "The gauge's top, in credits; the level is the balance against it."
+        },
+        {
+          "name": "burnPerDay",
+          "type": "number",
+          "defaultValue": "85",
+          "description": "Credits spent in a typical day; the forecast divides the balance by it."
+        },
+        {
+          "name": "presets",
+          "type": "CreditPreset[]",
+          "defaultValue": "defaultCreditPresets",
+          "description": "The refills on offer as a radio group, each with its credits, price and an optional note."
+        },
+        {
+          "name": "pricePerCredit",
+          "type": "number",
+          "defaultValue": "0.012",
+          "description": "Price of one credit when an amount is typed in."
+        },
+        {
+          "name": "customMax",
+          "type": "number",
+          "defaultValue": "10000",
+          "description": "Most credits a typed amount may ask for."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "CreditSelection | null",
+          "defaultValue": "defaultCreditSelection",
+          "description": "The refill picked: a preset by id, or a custom amount. Controlled or initial; null is none."
+        },
+        {
+          "name": "onChange",
+          "type": "(value: CreditSelection | null, credits: number) => void",
+          "description": "Fires from the press, key or keystroke that changed the selection, with the credits it would add."
+        },
+        {
+          "name": "autoRefill / defaultAutoRefill",
+          "type": "CreditAutoRefill",
+          "defaultValue": "defaultCreditAutoRefill",
+          "description": "Whether auto-refill is on, the balance it refills below, and the monthly cap (0 for none). Controlled or initial."
+        },
+        {
+          "name": "onAutoRefillChange",
+          "type": "(autoRefill: CreditAutoRefill) => void",
+          "description": "The switch, the threshold or the cap changed."
+        },
+        {
+          "name": "onRefill",
+          "type": "(refill: CreditRefillEvent) => void",
+          "description": "The refill button was pressed, with the credits, the price and the selection. The host charges and raises balance."
+        },
+        {
+          "name": "usage",
+          "type": "CreditUsage[]",
+          "defaultValue": "defaultCreditUsage",
+          "description": "Recent spends, newest first, each drawn with a tiny bar."
+        },
+        {
+          "name": "currency",
+          "type": "string",
+          "defaultValue": "\"$\"",
+          "description": "Printed before every price."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the balance has arrived: a skeleton while loading, a retry when it failed."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after a failed load."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Credits\"",
+          "description": "The heading."
+        },
+        {
+          "name": "product",
+          "type": "string",
+          "defaultValue": "\"Coldbrook AI\"",
+          "description": "The product the credits are spent on, under the heading and in the empty note."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "the title",
+          "description": "The surface's accessible name."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "540",
+          "description": "Height of the surface in px; the controls scroll inside it."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Read only: nothing can be picked, switched or refilled."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the surface."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the presets are a radio group (Left/Right or Up/Down move and select, Home/End jump), the custom amount is a text field that selects itself as it is typed, the refill button is a button, Space or Enter flips the auto-refill switch, and the threshold slider and the monthly cap take arrows (Shift for ten steps), PageUp/PageDown and Home/End.",
+        "Reduced motion: the liquid and the ghost band are placed, nothing sloshes, digits change in place and the auto-refill panel cross-fades open; every figure, mark and announcement still changes.",
+        "Nothing runs once settled: the slosh is a one-shot keyed on the liquid's arrival, the ring draws with pathLength, and the usage bars scale once on mount. Dragging the slider writes the threshold on every move and announces once on release.",
+        "Each change is announced in words with its consequence: the credits and price picked with the balance and days they would give, the threshold and cap when they settle, and the amount being added when the button is pressed.",
+        "From a 40rem container the gauge takes a left column that fills the height while the refill, auto-refill and usage scroll on the right; below it the gauge sits beside the figures and stays pinned at the top while the rest scrolls under it. The liquid, the ghost band and the mark are mixed from the accent and warn tokens so they read in light and dark."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/credit-refill",
+      "registryItemUrl": "https://www.kinetiqui.com/r/credit-refill.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/credit-refill",
+        "npm": "npx shadcn@latest add @kinetiq/credit-refill",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/credit-refill",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/credit-refill",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/credit-refill.json"
+      }
+    },
+    {
+      "slug": "passkey-enrol",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Passkey Enrol",
+      "serial": "KQ-1706",
+      "tagline": "Create a passkey, watch it land, try it out.",
+      "description": "A passkey enrolment flow with nothing real behind it: enrol and verify are promises the host supplies, and the defaults simulate a browser. An explainer's three points rise in a cascade on springs.glide; Create passkey swaps it for a drawn phone, laptop or security key whose sensor ring fills most of the way on springs.glide while the promise is out, then closes as a tick draws on springs.flick and the new passkey card lands at the top of the list on springs.recoil while the rest glide down. Try it runs the same ceremony as a sign-in check and stamps the passkey's last-used time under a wash; a rejection drains the ring, draws a cross and offers Try again or a code instead. The list is a listbox: arrows move, F2 renames inline, Delete arms a two-step remove, Enter signs in with the row, and every step is announced.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "passkey",
+        "webauthn",
+        "enrolment",
+        "sign in",
+        "fingerprint ring",
+        "security key",
+        "two-step remove",
+        "inline rename"
+      ],
+      "props": [
+        {
+          "name": "passkeys / defaultPasskeys",
+          "type": "PasskeyRecord[]",
+          "defaultValue": "defaultPasskeys",
+          "description": "The enrolled passkeys, each with a name, device, created time and last-used time. Controlled or initial."
+        },
+        {
+          "name": "onChange",
+          "type": "(passkeys: PasskeyRecord[], change: PasskeyChange) => void",
+          "description": "Fires with the whole list after a passkey is created, renamed, removed or used to sign in."
+        },
+        {
+          "name": "selected / defaultSelected",
+          "type": "string | null",
+          "defaultValue": "null",
+          "description": "The passkey id Try it signs in with; null selects the first. Controlled or initial."
+        },
+        {
+          "name": "onSelectedChange",
+          "type": "(id: string | null) => void",
+          "description": "The selection moved, from a press or an arrow key."
+        },
+        {
+          "name": "enrol",
+          "type": "(context: PasskeyEnrolContext) => Promise<PasskeyEnrolResult | void>",
+          "defaultValue": "defaultPasskeyEnrol",
+          "description": "Runs the creation ceremony with the device, the attempt number and an abort signal; resolves with the new passkey's details or rejects with the reason shown. The default simulator's second attempt is cancelled by the browser."
+        },
+        {
+          "name": "verify",
+          "type": "(context: PasskeyVerifyContext) => Promise<void>",
+          "defaultValue": "defaultPasskeyVerify",
+          "description": "Runs the sign-in check for a passkey; resolves when it signed in. The default simulates a second's wait."
+        },
+        {
+          "name": "onEnrolled",
+          "type": "(passkey: PasskeyRecord) => void",
+          "description": "A passkey was created and has landed in the list."
+        },
+        {
+          "name": "onVerified",
+          "type": "(passkey: PasskeyRecord) => void",
+          "description": "A passkey signed in from Try it."
+        },
+        {
+          "name": "onUseCode",
+          "type": "() => void",
+          "description": "Use a code instead was pressed. The link shows only when this is given."
+        },
+        {
+          "name": "device",
+          "type": "\"phone\" | \"laptop\" | \"key\"",
+          "defaultValue": "\"phone\"",
+          "description": "The device drawn on the stage, and the one new passkeys are recorded on."
+        },
+        {
+          "name": "ringStyle",
+          "type": "\"ring\" | \"ridges\" | \"ticks\"",
+          "defaultValue": "\"ring\"",
+          "description": "How the sensor fills while the ceremony waits: one ring, three fingerprint ridges, or a dial of ticks."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"cozy\" | \"roomy\"",
+          "defaultValue": "\"cozy\"",
+          "description": "Row heights, type size and padding."
+        },
+        {
+          "name": "now",
+          "type": "number",
+          "defaultValue": "defaultPasskeyNow",
+          "description": "The moment ages count from and new passkeys are stamped with, in ms; never read from the clock."
+        },
+        {
+          "name": "product",
+          "type": "string",
+          "defaultValue": "\"Gaugeworks\"",
+          "description": "The product the passkey signs in to."
+        },
+        {
+          "name": "account",
+          "type": "string",
+          "defaultValue": "\"mara.lind\"",
+          "description": "The account being enrolled, shown in the header."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the passkeys have arrived: skeletons while loading, a retry when they failed."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after the passkeys failed to load."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Passkeys\"",
+          "description": "The heading."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "the title",
+          "description": "The surface's accessible name."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "540",
+          "description": "Height in px; the list scrolls inside it."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Read only: nothing can be created, tried, renamed or removed."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the surface."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: Create passkey and Try it are buttons; the list is a single-select listbox with one tab stop. Up/Down and Home/End move the selection, Space selects, F2 opens an inline rename (Enter commits, Escape cancels), Delete or Backspace arms a remove that a second Delete or Enter confirms and Escape cancels, and Enter on an unarmed row signs in with it. Focus follows a removed row to its neighbour, or to Create passkey when the list empties.",
+        "Reduced motion: the explainer's points, the ring and the tick appear in place, the stage cross-fades, the new card fades in where it belongs and nothing travels. Every ceremony state is still reached, shown and announced.",
+        "No WebAuthn is called: enrol and verify are the host's promises and receive an AbortSignal that fires on Cancel or unmount, so a late resolution never touches the list. The default simulators wait about a second and a half; the second enrol attempt rejects with 'The browser cancelled the request' so the failure path is reachable from the demo. An armed remove disarms itself after five seconds.",
+        "Every step is spoken through one role=status line: the prompt for the device, the created passkey, its landing in the list, a sign-in, each rename, arm and removal, and any failure with what to do next. The region reports aria-busy while a ceremony runs.",
+        "From a 40rem container the stage and the list sit side by side and the list scrolls on its own; below it they stack and the whole surface scrolls. The device art, ring and washes are drawn from the surface, hairline, accent, success and danger tokens, so the piece reads in light and dark."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/passkey-enrol",
+      "registryItemUrl": "https://www.kinetiqui.com/r/passkey-enrol.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/passkey-enrol",
+        "npm": "npx shadcn@latest add @kinetiq/passkey-enrol",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/passkey-enrol",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/passkey-enrol",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/passkey-enrol.json"
+      }
+    },
+    {
+      "slug": "inbox-wait",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Inbox Wait",
+      "serial": "KQ-1707",
+      "tagline": "Check your inbox, with a resend that waits its turn.",
+      "description": "The pause after a magic link is sent: a drawn envelope whose flag rises on springs.snap when the link goes out, the address it went to with a Change link, a Resend button that waits behind a bar draining one linear second at a time until it wakes on springs.flick, an Open mail app button, and the option of entering the code from the mail instead. When the host reports the link was opened the flap turns over on springs.snap, the letter rises out of it, the picture settles on springs.recoil and a tick draws in; a pasted code fills its cells in a cascade and a wrong one shakes the row and clears it. Every button is a button, the cells are one tab stop that advance as digits land and step back on Backspace, and the countdown ticks only while the surface is on screen.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "magic link",
+        "check your inbox",
+        "resend countdown",
+        "one-time code",
+        "sign in",
+        "envelope",
+        "wait state",
+        "email verification"
+      ],
+      "props": [
+        {
+          "name": "illustration",
+          "type": "\"envelope\" | \"paper-plane\" | \"bell\"",
+          "defaultValue": "\"envelope\"",
+          "description": "The drawing beside the text: a closed envelope with a flag, a paper plane on its way, or a bell."
+        },
+        {
+          "name": "codeEntry",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Offer \"Entered the code instead?\" with a row of code cells under it."
+        },
+        {
+          "name": "accent",
+          "type": "\"cobalt\" | \"signal\" | \"success\"",
+          "defaultValue": "\"cobalt\"",
+          "description": "The colour of the flag, the draining bar and the tick: blue, the signal hue, or green."
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "defaultValue": "defaultInboxEmail",
+          "description": "Where the link went. Empty shows the no-address state."
+        },
+        {
+          "name": "product",
+          "type": "string",
+          "defaultValue": "\"Basinworks\"",
+          "description": "The product the link signs in to, shown in the header and the closing line."
+        },
+        {
+          "name": "resendSeconds",
+          "type": "number",
+          "defaultValue": "30",
+          "description": "How long Resend stays disabled after a send, in seconds."
+        },
+        {
+          "name": "sentAt",
+          "type": "number",
+          "defaultValue": "defaultInboxSentAt",
+          "description": "When the link was sent, in ms; the countdown counts from it and a new value restarts it."
+        },
+        {
+          "name": "now",
+          "type": "number",
+          "defaultValue": "defaultInboxNow",
+          "description": "The moment the surface counts from, in ms. Never read from the clock."
+        },
+        {
+          "name": "codeLength",
+          "type": "number",
+          "defaultValue": "6",
+          "description": "How many cells the code has."
+        },
+        {
+          "name": "expectedCode",
+          "type": "string",
+          "defaultValue": "defaultInboxCode",
+          "description": "The code the cells accept: a matching entry verifies, any other shakes and clears. Empty leaves the check to the host, and the cells wait."
+        },
+        {
+          "name": "state / defaultState",
+          "type": "\"sent\" | \"verified\" | \"expired\"",
+          "defaultValue": "\"sent\"",
+          "description": "Waiting on a sent link, verified, or expired. Controlled or initial."
+        },
+        {
+          "name": "onChange",
+          "type": "(state: InboxState, change: InboxChange) => void",
+          "description": "Fires from a resend or a code that moved the state, with the change and its source."
+        },
+        {
+          "name": "onResend",
+          "type": "() => void",
+          "description": "Resend was pressed once the countdown allowed it."
+        },
+        {
+          "name": "onCode",
+          "type": "(code: string) => void",
+          "description": "Every cell is filled; the code is passed whether or not it matched."
+        },
+        {
+          "name": "onChangeEmail",
+          "type": "() => void",
+          "description": "Change was pressed beside the address, or Add an address in the empty state."
+        },
+        {
+          "name": "onOpenMail",
+          "type": "() => void",
+          "description": "Open mail app was pressed."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the link has been sent: a short progress while sending, a retry when it failed."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after a failed send."
+        },
+        {
+          "name": "formatTime",
+          "type": "(at: number) => string",
+          "defaultValue": "UTC \"HH:MM\"",
+          "description": "Prints the sent time beside the status line."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Check your inbox\"",
+          "description": "The heading."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "the title",
+          "description": "The surface's accessible name."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "320",
+          "description": "Height of the surface in px; the body scrolls inside it when the cells open."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Read only: nothing can be resent, typed or opened."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the surface."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: Change, Resend, Open mail app and the code disclosure are buttons; Resend stays focusable while it counts down and reads as disabled with the seconds left. The cells are a group of one-character textboxes with one tab stop on the first empty cell: a digit advances, Backspace clears and steps back, Left/Right, Home and End move, and a paste anywhere fills from that cell on. After a wrong code the row clears and focus returns to the first cell.",
+        "Reduced motion: the flag, the flap and the letter appear in place, digits fade in without the cascade, the bar steps a second at a time instead of draining, the code row and the status line cross-fade and a wrong code tints the cells red without the shake. Every state is still reached and announced.",
+        "The countdown is one setInterval of a second that runs only while the surface is on screen (IntersectionObserver) and the tab is visible, and stops the moment it reaches zero or the link is verified; the first tick after a pause catches up the time that passed. The pulsing dot on the status line stops with it. Nothing else runs between interactions.",
+        "Each change is announced once in words: the link sent again to the address, that Resend is available, the code accepted or not matched, and the state the host moved to. The sent time comes from `sentAt` and `now`, never from the clock, so the server and client render the same minute.",
+        "From a 28rem container the picture takes a column on the left and the text, buttons and cells sit beside it; below it the picture shrinks and sits inline with the address, the buttons wrap and the cells narrow. The flag, bar, tick and letter rule take their colour from the accent token; the rest is ink and surface tokens, so light and dark both read."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/inbox-wait",
+      "registryItemUrl": "https://www.kinetiqui.com/r/inbox-wait.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/inbox-wait",
+        "npm": "npx shadcn@latest add @kinetiq/inbox-wait",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/inbox-wait",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/inbox-wait",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/inbox-wait.json"
+      }
+    },
+    {
+      "slug": "workspace-lobby",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Workspace Lobby",
+      "serial": "KQ-1708",
+      "tagline": "Pick a workspace by opening its door.",
+      "description": "A post-sign-in workspace chooser drawn as a lobby: each workspace stands as a door in a row, and hovering or focusing one opens it a crack on springs.snap, turning on its hinge, sliding aside or fading, to show a glimpse of the workspace behind it, a mini dashboard in its own colour. Pressing a door swings it wide; after a beat the lobby slides away on exitFor while the glimpse grows into the whole surface on springs.glide, an Opening bar runs for openDelay, and the workspace reads as ready with a check drawn on springs.flick. Invitations wait as envelopes on a side table: Accept lands a new door in the row on springs.recoil, Decline fades the envelope out, a plain door with a plus creates a workspace, and a switch remembers the choice. The doors are one listbox (arrows move, Enter or Space opens, Home/End), the envelopes are a list with one tabbable row, and Escape from an opening workspace returns to the lobby.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "workspace switcher",
+        "sign in",
+        "lobby",
+        "door",
+        "invitations",
+        "listbox",
+        "onboarding",
+        "remember choice"
+      ],
+      "props": [
+        {
+          "name": "doorStyle",
+          "type": "\"hinge\" | \"slide\" | \"fade\"",
+          "defaultValue": "\"hinge\"",
+          "description": "How a door opens: swinging on its hinge, sliding aside, or fading away."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"cozy\" | \"roomy\"",
+          "defaultValue": "\"cozy\"",
+          "description": "Door height, gaps and type size."
+        },
+        {
+          "name": "accent",
+          "type": "\"workspace\" | \"cobalt\" | \"ink\"",
+          "defaultValue": "\"workspace\"",
+          "description": "What colours the glimpses: each workspace's own hue, the house cobalt, or one ink."
+        },
+        {
+          "name": "workspaces",
+          "type": "LobbyWorkspace[]",
+          "defaultValue": "defaultLobbyWorkspaces",
+          "description": "The signed-in person's workspaces, in door order, each with a role, member count, last opened time, plan and hue."
+        },
+        {
+          "name": "invitations",
+          "type": "LobbyInvitation[]",
+          "defaultValue": "defaultLobbyInvitations",
+          "description": "Invitations waiting on the side table. Accepted and declined ones leave it."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string | null",
+          "defaultValue": "the first workspace",
+          "description": "The chosen door's id. Controlled or initial."
+        },
+        {
+          "name": "onChange",
+          "type": "(id: string | null, workspace: LobbyWorkspace | null) => void",
+          "description": "Fires when the chosen door changes, from a press or an arrow key."
+        },
+        {
+          "name": "onOpen",
+          "type": "(workspace: LobbyWorkspace) => void",
+          "description": "A door was pressed: it swings wide and the workspace starts to open."
+        },
+        {
+          "name": "onReady",
+          "type": "(workspace: LobbyWorkspace) => void",
+          "description": "The opening finished; the host can now navigate."
+        },
+        {
+          "name": "onAccept",
+          "type": "(invitation: LobbyInvitation, workspace: LobbyWorkspace) => void",
+          "description": "An invitation was accepted; workspace is the door it became."
+        },
+        {
+          "name": "onDecline",
+          "type": "(invitation: LobbyInvitation) => void",
+          "description": "An invitation was declined."
+        },
+        {
+          "name": "onCreate",
+          "type": "() => void",
+          "description": "The Create a workspace door was pressed."
+        },
+        {
+          "name": "remember / defaultRemember",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Whether the choice is remembered for next time. Controlled or initial."
+        },
+        {
+          "name": "onRememberChange",
+          "type": "(remember: boolean) => void",
+          "description": "The remember switch was flipped."
+        },
+        {
+          "name": "openDelay",
+          "type": "number",
+          "defaultValue": "1400",
+          "description": "How long opening a workspace takes before it reads as ready, in ms."
+        },
+        {
+          "name": "now",
+          "type": "number",
+          "defaultValue": "defaultLobbyNow",
+          "description": "The moment last-opened ages count from, in ms; never read from the clock."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the workspaces and invitations have arrived: door-shaped skeletons while loading, a retry when they failed."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after a failed load."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Choose a workspace\"",
+          "description": "The heading."
+        },
+        {
+          "name": "signedInAs",
+          "type": "string",
+          "defaultValue": "\"ines@coldbrook.app\"",
+          "description": "Who is signed in, shown under the heading."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "the title",
+          "description": "The surface's accessible name."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "540",
+          "description": "Height of the lobby in px; the doors scroll inside it."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Read only: no door opens and no invitation moves."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the surface."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the doors, including Create a workspace, are one listbox with a roving tab stop (Left/Right or Up/Down, Home/End); focus chooses a door and opens it a crack, Enter or Space opens it. The envelopes are a list whose active row holds the tab stop: Up/Down move between rows, Left/Right between Accept and Decline. Remember is a switch, and Escape from an opening or open workspace returns to the lobby with focus on its door.",
+        "Reduced motion: no turn, slide or travel. A door cross-fades open, the lobby and the full-size glimpse cross-fade in place, the selection mark and the switch knob are placed instantly, and the Opening bar is replaced by a text state. Every phase is still reached and announced.",
+        "Nothing runs once settled: the Opening bar is one tween the length of openDelay and a single timer, there is no animation loop, and every timer is cleared on unmount or when Escape returns to the lobby. Ages come from the now prop, never the clock, so renders are deterministic.",
+        "Each change is announced once in words: opening, ready (with whether it will be remembered), joined, declined, the switch, and the return to the lobby. The chosen door carries aria-selected and the surface is aria-busy while a workspace opens.",
+        "Doors wrap in an auto-fill grid whose column floor follows density; from a 52rem container the side table stands to the right of the doors, below that it sits under them with envelopes two across from 40rem. Each hue is a fixed-lightness pigment derived from a status token, so glimpses read in light and dark."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/workspace-lobby",
+      "registryItemUrl": "https://www.kinetiqui.com/r/workspace-lobby.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/workspace-lobby",
+        "npm": "npx shadcn@latest add @kinetiq/workspace-lobby",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/workspace-lobby",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/workspace-lobby",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/workspace-lobby.json"
+      }
+    },
+    {
+      "slug": "reset-match",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Reset Match",
+      "serial": "KQ-1719",
+      "tagline": "Two fields, a meter, and a tie that knits when they match.",
+      "description": "A password reset that answers as you type: a meter beneath the first field fills on springs.glide with a word from weak to excellent while the checklist beside it ticks each rule on springs.flick as it is met, and a bracket in the gutter ties Confirm to the first field, dashed red and fraying while the two differ, then drawing solid green from the top on springs.glide with stitches knitting across it the moment they match. Generate one types a seeded strong password in on a cascade and fills Confirm so the tie knits, every rule met sends the password to a debounced breach check whose warning holds the Submit, and a strong, matching password lands a tick on springs.recoil with the signed-out-elsewhere note and Continue. The fields are native, Show is a switch, and every change of strength, match or breach state is spoken.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "password reset",
+        "strength meter",
+        "confirm password",
+        "match indicator",
+        "password rules",
+        "breach check",
+        "generate password",
+        "show password"
+      ],
+      "props": [
+        {
+          "name": "meterStyle",
+          "type": "\"bar\" | \"ring\" | \"dots\"",
+          "defaultValue": "\"bar\"",
+          "description": "How strength is drawn beneath the first field: a bar that fills, a ring that closes, or four dots that light."
+        },
+        {
+          "name": "tieLine",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Draw the tie line that joins Confirm to the first field and knits when they match."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"cozy\" | \"roomy\"",
+          "defaultValue": "\"cozy\"",
+          "description": "Field heights, type size and spacing."
+        },
+        {
+          "name": "rules",
+          "type": "ResetRule[]",
+          "defaultValue": "defaultResetRules",
+          "description": "The checklist in order, each with a label, a test and whether failing it is critical (length, a number, a symbol, not your email, not a common password)."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "ResetValue",
+          "defaultValue": "defaultResetValue",
+          "description": "Both fields' text. Controlled or initial."
+        },
+        {
+          "name": "onChange",
+          "type": "(value: ResetValue, field: ResetField) => void",
+          "description": "Fires from every keystroke, the generator and Continue, with both fields and the one that changed."
+        },
+        {
+          "name": "check",
+          "type": "(password: string) => Promise<ResetCheck>",
+          "defaultValue": "defaultResetCheck",
+          "description": "Asks whether a password has appeared in a known breach. Runs, debounced, once every rule is met; the default simulator flags defaultResetBreached."
+        },
+        {
+          "name": "onSubmit",
+          "type": "(password: string) => Promise<unknown> | unknown",
+          "defaultValue": "a short simulated round trip",
+          "description": "Change password was pressed with a strong, matching password. A rejected promise shows an inline error."
+        },
+        {
+          "name": "onContinue",
+          "type": "() => void",
+          "description": "Continue was pressed on the success card."
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "defaultValue": "defaultResetEmail",
+          "description": "The account the password is for; shown in the header and kept out of the password."
+        },
+        {
+          "name": "commonPasswords",
+          "type": "string[]",
+          "defaultValue": "defaultResetCommon",
+          "description": "Passwords the \"not a common password\" rule refuses, lower case; a password whose letters alone spell one is refused too."
+        },
+        {
+          "name": "generate",
+          "type": "(attempt: number) => string",
+          "defaultValue": "generateResetPassword",
+          "description": "Makes the password Generate one fills in; attempt counts from 1 so each press differs. The default is seeded."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the reset link has been checked: a skeleton while it is, a note with Retry when the breach check failed (the form still works)."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Retry was pressed after the breach check failed."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Choose a new password\"",
+          "description": "The heading."
+        },
+        {
+          "name": "successNote",
+          "type": "string",
+          "defaultValue": "\"You've been signed out everywhere else.\"",
+          "description": "Shown on the success card beneath the tick."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "the title",
+          "description": "The surface's accessible name."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "520",
+          "description": "Height of the surface in px; the form scrolls inside it."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Read only: nothing can be typed, generated or submitted."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the surface."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the two fields are native inputs and Enter submits once the password is strong and matching; Tab reaches the Show switch (Space or Enter toggles both fields), Generate one, Retry and Change password, and focus lands on Continue with the success card.",
+        "Reduced motion: the meter, the ticks and the tie take their new state at once and cross-fade, nothing draws or knits, the generator fills both fields in one step, and the success tick appears in place.",
+        "The tie measures the two fields' centres with one ResizeObserver on their column, so it follows density changes and wraps. The breach check waits 450ms after the last keystroke, runs only once every rule is met, and drops a result that arrives for an older password; a second generate press lands the first immediately.",
+        "A status region speaks every change of strength (with the rules met), of match and of breach state, and a second one announces the generator, a changed password and a failed change. A failed breach check does not hold the Submit; a password seen in a breach does.",
+        "From a 40rem container the fields and the checklist sit side by side and the footer runs on one line; below it they stack and the email and the switch's word hide at 24rem. Strength and tie colours come from the danger, warn, success and accent tokens so they read in light and dark."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/reset-match",
+      "registryItemUrl": "https://www.kinetiqui.com/r/reset-match.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/reset-match",
+        "npm": "npx shadcn@latest add @kinetiq/reset-match",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/reset-match",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/reset-match",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/reset-match.json"
       }
     },
     {

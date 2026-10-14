@@ -47446,6 +47446,202 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "workspace-lobby",
+      "type": "registry:ui",
+      "title": "Workspace Lobby",
+      "description": "A post-sign-in workspace chooser drawn as a lobby: each workspace stands as a door in a row, and hovering or focusing one opens it a crack on springs.snap, turning on its hinge, sliding aside or fading, to show a glimpse of the workspace behind it, a mini dashboard in its own colour. Pressing a door swings it wide; after a beat the lobby slides away on exitFor while the glimpse grows into the whole surface on springs.glide, an Opening bar runs for openDelay, and the workspace reads as ready with a check drawn on springs.flick. Invitations wait as envelopes on a side table: Accept lands a new door in the row on springs.recoil, Decline fades the envelope out, a plain door with a plus creates a workspace, and a switch remembers the choice. The doors are one listbox (arrows move, Enter or Space opens, Home/End), the envelopes are a list with one tabbable row, and Escape from an opening workspace returns to the lobby.",
+      "files": [
+        {
+          "path": "registry/ui/workspace-lobby.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1708"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "credit-refill",
+      "type": "registry:ui",
+      "title": "Credit Refill",
+      "description": "A credits balance in a tall tank with its refill beneath: the liquid glides to the level on springs.glide and, when it lands, the surface sloshes once on springs.recoil. Picking a preset or typing an amount pours it in before it is bought, a hatched ghost band rising above the liquid on glide for the part being added while the price and the forecast's days roll on springs.snap; the refill button hands the host the amount and the ghost becomes liquid when the balance rises. An auto-refill switch reveals a threshold slider and a monthly cap, the threshold doubling as an amber mark on the tank that follows the thumb on snap, and recent usage sits below as rows with a tiny bar each. Arrows move between presets and select them, Space flips the switch, arrows and Home/End work the slider and the cap, and every change is announced in words.",
+      "files": [
+        {
+          "path": "registry/ui/credit-refill.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1704"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "passkey-enrol",
+      "type": "registry:ui",
+      "title": "Passkey Enrol",
+      "description": "A passkey enrolment flow with nothing real behind it: enrol and verify are promises the host supplies, and the defaults simulate a browser. An explainer's three points rise in a cascade on springs.glide; Create passkey swaps it for a drawn phone, laptop or security key whose sensor ring fills most of the way on springs.glide while the promise is out, then closes as a tick draws on springs.flick and the new passkey card lands at the top of the list on springs.recoil while the rest glide down. Try it runs the same ceremony as a sign-in check and stamps the passkey's last-used time under a wash; a rejection drains the ring, draws a cross and offers Try again or a code instead. The list is a listbox: arrows move, F2 renames inline, Delete arms a two-step remove, Enter signs in with the row, and every step is announced.",
+      "files": [
+        {
+          "path": "registry/ui/passkey-enrol.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1706"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "inbox-wait",
+      "type": "registry:ui",
+      "title": "Inbox Wait",
+      "description": "The pause after a magic link is sent: a drawn envelope whose flag rises on springs.snap when the link goes out, the address it went to with a Change link, a Resend button that waits behind a bar draining one linear second at a time until it wakes on springs.flick, an Open mail app button, and the option of entering the code from the mail instead. When the host reports the link was opened the flap turns over on springs.snap, the letter rises out of it, the picture settles on springs.recoil and a tick draws in; a pasted code fills its cells in a cascade and a wrong one shakes the row and clears it. Every button is a button, the cells are one tab stop that advance as digits land and step back on Backspace, and the countdown ticks only while the surface is on screen.",
+      "files": [
+        {
+          "path": "registry/ui/inbox-wait.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1707"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "add-on-tray",
+      "type": "registry:ui",
+      "title": "Add-On Tray",
+      "description": "An add-ons tray for a billing page: the base plan with its price, a tray of add-on cards (a stepper for seats, switches for support, reports and a domain, a slider for storage) and the invoice preview beside them. Switching an add-on on lifts its card on springs.snap as the knob crosses and a check draws in on springs.flick, and a line slides into the invoice on springs.glide while the lines below it glide down and the total rolls; steppers and the slider roll their line's amount. The annual switch re-prices every figure with a cross-fade and lands a save-two-months badge on springs.recoil; removing a line strikes it through on springs.flick and it leaves on the exit ease. A proration note says what is charged today. Switches take Space, the stepper and slider take the arrows, and the invoice's remove buttons are one roving list.",
+      "files": [
+        {
+          "path": "registry/ui/add-on-tray.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1702"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "pause-instead",
+      "type": "registry:ui",
+      "title": "Pause Instead",
+      "description": "A cancellation sheet that offers a pause before it lets go. Step one asks the reason as a radio group whose dot fills on springs.snap, with a text field unfolding under Something else; step two slides in on springs.glide with the alternatives tailored to that reason in a cascade: a pause whose months sit on a segmented control with an indicator sliding on springs.snap, a discount and a smaller plan. Opening Pause unfolds a calendar strip where the paused months hatch over on springs.glide one after another and the resume date drops onto its month on springs.recoil, with what is kept listed beneath. Cancel anyway stays in the foot, quieter, and arms on its first press with a bar draining for a few seconds, so only a second press inside that window goes through; either path ends on a summary card landing on springs.recoil with a tick drawn on springs.flick. Back and Escape slide the previous step in from the left, and the reasons, the offers and the months are radio groups that arrows move through.",
+      "files": [
+        {
+          "path": "registry/ui/pause-instead.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1703"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "reset-match",
+      "type": "registry:ui",
+      "title": "Reset Match",
+      "description": "A password reset that answers as you type: a meter beneath the first field fills on springs.glide with a word from weak to excellent while the checklist beside it ticks each rule on springs.flick as it is met, and a bracket in the gutter ties Confirm to the first field, dashed red and fraying while the two differ, then drawing solid green from the top on springs.glide with stitches knitting across it the moment they match. Generate one types a seeded strong password in on a cascade and fills Confirm so the tie knits, every rule met sends the password to a debounced breach check whose warning holds the Submit, and a strong, matching password lands a tick on springs.recoil with the signed-out-elsewhere note and Continue. The fields are native, Show is a switch, and every change of strength, match or breach state is spoken.",
+      "files": [
+        {
+          "path": "registry/ui/reset-match.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1719"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

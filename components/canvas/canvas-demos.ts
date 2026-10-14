@@ -1871,4 +1871,32 @@ export const CANVAS_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/goal-weave.demo").then((m) =>
       mod(m.GoalWeaveDemo, m.tweaks),
     ),
+  "workspace-lobby": () =>
+    import("@/registry/demos/workspace-lobby.demo").then((m) =>
+      mod(m.WorkspaceLobbyDemo, m.tweaks),
+    ),
+  "credit-refill": () =>
+    import("@/registry/demos/credit-refill.demo").then((m) =>
+      mod(m.CreditRefillDemo, m.tweaks),
+    ),
+  "passkey-enrol": () =>
+    import("@/registry/demos/passkey-enrol.demo").then((m) =>
+      mod(m.PasskeyEnrolDemo, m.tweaks),
+    ),
+  "inbox-wait": () =>
+    import("@/registry/demos/inbox-wait.demo").then((m) =>
+      mod(m.InboxWaitDemo, m.tweaks),
+    ),
+  "add-on-tray": () =>
+    import("@/registry/demos/add-on-tray.demo").then((m) =>
+      mod(m.AddOnTrayDemo, m.tweaks),
+    ),
+  "pause-instead": () =>
+    import("@/registry/demos/pause-instead.demo").then((m) =>
+      mod(m.PauseInsteadDemo, m.tweaks),
+    ),
+  "reset-match": () =>
+    import("@/registry/demos/reset-match.demo").then((m) =>
+      mod(m.ResetMatchDemo, m.tweaks),
+    ),
 };
