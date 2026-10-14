@@ -47137,6 +47137,315 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "since-you-left",
+      "type": "registry:ui",
+      "title": "Since You Left",
+      "description": "A project board with a catch-up sheet over it. The sheet rises on springs.glide from the right or the foot when the board arrives, its counts of comments, tasks done, blocked and moved rolling on springs.snap above the changes grouped by kind, each group opening on glide with avatars and ages. Pressing a change jumps to it: the sheet slides aside on the exit ease, the board scrolls the card into view and the card lifts once on snap under a highlight that fades, while Mark all seen takes the sheet down and the board's new dots fade in a cascade. Catch me up plays the unseen changes oldest first, each rising at the foot of the board on glide as its card lights in turn, and stops at the end rather than looping. The sheet is a dialog Escape closes, its groups and changes one tree with arrows and Enter, and the board a grid.",
+      "files": [
+        {
+          "path": "registry/ui/since-you-left.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1688"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "sender-stacks",
+      "type": "registry:ui",
+      "title": "Sender Stacks",
+      "description": "A notification inbox that stacks by sender: every sender's notifications collapse into one card with two offset edges behind it and the count in a badge. Pressing a stack fans it open, the cards spreading downward from behind the top card on springs.glide in a cascade while the stacks below slide to make room, and pressing again gathers them back; the accordion style unfolds each row in place instead. A card dragged to the right follows the pointer over a Dismiss track and flies out on the exit ease, the stack's count rolling down on springs.snap as the next card comes forward, while dragging a collapsed stack asks first in a strip that drops in on snap. Mark all read ticks each unread dot off on springs.flick in a cascade, and a notification arriving from the host drops onto its stack on springs.recoil. The stacks are one listbox: Up and Down move, Enter fans or opens, Delete dismisses, Shift+Delete dismisses a stack and M marks read.",
+      "files": [
+        {
+          "path": "registry/ui/sender-stacks.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1686"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "moving-day",
+      "type": "registry:ui",
+      "title": "Moving Day",
+      "description": "A migration wizard as a moving day: the old place on the left with its boxes in a listbox, a tick to include each; the new place on the right with its rooms standing empty. A mapping step matches old fields to new ones with a native select per row and flags the rows with nowhere to go. Start the move carries each box across in turn: it lifts and glides along a short arc to its room on springs.glide, lands on springs.recoil, and unpacks as the room's count rolls on springs.snap while a bar fills and a check draws on springs.flick; one box hits duplicate contacts and pauses, bar turned amber, until Merge, Skip or Keep both is pressed. When the last box is in, a summary lands with the totals. Up/Down and Space work the boxes, the selects are native, Start, Stop and the conflict's choices are buttons, and every step of the move is announced.",
+      "files": [
+        {
+          "path": "registry/ui/moving-day.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1694"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "export-recipe",
+      "type": "registry:ui",
+      "title": "Export Recipe",
+      "description": "An export dialog that writes its recipe as a sentence: a format radio group, a column checklist, a date range with presets, filter chips and a delivery choice on the left, and on the right the recipe reading them back — \"Export 1,284 orders from October 2026 as CSV with 6 columns, downloaded now.\" Each phrase that changes cross-fades under a wash that clears on a slow tween, the row count rolls on springs.snap, and a preview strip shows the columns in export order, reordered by drag or Alt+arrows with the cards gliding on springs.glide. Save as recipe lands the configuration as a chip on springs.recoil and pressing one re-applies everything with the phrases relighting in a cascade; Run export fills a progress line on glide and lands a Download button on recoil with a tick drawn on flick. The radios take arrows, the columns are a multi-select listbox, the strip a listbox where Alt+arrows move and Delete removes, and every change is announced with the new count and size.",
+      "files": [
+        {
+          "path": "registry/ui/export-recipe.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1685"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "errand-toasts",
+      "type": "registry:ui",
+      "title": "Errand Toasts",
+      "description": "A toast rail for background errands: a toolbar starts them and each one drops a toast into the corner on springs.recoil, with the errand's running line and a bar that fills on springs.glide as it reports. Newer toasts land in front while the older ones compress behind them, scaled and offset on glide; a finished one ticks on springs.flick, holds while its bar drains, then leaves on the exit ease as the rest re-stack, and a failed one turns red, offers Retry and stays until dismissed. Hovering or focusing the rail fans the stack into a column and pauses every hold, and more than three toasts fold into a pill that opens on press. Alt+T moves focus to the rail, Up and Down walk the toasts, Enter retries, Delete dismisses and Escape returns, with every change announced.",
+      "files": [
+        {
+          "path": "registry/ui/errand-toasts.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1687"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "name-plate",
+      "type": "registry:ui",
+      "title": "Name Plate",
+      "description": "A profile-setup step that engraves a name plate as the form is filled: each letter typed lands in the brass on springs.snap, the handle follows in mono on a second line, a chosen swatch floods the initials' circle from its centre on springs.glide, and the plate leans a few degrees toward a fine pointer on the sprung tilt before swinging level. The handle is looked up once typing pauses: the ring beside it spins, then a tick draws on springs.flick when it is free or a cross when it is taken, with suggestions cascading in to press; a failed lookup leaves the field editable with a Retry. Continue stamps Engraved on the plate on springs.recoil, and three previews under it show the same name in a comment, a list and a mention. The form is native, the pronoun chips are toggles, and the swatches are one radio group where arrows choose.",
+      "files": [
+        {
+          "path": "registry/ui/name-plate.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/use-pointer-tilt.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1696"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "shortcut-drills",
+      "type": "registry:ui",
+      "title": "Shortcut Drills",
+      "description": "A keyboard-shortcut practice drill: a card asks for an action and the drill listens, a strip of modifier caps and a key slot lighting as keys go down with each cap pressing in on springs.snap. The right chord stamps a tick on the card on springs.recoil and the next card slides in on springs.glide as the old one leaves on the exit ease; a wrong one shakes the card a little, zeroes the streak and reveals the answer as caps that can be pressed to feel the chord before it is typed. A streak rolls in the header, a rail fills on glide, and when the last card lands a results sheet lists every shortcut with its time and marks the slow and the missed for another round. While focused the drill is an application region that captures every chord, Escape pauses, the sets are a radio group and the results are a multi-select listbox whose selected rows seed the next round.",
+      "files": [
+        {
+          "path": "registry/ui/shortcut-drills.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1698"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "last-slot",
+      "type": "registry:ui",
+      "title": "Last Slot",
+      "description": "A session and seat picker where the last few seats matter: sessions sit in a column by day, each with a ring of its remaining seats, and choosing one glides its seat map in on springs.glide. Picking a seat ticks it on springs.flick while the count of seats left rolls and the card's ring follows; when a session is down to one seat the ring turns amber and a last-slot ribbon lands on the card on springs.recoil. Seats booked elsewhere arrive as events and flip to their taken face on springs.snap, and when one of them was yours a toast offers the nearest free seat and glides a marker to it on accept. Held seats drain a hold bar for two minutes and are released with a note when it runs out. The sessions are a listbox and the map is a grid: arrows move, Enter chooses, Space holds or lets go, Escape dismisses the offer.",
+      "files": [
+        {
+          "path": "registry/ui/last-slot.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1699"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "trial-recap",
+      "type": "registry:ui",
+      "title": "Trial Recap",
+      "description": "The letter a trial ends with: Your 14 days with Fieldline. Its numbers roll up from zero on springs.snap in a cascade as the tiles rise on springs.glide, a bar per day stands up on snap with the busiest day in the accent and the days still to come dashed, the highlights rise in their own cascade, and the features touched sit on a shelf of chips with a check drawing into each used one on springs.flick while the untried ones are ghosted. Two plans stand side by side with the trial's usage drawn as bars against each column's limits on glide; a bar that would be over turns red and an over tag lands on springs.recoil. Choose plan is a radio group whose indicator slides on snap and whose frame glides to the chosen column, the countdown reads days and hours from a now prop rather than the clock, and a trial that was hardly used gets a gentler letter with the untried features as suggestions.",
+      "files": [
+        {
+          "path": "registry/ui/trial-recap.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1701"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "teaser-lens",
+      "type": "registry:ui",
+      "title": "Teaser Lens",
+      "description": "A locked-feature teaser with a lens: the report sits under a frost, a blurred copy of itself masked by a circle the pointer carries, so the chart and the table are sharp inside the lens only, with a soft rim where the frost thins. The lens follows the pointer directly, the spot chips send it gliding to a feature on springs.glide and arrows nudge it on springs.snap, while the card beside the report lists what unlocks and draws each tick on springs.flick the first time the lens passes that part. Unlock lifts the frost from the lens outward on springs.glide, the lock badge leaves on the exit ease and an unlocked mark lands on springs.recoil. The lens is a two-dimensional slider: arrows move it, Home centres it and End takes it to the next feature not yet seen, with every arrival announced.",
+      "files": [
+        {
+          "path": "registry/ui/teaser-lens.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1700"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "goal-weave",
+      "type": "registry:ui",
+      "title": "Goal Weave",
+      "description": "An onboarding step where the goals a business picks weave its first plan: a tick draws on a chip on springs.flick and a thread runs from it to each step it brings, drawn end to end on springs.glide while the steps glide into the plan in a cascade, a step two goals share arriving once with both colours as a twisted pair of strands. Putting a goal back pulls its steps out on the exit ease while shared steps stay and lose one strand, and the estimate rolls on springs.snap. The plan is a listbox: Alt with Up or Down moves a step and the rest glide around it, Delete takes one out, the grip drags a row that lands on glide, and the first three steps are banded This week.",
+      "files": [
+        {
+          "path": "registry/ui/goal-weave.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1697"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

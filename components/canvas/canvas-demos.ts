@@ -1827,4 +1827,48 @@ export const CANVAS_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/wayfinding-dots.demo").then((m) =>
       mod(m.WayfindingDotsDemo, m.tweaks),
     ),
+  "since-you-left": () =>
+    import("@/registry/demos/since-you-left.demo").then((m) =>
+      mod(m.SinceYouLeftDemo, m.tweaks),
+    ),
+  "sender-stacks": () =>
+    import("@/registry/demos/sender-stacks.demo").then((m) =>
+      mod(m.SenderStacksDemo, m.tweaks),
+    ),
+  "moving-day": () =>
+    import("@/registry/demos/moving-day.demo").then((m) =>
+      mod(m.MovingDayDemo, m.tweaks),
+    ),
+  "export-recipe": () =>
+    import("@/registry/demos/export-recipe.demo").then((m) =>
+      mod(m.ExportRecipeDemo, m.tweaks),
+    ),
+  "errand-toasts": () =>
+    import("@/registry/demos/errand-toasts.demo").then((m) =>
+      mod(m.ErrandToastsDemo, m.tweaks),
+    ),
+  "name-plate": () =>
+    import("@/registry/demos/name-plate.demo").then((m) =>
+      mod(m.NamePlateDemo, m.tweaks),
+    ),
+  "shortcut-drills": () =>
+    import("@/registry/demos/shortcut-drills.demo").then((m) =>
+      mod(m.ShortcutDrillsDemo, m.tweaks),
+    ),
+  "last-slot": () =>
+    import("@/registry/demos/last-slot.demo").then((m) =>
+      mod(m.LastSlotDemo, m.tweaks),
+    ),
+  "trial-recap": () =>
+    import("@/registry/demos/trial-recap.demo").then((m) =>
+      mod(m.TrialRecapDemo, m.tweaks),
+    ),
+  "teaser-lens": () =>
+    import("@/registry/demos/teaser-lens.demo").then((m) =>
+      mod(m.TeaserLensDemo, m.tweaks),
+    ),
+  "goal-weave": () =>
+    import("@/registry/demos/goal-weave.demo").then((m) =>
+      mod(m.GoalWeaveDemo, m.tweaks),
+    ),
 };

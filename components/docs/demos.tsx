@@ -1876,6 +1876,17 @@ import { PracticeRunDemo } from "@/registry/demos/practice-run.demo";
 import { RoleTailorDemo } from "@/registry/demos/role-tailor.demo";
 import { AckLadderDemo } from "@/registry/demos/ack-ladder.demo";
 import { WayfindingDotsDemo } from "@/registry/demos/wayfinding-dots.demo";
+import { SinceYouLeftDemo } from "@/registry/demos/since-you-left.demo";
+import { SenderStacksDemo } from "@/registry/demos/sender-stacks.demo";
+import { MovingDayDemo } from "@/registry/demos/moving-day.demo";
+import { ExportRecipeDemo } from "@/registry/demos/export-recipe.demo";
+import { ErrandToastsDemo } from "@/registry/demos/errand-toasts.demo";
+import { NamePlateDemo } from "@/registry/demos/name-plate.demo";
+import { ShortcutDrillsDemo } from "@/registry/demos/shortcut-drills.demo";
+import { LastSlotDemo } from "@/registry/demos/last-slot.demo";
+import { TrialRecapDemo } from "@/registry/demos/trial-recap.demo";
+import { TeaserLensDemo } from "@/registry/demos/teaser-lens.demo";
+import { GoalWeaveDemo } from "@/registry/demos/goal-weave.demo";
 /**
  * slug → live preview component. Every catalog item registers its demo here;
  * the docs template renders it inside a SpecimenPlate.
@@ -3764,4 +3775,15 @@ export const demos: Record<string, ComponentType> = {
   "role-tailor": RoleTailorDemo,
   "ack-ladder": AckLadderDemo,
   "wayfinding-dots": WayfindingDotsDemo,
+  "since-you-left": SinceYouLeftDemo,
+  "sender-stacks": SenderStacksDemo,
+  "moving-day": MovingDayDemo,
+  "export-recipe": ExportRecipeDemo,
+  "errand-toasts": ErrandToastsDemo,
+  "name-plate": NamePlateDemo,
+  "shortcut-drills": ShortcutDrillsDemo,
+  "last-slot": LastSlotDemo,
+  "trial-recap": TrialRecapDemo,
+  "teaser-lens": TeaserLensDemo,
+  "goal-weave": GoalWeaveDemo,
 };
