@@ -1894,6 +1894,17 @@ import { InboxWaitDemo } from "@/registry/demos/inbox-wait.demo";
 import { AddOnTrayDemo } from "@/registry/demos/add-on-tray.demo";
 import { PauseInsteadDemo } from "@/registry/demos/pause-instead.demo";
 import { ResetMatchDemo } from "@/registry/demos/reset-match.demo";
+import { RecoveryRouteDemo } from "@/registry/demos/recovery-route.demo";
+import { UpgradeRequestDemo } from "@/registry/demos/upgrade-request.demo";
+import { StepUpCheckDemo } from "@/registry/demos/step-up-check.demo";
+import { OrgDiscoveryDemo } from "@/registry/demos/org-discovery.demo";
+import { SessionLapseDemo } from "@/registry/demos/session-lapse.demo";
+import { SpareKeysDemo } from "@/registry/demos/spare-keys.demo";
+import { AuthenticatorPairDemo } from "@/registry/demos/authenticator-pair.demo";
+import { CoolingLockDemo } from "@/registry/demos/cooling-lock.demo";
+import { NumberMatchDemo } from "@/registry/demos/number-match.demo";
+import { ScreenPairingDemo } from "@/registry/demos/screen-pairing.demo";
+import { InviteAcceptDemo } from "@/registry/demos/invite-accept.demo";
 /**
  * slug → live preview component. Every catalog item registers its demo here;
  * the docs template renders it inside a SpecimenPlate.
@@ -3800,4 +3811,15 @@ export const demos: Record<string, ComponentType> = {
   "add-on-tray": AddOnTrayDemo,
   "pause-instead": PauseInsteadDemo,
   "reset-match": ResetMatchDemo,
+  "recovery-route": RecoveryRouteDemo,
+  "upgrade-request": UpgradeRequestDemo,
+  "step-up-check": StepUpCheckDemo,
+  "org-discovery": OrgDiscoveryDemo,
+  "session-lapse": SessionLapseDemo,
+  "spare-keys": SpareKeysDemo,
+  "authenticator-pair": AuthenticatorPairDemo,
+  "cooling-lock": CoolingLockDemo,
+  "number-match": NumberMatchDemo,
+  "screen-pairing": ScreenPairingDemo,
+  "invite-accept": InviteAcceptDemo,
 };

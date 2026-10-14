@@ -38918,6 +38918,43 @@ Notes:
 - Each change is announced in words with its consequence: the credits and price picked with the balance and days they would give, the threshold and cap when they settle, and the amount being added when the button is pressed.
 - From a 40rem container the gauge takes a left column that fills the height while the refill, auto-refill and usage scroll on the right; below it the gauge sits beside the figures and stays pinned at the top while the rest scrolls under it. The liquid, the ghost band and the mark are mixed from the accent and warn tokens so they read in light and dark.
 
+### Upgrade Request (KQ-1705) — `upgrade-request`
+Ask an admin, then watch the request land.
+
+A request-an-upgrade flow for a member without billing rights: the feature they tried to use heads the surface with what it unlocks, below it a short form (which admin, how urgent, a note) and beside it the earlier asks. Sending stamps the request onto a status rail as the Sent node lands on springs.recoil; each stage the host advances draws the line to the next node on springs.glide, fills it on springs.snap and draws its check on springs.flick. Approval turns the feature card's lock over on springs.snap and pops an Unlocked badge on springs.recoil while each unlock ticks in a cascade; a decline paints the last node red, shows the admin's note and offers Retry later, which brings the form back and files the request with the rest on springs.glide. The admin picker is a horizontal listbox with one tab stop, the urgency chips a radio group, the note a native textarea where Ctrl+Enter sends, and the rail a list whose pending step is aria-current.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/upgrade-request`
+
+Props:
+- `railStyle`: "rail" | "steps" (default "rail") — How the stages are drawn: nodes along one horizontal rail, or stacked steps with their times and what happened.
+- `density`: "compact" | "cozy" | "roomy" (default "cozy") — Padding, type size, chip and row heights.
+- `accent`: "cobalt" | "signal" | "ink" (default "cobalt") — The colour reached stages, the chosen admin and the unlocked card take.
+- `feature`: UpgradeFeature (default defaultUpgradeFeature) — The feature the member tried to use: its name, plan, summary and what approval unlocks.
+- `admins`: UpgradeAdmin[] (default defaultUpgradeAdmins) — Who can approve, in picker order. Empty reads as no one to ask, with a Contact support button.
+- `requests / defaultRequests`: UpgradeRequestRecord[] (default defaultUpgradeRequests) — The requests on file. The newest one for this feature fills the rail; the host advances it by changing its stage (advanceUpgradeRequest helps). Controlled or initial.
+- `onRequestsChange`: (requests: UpgradeRequestRecord[]) => void — Fires with every request, newest first, after one is sent.
+- `onSend`: (request: UpgradeRequestRecord) => void — Send was pressed; the request is already on the rail.
+- `value / defaultValue`: UpgradeDraft (default defaultUpgradeDraft) — The draft in the form: the admin, urgency and note. Controlled or initial.
+- `onChange`: (value: UpgradeDraft) => void — Fires from every change to the draft.
+- `onRetryLater`: (request: UpgradeRequestRecord) => void — Retry later was pressed on a declined request; the form is back with its note.
+- `onOpenFeature`: (feature: UpgradeFeature) => void — Open was pressed on the unlocked feature.
+- `onContactSupport`: () => void — Contact support was pressed, when there is no admin to ask.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the admins have arrived: skeleton chips while loading, a retry when they failed.
+- `onRetry`: () => void — Try again was pressed after a failed load.
+- `now`: number (default defaultUpgradeNow) — The moment ages count from and a sent request is stamped with, in ms; never read from the clock.
+- `title`: string (default "Request an upgrade") — The heading.
+- `label`: string (default the title) — The surface's accessible name.
+- `height`: number (default 540) — Height in px; the columns scroll inside it.
+- `disabled`: boolean (default false) — Read only: nothing can be chosen or sent.
+- `className`: string — Classes for the surface.
+
+Notes:
+- Keyboard: the admin picker is a horizontal listbox with one tab stop (arrows move and choose, Home/End), the urgency chips are a radio group (arrows move and check), the note is a native textarea where Ctrl+Enter or Cmd+Enter sends, and Send submits the form. After a send focus lands on the rail; after Retry later it returns to the chosen admin.
+- Reduced motion: nothing lands, draws or turns. Node fills, rail lines and the lock cross-fade or appear in place, the Unlocked badge fades in, and every stage, badge and list row is still reached.
+- The host advances a request by passing requests back with a later stage (advanceUpgradeRequest stamps the time); the rail reads the newest request for this feature and animates only the stage that changed. Nothing runs once a stage has settled.
+- Each change is announced once in words: the admin chosen, the urgency, the send, each stage the host advances, the decision with the admin's note, and the form returning.
+- From a 40rem container the form or rail and the past requests share one row with the list in a 15rem column; below it they stack and the whole body scrolls. Full admin names and urgency hints appear from 34rem and 30rem. Accent, success and danger colours come from the tokens, and the avatars take their hue from the accent, so both themes read.
+
 ### Passkey Enrol (KQ-1706) — `passkey-enrol`
 Create a passkey, watch it land, try it out.
 
@@ -39035,6 +39072,397 @@ Notes:
 - Nothing runs once settled: the Opening bar is one tween the length of openDelay and a single timer, there is no animation loop, and every timer is cleared on unmount or when Escape returns to the lobby. Ages come from the now prop, never the clock, so renders are deterministic.
 - Each change is announced once in words: opening, ready (with whether it will be remembered), joined, declined, the switch, and the return to the lobby. The chosen door carries aria-selected and the surface is aria-busy while a workspace opens.
 - Doors wrap in an auto-fill grid whose column floor follows density; from a 52rem container the side table stands to the right of the doors, below that it sits under them with envelopes two across from 40rem. Each hue is a fixed-lightness pigment derived from a status token, so glimpses read in light and dark.
+
+### Org Discovery (KQ-1709) — `org-discovery`
+Type a work email; your team's card rises to meet it.
+
+The sign-up step that finds the person's organisation from their work email. Finish the address and, after a short pause, a discovery card rises beneath the field on springs.glide: the organisation's mark draws itself (its outline on springs.flick, the initial landing on springs.recoil), the teammate count rolls up from zero on springs.snap and the teammates' avatars drift into an overlapping strip on springs.drift in a cascade. A personal address offers to create a new organisation and the name field unfolds on glide, an unknown domain offers an invite request or a new organisation, and another address sends the card away on the exit ease before the next one rises. The ways in are one radio group whose chosen outline slides between them on snap; sending a request swaps them for an approval rail whose fill climbs on glide as each step lands, and SSO shows a mock redirect whose bar fills on drift. The field is a native form, arrows move and choose in the group, Enter goes, and every change is announced.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/org-discovery`
+
+Props:
+- `cardStyle`: "card" | "inline" (default "card") — How the discovery sits under the field: a raised card with an accent edge, or a section that unfolds inline under a hairline.
+- `density`: "compact" | "cozy" | "roomy" (default "cozy") — Padding, type size, field and row heights, mark and avatar sizes.
+- `accent`: "cobalt" | "signal" | "ink" (default "cobalt") — The colour the mark, the SSO badge, the rail and the chosen option take.
+- `lookup`: (domain: string) => OrgLookupResult | Promise<OrgLookupResult> (default defaultOrgLookup) — Resolves a work domain to a found organisation, a personal address or nothing; a rejection reads as a failed lookup with Try again. createOrgLookup builds one from a directory with a delay.
+- `value / defaultValue`: string (default "") — The email in the field. Controlled or initial.
+- `onChange`: (email: string) => void — Fires on every keystroke in the email field.
+- `onDiscover`: (result: OrgLookupResult, domain: string) => void — A lookup came back, with what it found and the domain it looked up.
+- `onJoin`: (request: OrgJoinRequest) => void — A join request was sent or single sign-on was chosen, with the email, domain and the organisation found (null for an unknown domain).
+- `onCreate`: (request: OrgCreateRequest) => void — Create organisation was pressed, with the name, the email and the work domain it claims (null from a personal address).
+- `approval`: "pending" | "approved" | "declined" (default "pending") — Where a sent join request stands; the host moves it on and the rail lands or fails accordingly.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the step itself is ready: a skeleton in the card's place while loading, a retry when it failed.
+- `onRetry`: () => void — Try again was pressed after a failed load or a failed lookup; a failed lookup is also run again.
+- `title`: string (default "Find your organisation") — The heading.
+- `eyebrow`: string (default "Gaugeworks · Step 2 of 3") — The small line above the heading; empty hides it.
+- `hint`: string (default defaultOrgHint) — Shown under the prompt before an address is typed; empty hides it.
+- `label`: string (default the title) — The surface's accessible name.
+- `height`: number (default 540) — Height in px; the card scrolls inside it.
+- `disabled`: boolean (default false) — Read only: the field and every button are inert.
+- `className`: string — Classes for the surface.
+
+Notes:
+- Keyboard: the email field is a native form, so Enter looks the address up at once instead of waiting for the pause, and Enter on a card already found moves focus into its options. The ways in are one radio group with a single tab stop: Up/Down (or Left/Right) move and choose, Home/End jump, Space chooses, Enter chooses and goes. In the organisation name box Enter creates and Escape returns to the options; Change in the field, Cancel request and Start over all return to choosing.
+- Reduced motion: nothing rises, rolls, drifts or slides; cards and panels cross-fade in place, the count and the avatars appear, the chosen outline jumps, the rail fills at once and the SSO bar sits at half until it completes. Every lookup, choice, request and landing is still reached and announced.
+- A typed address is looked up 380 ms after typing pauses, and only once per domain; a stale answer is dropped when another lookup has started since. The default lookup answers from a seeded directory after 700 ms. The only continuous motion is the active rail dot's breathing, which stops while the surface is off screen (one IntersectionObserver) or the tab is hidden; the pretend admin notification and SSO round trip are single timers, cleared on unmount.
+- Each lookup is announced once with what it found (name, teammate count and SSO), each choice by name, each request with who is notified, and approval, decline, an SSO landing and a created organisation each in words. The avatar strip is one image named for the teammates it shows.
+- From a 36rem container the card runs in two columns, the organisation on the left and the options or rail on the right; below it they stack with the options full width. The accent is a token (cobalt, signal or ink) mixed into a wash and an edge, and the teammates' avatars are fixed-lightness oklch pigments, so light and dark both read.
+
+### Recovery Route (KQ-1710) — `recovery-route`
+Account recovery as a route map with a travelling marker.
+
+An account recovery flow drawn as a route: four stops in a line (Identify, Verify, Reset, Done) with a marker that travels between them. When a step completes, a tick draws on springs.flick at the stop just passed and the marker glides on to the next on springs.glide while the finished panel eases out and the next slides in from the direction of travel. Verify lays the ways in as cards with their cost in time and a Most secure badge; picking one slides a code field in on glide, and a way that turns out closed (the seeded text message, its number no longer valid) sends the marker out along a detour branch and back, strikes the card and leaves the branch drawn. Reset fills a strength meter on glide and ticks the confirm field on flick when it matches; Done lands a stamp on springs.recoil beside a sign-out switch that snaps. Keyboard is native: fields and buttons tab in order, the cards are a radio group and the stops already passed are links that go back.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/recovery-route`
+
+Props:
+- `mapStyle`: "line" | "rail" | "dots" (default "line") — How the route is drawn: a hairline with a travelling dot, a filled rail with numbered stops, or bare dots with a ring.
+- `density`: "compact" | "cozy" | "roomy" (default "cozy") — Padding, card height and type size.
+- `accent`: "cobalt" | "signal" | "amber" | "graphite" (default "cobalt") — The colour the route, the marker and the chosen card are drawn in.
+- `methods`: RecoveryMethod[] (default defaultRecoveryMethods) — The ways to verify, in card order: kind, masked detail, cost in seconds, code length (0 for an approval) and the Most secure badge.
+- `value / defaultValue`: RecoveryValue (default defaultRecoveryValue) — The step, the account given, the chosen method, the methods that hit a dead end and the sign-out switch. Controlled or initial.
+- `onChange`: (value: RecoveryValue, change: RecoveryChange) => void — Fires after every move along the route, with the whole state and what changed.
+- `lookup`: (account: string) => Promise<RecoveryVerdict> (default defaultRecoveryLookup) — Finds the account for Identify. The default finds anything three characters or more after a short pause.
+- `verify`: (method: RecoveryMethod, code: string | null) => Promise<RecoveryVerdict> (default defaultRecoveryVerify) — Called with null when a method is picked (send the code, or ask the device) and again with the code typed. A verdict with deadEnd closes the way for good; the default simulator closes the SMS path.
+- `onReset`: (password: string, value: RecoveryValue) => Promise<void> | void — The new password was submitted at Reset; awaited when it returns a promise, with Saving shown meanwhile.
+- `onFinish`: (value: RecoveryValue) => void — Continue to sign in was pressed at Done.
+- `otherDevices`: number (default 3) — How many other devices are signed in, for the Done switch.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the methods have arrived: a skeleton map and cards while loading, a retry when they failed.
+- `onRetry`: () => void — Try again was pressed after a failed load.
+- `title`: string (default "Recover your account") — The heading.
+- `product`: string (default "Basinworks") — The product named in the eyebrow and the copy.
+- `label`: string (default the title) — The surface's accessible name.
+- `height`: number (default 540) — Height of the surface in px; the step scrolls inside it.
+- `disabled`: boolean (default false) — Read only: nothing can be typed, picked or submitted.
+- `className`: string — Classes for the surface.
+
+Notes:
+- Keyboard: everything is native. Fields and buttons tab in order and Enter submits each step; the verification cards are one radio group (Left/Right or Up/Down move and pick, Home/End, Space picks); stops already passed are links that go back, which clears the code and, back at Identify, the chosen method. Done cannot be left by the map once the password has changed.
+- Reduced motion: the marker, the panels and the detour branch appear in place with cross-fades, the strength meter and the code field cross-fade instead of filling or sliding, and the ticks appear at once. Every step is still reached and announced.
+- Nothing runs once settled: the only continuous motion is the spinner during a lookup, send, check or save, and it stops with the promise. Results from a request the user walked away from (back, start over, unmount) are dropped by sequence number, so a late verdict never moves the route.
+- Each move is announced once in words (Account found, Step 2 of 4, Verify; Text message is a dead end: number no longer valid), the region is aria-busy while a request is in flight, field errors are alerts tied to their field, and the strength meter is a meter with its word as the value text.
+- Below a 24rem container the stop labels shorten to two letters and the step name leaves the header; from 28rem the Most secure badge spells out; from 36rem the cards sit in two columns. The route, the marker and the chosen card take the accent through CSS variables, so every style reads in light and dark.
+
+### Spare Keys (KQ-1711) — `spare-keys`
+Ten recovery codes on a ring, covered until saved.
+
+A recovery-codes screen that draws its ten codes as keys on a ring: a tall list of mono codes hanging from one rail, hidden on first view under a cover that asks the reader to save them before they go. Reveal slides the cover off on springs.glide (or fades it over codes that sharpen from a blur) and the codes unspool one by one on springs.snap with a quick cascade; Copy all, Download and Print tick on springs.flick when they land. A code the host marks used is struck through on springs.flick, dims and gains a used tag while the remaining count rolls, an amber note suggests regenerating when two are left, and Regenerate asks first in a dialog on springs.snap before the old keys drop off the ring on the exit ease and a new set unspools. An I've saved them checkbox gates Done, which lands an All set stamp on springs.recoil. The ring is a listbox where Up/Down move and Enter copies one code, the save actions are one toolbar, and the confirm traps Tab.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/spare-keys`
+
+Props:
+- `coverStyle`: "slide" | "blur" | "none" (default "slide") — How the codes are hidden on first view: an opaque cover that slides away, a translucent one over blurred codes, or none.
+- `grouping`: "pairs" | "whole" (default "pairs") — How each code is written: split into its two halves with a gap, or as one run.
+- `density`: "compact" | "cozy" | "roomy" (default "cozy") — Row heights and type size.
+- `codes / defaultCodes`: SpareKey[] (default defaultSpareKeys) — The codes on the ring, each an id and an eight-character code. Controlled or initial.
+- `onCodesChange`: (codes: SpareKey[]) => void — Regenerate finished: the new codes have replaced the old ones.
+- `used / defaultUsed`: string[] (default defaultSpareUsed) — Ids of the codes already used; add one and its row is struck through and the count rolls. Controlled or initial.
+- `onChange`: (used: string[], change: SpareKeysChange) => void — Fires when the surface changes the used set itself: it empties on regenerate.
+- `revealed / defaultRevealed`: boolean (default false) — Whether the cover has been lifted. Controlled or initial.
+- `onReveal`: () => void — Reveal was pressed.
+- `onRegenerate`: () => Promise<SpareKey[]> (default a simulator) — Makes the new codes after the confirm; reject to fail it and the note offers Retry. Without one, a simulator waits regenerateDelay and cuts ten seeded codes.
+- `regenerateDelay`: number (default 900) — How long the built-in simulator takes, in ms.
+- `onCopy`: (text: string) => void — Copies text (all codes, or one row's). Without one, the clipboard is written directly.
+- `onDownload`: (text: string, filename: string) => void — Saves the codes as a text file. Without one, the surface only pretends: the button ticks and the status says the file was saved.
+- `onPrint`: (text: string) => void — Prints the codes. Without one, the surface only pretends.
+- `onDone`: (summary: { remaining: number; total: number }) => void — Done was pressed, which the I've saved them checkbox gates.
+- `lowAt`: number (default 2) — Remaining count at or below which the amber note suggests regenerating; at zero it turns red.
+- `product`: string (default "Coldbrook") — The product the codes belong to; it names the text file and the cover's line.
+- `account`: string (default "mara.lind") — The account they sign into, under the heading.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the codes have arrived: skeleton rows while loading, a retry when they failed to generate.
+- `onRetry`: () => void — Try again was pressed after a failed load.
+- `title`: string (default "Recovery codes") — The heading.
+- `label`: string (default the title) — The surface's accessible name.
+- `height`: number (default 560) — Height of the surface in px; the ring scrolls inside it.
+- `disabled`: boolean (default false) — Read only: nothing can be revealed, copied, regenerated or marked.
+- `className`: string — Classes for the surface.
+
+Notes:
+- Keyboard: Reveal is a button and, until it is pressed, the ring beneath the cover is inert. The ring is a listbox with one tab stop: Up/Down (or Left/Right in two columns) and Home/End move between codes and Enter or Space copies the focused one. Copy all, Download and Print are one toolbar (arrows, Home/End); Regenerate opens a modal dialog that takes focus on Keep these, traps Tab between its two buttons, closes on Escape and hands focus back. I've saved them is a checkbox button Space toggles, and Done is a button that stays inert until it is checked.
+- Reduced motion: the cover cross-fades instead of sliding, the codes appear at once without the cascade or the blur sharpening, the strike, ticks and All set stamp land without drawing or bouncing, the old keys fade rather than drop, and the note and dialog cross-fade. Every reveal, copy, save, use, regenerate and Done is still announced.
+- There is no continuous work: the only timers are the 1.4s ticks on the action buttons and copied rows, the simulator's one delay, and they are cleared on unmount. A regenerate that resolves after unmount, or after a newer one began, is ignored. Without onDownload or onPrint the surface pretends, so a demo never spawns a file dialog.
+- Each change is announced once in words with the count that matters: a used code by its number with how many are left, a copy by its scope, a regenerate when it starts and again with the new count. The row's accessible name spells its code character by character so a screen reader does not read it as a word.
+- Under an 18rem container the toolbar shows icons only and the count drops its word; from 40rem the ring sits in two columns of five and the confirm centres instead of rising from the bottom. The amber and red notes, the green ticks and the All set stamp are washed from the status tokens, so light and dark both read.
+
+### Authenticator Pair (KQ-1712) — `authenticator-pair`
+Scan the code, type six digits, land the Paired card.
+
+Two steps on one card for pairing an authenticator app: a pairing code drawn as a decorative grid seeded from the secret (not a real QR) that draws in row by row, and six cells for the code the app answers with. Can't scan? turns the card over on springs.snap to the key in groups of four with a Copy that ticks on springs.flick; a timer ring drains over the period and refills on springs.snap when the code rolls over, sleeping when the tab is hidden or the surface is off screen. The sixth digit checks itself: a right code ticks every cell on springs.flick and lands a Paired card on springs.recoil with the device and the date, a wrong one shakes the row, counts the attempt and clears, and the last attempt offers Start over. The cells are a group of textboxes with one tab stop, a pasted code fills them in a cascade, Backspace steps back and Escape clears.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/authenticator-pair`
+
+Props:
+- `codeStyle`: "grid" | "dots" | "bars" (default "grid") — How the pairing code is drawn: square modules, dots, or runs joined into bars.
+- `ringStyle`: "ring" | "arc" | "bar" (default "ring") — The timer: a full ring, an open arc with the seconds inside, or a bar under the cells.
+- `density`: "compact" | "cozy" | "roomy" (default "cozy") — Cell size, type size and padding.
+- `secret`: AuthenticatorSecret (default defaultAuthenticatorSecret) — The secret the authenticator is given: its key, issuer and account. An empty key reads as nothing to pair.
+- `value / defaultValue`: string (default "") — The digits entered so far, up to six. Controlled or initial.
+- `onChange`: (code: string) => void — Fires with the digits entered so far, on every keystroke, paste or clear.
+- `verify`: (code: string, context: AuthenticatorVerifyContext) => Promise<boolean> (default defaultAuthenticatorVerify) — Checks a six-digit code; the context carries the expected and previous codes, the period counter and the attempt. The default takes the current or previous code after a short round trip.
+- `onPaired`: (pairing: AuthenticatorPairing) => void — A code was accepted and the Paired card has landed, with the device, the moment and how many codes it took.
+- `onReject`: (attempt: number, code: string) => void — A code was refused, with the attempt it used up.
+- `onStartOver`: () => void — Start over was pressed after the last attempt.
+- `onCopy`: (key: string) => void — The key was copied from the back of the card.
+- `period`: number (default 30) — How long each code lives, in seconds.
+- `maxAttempts`: number (default 3) — Wrong codes allowed before Start over is offered.
+- `now`: number (default defaultAuthenticatorNow) — The moment the clock starts from, in ms; it runs on from there while the surface is on screen, so the server and the first client render agree.
+- `deviceName`: string (default "Mara's phone") — What the authenticator is called on the Paired card.
+- `simulator`: boolean (default true) — Show the "pretend your app shows" status card with the current seeded code and a Use it button, for demos and docs.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the secret has been generated: a skeleton code and cells while loading, a retry when it failed.
+- `onRetry`: () => void — Try again was pressed after a failed load.
+- `title`: string (default "Pair an authenticator") — The heading.
+- `label`: string (default the title) — The surface's accessible name.
+- `height`: number (default 520) — Height of the surface in px; its body scrolls inside it.
+- `disabled`: boolean (default false) — Read only: nothing can be typed, flipped or copied.
+- `className`: string — Classes for the surface.
+
+Notes:
+- Keyboard: the six cells are one group with a single tab stop on the next empty cell. A digit fills the cell and moves on, Backspace steps back (or clears the cell it is in), Delete clears a cell, Left/Right and Home/End move, Escape clears the whole code, and a paste anywhere fills every cell. The flip is a button with aria-pressed; Copy, Use it, Start over and Try again are ordinary buttons.
+- Reduced motion: the card cross-fades instead of turning, the code appears whole, digits appear in place without the cascade, nothing shakes, the ring refills at once and the Paired card fades in. Every phase is still reached and announced.
+- The clock runs on `now` from mount on one 250ms interval and sleeps when the tab is hidden or an IntersectionObserver reports the surface off screen; it stops for good once paired. The pairing code is a seeded pattern, memoised per key, and is not scannable.
+- Each change is announced once: digits entered, checking, a wrong code with the attempts left, the lock, the pairing with the device and date, and a copied key. The pretend-app card is a status region, so a refreshed code is read out when it rolls over.
+- From a 40rem container the two steps sit side by side; below it they stack and the body scrolls inside the given height. The issuer and account show in the header from 30rem. Cell, ring and card colours come from the accent, success, warn and danger tokens so they read in light and dark.
+
+### Step-Up Check (KQ-1713) — `step-up-check`
+Confirm it's you before the frost lifts.
+
+An interstitial that stands between a person and something sensitive: the protected panel waits behind a frosted layer with a lock badge, and a card on the frost says why and offers the ways to confirm as one radio group. Choosing a method slides its control in on springs.snap: the passkey button runs a ceremony whose fingerprint ring fills most of the way on springs.glide and completes on springs.flick when the device answers, the code field is six cells that advance as digits land and take a paste in one cascade, and a wrong code shakes them a little. Confirmed, the card leaves on the exit ease, the frost lifts from the top down on springs.glide (or from the middle outward, or cross-fades), the badge flips on springs.snap to a tick drawn on springs.flick, and a verified-for chip lands in the header on springs.recoil and counts down until the host locks again or the time lapses. The methods are a radio group with one tab stop, the cells are a group of textboxes, Escape cancels, and every change is announced.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/step-up-check`
+
+Props:
+- `frost`: number (default 6) — How far the frost blurs what it covers, in px.
+- `reveal`: "down" | "centre" | "fade" (default "down") — How the frost lifts once the person is confirmed: from the top down, from the middle outward, or a cross-fade.
+- `density`: "compact" | "cozy" | "roomy" (default "cozy") — Padding, type size and row heights.
+- `methods`: StepUpMethod[] (default defaultStepUpMethods) — The ways the person can confirm, in the order they are offered: a passkey, a code from an app, a code by text.
+- `method / defaultMethod`: string (default the first method) — The chosen method, by id. Controlled or initial.
+- `onMethodChange`: (method: StepUpMethod) => void — A different method was chosen.
+- `verify`: (method: StepUpMethod, code?: string) => Promise<StepUpResult> (default defaultStepUpVerify) — Checks a passkey ceremony or a six-digit code. The default accepts any passkey and the code defaultStepUpCode.
+- `sendCode`: (method: StepUpMethod) => Promise<void> (default defaultStepUpSend) — Sends the text-message code; the default pretends to.
+- `verifiedUntil / defaultVerifiedUntil`: number | null (default null) — The time the confirmation lasts until, in ms; null is locked. Controlled or initial.
+- `onChange`: (verifiedUntil: number | null, method: StepUpMethod | null) => void — Fires when the person is confirmed, with the time it lasts until and the method, and again with null when it lapses or is locked.
+- `onCancel`: () => void — Cancel was pressed: the host returns to the previous screen.
+- `verifiedFor`: number (default 15) — How long a confirmation lasts, in minutes.
+- `now`: number (default the surface's own clock) — The clock the countdown reads, in ms. Left out, the surface ticks its own once a second while confirmed and on screen.
+- `children`: ReactNode (default a bank-details panel built from defaultStepUpDetails) — The protected panel behind the frost.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the methods have arrived: a skeleton card while loading, a retry when the code could not be sent.
+- `onRetry`: () => void — Try again was pressed after a failed send or load.
+- `title`: string (default "Bank details") — The heading over the protected panel.
+- `eyebrow`: string (default "Gaugeworks Pay") — The product line under the heading.
+- `reason`: string (default "To view bank details, confirm it's you.") — Why the check is asked for.
+- `label`: string (default the title) — The surface's accessible name.
+- `height`: number (default 540) — Height in px; the panel scrolls inside it.
+- `disabled`: boolean (default false) — Read only: nothing can be chosen or confirmed.
+- `className`: string — Classes for the surface.
+
+Notes:
+- Keyboard: the methods are a radio group with one tab stop (Up/Down or Left/Right choose as they move, Home/End jump). The passkey control is a button; the code cells are a group of textboxes where a digit advances, Backspace clears and steps back, Left/Right and Home/End move, and a paste fills every cell. Escape anywhere in the card cancels. Once confirmed, focus lands on Lock now beside the countdown, and locking again returns it to the chosen method.
+- Reduced motion: the frost and the lock badge cross-fade instead of lifting and flipping, the card and the chip fade in place, the ring jumps to its fill and the cells do not shake. Every method, failure, confirmation, lapse and lock is still reached and announced.
+- Nothing runs while locked. Once confirmed, one interval ticks the countdown each second, and only while the tab is visible and an IntersectionObserver says the surface is on screen; pass now to drive the clock yourself and no interval is made, the surface reads a lapse from your clock and leaves onChange to you. The panel is in the DOM behind the frost, inert and hidden from assistive technology; if its values must not reach the page before confirmation, pass children only once onChange reports a time.
+- Each change is announced once in words: the method chosen with its detail, the code being checked, a mismatch with whether another way is suggested, the confirmation with its method and duration, one minute left, and a lock or lapse with the reason. A verification that resolves after another method was chosen, or after unmount, is ignored.
+- From a 36rem container the card sits centred over the panel; below it the card rests at the top and scrolls inside the surface. From 30rem a method's detail sits beside its label, from 32rem the details panel runs in two columns, and under 28rem the chip keeps only its time. The frost tints from the surface token and the badge, chip and cells take the success, accent and danger tokens, so light and dark both read.
+
+### Session Lapse (KQ-1714) — `session-lapse`
+The last two minutes of a session, with a way to stay.
+
+A session-expiry warning on a card the size of a notice: a ring drains one linear second at a time around the time left (or a bar under it, or the digits alone), turns amber under a minute and red under ten seconds, where the number flips each second on springs.snap. Stay signed in refills the ring on springs.glide and lands a tick on springs.recoil as the check draws on springs.flick; Sign out now, or the clock reaching zero, turns the card over on springs.snap to a signed-out face that counts the drafts kept and offers Sign in again. Warn me earlier widens the window and the ring re-scales to it. The clock ticks only while the tab is visible and the card is on screen, catching up what passed when it resumes; the countdown is a timer that speaks at one minute and ten seconds, and every control is a button.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/session-lapse`
+
+Props:
+- `ringStyle`: "ring" | "bar" | "digits" (default "ring") — How the time left is drawn: a draining ring around the number, a bar under it, or the digits alone.
+- `warnSeconds`: number (default 120) — The warning window in seconds: the ring is full this long before the session ends.
+- `accent`: "cobalt" | "signal" | "ink" (default "cobalt") — The ring's colour while more than a minute is left; under a minute it turns amber, under ten seconds red.
+- `expiresAt`: number (default defaultLapseExpiresAt) — When the session ends, in ms.
+- `now`: number (default defaultLapseNow) — The moment the surface counts from, in ms; it is never read from the clock, and a new value re-anchors the count.
+- `earlierSeconds`: number (default 60) — How much "Warn me earlier" adds to the window, in seconds.
+- `earlier / defaultEarlier`: boolean (default false) — Whether the wider window is on. Controlled or initial.
+- `onEarlierChange`: (earlier: boolean) => void — Warn me earlier was pressed, or pressed again to undo it.
+- `state / defaultState`: "active" | "signed-out" (default "active") — The session state. Controlled or initial.
+- `onStateChange`: (state: LapseState, change: LapseChange) => void — Fires when the clock runs out, Sign out now is pressed, or Sign in again is pressed, with what moved it.
+- `onExtend`: () => Promise<void> | void (default defaultLapseExtend) — Stay signed in was pressed: resolve to extend the session, reject to fail it. The default resolves after a short wait.
+- `onExtended`: (expiresAt: number) => void — The session was extended; the new end, in ms.
+- `onSignOut`: () => void — Sign out now was pressed. The card has already turned.
+- `onSignIn`: () => void — Sign in again was pressed from the signed-out face.
+- `onExpire`: () => void — The clock reached zero.
+- `drafts`: number (default 2) — Unsaved drafts the product kept, counted in the footer and on the signed-out face.
+- `status`: "ready" | "loading" | "error" (default "ready") — The extend call as the host sees it: a wait on the button while loading, a note with Retry when it failed.
+- `onRetry`: () => void — Try again was pressed after a failed extend.
+- `product`: string (default "Basinworks") — The product whose session this is.
+- `title`: string (default "Still there?") — The heading while the session is active.
+- `label`: string (default the title) — The surface's accessible name.
+- `height`: number (default 320) — Height of the card in px.
+- `disabled`: boolean (default false) — Read only: nothing can be extended, signed out or changed.
+- `className`: string — Classes for the surface.
+
+Notes:
+- Keyboard: Stay signed in, Sign out now and Sign in again are buttons in tab order; Warn me earlier is a button with aria-pressed, and Retry appears beside the failure note. Space or Enter presses each; the card's faces swap focusable controls so nothing hidden can be reached.
+- Reduced motion: the ring and bar step to each second instead of draining, the digits cross-fade instead of flipping, the card cross-fades instead of turning, and the tick and lock appear in place. Every state is still reached and announced.
+- The clock is expiresAt against now plus the time the card has been awake: one 200 ms interval reads it, the card re-renders only when the displayed second changes, and the interval stops when the tab is hidden, the card leaves the viewport, or the clock reaches zero. The first tick after a pause catches up, so a card hidden past its end returns signed out.
+- The countdown is role=timer with aria-live off and its time in words; a separate status announces One minute left, Ten seconds left, Session extended, Signed out and the window change. A note under the timer is polite live text for the extend result.
+- Built for a one-column card: the ring sits beside the text from any width, Sign out now shortens to Sign out below a 22rem container, and the bar and digits styles grow their numerals from 24rem. Colours come from the accent, warn, danger and success tokens so the card reads in light and dark.
+
+### Invite Accept (KQ-1715) — `invite-accept`
+Accept a team invite and watch yourself join the strip.
+
+The card an invitation opens to: who asked and where on one side, with the workspace mark, its members drifting into a strip on springs.drift in a cascade, the role, the inviter's note and a chip counting down to expiry, and on the other the account path for the address it was sent to, a short sign-up with a strength meter, Sign in to accept, a plain Accept when already signed in, or Switch account when signed in as someone else. Accept runs a progress line and, when the join resolves, the invitee's own avatar glides out of the form into the end of the strip on springs.glide and lands with a ring on springs.recoil, the role badge stamps on the same spring, and Continue to workspace appears and takes focus; a rejected join shows why with Retry. Decline asks for a reason and fades the invite, and an expired or declined invite offers Request a new invite. The form is native, the reasons are radios and the strip is a list.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/invite-accept`
+
+Props:
+- `cardStyle`: "card" | "letter" (default "card") — The invite's finish: a plain card, or a letter with the note set in serif and the role as a round stamp.
+- `density`: "compact" | "cozy" | "roomy" (default "cozy") — Padding, field heights, avatar and type size.
+- `accent`: "cobalt" | "workspace" | "ink" (default "cobalt") — The colour of the accept button, the role badge and the links: the cobalt token, the workspace mark's own hue, or ink.
+- `invite`: Invite | null (default defaultInvite) — The inviter, workspace, members, role, address, note and expiry; null reads no invite found.
+- `account`: InviteAccount (default defaultInviteAccount) — Where the invitee stands: "new" (sign up), "existing" (sign in), "signed-in", or "other" with who is signed in.
+- `value / defaultValue`: InviteForm (default defaultInviteForm) — The email, name and password; the email is pre-filled from the invite when empty. Controlled or initial.
+- `onChange`: (form: InviteForm, change: InviteChange) => void — Fires from every keystroke that changed a field, with all three values.
+- `onAccept`: (context: InviteAcceptContext) => Promise<void> (default a simulator) — Joins the workspace; resolve to land, reject to fail with Retry. The built-in simulator waits acceptDelay and fails while acceptFails.
+- `acceptFails`: boolean (default false) — The built-in simulator rejects while this is true.
+- `acceptDelay`: number (default 1400) — How long the built-in simulator takes, in ms.
+- `onAccepted`: (invite: Invite) => void — The join landed: the invitee is in the strip.
+- `onAcceptError`: (error: unknown) => void — The join was rejected; the card shows Retry.
+- `onDecline`: (invite: Invite, reason: InviteDeclineReason, note: string) => void — The invite was declined with a reason, and a note when one was typed.
+- `onContinue`: (invite: Invite) => void — Continue to workspace was pressed after joining.
+- `onSignIn`: (email: string) => void — Sign in to accept was pressed; the password field opens.
+- `onSwitchAccount`: (account: InviteAccount) => void — Switch account was pressed while signed in as someone else.
+- `onRequestInvite`: (invite: Invite) => void — Request a new invite was pressed on an expired or declined invite.
+- `now`: number (default defaultInviteNow) — The moment the countdown counts from, in ms; never read from the clock.
+- `countdown`: boolean (default true) — Tick the expiry chip once a second while the card is on screen and the tab is visible.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the invite has arrived: a skeleton card while loading, a retry when it failed.
+- `onRetry`: () => void — Try again was pressed after a failed load.
+- `title`: string (default "Invitation") — The heading.
+- `label`: string (default the title) — The surface's accessible name.
+- `height`: number (default 540) — Height of the surface in px; the card scrolls inside it.
+- `disabled`: boolean (default false) — Read only: nothing can be typed, accepted or declined.
+- `className`: string — Classes for the surface.
+
+Notes:
+- Keyboard: the account side is a native form. Tab moves through email, name and password, Enter submits, and Sign in to accept opens the password field and moves on to it. Decline opens a radio group of reasons that takes focus (arrows choose, Enter confirms, Back returns focus to the accept button), the show-password toggle is a pressed button, and the member strip is a list. Continue to workspace takes focus once the avatar has landed.
+- Reduced motion: the strip is simply there, the avatar appears in the strip and leaves the form without travelling, the badge and the check appear in place, the password field and each pane cross-fade, and the strength meter fills without overshoot. Every state is still reached and announced.
+- The countdown is the only continuous work and it is one setInterval, driven from `now` plus elapsed seconds (never the clock), that stops when the tab is hidden, when an IntersectionObserver reports the card off screen, when the invite expires or once it is joined or declined. The join's spinner runs only while a promise is in flight.
+- Each change is announced once in words: joining, joined with the role, why a join failed, a declined reason, a request sent, and what is missing when Accept is pressed too early (a name, or a password below Fair). Reaching expiry while the card is open is announced and switches it to the expired path. The strength label is its own polite live region.
+- From a 40rem container the invite and the account path sit side by side; below it they stack and the card scrolls inside its height. Avatars and the workspace mark are fixed-lightness oklch pigments from each person's hue, the accent is the cobalt token, the workspace's own hue or ink, and the expiry chip turns to the warn token under an hour and the danger token once expired, so every finish reads in light and dark.
+
+### Cooling Lock (KQ-1716) — `cooling-lock`
+A lockout that cools down and clicks open.
+
+A sign-in card locked after too many attempts: a padlock, shield or ring sits in a disc washed warm, and the wash cools over the lockout on a linear tween read from until and now while the digits beside it count down, swapping in place until the last ten seconds, when each column rolls on springs.snap. The attempts sit under the digits as a row of dots, the used ones red, and another failed attempt from the host re-warms the wash and lands a new dot on springs.recoil. At zero the lock clicks open on springs.snap and the email and password fields return from above on springs.recoil; Try again resolves through a promise, drawing a check on springs.flick when it signs in and locking the card again when it does not. The fields and links are plain form controls, the digits are a timer that never interrupts, and a status line speaks at one minute, at the opening and on every attempt.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/cooling-lock`
+
+Props:
+- `glyph`: "padlock" | "shield" | "ring" (default "padlock") — The glyph that cools and opens: a padlock whose shackle lifts, a shield whose latch slides out, or a ring that parts.
+- `density`: "compact" | "cozy" | "roomy" (default "cozy") — Padding, glyph size and digit size.
+- `tone`: "warn" | "danger" | "ink" (default "warn") — The warm wash's colour: amber, red or ink.
+- `until / defaultUntil`: number | null (default defaultCoolingLockUntil) — When the lockout lifts, in ms; null when there is none and the fields show at once. Controlled or initial.
+- `attempts / defaultAttempts`: number (default 3) — The attempts used so far, one red dot each. Controlled or initial.
+- `maxAttempts`: number (default 5) — How many attempts there are in all; one dot each.
+- `now`: number (default defaultCoolingLockNow) — The moment the countdown reads from, in ms; never taken from the clock.
+- `lockout`: number (default 60000) — A full lockout's length in ms: the wash is warmest with this long to go, and a failed retry locks for this long.
+- `live`: boolean (default true) — Count the seconds between now updates while the card is locked, the tab is visible and the root is on screen.
+- `onChange`: (value: CoolingLockValue, change: CoolingLockChange) => void — Fires when the countdown runs out, a failed retry locks the card again, or a retry signs in, with the lift time and attempts.
+- `onRetry`: (credentials: CoolingLockCredentials) => Promise<CoolingLockResult> (default simulateCoolingLockRetry) — Try again was pressed: resolves with whether the credentials signed in. The default accepts any password of eight characters or more after a short wait.
+- `onReset`: () => void — Reset password instead was pressed.
+- `onSupport`: () => void — Contact support was pressed.
+- `defaultEmail`: string (default defaultCoolingLockEmail) — The email the fields come back with.
+- `hint`: string — A line under the fields, such as what the simulator accepts.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the lock's state has arrived: a skeleton disc, digits and dots while loading, a retry when it failed.
+- `onReload`: () => void — Retry was pressed after the lock's state failed to load.
+- `title`: string (default "Fieldline sign-in") — The product line above the card.
+- `label`: string (default the title) — The surface's accessible name.
+- `height`: number (default 320) — Height of the card in px; its body scrolls inside it.
+- `disabled`: boolean (default false) — Read only: nothing can be typed or pressed. The countdown still runs.
+- `className`: string — Classes for the surface.
+
+Notes:
+- Keyboard: the two links, the email and password fields and Try again are ordinary controls in tab order; Enter in either field submits, and a failed reach shows a Retry button beside the field. When the lock opens with focus already inside the card, focus moves to the password field; otherwise it stays where it was.
+- Reduced motion: the shackle, latch or ring is placed open at once rather than swinging, the digits swap without rolling, the fields and the check fade in instead of landing or drawing, and a new dot simply appears. The wash still cools, since it is the time left.
+- The countdown reads against the now prop and counts its own seconds only while the card is locked, the tab is visible and the root is on screen (one IntersectionObserver and one timeout aimed at the next second). Nothing runs once the lock is open, and a fresh now from the host drops the seconds counted against the old one.
+- The digits are a role="timer" with the time left as a sentence that never announces on its own. A status line speaks once at one minute to go, when the lock opens, on every failed attempt (from a retry here or from the host, with the new count and lockout) and on signing in.
+- From a 24rem container the two links share a line under the card; from 30rem the email and password fields sit side by side. The wash is the warn, danger or ink token mixed through color-mix, the used dots the danger token and the signed-in disc the success token, so every state reads in light and dark.
+
+### Number Match (KQ-1717) — `number-match`
+Choose the number you see; both sides agree.
+
+A number-matching push approval with both sides on one surface: the sign-in shows a two-digit number large, its digits rolling in on springs.snap beside a timer ring that drains on springs.glide, while a mock phone card shows the push prompt with three candidate numbers as big buttons, a Where-is-this-from disclosure and an It-wasn't-me link. Choosing the match ticks both panes on springs.flick and lands an Approved card on the sign-in side on springs.recoil; a wrong choice shakes the phone on the same spring, marks the button and counts the tries left until the number locks. The timer running out greys both sides and offers Resend, which asks the host for a new number (the default simulates a push) and rolls it in. The candidates are one group with a roving tab stop, arrows and Home/End move, Enter or Space chooses, and every outcome is announced.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/number-match`
+
+Props:
+- `phonePosition`: "right" | "below" (default "right") — Where the phone sits: beside the sign-in from a 40rem container, or always under it.
+- `digitStyle`: "roll" | "fade" (default "roll") — How a new number arrives: its digits roll in like a counter, or cross-fade.
+- `accent`: "cobalt" | "signal" | "ink" (default "cobalt") — The colour of the number, the timer ring and the chosen candidate.
+- `number`: number (default defaultMatchNumber) — The two-digit number the sign-in shows.
+- `candidates`: number[] (default defaultMatchCandidates) — The three numbers the phone offers, one of them the match.
+- `expiresAt`: number (default defaultMatchExpiresAt) — When the number stops being accepted, in ms.
+- `now`: number (default defaultMatchNow) — The moment the clock starts from, in ms; never read from the clock during render.
+- `lifetime`: number (default 60000) — How long a resent number lives, in ms.
+- `maxAttempts`: number (default 3) — Wrong choices allowed before the number locks.
+- `source`: MatchSource (default defaultMatchSource) — Where the request is from (location, browser, time, network), shown on the phone.
+- `onApprove`: (attempt: MatchAttempt) => void — The matching number was chosen on the phone.
+- `onAttempt`: (attempt: MatchAttempt) => void — Any number was chosen on the phone, right or wrong.
+- `onDeny`: (reason: "reported" | "attempts") => void — The attempt was locked: It wasn't me was pressed, or the wrong choices ran out.
+- `onExpire`: (number: number) => void — The number ran out of time before a choice was made.
+- `onResend`: (context: MatchResendContext) => Promise<MatchChallengeInput | void> | MatchChallengeInput | void (default simulateMatchResend) — Sends a new number; resolves with it, or with nothing and a seeded one is used. The context carries the attempt, the number replaced and an abort signal.
+- `onChange`: (state: MatchState) => void — Fires after every change of outcome with the whole state.
+- `product`: string (default "Gaugeworks") — The product being signed in to.
+- `account`: string (default "mara.lind") — The account signing in, shown in the header.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the push has been sent: a skeleton on both sides while it sends, a retry when it failed.
+- `onRetry`: () => void — Try again was pressed after the push failed to send.
+- `title`: string (default "Approve sign-in") — The heading.
+- `label`: string (default the title) — The surface's accessible name.
+- `height`: number (default 520) — Height in px; the panes scroll inside it.
+- `disabled`: boolean (default false) — Read only: nothing can be chosen, resent or reported.
+- `className`: string — Classes for the surface.
+
+Notes:
+- Keyboard: the three candidates are one group with a roving tab stop. Left/Right or Up/Down move, wrapping, Home and End jump to the ends, Enter or Space chooses. Resend, the Where-is-this-from disclosure (aria-expanded) and It wasn't me are ordinary buttons in the tab order.
+- Reduced motion: the digits cross-fade instead of rolling, the phone does not shake, the Approved card and the disclosure fade in place, and the ring moves without easing. Every outcome, count and message is still reached and announced.
+- The clock starts at `now` for the server render and runs on from it once mounted, so hydration never prints a time the server did not. One setInterval ticks each second only while the number is pending, the tab is visible and the surface is on screen; it stops at approval, lock, expiry and off screen. A resend in flight is aborted on unmount.
+- Each change is announced once in words: the match and the sign-in, a miss with the tries left, the lock, the expiry, and a new number by value. The chosen button that missed carries didn't match in its name until the next choice.
+- From a 40rem container the phone sits beside the sign-in at 280px (phonePosition right); below it, or always with below, the panes stack and the phone card centres at up to 300px. The number is 56px, 64px from 40rem. The accent takes the accent-bright, signal or ink token, approval the success token, misses and locks the danger token, and the ring warns in amber under ten seconds.
+
+### Screen Pairing (KQ-1718) — `screen-pairing`
+Sign a TV in with the six characters it shows.
+
+Signing a TV or a kiosk in with a short code: a dark screen face shows six mono glyphs that land one after another on springs.snap under a status dot whose ring drains as the code runs out, and beside it the phone side has six cells that fill from the left, each glyph popping in on springs.snap, and a Pair button. A code that matches dissolves the glyphs on an exit tween while a welcome card rises on the screen on springs.glide, the phone side turns into a Screen paired card with a Rename field, and the new screen lands in the paired list on springs.recoil; a wrong one shakes the cells and blinks the dot once. When the ring runs out a new code rolls in from above as the old one drops out. The cells are one group with arrows, Backspace, paste and Enter; the paired list is a listbox where Delete arms an Unpair that a second Delete confirms.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/screen-pairing`
+
+Props:
+- `screenStyle`: "tv" | "kiosk" | "plain" (default "tv") — How the screen is drawn: a wide set on a stand, an upright kiosk on a base, or a plain dark face.
+- `density`: "compact" | "cozy" | "roomy" (default "cozy") — Glyph size, cell size, row heights and padding.
+- `accent`: "cobalt" | "signal" | "success" (default "cobalt") — The colour the ring, the dot, the screen's tint and the chosen row take.
+- `code`: string (default defaultScreenCode) — The code the screen shows first; the ones after it are generated from it with makeScreenCode.
+- `expiresAt`: number (default defaultScreenExpiresAt) — When the first code expires, in ms.
+- `codeSeconds`: number (default 90) — How long each generated code lives, in seconds.
+- `now`: number (default defaultScreenNow) — The moment the clock starts from, in ms; the piece runs on from it after mount, so the ring and the ages never read the clock during render.
+- `screens / defaultScreens`: PairedScreen[] (default defaultPairedScreens) — The screens already signed in, each with where it hangs, when it was paired and when it last checked in. Controlled or initial.
+- `onChange`: (screens: PairedScreen[], change: ScreenChange) => void — Fires with the whole list after a screen is paired, renamed or unpaired, and the change.
+- `selected / defaultSelected`: string | null (default null) — The chosen row in the paired list, by id. Controlled or initial.
+- `onSelect`: (id: string | null, screen: PairedScreen | null) => void — A row was chosen in the paired list.
+- `pair`: (context: ScreenPairContext) => Promise<ScreenPairResult> (default defaultScreenPair) — Checks what was typed against the code the screen shows. Resolve with the screen's name to pair it; reject with the message to show. The context carries the attempt and a signal that fires on unmount.
+- `onPaired`: (screen: PairedScreen) => void — A screen was paired. It is already in the list.
+- `onRename`: (screen: PairedScreen, from: string) => void — A screen was renamed from the field after pairing.
+- `onUnpair`: (screen: PairedScreen) => void — A screen was unpaired, after the second press.
+- `onCodeChange`: (code: string, expiresAt: number) => void — The screen is showing a new code, after the old one expired or another pairing began.
+- `product`: string (default "Basinworks Screens") — The product named in the screen's corner.
+- `pairUrl`: string (default "basinworks.app/screen") — The address the screen tells people to go to.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the code and the list have arrived: skeleton glyphs, cells and rows while loading, a Try again when they failed.
+- `onRetry`: () => void — Try again was pressed after a failed load.
+- `title`: string (default "Pair a screen") — The heading.
+- `label`: string (default the title) — The surface's accessible name.
+- `height`: number (default 540) — Height of the surface in px; the panes scroll inside it.
+- `disabled`: boolean (default false) — Read only: nothing can be entered, renamed or unpaired.
+- `className`: string — Classes for the surface.
+
+Notes:
+- Keyboard: the six cells are one group with a single tab stop on the next empty cell. Typing advances, Backspace steps back, Delete clears a cell, arrows and Home/End move, paste fills from the cell it lands on, and Enter pairs. The paired list is a listbox: arrows move, Home/End jump, Enter or Space chooses, Delete arms Unpair on the row and a second Delete (or the Unpair button) confirms it, Escape keeps the screen. Focus moves to the neighbouring row after an unpair.
+- Reduced motion: glyphs do not roll, cells do not shake and nothing rises or lands. A new code, the welcome card, the paired card and the rows cross-fade in place, the glyphs still dissolve on an opacity tween, and the screen's dot turns red instead of blinking until the next keystroke. Every announcement still lands.
+- The clock runs on from `now` after mount on one 1 s interval, only while a code is counting down and the surface is on a visible page (an IntersectionObserver and visibilitychange gate it), with a single timeout for the moment the code expires; nothing ticks once a screen is paired. The ring is a stroke offset that transitions linearly between ticks. Nothing is measured: the panes are a container-query grid and the glyphs are fixed em boxes.
+- Each change is announced once in words: a new code spelled out with its lifetime, the check starting, a mismatch with the number of tries, the pairing with the screen's name and the new count, a rename, an armed unpair and the unpair itself with how many screens remain. The ring is a timer with its seconds in text, and a wrong code marks the cells invalid and points them at the message.
+- Below a 40rem container the screen, the phone side and the paired list stack; from 40rem the screen takes the wider left column and the phone side the right, with the list beneath both. The screen's face is mixed from the accent and black so it stays dark in light and dark themes, and every other colour comes from the tokens.
 
 ### Reset Match (KQ-1719) — `reset-match`
 Two fields, a meter, and a tie that knits when they match.

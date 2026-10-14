@@ -47642,6 +47642,314 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "recovery-route",
+      "type": "registry:ui",
+      "title": "Recovery Route",
+      "description": "An account recovery flow drawn as a route: four stops in a line (Identify, Verify, Reset, Done) with a marker that travels between them. When a step completes, a tick draws on springs.flick at the stop just passed and the marker glides on to the next on springs.glide while the finished panel eases out and the next slides in from the direction of travel. Verify lays the ways in as cards with their cost in time and a Most secure badge; picking one slides a code field in on glide, and a way that turns out closed (the seeded text message, its number no longer valid) sends the marker out along a detour branch and back, strikes the card and leaves the branch drawn. Reset fills a strength meter on glide and ticks the confirm field on flick when it matches; Done lands a stamp on springs.recoil beside a sign-out switch that snaps. Keyboard is native: fields and buttons tab in order, the cards are a radio group and the stops already passed are links that go back.",
+      "files": [
+        {
+          "path": "registry/ui/recovery-route.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1710"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "upgrade-request",
+      "type": "registry:ui",
+      "title": "Upgrade Request",
+      "description": "A request-an-upgrade flow for a member without billing rights: the feature they tried to use heads the surface with what it unlocks, below it a short form (which admin, how urgent, a note) and beside it the earlier asks. Sending stamps the request onto a status rail as the Sent node lands on springs.recoil; each stage the host advances draws the line to the next node on springs.glide, fills it on springs.snap and draws its check on springs.flick. Approval turns the feature card's lock over on springs.snap and pops an Unlocked badge on springs.recoil while each unlock ticks in a cascade; a decline paints the last node red, shows the admin's note and offers Retry later, which brings the form back and files the request with the rest on springs.glide. The admin picker is a horizontal listbox with one tab stop, the urgency chips a radio group, the note a native textarea where Ctrl+Enter sends, and the rail a list whose pending step is aria-current.",
+      "files": [
+        {
+          "path": "registry/ui/upgrade-request.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1705"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "step-up-check",
+      "type": "registry:ui",
+      "title": "Step-Up Check",
+      "description": "An interstitial that stands between a person and something sensitive: the protected panel waits behind a frosted layer with a lock badge, and a card on the frost says why and offers the ways to confirm as one radio group. Choosing a method slides its control in on springs.snap: the passkey button runs a ceremony whose fingerprint ring fills most of the way on springs.glide and completes on springs.flick when the device answers, the code field is six cells that advance as digits land and take a paste in one cascade, and a wrong code shakes them a little. Confirmed, the card leaves on the exit ease, the frost lifts from the top down on springs.glide (or from the middle outward, or cross-fades), the badge flips on springs.snap to a tick drawn on springs.flick, and a verified-for chip lands in the header on springs.recoil and counts down until the host locks again or the time lapses. The methods are a radio group with one tab stop, the cells are a group of textboxes, Escape cancels, and every change is announced.",
+      "files": [
+        {
+          "path": "registry/ui/step-up-check.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1713"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "org-discovery",
+      "type": "registry:ui",
+      "title": "Org Discovery",
+      "description": "The sign-up step that finds the person's organisation from their work email. Finish the address and, after a short pause, a discovery card rises beneath the field on springs.glide: the organisation's mark draws itself (its outline on springs.flick, the initial landing on springs.recoil), the teammate count rolls up from zero on springs.snap and the teammates' avatars drift into an overlapping strip on springs.drift in a cascade. A personal address offers to create a new organisation and the name field unfolds on glide, an unknown domain offers an invite request or a new organisation, and another address sends the card away on the exit ease before the next one rises. The ways in are one radio group whose chosen outline slides between them on snap; sending a request swaps them for an approval rail whose fill climbs on glide as each step lands, and SSO shows a mock redirect whose bar fills on drift. The field is a native form, arrows move and choose in the group, Enter goes, and every change is announced.",
+      "files": [
+        {
+          "path": "registry/ui/org-discovery.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1709"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "session-lapse",
+      "type": "registry:ui",
+      "title": "Session Lapse",
+      "description": "A session-expiry warning on a card the size of a notice: a ring drains one linear second at a time around the time left (or a bar under it, or the digits alone), turns amber under a minute and red under ten seconds, where the number flips each second on springs.snap. Stay signed in refills the ring on springs.glide and lands a tick on springs.recoil as the check draws on springs.flick; Sign out now, or the clock reaching zero, turns the card over on springs.snap to a signed-out face that counts the drafts kept and offers Sign in again. Warn me earlier widens the window and the ring re-scales to it. The clock ticks only while the tab is visible and the card is on screen, catching up what passed when it resumes; the countdown is a timer that speaks at one minute and ten seconds, and every control is a button.",
+      "files": [
+        {
+          "path": "registry/ui/session-lapse.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1714"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "spare-keys",
+      "type": "registry:ui",
+      "title": "Spare Keys",
+      "description": "A recovery-codes screen that draws its ten codes as keys on a ring: a tall list of mono codes hanging from one rail, hidden on first view under a cover that asks the reader to save them before they go. Reveal slides the cover off on springs.glide (or fades it over codes that sharpen from a blur) and the codes unspool one by one on springs.snap with a quick cascade; Copy all, Download and Print tick on springs.flick when they land. A code the host marks used is struck through on springs.flick, dims and gains a used tag while the remaining count rolls, an amber note suggests regenerating when two are left, and Regenerate asks first in a dialog on springs.snap before the old keys drop off the ring on the exit ease and a new set unspools. An I've saved them checkbox gates Done, which lands an All set stamp on springs.recoil. The ring is a listbox where Up/Down move and Enter copies one code, the save actions are one toolbar, and the confirm traps Tab.",
+      "files": [
+        {
+          "path": "registry/ui/spare-keys.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1711"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "authenticator-pair",
+      "type": "registry:ui",
+      "title": "Authenticator Pair",
+      "description": "Two steps on one card for pairing an authenticator app: a pairing code drawn as a decorative grid seeded from the secret (not a real QR) that draws in row by row, and six cells for the code the app answers with. Can't scan? turns the card over on springs.snap to the key in groups of four with a Copy that ticks on springs.flick; a timer ring drains over the period and refills on springs.snap when the code rolls over, sleeping when the tab is hidden or the surface is off screen. The sixth digit checks itself: a right code ticks every cell on springs.flick and lands a Paired card on springs.recoil with the device and the date, a wrong one shakes the row, counts the attempt and clears, and the last attempt offers Start over. The cells are a group of textboxes with one tab stop, a pasted code fills them in a cascade, Backspace steps back and Escape clears.",
+      "files": [
+        {
+          "path": "registry/ui/authenticator-pair.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1712"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "cooling-lock",
+      "type": "registry:ui",
+      "title": "Cooling Lock",
+      "description": "A sign-in card locked after too many attempts: a padlock, shield or ring sits in a disc washed warm, and the wash cools over the lockout on a linear tween read from until and now while the digits beside it count down, swapping in place until the last ten seconds, when each column rolls on springs.snap. The attempts sit under the digits as a row of dots, the used ones red, and another failed attempt from the host re-warms the wash and lands a new dot on springs.recoil. At zero the lock clicks open on springs.snap and the email and password fields return from above on springs.recoil; Try again resolves through a promise, drawing a check on springs.flick when it signs in and locking the card again when it does not. The fields and links are plain form controls, the digits are a timer that never interrupts, and a status line speaks at one minute, at the opening and on every attempt.",
+      "files": [
+        {
+          "path": "registry/ui/cooling-lock.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1716"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "number-match",
+      "type": "registry:ui",
+      "title": "Number Match",
+      "description": "A number-matching push approval with both sides on one surface: the sign-in shows a two-digit number large, its digits rolling in on springs.snap beside a timer ring that drains on springs.glide, while a mock phone card shows the push prompt with three candidate numbers as big buttons, a Where-is-this-from disclosure and an It-wasn't-me link. Choosing the match ticks both panes on springs.flick and lands an Approved card on the sign-in side on springs.recoil; a wrong choice shakes the phone on the same spring, marks the button and counts the tries left until the number locks. The timer running out greys both sides and offers Resend, which asks the host for a new number (the default simulates a push) and rolls it in. The candidates are one group with a roving tab stop, arrows and Home/End move, Enter or Space chooses, and every outcome is announced.",
+      "files": [
+        {
+          "path": "registry/ui/number-match.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1717"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "screen-pairing",
+      "type": "registry:ui",
+      "title": "Screen Pairing",
+      "description": "Signing a TV or a kiosk in with a short code: a dark screen face shows six mono glyphs that land one after another on springs.snap under a status dot whose ring drains as the code runs out, and beside it the phone side has six cells that fill from the left, each glyph popping in on springs.snap, and a Pair button. A code that matches dissolves the glyphs on an exit tween while a welcome card rises on the screen on springs.glide, the phone side turns into a Screen paired card with a Rename field, and the new screen lands in the paired list on springs.recoil; a wrong one shakes the cells and blinks the dot once. When the ring runs out a new code rolls in from above as the old one drops out. The cells are one group with arrows, Backspace, paste and Enter; the paired list is a listbox where Delete arms an Unpair that a second Delete confirms.",
+      "files": [
+        {
+          "path": "registry/ui/screen-pairing.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1718"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "invite-accept",
+      "type": "registry:ui",
+      "title": "Invite Accept",
+      "description": "The card an invitation opens to: who asked and where on one side, with the workspace mark, its members drifting into a strip on springs.drift in a cascade, the role, the inviter's note and a chip counting down to expiry, and on the other the account path for the address it was sent to, a short sign-up with a strength meter, Sign in to accept, a plain Accept when already signed in, or Switch account when signed in as someone else. Accept runs a progress line and, when the join resolves, the invitee's own avatar glides out of the form into the end of the strip on springs.glide and lands with a ring on springs.recoil, the role badge stamps on the same spring, and Continue to workspace appears and takes focus; a rejected join shows why with Retry. Decline asks for a reason and fades the invite, and an expired or declined invite offers Request a new invite. The form is native, the reasons are radios and the strip is a list.",
+      "files": [
+        {
+          "path": "registry/ui/invite-accept.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1715"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

@@ -13,7 +13,7 @@
     "indexUrl": "https://www.kinetiqui.com/r/registry.json",
     "docsUrl": "https://www.kinetiqui.com",
     "counts": {
-      "components": 1702,
+      "components": 1713,
       "blocks": 152,
       "pages": 28,
       "templates": 10,
@@ -161604,6 +161604,173 @@
       }
     },
     {
+      "slug": "upgrade-request",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Upgrade Request",
+      "serial": "KQ-1705",
+      "tagline": "Ask an admin, then watch the request land.",
+      "description": "A request-an-upgrade flow for a member without billing rights: the feature they tried to use heads the surface with what it unlocks, below it a short form (which admin, how urgent, a note) and beside it the earlier asks. Sending stamps the request onto a status rail as the Sent node lands on springs.recoil; each stage the host advances draws the line to the next node on springs.glide, fills it on springs.snap and draws its check on springs.flick. Approval turns the feature card's lock over on springs.snap and pops an Unlocked badge on springs.recoil while each unlock ticks in a cascade; a decline paints the last node red, shows the admin's note and offers Retry later, which brings the form back and files the request with the rest on springs.glide. The admin picker is a horizontal listbox with one tab stop, the urgency chips a radio group, the note a native textarea where Ctrl+Enter sends, and the rail a list whose pending step is aria-current.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "upgrade request",
+        "billing admin",
+        "approval flow",
+        "status rail",
+        "feature gate",
+        "locked feature",
+        "stepper",
+        "plan upsell"
+      ],
+      "props": [
+        {
+          "name": "railStyle",
+          "type": "\"rail\" | \"steps\"",
+          "defaultValue": "\"rail\"",
+          "description": "How the stages are drawn: nodes along one horizontal rail, or stacked steps with their times and what happened."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"cozy\" | \"roomy\"",
+          "defaultValue": "\"cozy\"",
+          "description": "Padding, type size, chip and row heights."
+        },
+        {
+          "name": "accent",
+          "type": "\"cobalt\" | \"signal\" | \"ink\"",
+          "defaultValue": "\"cobalt\"",
+          "description": "The colour reached stages, the chosen admin and the unlocked card take."
+        },
+        {
+          "name": "feature",
+          "type": "UpgradeFeature",
+          "defaultValue": "defaultUpgradeFeature",
+          "description": "The feature the member tried to use: its name, plan, summary and what approval unlocks."
+        },
+        {
+          "name": "admins",
+          "type": "UpgradeAdmin[]",
+          "defaultValue": "defaultUpgradeAdmins",
+          "description": "Who can approve, in picker order. Empty reads as no one to ask, with a Contact support button."
+        },
+        {
+          "name": "requests / defaultRequests",
+          "type": "UpgradeRequestRecord[]",
+          "defaultValue": "defaultUpgradeRequests",
+          "description": "The requests on file. The newest one for this feature fills the rail; the host advances it by changing its stage (advanceUpgradeRequest helps). Controlled or initial."
+        },
+        {
+          "name": "onRequestsChange",
+          "type": "(requests: UpgradeRequestRecord[]) => void",
+          "description": "Fires with every request, newest first, after one is sent."
+        },
+        {
+          "name": "onSend",
+          "type": "(request: UpgradeRequestRecord) => void",
+          "description": "Send was pressed; the request is already on the rail."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "UpgradeDraft",
+          "defaultValue": "defaultUpgradeDraft",
+          "description": "The draft in the form: the admin, urgency and note. Controlled or initial."
+        },
+        {
+          "name": "onChange",
+          "type": "(value: UpgradeDraft) => void",
+          "description": "Fires from every change to the draft."
+        },
+        {
+          "name": "onRetryLater",
+          "type": "(request: UpgradeRequestRecord) => void",
+          "description": "Retry later was pressed on a declined request; the form is back with its note."
+        },
+        {
+          "name": "onOpenFeature",
+          "type": "(feature: UpgradeFeature) => void",
+          "description": "Open was pressed on the unlocked feature."
+        },
+        {
+          "name": "onContactSupport",
+          "type": "() => void",
+          "description": "Contact support was pressed, when there is no admin to ask."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the admins have arrived: skeleton chips while loading, a retry when they failed."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after a failed load."
+        },
+        {
+          "name": "now",
+          "type": "number",
+          "defaultValue": "defaultUpgradeNow",
+          "description": "The moment ages count from and a sent request is stamped with, in ms; never read from the clock."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Request an upgrade\"",
+          "description": "The heading."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "the title",
+          "description": "The surface's accessible name."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "540",
+          "description": "Height in px; the columns scroll inside it."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Read only: nothing can be chosen or sent."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the surface."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the admin picker is a horizontal listbox with one tab stop (arrows move and choose, Home/End), the urgency chips are a radio group (arrows move and check), the note is a native textarea where Ctrl+Enter or Cmd+Enter sends, and Send submits the form. After a send focus lands on the rail; after Retry later it returns to the chosen admin.",
+        "Reduced motion: nothing lands, draws or turns. Node fills, rail lines and the lock cross-fade or appear in place, the Unlocked badge fades in, and every stage, badge and list row is still reached.",
+        "The host advances a request by passing requests back with a later stage (advanceUpgradeRequest stamps the time); the rail reads the newest request for this feature and animates only the stage that changed. Nothing runs once a stage has settled.",
+        "Each change is announced once in words: the admin chosen, the urgency, the send, each stage the host advances, the decision with the admin's note, and the form returning.",
+        "From a 40rem container the form or rail and the past requests share one row with the list in a 15rem column; below it they stack and the whole body scrolls. Full admin names and urgency hints appear from 34rem and 30rem. Accent, success and danger colours come from the tokens, and the avatars take their hue from the accent, so both themes read."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/upgrade-request",
+      "registryItemUrl": "https://www.kinetiqui.com/r/upgrade-request.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/upgrade-request",
+        "npm": "npx shadcn@latest add @kinetiq/upgrade-request",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/upgrade-request",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/upgrade-request",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/upgrade-request.json"
+      }
+    },
+    {
       "slug": "passkey-enrol",
       "kind": "component",
       "type": "registry:ui",
@@ -162145,6 +162312,1811 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/workspace-lobby",
         "bun": "bunx --bun shadcn@latest add @kinetiq/workspace-lobby",
         "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/workspace-lobby.json"
+      }
+    },
+    {
+      "slug": "org-discovery",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Org Discovery",
+      "serial": "KQ-1709",
+      "tagline": "Type a work email; your team's card rises to meet it.",
+      "description": "The sign-up step that finds the person's organisation from their work email. Finish the address and, after a short pause, a discovery card rises beneath the field on springs.glide: the organisation's mark draws itself (its outline on springs.flick, the initial landing on springs.recoil), the teammate count rolls up from zero on springs.snap and the teammates' avatars drift into an overlapping strip on springs.drift in a cascade. A personal address offers to create a new organisation and the name field unfolds on glide, an unknown domain offers an invite request or a new organisation, and another address sends the card away on the exit ease before the next one rises. The ways in are one radio group whose chosen outline slides between them on snap; sending a request swaps them for an approval rail whose fill climbs on glide as each step lands, and SSO shows a mock redirect whose bar fills on drift. The field is a native form, arrows move and choose in the group, Enter goes, and every change is announced.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "sign up",
+        "organisation discovery",
+        "work email",
+        "domain lookup",
+        "join request",
+        "sso",
+        "onboarding",
+        "approval rail"
+      ],
+      "props": [
+        {
+          "name": "cardStyle",
+          "type": "\"card\" | \"inline\"",
+          "defaultValue": "\"card\"",
+          "description": "How the discovery sits under the field: a raised card with an accent edge, or a section that unfolds inline under a hairline."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"cozy\" | \"roomy\"",
+          "defaultValue": "\"cozy\"",
+          "description": "Padding, type size, field and row heights, mark and avatar sizes."
+        },
+        {
+          "name": "accent",
+          "type": "\"cobalt\" | \"signal\" | \"ink\"",
+          "defaultValue": "\"cobalt\"",
+          "description": "The colour the mark, the SSO badge, the rail and the chosen option take."
+        },
+        {
+          "name": "lookup",
+          "type": "(domain: string) => OrgLookupResult | Promise<OrgLookupResult>",
+          "defaultValue": "defaultOrgLookup",
+          "description": "Resolves a work domain to a found organisation, a personal address or nothing; a rejection reads as a failed lookup with Try again. createOrgLookup builds one from a directory with a delay."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "defaultValue": "\"\"",
+          "description": "The email in the field. Controlled or initial."
+        },
+        {
+          "name": "onChange",
+          "type": "(email: string) => void",
+          "description": "Fires on every keystroke in the email field."
+        },
+        {
+          "name": "onDiscover",
+          "type": "(result: OrgLookupResult, domain: string) => void",
+          "description": "A lookup came back, with what it found and the domain it looked up."
+        },
+        {
+          "name": "onJoin",
+          "type": "(request: OrgJoinRequest) => void",
+          "description": "A join request was sent or single sign-on was chosen, with the email, domain and the organisation found (null for an unknown domain)."
+        },
+        {
+          "name": "onCreate",
+          "type": "(request: OrgCreateRequest) => void",
+          "description": "Create organisation was pressed, with the name, the email and the work domain it claims (null from a personal address)."
+        },
+        {
+          "name": "approval",
+          "type": "\"pending\" | \"approved\" | \"declined\"",
+          "defaultValue": "\"pending\"",
+          "description": "Where a sent join request stands; the host moves it on and the rail lands or fails accordingly."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the step itself is ready: a skeleton in the card's place while loading, a retry when it failed."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after a failed load or a failed lookup; a failed lookup is also run again."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Find your organisation\"",
+          "description": "The heading."
+        },
+        {
+          "name": "eyebrow",
+          "type": "string",
+          "defaultValue": "\"Gaugeworks · Step 2 of 3\"",
+          "description": "The small line above the heading; empty hides it."
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "defaultValue": "defaultOrgHint",
+          "description": "Shown under the prompt before an address is typed; empty hides it."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "the title",
+          "description": "The surface's accessible name."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "540",
+          "description": "Height in px; the card scrolls inside it."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Read only: the field and every button are inert."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the surface."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the email field is a native form, so Enter looks the address up at once instead of waiting for the pause, and Enter on a card already found moves focus into its options. The ways in are one radio group with a single tab stop: Up/Down (or Left/Right) move and choose, Home/End jump, Space chooses, Enter chooses and goes. In the organisation name box Enter creates and Escape returns to the options; Change in the field, Cancel request and Start over all return to choosing.",
+        "Reduced motion: nothing rises, rolls, drifts or slides; cards and panels cross-fade in place, the count and the avatars appear, the chosen outline jumps, the rail fills at once and the SSO bar sits at half until it completes. Every lookup, choice, request and landing is still reached and announced.",
+        "A typed address is looked up 380 ms after typing pauses, and only once per domain; a stale answer is dropped when another lookup has started since. The default lookup answers from a seeded directory after 700 ms. The only continuous motion is the active rail dot's breathing, which stops while the surface is off screen (one IntersectionObserver) or the tab is hidden; the pretend admin notification and SSO round trip are single timers, cleared on unmount.",
+        "Each lookup is announced once with what it found (name, teammate count and SSO), each choice by name, each request with who is notified, and approval, decline, an SSO landing and a created organisation each in words. The avatar strip is one image named for the teammates it shows.",
+        "From a 36rem container the card runs in two columns, the organisation on the left and the options or rail on the right; below it they stack with the options full width. The accent is a token (cobalt, signal or ink) mixed into a wash and an edge, and the teammates' avatars are fixed-lightness oklch pigments, so light and dark both read."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/org-discovery",
+      "registryItemUrl": "https://www.kinetiqui.com/r/org-discovery.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/org-discovery",
+        "npm": "npx shadcn@latest add @kinetiq/org-discovery",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/org-discovery",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/org-discovery",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/org-discovery.json"
+      }
+    },
+    {
+      "slug": "recovery-route",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Recovery Route",
+      "serial": "KQ-1710",
+      "tagline": "Account recovery as a route map with a travelling marker.",
+      "description": "An account recovery flow drawn as a route: four stops in a line (Identify, Verify, Reset, Done) with a marker that travels between them. When a step completes, a tick draws on springs.flick at the stop just passed and the marker glides on to the next on springs.glide while the finished panel eases out and the next slides in from the direction of travel. Verify lays the ways in as cards with their cost in time and a Most secure badge; picking one slides a code field in on glide, and a way that turns out closed (the seeded text message, its number no longer valid) sends the marker out along a detour branch and back, strikes the card and leaves the branch drawn. Reset fills a strength meter on glide and ticks the confirm field on flick when it matches; Done lands a stamp on springs.recoil beside a sign-out switch that snaps. Keyboard is native: fields and buttons tab in order, the cards are a radio group and the stops already passed are links that go back.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "account recovery",
+        "forgot password",
+        "stepper",
+        "route map",
+        "verification methods",
+        "one-time code",
+        "password strength",
+        "dead end"
+      ],
+      "props": [
+        {
+          "name": "mapStyle",
+          "type": "\"line\" | \"rail\" | \"dots\"",
+          "defaultValue": "\"line\"",
+          "description": "How the route is drawn: a hairline with a travelling dot, a filled rail with numbered stops, or bare dots with a ring."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"cozy\" | \"roomy\"",
+          "defaultValue": "\"cozy\"",
+          "description": "Padding, card height and type size."
+        },
+        {
+          "name": "accent",
+          "type": "\"cobalt\" | \"signal\" | \"amber\" | \"graphite\"",
+          "defaultValue": "\"cobalt\"",
+          "description": "The colour the route, the marker and the chosen card are drawn in."
+        },
+        {
+          "name": "methods",
+          "type": "RecoveryMethod[]",
+          "defaultValue": "defaultRecoveryMethods",
+          "description": "The ways to verify, in card order: kind, masked detail, cost in seconds, code length (0 for an approval) and the Most secure badge."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "RecoveryValue",
+          "defaultValue": "defaultRecoveryValue",
+          "description": "The step, the account given, the chosen method, the methods that hit a dead end and the sign-out switch. Controlled or initial."
+        },
+        {
+          "name": "onChange",
+          "type": "(value: RecoveryValue, change: RecoveryChange) => void",
+          "description": "Fires after every move along the route, with the whole state and what changed."
+        },
+        {
+          "name": "lookup",
+          "type": "(account: string) => Promise<RecoveryVerdict>",
+          "defaultValue": "defaultRecoveryLookup",
+          "description": "Finds the account for Identify. The default finds anything three characters or more after a short pause."
+        },
+        {
+          "name": "verify",
+          "type": "(method: RecoveryMethod, code: string | null) => Promise<RecoveryVerdict>",
+          "defaultValue": "defaultRecoveryVerify",
+          "description": "Called with null when a method is picked (send the code, or ask the device) and again with the code typed. A verdict with deadEnd closes the way for good; the default simulator closes the SMS path."
+        },
+        {
+          "name": "onReset",
+          "type": "(password: string, value: RecoveryValue) => Promise<void> | void",
+          "description": "The new password was submitted at Reset; awaited when it returns a promise, with Saving shown meanwhile."
+        },
+        {
+          "name": "onFinish",
+          "type": "(value: RecoveryValue) => void",
+          "description": "Continue to sign in was pressed at Done."
+        },
+        {
+          "name": "otherDevices",
+          "type": "number",
+          "defaultValue": "3",
+          "description": "How many other devices are signed in, for the Done switch."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the methods have arrived: a skeleton map and cards while loading, a retry when they failed."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after a failed load."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Recover your account\"",
+          "description": "The heading."
+        },
+        {
+          "name": "product",
+          "type": "string",
+          "defaultValue": "\"Basinworks\"",
+          "description": "The product named in the eyebrow and the copy."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "the title",
+          "description": "The surface's accessible name."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "540",
+          "description": "Height of the surface in px; the step scrolls inside it."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Read only: nothing can be typed, picked or submitted."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the surface."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: everything is native. Fields and buttons tab in order and Enter submits each step; the verification cards are one radio group (Left/Right or Up/Down move and pick, Home/End, Space picks); stops already passed are links that go back, which clears the code and, back at Identify, the chosen method. Done cannot be left by the map once the password has changed.",
+        "Reduced motion: the marker, the panels and the detour branch appear in place with cross-fades, the strength meter and the code field cross-fade instead of filling or sliding, and the ticks appear at once. Every step is still reached and announced.",
+        "Nothing runs once settled: the only continuous motion is the spinner during a lookup, send, check or save, and it stops with the promise. Results from a request the user walked away from (back, start over, unmount) are dropped by sequence number, so a late verdict never moves the route.",
+        "Each move is announced once in words (Account found, Step 2 of 4, Verify; Text message is a dead end: number no longer valid), the region is aria-busy while a request is in flight, field errors are alerts tied to their field, and the strength meter is a meter with its word as the value text.",
+        "Below a 24rem container the stop labels shorten to two letters and the step name leaves the header; from 28rem the Most secure badge spells out; from 36rem the cards sit in two columns. The route, the marker and the chosen card take the accent through CSS variables, so every style reads in light and dark."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/recovery-route",
+      "registryItemUrl": "https://www.kinetiqui.com/r/recovery-route.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/recovery-route",
+        "npm": "npx shadcn@latest add @kinetiq/recovery-route",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/recovery-route",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/recovery-route",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/recovery-route.json"
+      }
+    },
+    {
+      "slug": "spare-keys",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Spare Keys",
+      "serial": "KQ-1711",
+      "tagline": "Ten recovery codes on a ring, covered until saved.",
+      "description": "A recovery-codes screen that draws its ten codes as keys on a ring: a tall list of mono codes hanging from one rail, hidden on first view under a cover that asks the reader to save them before they go. Reveal slides the cover off on springs.glide (or fades it over codes that sharpen from a blur) and the codes unspool one by one on springs.snap with a quick cascade; Copy all, Download and Print tick on springs.flick when they land. A code the host marks used is struck through on springs.flick, dims and gains a used tag while the remaining count rolls, an amber note suggests regenerating when two are left, and Regenerate asks first in a dialog on springs.snap before the old keys drop off the ring on the exit ease and a new set unspools. An I've saved them checkbox gates Done, which lands an All set stamp on springs.recoil. The ring is a listbox where Up/Down move and Enter copies one code, the save actions are one toolbar, and the confirm traps Tab.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "recovery codes",
+        "backup codes",
+        "two-factor",
+        "reveal cover",
+        "copy download print",
+        "regenerate confirm",
+        "strike through",
+        "account security"
+      ],
+      "props": [
+        {
+          "name": "coverStyle",
+          "type": "\"slide\" | \"blur\" | \"none\"",
+          "defaultValue": "\"slide\"",
+          "description": "How the codes are hidden on first view: an opaque cover that slides away, a translucent one over blurred codes, or none."
+        },
+        {
+          "name": "grouping",
+          "type": "\"pairs\" | \"whole\"",
+          "defaultValue": "\"pairs\"",
+          "description": "How each code is written: split into its two halves with a gap, or as one run."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"cozy\" | \"roomy\"",
+          "defaultValue": "\"cozy\"",
+          "description": "Row heights and type size."
+        },
+        {
+          "name": "codes / defaultCodes",
+          "type": "SpareKey[]",
+          "defaultValue": "defaultSpareKeys",
+          "description": "The codes on the ring, each an id and an eight-character code. Controlled or initial."
+        },
+        {
+          "name": "onCodesChange",
+          "type": "(codes: SpareKey[]) => void",
+          "description": "Regenerate finished: the new codes have replaced the old ones."
+        },
+        {
+          "name": "used / defaultUsed",
+          "type": "string[]",
+          "defaultValue": "defaultSpareUsed",
+          "description": "Ids of the codes already used; add one and its row is struck through and the count rolls. Controlled or initial."
+        },
+        {
+          "name": "onChange",
+          "type": "(used: string[], change: SpareKeysChange) => void",
+          "description": "Fires when the surface changes the used set itself: it empties on regenerate."
+        },
+        {
+          "name": "revealed / defaultRevealed",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Whether the cover has been lifted. Controlled or initial."
+        },
+        {
+          "name": "onReveal",
+          "type": "() => void",
+          "description": "Reveal was pressed."
+        },
+        {
+          "name": "onRegenerate",
+          "type": "() => Promise<SpareKey[]>",
+          "defaultValue": "a simulator",
+          "description": "Makes the new codes after the confirm; reject to fail it and the note offers Retry. Without one, a simulator waits regenerateDelay and cuts ten seeded codes."
+        },
+        {
+          "name": "regenerateDelay",
+          "type": "number",
+          "defaultValue": "900",
+          "description": "How long the built-in simulator takes, in ms."
+        },
+        {
+          "name": "onCopy",
+          "type": "(text: string) => void",
+          "description": "Copies text (all codes, or one row's). Without one, the clipboard is written directly."
+        },
+        {
+          "name": "onDownload",
+          "type": "(text: string, filename: string) => void",
+          "description": "Saves the codes as a text file. Without one, the surface only pretends: the button ticks and the status says the file was saved."
+        },
+        {
+          "name": "onPrint",
+          "type": "(text: string) => void",
+          "description": "Prints the codes. Without one, the surface only pretends."
+        },
+        {
+          "name": "onDone",
+          "type": "(summary: { remaining: number; total: number }) => void",
+          "description": "Done was pressed, which the I've saved them checkbox gates."
+        },
+        {
+          "name": "lowAt",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "Remaining count at or below which the amber note suggests regenerating; at zero it turns red."
+        },
+        {
+          "name": "product",
+          "type": "string",
+          "defaultValue": "\"Coldbrook\"",
+          "description": "The product the codes belong to; it names the text file and the cover's line."
+        },
+        {
+          "name": "account",
+          "type": "string",
+          "defaultValue": "\"mara.lind\"",
+          "description": "The account they sign into, under the heading."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the codes have arrived: skeleton rows while loading, a retry when they failed to generate."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after a failed load."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Recovery codes\"",
+          "description": "The heading."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "the title",
+          "description": "The surface's accessible name."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "560",
+          "description": "Height of the surface in px; the ring scrolls inside it."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Read only: nothing can be revealed, copied, regenerated or marked."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the surface."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: Reveal is a button and, until it is pressed, the ring beneath the cover is inert. The ring is a listbox with one tab stop: Up/Down (or Left/Right in two columns) and Home/End move between codes and Enter or Space copies the focused one. Copy all, Download and Print are one toolbar (arrows, Home/End); Regenerate opens a modal dialog that takes focus on Keep these, traps Tab between its two buttons, closes on Escape and hands focus back. I've saved them is a checkbox button Space toggles, and Done is a button that stays inert until it is checked.",
+        "Reduced motion: the cover cross-fades instead of sliding, the codes appear at once without the cascade or the blur sharpening, the strike, ticks and All set stamp land without drawing or bouncing, the old keys fade rather than drop, and the note and dialog cross-fade. Every reveal, copy, save, use, regenerate and Done is still announced.",
+        "There is no continuous work: the only timers are the 1.4s ticks on the action buttons and copied rows, the simulator's one delay, and they are cleared on unmount. A regenerate that resolves after unmount, or after a newer one began, is ignored. Without onDownload or onPrint the surface pretends, so a demo never spawns a file dialog.",
+        "Each change is announced once in words with the count that matters: a used code by its number with how many are left, a copy by its scope, a regenerate when it starts and again with the new count. The row's accessible name spells its code character by character so a screen reader does not read it as a word.",
+        "Under an 18rem container the toolbar shows icons only and the count drops its word; from 40rem the ring sits in two columns of five and the confirm centres instead of rising from the bottom. The amber and red notes, the green ticks and the All set stamp are washed from the status tokens, so light and dark both read."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/spare-keys",
+      "registryItemUrl": "https://www.kinetiqui.com/r/spare-keys.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/spare-keys",
+        "npm": "npx shadcn@latest add @kinetiq/spare-keys",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/spare-keys",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/spare-keys",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/spare-keys.json"
+      }
+    },
+    {
+      "slug": "authenticator-pair",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Authenticator Pair",
+      "serial": "KQ-1712",
+      "tagline": "Scan the code, type six digits, land the Paired card.",
+      "description": "Two steps on one card for pairing an authenticator app: a pairing code drawn as a decorative grid seeded from the secret (not a real QR) that draws in row by row, and six cells for the code the app answers with. Can't scan? turns the card over on springs.snap to the key in groups of four with a Copy that ticks on springs.flick; a timer ring drains over the period and refills on springs.snap when the code rolls over, sleeping when the tab is hidden or the surface is off screen. The sixth digit checks itself: a right code ticks every cell on springs.flick and lands a Paired card on springs.recoil with the device and the date, a wrong one shakes the row, counts the attempt and clears, and the last attempt offers Start over. The cells are a group of textboxes with one tab stop, a pasted code fills them in a cascade, Backspace steps back and Escape clears.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "two-factor",
+        "authenticator app",
+        "one-time code",
+        "otp input",
+        "pairing code",
+        "countdown ring",
+        "setup key",
+        "security settings"
+      ],
+      "props": [
+        {
+          "name": "codeStyle",
+          "type": "\"grid\" | \"dots\" | \"bars\"",
+          "defaultValue": "\"grid\"",
+          "description": "How the pairing code is drawn: square modules, dots, or runs joined into bars."
+        },
+        {
+          "name": "ringStyle",
+          "type": "\"ring\" | \"arc\" | \"bar\"",
+          "defaultValue": "\"ring\"",
+          "description": "The timer: a full ring, an open arc with the seconds inside, or a bar under the cells."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"cozy\" | \"roomy\"",
+          "defaultValue": "\"cozy\"",
+          "description": "Cell size, type size and padding."
+        },
+        {
+          "name": "secret",
+          "type": "AuthenticatorSecret",
+          "defaultValue": "defaultAuthenticatorSecret",
+          "description": "The secret the authenticator is given: its key, issuer and account. An empty key reads as nothing to pair."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "defaultValue": "\"\"",
+          "description": "The digits entered so far, up to six. Controlled or initial."
+        },
+        {
+          "name": "onChange",
+          "type": "(code: string) => void",
+          "description": "Fires with the digits entered so far, on every keystroke, paste or clear."
+        },
+        {
+          "name": "verify",
+          "type": "(code: string, context: AuthenticatorVerifyContext) => Promise<boolean>",
+          "defaultValue": "defaultAuthenticatorVerify",
+          "description": "Checks a six-digit code; the context carries the expected and previous codes, the period counter and the attempt. The default takes the current or previous code after a short round trip."
+        },
+        {
+          "name": "onPaired",
+          "type": "(pairing: AuthenticatorPairing) => void",
+          "description": "A code was accepted and the Paired card has landed, with the device, the moment and how many codes it took."
+        },
+        {
+          "name": "onReject",
+          "type": "(attempt: number, code: string) => void",
+          "description": "A code was refused, with the attempt it used up."
+        },
+        {
+          "name": "onStartOver",
+          "type": "() => void",
+          "description": "Start over was pressed after the last attempt."
+        },
+        {
+          "name": "onCopy",
+          "type": "(key: string) => void",
+          "description": "The key was copied from the back of the card."
+        },
+        {
+          "name": "period",
+          "type": "number",
+          "defaultValue": "30",
+          "description": "How long each code lives, in seconds."
+        },
+        {
+          "name": "maxAttempts",
+          "type": "number",
+          "defaultValue": "3",
+          "description": "Wrong codes allowed before Start over is offered."
+        },
+        {
+          "name": "now",
+          "type": "number",
+          "defaultValue": "defaultAuthenticatorNow",
+          "description": "The moment the clock starts from, in ms; it runs on from there while the surface is on screen, so the server and the first client render agree."
+        },
+        {
+          "name": "deviceName",
+          "type": "string",
+          "defaultValue": "\"Mara's phone\"",
+          "description": "What the authenticator is called on the Paired card."
+        },
+        {
+          "name": "simulator",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Show the \"pretend your app shows\" status card with the current seeded code and a Use it button, for demos and docs."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the secret has been generated: a skeleton code and cells while loading, a retry when it failed."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after a failed load."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Pair an authenticator\"",
+          "description": "The heading."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "the title",
+          "description": "The surface's accessible name."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "520",
+          "description": "Height of the surface in px; its body scrolls inside it."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Read only: nothing can be typed, flipped or copied."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the surface."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the six cells are one group with a single tab stop on the next empty cell. A digit fills the cell and moves on, Backspace steps back (or clears the cell it is in), Delete clears a cell, Left/Right and Home/End move, Escape clears the whole code, and a paste anywhere fills every cell. The flip is a button with aria-pressed; Copy, Use it, Start over and Try again are ordinary buttons.",
+        "Reduced motion: the card cross-fades instead of turning, the code appears whole, digits appear in place without the cascade, nothing shakes, the ring refills at once and the Paired card fades in. Every phase is still reached and announced.",
+        "The clock runs on `now` from mount on one 250ms interval and sleeps when the tab is hidden or an IntersectionObserver reports the surface off screen; it stops for good once paired. The pairing code is a seeded pattern, memoised per key, and is not scannable.",
+        "Each change is announced once: digits entered, checking, a wrong code with the attempts left, the lock, the pairing with the device and date, and a copied key. The pretend-app card is a status region, so a refreshed code is read out when it rolls over.",
+        "From a 40rem container the two steps sit side by side; below it they stack and the body scrolls inside the given height. The issuer and account show in the header from 30rem. Cell, ring and card colours come from the accent, success, warn and danger tokens so they read in light and dark."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/authenticator-pair",
+      "registryItemUrl": "https://www.kinetiqui.com/r/authenticator-pair.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/authenticator-pair",
+        "npm": "npx shadcn@latest add @kinetiq/authenticator-pair",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/authenticator-pair",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/authenticator-pair",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/authenticator-pair.json"
+      }
+    },
+    {
+      "slug": "step-up-check",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Step-Up Check",
+      "serial": "KQ-1713",
+      "tagline": "Confirm it's you before the frost lifts.",
+      "description": "An interstitial that stands between a person and something sensitive: the protected panel waits behind a frosted layer with a lock badge, and a card on the frost says why and offers the ways to confirm as one radio group. Choosing a method slides its control in on springs.snap: the passkey button runs a ceremony whose fingerprint ring fills most of the way on springs.glide and completes on springs.flick when the device answers, the code field is six cells that advance as digits land and take a paste in one cascade, and a wrong code shakes them a little. Confirmed, the card leaves on the exit ease, the frost lifts from the top down on springs.glide (or from the middle outward, or cross-fades), the badge flips on springs.snap to a tick drawn on springs.flick, and a verified-for chip lands in the header on springs.recoil and counts down until the host locks again or the time lapses. The methods are a radio group with one tab stop, the cells are a group of textboxes, Escape cancels, and every change is announced.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "step-up authentication",
+        "re-authentication",
+        "passkey",
+        "one-time code",
+        "frosted glass",
+        "lock badge",
+        "sensitive data",
+        "bank details"
+      ],
+      "props": [
+        {
+          "name": "frost",
+          "type": "number",
+          "defaultValue": "6",
+          "description": "How far the frost blurs what it covers, in px."
+        },
+        {
+          "name": "reveal",
+          "type": "\"down\" | \"centre\" | \"fade\"",
+          "defaultValue": "\"down\"",
+          "description": "How the frost lifts once the person is confirmed: from the top down, from the middle outward, or a cross-fade."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"cozy\" | \"roomy\"",
+          "defaultValue": "\"cozy\"",
+          "description": "Padding, type size and row heights."
+        },
+        {
+          "name": "methods",
+          "type": "StepUpMethod[]",
+          "defaultValue": "defaultStepUpMethods",
+          "description": "The ways the person can confirm, in the order they are offered: a passkey, a code from an app, a code by text."
+        },
+        {
+          "name": "method / defaultMethod",
+          "type": "string",
+          "defaultValue": "the first method",
+          "description": "The chosen method, by id. Controlled or initial."
+        },
+        {
+          "name": "onMethodChange",
+          "type": "(method: StepUpMethod) => void",
+          "description": "A different method was chosen."
+        },
+        {
+          "name": "verify",
+          "type": "(method: StepUpMethod, code?: string) => Promise<StepUpResult>",
+          "defaultValue": "defaultStepUpVerify",
+          "description": "Checks a passkey ceremony or a six-digit code. The default accepts any passkey and the code defaultStepUpCode."
+        },
+        {
+          "name": "sendCode",
+          "type": "(method: StepUpMethod) => Promise<void>",
+          "defaultValue": "defaultStepUpSend",
+          "description": "Sends the text-message code; the default pretends to."
+        },
+        {
+          "name": "verifiedUntil / defaultVerifiedUntil",
+          "type": "number | null",
+          "defaultValue": "null",
+          "description": "The time the confirmation lasts until, in ms; null is locked. Controlled or initial."
+        },
+        {
+          "name": "onChange",
+          "type": "(verifiedUntil: number | null, method: StepUpMethod | null) => void",
+          "description": "Fires when the person is confirmed, with the time it lasts until and the method, and again with null when it lapses or is locked."
+        },
+        {
+          "name": "onCancel",
+          "type": "() => void",
+          "description": "Cancel was pressed: the host returns to the previous screen."
+        },
+        {
+          "name": "verifiedFor",
+          "type": "number",
+          "defaultValue": "15",
+          "description": "How long a confirmation lasts, in minutes."
+        },
+        {
+          "name": "now",
+          "type": "number",
+          "defaultValue": "the surface's own clock",
+          "description": "The clock the countdown reads, in ms. Left out, the surface ticks its own once a second while confirmed and on screen."
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "defaultValue": "a bank-details panel built from defaultStepUpDetails",
+          "description": "The protected panel behind the frost."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the methods have arrived: a skeleton card while loading, a retry when the code could not be sent."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after a failed send or load."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Bank details\"",
+          "description": "The heading over the protected panel."
+        },
+        {
+          "name": "eyebrow",
+          "type": "string",
+          "defaultValue": "\"Gaugeworks Pay\"",
+          "description": "The product line under the heading."
+        },
+        {
+          "name": "reason",
+          "type": "string",
+          "defaultValue": "\"To view bank details, confirm it's you.\"",
+          "description": "Why the check is asked for."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "the title",
+          "description": "The surface's accessible name."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "540",
+          "description": "Height in px; the panel scrolls inside it."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Read only: nothing can be chosen or confirmed."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the surface."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the methods are a radio group with one tab stop (Up/Down or Left/Right choose as they move, Home/End jump). The passkey control is a button; the code cells are a group of textboxes where a digit advances, Backspace clears and steps back, Left/Right and Home/End move, and a paste fills every cell. Escape anywhere in the card cancels. Once confirmed, focus lands on Lock now beside the countdown, and locking again returns it to the chosen method.",
+        "Reduced motion: the frost and the lock badge cross-fade instead of lifting and flipping, the card and the chip fade in place, the ring jumps to its fill and the cells do not shake. Every method, failure, confirmation, lapse and lock is still reached and announced.",
+        "Nothing runs while locked. Once confirmed, one interval ticks the countdown each second, and only while the tab is visible and an IntersectionObserver says the surface is on screen; pass now to drive the clock yourself and no interval is made, the surface reads a lapse from your clock and leaves onChange to you. The panel is in the DOM behind the frost, inert and hidden from assistive technology; if its values must not reach the page before confirmation, pass children only once onChange reports a time.",
+        "Each change is announced once in words: the method chosen with its detail, the code being checked, a mismatch with whether another way is suggested, the confirmation with its method and duration, one minute left, and a lock or lapse with the reason. A verification that resolves after another method was chosen, or after unmount, is ignored.",
+        "From a 36rem container the card sits centred over the panel; below it the card rests at the top and scrolls inside the surface. From 30rem a method's detail sits beside its label, from 32rem the details panel runs in two columns, and under 28rem the chip keeps only its time. The frost tints from the surface token and the badge, chip and cells take the success, accent and danger tokens, so light and dark both read."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/step-up-check",
+      "registryItemUrl": "https://www.kinetiqui.com/r/step-up-check.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/step-up-check",
+        "npm": "npx shadcn@latest add @kinetiq/step-up-check",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/step-up-check",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/step-up-check",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/step-up-check.json"
+      }
+    },
+    {
+      "slug": "session-lapse",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Session Lapse",
+      "serial": "KQ-1714",
+      "tagline": "The last two minutes of a session, with a way to stay.",
+      "description": "A session-expiry warning on a card the size of a notice: a ring drains one linear second at a time around the time left (or a bar under it, or the digits alone), turns amber under a minute and red under ten seconds, where the number flips each second on springs.snap. Stay signed in refills the ring on springs.glide and lands a tick on springs.recoil as the check draws on springs.flick; Sign out now, or the clock reaching zero, turns the card over on springs.snap to a signed-out face that counts the drafts kept and offers Sign in again. Warn me earlier widens the window and the ring re-scales to it. The clock ticks only while the tab is visible and the card is on screen, catching up what passed when it resumes; the countdown is a timer that speaks at one minute and ten seconds, and every control is a button.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "session timeout",
+        "expiry warning",
+        "countdown ring",
+        "stay signed in",
+        "idle timeout",
+        "sign out",
+        "timer",
+        "auth"
+      ],
+      "props": [
+        {
+          "name": "ringStyle",
+          "type": "\"ring\" | \"bar\" | \"digits\"",
+          "defaultValue": "\"ring\"",
+          "description": "How the time left is drawn: a draining ring around the number, a bar under it, or the digits alone."
+        },
+        {
+          "name": "warnSeconds",
+          "type": "number",
+          "defaultValue": "120",
+          "description": "The warning window in seconds: the ring is full this long before the session ends."
+        },
+        {
+          "name": "accent",
+          "type": "\"cobalt\" | \"signal\" | \"ink\"",
+          "defaultValue": "\"cobalt\"",
+          "description": "The ring's colour while more than a minute is left; under a minute it turns amber, under ten seconds red."
+        },
+        {
+          "name": "expiresAt",
+          "type": "number",
+          "defaultValue": "defaultLapseExpiresAt",
+          "description": "When the session ends, in ms."
+        },
+        {
+          "name": "now",
+          "type": "number",
+          "defaultValue": "defaultLapseNow",
+          "description": "The moment the surface counts from, in ms; it is never read from the clock, and a new value re-anchors the count."
+        },
+        {
+          "name": "earlierSeconds",
+          "type": "number",
+          "defaultValue": "60",
+          "description": "How much \"Warn me earlier\" adds to the window, in seconds."
+        },
+        {
+          "name": "earlier / defaultEarlier",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Whether the wider window is on. Controlled or initial."
+        },
+        {
+          "name": "onEarlierChange",
+          "type": "(earlier: boolean) => void",
+          "description": "Warn me earlier was pressed, or pressed again to undo it."
+        },
+        {
+          "name": "state / defaultState",
+          "type": "\"active\" | \"signed-out\"",
+          "defaultValue": "\"active\"",
+          "description": "The session state. Controlled or initial."
+        },
+        {
+          "name": "onStateChange",
+          "type": "(state: LapseState, change: LapseChange) => void",
+          "description": "Fires when the clock runs out, Sign out now is pressed, or Sign in again is pressed, with what moved it."
+        },
+        {
+          "name": "onExtend",
+          "type": "() => Promise<void> | void",
+          "defaultValue": "defaultLapseExtend",
+          "description": "Stay signed in was pressed: resolve to extend the session, reject to fail it. The default resolves after a short wait."
+        },
+        {
+          "name": "onExtended",
+          "type": "(expiresAt: number) => void",
+          "description": "The session was extended; the new end, in ms."
+        },
+        {
+          "name": "onSignOut",
+          "type": "() => void",
+          "description": "Sign out now was pressed. The card has already turned."
+        },
+        {
+          "name": "onSignIn",
+          "type": "() => void",
+          "description": "Sign in again was pressed from the signed-out face."
+        },
+        {
+          "name": "onExpire",
+          "type": "() => void",
+          "description": "The clock reached zero."
+        },
+        {
+          "name": "drafts",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "Unsaved drafts the product kept, counted in the footer and on the signed-out face."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "The extend call as the host sees it: a wait on the button while loading, a note with Retry when it failed."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after a failed extend."
+        },
+        {
+          "name": "product",
+          "type": "string",
+          "defaultValue": "\"Basinworks\"",
+          "description": "The product whose session this is."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Still there?\"",
+          "description": "The heading while the session is active."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "the title",
+          "description": "The surface's accessible name."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "320",
+          "description": "Height of the card in px."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Read only: nothing can be extended, signed out or changed."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the surface."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: Stay signed in, Sign out now and Sign in again are buttons in tab order; Warn me earlier is a button with aria-pressed, and Retry appears beside the failure note. Space or Enter presses each; the card's faces swap focusable controls so nothing hidden can be reached.",
+        "Reduced motion: the ring and bar step to each second instead of draining, the digits cross-fade instead of flipping, the card cross-fades instead of turning, and the tick and lock appear in place. Every state is still reached and announced.",
+        "The clock is expiresAt against now plus the time the card has been awake: one 200 ms interval reads it, the card re-renders only when the displayed second changes, and the interval stops when the tab is hidden, the card leaves the viewport, or the clock reaches zero. The first tick after a pause catches up, so a card hidden past its end returns signed out.",
+        "The countdown is role=timer with aria-live off and its time in words; a separate status announces One minute left, Ten seconds left, Session extended, Signed out and the window change. A note under the timer is polite live text for the extend result.",
+        "Built for a one-column card: the ring sits beside the text from any width, Sign out now shortens to Sign out below a 22rem container, and the bar and digits styles grow their numerals from 24rem. Colours come from the accent, warn, danger and success tokens so the card reads in light and dark."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/session-lapse",
+      "registryItemUrl": "https://www.kinetiqui.com/r/session-lapse.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/session-lapse",
+        "npm": "npx shadcn@latest add @kinetiq/session-lapse",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/session-lapse",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/session-lapse",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/session-lapse.json"
+      }
+    },
+    {
+      "slug": "invite-accept",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Invite Accept",
+      "serial": "KQ-1715",
+      "tagline": "Accept a team invite and watch yourself join the strip.",
+      "description": "The card an invitation opens to: who asked and where on one side, with the workspace mark, its members drifting into a strip on springs.drift in a cascade, the role, the inviter's note and a chip counting down to expiry, and on the other the account path for the address it was sent to, a short sign-up with a strength meter, Sign in to accept, a plain Accept when already signed in, or Switch account when signed in as someone else. Accept runs a progress line and, when the join resolves, the invitee's own avatar glides out of the form into the end of the strip on springs.glide and lands with a ring on springs.recoil, the role badge stamps on the same spring, and Continue to workspace appears and takes focus; a rejected join shows why with Retry. Decline asks for a reason and fades the invite, and an expired or declined invite offers Request a new invite. The form is native, the reasons are radios and the strip is a list.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "invitation",
+        "team invite",
+        "accept invite",
+        "onboarding",
+        "sign up",
+        "password strength",
+        "member avatars",
+        "expiry countdown"
+      ],
+      "props": [
+        {
+          "name": "cardStyle",
+          "type": "\"card\" | \"letter\"",
+          "defaultValue": "\"card\"",
+          "description": "The invite's finish: a plain card, or a letter with the note set in serif and the role as a round stamp."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"cozy\" | \"roomy\"",
+          "defaultValue": "\"cozy\"",
+          "description": "Padding, field heights, avatar and type size."
+        },
+        {
+          "name": "accent",
+          "type": "\"cobalt\" | \"workspace\" | \"ink\"",
+          "defaultValue": "\"cobalt\"",
+          "description": "The colour of the accept button, the role badge and the links: the cobalt token, the workspace mark's own hue, or ink."
+        },
+        {
+          "name": "invite",
+          "type": "Invite | null",
+          "defaultValue": "defaultInvite",
+          "description": "The inviter, workspace, members, role, address, note and expiry; null reads no invite found."
+        },
+        {
+          "name": "account",
+          "type": "InviteAccount",
+          "defaultValue": "defaultInviteAccount",
+          "description": "Where the invitee stands: \"new\" (sign up), \"existing\" (sign in), \"signed-in\", or \"other\" with who is signed in."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "InviteForm",
+          "defaultValue": "defaultInviteForm",
+          "description": "The email, name and password; the email is pre-filled from the invite when empty. Controlled or initial."
+        },
+        {
+          "name": "onChange",
+          "type": "(form: InviteForm, change: InviteChange) => void",
+          "description": "Fires from every keystroke that changed a field, with all three values."
+        },
+        {
+          "name": "onAccept",
+          "type": "(context: InviteAcceptContext) => Promise<void>",
+          "defaultValue": "a simulator",
+          "description": "Joins the workspace; resolve to land, reject to fail with Retry. The built-in simulator waits acceptDelay and fails while acceptFails."
+        },
+        {
+          "name": "acceptFails",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "The built-in simulator rejects while this is true."
+        },
+        {
+          "name": "acceptDelay",
+          "type": "number",
+          "defaultValue": "1400",
+          "description": "How long the built-in simulator takes, in ms."
+        },
+        {
+          "name": "onAccepted",
+          "type": "(invite: Invite) => void",
+          "description": "The join landed: the invitee is in the strip."
+        },
+        {
+          "name": "onAcceptError",
+          "type": "(error: unknown) => void",
+          "description": "The join was rejected; the card shows Retry."
+        },
+        {
+          "name": "onDecline",
+          "type": "(invite: Invite, reason: InviteDeclineReason, note: string) => void",
+          "description": "The invite was declined with a reason, and a note when one was typed."
+        },
+        {
+          "name": "onContinue",
+          "type": "(invite: Invite) => void",
+          "description": "Continue to workspace was pressed after joining."
+        },
+        {
+          "name": "onSignIn",
+          "type": "(email: string) => void",
+          "description": "Sign in to accept was pressed; the password field opens."
+        },
+        {
+          "name": "onSwitchAccount",
+          "type": "(account: InviteAccount) => void",
+          "description": "Switch account was pressed while signed in as someone else."
+        },
+        {
+          "name": "onRequestInvite",
+          "type": "(invite: Invite) => void",
+          "description": "Request a new invite was pressed on an expired or declined invite."
+        },
+        {
+          "name": "now",
+          "type": "number",
+          "defaultValue": "defaultInviteNow",
+          "description": "The moment the countdown counts from, in ms; never read from the clock."
+        },
+        {
+          "name": "countdown",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Tick the expiry chip once a second while the card is on screen and the tab is visible."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the invite has arrived: a skeleton card while loading, a retry when it failed."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after a failed load."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Invitation\"",
+          "description": "The heading."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "the title",
+          "description": "The surface's accessible name."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "540",
+          "description": "Height of the surface in px; the card scrolls inside it."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Read only: nothing can be typed, accepted or declined."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the surface."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the account side is a native form. Tab moves through email, name and password, Enter submits, and Sign in to accept opens the password field and moves on to it. Decline opens a radio group of reasons that takes focus (arrows choose, Enter confirms, Back returns focus to the accept button), the show-password toggle is a pressed button, and the member strip is a list. Continue to workspace takes focus once the avatar has landed.",
+        "Reduced motion: the strip is simply there, the avatar appears in the strip and leaves the form without travelling, the badge and the check appear in place, the password field and each pane cross-fade, and the strength meter fills without overshoot. Every state is still reached and announced.",
+        "The countdown is the only continuous work and it is one setInterval, driven from `now` plus elapsed seconds (never the clock), that stops when the tab is hidden, when an IntersectionObserver reports the card off screen, when the invite expires or once it is joined or declined. The join's spinner runs only while a promise is in flight.",
+        "Each change is announced once in words: joining, joined with the role, why a join failed, a declined reason, a request sent, and what is missing when Accept is pressed too early (a name, or a password below Fair). Reaching expiry while the card is open is announced and switches it to the expired path. The strength label is its own polite live region.",
+        "From a 40rem container the invite and the account path sit side by side; below it they stack and the card scrolls inside its height. Avatars and the workspace mark are fixed-lightness oklch pigments from each person's hue, the accent is the cobalt token, the workspace's own hue or ink, and the expiry chip turns to the warn token under an hour and the danger token once expired, so every finish reads in light and dark."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/invite-accept",
+      "registryItemUrl": "https://www.kinetiqui.com/r/invite-accept.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/invite-accept",
+        "npm": "npx shadcn@latest add @kinetiq/invite-accept",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/invite-accept",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/invite-accept",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/invite-accept.json"
+      }
+    },
+    {
+      "slug": "cooling-lock",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Cooling Lock",
+      "serial": "KQ-1716",
+      "tagline": "A lockout that cools down and clicks open.",
+      "description": "A sign-in card locked after too many attempts: a padlock, shield or ring sits in a disc washed warm, and the wash cools over the lockout on a linear tween read from until and now while the digits beside it count down, swapping in place until the last ten seconds, when each column rolls on springs.snap. The attempts sit under the digits as a row of dots, the used ones red, and another failed attempt from the host re-warms the wash and lands a new dot on springs.recoil. At zero the lock clicks open on springs.snap and the email and password fields return from above on springs.recoil; Try again resolves through a promise, drawing a check on springs.flick when it signs in and locking the card again when it does not. The fields and links are plain form controls, the digits are a timer that never interrupts, and a status line speaks at one minute, at the opening and on every attempt.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "lockout",
+        "too many attempts",
+        "countdown",
+        "sign-in",
+        "rate limit",
+        "padlock",
+        "rolling digits",
+        "try again"
+      ],
+      "props": [
+        {
+          "name": "glyph",
+          "type": "\"padlock\" | \"shield\" | \"ring\"",
+          "defaultValue": "\"padlock\"",
+          "description": "The glyph that cools and opens: a padlock whose shackle lifts, a shield whose latch slides out, or a ring that parts."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"cozy\" | \"roomy\"",
+          "defaultValue": "\"cozy\"",
+          "description": "Padding, glyph size and digit size."
+        },
+        {
+          "name": "tone",
+          "type": "\"warn\" | \"danger\" | \"ink\"",
+          "defaultValue": "\"warn\"",
+          "description": "The warm wash's colour: amber, red or ink."
+        },
+        {
+          "name": "until / defaultUntil",
+          "type": "number | null",
+          "defaultValue": "defaultCoolingLockUntil",
+          "description": "When the lockout lifts, in ms; null when there is none and the fields show at once. Controlled or initial."
+        },
+        {
+          "name": "attempts / defaultAttempts",
+          "type": "number",
+          "defaultValue": "3",
+          "description": "The attempts used so far, one red dot each. Controlled or initial."
+        },
+        {
+          "name": "maxAttempts",
+          "type": "number",
+          "defaultValue": "5",
+          "description": "How many attempts there are in all; one dot each."
+        },
+        {
+          "name": "now",
+          "type": "number",
+          "defaultValue": "defaultCoolingLockNow",
+          "description": "The moment the countdown reads from, in ms; never taken from the clock."
+        },
+        {
+          "name": "lockout",
+          "type": "number",
+          "defaultValue": "60000",
+          "description": "A full lockout's length in ms: the wash is warmest with this long to go, and a failed retry locks for this long."
+        },
+        {
+          "name": "live",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Count the seconds between now updates while the card is locked, the tab is visible and the root is on screen."
+        },
+        {
+          "name": "onChange",
+          "type": "(value: CoolingLockValue, change: CoolingLockChange) => void",
+          "description": "Fires when the countdown runs out, a failed retry locks the card again, or a retry signs in, with the lift time and attempts."
+        },
+        {
+          "name": "onRetry",
+          "type": "(credentials: CoolingLockCredentials) => Promise<CoolingLockResult>",
+          "defaultValue": "simulateCoolingLockRetry",
+          "description": "Try again was pressed: resolves with whether the credentials signed in. The default accepts any password of eight characters or more after a short wait."
+        },
+        {
+          "name": "onReset",
+          "type": "() => void",
+          "description": "Reset password instead was pressed."
+        },
+        {
+          "name": "onSupport",
+          "type": "() => void",
+          "description": "Contact support was pressed."
+        },
+        {
+          "name": "defaultEmail",
+          "type": "string",
+          "defaultValue": "defaultCoolingLockEmail",
+          "description": "The email the fields come back with."
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "description": "A line under the fields, such as what the simulator accepts."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the lock's state has arrived: a skeleton disc, digits and dots while loading, a retry when it failed."
+        },
+        {
+          "name": "onReload",
+          "type": "() => void",
+          "description": "Retry was pressed after the lock's state failed to load."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Fieldline sign-in\"",
+          "description": "The product line above the card."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "the title",
+          "description": "The surface's accessible name."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "320",
+          "description": "Height of the card in px; its body scrolls inside it."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Read only: nothing can be typed or pressed. The countdown still runs."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the surface."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the two links, the email and password fields and Try again are ordinary controls in tab order; Enter in either field submits, and a failed reach shows a Retry button beside the field. When the lock opens with focus already inside the card, focus moves to the password field; otherwise it stays where it was.",
+        "Reduced motion: the shackle, latch or ring is placed open at once rather than swinging, the digits swap without rolling, the fields and the check fade in instead of landing or drawing, and a new dot simply appears. The wash still cools, since it is the time left.",
+        "The countdown reads against the now prop and counts its own seconds only while the card is locked, the tab is visible and the root is on screen (one IntersectionObserver and one timeout aimed at the next second). Nothing runs once the lock is open, and a fresh now from the host drops the seconds counted against the old one.",
+        "The digits are a role=\"timer\" with the time left as a sentence that never announces on its own. A status line speaks once at one minute to go, when the lock opens, on every failed attempt (from a retry here or from the host, with the new count and lockout) and on signing in.",
+        "From a 24rem container the two links share a line under the card; from 30rem the email and password fields sit side by side. The wash is the warn, danger or ink token mixed through color-mix, the used dots the danger token and the signed-in disc the success token, so every state reads in light and dark."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/cooling-lock",
+      "registryItemUrl": "https://www.kinetiqui.com/r/cooling-lock.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/cooling-lock",
+        "npm": "npx shadcn@latest add @kinetiq/cooling-lock",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/cooling-lock",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/cooling-lock",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/cooling-lock.json"
+      }
+    },
+    {
+      "slug": "number-match",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Number Match",
+      "serial": "KQ-1717",
+      "tagline": "Choose the number you see; both sides agree.",
+      "description": "A number-matching push approval with both sides on one surface: the sign-in shows a two-digit number large, its digits rolling in on springs.snap beside a timer ring that drains on springs.glide, while a mock phone card shows the push prompt with three candidate numbers as big buttons, a Where-is-this-from disclosure and an It-wasn't-me link. Choosing the match ticks both panes on springs.flick and lands an Approved card on the sign-in side on springs.recoil; a wrong choice shakes the phone on the same spring, marks the button and counts the tries left until the number locks. The timer running out greys both sides and offers Resend, which asks the host for a new number (the default simulates a push) and rolls it in. The candidates are one group with a roving tab stop, arrows and Home/End move, Enter or Space chooses, and every outcome is announced.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "number matching",
+        "push approval",
+        "two-factor",
+        "sign-in prompt",
+        "mfa",
+        "timer ring",
+        "it wasn't me",
+        "resend"
+      ],
+      "props": [
+        {
+          "name": "phonePosition",
+          "type": "\"right\" | \"below\"",
+          "defaultValue": "\"right\"",
+          "description": "Where the phone sits: beside the sign-in from a 40rem container, or always under it."
+        },
+        {
+          "name": "digitStyle",
+          "type": "\"roll\" | \"fade\"",
+          "defaultValue": "\"roll\"",
+          "description": "How a new number arrives: its digits roll in like a counter, or cross-fade."
+        },
+        {
+          "name": "accent",
+          "type": "\"cobalt\" | \"signal\" | \"ink\"",
+          "defaultValue": "\"cobalt\"",
+          "description": "The colour of the number, the timer ring and the chosen candidate."
+        },
+        {
+          "name": "number",
+          "type": "number",
+          "defaultValue": "defaultMatchNumber",
+          "description": "The two-digit number the sign-in shows."
+        },
+        {
+          "name": "candidates",
+          "type": "number[]",
+          "defaultValue": "defaultMatchCandidates",
+          "description": "The three numbers the phone offers, one of them the match."
+        },
+        {
+          "name": "expiresAt",
+          "type": "number",
+          "defaultValue": "defaultMatchExpiresAt",
+          "description": "When the number stops being accepted, in ms."
+        },
+        {
+          "name": "now",
+          "type": "number",
+          "defaultValue": "defaultMatchNow",
+          "description": "The moment the clock starts from, in ms; never read from the clock during render."
+        },
+        {
+          "name": "lifetime",
+          "type": "number",
+          "defaultValue": "60000",
+          "description": "How long a resent number lives, in ms."
+        },
+        {
+          "name": "maxAttempts",
+          "type": "number",
+          "defaultValue": "3",
+          "description": "Wrong choices allowed before the number locks."
+        },
+        {
+          "name": "source",
+          "type": "MatchSource",
+          "defaultValue": "defaultMatchSource",
+          "description": "Where the request is from (location, browser, time, network), shown on the phone."
+        },
+        {
+          "name": "onApprove",
+          "type": "(attempt: MatchAttempt) => void",
+          "description": "The matching number was chosen on the phone."
+        },
+        {
+          "name": "onAttempt",
+          "type": "(attempt: MatchAttempt) => void",
+          "description": "Any number was chosen on the phone, right or wrong."
+        },
+        {
+          "name": "onDeny",
+          "type": "(reason: \"reported\" | \"attempts\") => void",
+          "description": "The attempt was locked: It wasn't me was pressed, or the wrong choices ran out."
+        },
+        {
+          "name": "onExpire",
+          "type": "(number: number) => void",
+          "description": "The number ran out of time before a choice was made."
+        },
+        {
+          "name": "onResend",
+          "type": "(context: MatchResendContext) => Promise<MatchChallengeInput | void> | MatchChallengeInput | void",
+          "defaultValue": "simulateMatchResend",
+          "description": "Sends a new number; resolves with it, or with nothing and a seeded one is used. The context carries the attempt, the number replaced and an abort signal."
+        },
+        {
+          "name": "onChange",
+          "type": "(state: MatchState) => void",
+          "description": "Fires after every change of outcome with the whole state."
+        },
+        {
+          "name": "product",
+          "type": "string",
+          "defaultValue": "\"Gaugeworks\"",
+          "description": "The product being signed in to."
+        },
+        {
+          "name": "account",
+          "type": "string",
+          "defaultValue": "\"mara.lind\"",
+          "description": "The account signing in, shown in the header."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the push has been sent: a skeleton on both sides while it sends, a retry when it failed."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after the push failed to send."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Approve sign-in\"",
+          "description": "The heading."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "the title",
+          "description": "The surface's accessible name."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "520",
+          "description": "Height in px; the panes scroll inside it."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Read only: nothing can be chosen, resent or reported."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the surface."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the three candidates are one group with a roving tab stop. Left/Right or Up/Down move, wrapping, Home and End jump to the ends, Enter or Space chooses. Resend, the Where-is-this-from disclosure (aria-expanded) and It wasn't me are ordinary buttons in the tab order.",
+        "Reduced motion: the digits cross-fade instead of rolling, the phone does not shake, the Approved card and the disclosure fade in place, and the ring moves without easing. Every outcome, count and message is still reached and announced.",
+        "The clock starts at `now` for the server render and runs on from it once mounted, so hydration never prints a time the server did not. One setInterval ticks each second only while the number is pending, the tab is visible and the surface is on screen; it stops at approval, lock, expiry and off screen. A resend in flight is aborted on unmount.",
+        "Each change is announced once in words: the match and the sign-in, a miss with the tries left, the lock, the expiry, and a new number by value. The chosen button that missed carries didn't match in its name until the next choice.",
+        "From a 40rem container the phone sits beside the sign-in at 280px (phonePosition right); below it, or always with below, the panes stack and the phone card centres at up to 300px. The number is 56px, 64px from 40rem. The accent takes the accent-bright, signal or ink token, approval the success token, misses and locks the danger token, and the ring warns in amber under ten seconds."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/number-match",
+      "registryItemUrl": "https://www.kinetiqui.com/r/number-match.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/number-match",
+        "npm": "npx shadcn@latest add @kinetiq/number-match",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/number-match",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/number-match",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/number-match.json"
+      }
+    },
+    {
+      "slug": "screen-pairing",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Screen Pairing",
+      "serial": "KQ-1718",
+      "tagline": "Sign a TV in with the six characters it shows.",
+      "description": "Signing a TV or a kiosk in with a short code: a dark screen face shows six mono glyphs that land one after another on springs.snap under a status dot whose ring drains as the code runs out, and beside it the phone side has six cells that fill from the left, each glyph popping in on springs.snap, and a Pair button. A code that matches dissolves the glyphs on an exit tween while a welcome card rises on the screen on springs.glide, the phone side turns into a Screen paired card with a Rename field, and the new screen lands in the paired list on springs.recoil; a wrong one shakes the cells and blinks the dot once. When the ring runs out a new code rolls in from above as the old one drops out. The cells are one group with arrows, Backspace, paste and Enter; the paired list is a listbox where Delete arms an Unpair that a second Delete confirms.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "device pairing",
+        "tv sign-in",
+        "kiosk",
+        "pairing code",
+        "code cells",
+        "countdown ring",
+        "digital signage",
+        "unpair"
+      ],
+      "props": [
+        {
+          "name": "screenStyle",
+          "type": "\"tv\" | \"kiosk\" | \"plain\"",
+          "defaultValue": "\"tv\"",
+          "description": "How the screen is drawn: a wide set on a stand, an upright kiosk on a base, or a plain dark face."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"cozy\" | \"roomy\"",
+          "defaultValue": "\"cozy\"",
+          "description": "Glyph size, cell size, row heights and padding."
+        },
+        {
+          "name": "accent",
+          "type": "\"cobalt\" | \"signal\" | \"success\"",
+          "defaultValue": "\"cobalt\"",
+          "description": "The colour the ring, the dot, the screen's tint and the chosen row take."
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "defaultValue": "defaultScreenCode",
+          "description": "The code the screen shows first; the ones after it are generated from it with makeScreenCode."
+        },
+        {
+          "name": "expiresAt",
+          "type": "number",
+          "defaultValue": "defaultScreenExpiresAt",
+          "description": "When the first code expires, in ms."
+        },
+        {
+          "name": "codeSeconds",
+          "type": "number",
+          "defaultValue": "90",
+          "description": "How long each generated code lives, in seconds."
+        },
+        {
+          "name": "now",
+          "type": "number",
+          "defaultValue": "defaultScreenNow",
+          "description": "The moment the clock starts from, in ms; the piece runs on from it after mount, so the ring and the ages never read the clock during render."
+        },
+        {
+          "name": "screens / defaultScreens",
+          "type": "PairedScreen[]",
+          "defaultValue": "defaultPairedScreens",
+          "description": "The screens already signed in, each with where it hangs, when it was paired and when it last checked in. Controlled or initial."
+        },
+        {
+          "name": "onChange",
+          "type": "(screens: PairedScreen[], change: ScreenChange) => void",
+          "description": "Fires with the whole list after a screen is paired, renamed or unpaired, and the change."
+        },
+        {
+          "name": "selected / defaultSelected",
+          "type": "string | null",
+          "defaultValue": "null",
+          "description": "The chosen row in the paired list, by id. Controlled or initial."
+        },
+        {
+          "name": "onSelect",
+          "type": "(id: string | null, screen: PairedScreen | null) => void",
+          "description": "A row was chosen in the paired list."
+        },
+        {
+          "name": "pair",
+          "type": "(context: ScreenPairContext) => Promise<ScreenPairResult>",
+          "defaultValue": "defaultScreenPair",
+          "description": "Checks what was typed against the code the screen shows. Resolve with the screen's name to pair it; reject with the message to show. The context carries the attempt and a signal that fires on unmount."
+        },
+        {
+          "name": "onPaired",
+          "type": "(screen: PairedScreen) => void",
+          "description": "A screen was paired. It is already in the list."
+        },
+        {
+          "name": "onRename",
+          "type": "(screen: PairedScreen, from: string) => void",
+          "description": "A screen was renamed from the field after pairing."
+        },
+        {
+          "name": "onUnpair",
+          "type": "(screen: PairedScreen) => void",
+          "description": "A screen was unpaired, after the second press."
+        },
+        {
+          "name": "onCodeChange",
+          "type": "(code: string, expiresAt: number) => void",
+          "description": "The screen is showing a new code, after the old one expired or another pairing began."
+        },
+        {
+          "name": "product",
+          "type": "string",
+          "defaultValue": "\"Basinworks Screens\"",
+          "description": "The product named in the screen's corner."
+        },
+        {
+          "name": "pairUrl",
+          "type": "string",
+          "defaultValue": "\"basinworks.app/screen\"",
+          "description": "The address the screen tells people to go to."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the code and the list have arrived: skeleton glyphs, cells and rows while loading, a Try again when they failed."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after a failed load."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Pair a screen\"",
+          "description": "The heading."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "the title",
+          "description": "The surface's accessible name."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "540",
+          "description": "Height of the surface in px; the panes scroll inside it."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Read only: nothing can be entered, renamed or unpaired."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the surface."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the six cells are one group with a single tab stop on the next empty cell. Typing advances, Backspace steps back, Delete clears a cell, arrows and Home/End move, paste fills from the cell it lands on, and Enter pairs. The paired list is a listbox: arrows move, Home/End jump, Enter or Space chooses, Delete arms Unpair on the row and a second Delete (or the Unpair button) confirms it, Escape keeps the screen. Focus moves to the neighbouring row after an unpair.",
+        "Reduced motion: glyphs do not roll, cells do not shake and nothing rises or lands. A new code, the welcome card, the paired card and the rows cross-fade in place, the glyphs still dissolve on an opacity tween, and the screen's dot turns red instead of blinking until the next keystroke. Every announcement still lands.",
+        "The clock runs on from `now` after mount on one 1 s interval, only while a code is counting down and the surface is on a visible page (an IntersectionObserver and visibilitychange gate it), with a single timeout for the moment the code expires; nothing ticks once a screen is paired. The ring is a stroke offset that transitions linearly between ticks. Nothing is measured: the panes are a container-query grid and the glyphs are fixed em boxes.",
+        "Each change is announced once in words: a new code spelled out with its lifetime, the check starting, a mismatch with the number of tries, the pairing with the screen's name and the new count, a rename, an armed unpair and the unpair itself with how many screens remain. The ring is a timer with its seconds in text, and a wrong code marks the cells invalid and points them at the message.",
+        "Below a 40rem container the screen, the phone side and the paired list stack; from 40rem the screen takes the wider left column and the phone side the right, with the list beneath both. The screen's face is mixed from the accent and black so it stays dark in light and dark themes, and every other colour comes from the tokens."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/screen-pairing",
+      "registryItemUrl": "https://www.kinetiqui.com/r/screen-pairing.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/screen-pairing",
+        "npm": "npx shadcn@latest add @kinetiq/screen-pairing",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/screen-pairing",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/screen-pairing",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/screen-pairing.json"
       }
     },
     {

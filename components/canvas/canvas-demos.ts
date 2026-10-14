@@ -1899,4 +1899,48 @@ export const CANVAS_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/reset-match.demo").then((m) =>
       mod(m.ResetMatchDemo, m.tweaks),
     ),
+  "recovery-route": () =>
+    import("@/registry/demos/recovery-route.demo").then((m) =>
+      mod(m.RecoveryRouteDemo, m.tweaks),
+    ),
+  "upgrade-request": () =>
+    import("@/registry/demos/upgrade-request.demo").then((m) =>
+      mod(m.UpgradeRequestDemo, m.tweaks),
+    ),
+  "step-up-check": () =>
+    import("@/registry/demos/step-up-check.demo").then((m) =>
+      mod(m.StepUpCheckDemo, m.tweaks),
+    ),
+  "org-discovery": () =>
+    import("@/registry/demos/org-discovery.demo").then((m) =>
+      mod(m.OrgDiscoveryDemo, m.tweaks),
+    ),
+  "session-lapse": () =>
+    import("@/registry/demos/session-lapse.demo").then((m) =>
+      mod(m.SessionLapseDemo, m.tweaks),
+    ),
+  "spare-keys": () =>
+    import("@/registry/demos/spare-keys.demo").then((m) =>
+      mod(m.SpareKeysDemo, m.tweaks),
+    ),
+  "authenticator-pair": () =>
+    import("@/registry/demos/authenticator-pair.demo").then((m) =>
+      mod(m.AuthenticatorPairDemo, m.tweaks),
+    ),
+  "cooling-lock": () =>
+    import("@/registry/demos/cooling-lock.demo").then((m) =>
+      mod(m.CoolingLockDemo, m.tweaks),
+    ),
+  "number-match": () =>
+    import("@/registry/demos/number-match.demo").then((m) =>
+      mod(m.NumberMatchDemo, m.tweaks),
+    ),
+  "screen-pairing": () =>
+    import("@/registry/demos/screen-pairing.demo").then((m) =>
+      mod(m.ScreenPairingDemo, m.tweaks),
+    ),
+  "invite-accept": () =>
+    import("@/registry/demos/invite-accept.demo").then((m) =>
+      mod(m.InviteAcceptDemo, m.tweaks),
+    ),
 };
