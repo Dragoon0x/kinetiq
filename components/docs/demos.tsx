@@ -1905,6 +1905,11 @@ import { CoolingLockDemo } from "@/registry/demos/cooling-lock.demo";
 import { NumberMatchDemo } from "@/registry/demos/number-match.demo";
 import { ScreenPairingDemo } from "@/registry/demos/screen-pairing.demo";
 import { InviteAcceptDemo } from "@/registry/demos/invite-accept.demo";
+import { PinchBoardDemo } from "@/registry/demos/pinch-board.demo";
+import { PatinaBoardDemo } from "@/registry/demos/patina-board.demo";
+import { BlockerChainsDemo } from "@/registry/demos/blocker-chains.demo";
+import { InstanceSizerDemo } from "@/registry/demos/instance-sizer.demo";
+import { ChartRecipeDemo } from "@/registry/demos/chart-recipe.demo";
 /**
  * slug → live preview component. Every catalog item registers its demo here;
  * the docs template renders it inside a SpecimenPlate.
@@ -3822,4 +3827,9 @@ export const demos: Record<string, ComponentType> = {
   "number-match": NumberMatchDemo,
   "screen-pairing": ScreenPairingDemo,
   "invite-accept": InviteAcceptDemo,
+  "pinch-board": PinchBoardDemo,
+  "patina-board": PatinaBoardDemo,
+  "blocker-chains": BlockerChainsDemo,
+  "instance-sizer": InstanceSizerDemo,
+  "chart-recipe": ChartRecipeDemo,
 };

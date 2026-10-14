@@ -1943,4 +1943,24 @@ export const CANVAS_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/invite-accept.demo").then((m) =>
       mod(m.InviteAcceptDemo, m.tweaks),
     ),
+  "pinch-board": () =>
+    import("@/registry/demos/pinch-board.demo").then((m) =>
+      mod(m.PinchBoardDemo, m.tweaks),
+    ),
+  "patina-board": () =>
+    import("@/registry/demos/patina-board.demo").then((m) =>
+      mod(m.PatinaBoardDemo, m.tweaks),
+    ),
+  "blocker-chains": () =>
+    import("@/registry/demos/blocker-chains.demo").then((m) =>
+      mod(m.BlockerChainsDemo, m.tweaks),
+    ),
+  "instance-sizer": () =>
+    import("@/registry/demos/instance-sizer.demo").then((m) =>
+      mod(m.InstanceSizerDemo, m.tweaks),
+    ),
+  "chart-recipe": () =>
+    import("@/registry/demos/chart-recipe.demo").then((m) =>
+      mod(m.ChartRecipeDemo, m.tweaks),
+    ),
 };

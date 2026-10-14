@@ -170326,4 +170326,804 @@ export const components: KinetiqItem[] = [
       "From a 40rem container the invite and the account path sit side by side; below it they stack and the card scrolls inside its height. Avatars and the workspace mark are fixed-lightness oklch pigments from each person's hue, the accent is the cobalt token, the workspace's own hue or ink, and the expiry chip turns to the warn token under an hour and the danger token once expired, so every finish reads in light and dark.",
     ],
   },
+  {
+    name: "pinch-board",
+    type: "registry:ui",
+    title: "Pinch Board",
+    description:
+      "A zoomable planning board: sticky notes on a canvas, grouped by the frames they sit in. A pinch, Ctrl and the wheel, or the + and - buttons zoom around the pointer, and the buttons, Fit all and a double tap on a frame travel on springs.glide with the scale and the pan on one spring, so the point under the pointer never drifts. As the board shrinks a note folds to its colour and a large title; as it grows its tags and then its body cross-fade in, while a minimap in the corner follows the viewport live. Notes drag within and between frames, lifting on springs.flick, raising a Drop here pill on springs.snap in the frame beneath, and landing on springs.recoil. The board is one application region: arrows pan, + and - zoom, 0 fits all, Tab reaches every note, arrows nudge a note, Enter opens it and F fits its frame.",
+    files: [{ path: "registry/ui/pinch-board.tsx", type: "registry:ui" }],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: { serial: "KQ-1721" },
+    tagline: "Pinch, pan and drop notes between frames.",
+    keywords: [
+      "pinch zoom",
+      "infinite canvas",
+      "planning board",
+      "sticky notes",
+      "minimap",
+      "pan and zoom",
+      "roadmap",
+      "drag between frames",
+    ],
+    props: [
+      {
+        name: "frames",
+        type: "PinchFrame[]",
+        defaultValue: "defaultPinchFrames",
+        description:
+          "The frames drawn on the board, in board units; a note belongs to the frame its centre sits in.",
+      },
+      {
+        name: "cards",
+        type: "PinchCard[]",
+        defaultValue: "defaultPinchCards",
+        description:
+          "The sticky notes: a title, a body shown when zoomed in, tags shown from mid zoom, and a colour.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "PinchBoardValue",
+        defaultValue: "defaultPinchValue",
+        description:
+          "Card id to placement: its top-left corner in board units and the frame it sits in. Controlled or initial.",
+      },
+      {
+        name: "onChange",
+        type: "(value: PinchBoardValue, change: PinchMove) => void",
+        description:
+          "Fires when a note is dropped or nudged, with every placement and the move.",
+      },
+      {
+        name: "zoom / defaultZoom",
+        type: "number",
+        defaultValue: "fits everything",
+        description:
+          "The zoom; 1 draws board units at screen pixels. A controlled change travels there around the centre.",
+      },
+      {
+        name: "onZoomChange",
+        type: "(zoom: number) => void",
+        description:
+          "Fires once a pinch, wheel, button or key has settled on a zoom.",
+      },
+      {
+        name: "pan / defaultPan",
+        type: "PinchPan",
+        defaultValue: "centres the board",
+        description:
+          "Where the board's origin sits in the viewport, in px. Controlled or initial.",
+      },
+      {
+        name: "onPanChange",
+        type: "(pan: PinchPan) => void",
+        description:
+          "Fires once a drag, wheel, key or fit has settled on a pan.",
+      },
+      {
+        name: "onOpenCard",
+        type: "(card: PinchCard) => void",
+        description: "A note was opened by Enter or a double tap.",
+      },
+      {
+        name: "onAddCard",
+        type: "() => void",
+        description:
+          "Add a note was pressed on an empty board; without it the prompt is text only.",
+      },
+      {
+        name: "minimap",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Show the minimap in the corner. It follows the viewport live and a press jumps there.",
+      },
+      {
+        name: "cardStyle",
+        type: '"sticky" | "card" | "flat"',
+        defaultValue: '"sticky"',
+        description:
+          "How a note is drawn: tinted, tilted paper; a white card with a colour bar; or a flat tile with a colour dot.",
+      },
+      {
+        name: "density",
+        type: '"compact" | "cozy" | "roomy"',
+        defaultValue: '"cozy"',
+        description:
+          "Note size and type, from 150 by 96 to 200 by 140 board units.",
+      },
+      {
+        name: "minZoom",
+        type: "number",
+        defaultValue: "0.25",
+        description: "Smallest zoom a pinch, wheel or key can reach.",
+      },
+      {
+        name: "maxZoom",
+        type: "number",
+        defaultValue: "2.5",
+        description: "Largest zoom a pinch, wheel or key can reach.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the board has arrived: skeleton frames while loading, a retry when it failed.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after a failed load.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Roadmap"',
+        description: "The heading.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: "the title",
+        description: "The surface's accessible name.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "540",
+        description:
+          "Height of the surface in px; the canvas fills what the header leaves.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Read only: notes cannot be moved or selected, but the board still zooms and pans.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the surface.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the canvas is an application region. Arrows pan, + and - zoom in steps of 1.25 around the centre, 0 fits everything, and Escape clears the selection or cancels a drag in flight. Tab moves through the frames and then the notes; on a note, arrows nudge it 10 units (Shift for 50) and it re-homes to whichever frame it lands in, Space selects it, Enter opens it and F fits its frame. On a frame, Enter or F fits it. Holding Space turns a drag anywhere into a pan.",
+      "Reduced motion: zooms, pans and fits land instantly, a dragged note appears where it is dropped and a nudged one moves in place, and the tilt is dropped. The detail levels still cross-fade and every move is announced.",
+      "Zoom and pan live in three motion values, not React state, so a pinch or wheel never re-renders the notes; only crossing a detail threshold (0.5 and 0.9) does. Glides are three finite spring animations that are stopped by the next gesture; nothing runs once the view settles. onZoomChange and onPanChange fire when a gesture ends or the wheel goes quiet, not per frame.",
+      "Each zoom, fit, move and open is announced in words through one status region; wheel zooms are coalesced until the wheel stops, and nudges are debounced so a held arrow reads as one move.",
+      "Below a 28rem container the Fit all button is an icon and the minimap shrinks to 96px; below 40rem the hint in the header is dropped. Note colours are the status tokens mixed into the surface, and the dot grid and frames use the hairline tokens, so the board reads in light and dark.",
+    ],
+  },
+  {
+    name: "patina-board",
+    type: "registry:ui",
+    title: "Patina Board",
+    description:
+      "A three-column job board whose cards age in view: a fresh card is clean, a week-old one takes a faint sepia wash as its corner curls on springs.snap, and a month-old one is dog-eared and tagged stale. A time slider scrubs the board ahead of now and the washes deepen behind it on a slow tween; open a card and press Touch and the wash lifts on springs.snap, the fold falls away and its age restarts. Sweep stale gathers every stale card into the Archive column on springs.glide, each a beat after the last on cascade, while the column opens to take them, and a card dropped into a column settles on springs.recoil. The cards are one grid: arrows move within and across columns, Shift with Left or Right carries a card, Enter opens it, T touches it and Delete archives it; the slider steps a day with arrows and a week with Shift.",
+    files: [{ path: "registry/ui/patina-board.tsx", type: "registry:ui" }],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: { serial: "KQ-1722" },
+    tagline: "Cards that yellow and curl the longer they wait.",
+    keywords: [
+      "kanban",
+      "aging cards",
+      "stale",
+      "patina",
+      "time scrub",
+      "archive sweep",
+      "job board",
+      "dog-ear",
+    ],
+    props: [
+      {
+        name: "patina",
+        type: '"sepia" | "fade" | "dust"',
+        defaultValue: '"sepia"',
+        description:
+          "How age shows on a card: a warm sepia wash, a fade into the column, or a dusting of grey grain.",
+      },
+      {
+        name: "staleAfterDays",
+        type: "number",
+        defaultValue: "21",
+        description:
+          'Days untouched before a card is stale: dog-eared, tagged, and swept by "Sweep stale".',
+      },
+      {
+        name: "density",
+        type: '"compact" | "cozy" | "roomy"',
+        defaultValue: '"cozy"',
+        description: "Card padding and type size.",
+      },
+      {
+        name: "agingAfterDays",
+        type: "number",
+        defaultValue: "7",
+        description:
+          "Days untouched before a card starts to age: the wash begins and a corner curls.",
+      },
+      {
+        name: "columns",
+        type: "PatinaColumn[]",
+        defaultValue: "defaultPatinaColumns",
+        description:
+          "The work columns, in board order. The Archive column is always last.",
+      },
+      {
+        name: "cards",
+        type: "PatinaCard[]",
+        defaultValue: "defaultPatinaCards",
+        description: "The cards, each with when it was last touched.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "PatinaValue",
+        defaultValue: "defaultPatinaValue",
+        description:
+          'Card id to column id; "archive" is the Archive. Controlled or initial.',
+      },
+      {
+        name: "onChange",
+        type: "(value: PatinaValue, change: PatinaChange) => void",
+        description:
+          "Fires from the drop, key, press or sweep that moved cards, with the whole placement and which cards went where.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "defaultPatinaNow",
+        description:
+          "The moment ages count from, in ms; never read from the clock.",
+      },
+      {
+        name: "scrub / defaultScrub",
+        type: "number",
+        defaultValue: "0",
+        description:
+          "Days ahead of now the board is viewed at, from the time slider. Controlled or initial.",
+      },
+      {
+        name: "onScrubChange",
+        type: "(days: number) => void",
+        description: "The slider moved, from a drag or a key.",
+      },
+      {
+        name: "scrubDays",
+        type: "number",
+        defaultValue: "45",
+        description: "How far ahead the slider can scrub, in days.",
+      },
+      {
+        name: "onTouch",
+        type: "(card: PatinaCard, at: number) => void",
+        description:
+          "A card was touched: its patina lifts and its age restarts at the viewing time.",
+      },
+      {
+        name: "onSweep",
+        type: "(cards: PatinaCard[]) => void",
+        description: "Sweep stale gathered these cards into the Archive.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the board's data has arrived: skeleton columns while loading, a retry when it failed.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after a failed load.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Fieldline Jobs"',
+        description: "The heading.",
+      },
+      {
+        name: "archiveLabel",
+        type: "string",
+        defaultValue: '"Archive"',
+        description: "The last column's heading.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: "the title",
+        description: "The surface's accessible name.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "540",
+        description: "Height of the board in px; its columns scroll inside it.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Read only: nothing can be moved, touched or swept. The slider still scrubs.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the surface.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the cards are one grid with a single tab stop. Up/Down move within a column, Left/Right across columns, Home/End to a column's ends; Shift+Left/Right carries the focused card to the next column (Shift+Right from the last column archives it), Enter or Space opens its panel, T touches it, Delete or Backspace archives it, Escape closes the panel and returns focus. The time slider is a slider: arrows step a day, Shift+arrows and Page keys a week, Home and End the ends.",
+      "Reduced motion: washes, folds and the stale tag change in place with no tween, a moved or swept card appears where it landed, and the panel fades. Every age, count and placement is still reached and announced.",
+      "Nothing animates once settled: the patina is a tween retargeted only when the viewing time or a touch changes it, so an idle board costs nothing. Column drop targets are measured once when a drag starts, not on every move; the grip strip is the only surface that gives up touch scrolling.",
+      "Each touch, move, archive and sweep is announced once in words; scrubbing announces only when the stale count changes, and the slider carries the viewing date in its value text. The drag ghost is aria-hidden; the drop is the same change a key makes.",
+      "From a 40rem container the columns sit side by side and each scrolls on its own, the empty Archive folding to a narrow stub that opens on springs.glide when cards land; below it the columns stack and the board scrolls as one. Sepia, stale and fold colours are mixed from the warn and ink tokens so they read in light and dark.",
+    ],
+  },
+  {
+    name: "blocker-chains",
+    type: "registry:ui",
+    title: "Blocker Chains",
+    description:
+      "A task list whose blockers are drawn as chains: a line leaves a blocker's row, runs down the gutter in the narrowest free lane and hooks into the row it holds up, drawing in on springs.glide when it is revealed. Completing a blocker breaks every chain hanging from it: the line snaps apart at its middle on springs.recoil, the blocked task's lock badge drops away and its row brightens on springs.snap while the count of tasks that can start now rolls; a press on a blocked task is refused with a recoil of its badge, and tasks that wait on each other are flagged circular in red. Chain on a row opens a listbox of the other open tasks and a choice draws the new chain at once, and a critical-path switch lights the longest run of open work by days. The rows are one listbox: arrows move, Space completes, B opens the picker, Delete drops the newest chain.",
+    files: [
+      {
+        path: "registry/ui/blocker-chains.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1723",
+    },
+    tagline: "Blockers drawn as chains that break when the work lands.",
+    keywords: [
+      "task dependencies",
+      "blocked by",
+      "critical path",
+      "dependency graph",
+      "task list",
+      "circular dependency",
+      "blocker picker",
+      "build schedule",
+    ],
+    props: [
+      {
+        name: "chainStyle",
+        type: '"chain" | "line" | "dots"',
+        defaultValue: '"chain"',
+        description:
+          "How a chain is drawn down the gutter: linked dashes, one plain line, or a run of dots.",
+      },
+      {
+        name: "density",
+        type: '"compact" | "cozy" | "roomy"',
+        defaultValue: '"cozy"',
+        description: "Row height and type size.",
+      },
+      {
+        name: "accent",
+        type: '"cobalt" | "signal" | "success"',
+        defaultValue: '"cobalt"',
+        description:
+          "The colour of done ticks, the critical path, its switch and a fresh unblock.",
+      },
+      {
+        name: "tasks",
+        type: "ChainTask[]",
+        defaultValue: "defaultChainTasks",
+        description:
+          "The tasks, in list order, each with a ref, a title, an owner, its days and the ids blocking it.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string[]",
+        defaultValue: "defaultChainDone",
+        description: "The ids of the done tasks. Controlled or initial.",
+      },
+      {
+        name: "onChange",
+        type: "(done: string[], change: ChainChange) => void",
+        description:
+          "Fires from the press or key that completed or reopened a task, with every done id and the tasks it unblocked.",
+      },
+      {
+        name: "blockers / defaultBlockers",
+        type: "ChainBlockers",
+        defaultValue: "each task's blockedBy",
+        description:
+          "The live chains, task id to the ids blocking it. Controlled or initial.",
+      },
+      {
+        name: "onBlockersChange",
+        type: "(blockers: ChainBlockers, change: ChainBlockerChange) => void",
+        description:
+          "A chain was added from the picker or dropped with Delete, with every chain and the change.",
+      },
+      {
+        name: "criticalPath / defaultCriticalPath",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Whether the critical path is lit. Controlled or initial.",
+      },
+      {
+        name: "onCriticalPathChange",
+        type: "(on: boolean) => void",
+        description: "The switch was turned.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the tasks have arrived: skeleton rows while loading, a retry when they failed.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after a failed load.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Coldbrook unit fit-out"',
+        description: "The heading.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: "the title",
+        description: "The surface's accessible name.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "540",
+        description: "Height of the list in px; the rows scroll inside it.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Read only: nothing can be completed, chained or unchained.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the surface.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the rows are one listbox (Up/Down, Home/End). Space or Enter completes a task or reopens it, and is refused with the reason on a blocked or circular one; B opens the chain picker, a multi-select listbox of the other open tasks where Space or Enter chains or unchains and Escape returns to the row; Delete or Backspace drops the row's newest chain. The critical-path switch is its own tab stop. The chains are not focusable; each row's label reads what it waits on.",
+      "Reduced motion: no chain draws, snaps or travels. A chain appears and fades in place, the lock badge fades rather than drops, the row's brightening and the critical-path bar cross-fade, the digits change without rolling, and every state is still reached and announced.",
+      "Rows are measured once after each change of shape (a task added, a density change) and again only when the list resizes, through one ResizeObserver; one SVG overlay draws every chain and no frame loop runs. Lanes are assigned so no two chains overlap in the gutter, which widens by 9px per lane. Breaking halves, flashes and the refusal nudge are timers, all cleared on unmount.",
+      "Each change is announced once in words: a task done with what it unblocked and how many can start now, a refused press with what to finish first, a chain added (and whether it makes a circle) or dropped, and the critical path with its tasks and days. The rolling count is aria-hidden with the figures in text beside it.",
+      "The chain picker is positioned inside the surface, below the row or above it when there is more room, and closes on scroll, on a press outside or on Escape. Owners show from a 34rem container, the badge spells out its blockers from 40rem, and the critical-path line prints the full chain from 40rem. Chain, badge and path colours are the ink, danger and accent tokens, so they read in light and dark.",
+    ],
+  },
+  {
+    name: "instance-sizer",
+    type: "registry:ui",
+    title: "Instance Sizer",
+    description:
+      "A sizer for a compute instance: sliders for vCPU, memory and storage, a region listbox and a commitment control, with the catalogue beside them re-sorting on springs.glide as the requirements move, the cheapest fit taking a Best fit mark that lands on springs.recoil while the ones that fall short dim in place with a word on what they lack. A cost panel above the list rolls the best fit's monthly and hourly prices on springs.snap, a breakdown bar glides to the compute, memory and storage splits, and a budget line turns amber and says by how much when the fit costs more. A recommend-for chip sets the three sliders in a cascade, and Space on a row adds it to a tray where up to three instances sit side by side, each column landing on recoil. Sliders take arrows and Home/End, the listbox and radios select as the arrows move, and every change is announced with its consequence.",
+    files: [
+      {
+        path: "registry/ui/instance-sizer.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1729",
+    },
+    tagline: "Move three sliders; the catalogue finds the box.",
+    keywords: [
+      "instance sizer",
+      "compute pricing",
+      "cost calculator",
+      "sliders",
+      "catalogue",
+      "best fit",
+      "compare tray",
+      "budget",
+    ],
+    props: [
+      {
+        name: "costUnit",
+        type: '"month" | "hour"',
+        defaultValue: '"month"',
+        description:
+          "The figure the cost panel and the rows lead with: per month or per hour; the other is printed under it.",
+      },
+      {
+        name: "density",
+        type: '"compact" | "cozy" | "roomy"',
+        defaultValue: '"cozy"',
+        description: "Padding, type size and row heights.",
+      },
+      {
+        name: "accent",
+        type: '"cobalt" | "signal" | "success"',
+        defaultValue: '"cobalt"',
+        description:
+          "The colour of the slider fills, the best-fit mark and the compare ticks, from the theme's tokens.",
+      },
+      {
+        name: "instances",
+        type: "InstanceSpec[]",
+        defaultValue: "defaultInstanceCatalogue",
+        description:
+          "The catalogue matched against the requirements: name, family, vCPU, memory, storage, an hourly price and optionally the regions it is sold in.",
+      },
+      {
+        name: "regions",
+        type: "InstanceRegion[]",
+        defaultValue: "defaultInstanceRegions",
+        description: "The regions on offer, each with its price multiplier.",
+      },
+      {
+        name: "workloads",
+        type: "InstanceWorkload[]",
+        defaultValue: "defaultInstanceWorkloads",
+        description:
+          "The recommend-for presets: each names the three slider values it sets.",
+      },
+      {
+        name: "ranges",
+        type: "InstanceRanges",
+        defaultValue: "defaultInstanceRanges",
+        description: "The sliders' bounds; storage moves in steps of ten.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "InstanceRequirements",
+        defaultValue: "defaultInstanceRequirements",
+        description:
+          "The vCPU, memory, storage, region and commitment asked for. Controlled or initial.",
+      },
+      {
+        name: "onChange",
+        type: "(value: InstanceRequirements, field: InstanceChangeField) => void",
+        description:
+          "Fires from the drag, press or key that changed a requirement, with the field it came from.",
+      },
+      {
+        name: "budget",
+        type: "number",
+        defaultValue: "300",
+        description:
+          "Monthly budget; the budget line turns amber when the best fit costs more. 0 hides it.",
+      },
+      {
+        name: "compare / defaultCompare",
+        type: "string[]",
+        defaultValue: "defaultInstanceCompare",
+        description:
+          "The instance ids in the comparison tray. Controlled or initial.",
+      },
+      {
+        name: "onCompareChange",
+        type: "(ids: string[]) => void",
+        description: "An instance was added to or removed from the tray.",
+      },
+      {
+        name: "compareLimit",
+        type: "number",
+        defaultValue: "3",
+        description: "Most instances the tray holds.",
+      },
+      {
+        name: "onSelectInstance",
+        type: "(quote: InstanceQuote) => void",
+        description:
+          "A row was activated with Enter or a press, with its quote: the instance, its prices, and whether it fits.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the catalogue and prices have arrived: a skeleton while loading, a retry when they failed.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after a failed load.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Size an instance"',
+        description: "The heading.",
+      },
+      {
+        name: "product",
+        type: "string",
+        defaultValue: '"Basinworks Cloud"',
+        description: "The product, under the heading.",
+      },
+      {
+        name: "currency",
+        type: "string",
+        defaultValue: '"$"',
+        description: "Printed before every price.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: "the title",
+        description: "The surface's accessible name.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "540",
+        description:
+          "Height of the surface in px; the controls and the list scroll inside it.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only: nothing can be moved, picked or compared.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the surface.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: each slider is a tab stop that takes arrows (Shift for ten steps), PageUp/PageDown and Home/End; the region listbox and the commitment radios select as Up/Down or Left/Right move; the recommend-for chips are one toolbar. The instance list is a listbox with one tab stop: Up/Down and Home/End move, Space adds the row to compare or removes it, Delete removes it, Enter selects it.",
+      "Reduced motion: thumbs, rows, the breakdown bar and the budget bar are placed, the Best fit mark and the tray's columns cross-fade, and the digits change in place; every price, sort and announcement still happens.",
+      "Nothing runs once settled: the list re-sorts only on a change, the tray's landing is a one-shot keyed on the column's arrival, and a drag writes the value on every move but announces once on release. Prices are computed from the catalogue's hourly figure, the region's multiplier and the commitment's discount at 730 hours a month.",
+      "Each change is announced in words with its consequence: the slider's value, the region, the term or the preset, then how many instances fit, the best one and its price, and whether it is over budget. Adding to a full tray says so instead of adding.",
+      "From a 40rem container the requirements take a 17rem left column that scrolls on its own while the cost panel pins above the list and the tray pins below it; narrower, everything stacks into one scrolling column. Region codes and family names appear from 52rem. The accent, the wash and the amber budget are mixed from the theme's tokens so they read in light and dark.",
+    ],
+  },
+  {
+    name: "chart-recipe",
+    type: "registry:ui",
+    title: "Chart Recipe",
+    description:
+      "A chart builder that writes its recipe as you build it: a dataset listbox, a metric listbox, group-by chips, a grain segmented control and a row of chart-type icons on the left, and on the right a chart that redraws from them live. Every mark is one rectangle whose target is a bar or the point it stands for, so switching bars to a line morphs on springs.glide, the bars shrinking to points while the line draws itself along them, and changing the grain re-bins the rows with the new bars rising from the baseline as the old ones fade. A group-by splits the series, colours them from the palette in a fixed order and glides a legend in with cascade; a sentence under the plot says what the chart shows and cross-fades as it changes. Save lands the recipe on a shelf of mini thumbnails on springs.recoil, and opening one writes it back into the controls. The plot is a slider with a readout that follows the crosshair on springs.flick and speaks every series' figure for the bin.",
+    files: [{ path: "registry/ui/chart-recipe.tsx", type: "registry:ui" }],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: { serial: "KQ-1726" },
+    tagline: "Pick a dataset, a metric, a grain; the chart writes itself.",
+    keywords: [
+      "chart builder",
+      "query builder",
+      "bar to line morph",
+      "group by",
+      "time grain",
+      "saved charts",
+      "product analytics",
+      "readout scrubber",
+    ],
+    props: [
+      {
+        name: "datasets",
+        type: "RecipeDataset[]",
+        defaultValue: "defaultRecipeDatasets",
+        description:
+          "The datasets on offer, each with its metrics (sum or mean, with a format), its dimensions and its daily rows; a dataset may carry its own loading or error status.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "ChartRecipeValue",
+        defaultValue: "defaultChartRecipe",
+        description:
+          "The recipe: dataset, metric (null for an empty chart), group-by dimension, grain and chart type. Controlled or initial.",
+      },
+      {
+        name: "onChange",
+        type: "(value: ChartRecipeValue, change: ChartRecipeChange) => void",
+        description:
+          "Fires from the control that changed the recipe, or from a saved chart being opened, with the whole recipe and the change.",
+      },
+      {
+        name: "saved / defaultSaved",
+        type: "SavedRecipe[]",
+        defaultValue: "defaultSavedRecipes",
+        description: "The shelf of saved charts. Controlled or initial.",
+      },
+      {
+        name: "onSave",
+        type: "(item: SavedRecipe, saved: SavedRecipe[]) => void",
+        description: "Save was pressed; the item is already on the shelf.",
+      },
+      {
+        name: "onSavedChange",
+        type: "(saved: SavedRecipe[], change: SavedRecipeChange) => void",
+        description: "The shelf changed: a chart was saved or removed.",
+      },
+      {
+        name: "palette",
+        type: '"cobalt" | "warm" | "mono"',
+        defaultValue: '"cobalt"',
+        description:
+          "The series colours in fixed order: cobalt first, warm tones first, or one ink in steps.",
+      },
+      {
+        name: "morph",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Whether a change of chart type morphs the marks (bars shrink to points, the line draws) or cross-fades between the two drawings.",
+      },
+      {
+        name: "density",
+        type: '"compact" | "cozy" | "roomy"',
+        defaultValue: '"cozy"',
+        description:
+          "Row heights and type size in the recipe column and the shelf.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the datasets have arrived: skeleton controls and bars while loading, a retry when they failed.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after a failed load.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"New chart"',
+        description: "The heading.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: "the title",
+        description: "The surface's accessible name.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "540",
+        description:
+          "Height in px; the recipe column and the shelf scroll inside it, and the plot takes what is left.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Read only: the recipe cannot change and nothing can be saved. The readout still scrubs.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the surface.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the dataset and metric lists are listboxes (Up/Down and Home/End move and select), the group-by chips a toolbar of toggles (arrows move, Space or Enter presses), the grain and chart type radio groups (arrows select). The plot is a slider: Left/Right step a bin, PageUp/PageDown step five, Home/End reach the ends, Escape clears, and aria-valuetext reads every series' figure for the bin. The shelf is a horizontal listbox: arrows move, Enter or Space opens a chart, Delete removes it and focus moves to its neighbour.",
+      "Reduced motion: no morph and no travel. Marks, lines, indicators and the legend are placed at once behind short fades, the readout jumps to its bin, a saved chart appears on the shelf without landing, and every sentence, figure and announcement is unchanged.",
+      "Nothing runs once settled: the plot measures with one ResizeObserver, every mark is one rect whose target changes, and a line draws once when it appears. Binning is plain arithmetic on the rows (exported as plotRecipe for hosts that print the figures elsewhere) and the default datasets are seeded, so the same quarter draws every time.",
+      "Each change is announced once with the control that changed and the new sentence; saving, opening and removing a chart are announced with the shelf's count. Every figure is also an SR-only table under the chart, captioned by the sentence, so the chart means something with no pointer at all. The legend appears only for two or more series, so identity is never colour alone.",
+      "From a 40rem container the recipe stands beside the chart as a scrolling column and the plot takes the remaining height; below it the recipe stacks above a fixed-height plot with the dataset and metric lists side by side, and the whole surface scrolls. Series take the accent, signal and status tokens, or steps of ink for the mono palette, so the chart reads in light and dark.",
+    ],
+  },
 ];

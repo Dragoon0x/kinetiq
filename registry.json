@@ -47950,6 +47950,146 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "pinch-board",
+      "type": "registry:ui",
+      "title": "Pinch Board",
+      "description": "A zoomable planning board: sticky notes on a canvas, grouped by the frames they sit in. A pinch, Ctrl and the wheel, or the + and - buttons zoom around the pointer, and the buttons, Fit all and a double tap on a frame travel on springs.glide with the scale and the pan on one spring, so the point under the pointer never drifts. As the board shrinks a note folds to its colour and a large title; as it grows its tags and then its body cross-fade in, while a minimap in the corner follows the viewport live. Notes drag within and between frames, lifting on springs.flick, raising a Drop here pill on springs.snap in the frame beneath, and landing on springs.recoil. The board is one application region: arrows pan, + and - zoom, 0 fits all, Tab reaches every note, arrows nudge a note, Enter opens it and F fits its frame.",
+      "files": [
+        {
+          "path": "registry/ui/pinch-board.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1721"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "patina-board",
+      "type": "registry:ui",
+      "title": "Patina Board",
+      "description": "A three-column job board whose cards age in view: a fresh card is clean, a week-old one takes a faint sepia wash as its corner curls on springs.snap, and a month-old one is dog-eared and tagged stale. A time slider scrubs the board ahead of now and the washes deepen behind it on a slow tween; open a card and press Touch and the wash lifts on springs.snap, the fold falls away and its age restarts. Sweep stale gathers every stale card into the Archive column on springs.glide, each a beat after the last on cascade, while the column opens to take them, and a card dropped into a column settles on springs.recoil. The cards are one grid: arrows move within and across columns, Shift with Left or Right carries a card, Enter opens it, T touches it and Delete archives it; the slider steps a day with arrows and a week with Shift.",
+      "files": [
+        {
+          "path": "registry/ui/patina-board.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1722"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "blocker-chains",
+      "type": "registry:ui",
+      "title": "Blocker Chains",
+      "description": "A task list whose blockers are drawn as chains: a line leaves a blocker's row, runs down the gutter in the narrowest free lane and hooks into the row it holds up, drawing in on springs.glide when it is revealed. Completing a blocker breaks every chain hanging from it: the line snaps apart at its middle on springs.recoil, the blocked task's lock badge drops away and its row brightens on springs.snap while the count of tasks that can start now rolls; a press on a blocked task is refused with a recoil of its badge, and tasks that wait on each other are flagged circular in red. Chain on a row opens a listbox of the other open tasks and a choice draws the new chain at once, and a critical-path switch lights the longest run of open work by days. The rows are one listbox: arrows move, Space completes, B opens the picker, Delete drops the newest chain.",
+      "files": [
+        {
+          "path": "registry/ui/blocker-chains.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1723"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "instance-sizer",
+      "type": "registry:ui",
+      "title": "Instance Sizer",
+      "description": "A sizer for a compute instance: sliders for vCPU, memory and storage, a region listbox and a commitment control, with the catalogue beside them re-sorting on springs.glide as the requirements move, the cheapest fit taking a Best fit mark that lands on springs.recoil while the ones that fall short dim in place with a word on what they lack. A cost panel above the list rolls the best fit's monthly and hourly prices on springs.snap, a breakdown bar glides to the compute, memory and storage splits, and a budget line turns amber and says by how much when the fit costs more. A recommend-for chip sets the three sliders in a cascade, and Space on a row adds it to a tray where up to three instances sit side by side, each column landing on recoil. Sliders take arrows and Home/End, the listbox and radios select as the arrows move, and every change is announced with its consequence.",
+      "files": [
+        {
+          "path": "registry/ui/instance-sizer.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1729"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "chart-recipe",
+      "type": "registry:ui",
+      "title": "Chart Recipe",
+      "description": "A chart builder that writes its recipe as you build it: a dataset listbox, a metric listbox, group-by chips, a grain segmented control and a row of chart-type icons on the left, and on the right a chart that redraws from them live. Every mark is one rectangle whose target is a bar or the point it stands for, so switching bars to a line morphs on springs.glide, the bars shrinking to points while the line draws itself along them, and changing the grain re-bins the rows with the new bars rising from the baseline as the old ones fade. A group-by splits the series, colours them from the palette in a fixed order and glides a legend in with cascade; a sentence under the plot says what the chart shows and cross-fades as it changes. Save lands the recipe on a shelf of mini thumbnails on springs.recoil, and opening one writes it back into the controls. The plot is a slider with a readout that follows the crosshair on springs.flick and speaks every series' figure for the bin.",
+      "files": [
+        {
+          "path": "registry/ui/chart-recipe.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1726"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
