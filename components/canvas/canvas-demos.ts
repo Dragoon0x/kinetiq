@@ -1915,4 +1915,104 @@ export const CANVAS_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/number-match.demo").then((m) =>
       mod(m.NumberMatchDemo, m.tweaks),
     ),
+  "screen-pairing": () =>
+    import("@/registry/demos/screen-pairing.demo").then((m) =>
+      mod(m.ScreenPairingDemo, m.tweaks),
+    ),
+  "reset-match": () =>
+    import("@/registry/demos/reset-match.demo").then((m) =>
+      mod(m.ResetMatchDemo, m.tweaks),
+    ),
+  "limit-lanes": () =>
+    import("@/registry/demos/limit-lanes.demo").then((m) =>
+      mod(m.LimitLanesDemo, m.tweaks),
+    ),
+  "pinch-board": () =>
+    import("@/registry/demos/pinch-board.demo").then((m) =>
+      mod(m.PinchBoardDemo, m.tweaks),
+    ),
+  "patina-board": () =>
+    import("@/registry/demos/patina-board.demo").then((m) =>
+      mod(m.PatinaBoardDemo, m.tweaks),
+    ),
+  "question-queue": () =>
+    import("@/registry/demos/question-queue.demo").then((m) =>
+      mod(m.QuestionQueueDemo, m.tweaks),
+    ),
+  "zone-overlap": () =>
+    import("@/registry/demos/zone-overlap.demo").then((m) =>
+      mod(m.ZoneOverlapDemo, m.tweaks),
+    ),
+  "duration-slots": () =>
+    import("@/registry/demos/duration-slots.demo").then((m) =>
+      mod(m.DurationSlotsDemo, m.tweaks),
+    ),
+  "shift-roster": () =>
+    import("@/registry/demos/shift-roster.demo").then((m) =>
+      mod(m.ShiftRosterDemo, m.tweaks),
+    ),
+  "room-rail": () =>
+    import("@/registry/demos/room-rail.demo").then((m) =>
+      mod(m.RoomRailDemo, m.tweaks),
+    ),
+  "blocker-chains": () =>
+    import("@/registry/demos/blocker-chains.demo").then((m) =>
+      mod(m.BlockerChainsDemo, m.tweaks),
+    ),
+  "stack-carry": () =>
+    import("@/registry/demos/stack-carry.demo").then((m) =>
+      mod(m.StackCarryDemo, m.tweaks),
+    ),
+  "burndown-board": () =>
+    import("@/registry/demos/burndown-board.demo").then((m) =>
+      mod(m.BurndownBoardDemo, m.tweaks),
+    ),
+  "chart-recipe": () =>
+    import("@/registry/demos/chart-recipe.demo").then((m) =>
+      mod(m.ChartRecipeDemo, m.tweaks),
+    ),
+  "spoke-wizard": () =>
+    import("@/registry/demos/spoke-wizard.demo").then((m) =>
+      mod(m.SpokeWizardDemo, m.tweaks),
+    ),
+  "dry-run": () =>
+    import("@/registry/demos/dry-run.demo").then((m) =>
+      mod(m.DryRunDemo, m.tweaks),
+    ),
+  "instance-sizer": () =>
+    import("@/registry/demos/instance-sizer.demo").then((m) =>
+      mod(m.InstanceSizerDemo, m.tweaks),
+    ),
+  "question-trail": () =>
+    import("@/registry/demos/question-trail.demo").then((m) =>
+      mod(m.QuestionTrailDemo, m.tweaks),
+    ),
+  "fork-wizard": () =>
+    import("@/registry/demos/fork-wizard.demo").then((m) =>
+      mod(m.ForkWizardDemo, m.tweaks),
+    ),
+  "filed-steps": () =>
+    import("@/registry/demos/filed-steps.demo").then((m) =>
+      mod(m.FiledStepsDemo, m.tweaks),
+    ),
+  "pin-critique": () =>
+    import("@/registry/demos/pin-critique.demo").then((m) =>
+      mod(m.PinCritiqueDemo, m.tweaks),
+    ),
+  "timecode-notes": () =>
+    import("@/registry/demos/timecode-notes.demo").then((m) =>
+      mod(m.TimecodeNotesDemo, m.tweaks),
+    ),
+  "cell-notes": () =>
+    import("@/registry/demos/cell-notes.demo").then((m) =>
+      mod(m.CellNotesDemo, m.tweaks),
+    ),
+  "range-remarks": () =>
+    import("@/registry/demos/range-remarks.demo").then((m) =>
+      mod(m.RangeRemarksDemo, m.tweaks),
+    ),
+  "sign-off-round": () =>
+    import("@/registry/demos/sign-off-round.demo").then((m) =>
+      mod(m.SignOffRoundDemo, m.tweaks),
+    ),
 };

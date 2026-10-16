@@ -47766,6 +47766,721 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "screen-pairing",
+      "type": "registry:ui",
+      "title": "Screen Pairing",
+      "description": "A device-code sign-in for a shared screen: the code stands in wide tiles over an expiry bar that drains as one linear tween, and five waiting dots step along on the snap spring each time the screen polls. A new code stands up tile by tile on snap; when a poll approves, the dots light in a run on flick and the tiles drop away one by one on the exit ease while a clip sweeps the welcome open behind them, the avatar landing on recoil and the greeting settling on glide. Every action is a real button, the code is spoken one character at a time, and expiry, approval and new codes are announced once each.",
+      "files": [
+        {
+          "path": "registry/ui/screen-pairing.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1718"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "reset-match",
+      "type": "registry:ui",
+      "title": "Reset Match",
+      "description": "A set-new-password form whose confirmation shows how far it agrees with the password without ever showing a character: a rail between the fields draws a dot per character on each row, and while the confirmation agrees each new dot rises to its partner on the snap spring as the joint draws on flick. At the first difference a gap opens — the dot drops hollow under a caret and the rest hang loose — and when the two agree with every rule met a highlight runs along the joints in a cascade and a Match chip lands on recoil. Requirements are checked live and spoken as they flip, toggles and the requirement list are keyboard reachable, and a refusal nudges the field on a symmetric tween with the reason.",
+      "files": [
+        {
+          "path": "registry/ui/reset-match.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1719"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "limit-lanes",
+      "type": "registry:ui",
+      "title": "Limit Lanes",
+      "description": "A kanban board whose columns say no when they are full: every header carries a work-in-progress gauge — pills, a bar or a ring — that fills as cards arrive with each pill popping in on the snap spring, and the gauge is itself a slider you scrub or key to change the limit. A dragged card lifts on flick into a copy that follows the finger 1:1 while a placeholder opens and the cards round it glide aside; over a full column the column washes danger, and a drop there springs the card back home on snap with the throw's own velocity while the gauge pulses once. Arrows walk the cards, Space lifts one and arrows carry it through the layout past full columns, Space or Enter drops it and Escape puts it back.",
+      "files": [
+        {
+          "path": "registry/ui/limit-lanes.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1720"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "pinch-board",
+      "type": "registry:ui",
+      "title": "Pinch Board",
+      "description": "A kanban board you zoom: cards have levels of detail — coloured dots, one-line titles, full cards with owner and due date, and open cards with a note and checklist — and a pinch, Ctrl or ⌘ with the wheel, the + and − keys or the toolbar morphs every card between them on the glide spring. The board notes the card under the focal point and where inside it the point sits, and its scroll rides the same glide spring to the offset that puts that spot back under the fingers, so the focal card holds still for the whole morph; at an edge the content is shifted instead and settles back on drift. Cards move by drag on flick and snap or by keys — Space lifts, arrows carry, Space drops, Escape puts back — and the level pill slides on snap.",
+      "files": [
+        {
+          "path": "registry/ui/pinch-board.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1721"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "patina-board",
+      "type": "registry:ui",
+      "title": "Patina Board",
+      "description": "A kanban board whose cards weather while they wait: every day still adds a faint patina — tarnish gathering at the edges first, then a mottled bloom from a seeded turbulence mask — mixed with the ink so it darkens on a light page and lifts like dust on a dark one, and a corner counter turns warn when a card goes stale and offers to nudge its owner. Moving or editing a card polishes it: a band of light crosses its face on a move-eased tween while a clip follows its edge and wipes the patina off, and the counter rolls to today on snap. The Stale filter gathers the oldest cards to the top of each column on glide; cards move by drag on flick and snap or by keys — Space lifts, arrows carry, Space drops, Escape puts back, Enter renames, N nudges.",
+      "files": [
+        {
+          "path": "registry/ui/patina-board.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1722"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "question-queue",
+      "type": "registry:ui",
+      "title": "Question Queue",
+      "description": "The Q&A of a live town hall: open questions sorted by votes and an Answered section, in one feed. A vote fills its pill and rolls the count digit by digit on springs.snap; a beat later the question lifts and climbs past the ones it overtakes as a layout move on springs.glide while their ranks roll down, settles on springs.flick and pops a ▲ chip on springs.recoil. Answering opens an editor under the question on glide, publishing moves the card into Answered as a shared-layout move with a recoil stamp and the answer opening beneath; Up and Down walk the questions, U upvotes and A answers.",
+      "files": [
+        {
+          "path": "registry/ui/question-queue.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1738"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "zone-overlap",
+      "type": "registry:ui",
+      "title": "Zone Overlap",
+      "description": "A find-a-time surface: a team across time zones as rows on one shared timeline, hours outside each person's day hatched, busy blocks drawn, and an Everyone lane holding the stretches where all are free. The meeting band spans every row with each person's local time on a flag; dragged it follows the pointer 1:1 and lands on a quarter hour on springs.snap with the throw's velocity, and as it enters the everyone-free stretch it blooms — one value springs up on springs.snap (down on springs.glide) and brightens the band and widens its glow from a single CSS property. The band is a slider: arrows move it fifteen minutes, brackets change its length, Enter picks and S suggests.",
+      "files": [
+        {
+          "path": "registry/ui/zone-overlap.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1739"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "duration-slots",
+      "type": "registry:ui",
+      "title": "Duration Slots",
+      "description": "A public booking page with a host card, a length radiogroup, a time zone combobox, a month strip and the day's free times as pills. Changing the length from 30 to 60 minutes joins every pair of neighbouring pills with a liquid thread whose attach points spread and whose waist follows on springs.glide until the two are one tall pill, the times drifting together; changing back draws a seam across each pill and splits it on springs.snap. The day and length pills slide on springs.snap and a pick lands on springs.flick; the times are a listbox with arrow keys and the zone combobox has type-ahead.",
+      "files": [
+        {
+          "path": "registry/ui/duration-slots.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1740"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "shift-roster",
+      "type": "registry:ui",
+      "title": "Shift Roster",
+      "description": "A week's staff rota: people down the side, days across the top, an Open row of unassigned shifts, and under every day its coverage drawn as a hammock that sags below the target line when the day is short. A shift follows the pointer 1:1 over the board and lands with a FLIP from where it was let go on springs.snap carrying the release velocity; dropped on another shift the two swap. The day that gains hours springs up on springs.recoil and the day that lost them sinks on springs.glide, while clashing shifts ring each other in amber. On the keyboard Space picks a cell's shift up, arrows carry it a glide at a time and Space drops it.",
+      "files": [
+        {
+          "path": "registry/ui/shift-roster.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1741"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "room-rail",
+      "type": "registry:ui",
+      "title": "Room Rail",
+      "description": "A day of meeting rooms on one rail: rooms as rows with capacity, equipment and who holds them now, the working day across, the past dimmed behind a now-line that follows the now prop on springs.drift so a ticking clock sweeps instead of stepping. Pressing a free gap grows a booking out from that point to its default length on springs.snap with the end time riding its edge; both edges then drag 1:1 in quarter hours, rubber-band at the gap's bounds and settle on snap, and Book lands it on springs.flick. Your own bookings extend by a grip and release back to the now-line on springs.glide; arrow keys walk the free gaps, Enter grows a booking and Left and Right size it.",
+      "files": [
+        {
+          "path": "registry/ui/room-rail.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1742"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "blocker-chains",
+      "type": "registry:ui",
+      "title": "Blocker Chains",
+      "description": "A kanban board whose blocked cards hang a thin chain to the card they wait on: quadratic catenaries drawn under the cards with a fixed length, so dragging a card pulls its chains taut and bringing it closer lets them droop. Moving a blocker into Done snaps its chains loose — the free end swings down from the waiting card as a damped pendulum and fades on the exit ease — while the freed card lifts on springs.snap with an unblocked glow and settles back on springs.glide, and every card that moved FLIPs to its place on glide. Cards share one roving tab stop: arrows move, Space lifts and drops, Escape puts back, B shows every chain, L links a blocker, and Tab reaches a card's chain chips where Enter jumps to the blocker as a bead runs along the chain and Delete unlinks.",
+      "files": [
+        {
+          "path": "registry/ui/blocker-chains.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1723"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "stack-carry",
+      "type": "registry:ui",
+      "title": "Stack Carry",
+      "description": "A kanban board where a selection moves as one stack. Dragging any selected card gathers the others under the pointer into a fan whose spread is fanAngle: the grabbed card follows 1:1 and each card behind it follows on its own spring, softer the deeper it sits, so a fast throw strings the deck out and a pause gathers it, while a count badge lands on springs.recoil. Dropping deals the cards into the column in their original board order on springs.glide, cascade() apart, as their dashed home slots fold shut and the cards around them FLIP to make room; refused cards fly home, shake once and say why. Shift-click selects a run, Cmd or Ctrl-click or the check tab toggles, X toggles the focused card, M opens a move menu that deals the same way, Escape clears, and a long press starts selecting on touch.",
+      "files": [
+        {
+          "path": "registry/ui/stack-carry.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1724"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "burndown-board",
+      "type": "registry:ui",
+      "title": "Burndown Board",
+      "description": "A sprint board under its own burndown chart: the planned scope's ideal line is a faint dashed guide, the actual line runs through the end of each day, and scope added mid-sprint raises a marked step with a flag. Moving a card into Done lifts its points off the card as a token that arcs up into today's point on one spring; as it lands the line steps down on springs.glide, the dot takes the hit on springs.recoil and the points-left figure rolls its digits on springs.snap, while every card that moved FLIPs to its place on glide. Cards move by drag or by keys — one roving tab stop, arrows to move, Space to lift, arrows to carry, Space to drop, Escape to put back — and under 40rem the chart shrinks into a header strip.",
+      "files": [
+        {
+          "path": "registry/ui/burndown-board.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1725"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "chart-recipe",
+      "type": "registry:ui",
+      "title": "Chart Recipe",
+      "description": "A report wizard whose preview is a record of the choices: four steps — Source, Chart, Filters, Notes — sit beside a chart that builds one layer per step. Choosing a source sweeps the axes in through a clip, the chart type draws its series on through a sweeping clip (bars grow on springs.glide a cascade apart), filters thin the series they leave out and crop the window while every point glides to the new scale on glide, and notes land last, the peak pin on springs.recoil. Back peels the layers off in reverse, newest first, a beat apart, and going forward lays them down again; a slow source shows a layer skeleton. The step rail is a tablist that follows the arrow keys, sources and chart types are native radio groups, and filters and notes are native checkboxes.",
+      "files": [
+        {
+          "path": "registry/ui/chart-recipe.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1726"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "spoke-wizard",
+      "type": "registry:ui",
+      "title": "Spoke Wizard",
+      "description": "A non-linear setup drawn as a hub and spokes: a ring divided into one segment per task, each task's node at the end of its spoke. A spoke opens its short flow, grown out of the spoke's direction on springs.glide as the hub recedes; finishing returns to the hub, where that spoke's segment fills with a glide sweep from its start, the node's check draws on springs.flick, the spoke line turns solid and the count rolls on springs.snap. When every spoke is done the gaps close into one ring and the centre lands a check on springs.recoil: Ready. The spokes are a list of buttons in ring order, so Tab walks them clockwise (arrow keys too), each flow is a form where Enter moves on and Escape returns to the hub, and under 34rem the hub becomes a list with a small ring.",
+      "files": [
+        {
+          "path": "registry/ui/spoke-wizard.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1727"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "dry-run",
+      "type": "registry:ui",
+      "title": "Dry Run",
+      "description": "A data migration wizard — connect, map, rehearse, run — that shows what it would do before it writes. The rehearsal is a grey pass: one motion value walks the rows on the move ease and three counters (would create, would update, would skip) tick up as their rows pass, as figures, bars or a waffle of row batches whose cells pop as the head goes by; the real run repeats exactly the same seeded walk in colour over the grey ghost, and the actual counts land on springs.recoil beside their rehearsed figures and a delta chip. Panels swap by direction on springs.glide, the stepper's fill glides and its checks draw on springs.flick, and every step validates before Next, taking focus to whatever needs fixing.",
+      "files": [
+        {
+          "path": "registry/ui/dry-run.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1728"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "instance-sizer",
+      "type": "registry:ui",
+      "title": "Instance Sizer",
+      "description": "A provisioning wizard — region, size, add-ons, summary — beside a small server rack and the monthly estimate. Choosing a size grows or shrinks the rack unit by unit: new sleds slide in from the right bottom-up on springs.snap a cascade apart, each status light blinking on springs.flick as it seats, and a smaller size pulls the extra sleds out top-down on the exit ease; add-ons take fixed slots or light the roof beacon, the estimate rolls digit by digit on snap in the direction the total moved, and provisioning sweeps every light to green. Every choice is a radio card with roving focus — arrows move and select, skipping sizes a region does not offer, whose reasons are shown and read out.",
+      "files": [
+        {
+          "path": "registry/ui/instance-sizer.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1729"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "question-trail",
+      "type": "registry:ui",
+      "title": "Question Trail",
+      "description": "A conversational intake, one question at a time: each question is typed first, then its bubble rises a step from its tail corner on springs.snap, and the option you pick travels into place as your answer chip on springs.glide. Pressing an earlier chip rewinds — the later bubbles fold back up into it bottom-first in a cascade, heights closing on glide while their words lift away on the exit ease — and answering again replays the trail forward with every kept answer until a question has none, so a changed branch only asks what is new. Options are a roving group of buttons (arrows move, Enter sends, Escape keeps the old answer) and text questions are labelled fields that say what is wrong.",
+      "files": [
+        {
+          "path": "registry/ui/question-trail.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1730"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "fork-wizard",
+      "type": "registry:ui",
+      "title": "Fork Wizard",
+      "description": "A branching wizard with a map of every step, laid out by depth so forks open and merges close. Choosing an option lights its branch: a dot travels the curve to the next step on springs.glide while the lit stroke draws behind it, every step the choice rules out fades to a dashed ghost, the arriving step's ring lands on springs.recoil, and the count of steps left updates — a range while later forks are still open. The map doubles as navigation with roving focus, answers are kept so going back costs nothing until a choice changes, choice steps are radio cards that say how many steps each leads to, and in a narrow container the map becomes a progress line with a mark at every fork.",
+      "files": [
+        {
+          "path": "registry/ui/fork-wizard.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1731"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "filed-steps",
+      "type": "registry:ui",
+      "title": "Filed Steps",
+      "description": "A wizard of stacked cards: the current step in front with the next ones peeking above it. Finishing a step files it — a sheet the size of the card flies down to its place in the pile at the foot on springs.glide, animating position and size rather than scale so no text stretches, while the card's face fades and its summary arrives, and the pile takes the weight with a springs.recoil press while the card behind steps forward on glide. Clicking a tab lifts its card back up the same way while the current stack steps aside; Save files it again with the new summary, Cancel or Escape puts it back unchanged, and Skip for now files a card unfinished with a mark on its tab that Send points back to.",
+      "files": [
+        {
+          "path": "registry/ui/filed-steps.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1732"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "pin-critique",
+      "type": "registry:ui",
+      "title": "Pin Critique",
+      "description": "A design-critique board: numbered pins on an artwork, each starting a thread in the column beside it. Clicking the artwork or pressing P drops a pin at the cursor — it falls 16px and lands on springs.recoil with two small bounces while its ground shadow grows and its numeral rolls up into the head on springs.snap just behind the touch-down — and the composer opens for what you see. Hovering or focusing a thread draws a ring around its pin on springs.glide while the pin lifts on snap; pins drag 1:1 and settle on snap with the throw, resolved pins fade to a check, and below a 40rem container the threads open as a sheet that rises on glide, follows a downward drag and pans the artwork so the pin stays in view. Pins are one roving tab stop: arrows move between them, Alt with an arrow nudges one, Shift with an arrow moves the drop cursor and Escape closes what is open.",
+      "files": [
+        {
+          "path": "registry/ui/pin-critique.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1733"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "timecode-notes",
+      "type": "registry:ui",
+      "title": "Timecode Notes",
+      "description": "Review notes pinned to moments in a clip: the clip plays in a procedural frame (or your own `renderFrame`), every note is a marker on the timeline, and the notes list sits beside the player, under it below a 40rem container. As the playhead passes a marker it pulses on springs.snap and its note rises into the foot of the frame on springs.recoil, holds, and leaves on the exit ease; choosing a note, marker or cluster glides the playhead there on springs.glide while the frame cuts to its scene, and markers closer than 14px merge into counted bubbles. Space plays, M adds a note at the playhead, and the timeline is a slider whose arrows, Page keys, Home, End and [ ] brackets move by seconds and between notes.",
+      "files": [
+        {
+          "path": "registry/ui/timecode-notes.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1734"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "cell-notes",
+      "type": "registry:ui",
+      "title": "Cell Notes",
+      "description": "A spreadsheet whose notes live in their cells: every annotated cell carries a small corner, and opening a note grows its card out of that corner — one value on springs.glide sweeps a diagonal crease across the card's clip with a lip of paper along it, so the note unfolds from the cell — while closing folds it back on the exit ease. Replies stack inside the card on springs.snap, resolving folds the corner back flat on snap, and the active cell's outline travels cell to cell on snap. It is a real role=\"grid\" with one roving cell: arrows, Home, End and Ctrl+Home/End move, Shift+F2 opens or starts the active cell's note, Escape closes it and returns focus, and the notes sidebar becomes a sheet below a 40rem container.",
+      "files": [
+        {
+          "path": "registry/ui/cell-notes.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1735"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "range-remarks",
+      "type": "registry:ui",
+      "title": "Range Remarks",
+      "description": "A code review diff where comments cover spans of lines. Pressing in the comment gutter and dragging grows a bracket across the lines you mean — its live end under the pointer 1:1, the lines tinting as it passes them — and on release the end settles onto the last line's edge on springs.snap with the throw's velocity, then a comment box unfolds under the range, its measured height opening on springs.glide as it swings down from its top edge. Existing threads sit after their last line with their bracket in the gutter, brighten with their lines on hover or focus, carry suggested changes as mini diffs, and fold to a one-line summary on glide when resolved or outdated. The diff is a role=\"grid\" with one roving line: Up and Down move, Shift with an arrow grows the same bracket a line at a time, Enter or C opens the box and Escape clears; long lines wrap below a 30rem container.",
+      "files": [
+        {
+          "path": "registry/ui/range-remarks.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1736"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "sign-off-round",
+      "type": "registry:ui",
+      "title": "Sign-off Round",
+      "description": "An approval round on a document: every reviewer's verdict lands as a stamp in its slot on the document's header, dropping from 1.4× and a little more turned onto its resting tilt on springs.recoil — the two small bounces of a hand stamp — while the header sinks 1.5px and springs back on springs.snap, a ring of ink spreads under it and the thock is heard at touch-down. Changes requested stamps in muted red whatever the accent and needs a comment; its stamp is a button that brings the comment into view. The progress rail fills a segment per verdict on springs.glide, and when the last stamp lands the round completes: the rail takes the outcome's colour and the chip rolls to Signed off or Changes requested. Reviewers are a list in tab order with Approve, Request changes and Remind as real buttons.",
+      "files": [
+        {
+          "path": "registry/ui/sign-off-round.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1737"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

@@ -1897,6 +1897,31 @@ import { SessionLapseDemo } from "@/registry/demos/session-lapse.demo";
 import { InviteAcceptDemo } from "@/registry/demos/invite-accept.demo";
 import { CoolingLockDemo } from "@/registry/demos/cooling-lock.demo";
 import { NumberMatchDemo } from "@/registry/demos/number-match.demo";
+import { ScreenPairingDemo } from "@/registry/demos/screen-pairing.demo";
+import { ResetMatchDemo } from "@/registry/demos/reset-match.demo";
+import { LimitLanesDemo } from "@/registry/demos/limit-lanes.demo";
+import { PinchBoardDemo } from "@/registry/demos/pinch-board.demo";
+import { PatinaBoardDemo } from "@/registry/demos/patina-board.demo";
+import { QuestionQueueDemo } from "@/registry/demos/question-queue.demo";
+import { ZoneOverlapDemo } from "@/registry/demos/zone-overlap.demo";
+import { DurationSlotsDemo } from "@/registry/demos/duration-slots.demo";
+import { ShiftRosterDemo } from "@/registry/demos/shift-roster.demo";
+import { RoomRailDemo } from "@/registry/demos/room-rail.demo";
+import { BlockerChainsDemo } from "@/registry/demos/blocker-chains.demo";
+import { StackCarryDemo } from "@/registry/demos/stack-carry.demo";
+import { BurndownBoardDemo } from "@/registry/demos/burndown-board.demo";
+import { ChartRecipeDemo } from "@/registry/demos/chart-recipe.demo";
+import { SpokeWizardDemo } from "@/registry/demos/spoke-wizard.demo";
+import { DryRunDemo } from "@/registry/demos/dry-run.demo";
+import { InstanceSizerDemo } from "@/registry/demos/instance-sizer.demo";
+import { QuestionTrailDemo } from "@/registry/demos/question-trail.demo";
+import { ForkWizardDemo } from "@/registry/demos/fork-wizard.demo";
+import { FiledStepsDemo } from "@/registry/demos/filed-steps.demo";
+import { PinCritiqueDemo } from "@/registry/demos/pin-critique.demo";
+import { TimecodeNotesDemo } from "@/registry/demos/timecode-notes.demo";
+import { CellNotesDemo } from "@/registry/demos/cell-notes.demo";
+import { RangeRemarksDemo } from "@/registry/demos/range-remarks.demo";
+import { SignOffRoundDemo } from "@/registry/demos/sign-off-round.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -3808,4 +3833,29 @@ export const demos: Record<string, ComponentType> = {
   "invite-accept": InviteAcceptDemo,
   "cooling-lock": CoolingLockDemo,
   "number-match": NumberMatchDemo,
+  "screen-pairing": ScreenPairingDemo,
+  "reset-match": ResetMatchDemo,
+  "limit-lanes": LimitLanesDemo,
+  "pinch-board": PinchBoardDemo,
+  "patina-board": PatinaBoardDemo,
+  "question-queue": QuestionQueueDemo,
+  "zone-overlap": ZoneOverlapDemo,
+  "duration-slots": DurationSlotsDemo,
+  "shift-roster": ShiftRosterDemo,
+  "room-rail": RoomRailDemo,
+  "blocker-chains": BlockerChainsDemo,
+  "stack-carry": StackCarryDemo,
+  "burndown-board": BurndownBoardDemo,
+  "chart-recipe": ChartRecipeDemo,
+  "spoke-wizard": SpokeWizardDemo,
+  "dry-run": DryRunDemo,
+  "instance-sizer": InstanceSizerDemo,
+  "question-trail": QuestionTrailDemo,
+  "fork-wizard": ForkWizardDemo,
+  "filed-steps": FiledStepsDemo,
+  "pin-critique": PinCritiqueDemo,
+  "timecode-notes": TimecodeNotesDemo,
+  "cell-notes": CellNotesDemo,
+  "range-remarks": RangeRemarksDemo,
+  "sign-off-round": SignOffRoundDemo,
 };
