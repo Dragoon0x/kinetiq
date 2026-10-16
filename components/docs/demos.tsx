@@ -1832,6 +1832,46 @@ import { RevisionReelDemo } from "@/registry/demos/revision-reel.demo";
 import { NameClashDemo } from "@/registry/demos/name-clash.demo";
 import { IncidentBridgeDemo } from "@/registry/demos/incident-bridge.demo";
 import { BlastRadiusDemo } from "@/registry/demos/blast-radius.demo";
+import { TripwireTunerDemo } from "@/registry/demos/tripwire-tuner.demo";
+import { RackElevationDemo } from "@/registry/demos/rack-elevation.demo";
+import { HeartbeatLedgerDemo } from "@/registry/demos/heartbeat-ledger.demo";
+import { ExceptionTriageDemo } from "@/registry/demos/exception-triage.demo";
+import { ProbeRelayDemo } from "@/registry/demos/probe-relay.demo";
+import { StatusDispatchDemo } from "@/registry/demos/status-dispatch.demo";
+import { GhostBaselineDemo } from "@/registry/demos/ghost-baseline.demo";
+import { PagerRotaDemo } from "@/registry/demos/pager-rota.demo";
+import { GhostRowsDemo } from "@/registry/demos/ghost-rows.demo";
+import { OpenDayDemo } from "@/registry/demos/open-day.demo";
+import { EmptyRoomDemo } from "@/registry/demos/empty-room.demo";
+import { OfflineShelfDemo } from "@/registry/demos/offline-shelf.demo";
+import { FirstEventDemo } from "@/registry/demos/first-event.demo";
+import { ThemeFittingDemo } from "@/registry/demos/theme-fitting.demo";
+import { PingMatrixDemo } from "@/registry/demos/ping-matrix.demo";
+import { HazardShelfDemo } from "@/registry/demos/hazard-shelf.demo";
+import { ChordRecorderDemo } from "@/registry/demos/chord-recorder.demo";
+import { FormatSamplerDemo } from "@/registry/demos/format-sampler.demo";
+import { TokenLockerDemo } from "@/registry/demos/token-locker.demo";
+import { AddressCascadeDemo } from "@/registry/demos/address-cascade.demo";
+import { MendListDemo } from "@/registry/demos/mend-list.demo";
+import { AttendeeRowsDemo } from "@/registry/demos/attendee-rows.demo";
+import { ThreadFieldsDemo } from "@/registry/demos/thread-fields.demo";
+import { ReceiptReaderDemo } from "@/registry/demos/receipt-reader.demo";
+import { DraftKeeperDemo } from "@/registry/demos/draft-keeper.demo";
+import { TwinPreviewDemo } from "@/registry/demos/twin-preview.demo";
+import { MarginHelpDemo } from "@/registry/demos/margin-help.demo";
+import { CheckAnswersDemo } from "@/registry/demos/check-answers.demo";
+import { MixedValuesDemo } from "@/registry/demos/mixed-values.demo";
+import { ParcelSpecDemo } from "@/registry/demos/parcel-spec.demo";
+import { SiteAssessmentDemo } from "@/registry/demos/site-assessment.demo";
+import { SharePerimeterDemo } from "@/registry/demos/share-perimeter.demo";
+import { DestinationPickerDemo } from "@/registry/demos/destination-picker.demo";
+import { LeaveGuardDemo } from "@/registry/demos/leave-guard.demo";
+import { QuickCaptureDemo } from "@/registry/demos/quick-capture.demo";
+import { BatchRunnerDemo } from "@/registry/demos/batch-runner.demo";
+import { PlatePickerDemo } from "@/registry/demos/plate-picker.demo";
+import { ExportRecipeDemo } from "@/registry/demos/export-recipe.demo";
+import { SenderStacksDemo } from "@/registry/demos/sender-stacks.demo";
+import { ErrandToastsDemo } from "@/registry/demos/errand-toasts.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -3678,4 +3718,44 @@ export const demos: Record<string, ComponentType> = {
   "name-clash": NameClashDemo,
   "incident-bridge": IncidentBridgeDemo,
   "blast-radius": BlastRadiusDemo,
+  "tripwire-tuner": TripwireTunerDemo,
+  "rack-elevation": RackElevationDemo,
+  "heartbeat-ledger": HeartbeatLedgerDemo,
+  "exception-triage": ExceptionTriageDemo,
+  "probe-relay": ProbeRelayDemo,
+  "status-dispatch": StatusDispatchDemo,
+  "ghost-baseline": GhostBaselineDemo,
+  "pager-rota": PagerRotaDemo,
+  "ghost-rows": GhostRowsDemo,
+  "open-day": OpenDayDemo,
+  "empty-room": EmptyRoomDemo,
+  "offline-shelf": OfflineShelfDemo,
+  "first-event": FirstEventDemo,
+  "theme-fitting": ThemeFittingDemo,
+  "ping-matrix": PingMatrixDemo,
+  "hazard-shelf": HazardShelfDemo,
+  "chord-recorder": ChordRecorderDemo,
+  "format-sampler": FormatSamplerDemo,
+  "token-locker": TokenLockerDemo,
+  "address-cascade": AddressCascadeDemo,
+  "mend-list": MendListDemo,
+  "attendee-rows": AttendeeRowsDemo,
+  "thread-fields": ThreadFieldsDemo,
+  "receipt-reader": ReceiptReaderDemo,
+  "draft-keeper": DraftKeeperDemo,
+  "twin-preview": TwinPreviewDemo,
+  "margin-help": MarginHelpDemo,
+  "check-answers": CheckAnswersDemo,
+  "mixed-values": MixedValuesDemo,
+  "parcel-spec": ParcelSpecDemo,
+  "site-assessment": SiteAssessmentDemo,
+  "share-perimeter": SharePerimeterDemo,
+  "destination-picker": DestinationPickerDemo,
+  "leave-guard": LeaveGuardDemo,
+  "quick-capture": QuickCaptureDemo,
+  "batch-runner": BatchRunnerDemo,
+  "plate-picker": PlatePickerDemo,
+  "export-recipe": ExportRecipeDemo,
+  "sender-stacks": SenderStacksDemo,
+  "errand-toasts": ErrandToastsDemo,
 };
