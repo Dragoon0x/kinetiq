@@ -49049,6 +49049,289 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "overage-forecast",
+      "type": "registry:ui",
+      "title": "Overage Forecast",
+      "description": "A metered-usage panel where each meter is a small chart: history up to today, the plan's allowance as a hairline, and a forecast cone fanning from today's reading to the period's end, its share above the allowance drawn in warn. When a meter is first seen the history draws across and the cone grows out of today on springs.glide, a beat apart per meter, and turning on planned load springs every cone's ends to their new values on the same spring so each fan widens and lifts while the overage and the projected bill roll to their new figures. Each chart is a slider over the period's days: hover, a tap or the arrow keys move a cursor on springs.flick whose reading is the value text, Page keys move a week, Home and End reach the ends and Escape returns to today.",
+      "files": [
+        {
+          "path": "registry/ui/overage-forecast.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1768"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "seat-planner",
+      "type": "registry:ui",
+      "title": "Seat Planner",
+      "description": "A seat management panel where every seat is a chair in a row: seated members sit on theirs as initials on a disc, empty paid seats are outlines and seats added in the draft are dashed accent chairs until confirmed. Adding a seat sets a new chair into the row from 16px above, landing on springs.recoil while its shadow spreads, a cascade apart when several arrive at once, and today's prorated charge rolls up; removing one lifts the chair away on the exit ease and opens the credit on springs.glide. Waiting members drag 1:1 onto an empty chair or seat through a menu; the chairs are one roving group (Left, Right, Home, End, Enter opens a chair's menu) and the count is a spinbutton driven by the arrow and Page keys that never falls below the seats in use.",
+      "files": [
+        {
+          "path": "registry/ui/seat-planner.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1769"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "invoice-drilldown",
+      "type": "registry:ui",
+      "title": "Invoice Drilldown",
+      "description": "An invoice viewer with the list of invoices on one side and the chosen one in full on the other, where a metered line opens to show the usage records that made it. Opening a line grows its region to the measured height on springs.glide while the parts slide down from 8px a cascade apart and a guide rule grows down from the line; the sum lands last, saying it matches the line or what it differs by, and the line's own figure takes one accent wash so every total traces to its parts. The invoice list is a listbox (arrows, Home, End) whose selection slides on springs.snap, each line is a native disclosure button (Enter or Space toggles, Up and Down walk, Right opens, Left closes), and a paid invoice's tick draws on springs.flick.",
+      "files": [
+        {
+          "path": "registry/ui/invoice-drilldown.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1770"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "change-preview",
+      "type": "registry:ui",
+      "title": "Change Preview",
+      "description": "A plan-change preview with the plans as a radio group and the billing period drawn as a timeline beneath: the days used, and from the change date the credit for the unused plan and the charge for the new one. Choosing a plan slides the marker to the change date on springs.snap, then the credit and charge segments grow from it toward the period's end on springs.glide, the credit a beat ahead, while the amount due today rolls to its new figure; a cheaper plan that waits for the period's end gets a dashed marker there. Every position is a CSS variable written by a motion value, so the same values drive the horizontal timeline and the vertical one at phone widths; the radios take the arrow keys, Home and End.",
+      "files": [
+        {
+          "path": "registry/ui/change-preview.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1771"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "failed-charge",
+      "type": "registry:ui",
+      "title": "Failed Charge",
+      "description": "An in-app banner for a payment that didn't go through, fixable in place: Retry tries the charge again and Update card opens a short form of saved methods or a new card that saves and retries in one go. While a retry is pending a tinted sweep fills across the banner on a long decelerating tween; when the charge lands it completes on springs.glide, the band turns from muted red to green, the check draws on springs.flick and the banner folds itself away on glide, while a refusal drains the sweep on the exit ease and simply states the reason. The message is a polite live region, the form is a radiogroup of methods (arrows) with labelled inputs, Enter submits and Escape closes it back to Update card.",
+      "files": [
+        {
+          "path": "registry/ui/failed-charge.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1772"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "live-chatter",
+      "type": "registry:ui",
+      "title": "Live Chatter",
+      "description": "A live event chat that holds still while you read: while nothing holds it, the log's scroll chases the newest row on a spring derived from springs.glide whose stiffness scales with scrollSpeed², keeping its velocity across arrivals so a burst reads as one climb. Hovering, keyboard focus, Space or scrolling up freezes it in place while a pill rises on springs.snap counting the messages below the fold with rolling digits; choosing the pill or pressing End fast-forwards on a stiff glide under a brief vertical blur and draws the newest row's edge on springs.flick. Up and Down walk the rows, Space pauses and resumes, Tab reaches each row's Report, and slow mode, mutes and a dropped connection show in the composer and the log.",
+      "files": [
+        {
+          "path": "registry/ui/live-chatter.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1778"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "channel-merge",
+      "type": "registry:ui",
+      "title": "Channel Merge",
+      "description": "A support conversation where one customer's email, texts and web chat sit in a single thread, each message carrying a thin stripe in its channel's hue — an inner edge, a rail through the gutter that changes colour where the conversation changed channel, or a top band. Choosing the reply channel slides its badge across the radio group on springs.snap while the composer reshapes: its measured height glides on springs.glide as the email subject unfolds or the text counter's segments roll in, the address cross-fades and the top stripe wipes into the new hue; Ctrl+Enter sends and the reply rises on glide with its stripe drawn on springs.flick. Arrows move through the channels and skip the ones the customer never used, the assignee menu answers to arrows, Enter and Escape, and under 44rem the customer sidebar hides behind a tab.",
+      "files": [
+        {
+          "path": "registry/ui/channel-merge.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1779"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "clip-thread",
+      "type": "registry:ui",
+      "title": "Clip Thread",
+      "description": "An asynchronous video thread whose clips are procedural screen shares drawn in SVG from one time motion value, so hovering a strip thumbnail scrubs its frames under the pointer at frame rate and the cursor in each frame glides between what the speaker points at. While a clip plays its track fills linearly and the transcript lights up word by word: a capsule glides from word to word on springs.flick and across line breaks on springs.snap, and any word can be clicked to jump there; reactions land on springs.recoil as markers on the track, choosing a clip slides the frame in on springs.glide, and a finished clip's progress ring closes into a tick. Space plays, the arrows skip five seconds, the strip is a listbox walked with Left and Right, and the transcript's lines are walked with Up and Down.",
+      "files": [
+        {
+          "path": "registry/ui/clip-thread.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1780"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "safety-numbers",
+      "type": "registry:ui",
+      "title": "Safety Numbers",
+      "description": "An end-to-end verification screen that lays both safety numbers side by side as grids of five-digit groups: pointing at or focusing a group lights its partner and draws a hairline between them, and the compare-aloud stepper walks the pairs one at a time with an outline that travels cell to cell on springs.snap. Marking the chat verified turns each matched pair over in 3D on springs.glide, both grids together and staggered in reading order by cascade(), to a calm tick, and once the last one lands a seal settles on the contact on springs.snap with one ring breathing out; a changed number shows its warning first. Each grid is a role=\"grid\" walked with the arrows, Home, End and Ctrl+Home/End, and every group's name spells its digits so a screen reader reads them one by one.",
+      "files": [
+        {
+          "path": "registry/ui/safety-numbers.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1781"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "spur-columns",
+      "type": "registry:ui",
+      "title": "Spur Columns",
+      "description": "An assistant thread where any phrase becomes its own column: choose a dotted phrase in an answer, or select any words and ask about them, and the phrase is lifted out as a chip and carried to the new column's header on springs.glide — landing exactly, because the destination comes from the computed layout rather than a mid-flight measure — while the new column grows in and the older ones narrow to readable spines on the same spring. Every column has its own skeleton, empty and failed states and its own follow-up composer, answered through answerFor (which may return a promise). Left and Right walk the columns, Escape folds the rightmost back into its phrase on the exit ease and returns focus there, and under 520px the columns become a stack that follows a sideways swipe 1:1, rubber-bands at the ends and commits by projection with the trail shown as chips.",
+      "files": [
+        {
+          "path": "registry/ui/spur-columns.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2050"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

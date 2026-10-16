@@ -1942,6 +1942,16 @@ import { RequestTrackerDemo } from "@/registry/demos/request-tracker.demo";
 import { BeforeYouSendDemo } from "@/registry/demos/before-you-send.demo";
 import { CallbackQueueDemo } from "@/registry/demos/callback-queue.demo";
 import { CobrowseConsentDemo } from "@/registry/demos/cobrowse-consent.demo";
+import { OverageForecastDemo } from "@/registry/demos/overage-forecast.demo";
+import { SeatPlannerDemo } from "@/registry/demos/seat-planner.demo";
+import { InvoiceDrilldownDemo } from "@/registry/demos/invoice-drilldown.demo";
+import { ChangePreviewDemo } from "@/registry/demos/change-preview.demo";
+import { FailedChargeDemo } from "@/registry/demos/failed-charge.demo";
+import { LiveChatterDemo } from "@/registry/demos/live-chatter.demo";
+import { ChannelMergeDemo } from "@/registry/demos/channel-merge.demo";
+import { ClipThreadDemo } from "@/registry/demos/clip-thread.demo";
+import { SafetyNumbersDemo } from "@/registry/demos/safety-numbers.demo";
+import { SpurColumnsDemo } from "@/registry/demos/spur-columns.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -3898,4 +3908,14 @@ export const demos: Record<string, ComponentType> = {
   "before-you-send": BeforeYouSendDemo,
   "callback-queue": CallbackQueueDemo,
   "cobrowse-consent": CobrowseConsentDemo,
+  "overage-forecast": OverageForecastDemo,
+  "seat-planner": SeatPlannerDemo,
+  "invoice-drilldown": InvoiceDrilldownDemo,
+  "change-preview": ChangePreviewDemo,
+  "failed-charge": FailedChargeDemo,
+  "live-chatter": LiveChatterDemo,
+  "channel-merge": ChannelMergeDemo,
+  "clip-thread": ClipThreadDemo,
+  "safety-numbers": SafetyNumbersDemo,
+  "spur-columns": SpurColumnsDemo,
 };

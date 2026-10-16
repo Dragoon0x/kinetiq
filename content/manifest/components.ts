@@ -176364,4 +176364,1675 @@ export const components: KinetiqItem[] = [
       "Reduced motion: the frame and the masks fade in place, the card swaps for the bar with a cross-fade, the pointer jumps and the live dot holds still; every private field is still covered.",
     ],
   },
+  {
+    name: "overage-forecast",
+    type: "registry:ui",
+    title: "Overage Forecast",
+    description:
+      "A metered-usage panel where each meter is a small chart: history up to today, the plan's allowance as a hairline, and a forecast cone fanning from today's reading to the period's end, its share above the allowance drawn in warn. When a meter is first seen the history draws across and the cone grows out of today on springs.glide, a beat apart per meter, and turning on planned load springs every cone's ends to their new values on the same spring so each fan widens and lifts while the overage and the projected bill roll to their new figures. Each chart is a slider over the period's days: hover, a tap or the arrow keys move a cursor on springs.flick whose reading is the value text, Page keys move a week, Home and End reach the ends and Escape returns to today.",
+    files: [
+      {
+        path: "registry/ui/overage-forecast.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1768",
+    },
+    tagline: "Where usage will land by the end of the month.",
+    keywords: [
+      "usage billing",
+      "overage",
+      "forecast cone",
+      "metered usage",
+      "projected bill",
+      "alerts",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "usage",
+        type: "OverageUsage[]",
+        defaultValue: "defaultOverageUsage",
+        description:
+          "Each metered thing: { id, label, unit, used, history?, icon? }.",
+      },
+      {
+        name: "plan",
+        type: "OveragePlan",
+        defaultValue: "defaultOveragePlan",
+        description:
+          "The period, the base price, and each meter's { included, rate, per }.",
+      },
+      {
+        name: "forecast",
+        type: "OverageForecast",
+        defaultValue: "defaultOverageForecast",
+        description:
+          "Where each meter is likely to land: { low, mid, high, planned? } by meter id.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "Oct 17 2026, 14:00 UTC",
+        description: "The moment the meters are read at, in ms.",
+      },
+      {
+        name: "account",
+        type: "string",
+        defaultValue: '"Gaugeworks"',
+        description: "The account the usage belongs to.",
+      },
+      {
+        name: "includePlanned / defaultIncludePlanned",
+        type: "boolean",
+        defaultValue: "— / false",
+        description:
+          "Whether planned load is counted in the forecast, controlled or initial.",
+      },
+      {
+        name: "onForecastToggle",
+        type: "(on) => void",
+        description: "Fires from the switch with the new state.",
+      },
+      {
+        name: "alerts / defaultAlerts",
+        type: "Record<string, number>",
+        defaultValue: "— / { api: 45000 }",
+        description: "Alert thresholds by meter id, controlled or initial.",
+      },
+      {
+        name: "onSetAlert",
+        type: "(id, value | null) => void",
+        description:
+          "Fires when an alert is saved (a number) or removed (null).",
+      },
+      {
+        name: "upgrade",
+        type: "OverageUpgrade | null",
+        defaultValue: "Scale, $449",
+        description:
+          "The plan to suggest in the footer; null hides the suggestion.",
+      },
+      {
+        name: "onUpgrade",
+        type: "(upgrade) => void",
+        description: "The footer's button was pressed.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "empty" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the readings have arrived; empty is a fresh period.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the readings failed to load.",
+      },
+      {
+        name: "coneStyle",
+        type: '"fan" | "bands" | "lines"',
+        defaultValue: '"fan"',
+        description:
+          "How the forecast cone is drawn: one fading wedge, nested bands, or dotted edges.",
+      },
+      {
+        name: "meterHeight",
+        type: "number",
+        defaultValue: "88",
+        description: "Height of each meter's chart, in px.",
+      },
+      {
+        name: "accent",
+        type: '"cobalt" | "plum" | "mint" | "ink" | string',
+        defaultValue: '"cobalt"',
+        description:
+          "History, cone, cursor and switch: a named pigment or any CSS colour.",
+      },
+      {
+        name: "formatMoney",
+        type: "(amount) => string",
+        defaultValue: "Intl USD",
+        description: "How money is written.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Alerts, the switch and the upgrade are unavailable; readings stay readable.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the panel; it caps at 36rem tall and scrolls inside past that.",
+      },
+    ],
+    usageNotes: [
+      'Each chart is a role="slider" over the period\'s days: Left and Right move a day, Page Up and Page Down a week, Home and End reach the ends, and Escape returns to today; its value text reads use so far or the likely range ahead, and a sentence summary is attached with aria-describedby.',
+      "Nothing loops: every movement is a motion animation that stops when it settles, geometry is derived from motion values rather than React state, and the entrance waits until a meter is in view.",
+      "Under reduced motion the history and cone are in place at once; planned load swaps the cone's ends on a short tween and figures cross-fade, because the widening is information.",
+      "Forecast fills are pigment (the accent's hue at a fixed lightness) and overage is always warn, so the cone reads the same in light and dark and never depends on the accent.",
+      "The y scale covers both forecasts, so the planned-load switch moves the cone without re-scaling the history beneath it; pass history for each elapsed day to draw the real curve.",
+    ],
+  },
+  {
+    name: "seat-planner",
+    type: "registry:ui",
+    title: "Seat Planner",
+    description:
+      "A seat management panel where every seat is a chair in a row: seated members sit on theirs as initials on a disc, empty paid seats are outlines and seats added in the draft are dashed accent chairs until confirmed. Adding a seat sets a new chair into the row from 16px above, landing on springs.recoil while its shadow spreads, a cascade apart when several arrive at once, and today's prorated charge rolls up; removing one lifts the chair away on the exit ease and opens the credit on springs.glide. Waiting members drag 1:1 onto an empty chair or seat through a menu; the chairs are one roving group (Left, Right, Home, End, Enter opens a chair's menu) and the count is a spinbutton driven by the arrow and Page keys that never falls below the seats in use.",
+    files: [
+      {
+        path: "registry/ui/seat-planner.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1769",
+    },
+    tagline: "Add or remove seats and see the prorated cost.",
+    keywords: [
+      "seats",
+      "prorated billing",
+      "team plan",
+      "seat assignment",
+      "drag and drop",
+      "app ui",
+      "billing",
+    ],
+    props: [
+      {
+        name: "seats",
+        type: "number",
+        defaultValue: "10",
+        description: "Seats paid for today.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "number",
+        defaultValue: "— / seats",
+        description:
+          "The draft seat count, controlled or initial; the planner follows a controlled value whenever it changes.",
+      },
+      {
+        name: "onSeatsChange",
+        type: "(count) => void",
+        description:
+          "Fires from the stepper, a key or a menu with the new draft count.",
+      },
+      {
+        name: "members",
+        type: "SeatMember[]",
+        defaultValue: "defaultSeatMembers",
+        description: "Everyone in the workspace: { id, name, role?, seated }.",
+      },
+      {
+        name: "onAssign",
+        type: "(memberId, chair | null) => void",
+        description:
+          "Fires when someone is seated (with the chair's index) or stood up (null).",
+      },
+      {
+        name: "pricing",
+        type: "SeatPricing",
+        defaultValue: "defaultSeatPricing",
+        description:
+          "Price per seat and the billing period: { perSeat, periodStart, periodEnd }.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "Oct 17 2026, 14:00 UTC",
+        description: "The moment proration counts from, in ms.",
+      },
+      {
+        name: "maxSeats",
+        type: "number",
+        defaultValue: "40",
+        description: "The most seats the plan allows.",
+      },
+      {
+        name: "onConfirm",
+        type: "(change) => void | Promise",
+        description:
+          "Confirm was pressed with { seats, added, removed, charge, credit, assignments }; a rejection keeps the draft and shows its message.",
+      },
+      {
+        name: "onDiscard",
+        type: "() => void",
+        description: "The draft was thrown away.",
+      },
+      {
+        name: "workspace",
+        type: "string",
+        defaultValue: '"Coldbrook"',
+        description: "The workspace's name.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description: "Whether the seats have arrived.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the seats failed to load.",
+      },
+      {
+        name: "chairStyle",
+        type: '"chair" | "stool" | "dot"',
+        defaultValue: '"chair"',
+        description: "How each seat is drawn.",
+      },
+      {
+        name: "gap",
+        type: "number",
+        defaultValue: "10",
+        description: "Space between chairs, in px.",
+      },
+      {
+        name: "accent",
+        type: '"cobalt" | "plum" | "mint" | "ink" | string',
+        defaultValue: '"cobalt"',
+        description:
+          "New chairs, the drop target and Confirm: a named pigment or any CSS colour.",
+      },
+      {
+        name: "formatMoney",
+        type: "(amount) => string",
+        defaultValue: "Intl USD",
+        description: "How money is written.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Seats and assignments are read-only.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the panel; it caps at 36rem tall and scrolls inside past that.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: the chairs are a roving group (Left, Right, Home, End; Enter or Space opens the chair\'s menu), menus take the arrow keys and Escape returns focus to their trigger, and the seat count is a role="spinbutton" (arrows, Page keys, Home for the seats in use, End for the ceiling).',
+      "Every drag has a keyboard twin: a waiting member's chip opens a menu of empty chairs (and Add a seat), and an empty chair's menu lists who is waiting.",
+      "The count never falls below the seats in use: asking for less leaves it alone, says why in words and flashes the occupied chairs once.",
+      "Under reduced motion chairs and discs fade in and out in place; the drag still follows the pointer, and the chip returns home without travel.",
+      "Proration counts the calendar days left in the period from now, so the charge and the credit match what an invoice would show; a rejected confirm keeps the whole draft.",
+    ],
+  },
+  {
+    name: "invoice-drilldown",
+    type: "registry:ui",
+    title: "Invoice Drilldown",
+    description:
+      "An invoice viewer with the list of invoices on one side and the chosen one in full on the other, where a metered line opens to show the usage records that made it. Opening a line grows its region to the measured height on springs.glide while the parts slide down from 8px a cascade apart and a guide rule grows down from the line; the sum lands last, saying it matches the line or what it differs by, and the line's own figure takes one accent wash so every total traces to its parts. The invoice list is a listbox (arrows, Home, End) whose selection slides on springs.snap, each line is a native disclosure button (Enter or Space toggles, Up and Down walk, Right opens, Left closes), and a paid invoice's tick draws on springs.flick.",
+    files: [
+      {
+        path: "registry/ui/invoice-drilldown.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1770",
+    },
+    tagline: "Open a line item and see what made it.",
+    keywords: [
+      "invoices",
+      "billing",
+      "usage records",
+      "line items",
+      "drilldown",
+      "app ui",
+      "accounts payable",
+    ],
+    props: [
+      {
+        name: "invoices",
+        type: "DrilldownInvoice[]",
+        defaultValue: "defaultDrilldownInvoices",
+        description:
+          "The invoices, newest first: { id, number, periodStart, periodEnd, issued, due, status, tax, paidOn?, note? }.",
+      },
+      {
+        name: "lineItems",
+        type: "DrilldownLineItem[]",
+        defaultValue: "defaultDrilldownLineItems",
+        description:
+          "Every line of every invoice: { id, invoiceId, label, detail?, amount, records? }.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        defaultValue: "— / the first invoice",
+        description: "The selected invoice id, controlled or initial.",
+      },
+      {
+        name: "onValueChange",
+        type: "(id) => void",
+        description: "Fires from the press or key that chose an invoice.",
+      },
+      {
+        name: "expanded / defaultExpanded",
+        type: "string[]",
+        defaultValue: "— / []",
+        description: "The open line ids, controlled or initial.",
+      },
+      {
+        name: "onExpandedChange",
+        type: "(ids) => void",
+        description:
+          "Fires with every open line id after a line opens or closes.",
+      },
+      {
+        name: "onDownload",
+        type: "(invoice) => void | Promise",
+        description:
+          "Download was pressed; return a promise to show it working.",
+      },
+      {
+        name: "onDispute",
+        type: "(invoice, line | null) => void",
+        description:
+          "Dispute was pressed for the invoice (line null) or for one line.",
+      },
+      {
+        name: "onPay",
+        type: "(invoice) => void | Promise",
+        description:
+          "Pay was pressed; a returned promise holds the button and a rejection is stated.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "Oct 17 2026",
+        description: "The moment due dates count from, in ms.",
+      },
+      {
+        name: "account",
+        type: "string",
+        defaultValue: '"Fernworks · Studio plan"',
+        description: "Whose invoices these are.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "empty" | "error"',
+        defaultValue: '"ready"',
+        description: "Whether the invoices have arrived.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the invoices failed to load.",
+      },
+      {
+        name: "tableStyle",
+        type: '"ruled" | "striped" | "boxed"',
+        defaultValue: '"ruled"',
+        description: "How the lines are set.",
+      },
+      {
+        name: "rowHeight",
+        type: "number",
+        defaultValue: "40",
+        description: "Height of a line in px; usage lines take four-fifths.",
+      },
+      {
+        name: "accent",
+        type: '"cobalt" | "plum" | "mint" | "ink" | string',
+        defaultValue: '"cobalt"',
+        description:
+          "Selection, open lines and Pay: a named pigment or any CSS colour.",
+      },
+      {
+        name: "formatMoney",
+        type: "(amount) => string",
+        defaultValue: "Intl USD",
+        description: "How money is written.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Pay, Download and Dispute are unavailable; everything stays readable.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the viewer; it caps at 36rem tall and its panes scroll inside.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the invoice list is a listbox (arrows, Home, End) with selection following focus; each line with records is a native button with aria-expanded and aria-controls (Enter or Space toggles, Up and Down walk the lines, Right opens, Left closes).",
+      "Status is a word with a glyph — Paid, Due, Overdue, Void — never colour alone; void amounts are struck and overdue invoices say by how many days.",
+      "The sum under each opened line is checked against the line itself, so a record set that does not add up says what it differs by instead of claiming a match.",
+      "Under reduced motion regions open in place with a fade and the parts appear together; the trace's wash still shows as colour.",
+      "At phone widths the invoice list becomes a horizontal strip and the lines become cards, by container query, so the server markup is the same at every width.",
+    ],
+  },
+  {
+    name: "change-preview",
+    type: "registry:ui",
+    title: "Change Preview",
+    description:
+      "A plan-change preview with the plans as a radio group and the billing period drawn as a timeline beneath: the days used, and from the change date the credit for the unused plan and the charge for the new one. Choosing a plan slides the marker to the change date on springs.snap, then the credit and charge segments grow from it toward the period's end on springs.glide, the credit a beat ahead, while the amount due today rolls to its new figure; a cheaper plan that waits for the period's end gets a dashed marker there. Every position is a CSS variable written by a motion value, so the same values drive the horizontal timeline and the vertical one at phone widths; the radios take the arrow keys, Home and End.",
+    files: [
+      {
+        path: "registry/ui/change-preview.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1771",
+    },
+    tagline: "Before you switch plans, see when and what you pay.",
+    keywords: [
+      "plan change",
+      "proration",
+      "billing timeline",
+      "upgrade",
+      "downgrade",
+      "app ui",
+      "pricing",
+    ],
+    props: [
+      {
+        name: "currentPlan",
+        type: "string",
+        defaultValue: '"team"',
+        description: "The plan the account is on now.",
+      },
+      {
+        name: "plans",
+        type: "ChangePlan[]",
+        defaultValue: "defaultChangePlans",
+        description:
+          "The plans on offer, cheapest first: { id, name, price, blurb? }.",
+      },
+      {
+        name: "period",
+        type: "ChangePeriod",
+        defaultValue: "Oct 1 – Nov 1 2026",
+        description: "The current billing period: { start, end }.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "Oct 17 2026, 14:00 UTC",
+        description: "The moment the preview is made, in ms.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        defaultValue: '— / "business"',
+        description: "The chosen plan id, controlled or initial.",
+      },
+      {
+        name: "onPreview",
+        type: "(plan) => void | Promise",
+        description:
+          "Fires from the press or key that chose a plan; a returned promise shows Calculating…, its figures replace the computed ones and a rejection is stated.",
+      },
+      {
+        name: "onConfirm",
+        type: "(plan, quote) => void | Promise",
+        description:
+          "Confirm was pressed with the quote; a returned promise holds the button.",
+      },
+      {
+        name: "onCancel",
+        type: "() => void",
+        description:
+          "Keep was pressed: the choice goes back to the current plan.",
+      },
+      {
+        name: "errors",
+        type: "{ credit?, charge?, tax? }",
+        description:
+          "Parts the host could not calculate, each with its reason; Confirm waits until they are known.",
+      },
+      {
+        name: "taxRate",
+        type: "number",
+        defaultValue: "0",
+        description: "Tax on what is due today, as a fraction.",
+      },
+      {
+        name: "downgradeAt",
+        type: '"period-end" | "now"',
+        defaultValue: '"period-end"',
+        description: "When a cheaper plan starts.",
+      },
+      {
+        name: "account",
+        type: "string",
+        defaultValue: '"Fernworks"',
+        description: "The account changing plans.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description: "Whether the plans have arrived.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the plans failed to load.",
+      },
+      {
+        name: "timelineStyle",
+        type: '"track" | "rail" | "days"',
+        defaultValue: '"track"',
+        description:
+          "How the billing period is drawn: thick lanes, hairline rails, or one cell per day.",
+      },
+      {
+        name: "density",
+        type: '"compact" | "cozy" | "roomy"',
+        defaultValue: '"cozy"',
+        description: "Padding, gaps and the plan cards' height.",
+      },
+      {
+        name: "accent",
+        type: '"cobalt" | "plum" | "mint" | "ink" | string',
+        defaultValue: '"cobalt"',
+        description:
+          "Selection, charge and Confirm: a named pigment or any CSS colour.",
+      },
+      {
+        name: "formatMoney",
+        type: "(amount) => string",
+        defaultValue: "Intl USD",
+        description: "How money is written.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Plans can be compared but not changed.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the panel; it caps at 36rem tall and scrolls inside past that.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: the plans are a role="radiogroup" with a roving tabindex (arrows move and choose, Home and End jump); Confirm and Keep are buttons, and Confirm stays focusable while it waits (aria-disabled, aria-busy).',
+      "The timeline is a figure whose caption states the whole change in one sentence; the drawn lanes are decorative, and due today is announced once per choice.",
+      "quoteChangePreview is exported, so a host can show the same figures elsewhere or check its own; pass errors to name a part that could not be calculated and it is drawn as an ink hatch and listed in words.",
+      "Under reduced motion the marker and segments are in place at once and figures cross-fade; the dashed or solid marker and every amount still change.",
+      "No frame loop: three motion values write CSS variables, and the vertical timeline at phone widths is chosen by container query alone, so server and client markup match at every width.",
+    ],
+  },
+  {
+    name: "failed-charge",
+    type: "registry:ui",
+    title: "Failed Charge",
+    description:
+      "An in-app banner for a payment that didn't go through, fixable in place: Retry tries the charge again and Update card opens a short form of saved methods or a new card that saves and retries in one go. While a retry is pending a tinted sweep fills across the banner on a long decelerating tween; when the charge lands it completes on springs.glide, the band turns from muted red to green, the check draws on springs.flick and the banner folds itself away on glide, while a refusal drains the sweep on the exit ease and simply states the reason. The message is a polite live region, the form is a radiogroup of methods (arrows) with labelled inputs, Enter submits and Escape closes it back to Update card.",
+    files: [
+      {
+        path: "registry/ui/failed-charge.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1772",
+    },
+    tagline: "The payment didn't go through; fix it right here.",
+    keywords: [
+      "payment failed",
+      "dunning",
+      "retry payment",
+      "billing banner",
+      "card update",
+      "grace period",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "invoice",
+        type: "FailedChargeInvoice",
+        defaultValue: "INV-2026-10, $284.00, October",
+        description: "The invoice that failed: { id, number, amount, label }.",
+      },
+      {
+        name: "method",
+        type: "FailedChargeMethod",
+        defaultValue: "card ending 4417",
+        description:
+          "The method the charge was tried on: { id, label, kind }; the label reads mid-sentence.",
+      },
+      {
+        name: "methods",
+        type: "FailedChargeMethod[]",
+        defaultValue: "a bank account ending 0921",
+        description: "Other saved methods to choose from in the update.",
+      },
+      {
+        name: "graceDays",
+        type: "number",
+        defaultValue: "7",
+        description: "Days the account stays active after the first failure.",
+      },
+      {
+        name: "failedAt",
+        type: "number",
+        defaultValue: "Oct 15 2026",
+        description: "When the charge first failed, in ms.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "Oct 17 2026, 14:00 UTC",
+        description: "The moment grace is counted at, in ms.",
+      },
+      {
+        name: "reason",
+        type: "string",
+        defaultValue: '"The card was declined."',
+        description: "Why the first attempt failed.",
+      },
+      {
+        name: "attempts / defaultAttempts",
+        type: "number",
+        defaultValue: "— / 1",
+        description:
+          "Failed attempts so far, controlled or initial; two or more shows the grace days.",
+      },
+      {
+        name: "onRetry",
+        type: "(methodId) => void | Promise",
+        description:
+          "Retry was pressed (or a new method was saved); resolve when paid, reject with the reason.",
+      },
+      {
+        name: "onUpdateMethod",
+        type: "(choice) => void | Promise",
+        description:
+          "The update form was submitted with a saved method or a new card's fields; resolve with the method to retry on.",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "boolean",
+        defaultValue: "— / true",
+        description: "Whether the banner is showing, controlled or initial.",
+      },
+      {
+        name: "onDismiss",
+        type: '(why: "user" | "paid") => void',
+        description:
+          "The banner folded away: dismissed by the reader, or paid.",
+      },
+      {
+        name: "expanded / defaultExpanded",
+        type: "boolean",
+        defaultValue: "— / false",
+        description: "Whether the update form is open, controlled or initial.",
+      },
+      {
+        name: "onExpandedChange",
+        type: "(open) => void",
+        description:
+          "Fires from Update card, Cancel or Escape with the new state.",
+      },
+      {
+        name: "foldDelay",
+        type: "number",
+        defaultValue: "1600",
+        description:
+          "How long Payment received stays before the banner folds, in ms.",
+      },
+      {
+        name: "bandStyle",
+        type: '"edge" | "wash" | "outline"',
+        defaultValue: '"edge"',
+        description:
+          "Where the colour sits: a leading band, the whole banner, or the border.",
+      },
+      {
+        name: "cornerRadius",
+        type: "number",
+        defaultValue: "10",
+        description: "Corner radius in px.",
+      },
+      {
+        name: "tone",
+        type: '"soft" | "strong" | "mono"',
+        defaultValue: '"soft"',
+        description: "How loud the colour is.",
+      },
+      {
+        name: "account",
+        type: "string",
+        defaultValue: '"Fernworks"',
+        description: "The product that stays active through the grace days.",
+      },
+      {
+        name: "formatMoney",
+        type: "(amount) => string",
+        defaultValue: "Intl USD",
+        description: "How money is written.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the region that holds the banner.",
+      },
+    ],
+    usageNotes: [
+      'The message is aria-live="polite" and atomic, so retrying, received and declined are each spoken once; Retry stays focusable while busy (aria-disabled, aria-busy), and focus inside a folding banner is parked on its region rather than dropped to the page.',
+      "The form is keyboard complete: a radiogroup of methods (arrows, Home, End), labelled inputs with inline errors tied by aria-describedby, Enter submits, and Escape closes it and returns focus to Update card.",
+      "A new card's fields are handed to onUpdateMethod as typed; pass them straight to your payment provider and never store them.",
+      "The band's colour is one hue variable, so the turn from red to green is a plain colour transition everywhere at once; fills are pigment and read the same in light and dark.",
+      "Under reduced motion the sweep is a still, faint fill, the colour still turns, the check appears without drawing and the fold is a fade. The only timer is the fold delay, cleared on unmount.",
+    ],
+  },
+  {
+    name: "live-chatter",
+    type: "registry:ui",
+    title: "Live Chatter",
+    description:
+      "A live event chat that holds still while you read: while nothing holds it, the log's scroll chases the newest row on a spring derived from springs.glide whose stiffness scales with scrollSpeed², keeping its velocity across arrivals so a burst reads as one climb. Hovering, keyboard focus, Space or scrolling up freezes it in place while a pill rises on springs.snap counting the messages below the fold with rolling digits; choosing the pill or pressing End fast-forwards on a stiff glide under a brief vertical blur and draws the newest row's edge on springs.flick. Up and Down walk the rows, Space pauses and resumes, Tab reaches each row's Report, and slow mode, mutes and a dropped connection show in the composer and the log.",
+    files: [
+      {
+        path: "registry/ui/live-chatter.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1778",
+    },
+    tagline: "A fast chat that holds still while you read.",
+    keywords: [
+      "live chat",
+      "event chat",
+      "broadcast chat",
+      "pause on hover",
+      "new messages pill",
+      "slow mode",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "messages",
+        type: "LiveChatterMessage[]",
+        defaultValue: "defaultLiveChatterMessages",
+        description:
+          'The stream so far, oldest first: { id, author, text, at, badges?: ("host" | "mod" | "speaker" | "staff")[], kind?: "message" | "gap", missed?, until? }. The host appends; the chat follows.',
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Coldbrook all-hands"',
+        description: "The broadcast's name in the header; also names the log.",
+      },
+      {
+        name: "subtitle",
+        type: "string",
+        defaultValue: '"Q4 roadmap"',
+        description: "A short line under the title, before the viewer count.",
+      },
+      {
+        name: "viewers",
+        type: "number",
+        defaultValue: "1284",
+        description:
+          "How many people are watching, grouped by hand so server and browser agree.",
+      },
+      {
+        name: "connection",
+        type: '"live" | "reconnecting" | "offline"',
+        defaultValue: '"live"',
+        description:
+          'Anything but live tears the log\'s tail with a "Connection lost" edge and holds sending with a reason in the composer.',
+      },
+      {
+        name: "paused / defaultPaused",
+        type: "boolean",
+        defaultValue: "— / false",
+        description:
+          "The explicit pause (Space), controlled or initial. Hover, keyboard focus and scrolling up still hold on top of it.",
+      },
+      {
+        name: "onPause",
+        type: "(paused, reason) => void",
+        description:
+          'The stream started or stopped holding still; reason is "hover", "focus", "key", "scroll", "pill" or "send".',
+      },
+      {
+        name: "onSend",
+        type: "(text) => void",
+        description:
+          "A message was sent from the composer (Enter). Append it to messages to show it; the log goes live to see it land.",
+      },
+      {
+        name: "onReport",
+        type: "(message) => void",
+        description:
+          "A message was reported through its row's confirm; it is already hidden for this viewer.",
+      },
+      {
+        name: "slowMode",
+        type: "number",
+        defaultValue: "0",
+        description:
+          "Seconds between messages from one viewer. Shows a header chip, and after a send a ring on Send that empties over the cooldown.",
+      },
+      {
+        name: "muted / mutedUntil / mutedReason",
+        type: "boolean / number / string",
+        defaultValue: "false",
+        description:
+          "Replaces the composer with a calm notice: until when (ms since the epoch) and why.",
+      },
+      {
+        name: "viewerName",
+        type: "string",
+        defaultValue: '"Mara Quinn"',
+        description:
+          "Messages that @mention the viewer's first name get an accent wash.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "defaultLiveChatterNow",
+        description:
+          "The current moment in ms since the epoch, for the connection-lost stamp. Never read from the clock during render.",
+      },
+      {
+        name: "scrollSpeed",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "How briskly the log follows new rows: the follow spring's stiffness scales with its square (0.5 drifts, 2 ticks).",
+      },
+      {
+        name: "density",
+        type: '"compact" | "regular" | "roomy"',
+        defaultValue: '"regular"',
+        description:
+          "One tight line per row at 12px, a coloured dot before each name, or an initial avatar with the name and time over the message.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "Pill, Send, Host badge, mention wash and the newest-row edge — any CSS colour; fills take its hue at a fixed lightness.",
+      },
+      {
+        name: "maxRows",
+        type: "number",
+        defaultValue: "80",
+        description:
+          "Rows kept in the DOM while live; a hold keeps up to three times as many so nothing you are reading is trimmed.",
+      },
+      {
+        name: "maxLength",
+        type: "number",
+        defaultValue: "200",
+        description: "Characters a message may hold; a counter shows past 80%.",
+      },
+      {
+        name: "formatTime",
+        type: "(ms) => string",
+        defaultValue: "UTC HH:MM",
+        description:
+          "How times are printed on rows, the mute notice and the connection stamp.",
+      },
+      {
+        name: "status / onRetry",
+        type: '"ready" | "loading" | "error" / () => void',
+        defaultValue: '"ready"',
+        description:
+          "Loading shows skeleton rows; error shows a message and Try again, which calls onRetry.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "540",
+        description: "The surface's height in px; the log scrolls inside it.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Read only: no composer and no reporting; the log still reads and pauses.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer section.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: Tab lands on the newest row and holds the chat; Up and Down walk rows, Page Up and Page Down ten at a time, Home the oldest kept row; Space pauses and resumes; End fast-forwards to the newest row and goes live; Tab from a row reaches its Report button, and Escape cancels a report confirm.",
+      'The log is role="log" with aria-live off — a fast chat read aloud is noise. Holds, jumps, sends and reports are announced once in a polite status, and the pill\'s name carries the count below.',
+      "Reduced motion: following and the fast-forward jump straight to the bottom with no blur, rows appear without travel and the pill fades; the count, the newest-row wash and the slow-mode countdown still show, because they are information.",
+      "Nothing runs at rest: the follow spring starts on an arrival and stops when it settles, and the slow-mode ticker exists only during a cooldown. Drive the stream from your socket; pause your own feed when the chat is off screen.",
+      'Mark what a dropped connection lost with a { kind: "gap", missed, at, until } item; it is drawn as a torn separator.',
+    ],
+  },
+  {
+    name: "channel-merge",
+    type: "registry:ui",
+    title: "Channel Merge",
+    description:
+      "A support conversation where one customer's email, texts and web chat sit in a single thread, each message carrying a thin stripe in its channel's hue — an inner edge, a rail through the gutter that changes colour where the conversation changed channel, or a top band. Choosing the reply channel slides its badge across the radio group on springs.snap while the composer reshapes: its measured height glides on springs.glide as the email subject unfolds or the text counter's segments roll in, the address cross-fades and the top stripe wipes into the new hue; Ctrl+Enter sends and the reply rises on glide with its stripe drawn on springs.flick. Arrows move through the channels and skip the ones the customer never used, the assignee menu answers to arrows, Enter and Escape, and under 44rem the customer sidebar hides behind a tab.",
+    files: [
+      {
+        path: "registry/ui/channel-merge.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1779",
+    },
+    tagline: "Email, text and web chat in one thread.",
+    keywords: [
+      "support inbox",
+      "omnichannel",
+      "customer conversation",
+      "reply channel",
+      "sms segments",
+      "help desk",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "messages",
+        type: "ChannelMessage[]",
+        defaultValue: "defaultChannelMessages",
+        description:
+          'The conversation across channels, oldest first: { id, channel: "email" | "sms" | "chat" | "social", from: "customer" | "agent", author, at, body, subject?, quoted?, status? }.',
+      },
+      {
+        name: "customer",
+        type: "ChannelCustomer",
+        defaultValue: "defaultChannelCustomer",
+        description:
+          "Who the customer is and how to reach them: name, company, plan, email, phone, chat, social, online, location, utcOffset, since, tags, tickets.",
+      },
+      {
+        name: "agents",
+        type: "ChannelAgent[]",
+        defaultValue: "defaultChannelAgents",
+        description: "Who the ticket can be assigned to: { id, name, team? }.",
+      },
+      {
+        name: "assignee / defaultAssignee",
+        type: "string | null",
+        defaultValue: '— / "a1"',
+        description:
+          "The assigned agent's id, controlled or initial; null is unassigned.",
+      },
+      {
+        name: "onAssign",
+        type: "(agentId | null) => void",
+        description: "Fires from the menu choice that changed the assignee.",
+      },
+      {
+        name: "channel / defaultChannel",
+        type: '"email" | "sms" | "chat" | "social"',
+        defaultValue: "— / the customer's latest channel",
+        description: "The reply channel, controlled or initial.",
+      },
+      {
+        name: "onChannelChange",
+        type: "(channel) => void",
+        description:
+          "Fires from the radio (click or arrow) that changed the reply channel.",
+      },
+      {
+        name: "onSend",
+        type: "(reply) => void",
+        description:
+          "A reply was sent with Ctrl+Enter or Send: { channel, to, body, subject? }. Append it to messages to show it.",
+      },
+      {
+        name: "subject",
+        type: "string",
+        defaultValue: '"Invoice shows Team seats twice"',
+        description:
+          "The ticket's subject, in the header and the email reply's \"Re:\" line.",
+      },
+      {
+        name: "ticket",
+        type: "string",
+        defaultValue: '"BW-4821"',
+        description: "The ticket's reference, under the subject.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "defaultChannelNow",
+        description:
+          "The current moment in ms since the epoch, for the customer's local time. Never read from the clock during render.",
+      },
+      {
+        name: "channels",
+        type: "ChannelKind[]",
+        defaultValue: '["email", "sms", "chat", "social"]',
+        description:
+          "Which reply channels to offer, in order. Ones the customer never used are greyed and skipped.",
+      },
+      {
+        name: "channelColors",
+        type: "Partial<Record<ChannelKind, string>>",
+        description:
+          "Override a channel's stripe colour with any CSS colour; defaults are pigment hues at a fixed lightness.",
+      },
+      {
+        name: "stripeStyle",
+        type: '"edge" | "rail" | "band"',
+        defaultValue: '"edge"',
+        description:
+          "How each message shows its channel: a 3px inner edge, a continuous rail with a glyph node per message, or a 2px top band.",
+      },
+      {
+        name: "density",
+        type: '"compact" | "regular" | "roomy"',
+        defaultValue: '"regular"',
+        description:
+          "Type size, message padding and the gaps between messages.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "Send, the agent's messages, the assignee and the tab indicator — any CSS colour; fills take its hue at a fixed lightness.",
+      },
+      {
+        name: "smsLimit",
+        type: "number",
+        defaultValue: "160",
+        description:
+          "Characters in one text before it splits; split parts hold 7 fewer, as concatenated texts do.",
+      },
+      {
+        name: "status / onRetry",
+        type: '"ready" | "loading" | "error" / () => void',
+        defaultValue: '"ready"',
+        description:
+          "Loading shows skeleton messages; error shows a message and Try again, which calls onRetry.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "540",
+        description:
+          "The surface's height in px; the thread and the sidebar scroll inside it.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only: no composer and no assigning.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer section.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the checked channel is the radio group's one tab stop; arrows, Home and End move between channels the customer has used and skip greyed ones. Ctrl+Enter (or ⌘+Enter) sends from anywhere in the composer. The assignee button opens its menu with Enter or the arrows; Escape closes it and focus returns to the button.",
+      "Reduced motion: the badge, panels and composer height change at once, the stripe colour cross-fades instead of wiping, and replies appear without rising; counters and delivery states still update.",
+      "Greyed channels are the ones the customer has never written from (or has no address for); each says why in its accessible name and tooltip.",
+      "Channel hues are pigments at a fixed lightness, so the same stripe reads on light and dark themes; pass channelColors to brand them.",
+      "The layout follows its container, not the viewport: from 44rem the customer sits in a sidebar, below it behind a Conversation | customer tab pair whose hidden panel is inert.",
+    ],
+  },
+  {
+    name: "clip-thread",
+    type: "registry:ui",
+    title: "Clip Thread",
+    description:
+      "An asynchronous video thread whose clips are procedural screen shares drawn in SVG from one time motion value, so hovering a strip thumbnail scrubs its frames under the pointer at frame rate and the cursor in each frame glides between what the speaker points at. While a clip plays its track fills linearly and the transcript lights up word by word: a capsule glides from word to word on springs.flick and across line breaks on springs.snap, and any word can be clicked to jump there; reactions land on springs.recoil as markers on the track, choosing a clip slides the frame in on springs.glide, and a finished clip's progress ring closes into a tick. Space plays, the arrows skip five seconds, the strip is a listbox walked with Left and Right, and the transcript's lines are walked with Up and Down.",
+    files: [
+      {
+        path: "registry/ui/clip-thread.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1780",
+    },
+    tagline: "Short video messages you can skim.",
+    keywords: [
+      "video messages",
+      "async video",
+      "transcript highlight",
+      "hover scrub",
+      "design review",
+      "video thread",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "clips",
+        type: "ClipThreadClip[]",
+        defaultValue: "defaultClips",
+        description:
+          "The thread, oldest first: { id, author, role?, at, duration, title?, scene?, transcript: { at, text }[], reactions?: { kind, count, mine?, marks? }[], replyTo?, processing? }.",
+      },
+      {
+        name: "selected / defaultSelected",
+        type: "string",
+        defaultValue: "— / the first ready clip",
+        description: "The clip in the player, controlled or initial.",
+      },
+      {
+        name: "onSelectedChange",
+        type: "(clipId) => void",
+        description:
+          "Fires from the strip choice, or the auto-advance, that changed the clip.",
+      },
+      {
+        name: "playing / defaultPlaying / onPlayingChange",
+        type: "boolean",
+        defaultValue: "— / false",
+        description:
+          "Playback, controlled or initial, and the callback from the press, key or end of clip that changed it.",
+      },
+      {
+        name: "onRecord",
+        type: "() => void",
+        description:
+          "Record was pressed. Add the new clip with `processing` to clips; it shows a progress ring until you clear it.",
+      },
+      {
+        name: "onReply",
+        type: "(clipId) => void",
+        description:
+          '"Reply with a clip" was pressed on the clip in the player.',
+      },
+      {
+        name: "onReact",
+        type: "(clipId, kind, at, on) => void",
+        description:
+          'A reaction ("agree" | "love" | "idea" | "question") was toggled at a moment of the clip, in seconds.',
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "defaultClipNow",
+        description:
+          "The moment relative times count from, in ms since the epoch. Never read from the clock during render.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Onboarding flow review"',
+        description: "The thread's heading.",
+      },
+      {
+        name: "skip",
+        type: "number",
+        defaultValue: "5",
+        description: "Seconds the arrow keys skip on the frame and the track.",
+      },
+      {
+        name: "autoAdvance",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Play the next ready clip when one ends.",
+      },
+      {
+        name: "posterAt",
+        type: "number",
+        defaultValue: "0.3",
+        description:
+          "Where in a clip its strip poster frame sits, 0 to 1; a skim eases back to it.",
+      },
+      {
+        name: "thumbShape",
+        type: '"wide" | "square" | "round"',
+        defaultValue: '"wide"',
+        description:
+          "Strip thumbnails as 16:9 cards, squares, or circular video notes.",
+      },
+      {
+        name: "density",
+        type: '"compact" | "regular" | "roomy"',
+        defaultValue: '"regular"',
+        description:
+          "Strip thumbnail size, transcript type size and line height, and gaps.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "Word capsule, playhead, fill, reaction markers, rings and the chosen card — any CSS colour; fills take its hue at a fixed lightness.",
+      },
+      {
+        name: "status / onRetry",
+        type: '"ready" | "loading" | "error" / () => void',
+        defaultValue: '"ready"',
+        description:
+          "Loading shows a skeleton player and strip; error shows a message and Try again, which calls onRetry.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "540",
+        description:
+          "The surface's height in px; the transcript, and below 44rem the player column, scroll inside it.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Watch only: no recording, replying or reacting.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer section.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the frame is a play/pause button whose Left and Right skip; the track is a slider (arrows ±skip, Page keys twice that, Home, End, Space plays); the strip is a horizontal listbox (Left, Right, Home, End, Enter or Space to play a clip); transcript lines are buttons walked with Up and Down, and Enter jumps to a line. Space anywhere outside a control plays.",
+      "Pointer: hovering a strip thumbnail skims its frames under the pointer; clicking any transcript word jumps to that word and plays.",
+      "Reduced motion: the word capsule does not travel — the current word is marked by colour and an underline — frames swap without sliding and reactions do not pop; playback, the fill, skimming and the processing ring still work, because they are content and progress.",
+      "Performance: the clock is one linear animation on a motion value that runs only while playing; frames, the fill and the readout read that value without rendering, and the active word is React state only when it changes.",
+      'Clips are drawn, not loaded: pass a `scene` per clip ("flow", "settings", "empty", "pricing", "mobile") and the transcript\'s line times drive both the words and where the cursor points.',
+    ],
+  },
+  {
+    name: "safety-numbers",
+    type: "registry:ui",
+    title: "Safety Numbers",
+    description:
+      'An end-to-end verification screen that lays both safety numbers side by side as grids of five-digit groups: pointing at or focusing a group lights its partner and draws a hairline between them, and the compare-aloud stepper walks the pairs one at a time with an outline that travels cell to cell on springs.snap. Marking the chat verified turns each matched pair over in 3D on springs.glide, both grids together and staggered in reading order by cascade(), to a calm tick, and once the last one lands a seal settles on the contact on springs.snap with one ring breathing out; a changed number shows its warning first. Each grid is a role="grid" walked with the arrows, Home, End and Ctrl+Home/End, and every group\'s name spells its digits so a screen reader reads them one by one.',
+    files: [
+      {
+        path: "registry/ui/safety-numbers.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1781",
+    },
+    tagline: "Compare the numbers to trust the chat.",
+    keywords: [
+      "safety number",
+      "end-to-end encryption",
+      "verify contact",
+      "key verification",
+      "secure chat",
+      "compare digits",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "yourCode",
+        type: "string",
+        defaultValue: "defaultYourCode",
+        description:
+          "The safety number this device computed: digits, any spacing (60 digits make 12 groups).",
+      },
+      {
+        name: "theirCode",
+        type: "string",
+        defaultValue: "defaultTheirCode",
+        description:
+          "The number on the contact's device, as read or scanned. Groups that differ are struck through and verifying is held back.",
+      },
+      {
+        name: "contact",
+        type: "SafetyContact",
+        defaultValue: "defaultSafetyContact",
+        description: "Who is being verified: { name, handle?, device? }.",
+      },
+      {
+        name: "youName",
+        type: "string",
+        defaultValue: '"Your phone"',
+        description: "How this side is named over its grid.",
+      },
+      {
+        name: "verified / defaultVerified",
+        type: "boolean",
+        defaultValue: "— / false",
+        description:
+          "The verified state, controlled or initial. A change plays the flip and the seal, whoever made it.",
+      },
+      {
+        name: "onVerify",
+        type: "() => void",
+        description: '"Mark as verified" was pressed and every group matches.',
+      },
+      {
+        name: "onReset",
+        type: "() => void",
+        description:
+          '"Clear verification" was pressed; the ticks turn back in reverse order.',
+      },
+      {
+        name: "onScan",
+        type: "() => void",
+        description:
+          '"Scan code" was pressed: open your camera flow, then set verified.',
+      },
+      {
+        name: "onCompare",
+        type: "(index, result) => void",
+        description:
+          'A group was compared aloud: its index and "same" or "different".',
+      },
+      {
+        name: "changed / previousCode / onAcknowledgeChange",
+        type: "boolean / string / () => void",
+        defaultValue: "false",
+        description:
+          "The contact's number changed: a warning shows first, and once acknowledged the groups that differ from previousCode carry a dot.",
+      },
+      {
+        name: "verifiedAt / now",
+        type: "number",
+        defaultValue: "— / defaultSafetyNow",
+        description:
+          "When the chat was verified and the moment relative times count from, in ms since the epoch.",
+      },
+      {
+        name: "groupSize",
+        type: "number",
+        defaultValue: "5",
+        description: "Digits per group.",
+      },
+      {
+        name: "columns",
+        type: "number",
+        defaultValue: "3",
+        description: "Groups per row in each grid.",
+      },
+      {
+        name: "groupStyle",
+        type: '"cells" | "chips" | "digits"',
+        defaultValue: '"cells"',
+        description:
+          "Groups as hairline cells, filled pill chips, or one small box per digit.",
+      },
+      {
+        name: "density",
+        type: '"compact" | "regular" | "roomy"',
+        defaultValue: '"regular"',
+        description: "Digit size, cell height, grid gaps and card padding.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "Compare outline, connector, ticks and seal — any CSS colour; fills take its hue at a fixed lightness.",
+      },
+      {
+        name: "renderCode",
+        type: "(code) => ReactNode",
+        defaultValue: "a seeded picture of the digits",
+        description:
+          "Draws your number as a scannable code in the card's QR view; pass your real encoder here.",
+      },
+      {
+        name: "status / onRetry",
+        type: '"ready" | "loading" | "error" / () => void',
+        defaultValue: '"ready"',
+        description:
+          "Loading shows skeleton grids; error shows a message and Try again, which calls onRetry.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "540",
+        description: "The surface's height in px; the body scrolls inside it.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Read only: the numbers show and can be explored, nothing can be marked.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer section.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: each grid is one tab stop; arrows move between groups, Home and End along a row, Ctrl+Home and Ctrl+End to the ends. Focusing a group lights its partner in the other grid. Compare aloud, Same, Different, Scan and Mark as verified are buttons.",
+      'Screen readers hear every group\'s digits one at a time ("Group 3: 4 0 2 1 3, verified"), and each step of a comparison or verification is announced once in a polite status.',
+      "Reduced motion: no 3D turn — ticks cross-fade onto each group in the same order — the compare outline jumps and the seal fades in place; every state still shows.",
+      "Verifying is held back while any group differs (the button stays focusable and says why). Pass changed with previousCode when a contact's key rotates; the warning comes first.",
+      "The QR view shows a seeded picture of your digits by default; pass renderCode to draw a real scannable code there.",
+    ],
+  },
+  {
+    name: "spur-columns",
+    type: "registry:ui",
+    title: "Spur Columns",
+    description:
+      "An assistant thread where any phrase becomes its own column: choose a dotted phrase in an answer, or select any words and ask about them, and the phrase is lifted out as a chip and carried to the new column's header on springs.glide — landing exactly, because the destination comes from the computed layout rather than a mid-flight measure — while the new column grows in and the older ones narrow to readable spines on the same spring. Every column has its own skeleton, empty and failed states and its own follow-up composer, answered through answerFor (which may return a promise). Left and Right walk the columns, Escape folds the rightmost back into its phrase on the exit ease and returns focus there, and under 520px the columns become a stack that follows a sideways swipe 1:1, rubber-bands at the ends and commits by projection with the trail shown as chips.",
+    files: [
+      {
+        path: "registry/ui/spur-columns.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2050",
+    },
+    tagline: "Follow any phrase into its own column.",
+    keywords: [
+      "ai chat",
+      "branching thread",
+      "follow-up columns",
+      "ask about selection",
+      "miller columns",
+      "assistant",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "columns / defaultColumns",
+        type: "SpurColumn[]",
+        defaultValue: "— / defaultSpurColumns",
+        description:
+          'Columns left to right, controlled or initial: { id, phrase?, parentId?, turns: { id, prompt, status: "loading" | "ready" | "empty" | "failed", answer?: { text, phrases? } }[] }.',
+      },
+      {
+        name: "onColumnsChange",
+        type: "(columns) => void",
+        description:
+          "Fires with every column after an open, a fold, an ask or an arriving answer.",
+      },
+      {
+        name: "answerFor",
+        type: "(prompt, context) => SpurAnswer | null | Promise<…>",
+        defaultValue: "defaultSpurAnswerFor",
+        description:
+          'Answers a spur\'s phrase or a follow-up ({ columnId, phrase?, kind: "spur" | "ask" }). null shows the empty state; a rejected promise shows the failed state with Try again.',
+      },
+      {
+        name: "onAsk",
+        type: "(text, columnId) => void",
+        description: "A follow-up was asked in a column's composer.",
+      },
+      {
+        name: "onOpenSpur",
+        type: "(phrase, fromColumnId, column) => void",
+        description:
+          "A spur was opened from a suggested phrase or a selection.",
+      },
+      {
+        name: "onCloseSpur",
+        type: "(columnId) => void",
+        description:
+          "A spur, and any spurs opened from it, was folded back (Escape or its close button).",
+      },
+      {
+        name: "active / defaultActive",
+        type: "string",
+        defaultValue: "— / the last column",
+        description:
+          "The active column id, controlled or initial. The active column always stays open.",
+      },
+      {
+        name: "onActiveChange",
+        type: "(columnId) => void",
+        description:
+          "Fires from the key, spine, chip, phrase or swipe that changed the active column.",
+      },
+      {
+        name: "columnWidth",
+        type: "number",
+        defaultValue: "280",
+        description:
+          "The width older open columns hold, in px — the newest column takes the rest — and the width a column needs to stay open; columns that no longer fit narrow to spines, oldest first.",
+      },
+      {
+        name: "spineWidth",
+        type: "number",
+        defaultValue: "40",
+        description: "A spine's width in px.",
+      },
+      {
+        name: "spineStyle",
+        type: '"label" | "index" | "bar"',
+        defaultValue: '"label"',
+        description:
+          "Spines read their phrase set vertically, show a large number with a dot per turn, or a slim accent bar under the number.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "Phrase marks, the carried chip, spines, the active column's edge, trail chips and Send — any CSS colour.",
+      },
+      {
+        name: "stackBelow",
+        type: "number",
+        defaultValue: "520",
+        description:
+          "Below this container width (px) the columns become a swipeable stack with a trail of chips.",
+      },
+      {
+        name: "allowSelection",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          'Selecting words in an answer offers "Ask about this" above the selection.',
+      },
+      {
+        name: "maxPhrase",
+        type: "number",
+        defaultValue: "64",
+        description:
+          "The longest selection, in characters, that can become a spur.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Fernworks onboarding"',
+        description: "The first column's heading and the region's name.",
+      },
+      {
+        name: "status / onRetry",
+        type: '"ready" | "loading" | "error" / () => void',
+        defaultValue: '"ready"',
+        description:
+          "Loading shows skeleton columns; error shows a message and Try again, which calls onRetry.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "540",
+        description:
+          "The surface's height in px; each column scrolls inside it.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Read only: columns can be walked and read; nothing can be opened, folded or asked.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer section.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: suggested phrases are buttons ("Ask about SSO") — the keyboard path to a spur; Left and Right walk the columns and focus each header; Escape folds the rightmost spur and returns focus to the phrase it came from. On a phone the trail chips are tabs.',
+      "Answers can be async: return a promise from answerFor and the column shows a skeleton until it settles; resolve null for the empty state, reject for the failed state with Try again.",
+      "Reduced motion: no chip flight, no width glides and no stack slide — headers appear, columns resize at once and the skeleton does not shimmer; phrase marks and column numbers still show.",
+      "Nothing runs at rest: one ResizeObserver reads the container, the layout is computed from it, and the skeleton's shimmer exists only while a column is loading.",
+      "The layout follows its container: from stackBelow up it is a row of columns and spines; below it, a stack that follows the finger 1:1 with touch-action pan-y so vertical scrolling inside a column still works.",
+    ],
+  },
 ];

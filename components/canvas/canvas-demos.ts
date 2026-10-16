@@ -2095,4 +2095,44 @@ export const CANVAS_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/cobrowse-consent.demo").then((m) =>
       mod(m.CobrowseConsentDemo, m.tweaks),
     ),
+  "overage-forecast": () =>
+    import("@/registry/demos/overage-forecast.demo").then((m) =>
+      mod(m.OverageForecastDemo, m.tweaks),
+    ),
+  "seat-planner": () =>
+    import("@/registry/demos/seat-planner.demo").then((m) =>
+      mod(m.SeatPlannerDemo, m.tweaks),
+    ),
+  "invoice-drilldown": () =>
+    import("@/registry/demos/invoice-drilldown.demo").then((m) =>
+      mod(m.InvoiceDrilldownDemo, m.tweaks),
+    ),
+  "change-preview": () =>
+    import("@/registry/demos/change-preview.demo").then((m) =>
+      mod(m.ChangePreviewDemo, m.tweaks),
+    ),
+  "failed-charge": () =>
+    import("@/registry/demos/failed-charge.demo").then((m) =>
+      mod(m.FailedChargeDemo, m.tweaks),
+    ),
+  "live-chatter": () =>
+    import("@/registry/demos/live-chatter.demo").then((m) =>
+      mod(m.LiveChatterDemo, m.tweaks),
+    ),
+  "channel-merge": () =>
+    import("@/registry/demos/channel-merge.demo").then((m) =>
+      mod(m.ChannelMergeDemo, m.tweaks),
+    ),
+  "clip-thread": () =>
+    import("@/registry/demos/clip-thread.demo").then((m) =>
+      mod(m.ClipThreadDemo, m.tweaks),
+    ),
+  "safety-numbers": () =>
+    import("@/registry/demos/safety-numbers.demo").then((m) =>
+      mod(m.SafetyNumbersDemo, m.tweaks),
+    ),
+  "spur-columns": () =>
+    import("@/registry/demos/spur-columns.demo").then((m) =>
+      mod(m.SpurColumnsDemo, m.tweaks),
+    ),
 };
