@@ -2135,4 +2135,44 @@ export const CANVAS_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/spur-columns.demo").then((m) =>
       mod(m.SpurColumnsDemo, m.tweaks),
     ),
+  "council-table": () =>
+    import("@/registry/demos/council-table.demo").then((m) =>
+      mod(m.CouncilTableDemo, m.tweaks),
+    ),
+  "assumption-pins": () =>
+    import("@/registry/demos/assumption-pins.demo").then((m) =>
+      mod(m.AssumptionPinsDemo, m.tweaks),
+    ),
+  "detail-dial": () =>
+    import("@/registry/demos/detail-dial.demo").then((m) =>
+      mod(m.DetailDialDemo, m.tweaks),
+    ),
+  "brief-blocks": () =>
+    import("@/registry/demos/brief-blocks.demo").then((m) =>
+      mod(m.BriefBlocksDemo, m.tweaks),
+    ),
+  "scribble-prompt": () =>
+    import("@/registry/demos/scribble-prompt.demo").then((m) =>
+      mod(m.ScribblePromptDemo, m.tweaks),
+    ),
+  "prompt-stamp": () =>
+    import("@/registry/demos/prompt-stamp.demo").then((m) =>
+      mod(m.PromptStampDemo, m.tweaks),
+    ),
+  "answer-shape": () =>
+    import("@/registry/demos/answer-shape.demo").then((m) =>
+      mod(m.AnswerShapeDemo, m.tweaks),
+    ),
+  "queued-asks": () =>
+    import("@/registry/demos/queued-asks.demo").then((m) =>
+      mod(m.QueuedAsksDemo, m.tweaks),
+    ),
+  "scope-wheel": () =>
+    import("@/registry/demos/scope-wheel.demo").then((m) =>
+      mod(m.ScopeWheelDemo, m.tweaks),
+    ),
+  "paste-fold": () =>
+    import("@/registry/demos/paste-fold.demo").then((m) =>
+      mod(m.PasteFoldDemo, m.tweaks),
+    ),
 };

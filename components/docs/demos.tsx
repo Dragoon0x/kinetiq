@@ -1952,6 +1952,16 @@ import { ChannelMergeDemo } from "@/registry/demos/channel-merge.demo";
 import { ClipThreadDemo } from "@/registry/demos/clip-thread.demo";
 import { SafetyNumbersDemo } from "@/registry/demos/safety-numbers.demo";
 import { SpurColumnsDemo } from "@/registry/demos/spur-columns.demo";
+import { CouncilTableDemo } from "@/registry/demos/council-table.demo";
+import { AssumptionPinsDemo } from "@/registry/demos/assumption-pins.demo";
+import { DetailDialDemo } from "@/registry/demos/detail-dial.demo";
+import { BriefBlocksDemo } from "@/registry/demos/brief-blocks.demo";
+import { ScribblePromptDemo } from "@/registry/demos/scribble-prompt.demo";
+import { PromptStampDemo } from "@/registry/demos/prompt-stamp.demo";
+import { AnswerShapeDemo } from "@/registry/demos/answer-shape.demo";
+import { QueuedAsksDemo } from "@/registry/demos/queued-asks.demo";
+import { ScopeWheelDemo } from "@/registry/demos/scope-wheel.demo";
+import { PasteFoldDemo } from "@/registry/demos/paste-fold.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -3918,4 +3928,14 @@ export const demos: Record<string, ComponentType> = {
   "clip-thread": ClipThreadDemo,
   "safety-numbers": SafetyNumbersDemo,
   "spur-columns": SpurColumnsDemo,
+  "council-table": CouncilTableDemo,
+  "assumption-pins": AssumptionPinsDemo,
+  "detail-dial": DetailDialDemo,
+  "brief-blocks": BriefBlocksDemo,
+  "scribble-prompt": ScribblePromptDemo,
+  "prompt-stamp": PromptStampDemo,
+  "answer-shape": AnswerShapeDemo,
+  "queued-asks": QueuedAsksDemo,
+  "scope-wheel": ScopeWheelDemo,
+  "paste-fold": PasteFoldDemo,
 };

@@ -13,7 +13,7 @@
     "indexUrl": "https://www.kinetiqui.com/r/registry.json",
     "docsUrl": "https://www.kinetiqui.com",
     "counts": {
-      "components": 1761,
+      "components": 1771,
       "blocks": 152,
       "pages": 28,
       "templates": 10,
@@ -188976,6 +188976,1652 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/spur-columns",
         "bun": "bunx --bun shadcn@latest add @kinetiq/spur-columns",
         "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/spur-columns.json"
+      }
+    },
+    {
+      "slug": "council-table",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Council Table",
+      "serial": "KQ-2056",
+      "tagline": "Several specialists, one conversation.",
+      "description": "An AI chat answered by a council of specialists seated along an arc above the thread. When the floor changes, a baton travels round the arc to the new seat on springs.snap — position and tilt derived from one motion value, so it passes the seats between — and that seat rises on the same spring while its reply enters the thread on springs.glide; a reply that disagrees with an earlier one draws a thin bracket back up the gutter to the message it disputes on glide. The seats are a toolbar (arrows walk the arc, Enter addresses, Delete dismisses), @ in the composer opens the council as a listbox, and under 34rem the arc flattens into a row of avatars.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "multi-agent chat",
+        "ai council",
+        "specialist assistants",
+        "disagreement",
+        "mentions",
+        "chat thread",
+        "app ui"
+      ],
+      "props": [
+        {
+          "name": "seatShape",
+          "type": "\"disc\" | \"tile\" | \"arch\"",
+          "defaultValue": "\"disc\"",
+          "description": "Round discs, rounded tiles, or arch-topped seat backs — on the arc, in the thread and in the @ list."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"cozy\" | \"roomy\"",
+          "defaultValue": "\"cozy\"",
+          "description": "Seat size, the arc's height, type size and spacing."
+        },
+        {
+          "name": "accent",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "Any CSS colour for the baton, the floor ring, the addressee chip, lit brackets and Send."
+        },
+        {
+          "name": "specialists",
+          "type": "CouncilSpecialist[]",
+          "defaultValue": "defaultCouncilSpecialists",
+          "description": "The council, left to right along the arc: id, name, remit, initials and a state (idle, thinking or failed)."
+        },
+        {
+          "name": "turns / defaultTurns",
+          "type": "CouncilTurn[]",
+          "defaultValue": "— / defaultCouncilTurns",
+          "description": "The thread, controlled or initial: author (\"you\" or a specialist id), text, time, an optional addressee, the turn it disputes with a short note, or summary points."
+        },
+        {
+          "name": "onTurnsChange",
+          "type": "(turns: CouncilTurn[]) => void",
+          "description": "Fires from a send with the whole new thread."
+        },
+        {
+          "name": "floor",
+          "type": "string | null",
+          "defaultValue": "the thinking seat, else the newest speaker",
+          "description": "Who holds the baton."
+        },
+        {
+          "name": "dismissed / defaultDismissed",
+          "type": "string[]",
+          "defaultValue": "— / []",
+          "description": "Seats sent away from the table, controlled or initial; their turns stay in the thread."
+        },
+        {
+          "name": "onDismiss",
+          "type": "(id: string) => void",
+          "description": "A seat was dismissed (Delete on a seat, or its ×)."
+        },
+        {
+          "name": "onRestore",
+          "type": "(id: string) => void",
+          "description": "A dismissed seat was brought back from the header."
+        },
+        {
+          "name": "onAddressSpecialist",
+          "type": "(id: string | null) => void",
+          "description": "A specialist was addressed from its seat or with @, or the address was cleared."
+        },
+        {
+          "name": "onSend",
+          "type": "(text: string, addressee: string | null) => void",
+          "description": "A message was sent, with the addressed specialist if there was one."
+        },
+        {
+          "name": "onSummarise",
+          "type": "() => void",
+          "description": "Summarise was pressed; answer with a turn that has points to show the summary card."
+        },
+        {
+          "name": "summarising",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Holds Summarise busy while the host writes the summary."
+        },
+        {
+          "name": "onRetry",
+          "type": "(id: string) => void",
+          "description": "Retry was pressed on a seat that failed to answer."
+        },
+        {
+          "name": "onReload",
+          "type": "() => void",
+          "description": "Try again was pressed after the thread failed to load."
+        },
+        {
+          "name": "now",
+          "type": "number",
+          "defaultValue": "defaultCouncilNow",
+          "description": "The moment relative times count from, in ms — never the wall clock during render."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Basinworks Team pricing\"",
+          "description": "The conversation's name in the header."
+        },
+        {
+          "name": "you",
+          "type": "string",
+          "defaultValue": "\"You\"",
+          "description": "How the person asking is named in the thread."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Loading draws skeleton seats and turns; error offers Try again."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "540",
+          "description": "The surface's height in px; the thread scrolls inside it."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "defaultValue": "\"Ask, or @ a specialist\"",
+          "description": "The composer's placeholder."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Read only: nothing can be addressed, sent or dismissed."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the outer surface."
+        }
+      ],
+      "usageNotes": [
+        "Seats are a toolbar with a roving tabindex: Left/Right (or Up/Down) walk the arc, Home/End jump, Enter or Space addresses a seat and moves focus to the composer, Delete dismisses it. In the composer @ opens a listbox of the council (Up/Down, Enter or Tab to pick, Escape closes), Backspace at the start clears the addressee, Enter sends and Shift+Enter breaks a line.",
+        "The thread is a role=\"log\" around an ordered list, so a turn is announced once when it arrives; floor changes and failures are announced politely as one sentence. Dispute chips are buttons that scroll to and focus the disputed message.",
+        "Under reduced motion the baton jumps to its seat, the floor is marked by its ring, and replies, summaries and brackets fade in whole; thinking dots hold still.",
+        "The baton is one motion value whose change event writes x, y and rotation, so nothing re-renders per frame; two ResizeObservers (the arc and the thread) are bound by callback ref, and nothing runs at rest.",
+        "Layout follows the component's own width through a container query: at 34rem and over the council sits on the arc, below it the arc flattens into a row of avatars with the baton on a straight track.",
+        "Colours come from tokens; `accent` takes any CSS colour and is mixed in oklab for its wash and line, so it reads in both themes."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/council-table",
+      "registryItemUrl": "https://www.kinetiqui.com/r/council-table.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/council-table",
+        "npm": "npx shadcn@latest add @kinetiq/council-table",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/council-table",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/council-table",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/council-table.json"
+      }
+    },
+    {
+      "slug": "assumption-pins",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Assumption Pins",
+      "serial": "KQ-2057",
+      "tagline": "Fix one assumption; only that part rewrites.",
+      "description": "An AI answer with the assumptions it rests on pinned beside it, every sentence linked to the pins it depends on: focusing a pin lights its sentences and draws a comb across the gutter to them on springs.glide. Editing a pin re-runs the answer, but only the sentences whose words change dissolve in place on the exit ease and stream back word by word while the rest hold still, each keeping an underline that sweeps in on glide; a paragraph whose line count changed glides to its new height, and two pins that contradict are bracketed together while Use this answer waits with the reason. Pins are a roving list — arrows move, Enter edits inline, Escape cancels or reverts — and under 40rem they become a strip of chips above the answer.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "ai answer",
+        "assumptions",
+        "partial rewrite",
+        "explainable ai",
+        "what if",
+        "budget planning",
+        "app ui"
+      ],
+      "props": [
+        {
+          "name": "pinStyle",
+          "type": "\"tack\" | \"tag\" | \"rule\"",
+          "defaultValue": "\"tack\"",
+          "description": "Pins drawn as cards with a round pin head, notched tags, or bare rules."
+        },
+        {
+          "name": "highlight",
+          "type": "\"wash\" | \"line\" | \"focus\"",
+          "defaultValue": "\"wash\"",
+          "description": "How a pin's sentences light: a tinted wash, a thick underline, or full ink while every other sentence dims."
+        },
+        {
+          "name": "accent",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "Any CSS colour for pin numbers, the lit wash, the rewrite underline, the comb and Use this answer."
+        },
+        {
+          "name": "question",
+          "type": "string",
+          "defaultValue": "the Fernworks budget question",
+          "description": "The question the answer replies to."
+        },
+        {
+          "name": "assumptions",
+          "type": "Assumption[]",
+          "defaultValue": "defaultAssumptions",
+          "description": "The pins, in order: id, label, the value the answer was written with, and options (a radiogroup) or number limits and a unit, plus where it came from."
+        },
+        {
+          "name": "values / defaultValues",
+          "type": "AssumptionValues",
+          "defaultValue": "— / each assumption's value",
+          "description": "The assumption values, controlled or initial."
+        },
+        {
+          "name": "onValuesChange",
+          "type": "(values: AssumptionValues) => void",
+          "description": "Fires from the edit or revert that changed a value, with every value."
+        },
+        {
+          "name": "compose",
+          "type": "(values: AssumptionValues) => AnswerParagraph[]",
+          "defaultValue": "composeFernworksAnswer",
+          "description": "Writes the answer from the values; sentences keep stable ids and list the assumptions they depend on, so only those whose words change are rewritten."
+        },
+        {
+          "name": "conflicts",
+          "type": "(values: AssumptionValues) => AssumptionConflict[]",
+          "defaultValue": "fernworksConflicts",
+          "description": "Finds pairs of assumptions that cannot both hold, each with a one-sentence reason."
+        },
+        {
+          "name": "onEditAssumption",
+          "type": "(id, value, previous) => void | Promise<unknown>",
+          "description": "An assumption was edited. Return a promise to hold the rewrite until the host has re-run the answer."
+        },
+        {
+          "name": "onAcceptAnswer",
+          "type": "(text: string, values: AssumptionValues) => void",
+          "description": "Use this answer was pressed, with the answer as plain text."
+        },
+        {
+          "name": "onRevert",
+          "type": "(id: string, value: AssumptionValue) => void",
+          "description": "An assumption went back to the value the answer was first written with (Escape on a changed pin, or its revert button)."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Loading draws skeleton lines; error offers Try again."
+        },
+        {
+          "name": "onReload",
+          "type": "() => void",
+          "description": "Try again was pressed after the answer failed to load."
+        },
+        {
+          "name": "model",
+          "type": "string",
+          "defaultValue": "\"Fernworks Model 3\"",
+          "description": "The model answering, named in the header."
+        },
+        {
+          "name": "rerunDelay",
+          "type": "number",
+          "defaultValue": "650",
+          "description": "How long a rewrite holds its shimmer before streaming, in ms."
+        },
+        {
+          "name": "streamSpeed",
+          "type": "number",
+          "defaultValue": "28",
+          "description": "Words a second as a rewritten sentence streams back in."
+        },
+        {
+          "name": "underlineHold",
+          "type": "number",
+          "defaultValue": "2600",
+          "description": "How long a rewritten sentence keeps its underline, in ms."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "540",
+          "description": "The surface's height in px; the answer scrolls inside it."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Nothing can be edited or accepted."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the outer surface."
+        }
+      ],
+      "usageNotes": [
+        "Pins are a list with a roving tabindex: arrow keys move between them, Home/End jump, Enter opens the inline editor (a radiogroup of options, or a number field), Enter commits and Escape cancels; Escape on a changed pin reverts it. Focus returns to the pin after every edit.",
+        "Each rewrite is announced once, when it settles (\"Team size changed to 5 engineers. 4 sentences rewritten.\"), and a conflict's reason is announced with it; Use this answer stays focusable and aria-disabled with the reason while a conflict stands.",
+        "Under reduced motion a rewrite is a cross-fade with no blur or word-by-word stream, the underline appears at full width and fades, and the comb fades in; lit sentences still light.",
+        "Sentence ids must be stable across values — that is what lets only the changed sentences move. A rewrite runs one timer chain; a newer edit cancels it and starts from what is on screen, and nothing runs at rest.",
+        "Layout follows the component's own width: at 40rem and over the pins sit in a column beside the answer with the comb in the gutter; below it they become a horizontal strip of chips that edit in place."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/assumption-pins",
+      "registryItemUrl": "https://www.kinetiqui.com/r/assumption-pins.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/assumption-pins",
+        "npm": "npx shadcn@latest add @kinetiq/assumption-pins",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/assumption-pins",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/assumption-pins",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/assumption-pins.json"
+      }
+    },
+    {
+      "slug": "detail-dial",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Detail Dial",
+      "serial": "KQ-2058",
+      "tagline": "The same answer, as short or as deep as you need.",
+      "description": "One AI answer with a depth dial beside it, from one line to a thorough brief. Turning the dial does not swap texts: every word is a layout element, so the sentences you have read glide apart on springs.glide to make room and the new ones unfurl into the gaps word by word, while the pane holds the sentence you are reading where it was; turning it down folds the extra sentences away on the exit ease and closes the gaps on the same glide. The dial is a real slider — dragged round 1:1 with a rubber band past the ends and a settle on springs.snap that carries the release velocity, or stepped with the arrow keys, Page Up and Page Down, Home, End and the number keys — and under 36rem it becomes a segmented control above the answer.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "ai answer",
+        "answer length",
+        "depth control",
+        "progressive disclosure",
+        "rotary dial",
+        "summary",
+        "app ui"
+      ],
+      "props": [
+        {
+          "name": "levels",
+          "type": "number",
+          "defaultValue": "4",
+          "description": "How many detents the dial offers, 2 to 4; they spread evenly over the answer's levels, and the number keys follow."
+        },
+        {
+          "name": "unfurlSpeed",
+          "type": "number",
+          "defaultValue": "1",
+          "description": "How fast new sentences unfurl and leaving ones fold away: 0.5 is slow, 2 is brisk."
+        },
+        {
+          "name": "accent",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "Any CSS colour for the dial's arc and pointer, the new-word wash, the segmented pill and the copy confirmation."
+        },
+        {
+          "name": "question",
+          "type": "string",
+          "defaultValue": "the Gaugeworks warranty question",
+          "description": "The question the answer replies to."
+        },
+        {
+          "name": "answer",
+          "type": "DetailBlock[]",
+          "defaultValue": "defaultDetailAnswer",
+          "description": "One answer at every depth: paragraphs, headings and list steps of sentences, each with a stable id and the level it first appears at."
+        },
+        {
+          "name": "levelNames",
+          "type": "string[]",
+          "defaultValue": "[\"One line\", \"Short\", \"Full\", \"Brief\"]",
+          "description": "A name for each answer level, shallowest first."
+        },
+        {
+          "name": "depth / defaultDepth",
+          "type": "number",
+          "defaultValue": "— / 2",
+          "description": "The dial's detent, from 1 to levels, controlled or initial."
+        },
+        {
+          "name": "onDepthChange",
+          "type": "(depth: number) => void | Promise<unknown>",
+          "description": "Fires from the drag, key or press that changed the depth. Return a promise and the deeper text is shown being written until it resolves; a rejection keeps the shallower text and says so."
+        },
+        {
+          "name": "onCopyLevel",
+          "type": "(depth: number, text: string) => void",
+          "description": "Copy this level was pressed, with that level's plain text (also written to the clipboard when one is available)."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Loading draws skeleton lines; error offers Try again."
+        },
+        {
+          "name": "onReload",
+          "type": "() => void",
+          "description": "Try again was pressed after the answer failed to load."
+        },
+        {
+          "name": "model",
+          "type": "string",
+          "defaultValue": "\"Gaugeworks Assist\"",
+          "description": "The assistant answering, named in the header."
+        },
+        {
+          "name": "wordsPerMinute",
+          "type": "number",
+          "defaultValue": "230",
+          "description": "Reading speed behind the time estimate under the dial."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "540",
+          "description": "The surface's height in px; the answer scrolls inside it."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "The dial cannot be turned."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the outer surface."
+        }
+      ],
+      "usageNotes": [
+        "The dial is role=\"slider\" with a spoken value (\"Level 3 of 4, Full, 111 words\"): Right/Up deepen, Left/Down shorten, Page Up and Page Down jump two, Home and End go to the ends, and 1–4 jump straight to a level. Below 36rem a radiogroup segmented control takes the same keys. Additions and removals are announced once, after they settle (\"3 sentences added.\").",
+        "Under reduced motion there is no word travel and no stagger: new text fades in whole, leaving text fades out, the knob jumps to its detent — and the reading position still holds.",
+        "Sentence ids must be stable across levels; a deeper level must contain every sentence of the shallower ones. That is what lets the text grow instead of being replaced.",
+        "Words FLIP only on a depth change; a drag writes one motion value and commits depth only when it crosses a detent's midpoint. There are no observers and nothing runs at rest.",
+        "Return a promise from onDepthChange to fetch or generate a deeper level lazily: the dial holds at the new detent with its arc pulsing and a writing line where the answer ends until it resolves."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/detail-dial",
+      "registryItemUrl": "https://www.kinetiqui.com/r/detail-dial.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/detail-dial",
+        "npm": "npx shadcn@latest add @kinetiq/detail-dial",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/detail-dial",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/detail-dial",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/detail-dial.json"
+      }
+    },
+    {
+      "slug": "brief-blocks",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Brief Blocks",
+      "serial": "KQ-2059",
+      "tagline": "Build a prompt from parts you can rearrange.",
+      "description": "A prompt composer built from labelled blocks — role, goal, context, constraints, format — added from a rail, filled and dragged into order: the grip follows the pointer 1:1, the other blocks glide out of its way on springs.glide, and the released block settles into its slot carrying the throw. Preview threads the blocks into one readable prompt: every word is a shared layout element, so each block's text slides out of its card into its place in the sentence on glide, block after block a cascade apart, while each label flies to the margin beside its line as a faint tag; Edit slides the words back before the text fields return. Alt with the arrow keys moves a block, Cmd or Ctrl+Enter sends, empty blocks are flagged, and a brief over its limit marks the longest block as the one to cut.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "prompt builder",
+        "prompt composer",
+        "structured prompt",
+        "reorder blocks",
+        "presets",
+        "ai input",
+        "app ui"
+      ],
+      "props": [
+        {
+          "name": "blockStyle",
+          "type": "\"card\" | \"strip\" | \"line\"",
+          "defaultValue": "\"card\"",
+          "description": "Blocks drawn as filled cards, flush strips with a coloured edge, or bare dashed outlines."
+        },
+        {
+          "name": "ribbonFont",
+          "type": "\"sans\" | \"serif\" | \"mono\"",
+          "defaultValue": "\"sans\"",
+          "description": "The threaded ribbon's typeface."
+        },
+        {
+          "name": "accent",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "Any CSS colour for the active block's edge, the meter, segment hovers in the ribbon and Send."
+        },
+        {
+          "name": "blocks / defaultBlocks",
+          "type": "BriefBlock[]",
+          "defaultValue": "— / defaultBriefBlocks",
+          "description": "The blocks in order (id, kind, text), controlled or initial."
+        },
+        {
+          "name": "onChange",
+          "type": "(blocks: BriefBlock[]) => void",
+          "description": "Fires from every edit, add, remove, move and preset with the whole list."
+        },
+        {
+          "name": "kinds",
+          "type": "BriefBlockKind[]",
+          "defaultValue": "defaultBriefKinds",
+          "description": "The kinds the rail offers: id, label, hint, placeholder, and whether only one is allowed."
+        },
+        {
+          "name": "presets",
+          "type": "BriefPreset[]",
+          "defaultValue": "defaultBriefPresets",
+          "description": "Saved starting points for the preset menu."
+        },
+        {
+          "name": "onSavePreset",
+          "type": "(preset: BriefPreset) => void",
+          "description": "Save as preset was confirmed with a name; the preset joins the menu."
+        },
+        {
+          "name": "onSubmit",
+          "type": "(prompt: string, blocks: BriefBlock[]) => void",
+          "description": "Send (or Cmd/Ctrl+Enter) with every block filled and the brief within maxLength."
+        },
+        {
+          "name": "assemble",
+          "type": "(blocks: BriefBlock[], kinds: BriefBlockKind[]) => string",
+          "defaultValue": "assembleBrief",
+          "description": "Turns the blocks into the prompt that is sent; by default labelled paragraphs."
+        },
+        {
+          "name": "mode / defaultMode",
+          "type": "\"edit\" | \"ribbon\"",
+          "defaultValue": "— / \"edit\"",
+          "description": "The block editor or the threaded ribbon, controlled or initial."
+        },
+        {
+          "name": "onModeChange",
+          "type": "(mode: BriefMode) => void",
+          "description": "Fires from the Edit/Preview switch (or a press on a ribbon segment) that changed the view."
+        },
+        {
+          "name": "maxLength",
+          "type": "number",
+          "defaultValue": "1200",
+          "description": "The longest brief Send accepts, in characters; over it the meter turns red and the longest block is marked."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"sending\"",
+          "defaultValue": "\"ready\"",
+          "description": "Holds Send busy while the host sends."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Waylight product brief\"",
+          "description": "The brief's name in the header."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "540",
+          "description": "The surface's height in px; the blocks scroll inside it."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Nothing can be edited, moved or sent."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the outer surface."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: Alt+Up and Alt+Down move the block you are typing in (Up and Down on its grip do the same), each move announced; the rail is a toolbar walked with Up and Down, and below 40rem it becomes a + menu (arrows, Home/End, Enter, Escape). Cmd or Ctrl+Enter sends from anywhere inside; with an empty block it focuses that block instead, and over the limit it focuses the longest one.",
+        "Edit and Preview are a two-radio group; threading takes two commits (text fields become word-for-word mirrors, then the ribbon takes their words), and focus returns to the block you were in once the text fields are back.",
+        "Under reduced motion the ribbon and reorders cross-fade with no word travel, new blocks fade in and the grip lift is a shadow only.",
+        "Words exist as separate elements only while the ribbon is shown or in flight; a drag writes one motion value and nothing runs at rest.",
+        "Layout follows the component's own width: at 40rem and over the rail sits beside the blocks and the ribbon's labels stand in a margin column; below it the rail is a menu and the labels sit inline before their text."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/brief-blocks",
+      "registryItemUrl": "https://www.kinetiqui.com/r/brief-blocks.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/brief-blocks",
+        "npm": "npx shadcn@latest add @kinetiq/brief-blocks",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/brief-blocks",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/brief-blocks",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/brief-blocks.json"
+      }
+    },
+    {
+      "slug": "scribble-prompt",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Scribble Prompt",
+      "serial": "KQ-2060",
+      "tagline": "Draw what you mean, then say it.",
+      "description": "A prompt composer with a sketch pad that opens beside the text field, where boxes, arrows and loose pen marks — drawn by pointer, by pen with its pressure, or placed with the arrow keys — become part of the request, each landing with a flick of its weight on springs.flick. Attaching docks the drawing: the paper lifts off the pad and shrinks on springs.glide into a thumbnail chip in the field with its strokes still visible, and pressing the chip grows it back out into the pad on the same spring. Cmd or Ctrl+Z undoes a stroke, an empty pad keeps Attach disabled and says why, and under 38rem the pad rises as a full-width sheet that a downward flick closes.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "sketch input",
+        "drawing pad",
+        "prompt composer",
+        "whiteboard",
+        "attachments",
+        "multimodal prompt",
+        "app ui"
+      ],
+      "props": [
+        {
+          "name": "penWidth",
+          "type": "number",
+          "defaultValue": "2.5",
+          "description": "Stroke width for new marks, in drawing units (the pad is 400 wide); a pen's pressure scales it."
+        },
+        {
+          "name": "gridStyle",
+          "type": "\"dots\" | \"lines\" | \"blank\"",
+          "defaultValue": "\"dots\"",
+          "description": "The pad's paper."
+        },
+        {
+          "name": "accent",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "Any CSS colour for the active tool, the keyboard crosshair, Attach, Send and the sketch chip's ring."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "defaultValue": "— / defaultScribbleText",
+          "description": "The message text, controlled or initial."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(text: string) => void",
+          "description": "Fires from every keystroke with the new text."
+        },
+        {
+          "name": "strokes / defaultStrokes",
+          "type": "SketchStroke[]",
+          "defaultValue": "— / defaultSketchStrokes",
+          "description": "The drawing, controlled or initial: pen marks (points) and boxes and arrows (from, to), each with a colour and width."
+        },
+        {
+          "name": "onStrokesChange",
+          "type": "(strokes: SketchStroke[]) => void",
+          "description": "Fires from every stroke, undo, redo and clear with the whole drawing."
+        },
+        {
+          "name": "onStrokeEnd",
+          "type": "(stroke: SketchStroke, strokes: SketchStroke[]) => void",
+          "description": "A stroke was finished, by pointer, pen or keyboard."
+        },
+        {
+          "name": "open / defaultOpen",
+          "type": "boolean",
+          "defaultValue": "— / false",
+          "description": "Whether the pad is open, controlled or initial; closing a pad with marks on it docks them."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "description": "Fires from the button, chip, key or drag that opened or closed the pad."
+        },
+        {
+          "name": "onAttachSketch",
+          "type": "(strokes: SketchStroke[]) => void",
+          "description": "The sketch was docked into the field."
+        },
+        {
+          "name": "attachments / defaultAttachments",
+          "type": "PromptAttachment[]",
+          "defaultValue": "— / defaultPromptAttachments",
+          "description": "File chips in the field (name and size), controlled or initial."
+        },
+        {
+          "name": "onAttachFiles",
+          "type": "(files: File[]) => void",
+          "description": "Files were picked with Attach file (a real file input)."
+        },
+        {
+          "name": "onRemoveAttachment",
+          "type": "(id: string) => void",
+          "description": "A file chip's remove button was pressed."
+        },
+        {
+          "name": "onSubmit",
+          "type": "(submission: { text, sketch, attachments }) => void",
+          "description": "Send (or Enter) with words, a docked sketch or a file."
+        },
+        {
+          "name": "messages / defaultMessages",
+          "type": "ScribbleMessage[]",
+          "defaultValue": "— / defaultScribbleMessages",
+          "description": "The thread above the composer, controlled or initial; an uncontrolled send appends to it, sketch thumbnail and all."
+        },
+        {
+          "name": "colors",
+          "type": "string[]",
+          "defaultValue": "ink, accent, warn and success tokens",
+          "description": "Pen colours as CSS colours, offered as a radiogroup."
+        },
+        {
+          "name": "assistant",
+          "type": "string",
+          "defaultValue": "\"Fernworks Studio\"",
+          "description": "Who answers, named in the header."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "defaultValue": "\"Describe the change, or sketch it\"",
+          "description": "The text field's placeholder."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "540",
+          "description": "The surface's height in px."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Nothing can be typed, drawn or sent."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the outer surface."
+        }
+      ],
+      "usageNotes": [
+        "The pad is role=\"application\" with keyboard help: arrow keys move a crosshair (Shift for big steps), P, B and A pick pen, box and arrow, Space or Enter anchors a shape and places it (the pen builds a line point by point, Enter finishes), Escape cancels an anchored shape or closes the pad, and Cmd/Ctrl+Z and Shift+Cmd/Ctrl+Z undo and redo. Closing returns focus to the sketch chip (or the Sketch button), and pressing the chip moves focus back into the pad.",
+        "Below 38rem the pad opens as a role=\"dialog\" sheet that keeps Tab inside it; dragging its grab bar down (or flicking it) closes it and docks the sketch.",
+        "Under reduced motion the pad and the chip cross-fade, there is no docking flight and marks land without the flick; drawing itself is unchanged.",
+        "The live stroke writes one motion value, so drawing re-renders nothing per pointer move; the docking flight is driven entirely by motion values from a layout effect, and nothing runs while the pad is closed.",
+        "Pen colours are CSS colours applied as styles, so tokens like var(--warn) follow the theme; the thumbnail uses hairlines that keep their width at any size."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/scribble-prompt",
+      "registryItemUrl": "https://www.kinetiqui.com/r/scribble-prompt.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/scribble-prompt",
+        "npm": "npx shadcn@latest add @kinetiq/scribble-prompt",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/scribble-prompt",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/scribble-prompt",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/scribble-prompt.json"
+      }
+    },
+    {
+      "slug": "prompt-stamp",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Prompt Stamp",
+      "serial": "KQ-2061",
+      "tagline": "One prompt, run down every row.",
+      "description": "One prompt with {placeholders} above a small sheet of rows; Run stamps it down the sheet. A plate carrying the prompt's tokens travels down the output column on springs.glide and presses each row on springs.recoil, its tokens turning into that row's values as the mapped cells light up left to right in a cascade, then the answer streams into the cell — and a row with an empty mapped cell is pressed too but fails with the reason instead of an invented answer. Typing { opens a column picker (arrows, Enter or Tab inserts), the sheet is a grid with one roving cell where Enter edits a field and retries or expands an answer, and at phone width each row becomes a card.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "batch prompt",
+        "prompt template",
+        "placeholders",
+        "spreadsheet ai",
+        "bulk generation",
+        "column picker",
+        "app ui"
+      ],
+      "props": [
+        {
+          "name": "stampSpeed",
+          "type": "number",
+          "defaultValue": "1",
+          "description": "How fast the stamp walks the sheet and the answers stream, as a multiplier."
+        },
+        {
+          "name": "rowHeight",
+          "type": "number",
+          "defaultValue": "52",
+          "description": "Row height in px; the answer shows as many lines as fit (1 to 3), and Enter expands a row."
+        },
+        {
+          "name": "accent",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "Tokens, the stamp, lit cells, Run and done checks — any CSS colour."
+        },
+        {
+          "name": "template / defaultTemplate",
+          "type": "string",
+          "defaultValue": "— / defaultPromptTemplate",
+          "description": "The prompt, with {placeholders} naming columns; controlled or initial."
+        },
+        {
+          "name": "onTemplateChange",
+          "type": "(template: string) => void",
+          "description": "Fires from every edit and every column inserted from the picker."
+        },
+        {
+          "name": "columns",
+          "type": "PromptStampColumn[]",
+          "defaultValue": "defaultPromptStampColumns",
+          "description": "The sheet's input columns: id (the placeholder name), label and grow."
+        },
+        {
+          "name": "rows / defaultRows",
+          "type": "PromptStampRow[]",
+          "defaultValue": "— / defaultPromptStampRows",
+          "description": "The rows the prompt runs down, each with a value per column id; controlled or initial."
+        },
+        {
+          "name": "onRowsChange",
+          "type": "(rows: PromptStampRow[]) => void",
+          "description": "Fires with every row after a cell is edited in place."
+        },
+        {
+          "name": "mapping",
+          "type": "Record<string, string>",
+          "defaultValue": "{}",
+          "description": "Placeholder names that read another column, e.g. { bean: \"product\" }."
+        },
+        {
+          "name": "results / defaultResults",
+          "type": "PromptStampResults",
+          "defaultValue": "— / {}",
+          "description": "Run state per row id (idle, queued, running, failed, done, with text and error). Controlled, the host runs the prompt and the sheet shows it."
+        },
+        {
+          "name": "onResultsChange",
+          "type": "(results: PromptStampResults) => void",
+          "description": "Fires whenever the built-in run changes a row's state or text."
+        },
+        {
+          "name": "respond",
+          "type": "(row: PromptStampRow, prompt: string) => string",
+          "defaultValue": "defaultRespond",
+          "description": "The built-in run's answer for a row and its filled prompt."
+        },
+        {
+          "name": "onRun",
+          "type": "(runs: PromptStampRun[]) => void",
+          "description": "Run was pressed: every row's filled prompt."
+        },
+        {
+          "name": "onStop",
+          "type": "() => void",
+          "description": "Stop was pressed during a run."
+        },
+        {
+          "name": "onRetryRow",
+          "type": "(rowId: string, prompt: string) => void",
+          "description": "Retry was pressed on a failed row."
+        },
+        {
+          "name": "onExport",
+          "type": "(csv: string, results: PromptStampResults) => void",
+          "description": "Export was pressed: the sheet with its answers as CSV."
+        },
+        {
+          "name": "concurrency",
+          "type": "number",
+          "defaultValue": "3",
+          "description": "Rows the built-in run works on at once."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Shop descriptions\"",
+          "description": "The sheet's name in the header."
+        },
+        {
+          "name": "outputLabel",
+          "type": "string",
+          "defaultValue": "\"Description\"",
+          "description": "The output column's heading."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the rows are here: loading shows a skeleton, error a Try again."
+        },
+        {
+          "name": "onReload",
+          "type": "() => void",
+          "description": "Try again was pressed after the rows failed to load."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "560",
+          "description": "The tallest the surface grows, px; past it the sheet scrolls inside."
+        },
+        {
+          "name": "ref",
+          "type": "React.Ref<PromptStampHandle>",
+          "description": "Imperative handle with run() and stop()."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Nothing can be edited or run."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the outer surface."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: in the prompt, { opens the column picker (Up and Down move, Enter or Tab inserts, Escape closes) and Cmd or Ctrl+Enter runs. The sheet is a grid with one roving cell: arrows move, Home and End jump, Enter or F2 edits a field (Enter saves, Escape cancels), and Enter on an answer retries a failed row or expands a clipped one.",
+        "Pass results to run the prompt yourself: mark a row running and the stamp presses it, stream its text through the same object, then mark it done or failed with an error. Without results the built-in run plays respond, and only ticks while the sheet is on screen in a visible tab.",
+        "A row whose mapped cell is empty is never sent: it fails with the column's name, the empty cell lights in danger, and editing the cell then Retry runs it.",
+        "Reduced motion keeps every state and the word-by-word arrival but drops the travelling stamp and the cascade: rows light in place.",
+        "Colours come from tokens and the accent prop, so the sheet reads in light and dark; the fill of Run is the accent at a fixed lightness so it holds its contrast in both."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/prompt-stamp",
+      "registryItemUrl": "https://www.kinetiqui.com/r/prompt-stamp.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/prompt-stamp",
+        "npm": "npx shadcn@latest add @kinetiq/prompt-stamp",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/prompt-stamp",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/prompt-stamp",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/prompt-stamp.json"
+      }
+    },
+    {
+      "slug": "answer-shape",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Answer Shape",
+      "serial": "KQ-2062",
+      "tagline": "Say what form the answer should take.",
+      "description": "A prompt composer with shape picks under the field — paragraph, bullets, table, email, checklist — and a skeleton of the answer's form beside it, drawn from one fixed set of bars. Choosing a shape moves every bar to its place in the new form on springs.glide, a paragraph's word groups regrouping into a table's rows and columns or folding into an envelope whose flap rotates into a V, while the selection slides on springs.snap and the length rolls on snap. The picks are a radiogroup on the arrow keys with Cmd or Ctrl and 1 to 5 from anywhere in the composer, the length is a spinbutton, a note offers to switch when the prompt itself asks for another form, and on a phone the skeleton shrinks to a live icon beside Send.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "prompt composer",
+        "answer format",
+        "output shape",
+        "skeleton preview",
+        "morph",
+        "ai input",
+        "app ui"
+      ],
+      "props": [
+        {
+          "name": "skeletonStyle",
+          "type": "\"solid\" | \"wire\" | \"type\"",
+          "defaultValue": "\"solid\"",
+          "description": "The preview's texture: filled bars, a hairline wireframe, or bars drawn as faux words."
+        },
+        {
+          "name": "pickSize",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "defaultValue": "\"md\"",
+          "description": "Icon-only picks, icon and label, or tiles with the icon over the label (icon-only on a phone at every size)."
+        },
+        {
+          "name": "accent",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "Selection, the table header, the checked box and Send — any CSS colour."
+        },
+        {
+          "name": "shapes",
+          "type": "AnswerShapeOption[]",
+          "defaultValue": "defaultAnswerShapes",
+          "description": "The forms on offer: label, kind (skeleton and icon), unit, min, max, step, default length, words per unit, cues, and an optional custom skeleton(length, box)."
+        },
+        {
+          "name": "shape / defaultShape",
+          "type": "string",
+          "defaultValue": "— / \"bullets\"",
+          "description": "The chosen shape's id, controlled or initial."
+        },
+        {
+          "name": "onShapeChange",
+          "type": "(id: string) => void",
+          "description": "Fires from the pick, shortcut or note that changed the shape."
+        },
+        {
+          "name": "length / defaultLength",
+          "type": "number",
+          "defaultValue": "— / the shape's defaultLength",
+          "description": "The answer's length in the current shape's unit, controlled or initial; each shape remembers its own."
+        },
+        {
+          "name": "onLengthChange",
+          "type": "(length: number, shapeId: string) => void",
+          "description": "Fires with the new length and the shape it belongs to."
+        },
+        {
+          "name": "draft / defaultDraft",
+          "type": "string",
+          "defaultValue": "— / defaultAnswerDraft",
+          "description": "The prompt text, controlled or initial."
+        },
+        {
+          "name": "onDraftChange",
+          "type": "(draft: string) => void",
+          "description": "Fires from every edit."
+        },
+        {
+          "name": "onSubmit",
+          "type": "(answer: { draft, shape, length }) => void",
+          "description": "Enter or Send: the prompt with the form it should take."
+        },
+        {
+          "name": "detectConflicts",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Raise a note with Use and Keep when the prompt asks for a different form."
+        },
+        {
+          "name": "showPreview",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Show the skeleton preview, or its icon on a phone."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "defaultValue": "\"Ask Fieldline…\"",
+          "description": "Placeholder for an empty field."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Ask Fieldline\"",
+          "description": "The field's accessible name."
+        },
+        {
+          "name": "maxRows",
+          "type": "number",
+          "defaultValue": "3",
+          "description": "Lines the field grows to before it scrolls."
+        },
+        {
+          "name": "busy",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "An answer is being written: Send holds and spins."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Nothing can be typed, picked or sent."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the outer surface."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the picks are a radiogroup — arrows move and choose, Home and End jump — and Cmd or Ctrl with 1 to 5 chooses from anywhere in the composer. The length is a spinbutton (Up, Down, Page Up, Page Down, Home, End). Enter sends and Shift+Enter breaks the line.",
+        "The skeleton is decoration (aria-hidden); the form and length are carried by the radiogroup and the spinbutton's value text, so nothing is lost to assistive technology.",
+        "Give a shape a skeleton(length, box) that returns up to 18 bars to draw a form of your own; it morphs to and from the built-in ones on the same spring.",
+        "Reduced motion cross-fades the preview to the new form instead of morphing it; the form, the length and the conflict note still change.",
+        "Conflict detection reads the prompt's last-mentioned cue words per shape; set detectConflicts to false if your prompts often mention forms in passing."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/answer-shape",
+      "registryItemUrl": "https://www.kinetiqui.com/r/answer-shape.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/answer-shape",
+        "npm": "npx shadcn@latest add @kinetiq/answer-shape",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/answer-shape",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/answer-shape",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/answer-shape.json"
+      }
+    },
+    {
+      "slug": "queued-asks",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Queued Asks",
+      "serial": "KQ-2063",
+      "tagline": "Line up your next asks while it works.",
+      "description": "A composer that keeps taking prompts while the assistant is busy, stacking each as a numbered card above the field; beyond stackDepth they tuck into a deck. When the running answer finishes, the top card peels off and flies into the thread as the new prompt bubble — a shared layout transition on springs.glide that untilts as it lands — while the cards below shuffle up on glide and their numbers roll on springs.snap. Cards drag 1:1 into a new order and settle on snap with the release velocity, or edit in place; Alt with Up or Down reorders, Delete removes, Up in an empty field edits the last card, a failed run pauses the queue, and on a phone the stack collapses to a count you expand.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "prompt queue",
+        "chat composer",
+        "reorder",
+        "follow-up prompts",
+        "ai assistant",
+        "drag to reorder",
+        "app ui"
+      ],
+      "props": [
+        {
+          "name": "stackDepth",
+          "type": "number",
+          "defaultValue": "3",
+          "description": "Cards that stand fanned before the rest tuck into a deck behind the last one."
+        },
+        {
+          "name": "cardStyle",
+          "type": "\"note\" | \"ticket\" | \"line\"",
+          "defaultValue": "\"note\"",
+          "description": "Paper notes with a folded corner, tickets with a perforated stub, or flat lines."
+        },
+        {
+          "name": "accent",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "Numbers, your bubbles, progress, Queue and Send — any CSS colour."
+        },
+        {
+          "name": "queue / defaultQueue",
+          "type": "QueuedAsk[]",
+          "defaultValue": "— / defaultQueuedAsks",
+          "description": "The queued prompts, top first; controlled or initial."
+        },
+        {
+          "name": "onQueueChange",
+          "type": "(queue: QueuedAsk[]) => void",
+          "description": "Fires with the whole queue after any add, move, edit, removal or peel."
+        },
+        {
+          "name": "job",
+          "type": "QueuedAsksJob | null",
+          "defaultValue": "defaultQueuedJob",
+          "description": "The run in progress (prompt, status, progress, step, answer, error), or null when idle. Owned by the host."
+        },
+        {
+          "name": "thread",
+          "type": "QueuedAsksTurn[]",
+          "defaultValue": "defaultQueuedThread",
+          "description": "Finished turns, oldest first."
+        },
+        {
+          "name": "onEnqueue",
+          "type": "(item: QueuedAsk) => void",
+          "description": "A prompt was queued."
+        },
+        {
+          "name": "onReorder",
+          "type": "(ids: string[], moved: { id, from, to }) => void",
+          "description": "A card was moved by drag or by Alt with an arrow."
+        },
+        {
+          "name": "onEditQueued",
+          "type": "(id: string, text: string) => void",
+          "description": "A queued prompt was edited in place."
+        },
+        {
+          "name": "onCancel",
+          "type": "(id: string) => void",
+          "description": "A queued prompt was removed, or Stop was pressed on the run (its id)."
+        },
+        {
+          "name": "onAdvance",
+          "type": "(next: QueuedAsk) => void",
+          "description": "The top card peeled off: start it as the new job with the same id, so it flies into the thread."
+        },
+        {
+          "name": "onSend",
+          "type": "(text: string) => void",
+          "description": "Nothing running and nothing queued: the prompt goes straight to the assistant."
+        },
+        {
+          "name": "onRetry",
+          "type": "(jobId: string) => void",
+          "description": "Retry was pressed on a failed run."
+        },
+        {
+          "name": "onResume",
+          "type": "() => void",
+          "description": "Skip was pressed on a failed run; the next card peels off."
+        },
+        {
+          "name": "paused",
+          "type": "boolean",
+          "defaultValue": "job?.status === \"failed\"",
+          "description": "Hold the queue: nothing peels until it is resumed."
+        },
+        {
+          "name": "advanceDelay",
+          "type": "number",
+          "defaultValue": "500",
+          "description": "How long a finished answer rests before the next card peels off, ms."
+        },
+        {
+          "name": "maxQueue",
+          "type": "number",
+          "defaultValue": "8",
+          "description": "The most prompts the queue holds."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Basin storage review\"",
+          "description": "The session's name."
+        },
+        {
+          "name": "model",
+          "type": "string",
+          "defaultValue": "\"Fernworks Model 3\"",
+          "description": "The assistant's name."
+        },
+        {
+          "name": "workspace",
+          "type": "string",
+          "defaultValue": "\"Basinworks\"",
+          "description": "Whose workspace the session is in."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "defaultValue": "\"Ask, or line up the next ask…\"",
+          "description": "Placeholder for the field."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "560",
+          "description": "The tallest the surface grows, px; past it the thread scrolls."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Nothing can be typed, queued or moved."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the outer surface."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the queue is a list with one roving card — Up and Down move, Home and End jump, Alt with Up or Down reorders, Enter or F2 edits in place (Enter saves, Escape cancels), Delete or Backspace removes, Escape returns to the field. Up in an empty field edits the last card; Enter queues while the assistant is busy and sends when it is idle.",
+        "The host owns the job and the thread. When the job turns done the component removes the top card after advanceDelay and calls onAdvance; start that ask as the new job with the same id and the card flies into the thread.",
+        "Only the card about to peel and the bubble it becomes share a layout id, and only for the flight, so the thread can reflow freely around them.",
+        "Reduced motion keeps every state: cards jump to their slots, numbers swap, the peeled ask appears in the thread without flying, and progress still fills.",
+        "The running turn's progress is a progressbar with the current step as its value text; announcements are made once per queue change or run outcome, never per progress tick."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/queued-asks",
+      "registryItemUrl": "https://www.kinetiqui.com/r/queued-asks.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/queued-asks",
+        "npm": "npx shadcn@latest add @kinetiq/queued-asks",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/queued-asks",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/queued-asks",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/queued-asks.json"
+      }
+    },
+    {
+      "slug": "scope-wheel",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Scope Wheel",
+      "serial": "KQ-2064",
+      "tagline": "Choose where it looks before you ask.",
+      "description": "A composer with a thumbwheel at its left edge choosing where the assistant looks — this page, this project, the workspace, the open web. The drum rolls 1:1 under a vertical drag (shaped toward the nearest detent by detents) and settles into the detent the throw was heading for on springs.snap with the release velocity; as the scope lands, an outline of the searched area sweeps across a mini map of the workspace on springs.glide with a scan line running over it, the count of searchable items rolls digit by digit on snap, and the placeholder rewrites itself from the shared prefix. The wheel is a radiogroup on the arrow keys with Cmd or Ctrl and 1 to 4 from the field, locked scopes roll back with a note, and on a phone the map hides and the wheel becomes a pill menu.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "search scope",
+        "prompt composer",
+        "thumbwheel",
+        "workspace search",
+        "detents",
+        "ai input",
+        "app ui"
+      ],
+      "props": [
+        {
+          "name": "detents",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How notchy the wheel is, 0 to 1: 0 rolls freely and snaps on release, 1 clicks from detent to detent as you drag; the housing's notches deepen with it."
+        },
+        {
+          "name": "mapStyle",
+          "type": "\"blocks\" | \"wire\" | \"dots\"",
+          "defaultValue": "\"blocks\"",
+          "description": "The map's drawing: filled tiles, a hairline blueprint, or dot-matrix tiles."
+        },
+        {
+          "name": "accent",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "Outline, notches, count and Send — any CSS colour."
+        },
+        {
+          "name": "scopes",
+          "type": "ScopeWheelScope[]",
+          "defaultValue": "defaultScopeWheelScopes",
+          "description": "The scopes on the wheel, nearest first: label, short label, area (page, section, workspace, web), count, unit, placeholder, locked and lockedNote."
+        },
+        {
+          "name": "map",
+          "type": "ScopeWheelMap",
+          "defaultValue": "defaultScopeWheelMap",
+          "description": "The workspace the map draws: its sections and pages, and where the user is."
+        },
+        {
+          "name": "scope / defaultScope",
+          "type": "string",
+          "defaultValue": "— / \"project\"",
+          "description": "The chosen scope's id, controlled or initial."
+        },
+        {
+          "name": "onScopeChange",
+          "type": "(id: string) => void",
+          "description": "Fires from the turn, key, wheel or menu that changed the scope."
+        },
+        {
+          "name": "draft / defaultDraft",
+          "type": "string",
+          "defaultValue": "— / \"\"",
+          "description": "The question, controlled or initial."
+        },
+        {
+          "name": "onDraftChange",
+          "type": "(draft: string) => void",
+          "description": "Fires from every edit."
+        },
+        {
+          "name": "onSubmit",
+          "type": "(ask: { text, scope }) => void",
+          "description": "Enter or Send: the question and where to look."
+        },
+        {
+          "name": "onLockedPick",
+          "type": "(scope: ScopeWheelScope) => void",
+          "description": "A locked scope was reached for; the wheel rolls back and shows its note."
+        },
+        {
+          "name": "showMap",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Draw the workspace map above the field (always hidden on a phone)."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"counting\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the counts are known: counting shows a spinner, error says the count is unavailable."
+        },
+        {
+          "name": "busy",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "An answer is being written: Send holds and spins."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Ask Fieldline\"",
+          "description": "The field's accessible name."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Nothing can be typed, turned or sent."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the outer surface."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the wheel is a radiogroup — Up and Down (or Left and Right) turn it a scope, Home and End jump, locked scopes are skipped with their note — and Cmd or Ctrl with 1 to 4 picks a scope from anywhere in the composer. On a phone the pill opens a menu of menuitemradios (arrows, Home, End, Enter, Escape back to the pill). Enter sends, Shift+Enter breaks the line.",
+        "Pointer: drag the drum vertically, flick it, or turn it with a mouse wheel (a detent per notch, and the page scrolls on at either end). touch-action is pan-x on the drum so a vertical drag never scrolls the page.",
+        "Counts are formatted by hand, never with a locale or compact formatter, so the server and the browser print the same digits.",
+        "Reduced motion jumps the drum and the outline to the new scope and swaps the digits and placeholder whole; the scope, count and note still change.",
+        "The map is decoration (aria-hidden): the scope and its count are in the meta row and in each radio's name, and each change is announced once."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/scope-wheel",
+      "registryItemUrl": "https://www.kinetiqui.com/r/scope-wheel.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/scope-wheel",
+        "npm": "npx shadcn@latest add @kinetiq/scope-wheel",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/scope-wheel",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/scope-wheel",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/scope-wheel.json"
+      }
+    },
+    {
+      "slug": "paste-fold",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Paste Fold",
+      "serial": "KQ-2065",
+      "tagline": "Paste the whole thing; it folds itself away.",
+      "description": "A prompt composer that recognises a large paste — a log, a table, a long email, code — and instead of flooding the field spills it in as a sheet of its first lines, then folds it on springs.glide into a labelled block showing its kind, line count and first line, with the caret already after it so you keep typing. Peeking flips the composer to the block's numbered lines with the height gliding, and Trim keeps only the lines you mark (Errors only marks a log's errors in one press); over the character limit the meter turns danger and Send holds. The message is a flow of real textareas and block chips: Left at the start of a run or Backspace there selects the block before it, Space peeks inside, Backspace removes it, and on a phone blocks wrap as full-width chips.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "paste",
+        "prompt composer",
+        "log attachment",
+        "collapse pasted text",
+        "trim",
+        "character limit",
+        "app ui"
+      ],
+      "props": [
+        {
+          "name": "foldThreshold",
+          "type": "number",
+          "defaultValue": "8",
+          "description": "Pastes with at least this many lines fold into a block; shorter ones land as text."
+        },
+        {
+          "name": "chipStyle",
+          "type": "\"tab\" | \"card\" | \"pill\"",
+          "defaultValue": "\"tab\"",
+          "description": "A tab with a kind strip and the first line, a two-line card, or a compact pill."
+        },
+        {
+          "name": "accent",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "Chips, selection, meter and Send — any CSS colour."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "PasteFoldPart[]",
+          "defaultValue": "— / defaultPasteFoldValue",
+          "description": "The message as text runs and folded blocks in order, controlled or initial."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(parts: PasteFoldPart[]) => void",
+          "description": "Fires with the whole message after every edit, fold, trim or removal."
+        },
+        {
+          "name": "rules",
+          "type": "PasteFoldRule[]",
+          "defaultValue": "defaultPasteRules",
+          "description": "How pastes are recognised (log, table, email, code), tried in order, each with an optional one-press keep filter for the trim view; anything else folds as Text."
+        },
+        {
+          "name": "foldChars",
+          "type": "number",
+          "defaultValue": "1200",
+          "description": "Pastes with at least this many characters fold too, whatever their line count."
+        },
+        {
+          "name": "limit",
+          "type": "number",
+          "defaultValue": "4000",
+          "description": "The most characters a message may carry, blocks included; past it the meter turns danger and Send holds."
+        },
+        {
+          "name": "onPasteDetected",
+          "type": "(block: PasteBlock) => void",
+          "description": "A paste was folded into a block."
+        },
+        {
+          "name": "onExpand",
+          "type": "(block: PasteBlock) => void",
+          "description": "A block was opened to peek inside."
+        },
+        {
+          "name": "onTrim",
+          "type": "(block: PasteBlock, kept: number[]) => void",
+          "description": "A block was trimmed to the marked lines (indexes into its previous lines)."
+        },
+        {
+          "name": "onSubmit",
+          "type": "(parts: PasteFoldPart[], text: string) => void",
+          "description": "Enter or Send: the parts, and the message as plain text with blocks fenced."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "defaultValue": "\"Describe the problem, or paste the log…\"",
+          "description": "Placeholder for an empty message."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Message\"",
+          "description": "The message's accessible name."
+        },
+        {
+          "name": "busy",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "An answer is being written: Send holds and spins."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Nothing can be typed, pasted or sent."
+        },
+        {
+          "name": "ref",
+          "type": "React.Ref<PasteFoldHandle>",
+          "description": "Imperative handle: paste(text) pastes as a real paste would; focus() puts the caret at the end."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the outer surface."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: Left at the start of a text run, or Backspace there, selects the block before it; Right at the end, or Delete, selects the block after. On a block, Space or Enter peeks inside, Backspace or Delete removes it and puts the caret at the join, Left and Right return to the text, Escape goes to the text after it. In the peek, the lines are a listbox (Up, Down, Home, End; in Trim, Space toggles and Shift extends) and Escape closes back to the block.",
+        "Every run is a real, auto-sizing textarea, so spell-check, IME composition and the platform's own text editing all work; only big pastes are intercepted.",
+        "A paste from the handle never takes focus or scrolls the page unless the caret is already in the composer, so a demo or a host can feed it content safely.",
+        "Reduced motion skips the spill and the fold: the block appears folded with a short highlight, and the peek cross-fades.",
+        "onSubmit hands you both the structured parts and a plain-text message with each block fenced by its kind, ready to send to a model."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/paste-fold",
+      "registryItemUrl": "https://www.kinetiqui.com/r/paste-fold.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/paste-fold",
+        "npm": "npx shadcn@latest add @kinetiq/paste-fold",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/paste-fold",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/paste-fold",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/paste-fold.json"
       }
     },
     {
