@@ -48481,6 +48481,574 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "series-edit",
+      "type": "registry:ui",
+      "title": "Series Edit",
+      "description": "A recurring meeting's editor whose strip of upcoming occurrences always shows what Save would do. Choosing This and following cleaves the row at the chosen date: a gap opens before it and the chips after it reflow on springs.glide while a dashed rule draws down the gap on springs.flick, then the chips in scope slide to the new time — later dropping, earlier rising — each a cascade step after the one before, their times rolling on springs.snap, while earlier chips stay put; a one-off save stamps its mark in on springs.recoil. The strip is a horizontal listbox whose arrow keys move the edit (and the cleave) to another date, the scope is a radio group, and clashes with other events are listed before saving.",
+      "files": [
+        {
+          "path": "registry/ui/series-edit.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1743"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "leave-planner",
+      "type": "registry:ui",
+      "title": "Leave Planner",
+      "description": "A time-off request surface: a balance meter of the leave type's days over one to three months of calendar, with teammates already away drawn as soft overlapping stripes on their dates. Choosing a range drains the meter a day at a time — one motion value walking about 45 ms a day on the linear ease — while the count of working days rolls and each working day in the calendar lights in the same beat; weekends and holidays inside the range stay hatched because they are skipped, the type switch slides on springs.snap and the months glide in on springs.glide. Asking for more than the balance runs the meter dry, shakes it once on a tween and explains the shortfall; each month is a grid with arrow keys, Enter for the first and last day, Shift to extend and Escape to clear.",
+      "files": [
+        {
+          "path": "registry/ui/leave-planner.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1744"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "backward-plan",
+      "type": "registry:ui",
+      "title": "Backward Plan",
+      "description": "A deadline-first planner: every task is scheduled as late as it can be and drawn as a car on a timeline that ends at the deadline flag. Dragging the flag, or any unlocked car, pulls the train — each car's finish follows the start of the car after it through the springs.snap calibration, integrated per frame in one loop, so the pull travels back down the train and every car settles a beat after the one ahead; the release projects the throw to a whole day and the flag springs there with its velocity. Cars pushed before today turn amber, locked cars hold their dates and lean toward the pull before springing upright on springs.recoil, and the flag is a slider whose arrow keys move the deadline a day while Tab reaches every task.",
+      "files": [
+        {
+          "path": "registry/ui/backward-plan.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1745"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "webhook-replay",
+      "type": "registry:ui",
+      "title": "Webhook Replay",
+      "description": "A webhook endpoint's delivery log where a failed delivery can be sent again. Replay sends a pulse along its row — a comet riding one motion value for 520 ms on the move ease, from the event name, under the columns, to the status chip — and if the answer is not back the head breathes at the chip until it is; then the chip flips about its horizontal axis, out on the exit ease and in on springs.snap with a soft success ring, or still failing, in on springs.flick to the new error code with the new response under the event. Rows open with Enter to the payload, headers and response at their measured height on springs.glide, Up and Down walk the rows, R replays, and the endpoint can be paused and its signing secret revealed or rotated.",
+      "files": [
+        {
+          "path": "registry/ui/webhook-replay.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1746"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "sync-pairs",
+      "type": "registry:ui",
+      "title": "Sync Pairs",
+      "description": "A two-way field mapping between two apps whose fields face each other across a gutter of soft cables. Dragging from a field draws a live cable 1:1 under the pointer; plugged into a compatible field its sag drops in slack and swings taut on springs.recoil, two visible bounces of a rope catching. Pressing a cable's knot cycles its direction — right, left, both — and the arrowhead turns on springs.flick and slides along the curve to its new end on springs.glide, a second chevron sliding out for both ways; lossy flows draw the cable in warn and name what is lost, and types that do not convert refuse to pair. Each side is a listbox: Enter opens a partner list, D turns a pair, Delete unpairs, and narrow containers turn the cables into rows with direction chips.",
+      "files": [
+        {
+          "path": "registry/ui/sync-pairs.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1747"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "bug-snapshot",
+      "type": "registry:ui",
+      "title": "Bug Snapshot",
+      "description": "A bug report that starts from the page it is about: Report a bug flashes the page (or closes a shutter on it, or lifts it toward you), then a copy of the page shrinks along a straight path into the form's thumbnail slot on springs.glide and drops into it on springs.recoil while the form's sections rise into place in cascade order. A drag on the thumbnail draws a highlight or an opaque redaction from the press point, the signed-in address is hidden on its own, environment rows can be removed and restored, and Send becomes its own progress bar that follows the host's progress on glide; a failed upload keeps every word, box and choice. Every box is a button that arrow keys move and Alt with an arrow resizes, Add box draws one from the keyboard, and the category and severity are radiogroups with roving focus.",
+      "files": [
+        {
+          "path": "registry/ui/bug-snapshot.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1758"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "similar-ideas",
+      "type": "registry:ui",
+      "title": "Similar Ideas",
+      "description": "An idea panel that checks the roadmap while you type: after three letters a quiet spinner turns at the end of the field, then the ideas most like yours rise 16px from below it on springs.glide in cascade order, each with its status, votes and a match strength that fills as it lands; ideas that stop matching fade out and the rest glide to their seats. Voting folds your draft into the idea as your comment — the draft lifts off the field as a pill and glides into the row's note line while the vote count rolls on snap and the comment badge lands on recoil — and with nothing similar the list gives way to a clean submit. The field is a combobox: Up and Down move through matches, Enter votes, Shift+Enter follows and Escape clears.",
+      "files": [
+        {
+          "path": "registry/ui/similar-ideas.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1759"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "ease-check",
+      "type": "registry:ui",
+      "title": "Ease Check",
+      "description": "A one-row question for right after a task, whose effort slider is a string between two pegs: pressing rests the finger on it, dragging moves the thumb 1:1 while dragging up or down bends the string under the thumb into two straight runs with a rounded apex, and letting go settles the thumb on its step on springs.snap and plucks the string, which rings through straight on a spring with springs.recoil's character (its stiffness set by the track and the tension) carrying the release velocity. A release, a tap or Enter sends the answer; low scores open a short why field on a measured glide, others say thanks and fold the question away, and a task is never asked twice. It is a real slider: arrows step and pluck lightly, Page keys move two, Home and End jump.",
+      "files": [
+        {
+          "path": "registry/ui/ease-check.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1760"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "point-and-tell",
+      "type": "registry:ui",
+      "title": "Point and Tell",
+      "description": "Feedback that points: Point turns the page into targets, and hovering — or Tab, which cycles through the parts while point mode is on — finds the smallest part under the pointer while one fine measuring outline travels to its box on springs.snap, with its size in a tag and guides out to the page's edges. A click or Enter pins it: a crop of the page lifts off at the part's own box and flies into its slot in the form on springs.glide on one uniform scale while the outline flashes. Crops are the page drawn again and scaled, sensitive values are masked in every crop, Escape leaves point mode, and Send shows sending, sent and failed — a failure keeps the note and every pin.",
+      "files": [
+        {
+          "path": "registry/ui/point-and-tell.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1761"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "theme-sorter",
+      "type": "registry:ui",
+      "title": "Theme Sorter",
+      "description": "A feedback inbox you sort by hand: a card lifts after 4px of travel and follows the pointer 1:1 as a copy above both columns, leaning with its speed, while the theme under it swells on springs.snap. Dropped on a theme it is squeezed in — narrowing on springs.glide and flattening 60ms behind on the same spring toward the theme's centre — the theme gulps on springs.recoil as its tally rolls up on snap, and once it is in the themes re-rank by count with a layout glide; dropped anywhere else it springs home with the release velocity. The inbox is one tab stop with roving focus: Up and Down move, T or Enter opens a theme menu with type-ahead and New theme, A or Delete archives, and a failed tag springs the card back into its slot with a note.",
+      "files": [
+        {
+          "path": "registry/ui/theme-sorter.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1762"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "bulletin-composer",
+      "type": "registry:ui",
+      "title": "Bulletin Composer",
+      "description": "An email layout editor: a palette of header, text, image, button and divider blocks feeds a one-column letter drawn in a device frame, and each block opens an edit panel for its content. Toggling Desktop and Phone changes the frame's width in one render and every block FLIPs to its new box on springs.glide — corners round into a phone bezel, pictures go full bleed, the call to action stretches and text slides to its new wrap without being squashed — while a ruler over the letter marks where the phone width will cut. Blocks and palette tiles drag 1:1: an accent drop line opens a gap between the blocks under it on glide and, on release, every block glides from where it is drawn to its new slot with the throw's velocity; the letter is a listbox where Up and Down move, Alt with Up or Down moves the block, Enter edits it and Delete removes it, and missing alt text is flagged on the picture, in its field and in a count that jumps to it.",
+      "files": [
+        {
+          "path": "registry/ui/bulletin-composer.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1753"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "quick-fix",
+      "type": "registry:ui",
+      "title": "Quick Fix",
+      "description": "A code editor panel built from code and diagnostics: every problem is underlined under its exact columns in its severity's colour, marked in the gutter and counted in the header. Applying a fix morphs the faulty token into its correction character by character — the common start and end stay, each changed slot rolls on springs.snap in a left-to-right cascade and slots that appear or vanish grow or shrink on springs.glide — while the squiggle unwinds, its coil straightening on glide before it retracts into its middle, and the count ticks down on snap. The text is a real textarea over a painted layer: F8 and Shift+F8 walk the problems, gliding the code into view and opening a peek under the line, Command or Control with period opens the fixes menu at the caret, and edits shift the problems after them.",
+      "files": [
+        {
+          "path": "registry/ui/quick-fix.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1754"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "screenshot-markup",
+      "type": "registry:ui",
+      "title": "Screenshot Markup",
+      "description": "An image annotation editor: arrows, boxes, labels and redaction over a screenshot, every mark kept in the image's own pixels. Drawing an arrow, the shaft bows behind the hand — a curve whose control point trails the pointer on springs.glide — and on release it pulls taut while the head springs into place on springs.recoil with two visible bounces. The redact brush pixelates whatever passes under it: cells of a grid fill with the real mosaic of the image beneath, popping in as separate tiles on springs.flick, and when the stroke ends they settle — gaps closing and corners squaring on springs.snap in the order they were laid — into one solid mosaic. Tools have single keys, the canvas has a keyboard cursor so Enter, arrows and Enter draw any mark, [ and ] select marks, arrows nudge them and Delete removes them, and undo and redo walk a history.",
+      "files": [
+        {
+          "path": "registry/ui/screenshot-markup.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1755"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "schema-table",
+      "type": "registry:ui",
+      "title": "Schema Table",
+      "description": "A database schema editor where each field's name, type and options sit above its sample column, so a change of type is something you watch. Picking a new type previews it: the column converts one cell at a time down the rows — the old drawing lifts and fades on a tween while the new one rises and grows from 0.94 on springs.snap, text becoming date chips, numbers gaining currency and cents, yes becoming a tick — and a cell that will not convert keeps its text, struck faint on a danger hatch with its reason; a confirm bar glides down on springs.glide, Convert commits and Cancel converts back bottom row first. Fields reorder by a grip that follows the hand 1:1 while the other columns slide aside on glide and land with the throw, or by Alt with an arrow on the field's button, which also opens a real menu of types (each showing how many cells would fail), rename, options, moves and remove.",
+      "files": [
+        {
+          "path": "registry/ui/schema-table.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1756"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "promoter-scale",
+      "type": "registry:ui",
+      "title": "Promoter Scale",
+      "description": "A score survey: zero to ten, then the one question written for the band the answer falls in. Picking a score fills the segments from zero up to it in a quick wave — each fill sweeping in on springs.snap a few milliseconds after the last, every one in the picked band's colour, draining from the top when the score drops — and a beat later the scale shrinks into a summary chip, its segments travelling on springs.glide into the chip's mini ticks while the follow-up slides in from 16px. The scale is a real radio group: arrows and Home or End move the score with the wave following, number keys pick one (1 then 0 is ten) and Enter, Space or a click confirms; the chip brings the scale back, Escape in the follow-up does too, and sending, thanked, failed and dismissed states are covered with the card's measured height gliding between them.",
+      "files": [
+        {
+          "path": "registry/ui/promoter-scale.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1757"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "macro-reply",
+      "type": "registry:ui",
+      "title": "Macro Reply",
+      "description": "An agent's ticket view — the conversation, a customer sidebar with plan, fields and earlier tickets, and a reply box — where # opens the macros and picking one types its reply at a steady pace while every field it changes switches at its own moment: a wash sweeps the field, the old value rolls out and the new one rises on springs.snap, a set-by-macro dot pops on springs.flick, and a chip for the change lands in the reply's footer on snap, so nothing changes unseen even when the sidebar is a tab. Sent replies rise into the conversation on springs.glide. The reply is a combobox over the macro listbox (arrows, Enter or Tab to apply, Escape to close), any key finishes a typing macro, and Ctrl+Enter sends.",
+      "files": [
+        {
+          "path": "registry/ui/macro-reply.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1763"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "request-tracker",
+      "type": "registry:ui",
+      "title": "Request Tracker",
+      "description": "A customer's own page for a support request: whose turn it is in words, a bead riding the stages from received to solved, the updates as headed articles and a reply box. A stage change glides the bead on springs.glide with the rail's fill on the same motion value, and the stage it reaches fills with a check drawn on springs.flick; while the request waits on you the bead breathes and the reply box's measured height opens on glide. Replying (Ctrl+Enter) lands your update at the top on glide and passes the turn back with an honest next-reply time, and a solved request asks for a rating in a radiogroup driven by the arrow keys.",
+      "files": [
+        {
+          "path": "registry/ui/request-tracker.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1764"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "before-you-send",
+      "type": "registry:ui",
+      "title": "Before You Send",
+      "description": "A contact form that searches the help articles as the subject is typed and slides the matches up between the subject and the rest of the form: the panel's measured height opens on springs.glide, each answer rises 8px in cascade order and its relevance bar grows on glide a beat later, and a changing query re-ranks them in place on glide. Choosing one opens it in the panel, and This solved it folds the form down to a thank-you on glide — a ring landing on springs.recoil, a check drawn on springs.flick — instead of a ticket. The subject is a combobox: Down and Up walk the answers, Enter opens one, Escape hides them, and a failed search never blocks Send.",
+      "files": [
+        {
+          "path": "registry/ui/before-you-send.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1765"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "callback-queue",
+      "type": "registry:ui",
+      "title": "Callback Queue",
+      "description": "A live support queue with your place, an honest wait (a likely figure and a range from the line, the average chat and the agents on shift) and the agents on shift. When the queue moves, the person at the front goes into the desk on the exit ease, everyone behind glides one place forward on springs.glide, and your place and the estimate roll down digit by digit, the estimate a beat later. Call me back opens a picker — a number and a radiogroup of times — and booking turns your token into a time chip in its place, one element whose layout glides from circle to pill; your turn, leaving, closed hours and a full queue each say what happens next.",
+      "files": [
+        {
+          "path": "registry/ui/callback-queue.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1766"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "cobrowse-consent",
+      "type": "registry:ui",
+      "title": "Cobrowse Consent",
+      "description": "A screen-sharing request on the customer's own page: a card names the agent, says what they will and won't see, lists the private fields and counts down to expiry, with Allow viewing and Not now. Allowing plays three beats — the card becomes a slim bar at the top through a shared layout on springs.glide, a coloured frame draws round the page edge by edge on the move ease, and a stripe sweeps across every private field in cascade order leaving its mask behind — while the agent's pointer, when the host passes one, glides on springs.drift. Stop sharing or Escape anywhere inside lifts the masks, fades the frame on the exit ease and leaves a receipt; an unanswered request expires and explains why.",
+      "files": [
+        {
+          "path": "registry/ui/cobrowse-consent.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1767"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

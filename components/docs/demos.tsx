@@ -1922,6 +1922,26 @@ import { TimecodeNotesDemo } from "@/registry/demos/timecode-notes.demo";
 import { CellNotesDemo } from "@/registry/demos/cell-notes.demo";
 import { RangeRemarksDemo } from "@/registry/demos/range-remarks.demo";
 import { SignOffRoundDemo } from "@/registry/demos/sign-off-round.demo";
+import { SeriesEditDemo } from "@/registry/demos/series-edit.demo";
+import { LeavePlannerDemo } from "@/registry/demos/leave-planner.demo";
+import { BackwardPlanDemo } from "@/registry/demos/backward-plan.demo";
+import { WebhookReplayDemo } from "@/registry/demos/webhook-replay.demo";
+import { SyncPairsDemo } from "@/registry/demos/sync-pairs.demo";
+import { BugSnapshotDemo } from "@/registry/demos/bug-snapshot.demo";
+import { SimilarIdeasDemo } from "@/registry/demos/similar-ideas.demo";
+import { EaseCheckDemo } from "@/registry/demos/ease-check.demo";
+import { PointAndTellDemo } from "@/registry/demos/point-and-tell.demo";
+import { ThemeSorterDemo } from "@/registry/demos/theme-sorter.demo";
+import { BulletinComposerDemo } from "@/registry/demos/bulletin-composer.demo";
+import { QuickFixDemo } from "@/registry/demos/quick-fix.demo";
+import { ScreenshotMarkupDemo } from "@/registry/demos/screenshot-markup.demo";
+import { SchemaTableDemo } from "@/registry/demos/schema-table.demo";
+import { PromoterScaleDemo } from "@/registry/demos/promoter-scale.demo";
+import { MacroReplyDemo } from "@/registry/demos/macro-reply.demo";
+import { RequestTrackerDemo } from "@/registry/demos/request-tracker.demo";
+import { BeforeYouSendDemo } from "@/registry/demos/before-you-send.demo";
+import { CallbackQueueDemo } from "@/registry/demos/callback-queue.demo";
+import { CobrowseConsentDemo } from "@/registry/demos/cobrowse-consent.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -3858,4 +3878,24 @@ export const demos: Record<string, ComponentType> = {
   "cell-notes": CellNotesDemo,
   "range-remarks": RangeRemarksDemo,
   "sign-off-round": SignOffRoundDemo,
+  "series-edit": SeriesEditDemo,
+  "leave-planner": LeavePlannerDemo,
+  "backward-plan": BackwardPlanDemo,
+  "webhook-replay": WebhookReplayDemo,
+  "sync-pairs": SyncPairsDemo,
+  "bug-snapshot": BugSnapshotDemo,
+  "similar-ideas": SimilarIdeasDemo,
+  "ease-check": EaseCheckDemo,
+  "point-and-tell": PointAndTellDemo,
+  "theme-sorter": ThemeSorterDemo,
+  "bulletin-composer": BulletinComposerDemo,
+  "quick-fix": QuickFixDemo,
+  "screenshot-markup": ScreenshotMarkupDemo,
+  "schema-table": SchemaTableDemo,
+  "promoter-scale": PromoterScaleDemo,
+  "macro-reply": MacroReplyDemo,
+  "request-tracker": RequestTrackerDemo,
+  "before-you-send": BeforeYouSendDemo,
+  "callback-queue": CallbackQueueDemo,
+  "cobrowse-consent": CobrowseConsentDemo,
 };

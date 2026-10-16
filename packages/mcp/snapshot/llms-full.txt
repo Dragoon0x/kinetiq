@@ -40099,6 +40099,721 @@ Notes:
 - Reduced motion: the now-line jumps, the draft appears at full length, edges land without springs and a release retracts at once under a fading wash; every time and readout still changes.
 - Out-of-service rooms are hatched across the day with their reason and have no cells to walk. Under 36rem each room becomes a card with its next free slots as chips that open the same draft with − and + on its end.
 
+### Series Edit (KQ-1743) — `series-edit`
+Change one meeting, or this and every one after.
+
+A recurring meeting's editor whose strip of upcoming occurrences always shows what Save would do. Choosing This and following cleaves the row at the chosen date: a gap opens before it and the chips after it reflow on springs.glide while a dashed rule draws down the gap on springs.flick, then the chips in scope slide to the new time — later dropping, earlier rising — each a cascade step after the one before, their times rolling on springs.snap, while earlier chips stay put; a one-off save stamps its mark in on springs.recoil. The strip is a horizontal listbox whose arrow keys move the edit (and the cleave) to another date, the scope is a radio group, and clashes with other events are listed before saving.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/series-edit`
+
+Props:
+- `chipStyle`: "tile" | "pill" | "stub" (default "tile") — How each occurrence chip is drawn: a two-line tile, a one-line pill, or a calendar stub with a month band.
+- `density`: "compact" | "regular" | "roomy" (default "regular") — Chip size, gaps, padding and field height.
+- `accent`: "cobalt" | "moss" | "plum" | "ember" (default "cobalt") — The colour of the edit — chips in scope, the cleave, the day lane and Save — as pigments at a fixed lightness.
+- `series`: SeriesInfo (default defaultSeries) — The recurring meeting: { id, title, weekday (0 is Monday), start, duration, room }.
+- `occurrences / defaultOccurrences`: SeriesOccurrence[] (default — / defaultSeriesOccurrences) — Each { id, date, start?, duration?, room?, exception?: "moved" | "cancelled", split? }; controlled or initial.
+- `onOccurrencesChange`: (occurrences) => void — Fires from Save with every occurrence.
+- `busy`: SeriesBusy[] (default defaultSeriesBusy) — Other events ({ id, title, date, start, end }) checked for clashes before saving.
+- `rooms`: string[] (default defaultSeriesRooms) — Rooms offered by the Room field.
+- `now`: number (default defaultSeriesNow) — The current time in ms; occurrences before today are not shown. Never read from the clock.
+- `anchor / defaultAnchor`: string (default — / the first upcoming meeting) — The occurrence being edited, by id; controlled or initial.
+- `onAnchorChange`: (id) => void — Fires from the press or arrow key that chose another occurrence.
+- `scope / defaultScope`: "one" | "following" | "all" (default — / "one") — Which meetings the edit applies to; controlled or initial.
+- `onScopeChange`: (scope) => void — Fires from the press or key that changed the scope.
+- `defaultChanges`: Partial<SeriesChanges> — Pre-fills the form ({ start, duration, room }) on top of the anchor's own values.
+- `onEditOne`: (occurrence, changes) => void — Save with scope "one": the occurrence, now a one-off, and its new values.
+- `onEditFollowing`: (occurrence, changes) => void — Save with scope "following": the first occurrence of the new series and its values.
+- `onEditAll`: (changes) => void — Save with scope "all": the series' new values. One-off changes keep their own.
+- `onDiscard`: () => void — Discard was pressed: the form went back to the anchor's values.
+- `status`: "ready" | "loading" | "error" (default "ready") — Loading shows placeholder chips and fields; error explains and offers Try again.
+- `onRetry`: () => void — Try again was pressed after the series failed to load.
+- `height`: number (default 540) — Height of the surface in px; the body scrolls inside it.
+- `disabled`: boolean (default false) — Read only: nothing can be chosen, changed or saved.
+- `className`: string — Classes for the surface.
+
+Notes:
+- Keyboard: the strip is one tab stop; arrows (and Home/End) move the edit to another date with selection following focus, so the cleave walks with the keys. The scope is a radio group; the fields are native selects; Discard and Save stay focusable with aria-disabled when there is nothing to save, and Save is described by the clash list when there is one.
+- Each chip's accessible name is one sentence — date, time, room, one-off or cancelled, where it will move, what it clashes with — and every change of anchor, scope or field is announced once, politely, with how many meetings move and how many clashes.
+- Reduced motion: no reflow travel, slide, ripple, roll or stamp; gaps and offsets switch at once and colours cross-fade in 150 ms. The strip still shows exactly what Save would do.
+- Nothing runs at rest: chip moves are layout animations measured against the body's scroller, the clash list measures its content with a ResizeObserver, and colours are CSS transitions delayed a cascade step per chip.
+- Colours: chips in scope, the lane slot and Save use the accent as a pigment at fixed lightness with dark ink, so light and dark themes read alike; clashes use a warn pigment ring plus words, never colour alone. Below a 34rem container the chips wrap, the fields stack and the scope turns into a vertical list.
+
+### Leave Planner (KQ-1744) — `leave-planner`
+Request time off and see who else is away.
+
+A time-off request surface: a balance meter of the leave type's days over one to three months of calendar, with teammates already away drawn as soft overlapping stripes on their dates. Choosing a range drains the meter a day at a time — one motion value walking about 45 ms a day on the linear ease — while the count of working days rolls and each working day in the calendar lights in the same beat; weekends and holidays inside the range stay hatched because they are skipped, the type switch slides on springs.snap and the months glide in on springs.glide. Asking for more than the balance runs the meter dry, shakes it once on a tween and explains the shortfall; each month is a grid with arrow keys, Enter for the first and last day, Shift to extend and Escape to clear.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/leave-planner`
+
+Props:
+- `stripeStyle`: "bands" | "hatch" | "dots" (default "bands") — How teammates' leave is drawn: bands that join across consecutive days, diagonal hatching that crosses where two overlap, or stacked dots.
+- `monthCount`: number (default 2) — Months side by side on a wide container, 1 to 3; below a 34rem container it is always one.
+- `tone`: "cobalt" | "moss" | "ember" | "plum" (default "cobalt") — The colour of your request and balance, as a pigment at a fixed lightness.
+- `policies`: LeavePolicy[] (default defaultLeavePolicies) — The kinds of leave: { id, label, allowance?, noticeDays? }; no allowance means no cap.
+- `balance`: Record<string, number> (default defaultLeaveBalance) — Days left of each kind, by policy id.
+- `holidays`: LeaveHoliday[] (default defaultLeaveHolidays) — Public holidays ({ date, name }); never counted as leave.
+- `team`: LeaveTeammate[] (default defaultLeaveTeam) — Teammates and the spans they are already away: { id, name, away: { from, to }[] }.
+- `requests / defaultRequests`: LeaveRequest[] (default — / []) — Requests already made ({ id, type, from, to, days }); their days are held off the balance. Controlled or initial.
+- `onRequestsChange`: (requests) => void — Fires from Request and Cancel with every request.
+- `type / defaultType`: string (default — / the first policy) — The kind of leave, by policy id; controlled or initial.
+- `onTypeChange`: (type) => void — Fires from the press or arrow key that changed the kind of leave.
+- `range / defaultRange`: { from, to } | null (default — / null) — The selection, ms at UTC midnight, inclusive; controlled or initial.
+- `onRangeChange`: (range) => void — Fires from the press, drag or key that changed the selection.
+- `onRequest`: (request) => void — Request was pressed, with the request and its working days.
+- `onCancel`: (request) => void — Cancel was pressed on a request.
+- `now`: number (default defaultLeaveNow) — Today in ms; earlier days cannot be chosen and notice counts from it. Never read from the clock.
+- `defaultMonth`: number (default the month after now) — The first month shown: any ms inside it.
+- `status`: "ready" | "loading" | "error" (default "ready") — Loading shows a placeholder month; error explains and offers Try again.
+- `onRetry`: () => void — Try again was pressed after the calendar failed to load.
+- `title`: string (default "Time off") — The heading.
+- `height`: number (default 540) — Height of the surface in px; the body scrolls inside it.
+- `disabled`: boolean (default false) — Read only: nothing can be chosen or requested.
+- `className`: string — Classes for the surface.
+
+Notes:
+- Keyboard: each month is a grid with one date as the tab stop across all of them. Arrows move by day and week and carry the view into the next month, Home and End go to the week's ends, Page Up and Page Down a month; Enter or Space sets the first day and then the last, Shift with an arrow extends from the start, Escape clears.
+- Mouse and pen can press and drag across days; touch uses two taps so a finger sliding over the month still scrolls the page.
+- The drain is one motion value: every meter cell, every day's wash and the count derive from it, so a long selection never re-renders React per frame, and nothing runs once it settles. Announcements are made once per settled change — dates, working days, what is left and who else is away — never per day.
+- Reduced motion: the drain is instant, the meter does not shake and months do not glide; the counts, washes and the shortfall sentence still change because they are the information.
+- Colours: your request and balance use the tone as a pigment at fixed lightness with dark ink; teammates have their own soft pigments, kept apart from every tone, and are named in each day's label and in the Also away list, never colour alone.
+
+### Backward Plan (KQ-1745) — `backward-plan`
+Set the deadline and the plan lays itself out behind it.
+
+A deadline-first planner: every task is scheduled as late as it can be and drawn as a car on a timeline that ends at the deadline flag. Dragging the flag, or any unlocked car, pulls the train — each car's finish follows the start of the car after it through the springs.snap calibration, integrated per frame in one loop, so the pull travels back down the train and every car settles a beat after the one ahead; the release projects the throw to a whole day and the flag springs there with its velocity. Cars pushed before today turn amber, locked cars hold their dates and lean toward the pull before springing upright on springs.recoil, and the flag is a slider whose arrow keys move the deadline a day while Tab reaches every task.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/backward-plan`
+
+Props:
+- `barStyle`: "solid" | "soft" | "track" (default "soft") — How a task is drawn: a pigment bar, a tinted bar with a strong leading edge, or a thin rail with its dates above.
+- `dayWidth`: number (default 12) — Pixels per day on the board: the scale of the timeline (8 to 40).
+- `accent`: "cobalt" | "moss" | "plum" | "slate" (default "cobalt") — The bars' pigment at a fixed lightness; tasks in the past are always amber.
+- `tasks / defaultTasks`: PlanTask[] (default — / defaultPlanTasks) — Each { id, name, days, after?: id[], locked?, start? }; start is the first day of a locked task. Controlled or initial.
+- `onTasksChange`: (tasks) => void — Fires with every task after a lock, a pinned move or a length change.
+- `deadline / defaultDeadline`: number (default — / defaultPlanDeadline) — The handover day, ms at UTC midnight; controlled or initial.
+- `onDeadlineChange`: (deadline) => void — Fires from the drag release or the key that moved the deadline, with the new day.
+- `onTaskChange`: (task) => void — Fires when one task's pinned dates or length change.
+- `onLock`: (task, locked) => void — Fires when a task is locked (to its current dates) or unlocked.
+- `now`: number (default defaultPlanNow) — Today in ms; tasks that would start before it turn amber. Never read from the clock.
+- `range`: [number, number] (default [10, 70]) — Earliest and latest deadline, in days after now.
+- `status`: "ready" | "loading" | "error" (default "ready") — Loading shows placeholder bars; error explains and offers Try again.
+- `onRetry`: () => void — Try again was pressed after the plan failed to load.
+- `title`: string (default "Fieldline site handover") — The heading.
+- `height`: number (default 540) — Height of the surface in px; the board scrolls inside it.
+- `disabled`: boolean (default false) — Read only: nothing can be moved or locked.
+- `className`: string — Classes for the surface.
+
+Notes:
+- Keyboard: the deadline flag is a slider — Left and Right move it a day, Page Up and Page Down a week, Home and End to the range's ends — and the board scrolls to keep it in view. Tab then reaches each task's lock toggle and bar; on a bar, L locks it, Left and Right move a locked task a day, Shift with Left or Right changes its length.
+- One rAF loop drives the whole train while something moves and stops when every car is within a thousandth of a day and still; it never runs while the board is off screen or the tab is hidden (cars jump to their places instead) and allocates nothing per frame. Bars and couplings are written through motion values; React renders only when the snapped day changes.
+- Reduced motion: no train — every car jumps to its place when the deadline changes and locked cars do not lean; amber, dates, couplings and the summary still change.
+- A task that would have to start before a task it needs has finished (behind a locked one) is ringed, its coupling breaks into a dashed danger line and the header says what it waits on — in words, never colour alone. Below a 40rem container the board becomes a list with start dates under a deadline stepper, and a deadline change rolls the dates a cascade step per car.
+- Dates are whole UTC days and are formatted by hand, so the server and the browser draw the same plan.
+
+### Webhook Replay (KQ-1746) — `webhook-replay`
+See every delivery, and send a failed one again.
+
+A webhook endpoint's delivery log where a failed delivery can be sent again. Replay sends a pulse along its row — a comet riding one motion value for 520 ms on the move ease, from the event name, under the columns, to the status chip — and if the answer is not back the head breathes at the chip until it is; then the chip flips about its horizontal axis, out on the exit ease and in on springs.snap with a soft success ring, or still failing, in on springs.flick to the new error code with the new response under the event. Rows open with Enter to the payload, headers and response at their measured height on springs.glide, Up and Down walk the rows, R replays, and the endpoint can be paused and its signing secret revealed or rotated.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/webhook-replay`
+
+Props:
+- `chipStyle`: "pill" | "tag" | "dot" (default "pill") — How each status code is drawn: a tinted pill, a square tag with a leading bar, or a dot and the bare code.
+- `payloadTheme`: "plain" | "tinted" | "night" (default "tinted") — How payloads, headers and responses are coloured: one ink, tinted tokens, or a dark code panel in both themes.
+- `density`: "compact" | "regular" | "roomy" (default "regular") — Row height and type in the log.
+- `endpoints`: WebhookEndpoint[] (default defaultWebhookEndpoints) — Each { id, name, url (no scheme), events, secret, paused? }.
+- `deliveries / defaultDeliveries`: WebhookDelivery[] (default — / defaultWebhookDeliveries) — Most recent first: { id, endpoint, event, status, duration, attempt, at, payload, response?, replayAs? }; controlled or initial.
+- `onDeliveriesChange`: (deliveries) => void — Fires with every delivery after a replay lands or a test event is sent.
+- `endpoint / defaultEndpoint`: string (default — / the first) — The endpoint shown, by id; controlled or initial.
+- `onEndpointChange`: (id) => void — Fires from the tab press or arrow key that chose another endpoint.
+- `onReplay`: (delivery) => WebhookReplayResult | Promise<WebhookReplayResult> | void — Replay was pressed. Return { status, duration, body? } or a promise of it; return nothing and the delivery's replayAs answers. A rejected promise reads as no answer.
+- `onPause`: (endpoint, paused) => void — Pause or Resume was pressed.
+- `onRotateSecret`: (endpoint) => string | void — Rotate was confirmed. Return the new secret, or nothing for a generated one.
+- `onSendTest`: (endpoint) => void — Send test event was pressed on an empty log; a test delivery is added and lands with its own pulse.
+- `now`: number (default defaultWebhookNow) — The current time in ms; delivery times are read against it. Never read from the clock.
+- `status`: "ready" | "loading" | "error" (default "ready") — Loading shows placeholder rows; error explains and offers Try again.
+- `onRetry`: () => void — Try again was pressed after the log failed to load.
+- `title`: string (default "Webhooks") — The heading.
+- `height`: number (default 540) — Height of the surface in px; the log scrolls inside it.
+- `disabled`: boolean (default false) — Read only: nothing can be replayed, paused or rotated.
+- `className`: string — Classes for the surface.
+
+Notes:
+- Keyboard: endpoints are a tablist and the filter a radio group. The log is an ordered list whose rows are disclosure buttons with one tab stop: Up and Down move between rows, Home and End jump, Enter or Space opens the payload, headers and response (a tablist), R replays a failed row. Replay is also its own labelled button, kept focusable with aria-disabled while sending or paused, and its name says why.
+- Status chips carry the code as text and the words in their title and in the row's accessible name ("504 Gateway timeout"); success and failure differ in colour and in words. One polite announcement when a replay starts and one with its result.
+- The pulse is one motion value and three tail segments derived from it; the secret's scramble is one short tween; nothing runs at rest, and both stop on unmount. The pulse's route is measured from the row when the replay starts, so it follows the wide layout or the stacked one.
+- Reduced motion: no pulse, flip or bloom; the chip dims while sending and cross-fades to its new code, panels open without growing and the secret swaps without scrambling. Codes, attempts and times still update.
+- Secrets are masked until revealed with an explicit action, and signature headers stay masked. The night payload theme is a deliberately fixed dark panel; the other two use tokens and follow the theme.
+
+### Sync Pairs (KQ-1747) — `sync-pairs`
+Pair the fields and choose which way each flows.
+
+A two-way field mapping between two apps whose fields face each other across a gutter of soft cables. Dragging from a field draws a live cable 1:1 under the pointer; plugged into a compatible field its sag drops in slack and swings taut on springs.recoil, two visible bounces of a rope catching. Pressing a cable's knot cycles its direction — right, left, both — and the arrowhead turns on springs.flick and slides along the curve to its new end on springs.glide, a second chevron sliding out for both ways; lossy flows draw the cable in warn and name what is lost, and types that do not convert refuse to pair. Each side is a listbox: Enter opens a partner list, D turns a pair, Delete unpairs, and narrow containers turn the cables into rows with direction chips.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/sync-pairs`
+
+Props:
+- `cableStyle`: "soft" | "taut" | "dashed" (default "soft") — How a cable is drawn: a sagging cable with a soft under-stroke that swings on recoil, a nearly straight one that settles on snap, or a dotted lead.
+- `density`: "compact" | "regular" | "roomy" (default "regular") — Row height (36, 44 or 52px) and type; regular and roomy rows also name the partner.
+- `accent`: "cobalt" | "moss" | "plum" | "ember" (default "cobalt") — The cables' and ports' pigment at a fixed lightness; lossy cables are always warn.
+- `leftApp`: SyncApp (default defaultSyncLeftApp) — The app on the left: { name, initials }.
+- `rightApp`: SyncApp (default defaultSyncRightApp) — The app on the right: { name, initials }.
+- `leftFields`: SyncField[] (default defaultSyncLeftFields) — The left app's fields: { id, name, type } with type text, email, phone, number, money, date, datetime, picklist or boolean.
+- `rightFields`: SyncField[] (default defaultSyncRightFields) — The right app's fields.
+- `pairs / defaultPairs`: SyncPair[] (default — / defaultSyncPairs) — Each { left, right, direction: "right" | "left" | "both" }; one partner per field. Controlled or initial.
+- `onPairsChange`: (pairs) => void — Fires with every pair after a pairing, an unpairing or a direction change.
+- `onPair`: (pair) => void — Two fields were paired; any pair it replaced is reported through onUnpair first.
+- `onUnpair`: (pair) => void — A pair was taken apart.
+- `onDirectionChange`: (pair, direction) => void — A pair's direction was cycled; directions a type cannot flow in are skipped.
+- `status`: "ready" | "loading" | "error" (default "ready") — Loading shows placeholder rows; error explains and offers Try again.
+- `onRetry`: () => void — Try again was pressed after the fields failed to load.
+- `title`: string (default "Field sync") — The heading.
+- `height`: number (default 540) — Height of the surface in px; the board scrolls inside it.
+- `disabled`: boolean (default false) — Read only: nothing can be paired, unpaired or turned.
+- `className`: string — Classes for the surface.
+
+Notes:
+- Keyboard: each side is a listbox with one tab stop — Up and Down move, Left and Right cross to the other side (to the partner when there is one). Enter or Space opens the partner list, a popover listbox that names what each type does to the values (converts, lossy and why, or doesn't convert); Enter pairs, Escape closes and returns focus. On a paired field or a knot, D turns the pair and Delete unpairs; knots are buttons in the tab order.
+- Pointer: drag from a field to its partner, or tap one field and then another. A drag captures only after 4px, so a press is still a tap; dragging a plugged field's cable into empty space unpairs it, and a drop the types refuse flies back to its port.
+- Every cable's sag, knot and chevrons are motion values driven by springs that stop when they settle; paths are rebuilt from them with useTransform, row positions are arithmetic and the gutter is measured once by a ResizeObserver — nothing runs at rest.
+- Reduced motion: cables appear without swinging, chevrons jump to their ends and a refused drop simply disappears; the live cable still follows the pointer because it is the gesture. Lossy pairs are named in the knot's label, under narrow rows and in the footer, never by colour alone.
+- Below a 36rem container the cables become rows with a direction chip that cycles, an unpair button, and an Add a pair form of two native selects.
+
+### Bulletin Composer (KQ-1753) — `bulletin-composer`
+Build the newsletter, then check it on a phone.
+
+An email layout editor: a palette of header, text, image, button and divider blocks feeds a one-column letter drawn in a device frame, and each block opens an edit panel for its content. Toggling Desktop and Phone changes the frame's width in one render and every block FLIPs to its new box on springs.glide — corners round into a phone bezel, pictures go full bleed, the call to action stretches and text slides to its new wrap without being squashed — while a ruler over the letter marks where the phone width will cut. Blocks and palette tiles drag 1:1: an accent drop line opens a gap between the blocks under it on glide and, on release, every block glides from where it is drawn to its new slot with the throw's velocity; the letter is a listbox where Up and Down move, Alt with Up or Down moves the block, Enter edits it and Delete removes it, and missing alt text is flagged on the picture, in its field and in a count that jumps to it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/bulletin-composer`
+
+Props:
+- `previewWidth`: number (default 380) — Width the phone preview narrows the letter to, in px; the ruler over the desktop letter marks it.
+- `blockStyle`: "seamless" | "framed" | "stacked" (default "seamless") — How blocks sit on the canvas: edge to edge like the sent letter, each in a labelled frame, or as separate cards with grips.
+- `accent`: string (default "var(--accent-bright)") — The letter's brand colour (header wash, button, sender mark) and the editor's selection, drop line and ruler. Fills are taken at a fixed lightness so they read in both themes.
+- `blocks / defaultBlocks`: BulletinBlock[] (default — / defaultBulletinBlocks) — The letter top to bottom: header { kicker, title, align }, text { body }, image { art, alt, caption }, button { label, href, fullWidthOnPhone }, divider { style }.
+- `onChange`: (blocks) => void — Fires with every block after an edit, insert, move or removal.
+- `preview / defaultPreview`: "desktop" | "phone" (default — / "desktop") — Which device the letter is previewed on.
+- `onPreviewChange`: (preview) => void — Fires from the toggle or arrow key that changed the preview.
+- `selected / defaultSelected`: string | null (default — / null) — The selected block's id, whose edit panel the rail shows.
+- `onSelectedChange`: (id) => void — Fires when a click, key, drag or insert selects a block, or the selection clears.
+- `title`: string (default "October letter") — The editor's heading and the letter list's accessible name.
+- `subject`: string (default "The fern house reopens") — The subject line shown in the frame's inbox bar.
+- `preheader`: string (default "Misting at nine, new panes, Thursday spore prints.") — The line an inbox shows after the subject.
+- `sender`: string (default "Fernworks") — Who the letter is from; also its avatar initial and the footer.
+- `onSendTest`: (address, blocks) => void | Promise — Send test was pressed with a valid address. Return a promise to show it sending; a rejection says it failed and keeps the dialog open.
+- `testAddress`: string (default "ines@fernworks.example") — The address the test dialog starts with.
+- `onSchedule`: (at, blocks) => void | Promise — A send slot was confirmed, in ms since the epoch. Return a promise to show it saving.
+- `now`: number | Date (default defaultBulletinNow) — Today, for the three schedule slots and the phone's clock — never the wall clock, so server and browser agree.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the letter has arrived: loading draws skeleton blocks, error offers Try again.
+- `onRetry`: () => void — Try again was pressed after the letter failed to load.
+- `height`: number (default 540) — The editor's height in px; the letter scrolls inside it.
+- `disabled`: boolean (default false) — Read only: blocks can be browsed and previewed but not edited, moved, sent or scheduled.
+- `className`: string — Classes for the editor's outer box.
+
+Notes:
+- The letter is a listbox with one roving stop: Up and Down move between blocks, Home and End jump, Alt with Up or Down moves the block (the same glide as a drag), Enter opens its edit panel on the first field and Delete removes it; Escape clears the selection and is consumed only when there was one.
+- Only the preview toggle runs a layout animation (layoutDependency is the preview), so typing in the panel and reorders never re-measure the letter; moves use a FLIP on each block's own offset.
+- Under reduced motion the preview, every move and every insert land at once; the drop line and the gap still show, and every flag and count still changes.
+- Below a 40rem container the rail becomes a bottom sheet (a modal dialog with a focus trap, Escape and a drag-down to close) and the letter takes the full width; the compact letter type applies whenever the letter is under 27rem, as a real responsive email would.
+- Pictures are drawn in code from tokens and the accent; colours never come from hex values, so the letter reads in both themes.
+- Send test and Schedule results come from the host: return a promise from onSendTest or onSchedule to show sending, sent and failed states.
+
+### Quick Fix (KQ-1754) — `quick-fix`
+Problems underlined, fixes one keystroke away.
+
+A code editor panel built from code and diagnostics: every problem is underlined under its exact columns in its severity's colour, marked in the gutter and counted in the header. Applying a fix morphs the faulty token into its correction character by character — the common start and end stay, each changed slot rolls on springs.snap in a left-to-right cascade and slots that appear or vanish grow or shrink on springs.glide — while the squiggle unwinds, its coil straightening on glide before it retracts into its middle, and the count ticks down on snap. The text is a real textarea over a painted layer: F8 and Shift+F8 walk the problems, gliding the code into view and opening a peek under the line, Command or Control with period opens the fixes menu at the caret, and edits shift the problems after them.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/quick-fix`
+
+Props:
+- `squiggleStyle`: "wave" | "dots" | "line" (default "wave") — How a problem is underlined: a sine wave, a row of dots (they close into a rule as a fix unwinds them) or a straight rule.
+- `editorTheme`: "paper" | "slate" | "mono" (default "paper") — The surface and syntax colour: the card with quiet hues, a sunk slate panel with stronger hues and a tinted gutter, or no syntax colour so only the squiggles carry colour.
+- `fontScale`: number (default 1) — Code size as a multiple of 13px; line height, squiggle size and gutter follow.
+- `code / defaultCode`: string (default — / defaultQuickFixCode) — The source text.
+- `onChange`: (code) => void — Fires with the new text after typing or a fix.
+- `diagnostics / defaultDiagnostics`: QuickFixDiagnostic[] (default — / defaultQuickFixDiagnostics) — Problems as { id, from, to, severity, message, rule?, fixes?: { id, title, text }[] }, where from and to are character offsets into the code.
+- `onDiagnosticsChange`: (diagnostics) => void — Fires after a fix, an ignore, or an edit that shifted problems or dropped one it touched.
+- `onApplyFix`: (diagnostic, fix, code) => void — A fix was applied, with the new text.
+- `onIgnore`: (diagnostic) => void — A problem was ignored from the peek or the menu.
+- `fileName`: string (default "gaugeworks/readings.ts") — The file's path, shown on its tab; the last part names it in messages.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the file has opened: loading draws ruled lines, error offers Try again.
+- `onRetry`: () => void — Try again was pressed after the file failed to open.
+- `problemsOpen / defaultProblemsOpen`: boolean (default — / true) — Whether the problems panel is shown under the code.
+- `onProblemsOpenChange`: (open) => void — Fires from the count button or the panel's close button.
+- `readOnly`: boolean (default false) — The text can be read and navigated with F8, but not typed into or fixed.
+- `height`: number (default 540) — The panel's height in px; the code scrolls inside it.
+- `label`: string (default the file name) — The editor's accessible name.
+- `disabled`: boolean (default false) — Nothing can be typed, fixed or ignored.
+- `className`: string — Classes for the editor's outer box.
+
+Notes:
+- Keyboard: F8 moves the caret to the next problem and Shift+F8 to the previous one, each announced once with its line, message and fix count; Command or Control with period opens a real menu of fixes plus Ignore at the caret (arrows, Home, End, Enter), and Escape closes the peek or the menu and is consumed only then. Tab leaves the editor as usual.
+- The editor is a real textarea over a painted layer, so caret, selection, typing and native shortcuts all work; edits shift every problem after them and drop one whose range they touch, for the host to re-check.
+- Under reduced motion the token cross-fades instead of rolling, the squiggle fades instead of unwinding, and the code jumps into view; counts, marks and the clean state still change.
+- Nothing loops at rest: the morph and the unwind are finite animations, scrolling moves the painted layer with one transform per scroll event, and one probe measures the character width per font size.
+- Below a 30rem container the gutter keeps its numbers but hides the marks and lightbulb, and the header folds the counts into one.
+
+### Screenshot Markup (KQ-1755) — `screenshot-markup`
+Arrow it, box it, and blur what's private.
+
+An image annotation editor: arrows, boxes, labels and redaction over a screenshot, every mark kept in the image's own pixels. Drawing an arrow, the shaft bows behind the hand — a curve whose control point trails the pointer on springs.glide — and on release it pulls taut while the head springs into place on springs.recoil with two visible bounces. The redact brush pixelates whatever passes under it: cells of a grid fill with the real mosaic of the image beneath, popping in as separate tiles on springs.flick, and when the stroke ends they settle — gaps closing and corners squaring on springs.snap in the order they were laid — into one solid mosaic. Tools have single keys, the canvas has a keyboard cursor so Enter, arrows and Enter draw any mark, [ and ] select marks, arrows nudge them and Delete removes them, and undo and redo walk a history.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/screenshot-markup`
+
+Props:
+- `strokeWidth`: number (default 3) — Stroke of arrows and boxes in image px; it also sizes arrowheads, labels and the redact brush (six times the stroke).
+- `toolPalette`: "rail" | "float" | "strip" (default "rail") — Where the tools live: a rail down the left, a pill floating over the image, or a strip under the header. Below a 36rem container they dock at the bottom whatever this is.
+- `accent`: string (default "var(--danger)") — The markup colour, taken at a fixed lightness so marks read the same over either theme.
+- `image`: MarkupImage (default defaultMarkupImage) — The screenshot as { width, height, alt, src?, content? }: a raster src, or SVG content drawn in the image's coordinates (the default Basinworks dashboard).
+- `annotations / defaultAnnotations`: MarkupAnnotation[] (default — / defaultMarkupAnnotations) — Marks in image pixels: arrow { x1, y1, x2, y2 }, box { x, y, w, h }, text { x, y, text } and redact { size, cells: [column, row][] }.
+- `onChange`: (annotations) => void — Fires with every mark after one is drawn, moved, nudged, edited, removed, undone or redone.
+- `tool / defaultTool`: "select" | "arrow" | "box" | "text" | "redact" (default — / "arrow") — The active tool.
+- `onToolChange`: (tool) => void — Fires from the button or single key (V, A, B, T, R) that picked a tool.
+- `selected / defaultSelected`: string | null (default — / null) — The selected mark's id.
+- `onSelectedChange`: (id) => void — Fires when a click, a bracket key or a new mark changes the selection.
+- `onUndo`: (annotations) => void — Undo was pressed or Command/Control+Z typed, with the marks it went back to.
+- `onRedo`: (annotations) => void — Redo was pressed or Shift+Command/Control+Z typed, with the marks it restored.
+- `onExport`: (annotations, image) => void | Promise — Export was pressed. Return a promise to show it exporting; a rejection offers Retry.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the screenshot has arrived: loading shows a ruled frame and a progress bar, error offers Try again.
+- `progress`: number — How much of a large screenshot has loaded, 0 to 1; omit it for an indeterminate bar.
+- `onRetry`: () => void — Try again was pressed after the screenshot failed to load.
+- `title`: string (default "Basinworks · levels, 14 Oct") — The editor's heading.
+- `cellSize`: number (default 16) — The redaction grid in image px: the size of each pixelated block.
+- `height`: number (default 540) — The editor's tallest height in px; the image letterboxes inside.
+- `disabled`: boolean (default false) — Marks can be viewed but not drawn, moved, removed or exported.
+- `className`: string — Classes for the editor's outer box.
+
+Notes:
+- The canvas is one focusable group with a keyboard cursor: arrows move it (Shift for larger steps), Enter starts a mark of the current tool there, arrows extend it and Enter ends it with the same landing as the pointer; [ and ] select marks, arrows nudge the selected one (Shift for ten pixels), Delete removes it and Escape cancels a mark or clears the selection, consumed only when it does something.
+- Redaction is a real mosaic: an SVG pixelate filter (blur, sample, dilate) over a use-copy of the image, clipped to the brushed cells, so it works on drawn SVG and raster src images alike; the source pixels remain in the page, so export the flattened image server-side before sharing.
+- Under reduced motion the arrow draws straight and its head appears in place, cells land as a solid mosaic, and moves are immediate; the pixelation and every count are unchanged.
+- Nothing loops at rest: the trailing control point, the head's landing and the settle are finite springs, and the brush adds cells to state only when it crosses a new one.
+- Arrow and box colours ride on plain groups through currentColor, so a changed accent re-colours marks that motion is animating.
+
+### Schema Table (KQ-1756) — `schema-table`
+Change a field's type and watch the data convert.
+
+A database schema editor where each field's name, type and options sit above its sample column, so a change of type is something you watch. Picking a new type previews it: the column converts one cell at a time down the rows — the old drawing lifts and fades on a tween while the new one rises and grows from 0.94 on springs.snap, text becoming date chips, numbers gaining currency and cents, yes becoming a tick — and a cell that will not convert keeps its text, struck faint on a danger hatch with its reason; a confirm bar glides down on springs.glide, Convert commits and Cancel converts back bottom row first. Fields reorder by a grip that follows the hand 1:1 while the other columns slide aside on glide and land with the throw, or by Alt with an arrow on the field's button, which also opens a real menu of types (each showing how many cells would fail), rename, options, moves and remove.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/schema-table`
+
+Props:
+- `typeBadge`: "icon" | "label" | "both" (default "both") — How a field's type shows in its header: a glyph, a word, or both; the badge rolls to the new type on snap.
+- `density`: "compact" | "regular" | "roomy" (default "regular") — Row height (30, 36 or 44px), type size and column width; columns glide to a new width.
+- `accent`: string (default "var(--accent-bright)") — The editor's colour: the previewed field, Convert, ticks, and where the select-chip hues start.
+- `fields / defaultFields`: SchemaField[] (default — / defaultSchemaFields) — Fields in column order as { id, name, type, options? }, where type is text, number, currency, date, select, checkbox or email and options carry currency, decimals, dateStyle and choices. An empty list starts with one Name field.
+- `onFieldsChange`: (fields) => void — Fires with every field after a rename, a confirmed type change, an option, a move, an add or a removal.
+- `sampleRows / defaultSampleRows`: SchemaRow[] (default — / defaultSchemaRows) — Sample records as { id, cells: { [fieldId]: string | number | boolean | null } }; dates are ISO strings.
+- `onSampleRowsChange`: (rows) => void — Fires after a conversion rewrote a column, or a field was added or removed.
+- `onFieldChange`: (field, previous) => void — A field was renamed, re-typed (only after Convert) or given new options.
+- `onAddField`: (field) => void — Add field created a field; its name input takes focus.
+- `onRemoveField`: (field) => void — A field was removed after its menu's second press.
+- `totalRows`: number (default 1284) — How many records the whole table holds, shown in the footer beside the sample count.
+- `title`: string (default "Equipment register") — The table's name; also names the table for assistive technology.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the schema has arrived: loading draws skeleton rows, error offers Try again.
+- `onRetry`: () => void — Try again was pressed after the schema failed to load.
+- `height`: number (default 540) — The editor's height in px; the table scrolls inside it.
+- `disabled`: boolean (default false) — Read only: fields can be browsed but not changed, moved, added or removed.
+- `className`: string — Classes for the editor's outer box.
+
+Notes:
+- Field buttons are one roving tab stop: Left and Right (Up and Down in the list view) move between fields, Home and End jump, Alt with an arrow moves the field, F2 renames it and Enter opens its menu; the menu takes arrows, Home, End and Enter, and Escape closes it (and is consumed) with focus back on the field.
+- A type change never applies on the first press: it previews, marks every cell that will not convert with its reason in the cell's name, and waits for Convert, which takes focus as the bar arrives; Escape on the bar cancels.
+- Conversion is a pure function of the column, so a preview costs one pass over the sample; drags write one motion value per field and render only when the drop slot changes.
+- Under reduced motion every swap is a short cross-fade with no cascade and every move lands at once; failure marks, counts and the confirm step are unchanged.
+- Below a 40rem container the fields become a list of cards with the same buttons, menu and conversion, and reorder vertically.
+
+### Promoter Scale (KQ-1757) — `promoter-scale`
+Zero to ten, then the one question that fits.
+
+A score survey: zero to ten, then the one question written for the band the answer falls in. Picking a score fills the segments from zero up to it in a quick wave — each fill sweeping in on springs.snap a few milliseconds after the last, every one in the picked band's colour, draining from the top when the score drops — and a beat later the scale shrinks into a summary chip, its segments travelling on springs.glide into the chip's mini ticks while the follow-up slides in from 16px. The scale is a real radio group: arrows and Home or End move the score with the wave following, number keys pick one (1 then 0 is ten) and Enter, Space or a click confirms; the chip brings the scale back, Escape in the follow-up does too, and sending, thanked, failed and dismissed states are covered with the card's measured height gliding between them.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/promoter-scale`
+
+Props:
+- `segmentStyle`: "tiles" | "bars" | "dots" (default "tiles") — How the scale is drawn: equal tiles that fill from the left, bars rising left to right that fill from the base, or discs that fill from the centre.
+- `bandPalette`: "status" | "tonal" | "quiet" (default "status") — Band colours as pigment: danger, warn and success; the accent at three depths; or quiet greys with promoters in the accent.
+- `cornerRadius`: number (default 8) — Corner radius in px of the segments, ticks, chip, field and buttons; the card rounds with it.
+- `question`: string (default "How likely are you to recommend Fernworks to a friend or colleague?") — The question over the scale; it also names the radio group.
+- `bands`: PromoterBand[] (default defaultPromoterBands) — Score bands low to high as { id, label, from, to, colour? }: Detractor 0–6, Passive 7–8, Promoter 9–10 by default.
+- `followUps`: Record<string, PromoterFollowUp> (default defaultPromoterFollowUps) — The follow-up for each band id as { question, placeholder?, chips? }; chips become quick reason toggles.
+- `value / defaultValue`: number | null (default — / null) — The score.
+- `onValueChange`: (score) => void — Fires as a click, an arrow or a number key changes the score.
+- `onScore`: (score, band) => void — A score was confirmed and its follow-up opened.
+- `onSubmit`: (answer) => void | Promise — Send or Skip was pressed with { score, band, comment, reasons }. Return a promise to show sending; a rejection shows the failed state with the answer kept.
+- `onDismiss`: () => void — The survey was dismissed; it folds to one line with Undo.
+- `lowLabel`: string (default "Not likely") — Words under the low end of the scale.
+- `highLabel`: string (default "Very likely") — Words under the high end of the scale.
+- `max`: number (default 10) — The top of the scale.
+- `sendState`: "idle" | "sending" | "sent" | "failed" — Controlled send state, for a host that tracks delivery itself; by default it follows the promise onSubmit returns.
+- `disabled`: boolean (default false) — The survey can be read but not answered.
+- `className`: string — Classes for the survey's outer box.
+
+Notes:
+- The scale is a radio group with one roving stop: arrows and Home or End move the score (the wave follows), number keys pick one directly with 1 then 0 inside 600ms meaning ten, and Enter, Space, a click or the Continue button confirms it; focus then moves to the follow-up field, and Escape there brings the scale back (consumed).
+- Each radio is named with its score and band ("8, passive") and the chip with the score and what pressing it does; sending, the result and a dismissal are announced once.
+- Under reduced motion the fill appears at once in the band's colour and the scale, chip and follow-up cross-fade without the shared-layout travel; the score, band and every state still show.
+- Nothing loops: the wave, the travel and the height are finite springs, and the only spinner runs while a send is in flight. The card's height is measured with one ResizeObserver and glides between states, so nothing reserves space.
+- Below a 34rem container the scale wraps into two rows (0–5 over 6–10) and the follow-up stacks its question under the chip, keeping every state inside a 232px card.
+
+### Bug Snapshot (KQ-1758) — `bug-snapshot`
+Report a bug with the screen already attached.
+
+A bug report that starts from the page it is about: Report a bug flashes the page (or closes a shutter on it, or lifts it toward you), then a copy of the page shrinks along a straight path into the form's thumbnail slot on springs.glide and drops into it on springs.recoil while the form's sections rise into place in cascade order. A drag on the thumbnail draws a highlight or an opaque redaction from the press point, the signed-in address is hidden on its own, environment rows can be removed and restored, and Send becomes its own progress bar that follows the host's progress on glide; a failed upload keeps every word, box and choice. Every box is a button that arrow keys move and Alt with an arrow resizes, Add box draws one from the keyboard, and the category and severity are radiogroups with roving focus.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/bug-snapshot`
+
+Props:
+- `page`: ReactNode (default <BasinworksUsagePage />) — The page the capture shows, drawn into a 16:10 frame: an <svg viewBox> or an element that fills its box.
+- `pageLabel`: string (default "Basinworks · Usage report") — Names the page in the frame's bar and the report header.
+- `sensitiveAreas`: BugBox[] (default defaultBugSensitiveAreas) — Areas redacted automatically on every capture, as { id, kind, x, y, w, h } in percent of the page.
+- `environment`: BugEnvironmentItem[] (default defaultBugEnvironment) — Environment rows sent with the report as { id, label, value }; each can be removed and restored.
+- `categories`: BugCategory[] (default defaultBugCategories) — The kinds of problem offered, as { id, label }.
+- `severities`: BugSeverity[] (default defaultBugSeverities) — Severity steps, mildest first, as { id, label, tone? } with tone neutral, accent, warn or danger.
+- `defaultDraft`: Partial<BugDraft> — The draft the form starts from: { category, severity, happened, expected }. Defaults to the first category and medium severity.
+- `onDraftChange`: (draft: BugDraft) => void — Fires with the whole draft whenever a field, category or severity changes.
+- `open / defaultOpen`: boolean (default — / false) — Whether the report is open, controlled or initial. Opening captures the page.
+- `onOpenChange`: (open: boolean) => void — Fires from the button that opened or closed the report.
+- `onCapture`: () => void — A capture has landed in the form (on open and on Retake).
+- `onRedact`: (redactions: BugBox[]) => void — Fires with every redaction box after one is added, moved or removed, and after a capture.
+- `onSubmit`: (report: BugReport, progress: (fraction: number) => void) => void | Promise<unknown> — Send was pressed with a valid report. Return a promise to show the upload and call progress(0–1) to drive the bar; a rejection keeps the draft, a resolved string is shown as the reference.
+- `captureStyle`: "flash" | "shutter" | "lift" (default "flash") — How the capture announces itself: a white flash, an ink shutter closing and opening, or the page lifting toward you before it shrinks.
+- `density`: "compact" | "regular" | "roomy" (default "regular") — Control height (28, 32 or 36px), padding, type size and gaps.
+- `highlightColor`: string (default "var(--warn)") — Highlight strokes, washes, numbered badges and the landing flash — any CSS colour.
+- `maxHeight`: number (default 540) — Tallest the surface grows before the report scrolls inside it, in px. The page frame is capped to fit it.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the environment details have been read: loading shows skeleton rows, error a line with Try again.
+- `onRetry`: () => void — Try again was pressed after the environment failed to read.
+- `title`: string (default "Report a bug") — The report's heading and the surface's accessible name.
+- `disabled`: boolean (default false) — Nothing can be opened, drawn or sent.
+- `className`: string — Classes for the surface.
+
+Notes:
+- Keyboard: Tab reaches every control. Category, severity and the drawing tool are radiogroups (arrows move and select, Home and End jump). Add box draws a box in the middle of the screenshot and focuses it; on a box, arrows move it 1% (Shift 5%), Alt with an arrow resizes it, and Delete or Backspace removes it.
+- Reduced motion: the capture becomes a cross-fade with a soft flash on the thumbnail and nothing travels; boxes, the severity indicator and the environment rows change at once, while the upload bar still fills and the sent card still appears.
+- Real screen capture is the host's job: pass what was on screen as `page` (an SVG or an element that fills a 16:10 box) and the areas to hide as `sensitiveAreas`. The capture is drawn, so it costs nothing until Report is pressed.
+- onSubmit receives a `progress` callback: call it with 0–1 as the upload reports bytes. With no reports the bar creeps toward 90% on a long ease-out so it never looks stuck and never claims to be finished.
+- There is no loop: motion runs only after a press, a drag or an upload, the copy in flight exists only during a capture, and every animation and pending answer is dropped on unmount.
+
+### Similar Ideas (KQ-1759) — `similar-ideas`
+Someone may have asked already; add your vote.
+
+An idea panel that checks the roadmap while you type: after three letters a quiet spinner turns at the end of the field, then the ideas most like yours rise 16px from below it on springs.glide in cascade order, each with its status, votes and a match strength that fills as it lands; ideas that stop matching fade out and the rest glide to their seats. Voting folds your draft into the idea as your comment — the draft lifts off the field as a pill and glides into the row's note line while the vote count rolls on snap and the comment badge lands on recoil — and with nothing similar the list gives way to a clean submit. The field is a combobox: Up and Down move through matches, Enter votes, Shift+Enter follows and Escape clears.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/similar-ideas`
+
+Props:
+- `ideas / defaultIdeas`: SimilarIdea[] (default — / defaultSimilarIdeas) — The roadmap's ideas as { id, title, body, status: "review" | "planned" | "shipped", votes, comments, voted?, following?, updated, shippedIn?, note? }, controlled or initial.
+- `onIdeasChange`: (ideas: SimilarIdea[]) => void — Fires with every idea after a vote, a follow or a post.
+- `value / defaultValue`: string (default — / "") — The draft title in the field, controlled or initial.
+- `onValueChange`: (value: string) => void — Fires on every keystroke, and when a vote or a post clears the field.
+- `onVote`: (ideaId: string, voted: boolean, comment?: string) => void — A vote was cast (with the draft as the comment when there was one) or taken back.
+- `onSubmitNew`: (idea: { title: string; details: string }) => void — Post was pressed: a new idea from the field and the details.
+- `onFollow`: (ideaId: string, following: boolean) => void — The follow bell was pressed, or Shift+Enter on a highlighted match.
+- `onMatches`: (ideaIds: string[]) => void — A search settled, with the ids of the similar ideas it found — for counting requests that found an existing home.
+- `matchStyle`: "bar" | "dots" | "ring" (default "bar") — How the match strength reads: a thin bar with its percentage, five dots, or a small ring gauge.
+- `density`: "compact" | "regular" | "roomy" (default "regular") — Row height, padding, gaps and type.
+- `statusPalette`: "signal" | "cool" | "mono" (default "signal") — Status colours: amber, cobalt and green; three cool hues; or ink, with the dashed, half and filled glyphs telling them apart.
+- `maxMatches`: number (default 4) — The most similar ideas shown at once.
+- `minScore`: number (default 0.2) — How alike an idea must be to show, from 0 to 1.
+- `searchDelayMs`: number (default 320) — How long the quiet spinner turns after the last keystroke before matches rise, in ms.
+- `product`: string (default "Coldbrook") — The product whose roadmap this is, named in the header.
+- `placeholder`: string (default "Describe your idea in a line") — The field's placeholder.
+- `now`: number | Date (default defaultSimilarIdeasNow) — The moment ages count from, so the server and the browser print the same text.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the ideas have arrived: loading holds the field, error shows a line with Try again.
+- `onRetry`: () => void — Try again was pressed after the ideas failed to load.
+- `maxHeight`: number (default 540) — Tallest the panel grows before it scrolls inside, in px.
+- `disabled`: boolean (default false) — Nothing can be typed, voted, followed or posted.
+- `className`: string — Classes for the panel.
+
+Notes:
+- Keyboard: the field is a combobox with aria-activedescendant. Up and Down move through the matches, Home and End jump once one is highlighted, Enter votes for it (adding your text as a comment), Shift+Enter follows it, and Escape clears the highlight, then the field. With no matches Enter posts the idea.
+- Reduced motion: matches appear in place with a fade, strengths are drawn at once and the draft cross-fades into its note line instead of flying; counts, statuses and the list height still change. The spinner becomes three still dots that fade.
+- Matching runs in the browser over the ideas you pass: each query word takes its best match in the title (or 60% of its best in the body), with stems, shared prefixes and a small synonym list. Pass your own ranked ideas through `ideas` if matching happens on a server.
+- Use onMatches to measure deflection — how often a request found an existing idea — and onVote's comment to keep the requester's words with the vote.
+- Nothing runs while idle: one timer per keystroke, cleared by the next; the spinner exists only while a search is pending; one ResizeObserver measures the list for its height glide.
+
+### Ease Check (KQ-1760) — `ease-check`
+One quick question, right after the task.
+
+A one-row question for right after a task, whose effort slider is a string between two pegs: pressing rests the finger on it, dragging moves the thumb 1:1 while dragging up or down bends the string under the thumb into two straight runs with a rounded apex, and letting go settles the thumb on its step on springs.snap and plucks the string, which rings through straight on a spring with springs.recoil's character (its stiffness set by the track and the tension) carrying the release velocity. A release, a tap or Enter sends the answer; low scores open a short why field on a measured glide, others say thanks and fold the question away, and a task is never asked twice. It is a real slider: arrows step and pluck lightly, Page keys move two, Home and End jump.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/ease-check`
+
+Props:
+- `question`: string (default "How easy was that export?") — The question, asked right after the task; it also labels the slider.
+- `taskId`: string (default "waylight-export-q3") — The finished task this asks about. Each task is asked once: answered or dismissed, it never returns.
+- `stepCount`: number (default 7) — Points on the scale, 3 to 10: ticks, labels and keyboard steps.
+- `labels`: string[] — One label per point, hardest first. Defaults to a preset for 3, 5 and 7 points, else the end labels and "n of N".
+- `minLabel`: string (default "Very hard") — The hard end's label.
+- `maxLabel`: string (default "Very easy") — The easy end's label.
+- `lowThreshold`: number (default ⌊(stepCount − 1) / 2⌋) — Scores at or below this open the why field.
+- `value / defaultValue`: number | null (default — / null) — The score, 1 to stepCount, or null before an answer; controlled or initial.
+- `onValueChange`: (value: number) => void — Fires from the release, tap or key that chose a score.
+- `onAnswer`: (score: number, taskId: string) => void — An answer was sent: on release, on a tap, or on Enter.
+- `onComment`: (text: string, score: number, taskId: string) => void — The why field was sent, with the score it explains.
+- `onDismiss`: (taskId: string) => void — The question was dismissed without an answer.
+- `trackStyle`: "string" | "cord" | "beads" (default "string") — What the slider is made of: a fine string that rings fast, a thick cord that sways slowly, or beads on a thread, one per point.
+- `tone`: "accent" | "score" | "ink" (default "accent") — The filled run and thumb: cobalt; a colour that warms from red at the hard end through amber to green; or ink.
+- `tension`: number (default 0.5) — How taut the string is, 0 to 1: tighter rings faster and settles sooner.
+- `whyPrompt`: string (default "What got in the way?") — The why field's prompt and label.
+- `thanksMs`: number (default 1800) — How long the thanks shows before the question folds away, in ms.
+- `persist`: boolean (default false) — Also remember asked tasks in localStorage, so they stay answered across visits.
+- `disabled`: boolean (default false) — The slider and buttons do nothing.
+- `className`: string — Classes for the question's outer box.
+
+Notes:
+- Keyboard: the slider is role="slider" labelled by the question, with aria-valuetext such as "5 of 7, fairly easy". Arrows step from the waiting middle thumb, Page Up and Page Down move two, Home and End jump, and Enter sends; after a key the line under the string says "Enter to send". In the why field Enter sends and Escape skips.
+- Reduced motion: the string never bends or rings and the thumb moves to its step at once; the value, the fill, the why field and the thanks still change, and the fold is instant.
+- Ask once: pass a stable `taskId` per finished task. Answered and dismissed task ids are remembered for the page's life (and in localStorage with `persist`), and a question for one of them renders nothing — so it is safe to mount it after every export.
+- It fits one row at 316px: the question wraps to two short lines beside the slider, and the end labels appear from 30rem. Give it the width of the task's own surface.
+- There is no loop: the string's spring runs only after a press or a key and stops when it settles, and the path is rebuilt from two motion values with every coordinate rounded.
+
+### Point and Tell (KQ-1761) — `point-and-tell`
+Point at the part of the page you mean.
+
+Feedback that points: Point turns the page into targets, and hovering — or Tab, which cycles through the parts while point mode is on — finds the smallest part under the pointer while one fine measuring outline travels to its box on springs.snap, with its size in a tag and guides out to the page's edges. A click or Enter pins it: a crop of the page lifts off at the part's own box and flies into its slot in the form on springs.glide on one uniform scale while the outline flashes. Crops are the page drawn again and scaled, sensitive values are masked in every crop, Escape leaves point mode, and Send shows sending, sent and failed — a failure keeps the note and every pin.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/point-and-tell`
+
+Props:
+- `targets`: PointTarget[] (default defaultPointTargets) — The page's parts as { id, label, kind, rect: { x, y, w, h } in percent of a 16:10 page, text?, sensitive? }; each kind (header, nav, heading, field, select, button, chart, table, card, note, badge) draws itself.
+- `pageLabel`: string (default "Fieldline · Equipment checkout") — Names the page in its frame's bar and the point-mode group.
+- `form`: PointForm — The form's words: { heading, prompt, placeholder, sendLabel }, defaulting to Feedback, a one-line prompt, "What should we know?" and Send.
+- `pointing / defaultPointing`: boolean (default — / false) — Whether point mode is on, controlled or initial.
+- `onPointingChange`: (pointing: boolean) => void — Fires from the button, key or send that turned point mode on or off.
+- `pins / defaultPins`: string[] (default — / []) — The pinned target ids in pin order, controlled or initial.
+- `onPinsChange`: (pins: string[]) => void — Fires with every pin after one is added or removed.
+- `onPoint`: (target: PointTarget) => void — A part of the page was pinned.
+- `onSubmit`: (feedback: { message: string; targets: PointTarget[] }) => void | Promise<unknown> — Send was pressed. Return a promise to show sending; a rejection shows the failure and keeps the note and pins.
+- `onCancel`: () => void — Cancel was pressed; pins and note are cleared.
+- `outlineStyle`: "measure" | "dashed" | "corners" (default "measure") — The pointing outline: a fine box with corner ticks, guides and a size tag; a dashed box with the tag; or four corner brackets.
+- `maskStyle`: "blur" | "bars" | "dots" (default "blur") — How sensitive values look in crops: blurred, covered by solid bars, or replaced by dots. The live page is untouched.
+- `accent`: string (default "var(--accent-bright)") — Outline, guides, pin numbers, the point-mode tint and Send — any CSS colour.
+- `maxPins`: number (default 4) — The most parts that can be pinned at once.
+- `maxHeight`: number (default 540) — Tallest the surface grows before it scrolls inside, in px.
+- `disabled`: boolean (default false) — Nothing can be pointed at, pinned or sent.
+- `className`: string — Classes for the surface.
+
+Notes:
+- Keyboard: Point is a toggle button. In point mode the parts are buttons over the drawn page in reading order; focus moves to the first, Tab and Shift+Tab cycle through them (a loop until you leave), Enter or Space pins or unpins, and Escape leaves point mode from anywhere in the surface and returns focus to Point. Removing a pin moves focus to the next pin's remove button.
+- Reduced motion: the outline jumps to each box and fades, a pin appears in its slot with a fade instead of flying, and the sent check is drawn at once; pins, masks and the send states all still show.
+- Mark parts that show personal data `sensitive`: they read normally on the page and are masked in every crop and in the copy that flies, so a screenshot of the form never carries them.
+- The page is drawn in container units from `targets`, so it scales to any width and each crop is the same page at 640px, scaled and clipped — exact, and free of images. Pass your own parts with percent rects to point at your own screen.
+- Nothing runs while idle: hover hit-testing is the buttons themselves (smaller parts sit above larger ones), the outline moves only when the part under the pointer or focus changes, and the flying crop exists only during a pin.
+
+### Theme Sorter (KQ-1762) — `theme-sorter`
+Sort incoming feedback into themes that count.
+
+A feedback inbox you sort by hand: a card lifts after 4px of travel and follows the pointer 1:1 as a copy above both columns, leaning with its speed, while the theme under it swells on springs.snap. Dropped on a theme it is squeezed in — narrowing on springs.glide and flattening 60ms behind on the same spring toward the theme's centre — the theme gulps on springs.recoil as its tally rolls up on snap, and once it is in the themes re-rank by count with a layout glide; dropped anywhere else it springs home with the release velocity. The inbox is one tab stop with roving focus: Up and Down move, T or Enter opens a theme menu with type-ahead and New theme, A or Delete archives, and a failed tag springs the card back into its slot with a note.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/theme-sorter`
+
+Props:
+- `items / defaultItems`: FeedbackItem[] (default — / defaultThemeSorterItems) — Feedback as { id, quote, customer, company, source: "email" | "call" | "survey" | "chat" | "review", plan, sentiment: "positive" | "neutral" | "negative", at, themeId?, archived? }, controlled or initial. Untagged, unarchived items wait in the inbox; tagged ones count toward their theme.
+- `onItemsChange`: (items: FeedbackItem[]) => void — Fires with every item after a tag, an archive or a failed tag's revert.
+- `themes / defaultThemes`: FeedbackTheme[] (default — / defaultThemeSorterThemes) — Themes as { id, name }, controlled or initial; shown most-counted first.
+- `onThemesChange`: (themes: FeedbackTheme[]) => void — Fires with every theme after one is created.
+- `onTag`: (itemId: string, themeId: string) => void | Promise<unknown> — An item was tagged by a drop or the theme menu. Return a promise; a rejection springs the item back into the inbox with a note and rolls the tally back.
+- `onCreateTheme`: (theme: FeedbackTheme) => void — A theme was created from New theme; the item it was opened on is tagged into it.
+- `onArchive`: (itemId: string) => void — An item was archived without a theme.
+- `bucketStyle`: "tray" | "jar" | "row" (default "tray") — How a theme looks: a tray with its count, a share bar coloured by its sentiment mix and a percentage; a jar whose level rises with its count; or a compact row. Chips at narrow widths keep a hint of each.
+- `density`: "compact" | "regular" | "roomy" (default "regular") — Card padding, quote size and gaps.
+- `sentimentPalette`: "signal" | "duo" | "mono" (default "signal") — Sentiment colours: green, ink and red; cobalt, ink and amber; or ink alone, told apart by the dot, ring and diamond marks.
+- `now`: number | Date (default defaultThemeSorterNow) — The moment ages count from, so the server and the browser print the same text.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the items have arrived: loading shows skeleton cards and themes, error a line with Try again.
+- `onRetry`: () => void — Try again was pressed after the items failed to load.
+- `title`: string (default "Feedback inbox") — The inbox's heading and accessible name.
+- `maxHeight`: number (default 540) — Tallest the surface grows before its columns scroll, in px.
+- `disabled`: boolean (default false) — Nothing can be dragged, tagged, created or archived.
+- `className`: string — Classes for the surface.
+
+Notes:
+- Keyboard: the inbox is one tab stop with roving focus — Up and Down move between quotes, Home and End jump. T or Enter opens a theme menu on the card (arrows move, a letter jumps to the theme it starts, Enter tags, Escape returns to the card, New theme… becomes a name field); A, Delete or Backspace archives. Focus moves to the next quote when one leaves, and to the inbox itself when the last one does.
+- Reduced motion: nothing lifts, leans or squeezes — a tagged card fades out of the inbox, counts update, the themes re-order at once and a failed tag fades the card back; jar levels and share bars change without travel.
+- Touch: the grip is the drag handle (touch-action none), so a finger anywhere else on a card still scrolls the inbox. The dragged copy lives above both columns, so it can cross from the scrolling inbox to the themes without being clipped.
+- Themes re-rank only once a tag has landed, so the theme a card is flying into never moves out from under it; the re-rank is announced when the leader changes.
+- Nothing runs while idle: a drag sets motion values only, theme bounds are read as the pointer moves, and every animation and pending timer is dropped on unmount.
+
+### Macro Reply (KQ-1763) — `macro-reply`
+Answer the ticket and set its fields in one move.
+
+An agent's ticket view — the conversation, a customer sidebar with plan, fields and earlier tickets, and a reply box — where # opens the macros and picking one types its reply at a steady pace while every field it changes switches at its own moment: a wash sweeps the field, the old value rolls out and the new one rises on springs.snap, a set-by-macro dot pops on springs.flick, and a chip for the change lands in the reply's footer on snap, so nothing changes unseen even when the sidebar is a tab. Sent replies rise into the conversation on springs.glide. The reply is a combobox over the macro listbox (arrows, Enter or Tab to apply, Escape to close), any key finishes a typing macro, and Ctrl+Enter sends.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/macro-reply`
+
+Props:
+- `sidebarSide`: "left" | "right" (default "right") — Which side the customer sidebar sits on; at narrow widths, which side its tab sits on.
+- `density`: "compact" | "cozy" | "roomy" (default "cozy") — Type size, paddings and gaps.
+- `accent`: "cobalt" | "jade" | "amber" | "mono" (default "cobalt") — The macro wash, typing hairline, change chips and Send.
+- `ticket`: MacroTicket (default defaultMacroTicket) — Subject, number, channel, status, priority, tags and messages. Field changes from the host on the same ticket id flash like a macro's.
+- `customer`: MacroCustomer (default defaultMacroCustomer) — The customer shown in the sidebar: name, email, plan, seats, since and earlier tickets.
+- `macros`: MacroDef[] (default defaultMacros) — Each macro's name, reply text ({first}, {agent} and {number} are filled) and the fields it sets.
+- `agent`: string (default "Theo") — The agent replying; fills {agent} and signs sent messages.
+- `now`: number (default defaultMacroNow) — The moment relative times count from, ms. Never read from the clock.
+- `status`: "ready" | "loading" (default "ready") — Loading draws skeletons in the same boxes.
+- `onApplyMacro`: (macro: MacroDef) => void — A macro was applied, before it starts typing.
+- `onSend`: (reply: { text, fields, macroId }) => void | Promise — The reply was sent with its fields. A promise holds Send; a rejection keeps the draft and offers Retry.
+- `onStatusChange`: (status, source: "macro" | "field" | "reopen") => void — The ticket's status changed, and what changed it.
+- `onFieldsChange`: (fields: { status, priority, tags }) => void — Any field changed, with all three.
+- `typeSpeed`: number (default 90) — How fast a macro types, in characters a second.
+- `flash`: number (default 640) — How long a changed field flashes, ms.
+- `height`: number (default 540) — Height of the surface, px; the conversation scrolls inside it.
+- `placeholder`: string (default "Reply to {first}…  Type # for macros") — The reply box's placeholder.
+- `disabled`: boolean (default false) — Read only: nothing can be typed, applied or sent.
+- `className`: string — Classes for the outer surface.
+- `ref`: Ref<MacroReplyHandle> — applyMacro(id) applies a macro as if picked; focusReply() moves focus to the reply.
+
+Notes:
+- Keyboard: the reply textarea is a combobox over the macro listbox — # (or the Macros button) opens it, typing filters, Up and Down move, Enter or Tab applies, Escape closes. While a macro types the reply is read-only and busy, and any key finishes it at once. Ctrl+Enter or Cmd+Enter sends.
+- Each macro is announced once as a sentence when it lands ("Refund duplicate charge applied: status Pending, priority Low, tag refund added."); status and priority are native selects under a drawn face, so they keep every platform's own keyboard and picker.
+- Below a 36rem container the sidebar becomes a tab with a badge counting unsent macro changes, and the change chips stay in the reply footer, so a narrow agent still sees everything a macro set.
+- Typing is one linear tween that writes the draft only when the character count changes; nothing runs at rest, and timers stop on unmount or when the ticket id changes.
+- Reduced motion: the macro text arrives in one step and the fields swap under a fading wash with no roll or sweep; every change is still shown and announced.
+- Accent colours derive from the theme tokens (accent, success, warn, ink), so all four read in light and dark.
+
+### Request Tracker (KQ-1764) — `request-tracker`
+Where your request is, and whose turn it is.
+
+A customer's own page for a support request: whose turn it is in words, a bead riding the stages from received to solved, the updates as headed articles and a reply box. A stage change glides the bead on springs.glide with the rail's fill on the same motion value, and the stage it reaches fills with a check drawn on springs.flick; while the request waits on you the bead breathes and the reply box's measured height opens on glide. Replying (Ctrl+Enter) lands your update at the top on glide and passes the turn back with an honest next-reply time, and a solved request asks for a rating in a radiogroup driven by the arrow keys.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/request-tracker`
+
+Props:
+- `stageStyle`: "rail" | "segments" | "ladder" (default "rail") — How the stages are drawn: a rail with a riding bead, a segmented bar, or a vertical ladder.
+- `density`: "compact" | "cozy" | "roomy" (default "cozy") — Type size, paddings, gaps and ladder rung height.
+- `accent`: "cobalt" | "jade" | "amber" | "mono" (default "cobalt") — The bead, the rail's fill, the turn and Send.
+- `request`: TrackedRequest (default defaultTrackedRequest) — Number, subject, stages, current stage, whose turn (waitingOn), updates, openedAt, responseTarget (minutes) and lastReplyAt. Whatever the host changes is taken; local replies are kept until echoed.
+- `now`: number (default defaultTrackerNow) — The moment times count from, ms. Never read from the clock.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the updates have arrived. Loading and error keep the layout.
+- `onReply`: (text: string) => void | Promise — A reply was sent. A promise holds Send; a rejection keeps the text and offers Retry.
+- `onClose`: () => void — "My issue is solved" was pressed; the bead goes to the last stage.
+- `onReopen`: () => void — Reopen request was pressed on a solved request.
+- `onRate`: (rating: "poor" | "okay" | "good" | "great") => void — A solved request was rated.
+- `onRetry`: () => void — Retry was pressed after the updates failed to load.
+- `company`: string (default "Basinworks") — Who is answering.
+- `customer`: string (default "Jun") — The customer's first name, used in the turn line.
+- `autoCloseDays`: number (default 7) — Days a request waiting on you stays open.
+- `pulse`: boolean (default true) — Let the bead breathe while the request waits on you.
+- `height`: number (default 540) — Height of the page, px; the updates scroll inside.
+- `disabled`: boolean (default false) — Nothing can be sent, closed, reopened or rated.
+- `className`: string — Classes for the outer surface.
+
+Notes:
+- Keyboard: the reply textarea follows the turn card in the tab order and is labelled by the question it answers; Ctrl+Enter or Cmd+Enter sends, and when the box folds away focus moves to Add more detail. The rating is a radiogroup (arrows, Home, End), and the updates list is a focusable region so it scrolls from the keyboard.
+- The stages are one ordered list with aria-current="step" and a completed, current or to do word per stage; the bead, line and dots are decoration. Turn changes are announced once as a sentence.
+- The bead's breathing is the only loop and runs only while the request waits on the customer, the page is in view, the tab is visible, motion is allowed and pulse is on.
+- Below a 40rem container it is one column with the reply box at the foot; above it, the turn card, reply box and request details move to a side column. Under 19rem the rail names only the current stage.
+- Reduced motion: the bead and fill move in one step, the ring holds still at half strength and the reply box opens without travel; stage, turn and rating still change.
+
+### Before You Send (KQ-1765) — `before-you-send`
+Answers appear while you're still writing in.
+
+A contact form that searches the help articles as the subject is typed and slides the matches up between the subject and the rest of the form: the panel's measured height opens on springs.glide, each answer rises 8px in cascade order and its relevance bar grows on glide a beat later, and a changing query re-ranks them in place on glide. Choosing one opens it in the panel, and This solved it folds the form down to a thank-you on glide — a ring landing on springs.recoil, a check drawn on springs.flick — instead of a ticket. The subject is a combobox: Down and Up walk the answers, Enter opens one, Escape hides them, and a failed search never blocks Send.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/before-you-send`
+
+Props:
+- `resultStyle`: "cards" | "rows" | "wash" (default "cards") — How the answers are drawn: a row of cards, hairline rows with a meter and percentage, or rows whose relevance is a wash behind the title.
+- `density`: "compact" | "cozy" | "roomy" (default "cozy") — Control heights, type and gaps.
+- `accent`: "cobalt" | "jade" | "amber" | "mono" (default "cobalt") — Relevance bars, the active answer, Send and the thank-you ring.
+- `articles`: HelpArticle[] (default defaultHelpArticles) — The help articles searched: title, summary, steps, topic, keywords, read time and href.
+- `topics`: ContactTopic[] (default defaultContactTopics) — The topics offered as a radiogroup above the subject.
+- `value / defaultValue`: ContactDraft / Partial<ContactDraft> (default — / { topic: "billing", email: "jun@coldbrook.studio" }) — The draft (topic, subject, details, email), controlled or initial.
+- `onValueChange`: (draft: ContactDraft) => void — Fires from every edit with the whole draft.
+- `onSearch`: (query, topic) => ArticleMatch[] | Promise<ArticleMatch[]> | void — A settled search. Return matches to replace the built-in scoring; a rejection shows a quiet note and never blocks Send.
+- `onSolved`: (article: HelpArticle, query: string) => void — This solved it was chosen: the form closes with a thank-you and nothing is sent.
+- `onSend`: (draft: ContactDraft) => { reference? } | Promise<{ reference? }> | void — The form was sent after validation. A promise holds Send; resolve a reference to show it, reject to keep everything and offer Try again.
+- `onOpenArticle`: (article: HelpArticle) => void — Full article was pressed in a preview.
+- `company`: string (default "Fieldline") — Whose support this is.
+- `responseTime`: string (default "within a day") — How soon a message is answered, in words.
+- `maxResults`: number (default 3) — The most answers shown.
+- `minRelevance`: number (default 0.25) — Answers below this relevance (0 to 1) are not shown.
+- `searchDelay`: number (default 160) — Quiet time after typing before a search runs, ms.
+- `height`: number (default 540) — The tallest the surface grows, px; past it the form scrolls inside.
+- `disabled`: boolean (default false) — Nothing can be typed, chosen or sent.
+- `className`: string — Classes for the outer surface.
+
+Notes:
+- Keyboard: the subject is a combobox over the answers' listbox — Down and Up move (Down also brings back answers hidden with Escape), Home and End jump, Enter opens the active answer instead of submitting, Escape hides them. A preview's heading takes focus; Escape or Back to answers returns to the subject.
+- Each settled search is announced once, and only when what it found changed (a count, nothing, or an outage). Field errors use aria-invalid and aria-describedby, and the first invalid field takes focus on Send.
+- The built-in ranking (also exported as scoreArticles) is deterministic, so server and browser agree; pass onSearch to rank on your own index. Stale answers are dropped by a sequence number, and a failing search only ever adds a quiet line.
+- Below a 30rem container every result style collapses to titles with a thin bar; above 36rem the cards sit three across.
+- Reduced motion: the panel opens at its height, answers and bars appear in place at their widths, and the thank-you cross-fades with its check already drawn.
+
+### Callback Queue (KQ-1766) — `callback-queue`
+Wait your turn, or ask us to call you back.
+
+A live support queue with your place, an honest wait (a likely figure and a range from the line, the average chat and the agents on shift) and the agents on shift. When the queue moves, the person at the front goes into the desk on the exit ease, everyone behind glides one place forward on springs.glide, and your place and the estimate roll down digit by digit, the estimate a beat later. Call me back opens a picker — a number and a radiogroup of times — and booking turns your token into a time chip in its place, one element whose layout glides from circle to pill; your turn, leaving, closed hours and a full queue each say what happens next.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/callback-queue`
+
+Props:
+- `tokenStyle`: "dots" | "tickets" | "lane" (default "dots") — How the line is drawn: circles to the desk, numbered ticket stubs, or a lane you ride along.
+- `density`: "compact" | "cozy" | "roomy" (default "cozy") — Token size, type and gaps.
+- `accent`: "cobalt" | "jade" | "amber" | "mono" (default "cobalt") — Your token, the estimate and the primary button.
+- `queue`: QueueSnapshot (default defaultQueue) — position (1 is next, 0 your turn), waiting, capacity, avgHandleSeconds, ticket and joinedAt. A lower position moves you forward.
+- `agents`: QueueAgent[] (default defaultQueueAgents) — Who is on shift and whether each is free, on a chat or on a break.
+- `now`: number (default defaultQueueNow) — The moment times count from, ms. Never read from the clock.
+- `status`: "open" | "closed" | "full" | "loading" (default "open") — Open, closed for the day, full, or loading.
+- `hours`: { open: number; close: number } (default { open: 480, close: 1200 }) — Opening hours in minutes after midnight (UTC); they set the closed message and the callback times.
+- `callbackSlots`: CallbackSlot[] (default the next three half hours, or tomorrow morning when closed) — The times offered for a callback; at null means as soon as an agent is free.
+- `defaultPhone`: string (default "07700 900418") — The number a callback goes to until it's changed.
+- `company`: string (default "Coldbrook") — Whose queue this is.
+- `onRequestCallback`: ({ phone, slot }) => void | Promise — A callback was booked. A promise holds the button; a rejection keeps the picker open with a message.
+- `onCancelCallback`: () => void — A booked callback was cancelled; you're back in the line.
+- `onLeave`: () => void — Leave queue was pressed.
+- `onRejoin`: () => void — Rejoin was pressed after leaving.
+- `onJoinChat`: () => void — Join chat was pressed when it was your turn.
+- `maxTokens`: number (default 5) — The most people drawn ahead of you; the rest fold into a count.
+- `disabled`: boolean (default false) — Nothing can be booked, left or joined.
+- `className`: string — Classes for the outer surface.
+
+Notes:
+- Keyboard: every action is a button. Call me back opens a form whose number field takes focus; the times are a radiogroup (arrows, Home, End), Enter books, and Escape cancels back to Call me back. After booking, leaving or rejoining, focus moves to the new state's heading or button once it arrives.
+- The line itself is decoration; one sentence carries it for assistive technology ("You're 4th in line, 3 people ahead. About 6 minutes, usually 4 to 8."), and each move is announced politely once, computed from the new place.
+- The component runs no loop of its own: everything moves on a prop change or a press. Drive queue.position from your server, and pause your own polling while the page is hidden.
+- The estimate is a figure and a range, never a promise: position × average chat ÷ agents on shift, widened to 0.8–1.3× and rounded to whole minutes.
+- Reduced motion: tokens re-place without travel, digits cross-fade, and the token-to-chip swap is a cross-fade; position, estimate and states still update and are announced.
+
+### Cobrowse Consent (KQ-1767) — `cobrowse-consent`
+Let support see your screen, and nothing private.
+
+A screen-sharing request on the customer's own page: a card names the agent, says what they will and won't see, lists the private fields and counts down to expiry, with Allow viewing and Not now. Allowing plays three beats — the card becomes a slim bar at the top through a shared layout on springs.glide, a coloured frame draws round the page edge by edge on the move ease, and a stripe sweeps across every private field in cascade order leaving its mask behind — while the agent's pointer, when the host passes one, glides on springs.drift. Stop sharing or Escape anywhere inside lifts the masks, fades the frame on the exit ease and leaves a receipt; an unanswered request expires and explains why.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/cobrowse-consent`
+
+Props:
+- `frameColor`: "cobalt" | "jade" | "amber" | "rose" (default "cobalt") — The colour of the frame, the live dot and the sweep's edge.
+- `maskStyle`: "stripes" | "frost" | "redact" (default "stripes") — How a private field is covered: a diagonal hatch, a frosted pane, or a solid redaction bar.
+- `density`: "compact" | "cozy" | "roomy" (default "cozy") — Field rows, type and gaps.
+- `agent`: { name: string; team: string; initials: string } (default { name: "Ines Varga", team: "Basinworks support", initials: "IV" }) — Who is asking.
+- `fields`: CobrowseField[] (default defaultCobrowseFields) — The page's fields as the customer sees them: id, label, value and wide.
+- `maskedFields`: string[] (default ["card", "bank", "tax"]) — Ids of the fields hidden from the agent while sharing.
+- `pageTitle`: string (default "Billing") — The page's title.
+- `product`: string (default "Basinworks") — The product the page belongs to.
+- `state / defaultState`: "request" | "sharing" | "declined" | "expired" | "ended" (default — / "request") — Where the request stands, controlled or initial.
+- `onStateChange`: (state) => void — Fires from the choice, the stop or the expiry that changed the state.
+- `onAccept`: () => void — Allow viewing was pressed.
+- `onDecline`: () => void — Not now was pressed.
+- `onStop`: (info: { seconds: number }) => void — Sharing stopped (Stop sharing or Escape), with how long it ran.
+- `onExpire`: () => void — The request lapsed without an answer.
+- `now`: number (default defaultCobrowseNow) — The moment the page first renders, ms; its timers count on from it.
+- `requestedAt`: number (default now − 18 s) — When the agent asked, ms.
+- `expiresIn`: number (default 120) — Seconds a request stays open.
+- `pointer`: { x: number; y: number } | null (default null) — Where the agent's pointer is while sharing, as 0–1 fractions of the page; null hides it.
+- `sweep`: number (default 420) — How long the stripe takes to sweep one field, ms.
+- `height`: number (default 540) — Height of the surface, px; the page scrolls inside its frame.
+- `disabled`: boolean (default false) — The choices can't be made.
+- `className`: string — Classes for the outer surface.
+
+Notes:
+- Keyboard: the request is a non-modal dialog whose choices are labelled buttons. Allowing moves focus to Stop sharing once it arrives (only if focus was in the page), and Escape anywhere inside stops sharing and is consumed there; the receipt's heading then takes focus.
+- Private fields stay readable to the customer's assistive technology, with "hidden from Ines while sharing" added to their description; the frame, stripes, masks and pointer are decoration and aria-hidden. Every state change is announced once.
+- The countdown ticks once a second only while a request waits and the tab is visible, the shared time only while sharing, and the live dot breathes only while sharing, on screen and in a visible tab. Nothing else runs at rest.
+- The masks show the customer what the agent sees; masking the agent's own view is your session service's job — pass it the same maskedFields ids.
+- Below a 36rem container the frame thins from 4px to 2px, fields drop to one column and the bar spans the top; under 24rem the request card stacks its buttons.
+- Reduced motion: the frame and the masks fade in place, the card swaps for the bar with a cross-fade, the pointer jumps and the live dot holds still; every private field is still covered.
+
 ### Pendant Drop (KQ-1782) — `pendant-drop`
 A drop of colour that leans toward your hand.
 

@@ -2015,4 +2015,84 @@ export const CANVAS_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/sign-off-round.demo").then((m) =>
       mod(m.SignOffRoundDemo, m.tweaks),
     ),
+  "series-edit": () =>
+    import("@/registry/demos/series-edit.demo").then((m) =>
+      mod(m.SeriesEditDemo, m.tweaks),
+    ),
+  "leave-planner": () =>
+    import("@/registry/demos/leave-planner.demo").then((m) =>
+      mod(m.LeavePlannerDemo, m.tweaks),
+    ),
+  "backward-plan": () =>
+    import("@/registry/demos/backward-plan.demo").then((m) =>
+      mod(m.BackwardPlanDemo, m.tweaks),
+    ),
+  "webhook-replay": () =>
+    import("@/registry/demos/webhook-replay.demo").then((m) =>
+      mod(m.WebhookReplayDemo, m.tweaks),
+    ),
+  "sync-pairs": () =>
+    import("@/registry/demos/sync-pairs.demo").then((m) =>
+      mod(m.SyncPairsDemo, m.tweaks),
+    ),
+  "bug-snapshot": () =>
+    import("@/registry/demos/bug-snapshot.demo").then((m) =>
+      mod(m.BugSnapshotDemo, m.tweaks),
+    ),
+  "similar-ideas": () =>
+    import("@/registry/demos/similar-ideas.demo").then((m) =>
+      mod(m.SimilarIdeasDemo, m.tweaks),
+    ),
+  "ease-check": () =>
+    import("@/registry/demos/ease-check.demo").then((m) =>
+      mod(m.EaseCheckDemo, m.tweaks),
+    ),
+  "point-and-tell": () =>
+    import("@/registry/demos/point-and-tell.demo").then((m) =>
+      mod(m.PointAndTellDemo, m.tweaks),
+    ),
+  "theme-sorter": () =>
+    import("@/registry/demos/theme-sorter.demo").then((m) =>
+      mod(m.ThemeSorterDemo, m.tweaks),
+    ),
+  "bulletin-composer": () =>
+    import("@/registry/demos/bulletin-composer.demo").then((m) =>
+      mod(m.BulletinComposerDemo, m.tweaks),
+    ),
+  "quick-fix": () =>
+    import("@/registry/demos/quick-fix.demo").then((m) =>
+      mod(m.QuickFixDemo, m.tweaks),
+    ),
+  "screenshot-markup": () =>
+    import("@/registry/demos/screenshot-markup.demo").then((m) =>
+      mod(m.ScreenshotMarkupDemo, m.tweaks),
+    ),
+  "schema-table": () =>
+    import("@/registry/demos/schema-table.demo").then((m) =>
+      mod(m.SchemaTableDemo, m.tweaks),
+    ),
+  "promoter-scale": () =>
+    import("@/registry/demos/promoter-scale.demo").then((m) =>
+      mod(m.PromoterScaleDemo, m.tweaks),
+    ),
+  "macro-reply": () =>
+    import("@/registry/demos/macro-reply.demo").then((m) =>
+      mod(m.MacroReplyDemo, m.tweaks),
+    ),
+  "request-tracker": () =>
+    import("@/registry/demos/request-tracker.demo").then((m) =>
+      mod(m.RequestTrackerDemo, m.tweaks),
+    ),
+  "before-you-send": () =>
+    import("@/registry/demos/before-you-send.demo").then((m) =>
+      mod(m.BeforeYouSendDemo, m.tweaks),
+    ),
+  "callback-queue": () =>
+    import("@/registry/demos/callback-queue.demo").then((m) =>
+      mod(m.CallbackQueueDemo, m.tweaks),
+    ),
+  "cobrowse-consent": () =>
+    import("@/registry/demos/cobrowse-consent.demo").then((m) =>
+      mod(m.CobrowseConsentDemo, m.tweaks),
+    ),
 };

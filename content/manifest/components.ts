@@ -173126,4 +173126,3242 @@ export const components: KinetiqItem[] = [
       "Each stamp's tilt and bare ink patches are seeded from the reviewer's id, so the same stamp looks the same on every render and in server markup.",
     ],
   },
+  {
+    name: "series-edit",
+    type: "registry:ui",
+    title: "Series Edit",
+    description:
+      "A recurring meeting's editor whose strip of upcoming occurrences always shows what Save would do. Choosing This and following cleaves the row at the chosen date: a gap opens before it and the chips after it reflow on springs.glide while a dashed rule draws down the gap on springs.flick, then the chips in scope slide to the new time — later dropping, earlier rising — each a cascade step after the one before, their times rolling on springs.snap, while earlier chips stay put; a one-off save stamps its mark in on springs.recoil. The strip is a horizontal listbox whose arrow keys move the edit (and the cleave) to another date, the scope is a radio group, and clashes with other events are listed before saving.",
+    files: [
+      {
+        path: "registry/ui/series-edit.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1743",
+    },
+    tagline: "Change one meeting, or this and every one after.",
+    keywords: [
+      "recurring event",
+      "calendar series",
+      "edit occurrence",
+      "this and following",
+      "schedule clash",
+      "meeting editor",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "chipStyle",
+        type: '"tile" | "pill" | "stub"',
+        defaultValue: '"tile"',
+        description:
+          "How each occurrence chip is drawn: a two-line tile, a one-line pill, or a calendar stub with a month band.",
+      },
+      {
+        name: "density",
+        type: '"compact" | "regular" | "roomy"',
+        defaultValue: '"regular"',
+        description: "Chip size, gaps, padding and field height.",
+      },
+      {
+        name: "accent",
+        type: '"cobalt" | "moss" | "plum" | "ember"',
+        defaultValue: '"cobalt"',
+        description:
+          "The colour of the edit — chips in scope, the cleave, the day lane and Save — as pigments at a fixed lightness.",
+      },
+      {
+        name: "series",
+        type: "SeriesInfo",
+        defaultValue: "defaultSeries",
+        description:
+          "The recurring meeting: { id, title, weekday (0 is Monday), start, duration, room }.",
+      },
+      {
+        name: "occurrences / defaultOccurrences",
+        type: "SeriesOccurrence[]",
+        defaultValue: "— / defaultSeriesOccurrences",
+        description:
+          'Each { id, date, start?, duration?, room?, exception?: "moved" | "cancelled", split? }; controlled or initial.',
+      },
+      {
+        name: "onOccurrencesChange",
+        type: "(occurrences) => void",
+        description: "Fires from Save with every occurrence.",
+      },
+      {
+        name: "busy",
+        type: "SeriesBusy[]",
+        defaultValue: "defaultSeriesBusy",
+        description:
+          "Other events ({ id, title, date, start, end }) checked for clashes before saving.",
+      },
+      {
+        name: "rooms",
+        type: "string[]",
+        defaultValue: "defaultSeriesRooms",
+        description: "Rooms offered by the Room field.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "defaultSeriesNow",
+        description:
+          "The current time in ms; occurrences before today are not shown. Never read from the clock.",
+      },
+      {
+        name: "anchor / defaultAnchor",
+        type: "string",
+        defaultValue: "— / the first upcoming meeting",
+        description:
+          "The occurrence being edited, by id; controlled or initial.",
+      },
+      {
+        name: "onAnchorChange",
+        type: "(id) => void",
+        description:
+          "Fires from the press or arrow key that chose another occurrence.",
+      },
+      {
+        name: "scope / defaultScope",
+        type: '"one" | "following" | "all"',
+        defaultValue: '— / "one"',
+        description:
+          "Which meetings the edit applies to; controlled or initial.",
+      },
+      {
+        name: "onScopeChange",
+        type: "(scope) => void",
+        description: "Fires from the press or key that changed the scope.",
+      },
+      {
+        name: "defaultChanges",
+        type: "Partial<SeriesChanges>",
+        description:
+          "Pre-fills the form ({ start, duration, room }) on top of the anchor's own values.",
+      },
+      {
+        name: "onEditOne",
+        type: "(occurrence, changes) => void",
+        description:
+          'Save with scope "one": the occurrence, now a one-off, and its new values.',
+      },
+      {
+        name: "onEditFollowing",
+        type: "(occurrence, changes) => void",
+        description:
+          'Save with scope "following": the first occurrence of the new series and its values.',
+      },
+      {
+        name: "onEditAll",
+        type: "(changes) => void",
+        description:
+          'Save with scope "all": the series\' new values. One-off changes keep their own.',
+      },
+      {
+        name: "onDiscard",
+        type: "() => void",
+        description:
+          "Discard was pressed: the form went back to the anchor's values.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Loading shows placeholder chips and fields; error explains and offers Try again.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the series failed to load.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "540",
+        description: "Height of the surface in px; the body scrolls inside it.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only: nothing can be chosen, changed or saved.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the surface.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the strip is one tab stop; arrows (and Home/End) move the edit to another date with selection following focus, so the cleave walks with the keys. The scope is a radio group; the fields are native selects; Discard and Save stay focusable with aria-disabled when there is nothing to save, and Save is described by the clash list when there is one.",
+      "Each chip's accessible name is one sentence — date, time, room, one-off or cancelled, where it will move, what it clashes with — and every change of anchor, scope or field is announced once, politely, with how many meetings move and how many clashes.",
+      "Reduced motion: no reflow travel, slide, ripple, roll or stamp; gaps and offsets switch at once and colours cross-fade in 150 ms. The strip still shows exactly what Save would do.",
+      "Nothing runs at rest: chip moves are layout animations measured against the body's scroller, the clash list measures its content with a ResizeObserver, and colours are CSS transitions delayed a cascade step per chip.",
+      "Colours: chips in scope, the lane slot and Save use the accent as a pigment at fixed lightness with dark ink, so light and dark themes read alike; clashes use a warn pigment ring plus words, never colour alone. Below a 34rem container the chips wrap, the fields stack and the scope turns into a vertical list.",
+    ],
+  },
+  {
+    name: "leave-planner",
+    type: "registry:ui",
+    title: "Leave Planner",
+    description:
+      "A time-off request surface: a balance meter of the leave type's days over one to three months of calendar, with teammates already away drawn as soft overlapping stripes on their dates. Choosing a range drains the meter a day at a time — one motion value walking about 45 ms a day on the linear ease — while the count of working days rolls and each working day in the calendar lights in the same beat; weekends and holidays inside the range stay hatched because they are skipped, the type switch slides on springs.snap and the months glide in on springs.glide. Asking for more than the balance runs the meter dry, shakes it once on a tween and explains the shortfall; each month is a grid with arrow keys, Enter for the first and last day, Shift to extend and Escape to clear.",
+    files: [
+      {
+        path: "registry/ui/leave-planner.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1744",
+    },
+    tagline: "Request time off and see who else is away.",
+    keywords: [
+      "leave request",
+      "time off",
+      "holiday calendar",
+      "pto balance",
+      "date range picker",
+      "team availability",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "stripeStyle",
+        type: '"bands" | "hatch" | "dots"',
+        defaultValue: '"bands"',
+        description:
+          "How teammates' leave is drawn: bands that join across consecutive days, diagonal hatching that crosses where two overlap, or stacked dots.",
+      },
+      {
+        name: "monthCount",
+        type: "number",
+        defaultValue: "2",
+        description:
+          "Months side by side on a wide container, 1 to 3; below a 34rem container it is always one.",
+      },
+      {
+        name: "tone",
+        type: '"cobalt" | "moss" | "ember" | "plum"',
+        defaultValue: '"cobalt"',
+        description:
+          "The colour of your request and balance, as a pigment at a fixed lightness.",
+      },
+      {
+        name: "policies",
+        type: "LeavePolicy[]",
+        defaultValue: "defaultLeavePolicies",
+        description:
+          "The kinds of leave: { id, label, allowance?, noticeDays? }; no allowance means no cap.",
+      },
+      {
+        name: "balance",
+        type: "Record<string, number>",
+        defaultValue: "defaultLeaveBalance",
+        description: "Days left of each kind, by policy id.",
+      },
+      {
+        name: "holidays",
+        type: "LeaveHoliday[]",
+        defaultValue: "defaultLeaveHolidays",
+        description:
+          "Public holidays ({ date, name }); never counted as leave.",
+      },
+      {
+        name: "team",
+        type: "LeaveTeammate[]",
+        defaultValue: "defaultLeaveTeam",
+        description:
+          "Teammates and the spans they are already away: { id, name, away: { from, to }[] }.",
+      },
+      {
+        name: "requests / defaultRequests",
+        type: "LeaveRequest[]",
+        defaultValue: "— / []",
+        description:
+          "Requests already made ({ id, type, from, to, days }); their days are held off the balance. Controlled or initial.",
+      },
+      {
+        name: "onRequestsChange",
+        type: "(requests) => void",
+        description: "Fires from Request and Cancel with every request.",
+      },
+      {
+        name: "type / defaultType",
+        type: "string",
+        defaultValue: "— / the first policy",
+        description: "The kind of leave, by policy id; controlled or initial.",
+      },
+      {
+        name: "onTypeChange",
+        type: "(type) => void",
+        description:
+          "Fires from the press or arrow key that changed the kind of leave.",
+      },
+      {
+        name: "range / defaultRange",
+        type: "{ from, to } | null",
+        defaultValue: "— / null",
+        description:
+          "The selection, ms at UTC midnight, inclusive; controlled or initial.",
+      },
+      {
+        name: "onRangeChange",
+        type: "(range) => void",
+        description:
+          "Fires from the press, drag or key that changed the selection.",
+      },
+      {
+        name: "onRequest",
+        type: "(request) => void",
+        description:
+          "Request was pressed, with the request and its working days.",
+      },
+      {
+        name: "onCancel",
+        type: "(request) => void",
+        description: "Cancel was pressed on a request.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "defaultLeaveNow",
+        description:
+          "Today in ms; earlier days cannot be chosen and notice counts from it. Never read from the clock.",
+      },
+      {
+        name: "defaultMonth",
+        type: "number",
+        defaultValue: "the month after now",
+        description: "The first month shown: any ms inside it.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Loading shows a placeholder month; error explains and offers Try again.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the calendar failed to load.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Time off"',
+        description: "The heading.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "540",
+        description: "Height of the surface in px; the body scrolls inside it.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only: nothing can be chosen or requested.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the surface.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: each month is a grid with one date as the tab stop across all of them. Arrows move by day and week and carry the view into the next month, Home and End go to the week's ends, Page Up and Page Down a month; Enter or Space sets the first day and then the last, Shift with an arrow extends from the start, Escape clears.",
+      "Mouse and pen can press and drag across days; touch uses two taps so a finger sliding over the month still scrolls the page.",
+      "The drain is one motion value: every meter cell, every day's wash and the count derive from it, so a long selection never re-renders React per frame, and nothing runs once it settles. Announcements are made once per settled change — dates, working days, what is left and who else is away — never per day.",
+      "Reduced motion: the drain is instant, the meter does not shake and months do not glide; the counts, washes and the shortfall sentence still change because they are the information.",
+      "Colours: your request and balance use the tone as a pigment at fixed lightness with dark ink; teammates have their own soft pigments, kept apart from every tone, and are named in each day's label and in the Also away list, never colour alone.",
+    ],
+  },
+  {
+    name: "backward-plan",
+    type: "registry:ui",
+    title: "Backward Plan",
+    description:
+      "A deadline-first planner: every task is scheduled as late as it can be and drawn as a car on a timeline that ends at the deadline flag. Dragging the flag, or any unlocked car, pulls the train — each car's finish follows the start of the car after it through the springs.snap calibration, integrated per frame in one loop, so the pull travels back down the train and every car settles a beat after the one ahead; the release projects the throw to a whole day and the flag springs there with its velocity. Cars pushed before today turn amber, locked cars hold their dates and lean toward the pull before springing upright on springs.recoil, and the flag is a slider whose arrow keys move the deadline a day while Tab reaches every task.",
+    files: [
+      {
+        path: "registry/ui/backward-plan.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1745",
+    },
+    tagline: "Set the deadline and the plan lays itself out behind it.",
+    keywords: [
+      "backward scheduling",
+      "gantt chart",
+      "deadline planner",
+      "project timeline",
+      "task dependencies",
+      "critical path",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "barStyle",
+        type: '"solid" | "soft" | "track"',
+        defaultValue: '"soft"',
+        description:
+          "How a task is drawn: a pigment bar, a tinted bar with a strong leading edge, or a thin rail with its dates above.",
+      },
+      {
+        name: "dayWidth",
+        type: "number",
+        defaultValue: "12",
+        description:
+          "Pixels per day on the board: the scale of the timeline (8 to 40).",
+      },
+      {
+        name: "accent",
+        type: '"cobalt" | "moss" | "plum" | "slate"',
+        defaultValue: '"cobalt"',
+        description:
+          "The bars' pigment at a fixed lightness; tasks in the past are always amber.",
+      },
+      {
+        name: "tasks / defaultTasks",
+        type: "PlanTask[]",
+        defaultValue: "— / defaultPlanTasks",
+        description:
+          "Each { id, name, days, after?: id[], locked?, start? }; start is the first day of a locked task. Controlled or initial.",
+      },
+      {
+        name: "onTasksChange",
+        type: "(tasks) => void",
+        description:
+          "Fires with every task after a lock, a pinned move or a length change.",
+      },
+      {
+        name: "deadline / defaultDeadline",
+        type: "number",
+        defaultValue: "— / defaultPlanDeadline",
+        description:
+          "The handover day, ms at UTC midnight; controlled or initial.",
+      },
+      {
+        name: "onDeadlineChange",
+        type: "(deadline) => void",
+        description:
+          "Fires from the drag release or the key that moved the deadline, with the new day.",
+      },
+      {
+        name: "onTaskChange",
+        type: "(task) => void",
+        description: "Fires when one task's pinned dates or length change.",
+      },
+      {
+        name: "onLock",
+        type: "(task, locked) => void",
+        description:
+          "Fires when a task is locked (to its current dates) or unlocked.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "defaultPlanNow",
+        description:
+          "Today in ms; tasks that would start before it turn amber. Never read from the clock.",
+      },
+      {
+        name: "range",
+        type: "[number, number]",
+        defaultValue: "[10, 70]",
+        description: "Earliest and latest deadline, in days after now.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Loading shows placeholder bars; error explains and offers Try again.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the plan failed to load.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Fieldline site handover"',
+        description: "The heading.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "540",
+        description:
+          "Height of the surface in px; the board scrolls inside it.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only: nothing can be moved or locked.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the surface.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the deadline flag is a slider — Left and Right move it a day, Page Up and Page Down a week, Home and End to the range's ends — and the board scrolls to keep it in view. Tab then reaches each task's lock toggle and bar; on a bar, L locks it, Left and Right move a locked task a day, Shift with Left or Right changes its length.",
+      "One rAF loop drives the whole train while something moves and stops when every car is within a thousandth of a day and still; it never runs while the board is off screen or the tab is hidden (cars jump to their places instead) and allocates nothing per frame. Bars and couplings are written through motion values; React renders only when the snapped day changes.",
+      "Reduced motion: no train — every car jumps to its place when the deadline changes and locked cars do not lean; amber, dates, couplings and the summary still change.",
+      "A task that would have to start before a task it needs has finished (behind a locked one) is ringed, its coupling breaks into a dashed danger line and the header says what it waits on — in words, never colour alone. Below a 40rem container the board becomes a list with start dates under a deadline stepper, and a deadline change rolls the dates a cascade step per car.",
+      "Dates are whole UTC days and are formatted by hand, so the server and the browser draw the same plan.",
+    ],
+  },
+  {
+    name: "webhook-replay",
+    type: "registry:ui",
+    title: "Webhook Replay",
+    description:
+      "A webhook endpoint's delivery log where a failed delivery can be sent again. Replay sends a pulse along its row — a comet riding one motion value for 520 ms on the move ease, from the event name, under the columns, to the status chip — and if the answer is not back the head breathes at the chip until it is; then the chip flips about its horizontal axis, out on the exit ease and in on springs.snap with a soft success ring, or still failing, in on springs.flick to the new error code with the new response under the event. Rows open with Enter to the payload, headers and response at their measured height on springs.glide, Up and Down walk the rows, R replays, and the endpoint can be paused and its signing secret revealed or rotated.",
+    files: [
+      {
+        path: "registry/ui/webhook-replay.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1746",
+    },
+    tagline: "See every delivery, and send a failed one again.",
+    keywords: [
+      "webhooks",
+      "delivery log",
+      "replay request",
+      "integration settings",
+      "signing secret",
+      "developer dashboard",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "chipStyle",
+        type: '"pill" | "tag" | "dot"',
+        defaultValue: '"pill"',
+        description:
+          "How each status code is drawn: a tinted pill, a square tag with a leading bar, or a dot and the bare code.",
+      },
+      {
+        name: "payloadTheme",
+        type: '"plain" | "tinted" | "night"',
+        defaultValue: '"tinted"',
+        description:
+          "How payloads, headers and responses are coloured: one ink, tinted tokens, or a dark code panel in both themes.",
+      },
+      {
+        name: "density",
+        type: '"compact" | "regular" | "roomy"',
+        defaultValue: '"regular"',
+        description: "Row height and type in the log.",
+      },
+      {
+        name: "endpoints",
+        type: "WebhookEndpoint[]",
+        defaultValue: "defaultWebhookEndpoints",
+        description:
+          "Each { id, name, url (no scheme), events, secret, paused? }.",
+      },
+      {
+        name: "deliveries / defaultDeliveries",
+        type: "WebhookDelivery[]",
+        defaultValue: "— / defaultWebhookDeliveries",
+        description:
+          "Most recent first: { id, endpoint, event, status, duration, attempt, at, payload, response?, replayAs? }; controlled or initial.",
+      },
+      {
+        name: "onDeliveriesChange",
+        type: "(deliveries) => void",
+        description:
+          "Fires with every delivery after a replay lands or a test event is sent.",
+      },
+      {
+        name: "endpoint / defaultEndpoint",
+        type: "string",
+        defaultValue: "— / the first",
+        description: "The endpoint shown, by id; controlled or initial.",
+      },
+      {
+        name: "onEndpointChange",
+        type: "(id) => void",
+        description:
+          "Fires from the tab press or arrow key that chose another endpoint.",
+      },
+      {
+        name: "onReplay",
+        type: "(delivery) => WebhookReplayResult | Promise<WebhookReplayResult> | void",
+        description:
+          "Replay was pressed. Return { status, duration, body? } or a promise of it; return nothing and the delivery's replayAs answers. A rejected promise reads as no answer.",
+      },
+      {
+        name: "onPause",
+        type: "(endpoint, paused) => void",
+        description: "Pause or Resume was pressed.",
+      },
+      {
+        name: "onRotateSecret",
+        type: "(endpoint) => string | void",
+        description:
+          "Rotate was confirmed. Return the new secret, or nothing for a generated one.",
+      },
+      {
+        name: "onSendTest",
+        type: "(endpoint) => void",
+        description:
+          "Send test event was pressed on an empty log; a test delivery is added and lands with its own pulse.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "defaultWebhookNow",
+        description:
+          "The current time in ms; delivery times are read against it. Never read from the clock.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Loading shows placeholder rows; error explains and offers Try again.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the log failed to load.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Webhooks"',
+        description: "The heading.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "540",
+        description: "Height of the surface in px; the log scrolls inside it.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only: nothing can be replayed, paused or rotated.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the surface.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: endpoints are a tablist and the filter a radio group. The log is an ordered list whose rows are disclosure buttons with one tab stop: Up and Down move between rows, Home and End jump, Enter or Space opens the payload, headers and response (a tablist), R replays a failed row. Replay is also its own labelled button, kept focusable with aria-disabled while sending or paused, and its name says why.",
+      'Status chips carry the code as text and the words in their title and in the row\'s accessible name ("504 Gateway timeout"); success and failure differ in colour and in words. One polite announcement when a replay starts and one with its result.',
+      "The pulse is one motion value and three tail segments derived from it; the secret's scramble is one short tween; nothing runs at rest, and both stop on unmount. The pulse's route is measured from the row when the replay starts, so it follows the wide layout or the stacked one.",
+      "Reduced motion: no pulse, flip or bloom; the chip dims while sending and cross-fades to its new code, panels open without growing and the secret swaps without scrambling. Codes, attempts and times still update.",
+      "Secrets are masked until revealed with an explicit action, and signature headers stay masked. The night payload theme is a deliberately fixed dark panel; the other two use tokens and follow the theme.",
+    ],
+  },
+  {
+    name: "sync-pairs",
+    type: "registry:ui",
+    title: "Sync Pairs",
+    description:
+      "A two-way field mapping between two apps whose fields face each other across a gutter of soft cables. Dragging from a field draws a live cable 1:1 under the pointer; plugged into a compatible field its sag drops in slack and swings taut on springs.recoil, two visible bounces of a rope catching. Pressing a cable's knot cycles its direction — right, left, both — and the arrowhead turns on springs.flick and slides along the curve to its new end on springs.glide, a second chevron sliding out for both ways; lossy flows draw the cable in warn and name what is lost, and types that do not convert refuse to pair. Each side is a listbox: Enter opens a partner list, D turns a pair, Delete unpairs, and narrow containers turn the cables into rows with direction chips.",
+    files: [
+      {
+        path: "registry/ui/sync-pairs.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1747",
+    },
+    tagline: "Pair the fields and choose which way each flows.",
+    keywords: [
+      "field mapping",
+      "two-way sync",
+      "integration settings",
+      "data mapping",
+      "connector",
+      "cable",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "cableStyle",
+        type: '"soft" | "taut" | "dashed"',
+        defaultValue: '"soft"',
+        description:
+          "How a cable is drawn: a sagging cable with a soft under-stroke that swings on recoil, a nearly straight one that settles on snap, or a dotted lead.",
+      },
+      {
+        name: "density",
+        type: '"compact" | "regular" | "roomy"',
+        defaultValue: '"regular"',
+        description:
+          "Row height (36, 44 or 52px) and type; regular and roomy rows also name the partner.",
+      },
+      {
+        name: "accent",
+        type: '"cobalt" | "moss" | "plum" | "ember"',
+        defaultValue: '"cobalt"',
+        description:
+          "The cables' and ports' pigment at a fixed lightness; lossy cables are always warn.",
+      },
+      {
+        name: "leftApp",
+        type: "SyncApp",
+        defaultValue: "defaultSyncLeftApp",
+        description: "The app on the left: { name, initials }.",
+      },
+      {
+        name: "rightApp",
+        type: "SyncApp",
+        defaultValue: "defaultSyncRightApp",
+        description: "The app on the right: { name, initials }.",
+      },
+      {
+        name: "leftFields",
+        type: "SyncField[]",
+        defaultValue: "defaultSyncLeftFields",
+        description:
+          "The left app's fields: { id, name, type } with type text, email, phone, number, money, date, datetime, picklist or boolean.",
+      },
+      {
+        name: "rightFields",
+        type: "SyncField[]",
+        defaultValue: "defaultSyncRightFields",
+        description: "The right app's fields.",
+      },
+      {
+        name: "pairs / defaultPairs",
+        type: "SyncPair[]",
+        defaultValue: "— / defaultSyncPairs",
+        description:
+          'Each { left, right, direction: "right" | "left" | "both" }; one partner per field. Controlled or initial.',
+      },
+      {
+        name: "onPairsChange",
+        type: "(pairs) => void",
+        description:
+          "Fires with every pair after a pairing, an unpairing or a direction change.",
+      },
+      {
+        name: "onPair",
+        type: "(pair) => void",
+        description:
+          "Two fields were paired; any pair it replaced is reported through onUnpair first.",
+      },
+      {
+        name: "onUnpair",
+        type: "(pair) => void",
+        description: "A pair was taken apart.",
+      },
+      {
+        name: "onDirectionChange",
+        type: "(pair, direction) => void",
+        description:
+          "A pair's direction was cycled; directions a type cannot flow in are skipped.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Loading shows placeholder rows; error explains and offers Try again.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the fields failed to load.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Field sync"',
+        description: "The heading.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "540",
+        description:
+          "Height of the surface in px; the board scrolls inside it.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only: nothing can be paired, unpaired or turned.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the surface.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: each side is a listbox with one tab stop — Up and Down move, Left and Right cross to the other side (to the partner when there is one). Enter or Space opens the partner list, a popover listbox that names what each type does to the values (converts, lossy and why, or doesn't convert); Enter pairs, Escape closes and returns focus. On a paired field or a knot, D turns the pair and Delete unpairs; knots are buttons in the tab order.",
+      "Pointer: drag from a field to its partner, or tap one field and then another. A drag captures only after 4px, so a press is still a tap; dragging a plugged field's cable into empty space unpairs it, and a drop the types refuse flies back to its port.",
+      "Every cable's sag, knot and chevrons are motion values driven by springs that stop when they settle; paths are rebuilt from them with useTransform, row positions are arithmetic and the gutter is measured once by a ResizeObserver — nothing runs at rest.",
+      "Reduced motion: cables appear without swinging, chevrons jump to their ends and a refused drop simply disappears; the live cable still follows the pointer because it is the gesture. Lossy pairs are named in the knot's label, under narrow rows and in the footer, never by colour alone.",
+      "Below a 36rem container the cables become rows with a direction chip that cycles, an unpair button, and an Add a pair form of two native selects.",
+    ],
+  },
+  {
+    name: "bug-snapshot",
+    type: "registry:ui",
+    title: "Bug Snapshot",
+    description:
+      "A bug report that starts from the page it is about: Report a bug flashes the page (or closes a shutter on it, or lifts it toward you), then a copy of the page shrinks along a straight path into the form's thumbnail slot on springs.glide and drops into it on springs.recoil while the form's sections rise into place in cascade order. A drag on the thumbnail draws a highlight or an opaque redaction from the press point, the signed-in address is hidden on its own, environment rows can be removed and restored, and Send becomes its own progress bar that follows the host's progress on glide; a failed upload keeps every word, box and choice. Every box is a button that arrow keys move and Alt with an arrow resizes, Add box draws one from the keyboard, and the category and severity are radiogroups with roving focus.",
+    files: [
+      {
+        path: "registry/ui/bug-snapshot.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1758",
+    },
+    tagline: "Report a bug with the screen already attached.",
+    keywords: [
+      "bug report",
+      "screenshot",
+      "feedback form",
+      "annotate",
+      "redact",
+      "upload progress",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "page",
+        type: "ReactNode",
+        defaultValue: "<BasinworksUsagePage />",
+        description:
+          "The page the capture shows, drawn into a 16:10 frame: an <svg viewBox> or an element that fills its box.",
+      },
+      {
+        name: "pageLabel",
+        type: "string",
+        defaultValue: '"Basinworks · Usage report"',
+        description: "Names the page in the frame's bar and the report header.",
+      },
+      {
+        name: "sensitiveAreas",
+        type: "BugBox[]",
+        defaultValue: "defaultBugSensitiveAreas",
+        description:
+          "Areas redacted automatically on every capture, as { id, kind, x, y, w, h } in percent of the page.",
+      },
+      {
+        name: "environment",
+        type: "BugEnvironmentItem[]",
+        defaultValue: "defaultBugEnvironment",
+        description:
+          "Environment rows sent with the report as { id, label, value }; each can be removed and restored.",
+      },
+      {
+        name: "categories",
+        type: "BugCategory[]",
+        defaultValue: "defaultBugCategories",
+        description: "The kinds of problem offered, as { id, label }.",
+      },
+      {
+        name: "severities",
+        type: "BugSeverity[]",
+        defaultValue: "defaultBugSeverities",
+        description:
+          "Severity steps, mildest first, as { id, label, tone? } with tone neutral, accent, warn or danger.",
+      },
+      {
+        name: "defaultDraft",
+        type: "Partial<BugDraft>",
+        description:
+          "The draft the form starts from: { category, severity, happened, expected }. Defaults to the first category and medium severity.",
+      },
+      {
+        name: "onDraftChange",
+        type: "(draft: BugDraft) => void",
+        description:
+          "Fires with the whole draft whenever a field, category or severity changes.",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "boolean",
+        defaultValue: "— / false",
+        description:
+          "Whether the report is open, controlled or initial. Opening captures the page.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(open: boolean) => void",
+        description: "Fires from the button that opened or closed the report.",
+      },
+      {
+        name: "onCapture",
+        type: "() => void",
+        description:
+          "A capture has landed in the form (on open and on Retake).",
+      },
+      {
+        name: "onRedact",
+        type: "(redactions: BugBox[]) => void",
+        description:
+          "Fires with every redaction box after one is added, moved or removed, and after a capture.",
+      },
+      {
+        name: "onSubmit",
+        type: "(report: BugReport, progress: (fraction: number) => void) => void | Promise<unknown>",
+        description:
+          "Send was pressed with a valid report. Return a promise to show the upload and call progress(0–1) to drive the bar; a rejection keeps the draft, a resolved string is shown as the reference.",
+      },
+      {
+        name: "captureStyle",
+        type: '"flash" | "shutter" | "lift"',
+        defaultValue: '"flash"',
+        description:
+          "How the capture announces itself: a white flash, an ink shutter closing and opening, or the page lifting toward you before it shrinks.",
+      },
+      {
+        name: "density",
+        type: '"compact" | "regular" | "roomy"',
+        defaultValue: '"regular"',
+        description:
+          "Control height (28, 32 or 36px), padding, type size and gaps.",
+      },
+      {
+        name: "highlightColor",
+        type: "string",
+        defaultValue: '"var(--warn)"',
+        description:
+          "Highlight strokes, washes, numbered badges and the landing flash — any CSS colour.",
+      },
+      {
+        name: "maxHeight",
+        type: "number",
+        defaultValue: "540",
+        description:
+          "Tallest the surface grows before the report scrolls inside it, in px. The page frame is capped to fit it.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the environment details have been read: loading shows skeleton rows, error a line with Try again.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description:
+          "Try again was pressed after the environment failed to read.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Report a bug"',
+        description: "The report's heading and the surface's accessible name.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Nothing can be opened, drawn or sent.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the surface.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: Tab reaches every control. Category, severity and the drawing tool are radiogroups (arrows move and select, Home and End jump). Add box draws a box in the middle of the screenshot and focuses it; on a box, arrows move it 1% (Shift 5%), Alt with an arrow resizes it, and Delete or Backspace removes it.",
+      "Reduced motion: the capture becomes a cross-fade with a soft flash on the thumbnail and nothing travels; boxes, the severity indicator and the environment rows change at once, while the upload bar still fills and the sent card still appears.",
+      "Real screen capture is the host's job: pass what was on screen as `page` (an SVG or an element that fills a 16:10 box) and the areas to hide as `sensitiveAreas`. The capture is drawn, so it costs nothing until Report is pressed.",
+      "onSubmit receives a `progress` callback: call it with 0–1 as the upload reports bytes. With no reports the bar creeps toward 90% on a long ease-out so it never looks stuck and never claims to be finished.",
+      "There is no loop: motion runs only after a press, a drag or an upload, the copy in flight exists only during a capture, and every animation and pending answer is dropped on unmount.",
+    ],
+  },
+  {
+    name: "similar-ideas",
+    type: "registry:ui",
+    title: "Similar Ideas",
+    description:
+      "An idea panel that checks the roadmap while you type: after three letters a quiet spinner turns at the end of the field, then the ideas most like yours rise 16px from below it on springs.glide in cascade order, each with its status, votes and a match strength that fills as it lands; ideas that stop matching fade out and the rest glide to their seats. Voting folds your draft into the idea as your comment — the draft lifts off the field as a pill and glides into the row's note line while the vote count rolls on snap and the comment badge lands on recoil — and with nothing similar the list gives way to a clean submit. The field is a combobox: Up and Down move through matches, Enter votes, Shift+Enter follows and Escape clears.",
+    files: [
+      {
+        path: "registry/ui/similar-ideas.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1759",
+    },
+    tagline: "Someone may have asked already; add your vote.",
+    keywords: [
+      "feature request",
+      "idea board",
+      "duplicate detection",
+      "voting",
+      "roadmap",
+      "combobox",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "ideas / defaultIdeas",
+        type: "SimilarIdea[]",
+        defaultValue: "— / defaultSimilarIdeas",
+        description:
+          'The roadmap\'s ideas as { id, title, body, status: "review" | "planned" | "shipped", votes, comments, voted?, following?, updated, shippedIn?, note? }, controlled or initial.',
+      },
+      {
+        name: "onIdeasChange",
+        type: "(ideas: SimilarIdea[]) => void",
+        description: "Fires with every idea after a vote, a follow or a post.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        defaultValue: '— / ""',
+        description: "The draft title in the field, controlled or initial.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: string) => void",
+        description:
+          "Fires on every keystroke, and when a vote or a post clears the field.",
+      },
+      {
+        name: "onVote",
+        type: "(ideaId: string, voted: boolean, comment?: string) => void",
+        description:
+          "A vote was cast (with the draft as the comment when there was one) or taken back.",
+      },
+      {
+        name: "onSubmitNew",
+        type: "(idea: { title: string; details: string }) => void",
+        description:
+          "Post was pressed: a new idea from the field and the details.",
+      },
+      {
+        name: "onFollow",
+        type: "(ideaId: string, following: boolean) => void",
+        description:
+          "The follow bell was pressed, or Shift+Enter on a highlighted match.",
+      },
+      {
+        name: "onMatches",
+        type: "(ideaIds: string[]) => void",
+        description:
+          "A search settled, with the ids of the similar ideas it found — for counting requests that found an existing home.",
+      },
+      {
+        name: "matchStyle",
+        type: '"bar" | "dots" | "ring"',
+        defaultValue: '"bar"',
+        description:
+          "How the match strength reads: a thin bar with its percentage, five dots, or a small ring gauge.",
+      },
+      {
+        name: "density",
+        type: '"compact" | "regular" | "roomy"',
+        defaultValue: '"regular"',
+        description: "Row height, padding, gaps and type.",
+      },
+      {
+        name: "statusPalette",
+        type: '"signal" | "cool" | "mono"',
+        defaultValue: '"signal"',
+        description:
+          "Status colours: amber, cobalt and green; three cool hues; or ink, with the dashed, half and filled glyphs telling them apart.",
+      },
+      {
+        name: "maxMatches",
+        type: "number",
+        defaultValue: "4",
+        description: "The most similar ideas shown at once.",
+      },
+      {
+        name: "minScore",
+        type: "number",
+        defaultValue: "0.2",
+        description: "How alike an idea must be to show, from 0 to 1.",
+      },
+      {
+        name: "searchDelayMs",
+        type: "number",
+        defaultValue: "320",
+        description:
+          "How long the quiet spinner turns after the last keystroke before matches rise, in ms.",
+      },
+      {
+        name: "product",
+        type: "string",
+        defaultValue: '"Coldbrook"',
+        description: "The product whose roadmap this is, named in the header.",
+      },
+      {
+        name: "placeholder",
+        type: "string",
+        defaultValue: '"Describe your idea in a line"',
+        description: "The field's placeholder.",
+      },
+      {
+        name: "now",
+        type: "number | Date",
+        defaultValue: "defaultSimilarIdeasNow",
+        description:
+          "The moment ages count from, so the server and the browser print the same text.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the ideas have arrived: loading holds the field, error shows a line with Try again.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the ideas failed to load.",
+      },
+      {
+        name: "maxHeight",
+        type: "number",
+        defaultValue: "540",
+        description: "Tallest the panel grows before it scrolls inside, in px.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Nothing can be typed, voted, followed or posted.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the panel.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the field is a combobox with aria-activedescendant. Up and Down move through the matches, Home and End jump once one is highlighted, Enter votes for it (adding your text as a comment), Shift+Enter follows it, and Escape clears the highlight, then the field. With no matches Enter posts the idea.",
+      "Reduced motion: matches appear in place with a fade, strengths are drawn at once and the draft cross-fades into its note line instead of flying; counts, statuses and the list height still change. The spinner becomes three still dots that fade.",
+      "Matching runs in the browser over the ideas you pass: each query word takes its best match in the title (or 60% of its best in the body), with stems, shared prefixes and a small synonym list. Pass your own ranked ideas through `ideas` if matching happens on a server.",
+      "Use onMatches to measure deflection — how often a request found an existing idea — and onVote's comment to keep the requester's words with the vote.",
+      "Nothing runs while idle: one timer per keystroke, cleared by the next; the spinner exists only while a search is pending; one ResizeObserver measures the list for its height glide.",
+    ],
+  },
+  {
+    name: "ease-check",
+    type: "registry:ui",
+    title: "Ease Check",
+    description:
+      "A one-row question for right after a task, whose effort slider is a string between two pegs: pressing rests the finger on it, dragging moves the thumb 1:1 while dragging up or down bends the string under the thumb into two straight runs with a rounded apex, and letting go settles the thumb on its step on springs.snap and plucks the string, which rings through straight on a spring with springs.recoil's character (its stiffness set by the track and the tension) carrying the release velocity. A release, a tap or Enter sends the answer; low scores open a short why field on a measured glide, others say thanks and fold the question away, and a task is never asked twice. It is a real slider: arrows step and pluck lightly, Page keys move two, Home and End jump.",
+    files: [
+      {
+        path: "registry/ui/ease-check.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1760",
+    },
+    tagline: "One quick question, right after the task.",
+    keywords: [
+      "customer effort score",
+      "survey",
+      "slider",
+      "in-product feedback",
+      "plucked string",
+      "rating",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "question",
+        type: "string",
+        defaultValue: '"How easy was that export?"',
+        description:
+          "The question, asked right after the task; it also labels the slider.",
+      },
+      {
+        name: "taskId",
+        type: "string",
+        defaultValue: '"waylight-export-q3"',
+        description:
+          "The finished task this asks about. Each task is asked once: answered or dismissed, it never returns.",
+      },
+      {
+        name: "stepCount",
+        type: "number",
+        defaultValue: "7",
+        description:
+          "Points on the scale, 3 to 10: ticks, labels and keyboard steps.",
+      },
+      {
+        name: "labels",
+        type: "string[]",
+        description:
+          'One label per point, hardest first. Defaults to a preset for 3, 5 and 7 points, else the end labels and "n of N".',
+      },
+      {
+        name: "minLabel",
+        type: "string",
+        defaultValue: '"Very hard"',
+        description: "The hard end's label.",
+      },
+      {
+        name: "maxLabel",
+        type: "string",
+        defaultValue: '"Very easy"',
+        description: "The easy end's label.",
+      },
+      {
+        name: "lowThreshold",
+        type: "number",
+        defaultValue: "⌊(stepCount − 1) / 2⌋",
+        description: "Scores at or below this open the why field.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "number | null",
+        defaultValue: "— / null",
+        description:
+          "The score, 1 to stepCount, or null before an answer; controlled or initial.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: number) => void",
+        description: "Fires from the release, tap or key that chose a score.",
+      },
+      {
+        name: "onAnswer",
+        type: "(score: number, taskId: string) => void",
+        description: "An answer was sent: on release, on a tap, or on Enter.",
+      },
+      {
+        name: "onComment",
+        type: "(text: string, score: number, taskId: string) => void",
+        description: "The why field was sent, with the score it explains.",
+      },
+      {
+        name: "onDismiss",
+        type: "(taskId: string) => void",
+        description: "The question was dismissed without an answer.",
+      },
+      {
+        name: "trackStyle",
+        type: '"string" | "cord" | "beads"',
+        defaultValue: '"string"',
+        description:
+          "What the slider is made of: a fine string that rings fast, a thick cord that sways slowly, or beads on a thread, one per point.",
+      },
+      {
+        name: "tone",
+        type: '"accent" | "score" | "ink"',
+        defaultValue: '"accent"',
+        description:
+          "The filled run and thumb: cobalt; a colour that warms from red at the hard end through amber to green; or ink.",
+      },
+      {
+        name: "tension",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How taut the string is, 0 to 1: tighter rings faster and settles sooner.",
+      },
+      {
+        name: "whyPrompt",
+        type: "string",
+        defaultValue: '"What got in the way?"',
+        description: "The why field's prompt and label.",
+      },
+      {
+        name: "thanksMs",
+        type: "number",
+        defaultValue: "1800",
+        description:
+          "How long the thanks shows before the question folds away, in ms.",
+      },
+      {
+        name: "persist",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Also remember asked tasks in localStorage, so they stay answered across visits.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "The slider and buttons do nothing.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the question's outer box.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: the slider is role="slider" labelled by the question, with aria-valuetext such as "5 of 7, fairly easy". Arrows step from the waiting middle thumb, Page Up and Page Down move two, Home and End jump, and Enter sends; after a key the line under the string says "Enter to send". In the why field Enter sends and Escape skips.',
+      "Reduced motion: the string never bends or rings and the thumb moves to its step at once; the value, the fill, the why field and the thanks still change, and the fold is instant.",
+      "Ask once: pass a stable `taskId` per finished task. Answered and dismissed task ids are remembered for the page's life (and in localStorage with `persist`), and a question for one of them renders nothing — so it is safe to mount it after every export.",
+      "It fits one row at 316px: the question wraps to two short lines beside the slider, and the end labels appear from 30rem. Give it the width of the task's own surface.",
+      "There is no loop: the string's spring runs only after a press or a key and stops when it settles, and the path is rebuilt from two motion values with every coordinate rounded.",
+    ],
+  },
+  {
+    name: "point-and-tell",
+    type: "registry:ui",
+    title: "Point and Tell",
+    description:
+      "Feedback that points: Point turns the page into targets, and hovering — or Tab, which cycles through the parts while point mode is on — finds the smallest part under the pointer while one fine measuring outline travels to its box on springs.snap, with its size in a tag and guides out to the page's edges. A click or Enter pins it: a crop of the page lifts off at the part's own box and flies into its slot in the form on springs.glide on one uniform scale while the outline flashes. Crops are the page drawn again and scaled, sensitive values are masked in every crop, Escape leaves point mode, and Send shows sending, sent and failed — a failure keeps the note and every pin.",
+    files: [
+      {
+        path: "registry/ui/point-and-tell.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1761",
+    },
+    tagline: "Point at the part of the page you mean.",
+    keywords: [
+      "visual feedback",
+      "element picker",
+      "point mode",
+      "annotation",
+      "masking",
+      "feedback widget",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "targets",
+        type: "PointTarget[]",
+        defaultValue: "defaultPointTargets",
+        description:
+          "The page's parts as { id, label, kind, rect: { x, y, w, h } in percent of a 16:10 page, text?, sensitive? }; each kind (header, nav, heading, field, select, button, chart, table, card, note, badge) draws itself.",
+      },
+      {
+        name: "pageLabel",
+        type: "string",
+        defaultValue: '"Fieldline · Equipment checkout"',
+        description:
+          "Names the page in its frame's bar and the point-mode group.",
+      },
+      {
+        name: "form",
+        type: "PointForm",
+        description:
+          'The form\'s words: { heading, prompt, placeholder, sendLabel }, defaulting to Feedback, a one-line prompt, "What should we know?" and Send.',
+      },
+      {
+        name: "pointing / defaultPointing",
+        type: "boolean",
+        defaultValue: "— / false",
+        description: "Whether point mode is on, controlled or initial.",
+      },
+      {
+        name: "onPointingChange",
+        type: "(pointing: boolean) => void",
+        description:
+          "Fires from the button, key or send that turned point mode on or off.",
+      },
+      {
+        name: "pins / defaultPins",
+        type: "string[]",
+        defaultValue: "— / []",
+        description:
+          "The pinned target ids in pin order, controlled or initial.",
+      },
+      {
+        name: "onPinsChange",
+        type: "(pins: string[]) => void",
+        description: "Fires with every pin after one is added or removed.",
+      },
+      {
+        name: "onPoint",
+        type: "(target: PointTarget) => void",
+        description: "A part of the page was pinned.",
+      },
+      {
+        name: "onSubmit",
+        type: "(feedback: { message: string; targets: PointTarget[] }) => void | Promise<unknown>",
+        description:
+          "Send was pressed. Return a promise to show sending; a rejection shows the failure and keeps the note and pins.",
+      },
+      {
+        name: "onCancel",
+        type: "() => void",
+        description: "Cancel was pressed; pins and note are cleared.",
+      },
+      {
+        name: "outlineStyle",
+        type: '"measure" | "dashed" | "corners"',
+        defaultValue: '"measure"',
+        description:
+          "The pointing outline: a fine box with corner ticks, guides and a size tag; a dashed box with the tag; or four corner brackets.",
+      },
+      {
+        name: "maskStyle",
+        type: '"blur" | "bars" | "dots"',
+        defaultValue: '"blur"',
+        description:
+          "How sensitive values look in crops: blurred, covered by solid bars, or replaced by dots. The live page is untouched.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "Outline, guides, pin numbers, the point-mode tint and Send — any CSS colour.",
+      },
+      {
+        name: "maxPins",
+        type: "number",
+        defaultValue: "4",
+        description: "The most parts that can be pinned at once.",
+      },
+      {
+        name: "maxHeight",
+        type: "number",
+        defaultValue: "540",
+        description:
+          "Tallest the surface grows before it scrolls inside, in px.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Nothing can be pointed at, pinned or sent.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the surface.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: Point is a toggle button. In point mode the parts are buttons over the drawn page in reading order; focus moves to the first, Tab and Shift+Tab cycle through them (a loop until you leave), Enter or Space pins or unpins, and Escape leaves point mode from anywhere in the surface and returns focus to Point. Removing a pin moves focus to the next pin's remove button.",
+      "Reduced motion: the outline jumps to each box and fades, a pin appears in its slot with a fade instead of flying, and the sent check is drawn at once; pins, masks and the send states all still show.",
+      "Mark parts that show personal data `sensitive`: they read normally on the page and are masked in every crop and in the copy that flies, so a screenshot of the form never carries them.",
+      "The page is drawn in container units from `targets`, so it scales to any width and each crop is the same page at 640px, scaled and clipped — exact, and free of images. Pass your own parts with percent rects to point at your own screen.",
+      "Nothing runs while idle: hover hit-testing is the buttons themselves (smaller parts sit above larger ones), the outline moves only when the part under the pointer or focus changes, and the flying crop exists only during a pin.",
+    ],
+  },
+  {
+    name: "theme-sorter",
+    type: "registry:ui",
+    title: "Theme Sorter",
+    description:
+      "A feedback inbox you sort by hand: a card lifts after 4px of travel and follows the pointer 1:1 as a copy above both columns, leaning with its speed, while the theme under it swells on springs.snap. Dropped on a theme it is squeezed in — narrowing on springs.glide and flattening 60ms behind on the same spring toward the theme's centre — the theme gulps on springs.recoil as its tally rolls up on snap, and once it is in the themes re-rank by count with a layout glide; dropped anywhere else it springs home with the release velocity. The inbox is one tab stop with roving focus: Up and Down move, T or Enter opens a theme menu with type-ahead and New theme, A or Delete archives, and a failed tag springs the card back into its slot with a note.",
+    files: [
+      {
+        path: "registry/ui/theme-sorter.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1762",
+    },
+    tagline: "Sort incoming feedback into themes that count.",
+    keywords: [
+      "feedback inbox",
+      "tagging",
+      "drag and drop",
+      "triage",
+      "customer feedback",
+      "themes",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "items / defaultItems",
+        type: "FeedbackItem[]",
+        defaultValue: "— / defaultThemeSorterItems",
+        description:
+          'Feedback as { id, quote, customer, company, source: "email" | "call" | "survey" | "chat" | "review", plan, sentiment: "positive" | "neutral" | "negative", at, themeId?, archived? }, controlled or initial. Untagged, unarchived items wait in the inbox; tagged ones count toward their theme.',
+      },
+      {
+        name: "onItemsChange",
+        type: "(items: FeedbackItem[]) => void",
+        description:
+          "Fires with every item after a tag, an archive or a failed tag's revert.",
+      },
+      {
+        name: "themes / defaultThemes",
+        type: "FeedbackTheme[]",
+        defaultValue: "— / defaultThemeSorterThemes",
+        description:
+          "Themes as { id, name }, controlled or initial; shown most-counted first.",
+      },
+      {
+        name: "onThemesChange",
+        type: "(themes: FeedbackTheme[]) => void",
+        description: "Fires with every theme after one is created.",
+      },
+      {
+        name: "onTag",
+        type: "(itemId: string, themeId: string) => void | Promise<unknown>",
+        description:
+          "An item was tagged by a drop or the theme menu. Return a promise; a rejection springs the item back into the inbox with a note and rolls the tally back.",
+      },
+      {
+        name: "onCreateTheme",
+        type: "(theme: FeedbackTheme) => void",
+        description:
+          "A theme was created from New theme; the item it was opened on is tagged into it.",
+      },
+      {
+        name: "onArchive",
+        type: "(itemId: string) => void",
+        description: "An item was archived without a theme.",
+      },
+      {
+        name: "bucketStyle",
+        type: '"tray" | "jar" | "row"',
+        defaultValue: '"tray"',
+        description:
+          "How a theme looks: a tray with its count, a share bar coloured by its sentiment mix and a percentage; a jar whose level rises with its count; or a compact row. Chips at narrow widths keep a hint of each.",
+      },
+      {
+        name: "density",
+        type: '"compact" | "regular" | "roomy"',
+        defaultValue: '"regular"',
+        description: "Card padding, quote size and gaps.",
+      },
+      {
+        name: "sentimentPalette",
+        type: '"signal" | "duo" | "mono"',
+        defaultValue: '"signal"',
+        description:
+          "Sentiment colours: green, ink and red; cobalt, ink and amber; or ink alone, told apart by the dot, ring and diamond marks.",
+      },
+      {
+        name: "now",
+        type: "number | Date",
+        defaultValue: "defaultThemeSorterNow",
+        description:
+          "The moment ages count from, so the server and the browser print the same text.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the items have arrived: loading shows skeleton cards and themes, error a line with Try again.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the items failed to load.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Feedback inbox"',
+        description: "The inbox's heading and accessible name.",
+      },
+      {
+        name: "maxHeight",
+        type: "number",
+        defaultValue: "540",
+        description:
+          "Tallest the surface grows before its columns scroll, in px.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Nothing can be dragged, tagged, created or archived.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the surface.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the inbox is one tab stop with roving focus — Up and Down move between quotes, Home and End jump. T or Enter opens a theme menu on the card (arrows move, a letter jumps to the theme it starts, Enter tags, Escape returns to the card, New theme… becomes a name field); A, Delete or Backspace archives. Focus moves to the next quote when one leaves, and to the inbox itself when the last one does.",
+      "Reduced motion: nothing lifts, leans or squeezes — a tagged card fades out of the inbox, counts update, the themes re-order at once and a failed tag fades the card back; jar levels and share bars change without travel.",
+      "Touch: the grip is the drag handle (touch-action none), so a finger anywhere else on a card still scrolls the inbox. The dragged copy lives above both columns, so it can cross from the scrolling inbox to the themes without being clipped.",
+      "Themes re-rank only once a tag has landed, so the theme a card is flying into never moves out from under it; the re-rank is announced when the leader changes.",
+      "Nothing runs while idle: a drag sets motion values only, theme bounds are read as the pointer moves, and every animation and pending timer is dropped on unmount.",
+    ],
+  },
+  {
+    name: "bulletin-composer",
+    type: "registry:ui",
+    title: "Bulletin Composer",
+    description:
+      "An email layout editor: a palette of header, text, image, button and divider blocks feeds a one-column letter drawn in a device frame, and each block opens an edit panel for its content. Toggling Desktop and Phone changes the frame's width in one render and every block FLIPs to its new box on springs.glide — corners round into a phone bezel, pictures go full bleed, the call to action stretches and text slides to its new wrap without being squashed — while a ruler over the letter marks where the phone width will cut. Blocks and palette tiles drag 1:1: an accent drop line opens a gap between the blocks under it on glide and, on release, every block glides from where it is drawn to its new slot with the throw's velocity; the letter is a listbox where Up and Down move, Alt with Up or Down moves the block, Enter edits it and Delete removes it, and missing alt text is flagged on the picture, in its field and in a count that jumps to it.",
+    files: [
+      {
+        path: "registry/ui/bulletin-composer.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1753",
+    },
+    tagline: "Build the newsletter, then check it on a phone.",
+    keywords: [
+      "email editor",
+      "newsletter builder",
+      "block editor",
+      "responsive preview",
+      "drag and drop",
+      "alt text",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "previewWidth",
+        type: "number",
+        defaultValue: "380",
+        description:
+          "Width the phone preview narrows the letter to, in px; the ruler over the desktop letter marks it.",
+      },
+      {
+        name: "blockStyle",
+        type: '"seamless" | "framed" | "stacked"',
+        defaultValue: '"seamless"',
+        description:
+          "How blocks sit on the canvas: edge to edge like the sent letter, each in a labelled frame, or as separate cards with grips.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "The letter's brand colour (header wash, button, sender mark) and the editor's selection, drop line and ruler. Fills are taken at a fixed lightness so they read in both themes.",
+      },
+      {
+        name: "blocks / defaultBlocks",
+        type: "BulletinBlock[]",
+        defaultValue: "— / defaultBulletinBlocks",
+        description:
+          "The letter top to bottom: header { kicker, title, align }, text { body }, image { art, alt, caption }, button { label, href, fullWidthOnPhone }, divider { style }.",
+      },
+      {
+        name: "onChange",
+        type: "(blocks) => void",
+        description:
+          "Fires with every block after an edit, insert, move or removal.",
+      },
+      {
+        name: "preview / defaultPreview",
+        type: '"desktop" | "phone"',
+        defaultValue: '— / "desktop"',
+        description: "Which device the letter is previewed on.",
+      },
+      {
+        name: "onPreviewChange",
+        type: "(preview) => void",
+        description:
+          "Fires from the toggle or arrow key that changed the preview.",
+      },
+      {
+        name: "selected / defaultSelected",
+        type: "string | null",
+        defaultValue: "— / null",
+        description:
+          "The selected block's id, whose edit panel the rail shows.",
+      },
+      {
+        name: "onSelectedChange",
+        type: "(id) => void",
+        description:
+          "Fires when a click, key, drag or insert selects a block, or the selection clears.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"October letter"',
+        description:
+          "The editor's heading and the letter list's accessible name.",
+      },
+      {
+        name: "subject",
+        type: "string",
+        defaultValue: '"The fern house reopens"',
+        description: "The subject line shown in the frame's inbox bar.",
+      },
+      {
+        name: "preheader",
+        type: "string",
+        defaultValue: '"Misting at nine, new panes, Thursday spore prints."',
+        description: "The line an inbox shows after the subject.",
+      },
+      {
+        name: "sender",
+        type: "string",
+        defaultValue: '"Fernworks"',
+        description:
+          "Who the letter is from; also its avatar initial and the footer.",
+      },
+      {
+        name: "onSendTest",
+        type: "(address, blocks) => void | Promise",
+        description:
+          "Send test was pressed with a valid address. Return a promise to show it sending; a rejection says it failed and keeps the dialog open.",
+      },
+      {
+        name: "testAddress",
+        type: "string",
+        defaultValue: '"ines@fernworks.example"',
+        description: "The address the test dialog starts with.",
+      },
+      {
+        name: "onSchedule",
+        type: "(at, blocks) => void | Promise",
+        description:
+          "A send slot was confirmed, in ms since the epoch. Return a promise to show it saving.",
+      },
+      {
+        name: "now",
+        type: "number | Date",
+        defaultValue: "defaultBulletinNow",
+        description:
+          "Today, for the three schedule slots and the phone's clock — never the wall clock, so server and browser agree.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the letter has arrived: loading draws skeleton blocks, error offers Try again.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the letter failed to load.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "540",
+        description: "The editor's height in px; the letter scrolls inside it.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Read only: blocks can be browsed and previewed but not edited, moved, sent or scheduled.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the editor's outer box.",
+      },
+    ],
+    usageNotes: [
+      "The letter is a listbox with one roving stop: Up and Down move between blocks, Home and End jump, Alt with Up or Down moves the block (the same glide as a drag), Enter opens its edit panel on the first field and Delete removes it; Escape clears the selection and is consumed only when there was one.",
+      "Only the preview toggle runs a layout animation (layoutDependency is the preview), so typing in the panel and reorders never re-measure the letter; moves use a FLIP on each block's own offset.",
+      "Under reduced motion the preview, every move and every insert land at once; the drop line and the gap still show, and every flag and count still changes.",
+      "Below a 40rem container the rail becomes a bottom sheet (a modal dialog with a focus trap, Escape and a drag-down to close) and the letter takes the full width; the compact letter type applies whenever the letter is under 27rem, as a real responsive email would.",
+      "Pictures are drawn in code from tokens and the accent; colours never come from hex values, so the letter reads in both themes.",
+      "Send test and Schedule results come from the host: return a promise from onSendTest or onSchedule to show sending, sent and failed states.",
+    ],
+  },
+  {
+    name: "quick-fix",
+    type: "registry:ui",
+    title: "Quick Fix",
+    description:
+      "A code editor panel built from code and diagnostics: every problem is underlined under its exact columns in its severity's colour, marked in the gutter and counted in the header. Applying a fix morphs the faulty token into its correction character by character — the common start and end stay, each changed slot rolls on springs.snap in a left-to-right cascade and slots that appear or vanish grow or shrink on springs.glide — while the squiggle unwinds, its coil straightening on glide before it retracts into its middle, and the count ticks down on snap. The text is a real textarea over a painted layer: F8 and Shift+F8 walk the problems, gliding the code into view and opening a peek under the line, Command or Control with period opens the fixes menu at the caret, and edits shift the problems after them.",
+    files: [
+      {
+        path: "registry/ui/quick-fix.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1754",
+    },
+    tagline: "Problems underlined, fixes one keystroke away.",
+    keywords: [
+      "code editor",
+      "diagnostics",
+      "quick fix",
+      "lint",
+      "squiggle",
+      "problems panel",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "squiggleStyle",
+        type: '"wave" | "dots" | "line"',
+        defaultValue: '"wave"',
+        description:
+          "How a problem is underlined: a sine wave, a row of dots (they close into a rule as a fix unwinds them) or a straight rule.",
+      },
+      {
+        name: "editorTheme",
+        type: '"paper" | "slate" | "mono"',
+        defaultValue: '"paper"',
+        description:
+          "The surface and syntax colour: the card with quiet hues, a sunk slate panel with stronger hues and a tinted gutter, or no syntax colour so only the squiggles carry colour.",
+      },
+      {
+        name: "fontScale",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "Code size as a multiple of 13px; line height, squiggle size and gutter follow.",
+      },
+      {
+        name: "code / defaultCode",
+        type: "string",
+        defaultValue: "— / defaultQuickFixCode",
+        description: "The source text.",
+      },
+      {
+        name: "onChange",
+        type: "(code) => void",
+        description: "Fires with the new text after typing or a fix.",
+      },
+      {
+        name: "diagnostics / defaultDiagnostics",
+        type: "QuickFixDiagnostic[]",
+        defaultValue: "— / defaultQuickFixDiagnostics",
+        description:
+          "Problems as { id, from, to, severity, message, rule?, fixes?: { id, title, text }[] }, where from and to are character offsets into the code.",
+      },
+      {
+        name: "onDiagnosticsChange",
+        type: "(diagnostics) => void",
+        description:
+          "Fires after a fix, an ignore, or an edit that shifted problems or dropped one it touched.",
+      },
+      {
+        name: "onApplyFix",
+        type: "(diagnostic, fix, code) => void",
+        description: "A fix was applied, with the new text.",
+      },
+      {
+        name: "onIgnore",
+        type: "(diagnostic) => void",
+        description: "A problem was ignored from the peek or the menu.",
+      },
+      {
+        name: "fileName",
+        type: "string",
+        defaultValue: '"gaugeworks/readings.ts"',
+        description:
+          "The file's path, shown on its tab; the last part names it in messages.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the file has opened: loading draws ruled lines, error offers Try again.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the file failed to open.",
+      },
+      {
+        name: "problemsOpen / defaultProblemsOpen",
+        type: "boolean",
+        defaultValue: "— / true",
+        description: "Whether the problems panel is shown under the code.",
+      },
+      {
+        name: "onProblemsOpenChange",
+        type: "(open) => void",
+        description: "Fires from the count button or the panel's close button.",
+      },
+      {
+        name: "readOnly",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "The text can be read and navigated with F8, but not typed into or fixed.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "540",
+        description: "The panel's height in px; the code scrolls inside it.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: "the file name",
+        description: "The editor's accessible name.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Nothing can be typed, fixed or ignored.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the editor's outer box.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: F8 moves the caret to the next problem and Shift+F8 to the previous one, each announced once with its line, message and fix count; Command or Control with period opens a real menu of fixes plus Ignore at the caret (arrows, Home, End, Enter), and Escape closes the peek or the menu and is consumed only then. Tab leaves the editor as usual.",
+      "The editor is a real textarea over a painted layer, so caret, selection, typing and native shortcuts all work; edits shift every problem after them and drop one whose range they touch, for the host to re-check.",
+      "Under reduced motion the token cross-fades instead of rolling, the squiggle fades instead of unwinding, and the code jumps into view; counts, marks and the clean state still change.",
+      "Nothing loops at rest: the morph and the unwind are finite animations, scrolling moves the painted layer with one transform per scroll event, and one probe measures the character width per font size.",
+      "Below a 30rem container the gutter keeps its numbers but hides the marks and lightbulb, and the header folds the counts into one.",
+    ],
+  },
+  {
+    name: "screenshot-markup",
+    type: "registry:ui",
+    title: "Screenshot Markup",
+    description:
+      "An image annotation editor: arrows, boxes, labels and redaction over a screenshot, every mark kept in the image's own pixels. Drawing an arrow, the shaft bows behind the hand — a curve whose control point trails the pointer on springs.glide — and on release it pulls taut while the head springs into place on springs.recoil with two visible bounces. The redact brush pixelates whatever passes under it: cells of a grid fill with the real mosaic of the image beneath, popping in as separate tiles on springs.flick, and when the stroke ends they settle — gaps closing and corners squaring on springs.snap in the order they were laid — into one solid mosaic. Tools have single keys, the canvas has a keyboard cursor so Enter, arrows and Enter draw any mark, [ and ] select marks, arrows nudge them and Delete removes them, and undo and redo walk a history.",
+    files: [
+      {
+        path: "registry/ui/screenshot-markup.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1755",
+    },
+    tagline: "Arrow it, box it, and blur what's private.",
+    keywords: [
+      "image annotation",
+      "screenshot editor",
+      "redaction",
+      "pixelate",
+      "markup tools",
+      "bug report",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "strokeWidth",
+        type: "number",
+        defaultValue: "3",
+        description:
+          "Stroke of arrows and boxes in image px; it also sizes arrowheads, labels and the redact brush (six times the stroke).",
+      },
+      {
+        name: "toolPalette",
+        type: '"rail" | "float" | "strip"',
+        defaultValue: '"rail"',
+        description:
+          "Where the tools live: a rail down the left, a pill floating over the image, or a strip under the header. Below a 36rem container they dock at the bottom whatever this is.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--danger)"',
+        description:
+          "The markup colour, taken at a fixed lightness so marks read the same over either theme.",
+      },
+      {
+        name: "image",
+        type: "MarkupImage",
+        defaultValue: "defaultMarkupImage",
+        description:
+          "The screenshot as { width, height, alt, src?, content? }: a raster src, or SVG content drawn in the image's coordinates (the default Basinworks dashboard).",
+      },
+      {
+        name: "annotations / defaultAnnotations",
+        type: "MarkupAnnotation[]",
+        defaultValue: "— / defaultMarkupAnnotations",
+        description:
+          "Marks in image pixels: arrow { x1, y1, x2, y2 }, box { x, y, w, h }, text { x, y, text } and redact { size, cells: [column, row][] }.",
+      },
+      {
+        name: "onChange",
+        type: "(annotations) => void",
+        description:
+          "Fires with every mark after one is drawn, moved, nudged, edited, removed, undone or redone.",
+      },
+      {
+        name: "tool / defaultTool",
+        type: '"select" | "arrow" | "box" | "text" | "redact"',
+        defaultValue: '— / "arrow"',
+        description: "The active tool.",
+      },
+      {
+        name: "onToolChange",
+        type: "(tool) => void",
+        description:
+          "Fires from the button or single key (V, A, B, T, R) that picked a tool.",
+      },
+      {
+        name: "selected / defaultSelected",
+        type: "string | null",
+        defaultValue: "— / null",
+        description: "The selected mark's id.",
+      },
+      {
+        name: "onSelectedChange",
+        type: "(id) => void",
+        description:
+          "Fires when a click, a bracket key or a new mark changes the selection.",
+      },
+      {
+        name: "onUndo",
+        type: "(annotations) => void",
+        description:
+          "Undo was pressed or Command/Control+Z typed, with the marks it went back to.",
+      },
+      {
+        name: "onRedo",
+        type: "(annotations) => void",
+        description:
+          "Redo was pressed or Shift+Command/Control+Z typed, with the marks it restored.",
+      },
+      {
+        name: "onExport",
+        type: "(annotations, image) => void | Promise",
+        description:
+          "Export was pressed. Return a promise to show it exporting; a rejection offers Retry.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the screenshot has arrived: loading shows a ruled frame and a progress bar, error offers Try again.",
+      },
+      {
+        name: "progress",
+        type: "number",
+        description:
+          "How much of a large screenshot has loaded, 0 to 1; omit it for an indeterminate bar.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description:
+          "Try again was pressed after the screenshot failed to load.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Basinworks · levels, 14 Oct"',
+        description: "The editor's heading.",
+      },
+      {
+        name: "cellSize",
+        type: "number",
+        defaultValue: "16",
+        description:
+          "The redaction grid in image px: the size of each pixelated block.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "540",
+        description:
+          "The editor's tallest height in px; the image letterboxes inside.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Marks can be viewed but not drawn, moved, removed or exported.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the editor's outer box.",
+      },
+    ],
+    usageNotes: [
+      "The canvas is one focusable group with a keyboard cursor: arrows move it (Shift for larger steps), Enter starts a mark of the current tool there, arrows extend it and Enter ends it with the same landing as the pointer; [ and ] select marks, arrows nudge the selected one (Shift for ten pixels), Delete removes it and Escape cancels a mark or clears the selection, consumed only when it does something.",
+      "Redaction is a real mosaic: an SVG pixelate filter (blur, sample, dilate) over a use-copy of the image, clipped to the brushed cells, so it works on drawn SVG and raster src images alike; the source pixels remain in the page, so export the flattened image server-side before sharing.",
+      "Under reduced motion the arrow draws straight and its head appears in place, cells land as a solid mosaic, and moves are immediate; the pixelation and every count are unchanged.",
+      "Nothing loops at rest: the trailing control point, the head's landing and the settle are finite springs, and the brush adds cells to state only when it crosses a new one.",
+      "Arrow and box colours ride on plain groups through currentColor, so a changed accent re-colours marks that motion is animating.",
+    ],
+  },
+  {
+    name: "schema-table",
+    type: "registry:ui",
+    title: "Schema Table",
+    description:
+      "A database schema editor where each field's name, type and options sit above its sample column, so a change of type is something you watch. Picking a new type previews it: the column converts one cell at a time down the rows — the old drawing lifts and fades on a tween while the new one rises and grows from 0.94 on springs.snap, text becoming date chips, numbers gaining currency and cents, yes becoming a tick — and a cell that will not convert keeps its text, struck faint on a danger hatch with its reason; a confirm bar glides down on springs.glide, Convert commits and Cancel converts back bottom row first. Fields reorder by a grip that follows the hand 1:1 while the other columns slide aside on glide and land with the throw, or by Alt with an arrow on the field's button, which also opens a real menu of types (each showing how many cells would fail), rename, options, moves and remove.",
+    files: [
+      {
+        path: "registry/ui/schema-table.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1756",
+    },
+    tagline: "Change a field's type and watch the data convert.",
+    keywords: [
+      "schema editor",
+      "database fields",
+      "type conversion",
+      "column types",
+      "data migration",
+      "reorder columns",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "typeBadge",
+        type: '"icon" | "label" | "both"',
+        defaultValue: '"both"',
+        description:
+          "How a field's type shows in its header: a glyph, a word, or both; the badge rolls to the new type on snap.",
+      },
+      {
+        name: "density",
+        type: '"compact" | "regular" | "roomy"',
+        defaultValue: '"regular"',
+        description:
+          "Row height (30, 36 or 44px), type size and column width; columns glide to a new width.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "The editor's colour: the previewed field, Convert, ticks, and where the select-chip hues start.",
+      },
+      {
+        name: "fields / defaultFields",
+        type: "SchemaField[]",
+        defaultValue: "— / defaultSchemaFields",
+        description:
+          "Fields in column order as { id, name, type, options? }, where type is text, number, currency, date, select, checkbox or email and options carry currency, decimals, dateStyle and choices. An empty list starts with one Name field.",
+      },
+      {
+        name: "onFieldsChange",
+        type: "(fields) => void",
+        description:
+          "Fires with every field after a rename, a confirmed type change, an option, a move, an add or a removal.",
+      },
+      {
+        name: "sampleRows / defaultSampleRows",
+        type: "SchemaRow[]",
+        defaultValue: "— / defaultSchemaRows",
+        description:
+          "Sample records as { id, cells: { [fieldId]: string | number | boolean | null } }; dates are ISO strings.",
+      },
+      {
+        name: "onSampleRowsChange",
+        type: "(rows) => void",
+        description:
+          "Fires after a conversion rewrote a column, or a field was added or removed.",
+      },
+      {
+        name: "onFieldChange",
+        type: "(field, previous) => void",
+        description:
+          "A field was renamed, re-typed (only after Convert) or given new options.",
+      },
+      {
+        name: "onAddField",
+        type: "(field) => void",
+        description: "Add field created a field; its name input takes focus.",
+      },
+      {
+        name: "onRemoveField",
+        type: "(field) => void",
+        description: "A field was removed after its menu's second press.",
+      },
+      {
+        name: "totalRows",
+        type: "number",
+        defaultValue: "1284",
+        description:
+          "How many records the whole table holds, shown in the footer beside the sample count.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Equipment register"',
+        description:
+          "The table's name; also names the table for assistive technology.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the schema has arrived: loading draws skeleton rows, error offers Try again.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the schema failed to load.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "540",
+        description: "The editor's height in px; the table scrolls inside it.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Read only: fields can be browsed but not changed, moved, added or removed.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the editor's outer box.",
+      },
+    ],
+    usageNotes: [
+      "Field buttons are one roving tab stop: Left and Right (Up and Down in the list view) move between fields, Home and End jump, Alt with an arrow moves the field, F2 renames it and Enter opens its menu; the menu takes arrows, Home, End and Enter, and Escape closes it (and is consumed) with focus back on the field.",
+      "A type change never applies on the first press: it previews, marks every cell that will not convert with its reason in the cell's name, and waits for Convert, which takes focus as the bar arrives; Escape on the bar cancels.",
+      "Conversion is a pure function of the column, so a preview costs one pass over the sample; drags write one motion value per field and render only when the drop slot changes.",
+      "Under reduced motion every swap is a short cross-fade with no cascade and every move lands at once; failure marks, counts and the confirm step are unchanged.",
+      "Below a 40rem container the fields become a list of cards with the same buttons, menu and conversion, and reorder vertically.",
+    ],
+  },
+  {
+    name: "promoter-scale",
+    type: "registry:ui",
+    title: "Promoter Scale",
+    description:
+      "A score survey: zero to ten, then the one question written for the band the answer falls in. Picking a score fills the segments from zero up to it in a quick wave — each fill sweeping in on springs.snap a few milliseconds after the last, every one in the picked band's colour, draining from the top when the score drops — and a beat later the scale shrinks into a summary chip, its segments travelling on springs.glide into the chip's mini ticks while the follow-up slides in from 16px. The scale is a real radio group: arrows and Home or End move the score with the wave following, number keys pick one (1 then 0 is ten) and Enter, Space or a click confirms; the chip brings the scale back, Escape in the follow-up does too, and sending, thanked, failed and dismissed states are covered with the card's measured height gliding between them.",
+    files: [
+      {
+        path: "registry/ui/promoter-scale.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1757",
+    },
+    tagline: "Zero to ten, then the one question that fits.",
+    keywords: [
+      "nps survey",
+      "rating scale",
+      "feedback",
+      "score",
+      "follow-up question",
+      "radio group",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "segmentStyle",
+        type: '"tiles" | "bars" | "dots"',
+        defaultValue: '"tiles"',
+        description:
+          "How the scale is drawn: equal tiles that fill from the left, bars rising left to right that fill from the base, or discs that fill from the centre.",
+      },
+      {
+        name: "bandPalette",
+        type: '"status" | "tonal" | "quiet"',
+        defaultValue: '"status"',
+        description:
+          "Band colours as pigment: danger, warn and success; the accent at three depths; or quiet greys with promoters in the accent.",
+      },
+      {
+        name: "cornerRadius",
+        type: "number",
+        defaultValue: "8",
+        description:
+          "Corner radius in px of the segments, ticks, chip, field and buttons; the card rounds with it.",
+      },
+      {
+        name: "question",
+        type: "string",
+        defaultValue:
+          '"How likely are you to recommend Fernworks to a friend or colleague?"',
+        description:
+          "The question over the scale; it also names the radio group.",
+      },
+      {
+        name: "bands",
+        type: "PromoterBand[]",
+        defaultValue: "defaultPromoterBands",
+        description:
+          "Score bands low to high as { id, label, from, to, colour? }: Detractor 0–6, Passive 7–8, Promoter 9–10 by default.",
+      },
+      {
+        name: "followUps",
+        type: "Record<string, PromoterFollowUp>",
+        defaultValue: "defaultPromoterFollowUps",
+        description:
+          "The follow-up for each band id as { question, placeholder?, chips? }; chips become quick reason toggles.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "number | null",
+        defaultValue: "— / null",
+        description: "The score.",
+      },
+      {
+        name: "onValueChange",
+        type: "(score) => void",
+        description:
+          "Fires as a click, an arrow or a number key changes the score.",
+      },
+      {
+        name: "onScore",
+        type: "(score, band) => void",
+        description: "A score was confirmed and its follow-up opened.",
+      },
+      {
+        name: "onSubmit",
+        type: "(answer) => void | Promise",
+        description:
+          "Send or Skip was pressed with { score, band, comment, reasons }. Return a promise to show sending; a rejection shows the failed state with the answer kept.",
+      },
+      {
+        name: "onDismiss",
+        type: "() => void",
+        description:
+          "The survey was dismissed; it folds to one line with Undo.",
+      },
+      {
+        name: "lowLabel",
+        type: "string",
+        defaultValue: '"Not likely"',
+        description: "Words under the low end of the scale.",
+      },
+      {
+        name: "highLabel",
+        type: "string",
+        defaultValue: '"Very likely"',
+        description: "Words under the high end of the scale.",
+      },
+      {
+        name: "max",
+        type: "number",
+        defaultValue: "10",
+        description: "The top of the scale.",
+      },
+      {
+        name: "sendState",
+        type: '"idle" | "sending" | "sent" | "failed"',
+        description:
+          "Controlled send state, for a host that tracks delivery itself; by default it follows the promise onSubmit returns.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "The survey can be read but not answered.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the survey's outer box.",
+      },
+    ],
+    usageNotes: [
+      "The scale is a radio group with one roving stop: arrows and Home or End move the score (the wave follows), number keys pick one directly with 1 then 0 inside 600ms meaning ten, and Enter, Space, a click or the Continue button confirms it; focus then moves to the follow-up field, and Escape there brings the scale back (consumed).",
+      'Each radio is named with its score and band ("8, passive") and the chip with the score and what pressing it does; sending, the result and a dismissal are announced once.',
+      "Under reduced motion the fill appears at once in the band's colour and the scale, chip and follow-up cross-fade without the shared-layout travel; the score, band and every state still show.",
+      "Nothing loops: the wave, the travel and the height are finite springs, and the only spinner runs while a send is in flight. The card's height is measured with one ResizeObserver and glides between states, so nothing reserves space.",
+      "Below a 34rem container the scale wraps into two rows (0–5 over 6–10) and the follow-up stacks its question under the chip, keeping every state inside a 232px card.",
+    ],
+  },
+  {
+    name: "macro-reply",
+    type: "registry:ui",
+    title: "Macro Reply",
+    description:
+      "An agent's ticket view — the conversation, a customer sidebar with plan, fields and earlier tickets, and a reply box — where # opens the macros and picking one types its reply at a steady pace while every field it changes switches at its own moment: a wash sweeps the field, the old value rolls out and the new one rises on springs.snap, a set-by-macro dot pops on springs.flick, and a chip for the change lands in the reply's footer on snap, so nothing changes unseen even when the sidebar is a tab. Sent replies rise into the conversation on springs.glide. The reply is a combobox over the macro listbox (arrows, Enter or Tab to apply, Escape to close), any key finishes a typing macro, and Ctrl+Enter sends.",
+    files: [
+      {
+        path: "registry/ui/macro-reply.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1763",
+    },
+    tagline: "Answer the ticket and set its fields in one move.",
+    keywords: [
+      "help desk",
+      "ticket view",
+      "canned replies",
+      "macros",
+      "support agent",
+      "customer sidebar",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "sidebarSide",
+        type: '"left" | "right"',
+        defaultValue: '"right"',
+        description:
+          "Which side the customer sidebar sits on; at narrow widths, which side its tab sits on.",
+      },
+      {
+        name: "density",
+        type: '"compact" | "cozy" | "roomy"',
+        defaultValue: '"cozy"',
+        description: "Type size, paddings and gaps.",
+      },
+      {
+        name: "accent",
+        type: '"cobalt" | "jade" | "amber" | "mono"',
+        defaultValue: '"cobalt"',
+        description: "The macro wash, typing hairline, change chips and Send.",
+      },
+      {
+        name: "ticket",
+        type: "MacroTicket",
+        defaultValue: "defaultMacroTicket",
+        description:
+          "Subject, number, channel, status, priority, tags and messages. Field changes from the host on the same ticket id flash like a macro's.",
+      },
+      {
+        name: "customer",
+        type: "MacroCustomer",
+        defaultValue: "defaultMacroCustomer",
+        description:
+          "The customer shown in the sidebar: name, email, plan, seats, since and earlier tickets.",
+      },
+      {
+        name: "macros",
+        type: "MacroDef[]",
+        defaultValue: "defaultMacros",
+        description:
+          "Each macro's name, reply text ({first}, {agent} and {number} are filled) and the fields it sets.",
+      },
+      {
+        name: "agent",
+        type: "string",
+        defaultValue: '"Theo"',
+        description:
+          "The agent replying; fills {agent} and signs sent messages.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "defaultMacroNow",
+        description:
+          "The moment relative times count from, ms. Never read from the clock.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading"',
+        defaultValue: '"ready"',
+        description: "Loading draws skeletons in the same boxes.",
+      },
+      {
+        name: "onApplyMacro",
+        type: "(macro: MacroDef) => void",
+        description: "A macro was applied, before it starts typing.",
+      },
+      {
+        name: "onSend",
+        type: "(reply: { text, fields, macroId }) => void | Promise",
+        description:
+          "The reply was sent with its fields. A promise holds Send; a rejection keeps the draft and offers Retry.",
+      },
+      {
+        name: "onStatusChange",
+        type: '(status, source: "macro" | "field" | "reopen") => void',
+        description: "The ticket's status changed, and what changed it.",
+      },
+      {
+        name: "onFieldsChange",
+        type: "(fields: { status, priority, tags }) => void",
+        description: "Any field changed, with all three.",
+      },
+      {
+        name: "typeSpeed",
+        type: "number",
+        defaultValue: "90",
+        description: "How fast a macro types, in characters a second.",
+      },
+      {
+        name: "flash",
+        type: "number",
+        defaultValue: "640",
+        description: "How long a changed field flashes, ms.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "540",
+        description:
+          "Height of the surface, px; the conversation scrolls inside it.",
+      },
+      {
+        name: "placeholder",
+        type: "string",
+        defaultValue: '"Reply to {first}…  Type # for macros"',
+        description: "The reply box's placeholder.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only: nothing can be typed, applied or sent.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer surface.",
+      },
+      {
+        name: "ref",
+        type: "Ref<MacroReplyHandle>",
+        description:
+          "applyMacro(id) applies a macro as if picked; focusReply() moves focus to the reply.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the reply textarea is a combobox over the macro listbox — # (or the Macros button) opens it, typing filters, Up and Down move, Enter or Tab applies, Escape closes. While a macro types the reply is read-only and busy, and any key finishes it at once. Ctrl+Enter or Cmd+Enter sends.",
+      'Each macro is announced once as a sentence when it lands ("Refund duplicate charge applied: status Pending, priority Low, tag refund added."); status and priority are native selects under a drawn face, so they keep every platform\'s own keyboard and picker.',
+      "Below a 36rem container the sidebar becomes a tab with a badge counting unsent macro changes, and the change chips stay in the reply footer, so a narrow agent still sees everything a macro set.",
+      "Typing is one linear tween that writes the draft only when the character count changes; nothing runs at rest, and timers stop on unmount or when the ticket id changes.",
+      "Reduced motion: the macro text arrives in one step and the fields swap under a fading wash with no roll or sweep; every change is still shown and announced.",
+      "Accent colours derive from the theme tokens (accent, success, warn, ink), so all four read in light and dark.",
+    ],
+  },
+  {
+    name: "request-tracker",
+    type: "registry:ui",
+    title: "Request Tracker",
+    description:
+      "A customer's own page for a support request: whose turn it is in words, a bead riding the stages from received to solved, the updates as headed articles and a reply box. A stage change glides the bead on springs.glide with the rail's fill on the same motion value, and the stage it reaches fills with a check drawn on springs.flick; while the request waits on you the bead breathes and the reply box's measured height opens on glide. Replying (Ctrl+Enter) lands your update at the top on glide and passes the turn back with an honest next-reply time, and a solved request asks for a rating in a radiogroup driven by the arrow keys.",
+    files: [
+      {
+        path: "registry/ui/request-tracker.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1764",
+    },
+    tagline: "Where your request is, and whose turn it is.",
+    keywords: [
+      "support ticket",
+      "request status",
+      "progress tracker",
+      "customer portal",
+      "help desk",
+      "satisfaction rating",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "stageStyle",
+        type: '"rail" | "segments" | "ladder"',
+        defaultValue: '"rail"',
+        description:
+          "How the stages are drawn: a rail with a riding bead, a segmented bar, or a vertical ladder.",
+      },
+      {
+        name: "density",
+        type: '"compact" | "cozy" | "roomy"',
+        defaultValue: '"cozy"',
+        description: "Type size, paddings, gaps and ladder rung height.",
+      },
+      {
+        name: "accent",
+        type: '"cobalt" | "jade" | "amber" | "mono"',
+        defaultValue: '"cobalt"',
+        description: "The bead, the rail's fill, the turn and Send.",
+      },
+      {
+        name: "request",
+        type: "TrackedRequest",
+        defaultValue: "defaultTrackedRequest",
+        description:
+          "Number, subject, stages, current stage, whose turn (waitingOn), updates, openedAt, responseTarget (minutes) and lastReplyAt. Whatever the host changes is taken; local replies are kept until echoed.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "defaultTrackerNow",
+        description:
+          "The moment times count from, ms. Never read from the clock.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the updates have arrived. Loading and error keep the layout.",
+      },
+      {
+        name: "onReply",
+        type: "(text: string) => void | Promise",
+        description:
+          "A reply was sent. A promise holds Send; a rejection keeps the text and offers Retry.",
+      },
+      {
+        name: "onClose",
+        type: "() => void",
+        description:
+          '"My issue is solved" was pressed; the bead goes to the last stage.',
+      },
+      {
+        name: "onReopen",
+        type: "() => void",
+        description: "Reopen request was pressed on a solved request.",
+      },
+      {
+        name: "onRate",
+        type: '(rating: "poor" | "okay" | "good" | "great") => void',
+        description: "A solved request was rated.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Retry was pressed after the updates failed to load.",
+      },
+      {
+        name: "company",
+        type: "string",
+        defaultValue: '"Basinworks"',
+        description: "Who is answering.",
+      },
+      {
+        name: "customer",
+        type: "string",
+        defaultValue: '"Jun"',
+        description: "The customer's first name, used in the turn line.",
+      },
+      {
+        name: "autoCloseDays",
+        type: "number",
+        defaultValue: "7",
+        description: "Days a request waiting on you stays open.",
+      },
+      {
+        name: "pulse",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Let the bead breathe while the request waits on you.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "540",
+        description: "Height of the page, px; the updates scroll inside.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Nothing can be sent, closed, reopened or rated.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer surface.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the reply textarea follows the turn card in the tab order and is labelled by the question it answers; Ctrl+Enter or Cmd+Enter sends, and when the box folds away focus moves to Add more detail. The rating is a radiogroup (arrows, Home, End), and the updates list is a focusable region so it scrolls from the keyboard.",
+      'The stages are one ordered list with aria-current="step" and a completed, current or to do word per stage; the bead, line and dots are decoration. Turn changes are announced once as a sentence.',
+      "The bead's breathing is the only loop and runs only while the request waits on the customer, the page is in view, the tab is visible, motion is allowed and pulse is on.",
+      "Below a 40rem container it is one column with the reply box at the foot; above it, the turn card, reply box and request details move to a side column. Under 19rem the rail names only the current stage.",
+      "Reduced motion: the bead and fill move in one step, the ring holds still at half strength and the reply box opens without travel; stage, turn and rating still change.",
+    ],
+  },
+  {
+    name: "before-you-send",
+    type: "registry:ui",
+    title: "Before You Send",
+    description:
+      "A contact form that searches the help articles as the subject is typed and slides the matches up between the subject and the rest of the form: the panel's measured height opens on springs.glide, each answer rises 8px in cascade order and its relevance bar grows on glide a beat later, and a changing query re-ranks them in place on glide. Choosing one opens it in the panel, and This solved it folds the form down to a thank-you on glide — a ring landing on springs.recoil, a check drawn on springs.flick — instead of a ticket. The subject is a combobox: Down and Up walk the answers, Enter opens one, Escape hides them, and a failed search never blocks Send.",
+    files: [
+      {
+        path: "registry/ui/before-you-send.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1765",
+    },
+    tagline: "Answers appear while you're still writing in.",
+    keywords: [
+      "contact form",
+      "ticket deflection",
+      "help center",
+      "suggested articles",
+      "support search",
+      "self service",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "resultStyle",
+        type: '"cards" | "rows" | "wash"',
+        defaultValue: '"cards"',
+        description:
+          "How the answers are drawn: a row of cards, hairline rows with a meter and percentage, or rows whose relevance is a wash behind the title.",
+      },
+      {
+        name: "density",
+        type: '"compact" | "cozy" | "roomy"',
+        defaultValue: '"cozy"',
+        description: "Control heights, type and gaps.",
+      },
+      {
+        name: "accent",
+        type: '"cobalt" | "jade" | "amber" | "mono"',
+        defaultValue: '"cobalt"',
+        description:
+          "Relevance bars, the active answer, Send and the thank-you ring.",
+      },
+      {
+        name: "articles",
+        type: "HelpArticle[]",
+        defaultValue: "defaultHelpArticles",
+        description:
+          "The help articles searched: title, summary, steps, topic, keywords, read time and href.",
+      },
+      {
+        name: "topics",
+        type: "ContactTopic[]",
+        defaultValue: "defaultContactTopics",
+        description: "The topics offered as a radiogroup above the subject.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "ContactDraft / Partial<ContactDraft>",
+        defaultValue: '— / { topic: "billing", email: "jun@coldbrook.studio" }',
+        description:
+          "The draft (topic, subject, details, email), controlled or initial.",
+      },
+      {
+        name: "onValueChange",
+        type: "(draft: ContactDraft) => void",
+        description: "Fires from every edit with the whole draft.",
+      },
+      {
+        name: "onSearch",
+        type: "(query, topic) => ArticleMatch[] | Promise<ArticleMatch[]> | void",
+        description:
+          "A settled search. Return matches to replace the built-in scoring; a rejection shows a quiet note and never blocks Send.",
+      },
+      {
+        name: "onSolved",
+        type: "(article: HelpArticle, query: string) => void",
+        description:
+          "This solved it was chosen: the form closes with a thank-you and nothing is sent.",
+      },
+      {
+        name: "onSend",
+        type: "(draft: ContactDraft) => { reference? } | Promise<{ reference? }> | void",
+        description:
+          "The form was sent after validation. A promise holds Send; resolve a reference to show it, reject to keep everything and offer Try again.",
+      },
+      {
+        name: "onOpenArticle",
+        type: "(article: HelpArticle) => void",
+        description: "Full article was pressed in a preview.",
+      },
+      {
+        name: "company",
+        type: "string",
+        defaultValue: '"Fieldline"',
+        description: "Whose support this is.",
+      },
+      {
+        name: "responseTime",
+        type: "string",
+        defaultValue: '"within a day"',
+        description: "How soon a message is answered, in words.",
+      },
+      {
+        name: "maxResults",
+        type: "number",
+        defaultValue: "3",
+        description: "The most answers shown.",
+      },
+      {
+        name: "minRelevance",
+        type: "number",
+        defaultValue: "0.25",
+        description: "Answers below this relevance (0 to 1) are not shown.",
+      },
+      {
+        name: "searchDelay",
+        type: "number",
+        defaultValue: "160",
+        description: "Quiet time after typing before a search runs, ms.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "540",
+        description:
+          "The tallest the surface grows, px; past it the form scrolls inside.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Nothing can be typed, chosen or sent.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer surface.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the subject is a combobox over the answers' listbox — Down and Up move (Down also brings back answers hidden with Escape), Home and End jump, Enter opens the active answer instead of submitting, Escape hides them. A preview's heading takes focus; Escape or Back to answers returns to the subject.",
+      "Each settled search is announced once, and only when what it found changed (a count, nothing, or an outage). Field errors use aria-invalid and aria-describedby, and the first invalid field takes focus on Send.",
+      "The built-in ranking (also exported as scoreArticles) is deterministic, so server and browser agree; pass onSearch to rank on your own index. Stale answers are dropped by a sequence number, and a failing search only ever adds a quiet line.",
+      "Below a 30rem container every result style collapses to titles with a thin bar; above 36rem the cards sit three across.",
+      "Reduced motion: the panel opens at its height, answers and bars appear in place at their widths, and the thank-you cross-fades with its check already drawn.",
+    ],
+  },
+  {
+    name: "callback-queue",
+    type: "registry:ui",
+    title: "Callback Queue",
+    description:
+      "A live support queue with your place, an honest wait (a likely figure and a range from the line, the average chat and the agents on shift) and the agents on shift. When the queue moves, the person at the front goes into the desk on the exit ease, everyone behind glides one place forward on springs.glide, and your place and the estimate roll down digit by digit, the estimate a beat later. Call me back opens a picker — a number and a radiogroup of times — and booking turns your token into a time chip in its place, one element whose layout glides from circle to pill; your turn, leaving, closed hours and a full queue each say what happens next.",
+    files: [
+      {
+        path: "registry/ui/callback-queue.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1766",
+    },
+    tagline: "Wait your turn, or ask us to call you back.",
+    keywords: [
+      "support queue",
+      "wait time",
+      "callback",
+      "live chat",
+      "queue position",
+      "contact center",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "tokenStyle",
+        type: '"dots" | "tickets" | "lane"',
+        defaultValue: '"dots"',
+        description:
+          "How the line is drawn: circles to the desk, numbered ticket stubs, or a lane you ride along.",
+      },
+      {
+        name: "density",
+        type: '"compact" | "cozy" | "roomy"',
+        defaultValue: '"cozy"',
+        description: "Token size, type and gaps.",
+      },
+      {
+        name: "accent",
+        type: '"cobalt" | "jade" | "amber" | "mono"',
+        defaultValue: '"cobalt"',
+        description: "Your token, the estimate and the primary button.",
+      },
+      {
+        name: "queue",
+        type: "QueueSnapshot",
+        defaultValue: "defaultQueue",
+        description:
+          "position (1 is next, 0 your turn), waiting, capacity, avgHandleSeconds, ticket and joinedAt. A lower position moves you forward.",
+      },
+      {
+        name: "agents",
+        type: "QueueAgent[]",
+        defaultValue: "defaultQueueAgents",
+        description:
+          "Who is on shift and whether each is free, on a chat or on a break.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "defaultQueueNow",
+        description:
+          "The moment times count from, ms. Never read from the clock.",
+      },
+      {
+        name: "status",
+        type: '"open" | "closed" | "full" | "loading"',
+        defaultValue: '"open"',
+        description: "Open, closed for the day, full, or loading.",
+      },
+      {
+        name: "hours",
+        type: "{ open: number; close: number }",
+        defaultValue: "{ open: 480, close: 1200 }",
+        description:
+          "Opening hours in minutes after midnight (UTC); they set the closed message and the callback times.",
+      },
+      {
+        name: "callbackSlots",
+        type: "CallbackSlot[]",
+        defaultValue:
+          "the next three half hours, or tomorrow morning when closed",
+        description:
+          "The times offered for a callback; at null means as soon as an agent is free.",
+      },
+      {
+        name: "defaultPhone",
+        type: "string",
+        defaultValue: '"07700 900418"',
+        description: "The number a callback goes to until it's changed.",
+      },
+      {
+        name: "company",
+        type: "string",
+        defaultValue: '"Coldbrook"',
+        description: "Whose queue this is.",
+      },
+      {
+        name: "onRequestCallback",
+        type: "({ phone, slot }) => void | Promise",
+        description:
+          "A callback was booked. A promise holds the button; a rejection keeps the picker open with a message.",
+      },
+      {
+        name: "onCancelCallback",
+        type: "() => void",
+        description:
+          "A booked callback was cancelled; you're back in the line.",
+      },
+      {
+        name: "onLeave",
+        type: "() => void",
+        description: "Leave queue was pressed.",
+      },
+      {
+        name: "onRejoin",
+        type: "() => void",
+        description: "Rejoin was pressed after leaving.",
+      },
+      {
+        name: "onJoinChat",
+        type: "() => void",
+        description: "Join chat was pressed when it was your turn.",
+      },
+      {
+        name: "maxTokens",
+        type: "number",
+        defaultValue: "5",
+        description:
+          "The most people drawn ahead of you; the rest fold into a count.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Nothing can be booked, left or joined.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer surface.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: every action is a button. Call me back opens a form whose number field takes focus; the times are a radiogroup (arrows, Home, End), Enter books, and Escape cancels back to Call me back. After booking, leaving or rejoining, focus moves to the new state's heading or button once it arrives.",
+      'The line itself is decoration; one sentence carries it for assistive technology ("You\'re 4th in line, 3 people ahead. About 6 minutes, usually 4 to 8."), and each move is announced politely once, computed from the new place.',
+      "The component runs no loop of its own: everything moves on a prop change or a press. Drive queue.position from your server, and pause your own polling while the page is hidden.",
+      "The estimate is a figure and a range, never a promise: position × average chat ÷ agents on shift, widened to 0.8–1.3× and rounded to whole minutes.",
+      "Reduced motion: tokens re-place without travel, digits cross-fade, and the token-to-chip swap is a cross-fade; position, estimate and states still update and are announced.",
+    ],
+  },
+  {
+    name: "cobrowse-consent",
+    type: "registry:ui",
+    title: "Cobrowse Consent",
+    description:
+      "A screen-sharing request on the customer's own page: a card names the agent, says what they will and won't see, lists the private fields and counts down to expiry, with Allow viewing and Not now. Allowing plays three beats — the card becomes a slim bar at the top through a shared layout on springs.glide, a coloured frame draws round the page edge by edge on the move ease, and a stripe sweeps across every private field in cascade order leaving its mask behind — while the agent's pointer, when the host passes one, glides on springs.drift. Stop sharing or Escape anywhere inside lifts the masks, fades the frame on the exit ease and leaves a receipt; an unanswered request expires and explains why.",
+    files: [
+      {
+        path: "registry/ui/cobrowse-consent.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1767",
+    },
+    tagline: "Let support see your screen, and nothing private.",
+    keywords: [
+      "screen sharing",
+      "co-browsing",
+      "consent",
+      "privacy masking",
+      "support session",
+      "redaction",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "frameColor",
+        type: '"cobalt" | "jade" | "amber" | "rose"',
+        defaultValue: '"cobalt"',
+        description:
+          "The colour of the frame, the live dot and the sweep's edge.",
+      },
+      {
+        name: "maskStyle",
+        type: '"stripes" | "frost" | "redact"',
+        defaultValue: '"stripes"',
+        description:
+          "How a private field is covered: a diagonal hatch, a frosted pane, or a solid redaction bar.",
+      },
+      {
+        name: "density",
+        type: '"compact" | "cozy" | "roomy"',
+        defaultValue: '"cozy"',
+        description: "Field rows, type and gaps.",
+      },
+      {
+        name: "agent",
+        type: "{ name: string; team: string; initials: string }",
+        defaultValue:
+          '{ name: "Ines Varga", team: "Basinworks support", initials: "IV" }',
+        description: "Who is asking.",
+      },
+      {
+        name: "fields",
+        type: "CobrowseField[]",
+        defaultValue: "defaultCobrowseFields",
+        description:
+          "The page's fields as the customer sees them: id, label, value and wide.",
+      },
+      {
+        name: "maskedFields",
+        type: "string[]",
+        defaultValue: '["card", "bank", "tax"]',
+        description: "Ids of the fields hidden from the agent while sharing.",
+      },
+      {
+        name: "pageTitle",
+        type: "string",
+        defaultValue: '"Billing"',
+        description: "The page's title.",
+      },
+      {
+        name: "product",
+        type: "string",
+        defaultValue: '"Basinworks"',
+        description: "The product the page belongs to.",
+      },
+      {
+        name: "state / defaultState",
+        type: '"request" | "sharing" | "declined" | "expired" | "ended"',
+        defaultValue: '— / "request"',
+        description: "Where the request stands, controlled or initial.",
+      },
+      {
+        name: "onStateChange",
+        type: "(state) => void",
+        description:
+          "Fires from the choice, the stop or the expiry that changed the state.",
+      },
+      {
+        name: "onAccept",
+        type: "() => void",
+        description: "Allow viewing was pressed.",
+      },
+      {
+        name: "onDecline",
+        type: "() => void",
+        description: "Not now was pressed.",
+      },
+      {
+        name: "onStop",
+        type: "(info: { seconds: number }) => void",
+        description:
+          "Sharing stopped (Stop sharing or Escape), with how long it ran.",
+      },
+      {
+        name: "onExpire",
+        type: "() => void",
+        description: "The request lapsed without an answer.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "defaultCobrowseNow",
+        description:
+          "The moment the page first renders, ms; its timers count on from it.",
+      },
+      {
+        name: "requestedAt",
+        type: "number",
+        defaultValue: "now − 18 s",
+        description: "When the agent asked, ms.",
+      },
+      {
+        name: "expiresIn",
+        type: "number",
+        defaultValue: "120",
+        description: "Seconds a request stays open.",
+      },
+      {
+        name: "pointer",
+        type: "{ x: number; y: number } | null",
+        defaultValue: "null",
+        description:
+          "Where the agent's pointer is while sharing, as 0–1 fractions of the page; null hides it.",
+      },
+      {
+        name: "sweep",
+        type: "number",
+        defaultValue: "420",
+        description: "How long the stripe takes to sweep one field, ms.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "540",
+        description:
+          "Height of the surface, px; the page scrolls inside its frame.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "The choices can't be made.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer surface.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the request is a non-modal dialog whose choices are labelled buttons. Allowing moves focus to Stop sharing once it arrives (only if focus was in the page), and Escape anywhere inside stops sharing and is consumed there; the receipt's heading then takes focus.",
+      'Private fields stay readable to the customer\'s assistive technology, with "hidden from Ines while sharing" added to their description; the frame, stripes, masks and pointer are decoration and aria-hidden. Every state change is announced once.',
+      "The countdown ticks once a second only while a request waits and the tab is visible, the shared time only while sharing, and the live dot breathes only while sharing, on screen and in a visible tab. Nothing else runs at rest.",
+      "The masks show the customer what the agent sees; masking the agent's own view is your session service's job — pass it the same maskedFields ids.",
+      "Below a 36rem container the frame thins from 4px to 2px, fields drop to one column and the bar spans the top; under 24rem the request card stacks its buttons.",
+      "Reduced motion: the frame and the masks fade in place, the card swaps for the bar with a cross-fade, the pointer jumps and the live dot holds still; every private field is still covered.",
+    ],
+  },
 ];
