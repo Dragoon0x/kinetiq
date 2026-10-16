@@ -1815,4 +1815,104 @@ export const CANVAS_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/errand-toasts.demo").then((m) =>
       mod(m.ErrandToastsDemo, m.tweaks),
     ),
+  "wayfinding-dots": () =>
+    import("@/registry/demos/wayfinding-dots.demo").then((m) =>
+      mod(m.WayfindingDotsDemo, m.tweaks),
+    ),
+  "moving-day": () =>
+    import("@/registry/demos/moving-day.demo").then((m) =>
+      mod(m.MovingDayDemo, m.tweaks),
+    ),
+  "practice-run": () =>
+    import("@/registry/demos/practice-run.demo").then((m) =>
+      mod(m.PracticeRunDemo, m.tweaks),
+    ),
+  "name-plate": () =>
+    import("@/registry/demos/name-plate.demo").then((m) =>
+      mod(m.NamePlateDemo, m.tweaks),
+    ),
+  "goal-weave": () =>
+    import("@/registry/demos/goal-weave.demo").then((m) =>
+      mod(m.GoalWeaveDemo, m.tweaks),
+    ),
+  "shortcut-drills": () =>
+    import("@/registry/demos/shortcut-drills.demo").then((m) =>
+      mod(m.ShortcutDrillsDemo, m.tweaks),
+    ),
+  "last-slot": () =>
+    import("@/registry/demos/last-slot.demo").then((m) =>
+      mod(m.LastSlotDemo, m.tweaks),
+    ),
+  "teaser-lens": () =>
+    import("@/registry/demos/teaser-lens.demo").then((m) =>
+      mod(m.TeaserLensDemo, m.tweaks),
+    ),
+  "trial-recap": () =>
+    import("@/registry/demos/trial-recap.demo").then((m) =>
+      mod(m.TrialRecapDemo, m.tweaks),
+    ),
+  "add-on-tray": () =>
+    import("@/registry/demos/add-on-tray.demo").then((m) =>
+      mod(m.AddOnTrayDemo, m.tweaks),
+    ),
+  "pause-instead": () =>
+    import("@/registry/demos/pause-instead.demo").then((m) =>
+      mod(m.PauseInsteadDemo, m.tweaks),
+    ),
+  "credit-refill": () =>
+    import("@/registry/demos/credit-refill.demo").then((m) =>
+      mod(m.CreditRefillDemo, m.tweaks),
+    ),
+  "upgrade-request": () =>
+    import("@/registry/demos/upgrade-request.demo").then((m) =>
+      mod(m.UpgradeRequestDemo, m.tweaks),
+    ),
+  "passkey-enrol": () =>
+    import("@/registry/demos/passkey-enrol.demo").then((m) =>
+      mod(m.PasskeyEnrolDemo, m.tweaks),
+    ),
+  "inbox-wait": () =>
+    import("@/registry/demos/inbox-wait.demo").then((m) =>
+      mod(m.InboxWaitDemo, m.tweaks),
+    ),
+  "workspace-lobby": () =>
+    import("@/registry/demos/workspace-lobby.demo").then((m) =>
+      mod(m.WorkspaceLobbyDemo, m.tweaks),
+    ),
+  "org-discovery": () =>
+    import("@/registry/demos/org-discovery.demo").then((m) =>
+      mod(m.OrgDiscoveryDemo, m.tweaks),
+    ),
+  "recovery-route": () =>
+    import("@/registry/demos/recovery-route.demo").then((m) =>
+      mod(m.RecoveryRouteDemo, m.tweaks),
+    ),
+  "spare-keys": () =>
+    import("@/registry/demos/spare-keys.demo").then((m) =>
+      mod(m.SpareKeysDemo, m.tweaks),
+    ),
+  "authenticator-pair": () =>
+    import("@/registry/demos/authenticator-pair.demo").then((m) =>
+      mod(m.AuthenticatorPairDemo, m.tweaks),
+    ),
+  "step-up-check": () =>
+    import("@/registry/demos/step-up-check.demo").then((m) =>
+      mod(m.StepUpCheckDemo, m.tweaks),
+    ),
+  "session-lapse": () =>
+    import("@/registry/demos/session-lapse.demo").then((m) =>
+      mod(m.SessionLapseDemo, m.tweaks),
+    ),
+  "invite-accept": () =>
+    import("@/registry/demos/invite-accept.demo").then((m) =>
+      mod(m.InviteAcceptDemo, m.tweaks),
+    ),
+  "cooling-lock": () =>
+    import("@/registry/demos/cooling-lock.demo").then((m) =>
+      mod(m.CoolingLockDemo, m.tweaks),
+    ),
+  "number-match": () =>
+    import("@/registry/demos/number-match.demo").then((m) =>
+      mod(m.NumberMatchDemo, m.tweaks),
+    ),
 };

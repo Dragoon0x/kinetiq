@@ -1872,6 +1872,31 @@ import { PlatePickerDemo } from "@/registry/demos/plate-picker.demo";
 import { ExportRecipeDemo } from "@/registry/demos/export-recipe.demo";
 import { SenderStacksDemo } from "@/registry/demos/sender-stacks.demo";
 import { ErrandToastsDemo } from "@/registry/demos/errand-toasts.demo";
+import { WayfindingDotsDemo } from "@/registry/demos/wayfinding-dots.demo";
+import { MovingDayDemo } from "@/registry/demos/moving-day.demo";
+import { PracticeRunDemo } from "@/registry/demos/practice-run.demo";
+import { NamePlateDemo } from "@/registry/demos/name-plate.demo";
+import { GoalWeaveDemo } from "@/registry/demos/goal-weave.demo";
+import { ShortcutDrillsDemo } from "@/registry/demos/shortcut-drills.demo";
+import { LastSlotDemo } from "@/registry/demos/last-slot.demo";
+import { TeaserLensDemo } from "@/registry/demos/teaser-lens.demo";
+import { TrialRecapDemo } from "@/registry/demos/trial-recap.demo";
+import { AddOnTrayDemo } from "@/registry/demos/add-on-tray.demo";
+import { PauseInsteadDemo } from "@/registry/demos/pause-instead.demo";
+import { CreditRefillDemo } from "@/registry/demos/credit-refill.demo";
+import { UpgradeRequestDemo } from "@/registry/demos/upgrade-request.demo";
+import { PasskeyEnrolDemo } from "@/registry/demos/passkey-enrol.demo";
+import { InboxWaitDemo } from "@/registry/demos/inbox-wait.demo";
+import { WorkspaceLobbyDemo } from "@/registry/demos/workspace-lobby.demo";
+import { OrgDiscoveryDemo } from "@/registry/demos/org-discovery.demo";
+import { RecoveryRouteDemo } from "@/registry/demos/recovery-route.demo";
+import { SpareKeysDemo } from "@/registry/demos/spare-keys.demo";
+import { AuthenticatorPairDemo } from "@/registry/demos/authenticator-pair.demo";
+import { StepUpCheckDemo } from "@/registry/demos/step-up-check.demo";
+import { SessionLapseDemo } from "@/registry/demos/session-lapse.demo";
+import { InviteAcceptDemo } from "@/registry/demos/invite-accept.demo";
+import { CoolingLockDemo } from "@/registry/demos/cooling-lock.demo";
+import { NumberMatchDemo } from "@/registry/demos/number-match.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -3758,4 +3783,29 @@ export const demos: Record<string, ComponentType> = {
   "export-recipe": ExportRecipeDemo,
   "sender-stacks": SenderStacksDemo,
   "errand-toasts": ErrandToastsDemo,
+  "wayfinding-dots": WayfindingDotsDemo,
+  "moving-day": MovingDayDemo,
+  "practice-run": PracticeRunDemo,
+  "name-plate": NamePlateDemo,
+  "goal-weave": GoalWeaveDemo,
+  "shortcut-drills": ShortcutDrillsDemo,
+  "last-slot": LastSlotDemo,
+  "teaser-lens": TeaserLensDemo,
+  "trial-recap": TrialRecapDemo,
+  "add-on-tray": AddOnTrayDemo,
+  "pause-instead": PauseInsteadDemo,
+  "credit-refill": CreditRefillDemo,
+  "upgrade-request": UpgradeRequestDemo,
+  "passkey-enrol": PasskeyEnrolDemo,
+  "inbox-wait": InboxWaitDemo,
+  "workspace-lobby": WorkspaceLobbyDemo,
+  "org-discovery": OrgDiscoveryDemo,
+  "recovery-route": RecoveryRouteDemo,
+  "spare-keys": SpareKeysDemo,
+  "authenticator-pair": AuthenticatorPairDemo,
+  "step-up-check": StepUpCheckDemo,
+  "session-lapse": SessionLapseDemo,
+  "invite-accept": InviteAcceptDemo,
+  "cooling-lock": CoolingLockDemo,
+  "number-match": NumberMatchDemo,
 };

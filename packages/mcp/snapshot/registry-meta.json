@@ -13,7 +13,7 @@
     "indexUrl": "https://www.kinetiqui.com/r/registry.json",
     "docsUrl": "https://www.kinetiqui.com",
     "counts": {
-      "components": 1681,
+      "components": 1706,
       "blocks": 152,
       "pages": 28,
       "templates": 10,
@@ -158674,6 +158674,4029 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/errand-toasts",
         "bun": "bunx --bun shadcn@latest add @kinetiq/errand-toasts",
         "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/errand-toasts.json"
+      }
+    },
+    {
+      "slug": "wayfinding-dots",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Wayfinding Dots",
+      "serial": "KQ-1693",
+      "tagline": "Gentle marks on the features you haven't found.",
+      "description": "Non-blocking hint dots that sit on the corners of the features nobody has opened yet, each breathing slowly from one shared clock with its own phase. Pressing a dot flicks it up on springs.flick, frames the feature on springs.snap and unfolds the tip out of the dot as a clip circle growing from its centre; closing folds it back and the dot flies on springs.glide along an arc into the corner counter, whose digit rolls on springs.snap and pill lands on springs.recoil. Dots are buttons in reading order: Enter opens, Escape closes and moves focus to the next dot, H shows or hides them all, and under 420px the tip is a bottom sheet you can swipe away.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "onboarding",
+        "hints",
+        "feature discovery",
+        "hotspot",
+        "beacon",
+        "tooltip",
+        "app ui"
+      ],
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "The interface the hints sit on. Mark each feature with data-wayfinding=\"<target>\"."
+        },
+        {
+          "name": "hints",
+          "type": "WayfindingHint[]",
+          "defaultValue": "defaultWayfindingHints",
+          "description": "The hints, { id, target, title, body, placement?, keys? }, in the order they are numbered."
+        },
+        {
+          "name": "found / defaultFound",
+          "type": "string[]",
+          "defaultValue": "— / []",
+          "description": "Ids of the hints already found, controlled or initial."
+        },
+        {
+          "name": "onFoundChange",
+          "type": "(ids: string[]) => void",
+          "description": "Fires from the close, the use or the Dismiss all that found a hint, with every found id."
+        },
+        {
+          "name": "onOpen",
+          "type": "(hint: WayfindingHint) => void",
+          "description": "A dot was opened."
+        },
+        {
+          "name": "onDismiss",
+          "type": "(hint: WayfindingHint, via: WayfindingDismissVia) => void",
+          "description": "A hint was closed and counted as found: via its button, Escape, a press outside, a swipe of the sheet or using the feature."
+        },
+        {
+          "name": "onDismissAll",
+          "type": "(ids: string[]) => void",
+          "description": "Dismiss all was pressed, with the ids it found."
+        },
+        {
+          "name": "shown / defaultShown",
+          "type": "boolean",
+          "defaultValue": "— / true",
+          "description": "Whether the dots are showing, controlled or initial."
+        },
+        {
+          "name": "onShownChange",
+          "type": "(shown: boolean) => void",
+          "description": "Fires from the hotkey or the eye button that showed or hid the dots."
+        },
+        {
+          "name": "hotkey",
+          "type": "string | null",
+          "defaultValue": "\"h\"",
+          "description": "The key that shows and hides every dot while focus is inside the component and not in a text field; null turns it off."
+        },
+        {
+          "name": "dotStyle",
+          "type": "\"beacon\" | \"halo\" | \"ring\" | \"pip\"",
+          "defaultValue": "\"beacon\"",
+          "description": "The mark: a ring that leaves the dot, a swelling glow, a breathing hollow ring, or a numbered badge."
+        },
+        {
+          "name": "breathSpeed",
+          "type": "number",
+          "defaultValue": "1",
+          "description": "How fast the dots breathe, 0.25 to 2; 1 is one breath every 3.2 s."
+        },
+        {
+          "name": "accent",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "The dots, the highlight frame and the counter ring. Any CSS colour; dots take its hue at a fixed lightness so they read in both themes."
+        },
+        {
+          "name": "discoverOnUse",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Using a feature yourself counts as finding it: its dot leaves for the counter without a tip."
+        },
+        {
+          "name": "counter",
+          "type": "\"top-start\" | \"top-end\" | \"bottom-start\" | \"bottom-end\"",
+          "defaultValue": "\"bottom-end\"",
+          "description": "The corner the discovered counter sits in."
+        },
+        {
+          "name": "sheetBelow",
+          "type": "number",
+          "defaultValue": "420",
+          "description": "Below this container width, in px, tips dock as a bottom sheet."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Feature hints\"",
+          "description": "The hint layer's accessible name; the found count is added to it."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "The dots stay but cannot be opened, the hotkey is off and the counter's buttons are inert."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the wrapper around the interface."
+        }
+      ],
+      "usageNotes": [
+        "Wrap the real interface and put data-wayfinding=\"<target>\" on each feature; the layer measures targets from layout (ResizeObserver on the root and every target), so transforms above it never skew the dots. The wrapper clips, and tips are clamped inside it.",
+        "Keyboard: dots are buttons after the interface in reading order. Enter opens a tip and focuses Got it; Escape (handled with preventDefault) or Got it closes it and focus moves on to the next dot; Next hint opens the next. H toggles every dot unless focus is in a text field. The counter's eye and × buttons are the pointer twins of H and Dismiss all.",
+        "Each found hint is announced once, politely (\"Saved views found. 2 of 5.\"), and the layer's name carries the count.",
+        "Reduced motion: nothing breathes or travels — each style rests at its fullest, tips and the sheet cross-fade in place, a found dot fades where it is and the count updates at once.",
+        "Performance: one linear clock animation drives every breath, and only while the component is on screen, the tab is visible, hints are shown and at least one remains; per-frame values are motion values, never React renders.",
+        "The pigment is the accent's hue at a fixed lightness (oklch from), so a token accent reads the same in light and dark themes; pass any CSS colour."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/wayfinding-dots",
+      "registryItemUrl": "https://www.kinetiqui.com/r/wayfinding-dots.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/wayfinding-dots",
+        "npm": "npx shadcn@latest add @kinetiq/wayfinding-dots",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/wayfinding-dots",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/wayfinding-dots",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/wayfinding-dots.json"
+      }
+    },
+    {
+      "slug": "moving-day",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Moving Day",
+      "serial": "KQ-1694",
+      "tagline": "Bring everything over from your old tool.",
+      "description": "The import step of moving into a new workspace: each category the old tool holds is a box with its count, and Start opens them in turn — the lid swings open on springs.snap, the count rolls up in tabular digits straight from a motion value, and the box's things leave it one by one, travelling into the new workspace's preview on springs.glide and landing on springs.recoil, before the box shuts with a tick drawn on springs.flick. A category too big to wait for keeps counting in the background behind a thin bar with a toast, and whatever could not move is listed with its reason for Retry. Start, Pause, Resume, Retry and Open are real buttons (the primary keeps focus as its label changes) and the source is a radiogroup the arrow keys move through.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "onboarding",
+        "import",
+        "migration",
+        "progress",
+        "upload",
+        "app ui",
+        "moving"
+      ],
+      "props": [
+        {
+          "name": "sources",
+          "type": "MovingDaySource[]",
+          "defaultValue": "defaultMovingDaySources",
+          "description": "The old tools to import from, { id, name, detail?, counts, blocked? }, each with a count per category and the items that cannot move."
+        },
+        {
+          "name": "categories",
+          "type": "MovingDayCategory[]",
+          "defaultValue": "defaultMovingDayCategories",
+          "description": "What moves, { id, label, unit, icon?, samples }, one box each in the order they open."
+        },
+        {
+          "name": "source / defaultSource",
+          "type": "string",
+          "defaultValue": "— / the first source",
+          "description": "The chosen source's id, controlled or initial."
+        },
+        {
+          "name": "onSourceChange",
+          "type": "(id: string) => void",
+          "description": "Fires from the radio or arrow key that changed the source; only before the import starts."
+        },
+        {
+          "name": "workspace",
+          "type": "string",
+          "defaultValue": "\"Fieldline\"",
+          "description": "The new workspace's name, in the preview, the copy and the open button."
+        },
+        {
+          "name": "onStart",
+          "type": "(sourceId: string) => void",
+          "description": "Start was pressed."
+        },
+        {
+          "name": "onPause",
+          "type": "(sourceId: string) => void",
+          "description": "Pause was pressed; the open box's count holds where it is."
+        },
+        {
+          "name": "onResume",
+          "type": "(sourceId: string) => void",
+          "description": "Resume was pressed; the count continues from the same number."
+        },
+        {
+          "name": "onRetry",
+          "type": "(ids: string[]) => void",
+          "description": "Retry was pressed, with the ids of the items it tries again. Retryable ones move; the rest keep their reasons."
+        },
+        {
+          "name": "onDone",
+          "type": "(summary: { moved: number; stayed: string[] }) => void",
+          "description": "Every box has finished, background ones included."
+        },
+        {
+          "name": "onOpenWorkspace",
+          "type": "() => void",
+          "description": "The open-workspace button was pressed (offered as soon as the visible pass is done)."
+        },
+        {
+          "name": "pace",
+          "type": "number",
+          "defaultValue": "2400",
+          "description": "Items per second the simulated import moves; each box takes between 0.9 and 2.4 s."
+        },
+        {
+          "name": "backgroundAbove",
+          "type": "number",
+          "defaultValue": "5000",
+          "description": "A category with more items than this moves in the background after its first share, with a toast."
+        },
+        {
+          "name": "boxStyle",
+          "type": "\"carton\" | \"crate\" | \"tote\"",
+          "defaultValue": "\"carton\"",
+          "description": "A carton whose flaps swing open, a slatted crate whose lid lifts and tilts, or a tote whose lid slides back."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"cozy\" | \"roomy\"",
+          "defaultValue": "\"cozy\"",
+          "description": "Box size, row heights and spacing."
+        },
+        {
+          "name": "tone",
+          "type": "\"kraft\" | \"slate\" | \"cobalt\" | \"mint\"",
+          "defaultValue": "\"kraft\"",
+          "description": "The boxes' pigment, a hue at a fixed lightness shaded toward black in oklab, so it reads in both themes."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the old tool's counts have arrived: loading draws skeleton boxes, error a message with Try again."
+        },
+        {
+          "name": "onReload",
+          "type": "() => void",
+          "description": "Try again was pressed after the counts failed to load."
+        },
+        {
+          "name": "maxHeight",
+          "type": "number",
+          "defaultValue": "560",
+          "description": "The tallest the step grows before its body scrolls, px."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Nothing can be started or chosen; the step dims."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the outer section."
+        }
+      ],
+      "usageNotes": [
+        "The host owns the real transfer: wire onStart, onPause, onResume and onRetry to it. The component is the visible step and simulates progress at pace, so the counts and arrivals always tell a coherent story.",
+        "Keyboard: the source is a radiogroup (arrows, Home, End) while nothing has started; Start, Pause, Resume and Open share one primary button that keeps focus as its label changes and is never disabled while focused (aria-disabled instead).",
+        "Each box is a list item named by a sentence (\"Files, 1,285 of 1,286 moved, 1 stayed behind\"); the rolling digits are hidden from assistive technology and box starts, finishes, pauses and the background toast are announced once each.",
+        "Reduced motion: lids cross-fade instead of swinging, things fade into their slots instead of travelling, the tick appears without its draw — the counts still count.",
+        "Performance: nothing runs at rest. During an import there is one linear count tween for the open box (and one per background box); it stops while the step is off screen or the tab is hidden and resumes from the same number. Arrival offsets are measured once per row, before paint."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/moving-day",
+      "registryItemUrl": "https://www.kinetiqui.com/r/moving-day.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/moving-day",
+        "npm": "npx shadcn@latest add @kinetiq/moving-day",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/moving-day",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/moving-day",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/moving-day.json"
+      }
+    },
+    {
+      "slug": "practice-run",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Practice Run",
+      "serial": "KQ-1695",
+      "tagline": "Learn by doing the real thing, once.",
+      "description": "A hands-on tutorial where each lesson is one small real task in a sandboxed copy of the interface: a working board whose cards drag 1:1 and glide into their lane on springs.glide, a comment box whose @ opens a real combobox of teammates, a job whose Labels menu opens on springs.snap. A coach line answers what the visitor actually does, one sentence at a time rising into place on springs.snap, and a finished task presses a quiet check stamp onto the sandbox on springs.recoil before the next lesson slides in on springs.glide. Every lesson has a keyboard path (Space picks a card up and the arrows carry it; arrows and Enter pick a person; arrows walk the menu) and a Skip, and progress is a value so a run resumes where it stopped.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "onboarding",
+        "tutorial",
+        "interactive lesson",
+        "coach",
+        "sandbox",
+        "app ui",
+        "walkthrough"
+      ],
+      "props": [
+        {
+          "name": "lessons",
+          "type": "PracticeLesson[]",
+          "defaultValue": "defaultPracticeLessons",
+          "description": "The lessons in order, each a move (board), mention (combobox) or label (menu) task with its own data and optional coach lines."
+        },
+        {
+          "name": "progress / defaultProgress",
+          "type": "Record<string, \"done\" | \"skipped\">",
+          "defaultValue": "— / {}",
+          "description": "Each lesson's state, controlled or initial. The run opens on the first lesson that is neither done nor skipped."
+        },
+        {
+          "name": "onProgressChange",
+          "type": "(progress: PracticeProgress) => void",
+          "description": "Fires from the finish, skip or restart that changed it, with the whole progress."
+        },
+        {
+          "name": "onComplete",
+          "type": "(lesson: PracticeLesson) => void",
+          "description": "A lesson's task was done for real."
+        },
+        {
+          "name": "onSkip",
+          "type": "(lesson: PracticeLesson) => void",
+          "description": "A lesson was skipped."
+        },
+        {
+          "name": "onFinish",
+          "type": "(progress: PracticeProgress) => void",
+          "description": "Start working was pressed after the last lesson."
+        },
+        {
+          "name": "onRestart",
+          "type": "() => void",
+          "description": "Practice again was pressed; progress is cleared."
+        },
+        {
+          "name": "coach",
+          "type": "string",
+          "defaultValue": "\"Wren\"",
+          "description": "The coach's name, on its avatar, in the ticker and the caption."
+        },
+        {
+          "name": "coachStyle",
+          "type": "\"bubble\" | \"ticker\" | \"margin\"",
+          "defaultValue": "\"bubble\"",
+          "description": "An avatar and a speech bubble, a single mono line over a progress hairline, or a note in the left margin pointing at the sandbox. Under 30rem it is always a caption docked at the foot of the sandbox."
+        },
+        {
+          "name": "stampStyle",
+          "type": "\"seal\" | \"tick\" | \"ink\"",
+          "defaultValue": "\"seal\"",
+          "description": "The stamp a finished task gets: a round seal with its rim lettered, a tick drawn on flick in a rounded square, or a rubber-stamped DONE."
+        },
+        {
+          "name": "accent",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "The stamp's ink, the lit lane, the step rail and the mention token. Any CSS colour, taken at a fixed lightness."
+        },
+        {
+          "name": "stampHold",
+          "type": "number",
+          "defaultValue": "700",
+          "description": "How long the stamp rests before the next lesson slides in, ms."
+        },
+        {
+          "name": "workspace",
+          "type": "string",
+          "defaultValue": "\"Fieldline\"",
+          "description": "The product being practised, in the copy."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the lessons are ready; loading draws a still sandbox and the rail is inert."
+        },
+        {
+          "name": "maxHeight",
+          "type": "number",
+          "defaultValue": "560",
+          "description": "The tallest the run grows before its body scrolls, px."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Nothing can be done or skipped; the run dims."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the outer section."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: on the board, Space or Enter picks a card up, the arrow keys carry it lane to lane (focus follows it), Space puts it down and Escape puts it back. In the mention lesson @ opens a combobox (aria-activedescendant) that the arrows and Enter drive; in the label lesson the arrows open and walk a menu of checkbox items and Escape closes it. Skip and the step rail are buttons.",
+        "The coach line is the one polite live region: each reaction is a single sentence frozen when it happens, and the stamp is announced as \"Done: <lesson>\". Focus moves into each new lesson's first control once it has arrived, when it was inside the run before.",
+        "Pointer: cards follow the finger 1:1 after 4px of travel (touch-action none on the card only), settle into their new lane from where they were seen with the release velocity, and any card can be moved — the sandbox is real, and the coach says so.",
+        "Reduced motion: cards change lanes in place, the stamp fades in at rest, lessons and coach lines cross-fade. Every state still shows.",
+        "Nothing runs at rest; the only timer is the stamp's hold, cleared on unmount. Override any coach line per lesson with lesson.coach[event]."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/practice-run",
+      "registryItemUrl": "https://www.kinetiqui.com/r/practice-run.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/practice-run",
+        "npm": "npx shadcn@latest add @kinetiq/practice-run",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/practice-run",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/practice-run",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/practice-run.json"
+      }
+    },
+    {
+      "slug": "name-plate",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Name Plate",
+      "serial": "KQ-1696",
+      "tagline": "Name the workspace and hang its sign.",
+      "description": "The workspace-creation step: as a name is typed its letters are set onto a plate that swings into the preview sidebar on a pendulum spring — slid along the rail on springs.glide, tilted, and falling through a few decaying swings to hang from its nail — while the address forms beneath the name with each new letter dropping in on springs.flick. Every keystroke is a small impulse to the same pendulum, a new colour re-tints the plate with a bigger push, the address is checked live with a status icon that morphs on springs.snap, and a taken address offers alternatives. Icons and colours are radiogroups the arrow keys move through, Create may return a promise, and a failed create keeps every field.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "onboarding",
+        "create workspace",
+        "form",
+        "validation",
+        "slug",
+        "pendulum",
+        "app ui"
+      ],
+      "props": [
+        {
+          "name": "value / defaultValue",
+          "type": "NamePlateValue",
+          "defaultValue": "— / defaultNamePlateValue",
+          "description": "The name, address, icon and colour, controlled or initial."
+        },
+        {
+          "name": "onChange",
+          "type": "(value: NamePlateValue) => void",
+          "description": "Fires from the field, chip or radio that changed it, with the whole value."
+        },
+        {
+          "name": "onCreate",
+          "type": "(value: NamePlateValue) => void | Promise<unknown>",
+          "description": "Create was pressed with a valid, available address. Return a promise to show it working; a rejection keeps every field and shows its message."
+        },
+        {
+          "name": "icons",
+          "type": "NamePlateIcon[]",
+          "defaultValue": "defaultNamePlateIcons",
+          "description": "The icons on offer, { id, label, icon }; eight Lucide glyphs by default."
+        },
+        {
+          "name": "colors",
+          "type": "NamePlateColor[]",
+          "defaultValue": "defaultNamePlateColors",
+          "description": "The colours on offer, { id, label, value }; six token hues at a fixed lightness by default."
+        },
+        {
+          "name": "addressPrefix",
+          "type": "string",
+          "defaultValue": "\"fieldline.app/\"",
+          "description": "What comes before the address slug."
+        },
+        {
+          "name": "takenAddresses",
+          "type": "string[]",
+          "defaultValue": "defaultNamePlateTaken",
+          "description": "Addresses already in use, checked after a 250 ms pause in typing."
+        },
+        {
+          "name": "checkAddress",
+          "type": "(slug: string) => \"available\" | \"taken\" | Promise<…>",
+          "description": "Asks the host whether an address is free, sync or async; only the newest answer counts. Overrides takenAddresses."
+        },
+        {
+          "name": "plateStyle",
+          "type": "\"enamel\" | \"brass\" | \"timber\"",
+          "defaultValue": "\"enamel\"",
+          "description": "An enamel sign in the colour with a cream inset rule, an engraved brass plate with screw heads and a colour inlay, or a timber board with a painted panel."
+        },
+        {
+          "name": "swingAmount",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How lively the pendulum is, 0 to 1: the entrance tilt, the impulses and the damping ratio (0.62 down to 0.1)."
+        },
+        {
+          "name": "accent",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "The form's accent: the chosen icon's ring, the primary button and the rail's nail. Any CSS colour."
+        },
+        {
+          "name": "nav",
+          "type": "string[]",
+          "defaultValue": "[\"Inbox\", \"Jobs\", \"Crews\", \"Reports\"]",
+          "description": "The preview sidebar's sections."
+        },
+        {
+          "name": "maxLength",
+          "type": "number",
+          "defaultValue": "32",
+          "description": "The longest name allowed; the counter in the field shows it."
+        },
+        {
+          "name": "maxHeight",
+          "type": "number",
+          "defaultValue": "560",
+          "description": "The tallest the step grows before its body scrolls, px."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Nothing can be changed or created; fields turn read-only and the step dims."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the outer section."
+        }
+      ],
+      "usageNotes": [
+        "The address follows the name until the visitor edits it (the pencil turns it into a field); Match name, or Escape in the field, hands it back. Format is checked at once; availability after a 250 ms pause, through checkAddress or takenAddresses, and the message is announced only once the check has answered.",
+        "Keyboard: the icon and colour pickers are radiogroups with roving focus (arrows, Home, End select as they move). Alternatives are buttons named \"Use harbour-ops-team\". Create is never disabled while focused — it stays focusable with aria-disabled and aria-busy while a promise is pending.",
+        "The preview is decoration (aria-hidden) with a visually hidden sentence that says what it shows; the plate swings only on its own spring, so nothing runs once it hangs still.",
+        "Reduced motion: the plate fades in and hangs still, letters appear without dropping, the status icon cross-fades. The checks, alternatives and create states are unchanged.",
+        "Under 40rem the plate hangs in a band above the fields instead of in the sidebar; long names step their type down and wrap by whole words so the plate never spills."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/name-plate",
+      "registryItemUrl": "https://www.kinetiqui.com/r/name-plate.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/name-plate",
+        "npm": "npx shadcn@latest add @kinetiq/name-plate",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/name-plate",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/name-plate",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/name-plate.json"
+      }
+    },
+    {
+      "slug": "goal-weave",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Goal Weave",
+      "serial": "KQ-1697",
+      "tagline": "Pick your goals; a plan assembles itself.",
+      "description": "A goal-selection step whose plan assembles itself: choosing a goal draws a thread out of its card to each of its tasks — the curve split at a growing t on an enter tween, every point rounded — while the tasks arrive from 8px left on springs.glide in a cascade(), and removing a goal retracts its threads and pulls out only the tasks no other goal holds while shared ones stay. The goal cards are checkboxes that lift on springs.snap and follow the arrow keys; plan rows rove with Up and Down, Alt with Up or Down (or a drag of the grip, 1:1 with the release velocity handed to springs.glide) reorders them, and the threads follow every glide from a geometry loop that runs only while something moves.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "onboarding",
+        "goals",
+        "checklist",
+        "plan",
+        "reorder",
+        "app ui",
+        "personalisation"
+      ],
+      "props": [
+        {
+          "name": "goals",
+          "type": "GoalWeaveGoal[]",
+          "defaultValue": "defaultGoalWeaveGoals",
+          "description": "The goals to choose from, { id, title, detail?, icon?, tint? }."
+        },
+        {
+          "name": "tasks",
+          "type": "GoalWeaveTask[]",
+          "defaultValue": "defaultGoalWeaveTasks",
+          "description": "Every task a goal can bring, { id, title, minutes?, goals, starter? }; a task in several goals is shared, and starter tasks form the plan while nothing is chosen."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string[]",
+          "defaultValue": "— / []",
+          "description": "The chosen goal ids, controlled or initial. A host change weaves like a press."
+        },
+        {
+          "name": "onGoalsChange",
+          "type": "(ids: string[]) => void",
+          "description": "Fires from the card, key or click that changed the goals."
+        },
+        {
+          "name": "onPlanChange",
+          "type": "(taskIds: string[]) => void",
+          "description": "Fires with the plan in order whenever goals or a reorder change it."
+        },
+        {
+          "name": "onAccept",
+          "type": "(taskIds: string[], goalIds: string[]) => void",
+          "description": "Use this plan was pressed."
+        },
+        {
+          "name": "cardStyle",
+          "type": "\"tile\" | \"chip\" | \"row\"",
+          "defaultValue": "\"tile\"",
+          "description": "Two-column tiles with icon, title and detail; compact wrapping chips; or a list of rows with task counts."
+        },
+        {
+          "name": "threadStyle",
+          "type": "\"thread\" | \"stitch\" | \"ribbon\"",
+          "defaultValue": "\"thread\"",
+          "description": "A fine 1.5px curve, a dashed stitch, or a soft 6px ribbon."
+        },
+        {
+          "name": "accent",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "The first goal's tint (later goals turn its hue 48° each), the chosen cards and the primary button. Any CSS colour."
+        },
+        {
+          "name": "question",
+          "type": "string",
+          "defaultValue": "\"What should Fernworks help with?\"",
+          "description": "The question over the goal cards; it also names the checkbox group."
+        },
+        {
+          "name": "planTitle",
+          "type": "string",
+          "defaultValue": "\"Your first week\"",
+          "description": "The plan's heading (and the drawer's label on narrow widths)."
+        },
+        {
+          "name": "acceptLabel",
+          "type": "string",
+          "defaultValue": "\"Use this plan\"",
+          "description": "The primary button's label."
+        },
+        {
+          "name": "maxGoals",
+          "type": "number",
+          "description": "The most goals that can be chosen at once; the rest turn aria-disabled with the reason."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the goals have arrived: loading draws skeleton cards, error a message with Try again."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after the goals failed to load."
+        },
+        {
+          "name": "maxHeight",
+          "type": "number",
+          "defaultValue": "560",
+          "description": "The tallest the step grows before its body scrolls, px."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Nothing can be chosen, moved or accepted; the step dims."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the outer section."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: goal cards are role=checkbox in one roving group — arrows move (Up and Down by a row of tiles), Home and End jump, Space or Enter toggles. Plan rows rove with Up, Down, Home and End on their grips; Alt with Up or Down moves the focused task and announces its new place.",
+        "Every change is announced once as a sentence (\"Track inventory removed. 2 tasks left the plan, 1 stayed, shared.\"); rows carry aria-posinset and aria-setsize, since their DOM order is held steady while a drag is under way.",
+        "Performance: threads are SVG paths written straight to the DOM from a requestAnimationFrame loop that runs only while a weave, a reorder, a drag or a resize is in flight, and only while the step is on screen and the tab is visible.",
+        "Reduced motion: threads fade instead of drawing, tasks fade into their slots, reorders and the drawer jump. The plan, counts and announcements are unchanged.",
+        "Under 40rem the plan moves into a drawer under the goals; the threads give way to goal-coloured dots on each task, and a change made while it is closed rolls the count and shows a +n badge."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/goal-weave",
+      "registryItemUrl": "https://www.kinetiqui.com/r/goal-weave.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/goal-weave",
+        "npm": "npx shadcn@latest add @kinetiq/goal-weave",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/goal-weave",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/goal-weave",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/goal-weave.json"
+      }
+    },
+    {
+      "slug": "shortcut-drills",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Shortcut Drills",
+      "serial": "KQ-1698",
+      "tagline": "Learn the keys by pressing them.",
+      "description": "A keyboard practice built from a list of actions and their keys: the screen names an action, you press its shortcut, and every key you press is mirrored on a small keyboard whose caps go down on springs.flick and come back on springs.snap. A correct chord bottoms out together and lights, the caps rise key first and modifiers after, and a bead lifts off the key and flies on an arc into the streak rail on springs.glide, landing on springs.recoil; a wrong one shakes nothing and gently shows the right chord with a breathing ring and a caption. The prompt is a focusable practice pad that takes real chords (Tab and Escape still leave), the board is a roving group of buttons where modifiers latch and a key commits, and the set ends on a summary where any drill can be repeated.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "keyboard shortcuts",
+        "onboarding",
+        "practice",
+        "keycaps",
+        "streak",
+        "app ui",
+        "tutorial"
+      ],
+      "props": [
+        {
+          "name": "drills",
+          "type": "ShortcutDrill[]",
+          "defaultValue": "defaultShortcutDrills",
+          "description": "The shortcuts in order: { id, action, detail?, keys } where keys are Mod, Shift, Alt, Control, Meta plus one KeyboardEvent.code (Mod accepts ⌘ or Ctrl)."
+        },
+        {
+          "name": "results / defaultResults",
+          "type": "Record<string, \"clean\" | \"hinted\" | \"skipped\">",
+          "defaultValue": "— / {}",
+          "description": "Each drill's result by id, controlled or initial; a returning visitor's beads."
+        },
+        {
+          "name": "onResultsChange",
+          "type": "(results: ShortcutResults) => void",
+          "description": "Fires from the press, tap or skip that changed a result, with every result."
+        },
+        {
+          "name": "onComplete",
+          "type": "(summary: { total, clean, hinted, skipped, results }) => void",
+          "description": "A run reached the summary: the whole set, or a repeat of part of it."
+        },
+        {
+          "name": "onSkip",
+          "type": "(drill: ShortcutDrill, index: number) => void",
+          "description": "Skip was pressed on a drill."
+        },
+        {
+          "name": "onAttempt",
+          "type": "(attempt: { drill, keys, correct }) => void",
+          "description": "Every chord pressed or tapped while a drill was asked, right or wrong."
+        },
+        {
+          "name": "keyboardLayout",
+          "type": "\"command\" | \"control\" | \"split\"",
+          "defaultValue": "\"command\"",
+          "description": "⌘ ⌥ ⌃ legends, Ctrl and Alt legends, or the ⌘ board split in two halves."
+        },
+        {
+          "name": "keycapStyle",
+          "type": "\"sculpted\" | \"flat\" | \"outline\"",
+          "defaultValue": "\"sculpted\"",
+          "description": "Tall caps with a skirt and real travel, low chiclets with a shadow, or line drawings that scale instead of travelling."
+        },
+        {
+          "name": "accent",
+          "type": "\"cobalt\" | \"signal\" | \"amber\" | \"graphite\" | string",
+          "defaultValue": "\"cobalt\"",
+          "description": "Lit caps, beads, the hint ring and the streak: a named accent or any CSS colour."
+        },
+        {
+          "name": "reveal",
+          "type": "\"miss\" | \"always\"",
+          "defaultValue": "\"miss\"",
+          "description": "Show the chord after a wrong press, or from the start as a learn mode."
+        },
+        {
+          "name": "advanceDelay",
+          "type": "number",
+          "defaultValue": "650",
+          "description": "Milliseconds between a correct press and the next drill."
+        },
+        {
+          "name": "tapThrough",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "The caps answer taps: modifiers latch, a key commits the chord."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Fieldline shortcuts\"",
+          "description": "The heading."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the drills have arrived: a skeleton while loading, a retry on error."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after the drills failed to load."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "A tick on every press, a brighter one when the bead lands."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Holds the pad, the board and the buttons."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the surface; give it a height to fix its frame."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the prompt is a role=\"application\" pad, so screen readers pass keys through; every key but Tab and Escape is an attempt and is prevented while it has focus. Keep drills off chords the browser reserves (closing or opening tabs and windows). The board is one tab stop: arrows walk the caps, Enter or Space taps one.",
+        "Reduced motion: caps change colour instead of travelling, the bead fades into its slot instead of flying, prompts cross-fade; every result, count and caption still updates at once.",
+        "The board is drawn in key units and positioned in percentages with container-query legends, so it scales to any width (about 16px caps at a 316px card) and renders the same on the server. On a phone its caps grow taller.",
+        "Letters match by what they type as well as where they sit, so a visitor on another letter layout answers by the legend; Mod accepts either ⌘ or Ctrl whatever the board shows.",
+        "Nothing loops: the listening dot breathes only while the pad has focus, and timers and the bead flight are cleared on unmount.",
+        "Theming: everything is drawn from tokens; accent sets --sd-accent and a fixed-lightness pigment for filled caps and beads, so both themes read."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/shortcut-drills",
+      "registryItemUrl": "https://www.kinetiqui.com/r/shortcut-drills.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/shortcut-drills",
+        "npm": "npx shadcn@latest add @kinetiq/shortcut-drills",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/shortcut-drills",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/shortcut-drills",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/shortcut-drills.json"
+      }
+    },
+    {
+      "slug": "last-slot",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Last Slot",
+      "serial": "KQ-1699",
+      "tagline": "Five of five used; the sixth shows what it costs.",
+      "description": "A project grid at its plan's limit: the used projects, then one ghost slot carrying a lock. Hovering or focusing the ghost unlatches the lock on springs.snap (a shackle swings, a bolt slides out of its keeper, or a dial spins and pops) and a beat later the card turns over on springs.glide, about Y in the grid and about X when it is a wide row, to show the plan that holds more projects and its price while the header's meter glides to the new limit. Every project stays a working button with arrow-key travel by the measured columns; the ghost is one labelled button that upgrades (admins) or asks an admin (members), with Compare plans and Not now beside it.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "paywall",
+        "plan limit",
+        "upgrade",
+        "project grid",
+        "soft limit",
+        "app ui",
+        "lock"
+      ],
+      "props": [
+        {
+          "name": "projects",
+          "type": "LastSlotProject[]",
+          "defaultValue": "defaultLastSlotProjects",
+          "description": "The projects in the grid: { id, name, owner, updatedAt, tasks?, done?, next?, members?, tint? }."
+        },
+        {
+          "name": "usage",
+          "type": "{ used: number; limit: number }",
+          "defaultValue": "{ used: projects.length, limit: plan.limit }",
+          "description": "How many projects are used and allowed; at the limit the next cell carries the lock."
+        },
+        {
+          "name": "plan",
+          "type": "LastSlotPlan",
+          "defaultValue": "defaultLastSlotPlan",
+          "description": "The workspace's plan: { id, name, limit, price?, unit?, period?, perks? }."
+        },
+        {
+          "name": "offer",
+          "type": "LastSlotPlan",
+          "defaultValue": "defaultLastSlotOffer",
+          "description": "The plan that holds more projects, shown on the back of the slot with its price and two perks."
+        },
+        {
+          "name": "viewerRole",
+          "type": "\"admin\" | \"member\"",
+          "defaultValue": "\"admin\"",
+          "description": "Admins upgrade from the slot; members ask an admin."
+        },
+        {
+          "name": "adminName",
+          "type": "string",
+          "defaultValue": "\"Mara\"",
+          "description": "Who members ask."
+        },
+        {
+          "name": "onUpgrade",
+          "type": "(offer: LastSlotPlan) => void",
+          "description": "The slot was pressed by an admin at the limit."
+        },
+        {
+          "name": "onAskAdmin",
+          "type": "(offer: LastSlotPlan) => void",
+          "description": "The slot was pressed by a member at the limit."
+        },
+        {
+          "name": "onCompare",
+          "type": "() => void",
+          "description": "Compare plans was pressed."
+        },
+        {
+          "name": "onDismiss",
+          "type": "() => void",
+          "description": "Not now was pressed: the slot steps aside and a limit chip appears in the header."
+        },
+        {
+          "name": "dismissed / defaultDismissed",
+          "type": "boolean",
+          "defaultValue": "— / false",
+          "description": "Whether the slot has been set aside, controlled or initial."
+        },
+        {
+          "name": "onDismissedChange",
+          "type": "(dismissed: boolean) => void",
+          "description": "Fires from Not now (true) or the header's chip (false)."
+        },
+        {
+          "name": "onOpenProject",
+          "type": "(project: LastSlotProject) => void",
+          "description": "A project card was pressed."
+        },
+        {
+          "name": "onCreate",
+          "type": "() => void",
+          "description": "The slot was pressed while there is still room under the limit (it shows a plus, not a lock)."
+        },
+        {
+          "name": "now",
+          "type": "number",
+          "defaultValue": "defaultLastSlotNow",
+          "description": "The moment edit times count from, in ms; never the wall clock."
+        },
+        {
+          "name": "formatPrice",
+          "type": "(amount: number) => string",
+          "defaultValue": "US dollars",
+          "description": "Formats the offer's price; cents only when there are some."
+        },
+        {
+          "name": "slotStyle",
+          "type": "\"dashed\" | \"frosted\" | \"grid\"",
+          "defaultValue": "\"dashed\"",
+          "description": "The empty slot: a dashed outline, frosted glass over a faint card, or blueprint grid paper."
+        },
+        {
+          "name": "lockStyle",
+          "type": "\"shackle\" | \"bolt\" | \"dial\"",
+          "defaultValue": "\"shackle\"",
+          "description": "A padlock whose shackle lifts and swings, a door bolt that slides out of its keeper, or a combination dial that spins and pops."
+        },
+        {
+          "name": "accent",
+          "type": "\"cobalt\" | \"signal\" | \"amber\" | \"graphite\" | string",
+          "defaultValue": "\"cobalt\"",
+          "description": "The open lock, the offer's eyebrow and checks, the grid paper and the meter's offer run."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the projects have arrived: placeholder cards while loading, a retry on error."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after the projects failed to load."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Projects\"",
+          "description": "The heading."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Holds every press; the slot no longer turns."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the surface; give it a height and the grid scrolls inside it."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: projects and the slot are one roving set; arrows move by the measured columns, Home and End jump. Focusing the slot turns it over; Enter upgrades or asks; Tab reaches Compare plans and Not now, and focus anywhere in the slot keeps it turned.",
+        "Touch has no hover: the first tap turns the slot over to read it, the second presses it.",
+        "Reduced motion: no rotation and no lock travel; the faces cross-fade, the lock is drawn open and the meter re-reads at once. The offer still shows on hover and focus.",
+        "Not now moves focus to the header's limit chip, and the chip brings the slot back with focus on it; both are announced politely.",
+        "Narrow containers drop to one column of compact rows with the slot kept last, turning about X like a flap.",
+        "Times come from the now prop and prices from formatPrice, so the server and the browser render the same markup."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/last-slot",
+      "registryItemUrl": "https://www.kinetiqui.com/r/last-slot.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/last-slot",
+        "npm": "npx shadcn@latest add @kinetiq/last-slot",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/last-slot",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/last-slot",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/last-slot.json"
+      }
+    },
+    {
+      "slug": "teaser-lens",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Teaser Lens",
+      "serial": "KQ-1700",
+      "tagline": "Look through the lens at what the upgrade shows.",
+      "description": "A premium report drawn from the account's own numbers and softly blurred, with a glass lens that reads one region clearly, a little enlarged. The lens follows the finger 1:1 and has weight: it lifts on springs.flick, its rim tilts toward its travel and its highlight slides the other way, and when let go it coasts by projection, settles on springs.glide with the release velocity and sets down on springs.recoil, while an upgrade card trails beside it on a glide spring naming what that region would tell you. The lens is a button: arrows move it, Page keys and Home/End jump between regions, Enter upgrades and Escape puts it away; with no data the report draws a labelled sample, and in a narrow container the lens becomes a full-width band.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "paywall",
+        "premium report",
+        "magnifier",
+        "blur preview",
+        "upgrade",
+        "app ui",
+        "draggable lens"
+      ],
+      "props": [
+        {
+          "name": "summary",
+          "type": "TeaserSummary | null",
+          "defaultValue": "defaultTeaserSummary",
+          "description": "The account's numbers: { workspace, period, members, activeMembers, tasksDone, cycleDays, onTime, weekly, cohorts, stages }; null draws defaultTeaserSample, labelled as a sample."
+        },
+        {
+          "name": "regions",
+          "type": "TeaserRegion[]",
+          "defaultValue": "defaultTeaserRegions",
+          "description": "What each area would tell you, by id (pulse, trend, cohorts, stages): { id, title, teaser }."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "{ x: number; y: number }",
+          "defaultValue": "— / { x: 0.74, y: 0.52 }",
+          "description": "The lens centre as fractions of the report, controlled or initial; a host change glides the lens there."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: { x: number; y: number }) => void",
+          "description": "Fires when the lens comes to rest after a drag, a key or a tap."
+        },
+        {
+          "name": "onRegionChange",
+          "type": "(region: TeaserRegion) => void",
+          "description": "The lens came to rest over a different region."
+        },
+        {
+          "name": "onUpgrade",
+          "type": "(region: TeaserRegion) => void",
+          "description": "Enter on the lens, or the card's call to action, with the region under the lens."
+        },
+        {
+          "name": "onDismiss",
+          "type": "() => void",
+          "description": "The card's close button, or Escape on the lens."
+        },
+        {
+          "name": "dismissed / defaultDismissed",
+          "type": "boolean",
+          "defaultValue": "— / false",
+          "description": "Whether the lens and its card are put away, controlled or initial."
+        },
+        {
+          "name": "onDismissedChange",
+          "type": "(dismissed: boolean) => void",
+          "description": "Fires from the close (true) or the pill that brings the lens back (false)."
+        },
+        {
+          "name": "lensSize",
+          "type": "number",
+          "defaultValue": "136",
+          "description": "The disc's diameter in px; the band's height (up to 200) in a narrow container."
+        },
+        {
+          "name": "blurAmount",
+          "type": "number",
+          "defaultValue": "6",
+          "description": "How soft the rest of the report is, in px of blur."
+        },
+        {
+          "name": "accent",
+          "type": "\"cobalt\" | \"signal\" | \"amber\" | \"graphite\" | string",
+          "defaultValue": "\"cobalt\"",
+          "description": "The rim, the plan chip, the report's lead series and heatmap: a named accent or any CSS colour."
+        },
+        {
+          "name": "magnify",
+          "type": "number",
+          "defaultValue": "1.06",
+          "description": "How much the glass enlarges what is under it (1 to 1.4); the band never enlarges."
+        },
+        {
+          "name": "weight",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How heavy the glass is, 0 to 1: a heavy lens coasts less after a throw and tilts more while dragged."
+        },
+        {
+          "name": "planName",
+          "type": "string",
+          "defaultValue": "\"Pro\"",
+          "description": "The plan the report belongs to, in the chips and the call to action."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Delivery report\"",
+          "description": "The report's heading."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the numbers have arrived: a blurred skeleton while loading, a retry on error."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after the report failed to load."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Holds the lens and every action."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the surface; give it a height and the report scrolls inside it."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the lens is a button — arrows move it 5% (Shift 15%), Page Up/Down and Home/End jump between region centres, Enter calls onUpgrade with the region under it, Escape puts it away (handled, so the page behind does not close too).",
+        "Accessibility: both painted copies of the report are aria-hidden; readers get the lens's name, the card's teaser as its description, and one polite announcement each time the lens settles on a new region.",
+        "Reduced motion: the lens follows and stops where it is let go, with no coast, tilt, lift or bounce; the card moves with it and its text cross-fades.",
+        "Performance: nothing loops — motion values run only while dragging or settling; region rectangles and sizes come from a ResizeObserver, and the blur is a static filter on a static layer.",
+        "The report is painted twice (blurred, and sharp inside the lens's clip), so keep custom summaries to the shape of TeaserSummary; with no data pass summary={null} for a clearly labelled sample.",
+        "Narrow containers (under 480px) swap the disc for a full-width band that moves on y with touch-action pan-x, and dock the card under or over it."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/teaser-lens",
+      "registryItemUrl": "https://www.kinetiqui.com/r/teaser-lens.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/teaser-lens",
+        "npm": "npx shadcn@latest add @kinetiq/teaser-lens",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/teaser-lens",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/teaser-lens",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/teaser-lens.json"
+      }
+    },
+    {
+      "slug": "trial-recap",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Trial Recap",
+      "serial": "KQ-1701",
+      "tagline": "Seven days left, and what you did with them.",
+      "description": "The screen a workspace sees as its trial runs out: what the team did with it beside the plans. The first time it is seen, the days-left ring sweeps to its share on springs.drift while the day count rolls up, the recap's counts roll up on odometer wheels in cascade on springs.glide (each wheel turns only as the one below it rolls over), and the plan that fits the workspace's actual usage rises on glide as its reason chip stamps in on springs.recoil. The plans are a radiogroup with arrow keys and roving focus; the call to action rolls its monthly total on springs.snap, and an expired trial changes the copy and empties the ring.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "trial ending",
+        "paywall",
+        "plan picker",
+        "usage recap",
+        "countdown ring",
+        "app ui",
+        "odometer"
+      ],
+      "props": [
+        {
+          "name": "usage",
+          "type": "TrialUsage",
+          "defaultValue": "defaultTrialUsage",
+          "description": "What the workspace did: { projects, invited, seats, hoursSaved, teams? }."
+        },
+        {
+          "name": "plans",
+          "type": "TrialPlan[]",
+          "defaultValue": "defaultTrialPlans",
+          "description": "The plans offered: { id, name, price, seats, projects, blurb } with null for no limit."
+        },
+        {
+          "name": "now",
+          "type": "number",
+          "defaultValue": "defaultTrialNow",
+          "description": "The moment days are counted from, in ms; never the wall clock."
+        },
+        {
+          "name": "endsAt",
+          "type": "number",
+          "defaultValue": "now + 7 days",
+          "description": "When the trial ends, in ms; before now the trial reads as expired."
+        },
+        {
+          "name": "trialDays",
+          "type": "number",
+          "defaultValue": "14",
+          "description": "How long the trial runs; the ring goes round once for it."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "defaultValue": "— / the plan that fits",
+          "description": "The chosen plan's id, controlled or initial."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(planId: string) => void",
+          "description": "Fires from the click or key that chose another plan."
+        },
+        {
+          "name": "onChoosePlan",
+          "type": "(plan: TrialPlan, total: number) => void",
+          "description": "The call to action was pressed, with the plan and its monthly total for the workspace's seats."
+        },
+        {
+          "name": "onExtend",
+          "type": "() => void",
+          "description": "Extend (or, once expired, Ask for more days) was pressed."
+        },
+        {
+          "name": "onTalk",
+          "type": "() => void",
+          "description": "Talk to us was pressed."
+        },
+        {
+          "name": "recommend",
+          "type": "(usage, plans) => { planId, reason } | null",
+          "defaultValue": "recommendTrialPlan",
+          "description": "Picks the plan that fits and the reason it shows; by default the cheapest plan holding your seats and projects, explained by whichever ruled out the plan below."
+        },
+        {
+          "name": "extendDays",
+          "type": "number",
+          "defaultValue": "7",
+          "description": "Days an extension asks for."
+        },
+        {
+          "name": "workspace",
+          "type": "string",
+          "defaultValue": "\"Fieldline\"",
+          "description": "The workspace's name in the header."
+        },
+        {
+          "name": "ringStyle",
+          "type": "\"solid\" | \"days\" | \"ticks\"",
+          "defaultValue": "\"solid\"",
+          "description": "The days-left ring: one round-capped arc, one segment per trial day, or a dial of fine ticks."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"regular\" | \"roomy\"",
+          "defaultValue": "\"regular\"",
+          "description": "Padding, gaps, ring size (112, 136 or 156px) and the size of the numbers."
+        },
+        {
+          "name": "tone",
+          "type": "\"calm\" | \"urgent\" | \"quiet\"",
+          "defaultValue": "\"calm\"",
+          "description": "Voice and colour: calm cobalt (\"Seven days left in your trial\"), urgent amber (\"Your trial ends in 7 days\"), or quiet graphite (\"Trial · 7 days left\")."
+        },
+        {
+          "name": "formatPrice",
+          "type": "(amount: number) => string",
+          "defaultValue": "US dollars",
+          "description": "Formats prices and the monthly total; cents only when there are some."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the recap has arrived: an empty ring and breathing bars while loading, a retry on error."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after the recap failed to load."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Holds the plans and every action."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the surface; give it a height and it scrolls inside itself."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the plans are a role=\"radiogroup\" with one tab stop on the chosen plan; arrows move the choice, Home and End jump, Space or Enter select. The fitting plan's reason is part of its description.",
+        "Arrival runs once, when an IntersectionObserver first sees the screen; the server and a no-JavaScript render show the finished numbers, and rolling digits sit behind a plain sr-only number.",
+        "Reduced motion: the ring, the day count and the recap counts show their values at once; the fitting plan is raised without travel and the call to action's total swaps.",
+        "Days come from now and endsAt, never the wall clock, so the server and the browser agree; pass a formatPrice for other currencies.",
+        "Containers under 40rem stack the recap above the plans with a smaller ring beside its caption."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/trial-recap",
+      "registryItemUrl": "https://www.kinetiqui.com/r/trial-recap.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/trial-recap",
+        "npm": "npx shadcn@latest add @kinetiq/trial-recap",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/trial-recap",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/trial-recap",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/trial-recap.json"
+      }
+    },
+    {
+      "slug": "add-on-tray",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Add-on Tray",
+      "serial": "KQ-1702",
+      "tagline": "Add only the extras you need, and see the total.",
+      "description": "An add-on picker: toggle cards above, beside or under a running total tray. Turning a card on drops its chip into the tray on a small arc — one progress value on springs.glide carries it from the card's price to its place, x straight and y lifted — and it lands with two small bounces on springs.recoil as the monthly total rolls to its new value on odometer wheels on springs.snap; turning it off lifts the chip back out toward its card while the tray closes up on glide. Cards are role=\"checkbox\" buttons with two-dimensional arrow-key travel; incompatible add-ons stay focusable, say why in place of their description and bring the reason forward when pressed, prices shimmer while they load, and narrow containers dock the tray at the bottom.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "add-ons",
+        "paywall",
+        "checkout",
+        "pricing",
+        "running total",
+        "app ui",
+        "toggle cards"
+      ],
+      "props": [
+        {
+          "name": "addons",
+          "type": "AddOn[]",
+          "defaultValue": "defaultAddOns",
+          "description": "The add-ons offered: { id, name, description, price, icon?, conflicts?, requires?, note? }."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string[]",
+          "defaultValue": "— / [\"storage\"]",
+          "description": "The ids turned on, controlled or initial."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(ids: string[]) => void",
+          "description": "Fires from the press or key that changed the selection, with every id on."
+        },
+        {
+          "name": "onToggle",
+          "type": "(id: string, on: boolean) => void",
+          "description": "One add-on was turned on or off."
+        },
+        {
+          "name": "onBlocked",
+          "type": "(id: string, reason: string) => void",
+          "description": "An add-on that cannot be added was pressed, with the reason it shows."
+        },
+        {
+          "name": "onCheckout",
+          "type": "(order: { ids: string[]; total: number }) => void",
+          "description": "Checkout was pressed, with the ids and the monthly total."
+        },
+        {
+          "name": "base",
+          "type": "{ name: string; price: number }",
+          "defaultValue": "defaultAddOnBase",
+          "description": "The plan the add-ons sit on; its price starts the total."
+        },
+        {
+          "name": "pricesLoading",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Prices are on their way: they shimmer (only while on screen) and checkout is held."
+        },
+        {
+          "name": "cardStyle",
+          "type": "\"outline\" | \"tile\" | \"row\"",
+          "defaultValue": "\"outline\"",
+          "description": "Bordered cards with a round check, filled tiles with a large icon and a price pill, or compact list rows with a square check."
+        },
+        {
+          "name": "trayPosition",
+          "type": "\"bottom\" | \"side\" | \"float\"",
+          "defaultValue": "\"bottom\"",
+          "description": "A flush panel under the cards, a receipt column beside them, or a floating bar; narrow containers dock every one at the bottom."
+        },
+        {
+          "name": "accent",
+          "type": "\"cobalt\" | \"signal\" | \"amber\" | \"graphite\" | string",
+          "defaultValue": "\"cobalt\"",
+          "description": "Checks, chips, the flight and the chosen cards' wash: a named accent or any CSS colour."
+        },
+        {
+          "name": "formatPrice",
+          "type": "(amount: number) => string",
+          "defaultValue": "US dollars",
+          "description": "Formats prices; the total's symbol is read from formatPrice(0), so other currencies roll correctly."
+        },
+        {
+          "name": "period",
+          "type": "string",
+          "defaultValue": "\"mo\"",
+          "description": "What the prices are per."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Add-ons\"",
+          "description": "The heading."
+        },
+        {
+          "name": "checkoutLabel",
+          "type": "string",
+          "defaultValue": "\"Checkout\"",
+          "description": "The checkout button's word."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the add-ons have arrived: placeholder cards while loading, a retry on error."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after the add-ons failed to load."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Holds every card and checkout."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the surface; give it a height and the cards scroll above the tray."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the cards are one roving group of role=\"checkbox\" buttons; arrows travel by the measured columns, Home and End jump, Space or Enter toggle. Blocked add-ons stay focusable with aria-disabled, and their reason is part of their description.",
+        "Changes are announced politely with the new total (\"Audit log added. Total $116 a month.\"); the rolling total sits behind a plain sr-only sentence.",
+        "Reduced motion: no flight — chips fade in and out of the tray, the total swaps, checks appear without drawing, and the price shimmer is a still bar.",
+        "List conflicts on both add-ons (conflicts: [\"backup\"] on one and [\"residency\"] on the other); an add-on with requires names the plan it needs and can never be turned on here.",
+        "The odometer reserves the width of the largest possible total, so the tray never shifts while digits roll.",
+        "Performance: the flier exists only during a flight and the shimmer runs only while prices load and the tray is in view."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/add-on-tray",
+      "registryItemUrl": "https://www.kinetiqui.com/r/add-on-tray.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/add-on-tray",
+        "npm": "npx shadcn@latest add @kinetiq/add-on-tray",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/add-on-tray",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/add-on-tray",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/add-on-tray.json"
+      }
+    },
+    {
+      "slug": "pause-instead",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Pause Instead",
+      "serial": "KQ-1703",
+      "tagline": "Before cancelling, see what stops and what stays.",
+      "description": "A cancellation flow built from plan, usage and offers: the reason, what changes, then a plain choice, in a step bar whose pill slides on springs.snap while each step cross-slides 8px on springs.glide inside a box that glides to its measured height. When \"What changes\" comes into view the losses switch off one at a time inside the 600ms budget — a mini switch flips on snap, a strike sweeps on glide, or a tile's live bar drains — and the pause offer slides up 16px beneath on glide with a resume date that rolls as the length changes. Reasons and pause lengths are radiogroups (arrows, Home, End), every step and decision is a real button, and a step change moves focus to its heading.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "cancel subscription",
+        "cancellation flow",
+        "pause plan",
+        "retention offer",
+        "downgrade",
+        "billing",
+        "app ui"
+      ],
+      "props": [
+        {
+          "name": "plan",
+          "type": "PauseInsteadPlan",
+          "defaultValue": "defaultPauseInsteadPlan",
+          "description": "The plan being cancelled: { id, product, name, price, seats, cycle, renewsAt, currency? }."
+        },
+        {
+          "name": "usage",
+          "type": "PauseInsteadLoss[]",
+          "defaultValue": "defaultPauseInsteadUsage",
+          "description": "What switches off when the plan ends, in order: { id, label, detail, figure?, icon? }."
+        },
+        {
+          "name": "keeps",
+          "type": "PauseInsteadKeep[]",
+          "defaultValue": "defaultPauseInsteadKeeps",
+          "description": "What stays whatever is chosen: { id, label }."
+        },
+        {
+          "name": "reasons",
+          "type": "PauseInsteadReason[]",
+          "defaultValue": "defaultPauseInsteadReasons",
+          "description": "The reasons offered on the first step: { id, label }."
+        },
+        {
+          "name": "offers",
+          "type": "PauseInsteadOffers",
+          "defaultValue": "defaultPauseInsteadOffers",
+          "description": "{ pause?: { months, defaultMonths? }, downgrade?: { plan, price, keeps } }; omit one to leave it out."
+        },
+        {
+          "name": "now",
+          "type": "number",
+          "defaultValue": "plan.renewsAt − 23 days",
+          "description": "The moment \"days left\" counts from, in ms."
+        },
+        {
+          "name": "step / defaultStep",
+          "type": "\"reason\" | \"losses\" | \"decide\" | \"done\"",
+          "defaultValue": "— / \"reason\"",
+          "description": "The step shown, controlled or initial."
+        },
+        {
+          "name": "onStepChange",
+          "type": "(step) => void",
+          "description": "Fires from the button that moved the flow."
+        },
+        {
+          "name": "onCancel",
+          "type": "(details: { reason, note }) => void | Promise",
+          "description": "Cancel was confirmed; a promise holds the button and a rejection shows its message."
+        },
+        {
+          "name": "onPause",
+          "type": "(details: { months, resumesAt, reason, note }) => void | Promise",
+          "description": "A pause was chosen, with its length and the date billing resumes."
+        },
+        {
+          "name": "onDowngrade",
+          "type": "(details: { plan, reason, note }) => void | Promise",
+          "description": "The cheaper plan was chosen."
+        },
+        {
+          "name": "onExit",
+          "type": "(outcome: \"kept\" | \"paused\" | \"downgraded\" | \"cancelled\") => void",
+          "description": "The flow was left: Keep my plan, or Done after an outcome."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the plan's data has arrived."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after the plan failed to load."
+        },
+        {
+          "name": "listStyle",
+          "type": "\"switch\" | \"strike\" | \"tiles\"",
+          "defaultValue": "\"switch\"",
+          "description": "How the losses are drawn: rows with a switch that flips off, rows struck through, or figure tiles that drain."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"cozy\" | \"roomy\"",
+          "defaultValue": "\"cozy\"",
+          "description": "Padding, gaps and type size."
+        },
+        {
+          "name": "tone",
+          "type": "\"calm\" | \"warm\" | \"mono\"",
+          "defaultValue": "\"calm\"",
+          "description": "The offer's wash, the primary fill and the step pill: cobalt, amber pigment or ink."
+        },
+        {
+          "name": "dimInterval",
+          "type": "number",
+          "defaultValue": "150",
+          "description": "Milliseconds between one loss switching off and the next; the run never passes 600ms."
+        },
+        {
+          "name": "formatDate",
+          "type": "(ms) => string",
+          "defaultValue": "\"12 Nov 2026\" (UTC)",
+          "description": "How a date is written."
+        },
+        {
+          "name": "formatMoney",
+          "type": "(amount, currency) => string",
+          "defaultValue": "Intl currency",
+          "description": "How a price is written."
+        },
+        {
+          "name": "maxHeight",
+          "type": "number",
+          "defaultValue": "560",
+          "description": "The surface's height cap in px; the steps scroll inside it with edge fades."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Every action is unavailable; the steps can still be read."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the surface."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: reasons and pause lengths are radiogroups with roving tabindex (arrows move and select, Home and End jump); every step action and decision is a button. A step change moves focus to the new step's heading, bound when it arrives; pending decisions keep focus with aria-busy rather than disabling.",
+        "Each loss reads as one sentence (\"Shared boards: 14 boards go read-only for 8 members. Switches off on 12 Nov 2026.\"); the switch-off and every outcome are announced once in a polite status, and a failed decision is a role=\"alert\" strip.",
+        "The switch-off waits until the step is in view and is driven by one timer at a time, so leaving the view or a StrictMode rehearsal resumes it where it was; there are no loops.",
+        "Reduced motion: nothing travels — steps cross-fade and the offer fades in — but the losses still go off one at a time, because that order is the information.",
+        "Lays out by container: one column under 36rem (inactive step labels collapse to numbers under 26rem), losses beside what stays and the two offers side by side above it."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/pause-instead",
+      "registryItemUrl": "https://www.kinetiqui.com/r/pause-instead.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/pause-instead",
+        "npm": "npx shadcn@latest add @kinetiq/pause-instead",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/pause-instead",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/pause-instead",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/pause-instead.json"
+      }
+    },
+    {
+      "slug": "credit-refill",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Credit Refill",
+      "serial": "KQ-1704",
+      "tagline": "Running low; top up without leaving the work.",
+      "description": "A low-credit sheet that docks over the work it interrupts, showing what remains and how long it lasts at the current rate. Choosing a pack pours the balance gauge — a vial, a flask or a capsule of liquid — up to the new total on springs.glide while its surface leans against the pour and settles as a damped slosh, the bought share firming from a lighter band when the charge goes through; one frame loop runs only while the liquid moves. Packs are a radiogroup whose highlight slides on springs.snap, auto-recharge reveals a threshold slider that follows the pointer 1:1 and settles on its step with the release velocity, and arrows, Page keys, Home and End drive both.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "credits",
+        "top up",
+        "usage billing",
+        "auto-recharge",
+        "liquid gauge",
+        "paywall",
+        "app ui"
+      ],
+      "props": [
+        {
+          "name": "balance",
+          "type": "number",
+          "defaultValue": "312",
+          "description": "Credits left right now."
+        },
+        {
+          "name": "rate",
+          "type": "number",
+          "defaultValue": "144",
+          "description": "Credits used per hour; the runway is balance ÷ rate."
+        },
+        {
+          "name": "packs",
+          "type": "CreditRefillPack[]",
+          "defaultValue": "defaultCreditRefillPacks",
+          "description": "The packs on offer: { id, credits, price, bonus? }."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "defaultValue": "— / the second pack",
+          "description": "The chosen pack id, controlled or initial."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(id) => void",
+          "description": "Fires from the press or key that chose a pack."
+        },
+        {
+          "name": "autoRecharge / defaultAutoRecharge",
+          "type": "boolean",
+          "defaultValue": "— / false",
+          "description": "Whether auto-recharge is on, controlled or initial."
+        },
+        {
+          "name": "onAutoRechargeChange",
+          "type": "(on, threshold) => void",
+          "description": "Fires when auto-recharge is switched, with the threshold it will use."
+        },
+        {
+          "name": "threshold / defaultThreshold",
+          "type": "number",
+          "defaultValue": "— / 200",
+          "description": "Top up when credits fall below this, controlled or initial."
+        },
+        {
+          "name": "onThresholdChange",
+          "type": "(threshold) => void",
+          "description": "Fires as the slider settles on a new 50-credit step."
+        },
+        {
+          "name": "thresholdMax",
+          "type": "number",
+          "defaultValue": "1000",
+          "description": "The threshold slider's top end."
+        },
+        {
+          "name": "onBuy",
+          "type": "(pack) => void | Promise",
+          "description": "Buy was pressed; a promise holds the button and a rejection keeps the pack chosen with its reason."
+        },
+        {
+          "name": "open / defaultOpen",
+          "type": "boolean",
+          "defaultValue": "— / true",
+          "description": "Whether the sheet is up, controlled or initial; dismissed, a pill stays to reopen it."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open) => void",
+          "description": "Fires when the sheet is dismissed or reopened."
+        },
+        {
+          "name": "onDismiss",
+          "type": "() => void",
+          "description": "The sheet was dismissed: the close button, Escape, or Close after a buy."
+        },
+        {
+          "name": "paymentMethod",
+          "type": "string",
+          "defaultValue": "\"Card ending 4417\"",
+          "description": "Where the charge goes, in words."
+        },
+        {
+          "name": "now",
+          "type": "number",
+          "defaultValue": "—",
+          "description": "The moment the runway counts from, in ms; adds \"until about 16:40\"."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the packs have arrived."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after the packs failed to load."
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "The work the sheet sits over; it stays usable behind it."
+        },
+        {
+          "name": "gaugeStyle",
+          "type": "\"vial\" | \"orb\" | \"bar\"",
+          "defaultValue": "\"vial\"",
+          "description": "The gauge: a tall vial, a round flask, or a wide capsule."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"cozy\" | \"roomy\"",
+          "defaultValue": "\"cozy\"",
+          "description": "Padding, gaps and type size."
+        },
+        {
+          "name": "accent",
+          "type": "\"cobalt\" | \"mint\" | \"amber\" | \"ink\" | string",
+          "defaultValue": "\"cobalt\"",
+          "description": "The liquid, the selection and Buy: a named pigment or any CSS colour."
+        },
+        {
+          "name": "formatMoney",
+          "type": "(amount) => string",
+          "defaultValue": "Intl USD",
+          "description": "How a price is written."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Buying and auto-recharge are unavailable; the sheet can still be read and dismissed."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the frame; a height class replaces its default 35rem."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: packs are a radiogroup (arrows move and select, Home and End jump); the threshold is a role=\"slider\" with valuetext (arrows step 50, Page Up and Page Down 250, Home and End); Escape inside the sheet dismisses it and focus moves to the reopen pill, and reopening focuses the sheet's heading.",
+        "The gauge is role=\"meter\" with a valuetext sentence; Buy keeps focus while charging (aria-busy) and a declined payment is a role=\"alert\" with the reason, the pack still chosen.",
+        "Performance: the liquid's frame loop runs only while the level or the slosh is moving and stops when settled, off screen or in a hidden tab; the paths are written through motion values, never React state.",
+        "Reduced motion: the level steps on a short tween with a still surface; the band, figures and runway still change.",
+        "No scrim and nothing inert: the work stays usable. Under a 36rem container the sheet covers the width as a bottom sheet; wider, it floats bottom-right at 24rem."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/credit-refill",
+      "registryItemUrl": "https://www.kinetiqui.com/r/credit-refill.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/credit-refill",
+        "npm": "npx shadcn@latest add @kinetiq/credit-refill",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/credit-refill",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/credit-refill",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/credit-refill.json"
+      }
+    },
+    {
+      "slug": "upgrade-request",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Upgrade Request",
+      "serial": "KQ-1705",
+      "tagline": "Ask your admin for the upgrade in one tap.",
+      "description": "A member's upgrade request: the locked feature, the admins who can approve it as a radiogroup, and a card with the plan and a note. Send folds the card into an envelope that scales from the card's measured box on springs.glide while its flap closes on springs.snap, then flies to the chosen admin's avatar with x on glide and y on springs.drift so the path arcs, where the ring lands and a Pending chip arrives on springs.recoil. Approval unlocks the feature in place — the shackle swings open on snap and the veil lifts — and a decline shows the admin's note with a way to ask someone else; admins move with arrows, Home and End, and focus moves to Remind once the request lands.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "upgrade request",
+        "ask admin",
+        "approval",
+        "locked feature",
+        "envelope",
+        "paywall",
+        "app ui"
+      ],
+      "props": [
+        {
+          "name": "admins",
+          "type": "UpgradeRequestAdmin[]",
+          "defaultValue": "defaultUpgradeRequestAdmins",
+          "description": "Who can approve: { id, name, role, presence?, tint? }."
+        },
+        {
+          "name": "plan",
+          "type": "UpgradeRequestPlan",
+          "defaultValue": "defaultUpgradeRequestPlan",
+          "description": "The plan asked for: { name, price, adds }."
+        },
+        {
+          "name": "feature",
+          "type": "UpgradeRequestFeature",
+          "defaultValue": "defaultUpgradeRequestFeature",
+          "description": "The feature the member reached for: { name, description }."
+        },
+        {
+          "name": "reason",
+          "type": "string",
+          "defaultValue": "a sentence about the Q3 roadmap",
+          "description": "The note's starting text."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "defaultValue": "— / the first admin online",
+          "description": "The chosen admin id, controlled or initial."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(id) => void",
+          "description": "Fires from the press or key that chose an admin."
+        },
+        {
+          "name": "request / defaultRequest",
+          "type": "UpgradeRequestRecord | null",
+          "defaultValue": "— / null",
+          "description": "The request: { adminId, note, at, status, reply?, remindedAt? }; set its status to answer it."
+        },
+        {
+          "name": "onRequestChange",
+          "type": "(request | null) => void",
+          "description": "Fires when asking creates the request, a reminder updates it, or Ask someone else clears it."
+        },
+        {
+          "name": "onRequest",
+          "type": "(details: { admin, note }) => void | Promise",
+          "description": "Send was pressed; a promise holds the button and a rejection keeps the form with its message."
+        },
+        {
+          "name": "onRemind",
+          "type": "(request) => void",
+          "description": "Remind was pressed on a pending request."
+        },
+        {
+          "name": "onOpenFeature",
+          "type": "() => void",
+          "description": "The unlocked feature's Open button was pressed."
+        },
+        {
+          "name": "now",
+          "type": "number",
+          "defaultValue": "defaultUpgradeRequestNow",
+          "description": "The moment times are written against, in ms."
+        },
+        {
+          "name": "remindAfter",
+          "type": "number",
+          "defaultValue": "15",
+          "description": "Minutes before a second reminder can go."
+        },
+        {
+          "name": "maxNote",
+          "type": "number",
+          "defaultValue": "280",
+          "description": "The note's length limit, in characters."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the admins have arrived."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after the admins failed to load."
+        },
+        {
+          "name": "cardStyle",
+          "type": "\"raised\" | \"outline\" | \"tinted\"",
+          "defaultValue": "\"raised\"",
+          "description": "The request card: a raised popover, a hairline outline, or a wash of the accent."
+        },
+        {
+          "name": "envelopeStyle",
+          "type": "\"classic\" | \"airmail\" | \"plain\"",
+          "defaultValue": "\"classic\"",
+          "description": "The envelope the card folds into: flap and seams, an airmail border, or a plain sleeve with a seal."
+        },
+        {
+          "name": "accent",
+          "type": "\"cobalt\" | \"mint\" | \"amber\" | \"ink\" | string",
+          "defaultValue": "\"cobalt\"",
+          "description": "The selection, Send and the envelope's seal: a named pigment or any CSS colour."
+        },
+        {
+          "name": "formatTime",
+          "type": "(ms) => string",
+          "defaultValue": "\"14:32\" (24-hour UTC)",
+          "description": "How a time is written."
+        },
+        {
+          "name": "maxHeight",
+          "type": "number",
+          "defaultValue": "560",
+          "description": "The surface's height cap in px; it scrolls inside it."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Nothing can be sent; the request can still be read."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the surface."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: admins are a radiogroup with roving tabindex (arrows, Home, End); the note is a labelled textarea whose count is its description; Send stays focusable while sending (aria-busy), and focus moves to Remind when the request lands.",
+        "The envelope layer is aria-hidden and every outcome is announced once (\"Asked Priya Raman at 14:32. Pending.\"); each admin's name carries their role, presence and the request's state.",
+        "The flight is one set of animate() calls measured against the surface at the moment of sending, so it flies true inside any scroller; unmounting or a StrictMode rehearsal lands it rather than freezing it. Nothing runs at rest.",
+        "Reduced motion: nothing folds or flies — the card cross-fades to the pending summary and the chip fades in; the lock opens with a fade.",
+        "Lays out by container: stacked under 36rem with the preview trimmed to two versions, the locked preview beside the admins and card above it."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/upgrade-request",
+      "registryItemUrl": "https://www.kinetiqui.com/r/upgrade-request.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/upgrade-request",
+        "npm": "npx shadcn@latest add @kinetiq/upgrade-request",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/upgrade-request",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/upgrade-request",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/upgrade-request.json"
+      }
+    },
+    {
+      "slug": "passkey-enrol",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Passkey Enrol",
+      "serial": "KQ-1706",
+      "tagline": "Add a passkey so the password can retire.",
+      "description": "A passkey setup step: a key inside a disc with rings round it, a short explanation, Create, and the devices already enrolled. While the platform prompt is open the rings draw slowly one after another on a symmetric tween and then turn very slowly, only in view and in a visible tab; success contracts every ring onto the key on springs.glide, outer ones a beat behind, into a solid mark that settles on springs.snap with a check drawn on springs.flick, while the new device slides into the list from 8px on glide with a New chip landing on springs.recoil. Rename edits in place (Enter saves, Escape cancels), Remove asks in the row, and cancelled prompts and unsupported browsers each get a plain message and a fallback.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "passkey",
+        "webauthn",
+        "security key",
+        "sign-in setup",
+        "devices",
+        "authentication",
+        "app ui"
+      ],
+      "props": [
+        {
+          "name": "account",
+          "type": "PasskeyAccount",
+          "defaultValue": "defaultPasskeyAccount",
+          "description": "Whose passkeys these are: { name, email }."
+        },
+        {
+          "name": "devices / defaultDevices",
+          "type": "PasskeyDevice[]",
+          "defaultValue": "— / defaultPasskeyDevices",
+          "description": "The enrolled devices: { id, name, kind, addedAt, lastUsedAt? }, controlled or initial."
+        },
+        {
+          "name": "onDevicesChange",
+          "type": "(devices) => void",
+          "description": "Fires with the whole list after an enrol, a rename or a remove."
+        },
+        {
+          "name": "onEnrol",
+          "type": "() => PasskeyDevice | Promise<PasskeyDevice>",
+          "description": "Opens the platform prompt; resolve with the new device, reject with { reason: \"cancelled\" | \"unsupported\" | \"error\" } or the platform's NotAllowedError."
+        },
+        {
+          "name": "onRename",
+          "type": "(device, name) => void",
+          "description": "A device was renamed."
+        },
+        {
+          "name": "onRemove",
+          "type": "(device) => void",
+          "description": "A device was removed after its confirm."
+        },
+        {
+          "name": "onFallback",
+          "type": "(kind: \"other-device\" | \"password\") => void",
+          "description": "A fallback was chosen."
+        },
+        {
+          "name": "supported",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Whether this browser can create passkeys; false shows the unsupported message from the start."
+        },
+        {
+          "name": "now",
+          "type": "number",
+          "defaultValue": "defaultPasskeyNow",
+          "description": "The moment \"used today\" counts from, in ms."
+        },
+        {
+          "name": "ringCount",
+          "type": "number",
+          "defaultValue": "3",
+          "description": "How many rings draw round the key, 2 to 5."
+        },
+        {
+          "name": "drawDuration",
+          "type": "number",
+          "defaultValue": "1400",
+          "description": "Milliseconds each ring takes to draw while the prompt is open."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Add a passkey\"",
+          "description": "The heading."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the device list has arrived."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after the list failed to load."
+        },
+        {
+          "name": "ringStyle",
+          "type": "\"rings\" | \"arcs\" | \"dots\"",
+          "defaultValue": "\"rings\"",
+          "description": "The rings: full circles, broken arcs that turn both ways, or rings of dots."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"cozy\" | \"roomy\"",
+          "defaultValue": "\"cozy\"",
+          "description": "Padding, row height and type size."
+        },
+        {
+          "name": "accent",
+          "type": "\"cobalt\" | \"mint\" | \"amber\" | \"ink\" | string",
+          "defaultValue": "\"cobalt\"",
+          "description": "The rings, the solid mark and Create: a named pigment or any CSS colour."
+        },
+        {
+          "name": "formatDate",
+          "type": "(ms) => string",
+          "defaultValue": "\"3 Sep\" (UTC)",
+          "description": "How a date is written."
+        },
+        {
+          "name": "maxHeight",
+          "type": "number",
+          "defaultValue": "560",
+          "description": "The surface's height cap in px; the list scrolls inside it."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Nothing can be enrolled, renamed or removed."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the surface."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: Create stays focusable while the prompt is open (aria-busy); every row's Rename and Remove are buttons named with the device; Rename's field saves on Enter and Escape cancels and returns focus; after a remove, focus moves to the next device (or Create).",
+        "The rings are aria-hidden; each phase is one polite sentence, and cancelled, unsupported and failed prompts each get a plain paragraph with a fallback button.",
+        "Wire onEnrol to the platform's credential creation; a rejection with name NotAllowedError (the visitor closed the prompt) reads as cancelled, NotSupportedError as unsupported.",
+        "Performance: the ring turn runs only while the prompt is open, in view and in a visible tab; the draws are one-shot tweens and nothing runs at rest.",
+        "Reduced motion: the rings sit fully drawn and breathe in opacity while the prompt is open; success cross-fades to the solid mark and the new row fades in."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/passkey-enrol",
+      "registryItemUrl": "https://www.kinetiqui.com/r/passkey-enrol.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/passkey-enrol",
+        "npm": "npx shadcn@latest add @kinetiq/passkey-enrol",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/passkey-enrol",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/passkey-enrol",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/passkey-enrol.json"
+      }
+    },
+    {
+      "slug": "inbox-wait",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Inbox Wait",
+      "serial": "KQ-1707",
+      "tagline": "We've sent a link; this page will notice.",
+      "description": "A magic-link waiting screen where an envelope rests in a slow breathing glow — a mirrored tween whose strength is glowAmount, running only while waiting, in view and in a visible tab — beside the address, a Resend that counts down and a way to change the address. The page notices the link opening through a BroadcastChannel another tab posts to, an onCheck asked when the tab regains focus, or the host's status; then the flap swings open on springs.snap, the letter rises on springs.glide and grows into the signed-in welcome through a shared layout on glide while the welcome's lines arrive in a cascade. Expired links and links opened on another device each explain the next step.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "magic link",
+        "passwordless",
+        "check your email",
+        "sign in",
+        "resend timer",
+        "authentication",
+        "app ui"
+      ],
+      "props": [
+        {
+          "name": "email",
+          "type": "string",
+          "defaultValue": "\"ana@waylight.studio\"",
+          "description": "Where the link went."
+        },
+        {
+          "name": "status / defaultStatus",
+          "type": "\"waiting\" | \"verified\" | \"expired\" | \"other-device\"",
+          "defaultValue": "— / \"waiting\"",
+          "description": "The page's state, controlled or initial."
+        },
+        {
+          "name": "onStatusChange",
+          "type": "(status) => void",
+          "description": "Fires when the page notices the link opened, the link expires, or a new link goes out."
+        },
+        {
+          "name": "sentAt",
+          "type": "number",
+          "defaultValue": "6 s before now",
+          "description": "When the link was sent, in ms."
+        },
+        {
+          "name": "now",
+          "type": "number",
+          "defaultValue": "defaultInboxWaitNow",
+          "description": "The moment the page first renders, in ms; its timers count on from it."
+        },
+        {
+          "name": "resendAfter",
+          "type": "number",
+          "defaultValue": "30",
+          "description": "Seconds before Resend becomes available."
+        },
+        {
+          "name": "expiresAfter",
+          "type": "number",
+          "defaultValue": "15",
+          "description": "Minutes a link stays valid; the page turns to expired when it lapses."
+        },
+        {
+          "name": "onResend",
+          "type": "() => void | Promise",
+          "description": "Resend was pressed; a promise holds the button."
+        },
+        {
+          "name": "onChangeEmail",
+          "type": "(email) => void",
+          "description": "A new address was saved; a fresh link is assumed to have gone to it."
+        },
+        {
+          "name": "onVerified",
+          "type": "(info: { name?, via }) => void",
+          "description": "The page noticed the link was opened, and how (\"channel\", \"check\" or \"host\"); fires once per link."
+        },
+        {
+          "name": "onContinue",
+          "type": "() => void",
+          "description": "Continue was pressed on the welcome."
+        },
+        {
+          "name": "channel",
+          "type": "string",
+          "defaultValue": "—",
+          "description": "A BroadcastChannel name; another tab posts { type: \"verified\", name? } (or \"expired\", \"other-device\")."
+        },
+        {
+          "name": "onCheck",
+          "type": "() => boolean | Promise<boolean>",
+          "description": "Asked when the tab regains focus (and every pollInterval ms while visible); resolve true once the link has been opened."
+        },
+        {
+          "name": "pollInterval",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Milliseconds between checks while visible and on screen; 0 checks only on focus."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "defaultValue": "\"Ana\"",
+          "description": "Who the welcome greets."
+        },
+        {
+          "name": "product",
+          "type": "string",
+          "defaultValue": "\"Waylight\"",
+          "description": "The product being signed in to."
+        },
+        {
+          "name": "envelopeStyle",
+          "type": "\"flap\" | \"mailer\" | \"line\"",
+          "defaultValue": "\"flap\"",
+          "description": "The envelope: a classic flap, a mailer with a tear strip, or line art."
+        },
+        {
+          "name": "glowAmount",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How strongly the resting envelope glows, 0 to 1; 0 is unlit and still."
+        },
+        {
+          "name": "tone",
+          "type": "\"calm\" | \"warm\" | \"mono\"",
+          "defaultValue": "\"calm\"",
+          "description": "The glow, the seal and the primary action: cobalt, amber or ink."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Resend and Change email are unavailable."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the surface; it is max-w-sm unless widened here."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: Resend is a button with aria-disabled until its timer ends and its name carries the wait (\"Resend link, available in 24 seconds\"); the countdown itself is announced only when it reaches zero. Change email swaps in a labelled field (Enter sends, Escape cancels) and focus returns to Change email.",
+        "A status change moves focus to the new heading only when focus was already inside (or nowhere), so a link noticed in the background never steals focus from the rest of the page.",
+        "Timers never read the clock in render: they count on from now, schedule only the next tick that changes something, pause in a hidden tab and re-sync when it is shown. The glow loop stops off screen, in a hidden tab, at glowAmount 0 and in every state but waiting.",
+        "Close the BroadcastChannel loop by posting from the page the link opens: new BroadcastChannel(name).postMessage({ type: \"verified\", name }).",
+        "Reduced motion: the glow is a still halo and the envelope cross-fades to the welcome; nothing travels."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/inbox-wait",
+      "registryItemUrl": "https://www.kinetiqui.com/r/inbox-wait.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/inbox-wait",
+        "npm": "npx shadcn@latest add @kinetiq/inbox-wait",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/inbox-wait",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/inbox-wait",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/inbox-wait.json"
+      }
+    },
+    {
+      "slug": "workspace-lobby",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Workspace Lobby",
+      "serial": "KQ-1708",
+      "tagline": "Choose which workspace to open.",
+      "description": "The screen after sign-in: your workspaces as tiles with role, people and last visit, invitations in their own row, and a way to create one. Choosing a tile grows its real box from the tile's measured place to fill the panel on springs.glide while every other tile steps back on the same spring, the workspace's spaces cascade in under a loading line, and the answer resolves to a check drawn on springs.flick — or folds the tile back with the reason; a single accent plate travels between tiles on springs.snap. The tiles are a listbox: arrows walk them by their rendered rows, letters jump by name, Enter opens and Escape folds back.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "workspace switcher",
+        "post sign-in",
+        "team picker",
+        "invitations",
+        "shared element",
+        "listbox",
+        "app ui"
+      ],
+      "props": [
+        {
+          "name": "workspaces",
+          "type": "LobbyWorkspace[]",
+          "defaultValue": "defaultLobbyWorkspaces",
+          "description": "The workspaces you belong to: { id, name, handle?, members, people?, role, lastVisit?, unread?, tint?, spaces? }."
+        },
+        {
+          "name": "invitations",
+          "type": "LobbyInvitation[]",
+          "defaultValue": "defaultLobbyInvitations",
+          "description": "Invitations waiting for an answer: { id, name, handle?, invitedBy, role, members, tint?, sentAt? }."
+        },
+        {
+          "name": "account",
+          "type": "{ name, email }",
+          "defaultValue": "defaultLobbyAccount",
+          "description": "Who is signed in, shown in the header."
+        },
+        {
+          "name": "now",
+          "type": "number",
+          "defaultValue": "defaultLobbyNow",
+          "description": "The clock (epoch ms) every last visit and invitation age is measured from."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string | null",
+          "defaultValue": "— / first workspace",
+          "description": "The active tile — the option the arrows are on — controlled or initial."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(id) => void",
+          "description": "Fires from the arrow, type-ahead or press that moved the active tile."
+        },
+        {
+          "name": "onSelect",
+          "type": "(workspace) => void | Promise<void>",
+          "description": "A workspace was chosen. A promise holds the expanded tile while it loads; a rejection folds it back and shows the message on the tile."
+        },
+        {
+          "name": "onCancel",
+          "type": "(workspace) => void",
+          "description": "Cancel, Switch or Escape folded the open workspace back into its tile."
+        },
+        {
+          "name": "onCreate",
+          "type": "() => void",
+          "description": "Create a workspace was pressed (the dashed row, or the empty state's button)."
+        },
+        {
+          "name": "onJoin",
+          "type": "(invitation) => void | Promise<void>",
+          "description": "Join was pressed. While a promise runs the card reads Joining…; when the host moves it into workspaces the tile lands from the card's place."
+        },
+        {
+          "name": "onDecline",
+          "type": "(invitation) => void",
+          "description": "Decline was pressed on an invitation."
+        },
+        {
+          "name": "onSwitchAccount",
+          "type": "() => void",
+          "description": "Switch account was pressed in the header."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Skeleton tiles while loading; a message and Try again on error."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after loading failed."
+        },
+        {
+          "name": "tileStyle",
+          "type": "\"card\" | \"row\" | \"poster\"",
+          "defaultValue": "\"card\"",
+          "description": "A card, a compact row, or a poster with a seeded contour band."
+        },
+        {
+          "name": "columns",
+          "type": "number",
+          "defaultValue": "3",
+          "description": "Tile columns at wide widths, 1 to 4; two at most below 44rem and one below 30rem of container."
+        },
+        {
+          "name": "accent",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "The selection plate, the loading line, unread dots and Join, any CSS colour."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Choose a workspace\"",
+          "description": "The heading that names the listbox."
+        },
+        {
+          "name": "maxHeight",
+          "type": "number",
+          "defaultValue": "560",
+          "description": "Tallest the panel grows, in px, before its body scrolls."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Nothing can be opened, joined or created; the tiles stay readable and reachable."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the wrapper."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the tiles are a role=\"listbox\" with roving tabindex — Left and Right move one, Up and Down move a rendered row (columns are measured, so it works at every width), Home and End jump, letters jump by name, Enter or Space opens. While a workspace opens the list is inert, focus moves to the panel's Cancel, Escape folds it back and focus returns to the tile.",
+        "Each tile's accessible name is one sentence — name, role, members, last visit, unread — and opening, opened, failure and joining are each announced once in a polite live region.",
+        "Return a promise from onSelect to hold the expanded tile while the workspace loads; reject with an Error and its message is shown on the tile it folds back to. A late answer for a cancelled opening is ignored.",
+        "Times come from the now prop in fixed buckets (\"2 h ago\", \"Yesterday\"), so the server and the browser render the same words.",
+        "Reduced motion: nothing travels or scales — the panel cross-fades in at full size, the other tiles dim, the plate moves instantly — and the loading line still fills and the check still appears.",
+        "No loop at rest: the only repeating animation is the loading line, mounted only while a workspace is opening."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/workspace-lobby",
+      "registryItemUrl": "https://www.kinetiqui.com/r/workspace-lobby.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/workspace-lobby",
+        "npm": "npx shadcn@latest add @kinetiq/workspace-lobby",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/workspace-lobby",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/workspace-lobby",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/workspace-lobby.json"
+      }
+    },
+    {
+      "slug": "org-discovery",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Org Discovery",
+      "serial": "KQ-1709",
+      "tagline": "Type your email; we find your company's sign-in.",
+      "description": "A sign-in step that finds a company's own sign-in from the email domain. When a typed domain is recognised, a wash appears behind the domain's own letters — found to the pixel from a hidden mirror of the field's text — and lifts off them onto the field's top edge, growing into a badge with the company's mark on springs.glide while its shadow swells in flight and settles; the main button's words roll to single sign-on on springs.snap and the password folds away to its measured height on glide. Change the address and the badge drops back into the field where the domain now starts; it is a real form, so Tab, Enter and the announcements all behave as a sign-in should.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "single sign-on",
+        "sso discovery",
+        "email first sign-in",
+        "home realm discovery",
+        "login form",
+        "domain lookup",
+        "app ui"
+      ],
+      "props": [
+        {
+          "name": "orgs",
+          "type": "OrgDiscoveryOrg[]",
+          "defaultValue": "defaultOrgDiscoveryOrgs",
+          "description": "Companies with their own sign-in: { id, name, domains, methods, provider?, tint? }."
+        },
+        {
+          "name": "lookup",
+          "type": "(domain) => Promise<OrgDiscoveryOrg | null>",
+          "defaultValue": "matches orgs",
+          "description": "Looks a domain up elsewhere; resolve null for unknown. A rejection falls back quietly to the password and code."
+        },
+        {
+          "name": "lookupDelay",
+          "type": "number",
+          "defaultValue": "280",
+          "description": "Quiet time after typing before a domain is looked up, in ms."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "defaultValue": "— / \"\"",
+          "description": "The email, controlled or initial."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(email) => void",
+          "description": "Fires from every keystroke in the email field."
+        },
+        {
+          "name": "onContinue",
+          "type": "(details) => void | Promise<void>",
+          "description": "The main button was pressed with { email, method: \"sso\" | \"password\", org, password? }. A promise holds it busy; a rejection keeps the step and shows its message under the field it concerns."
+        },
+        {
+          "name": "onUseOtherMethod",
+          "type": "(method: \"code\" | \"password\", email) => void",
+          "description": "\"Email me a sign-in code\" or \"Use a password instead\" was pressed."
+        },
+        {
+          "name": "onForgotPassword",
+          "type": "(email) => void",
+          "description": "\"Forgot password?\" was pressed."
+        },
+        {
+          "name": "onOrgChange",
+          "type": "(org | null) => void",
+          "description": "The recognised company changed, reported from the lookup or the keystroke that changed it."
+        },
+        {
+          "name": "onCreateAccount",
+          "type": "() => void",
+          "description": "\"Create an account\" was pressed under the form."
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "description": "A message from the host about the last attempt, shown under the field it concerns."
+        },
+        {
+          "name": "productName",
+          "type": "string",
+          "defaultValue": "\"Waylight\"",
+          "description": "Your product's name, used in the heading, the aside and the footer."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Sign in to {productName}\"",
+          "description": "The heading that names the form."
+        },
+        {
+          "name": "badgeStyle",
+          "type": "\"chip\" | \"tag\" | \"mark\"",
+          "defaultValue": "\"chip\"",
+          "description": "The lifted domain as a pill with mark and name, a tag with an SSO segment, or the mark alone."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"cozy\" | \"roomy\"",
+          "defaultValue": "\"cozy\"",
+          "description": "Field height, gaps and type size."
+        },
+        {
+          "name": "accent",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "The wash, the tether under the domain, the main button and links, any CSS colour; the button's ink adapts to its lightness."
+        },
+        {
+          "name": "showAside",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Show the explanatory side panel when the container is 40rem or wider."
+        },
+        {
+          "name": "autoFocus",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Focus the email field on mount."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Nothing can be typed or pressed."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the wrapper."
+        }
+      ],
+      "usageNotes": [
+        "It is a real <form>: the email field is type=\"email\" with autocomplete=\"username\", the password field autocomplete=\"current-password\", Enter submits, and the submit button stays focusable while busy (aria-busy). Errors are role=\"alert\" and linked to their field with aria-describedby and aria-invalid.",
+        "The badge is decorative; the field is described by a visually hidden sentence (\"Basinworks uses single sign-on through Basinworks ID.\") and the change is announced once in a polite live region, from the lookup or the keystroke that caused it.",
+        "Pass lookup to ask your own service; answers that arrive after the address changed are dropped by sequence, a rejection falls back quietly to the password and code, and a failed domain is tried again the next time it is typed.",
+        "Reduced motion: nothing travels — the badge fades in and out at its resting place on the field's edge, the button's words cross-fade and the sections swap without folding.",
+        "No loop at rest: the three lookup dots breathe only while a lookup is pending, and one ResizeObserver keeps a resting badge and the domain's tether in place as the field resizes."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/org-discovery",
+      "registryItemUrl": "https://www.kinetiqui.com/r/org-discovery.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/org-discovery",
+        "npm": "npx shadcn@latest add @kinetiq/org-discovery",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/org-discovery",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/org-discovery",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/org-discovery.json"
+      }
+    },
+    {
+      "slug": "recovery-route",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Recovery Route",
+      "serial": "KQ-1710",
+      "tagline": "Locked out? Choose the way back in.",
+      "description": "An account recovery chooser drawn as a map: you on one side, the ways back in on the other — backup code, recovery email, trusted contact, support review — each with how long it takes. Choosing one draws the route from you to its card, revealed along its own length by a mask whose stroke runs on springs.glide with a traveller riding the leading point, and the card's notch answers with a ring on springs.snap; the steps slide in 16px from the side the choice came from under an honest wait counted from now. The methods are a real radio group — arrows choose and skip the ones not set up — and below 44rem of container the route runs down a gutter beside the list.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "account recovery",
+        "locked out",
+        "backup code",
+        "trusted contact",
+        "radio group",
+        "route map",
+        "app ui"
+      ],
+      "props": [
+        {
+          "name": "methods",
+          "type": "RecoveryMethod[]",
+          "defaultValue": "defaultRecoveryMethods",
+          "description": "The ways back in: { id, kind, label, detail?, wait, waitMinutes?, target?, steps?, available?, reason? }."
+        },
+        {
+          "name": "account",
+          "type": "{ name, email }",
+          "defaultValue": "defaultRecoveryAccount",
+          "description": "The locked account, named in the heading and on your node."
+        },
+        {
+          "name": "now",
+          "type": "number",
+          "defaultValue": "defaultRecoveryNow",
+          "description": "The clock (epoch ms) every \"expected by\" is counted from."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string | null",
+          "defaultValue": "— / null",
+          "description": "The chosen method, controlled or initial."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(id) => void",
+          "description": "Fires with the id from the press or arrow that chose a method."
+        },
+        {
+          "name": "onChoose",
+          "type": "(method) => void",
+          "description": "Fires with the whole method from the press or arrow that chose it."
+        },
+        {
+          "name": "onSubmit",
+          "type": "(method, { stage, code?, message? }) => void | Promise<void>",
+          "description": "A step was submitted. A promise holds its button; resolving advances the step, a rejection keeps it and what was typed, with the message."
+        },
+        {
+          "name": "onContactSupport",
+          "type": "() => void",
+          "description": "\"Contact support\" was pressed under everything."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Skeleton cards while loading; a message and Try again on error."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after loading failed."
+        },
+        {
+          "name": "routeStyle",
+          "type": "\"curve\" | \"dotted\" | \"metro\"",
+          "defaultValue": "\"curve\"",
+          "description": "A smooth curve, round dots, or an orthogonal metro line with a rail down its middle."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"cozy\" | \"roomy\"",
+          "defaultValue": "\"cozy\"",
+          "description": "Card padding, gaps and type size."
+        },
+        {
+          "name": "tone",
+          "type": "\"calm\" | \"warm\" | \"plain\"",
+          "defaultValue": "\"calm\"",
+          "description": "The route, your node's ring, the chosen card's edge and the buttons: cobalt, amber or ink."
+        },
+        {
+          "name": "formatTime",
+          "type": "(at, now) => string",
+          "defaultValue": "recoveryTime (UTC)",
+          "description": "Writes an expected time; the default reads \"today 09:35\" or \"Thu 09:30\" in UTC so server and browser agree."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Locked out of {email}?\"",
+          "description": "The heading."
+        },
+        {
+          "name": "maxHeight",
+          "type": "number",
+          "defaultValue": "560",
+          "description": "Tallest the panel grows, in px, before its body scrolls."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Nothing can be chosen or submitted."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the wrapper."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the methods are a role=\"radiogroup\" with roving tabindex; arrows move and choose, skipping methods that are not set up (they stay readable with aria-disabled and their reason as the description), Home and End jump, Space and Enter choose.",
+        "Each step list is an ordered list with the current step marked aria-current=\"step\"; inputs are labelled, errors are role=\"alert\" linked by aria-describedby, and submit buttons stay focusable while busy (aria-busy). A choice is announced once with its wait.",
+        "The route is decorative and measured from the rendered cards by one ResizeObserver, so it lands on each card's notch at any width and density; the first draw waits until the map is on screen.",
+        "Times are counted from the now prop; pass formatTime to write them in the visitor's own zone once you are past hydration.",
+        "Reduced motion: the route appears whole without a traveller, the notch shows without its ring, and the steps cross-fade in place; ticks and the honest wait still show."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/recovery-route",
+      "registryItemUrl": "https://www.kinetiqui.com/r/recovery-route.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/recovery-route",
+        "npm": "npx shadcn@latest add @kinetiq/recovery-route",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/recovery-route",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/recovery-route",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/recovery-route.json"
+      }
+    },
+    {
+      "slug": "spare-keys",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Spare Keys",
+      "serial": "KQ-1711",
+      "tagline": "Ten backup codes, saved before you continue.",
+      "description": "A backup codes sheet that has to be kept before you go on. The codes are dealt onto the sheet when it comes into view — each ticket leaves a tilted deck above the grid and flies to its cell on springs.glide while its tilt settles on springs.snap, staggered by cascade — and Copy all flashes every ticket in turn as its code lands on the clipboard. Continue carries a padlock that stays shut until the box is ticked, then its shackle lifts and turns open about its right leg on springs.snap. Every action is a button: each ticket copies itself, Download saves a .txt, Print prints the codes alone, and Regenerate warns in place, strikes the old set and deals the new one.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "backup codes",
+        "recovery codes",
+        "two-step setup",
+        "copy to clipboard",
+        "download codes",
+        "confirmation lock",
+        "app ui"
+      ],
+      "props": [
+        {
+          "name": "codes",
+          "type": "string[]",
+          "defaultValue": "defaultSpareKeysCodes",
+          "description": "The backup codes, in order."
+        },
+        {
+          "name": "used",
+          "type": "string[]",
+          "defaultValue": "[]",
+          "description": "Codes already spent: struck through, named \"used\" and left out of Copy all."
+        },
+        {
+          "name": "account",
+          "type": "string",
+          "defaultValue": "\"mara@fieldline.io\"",
+          "description": "Whose codes these are, shown in the header, the file and the print."
+        },
+        {
+          "name": "issuer",
+          "type": "string",
+          "defaultValue": "\"Fieldline\"",
+          "description": "The service they unlock, used in the file and the print."
+        },
+        {
+          "name": "generatedAt",
+          "type": "number",
+          "defaultValue": "defaultSpareKeysGeneratedAt",
+          "description": "When the set was made, epoch ms."
+        },
+        {
+          "name": "now",
+          "type": "number",
+          "defaultValue": "defaultSpareKeysNow",
+          "description": "The clock \"made today 09:12\" is read against, epoch ms (UTC)."
+        },
+        {
+          "name": "confirmed / defaultConfirmed",
+          "type": "boolean",
+          "defaultValue": "— / false",
+          "description": "The \"I've saved these codes\" box, controlled or initial."
+        },
+        {
+          "name": "onConfirmedChange",
+          "type": "(confirmed) => void",
+          "description": "Fires from the tick, or from Regenerate clearing it because the saved set is gone."
+        },
+        {
+          "name": "onCopy",
+          "type": "(codes) => void",
+          "description": "Codes were written to the clipboard: every unused one, or the ticket pressed."
+        },
+        {
+          "name": "onDownload",
+          "type": "(codes) => void",
+          "description": "Download was pressed; the sheet saves the .txt itself, then this fires."
+        },
+        {
+          "name": "onPrint",
+          "type": "(codes) => void",
+          "defaultValue": "prints a hidden frame",
+          "description": "Print was pressed. Omit it and the sheet prints the codes alone through a hidden frame."
+        },
+        {
+          "name": "onRegenerate",
+          "type": "() => void | Promise<void>",
+          "description": "New codes were confirmed after the warning. Return a promise while they are made and pass the new set back through codes; a rejection restores the old set."
+        },
+        {
+          "name": "onConfirm",
+          "type": "() => void",
+          "description": "Continue was pressed with the box ticked."
+        },
+        {
+          "name": "fileName",
+          "type": "string",
+          "defaultValue": "\"fieldline-backup-codes.txt\"",
+          "description": "The downloaded file's name."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Ten skeleton tickets while the codes are made; a message and Try again on error."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after making codes failed."
+        },
+        {
+          "name": "cellStyle",
+          "type": "\"ticket\" | \"plain\" | \"slip\"",
+          "defaultValue": "\"ticket\"",
+          "description": "A notched ticket with a perforation, a plain cell, or a slip with a tear-off stub."
+        },
+        {
+          "name": "columns",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "Columns where the sheet is wide enough, 2 to 5; always two under 19rem of container and three at most under 34rem."
+        },
+        {
+          "name": "accent",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "The copy flash, the key glyph, the box and Continue's fill, any CSS colour; Continue's ink adapts to its lightness."
+        },
+        {
+          "name": "deal",
+          "type": "\"inView\" | \"mount\" | \"none\"",
+          "defaultValue": "\"inView\"",
+          "description": "When the codes are dealt onto the sheet; they are dealt again after a regenerate."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Every action is unavailable."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the wrapper."
+        }
+      ],
+      "usageNotes": [
+        "Every action is a real <button>, including each ticket (named \"Code 4, h2wy 7ke6, copy\"); the grid is a list labelled by the heading. The confirmation is a real checkbox, and Continue stays focusable while locked (aria-disabled, described by \"Tick the box to continue\") — pressing it lights the box's row instead.",
+        "Copy, download, print and regenerate results are announced once in a polite live region. Regenerate opens a warning in place of the actions with its safer button focused; Escape closes it and returns focus to Regenerate.",
+        "The clipboard write is attempted quietly: on a page without clipboard access the flash still shows and onCopy still fires, so the host can offer another way.",
+        "Reduced motion: nothing is dealt or turns — the tickets are simply there, Copy all marks every ticket at once, and the lock shows open while Continue still takes the accent.",
+        "No loop: the deal runs once per set after the sheet enters view (IntersectionObserver, disconnected after), flashes are timed animations stopped on unmount, and the print frame and download URL are removed after use."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/spare-keys",
+      "registryItemUrl": "https://www.kinetiqui.com/r/spare-keys.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/spare-keys",
+        "npm": "npx shadcn@latest add @kinetiq/spare-keys",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/spare-keys",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/spare-keys",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/spare-keys.json"
+      }
+    },
+    {
+      "slug": "authenticator-pair",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Authenticator Pair",
+      "serial": "KQ-1712",
+      "tagline": "Scan, enter the code, and two-step is on.",
+      "description": "An authenticator setup: a QR code with the secret written beside it for typing by hand, then a six-digit check. When it comes into view the QR assembles from its centre outward in square rings of modules, each fading up from 0.6 scale on springs.snap with the finder eyes landing in their ring; digits drop into their slots on springs.flick and a paste lands left to right. A correct code folds the rings back into the centre from the outside in, a disc grows on snap, a check draws across it on flick and the step marker's pill slides on to On; a wrong code nudges on a short tween and keeps the digits.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "two-step setup",
+        "authenticator app",
+        "totp",
+        "qr code",
+        "one-time code",
+        "mfa enrollment",
+        "app ui"
+      ],
+      "props": [
+        {
+          "name": "secret",
+          "type": "string",
+          "defaultValue": "defaultAuthenticatorSecret",
+          "description": "The shared secret, base32, shown in groups of four for typing by hand."
+        },
+        {
+          "name": "account",
+          "type": "string",
+          "defaultValue": "\"mara@fieldline.io\"",
+          "description": "The account the app will list."
+        },
+        {
+          "name": "issuer",
+          "type": "string",
+          "defaultValue": "\"Fieldline\"",
+          "description": "The service the app will list."
+        },
+        {
+          "name": "modules",
+          "type": "boolean[][]",
+          "defaultValue": "seeded stand-in",
+          "description": "A real QR matrix from your encoder (true is dark). Omitted, a seeded 25 × 25 stand-in with real finder, timing and alignment patterns is drawn from the secret."
+        },
+        {
+          "name": "digits",
+          "type": "number",
+          "defaultValue": "6",
+          "description": "How many digits the app shows."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "defaultValue": "— / \"\"",
+          "description": "The code, controlled or initial; non-digits are dropped."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(code) => void",
+          "description": "Fires from every keystroke or paste in the code field, digits only."
+        },
+        {
+          "name": "onVerify",
+          "type": "(code) => boolean | Promise<boolean>",
+          "description": "Checks a full code. True turns two-step on; false keeps the digits and says so; a throw says the check failed. Omitted, any full code is accepted."
+        },
+        {
+          "name": "onCancel",
+          "type": "() => void",
+          "description": "Cancel was pressed in the footer."
+        },
+        {
+          "name": "onCopySecret",
+          "type": "(secret) => void",
+          "description": "The setup key was copied (spaces removed)."
+        },
+        {
+          "name": "onDone",
+          "type": "() => void",
+          "description": "Done was pressed after two-step turned on."
+        },
+        {
+          "name": "autoSubmit",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Check the code as soon as the last digit lands, whether typed, pasted or set by the host; each code is checked once."
+        },
+        {
+          "name": "assemble",
+          "type": "\"inView\" | \"mount\" | \"none\"",
+          "defaultValue": "\"inView\"",
+          "description": "When the QR assembles from its centre; the server renders it whole."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "A still placeholder while the key is made; a message and Try again on error."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again was pressed after the key failed to load."
+        },
+        {
+          "name": "moduleStyle",
+          "type": "\"square\" | \"dot\" | \"soft\"",
+          "defaultValue": "\"square\"",
+          "description": "Crisp squares, dots with round finders, or soft rounded squares."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"cozy\" | \"roomy\"",
+          "defaultValue": "\"cozy\"",
+          "description": "QR size, paddings, slots and type."
+        },
+        {
+          "name": "accent",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "The step marker, the next slot, the finder eyes (deepened so they still scan), the check disc and Verify, any CSS colour."
+        },
+        {
+          "name": "maxHeight",
+          "type": "number",
+          "defaultValue": "560",
+          "description": "Tallest the panel grows, in px, before its body scrolls."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Nothing can be typed, copied or pressed."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the wrapper."
+        }
+      ],
+      "usageNotes": [
+        "The code is one real <input inputmode=\"numeric\" autocomplete=\"one-time-code\"> drawn as slots, so autofill, paste and screen readers all see an ordinary field; its label is the step's heading and errors are role=\"alert\" linked by aria-describedby. Verify stays focusable while checking (aria-busy).",
+        "The QR is an img named \"QR code for Fieldline, mara@fieldline.io\" and the key beside it is real, selectable text with a Copy button. Pass modules from your own encoder for a code that scans; it is always printed dark on a light plate so it scans in dark mode too.",
+        "The marker is an ordered list with aria-current=\"step\"; success is announced once (\"Two-step sign-in is on.\"). A refused code keeps the digits and, if the field has focus, selects them so typing replaces them — focus is never pulled into the field from elsewhere.",
+        "Reduced motion: the QR fades in whole and cross-fades to the check disc with its check drawn; digits appear without dropping and the wrong-code nudge becomes the slots' danger underline.",
+        "No loop at rest: the assembly is one path per ring (about a dozen elements, not one per module), run once after the panel enters view; the matrix is memoised per secret."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/authenticator-pair",
+      "registryItemUrl": "https://www.kinetiqui.com/r/authenticator-pair.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/authenticator-pair",
+        "npm": "npx shadcn@latest add @kinetiq/authenticator-pair",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/authenticator-pair",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/authenticator-pair",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/authenticator-pair.json"
+      }
+    },
+    {
+      "slug": "step-up-check",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Step Up Check",
+      "serial": "KQ-1713",
+      "tagline": "Confirm it's you before the sensitive change.",
+      "description": "A step-up verification standing in front of a sensitive settings panel: the panel sits behind a real backdrop-blur frost while a dialog asks for a passkey or password. Verifying opens the lock on snap, then the frost clears outward from the lock itself, its radial mask growing on glide with an accent ring riding the edge, while the opened lock flies into the header chip on the same spring and the chip counts the elevated session down; expiry closes the frost back in toward the lock on glide. Refused tries shake the field on a symmetric tween and are counted and explained, Tab wraps inside the dialog, Escape dismisses it to an Unlock button, and below 28rem the dialog becomes a bottom sheet.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "step-up",
+        "reauthentication",
+        "passkey",
+        "verify",
+        "elevated session",
+        "security",
+        "frost"
+      ],
+      "props": [
+        {
+          "name": "action",
+          "type": "string",
+          "defaultValue": "\"change where payouts go\"",
+          "description": "The sensitive change, as it reads after \"You're about to\"."
+        },
+        {
+          "name": "methods",
+          "type": "(\"passkey\" | \"password\")[]",
+          "defaultValue": "[\"passkey\", \"password\"]",
+          "description": "The ways to verify, in the order offered; the first is the primary one."
+        },
+        {
+          "name": "account",
+          "type": "{ name: string; email: string }",
+          "defaultValue": "defaultStepUpAccount",
+          "description": "Who is verifying, shown under the title."
+        },
+        {
+          "name": "heading",
+          "type": "string",
+          "defaultValue": "\"Billing and payouts\"",
+          "description": "The protected section's name, in the header strip beside the session chip."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Confirm it's you\"",
+          "description": "The dialog's title."
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "The protected content; inert and frosted until verified. A quiet placeholder panel when omitted."
+        },
+        {
+          "name": "verified / defaultVerified",
+          "type": "boolean",
+          "defaultValue": "— / false",
+          "description": "Whether the elevated session is open, controlled or initial."
+        },
+        {
+          "name": "onVerifiedChange",
+          "type": "(verified: boolean) => void",
+          "description": "Fires from the verification, expiry or Lock now that changed it."
+        },
+        {
+          "name": "onVerify",
+          "type": "(attempt: { method, password? }) => boolean | void | Promise<boolean | void>",
+          "description": "Checks a try. Return or resolve false, or reject, to refuse it; an Error's message is shown as the reason. Accepts every try when omitted."
+        },
+        {
+          "name": "onFail",
+          "type": "(failure: { method, attempt, remaining, message }) => void",
+          "description": "A try was refused, with the tries left and the reason shown."
+        },
+        {
+          "name": "onExpire",
+          "type": "() => void",
+          "description": "The elevated session ran out and the panel locked again."
+        },
+        {
+          "name": "onLock",
+          "type": "() => void",
+          "description": "Lock now was pressed on the session chip."
+        },
+        {
+          "name": "onCancel",
+          "type": "() => void",
+          "description": "Not now, or Escape, dismissed the dialog; the panel stays locked."
+        },
+        {
+          "name": "sessionDuration",
+          "type": "number",
+          "defaultValue": "900000",
+          "description": "How long the elevated session lasts, in ms."
+        },
+        {
+          "name": "warnAt",
+          "type": "number",
+          "defaultValue": "60000",
+          "description": "How long before the end the chip turns to a warning, in ms."
+        },
+        {
+          "name": "maxAttempts",
+          "type": "number",
+          "defaultValue": "5",
+          "description": "Refused tries before verification pauses."
+        },
+        {
+          "name": "forgotHref",
+          "type": "string",
+          "description": "Where \"Forgot password?\" goes; the link is hidden when omitted."
+        },
+        {
+          "name": "autoFocus",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Move focus into the dialog when it first shows. Leave off when the check renders with the page."
+        },
+        {
+          "name": "frostAmount",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How heavy the frost is, 0 to 1: blur radius and tint strength."
+        },
+        {
+          "name": "lockStyle",
+          "type": "\"padlock\" | \"keyhole\" | \"shield\"",
+          "defaultValue": "\"padlock\"",
+          "description": "The lock's glyph and how it opens: a shackle that swings, a key slot that turns, or a check drawn on flick."
+        },
+        {
+          "name": "accent",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "Any CSS colour for the badge, the primary button, the clearing edge and the session chip."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Every method is unavailable."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the outer section."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the dialog traps Tab and takes Escape (dismissing to an Unlock button that brings it back focused); Enter submits the password; after verifying, focus moves to the session chip, whose Enter is Lock now.",
+        "Reduced motion: nothing travels or shakes — the frost fades out, the lock swaps to open, the chip cross-fades — while the countdown, the counted tries and the reasons still update.",
+        "Performance: nothing runs while locked; the countdown ticks once a second only while the surface is on screen and the tab visible, expiry is one wall-clock timeout, and the frost layer is hidden once clear so no backdrop blur costs anything while elevated.",
+        "Pass your real panel as children: it stays mounted (inert while locked), so its state and scroll survive the check.",
+        "The dialog never takes focus on mount unless autoFocus is set, so a page that renders the check does not jump to it.",
+        "Colours come from tokens and the accent prop; the button text picks light or dark ink from the accent's lightness, so any accent reads in both themes."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/step-up-check",
+      "registryItemUrl": "https://www.kinetiqui.com/r/step-up-check.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/step-up-check",
+        "npm": "npx shadcn@latest add @kinetiq/step-up-check",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/step-up-check",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/step-up-check",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/step-up-check.json"
+      }
+    },
+    {
+      "slug": "session-lapse",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Session Lapse",
+      "serial": "KQ-1714",
+      "tagline": "Still there? Stay signed in with a tap.",
+      "description": "An idle-timeout guard for a page: before the session ends an alert dialog rises over it with a ring that drains linearly while the seconds in its middle count down, both read off one motion value. Stay signed in, Escape, or a press, key or scroll outside the dialog refills the ring on glide while it pops on snap and the seconds count back up, then the dialog leaves on the exit ease; letting it run out fades the page into a signed-out note that keeps the unsaved draft. Focus moves to Stay signed in when the warning appears, Tab wraps inside it, and the countdown is announced when the warning appears, at 30 seconds in longer warnings, and at 10.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "idle timeout",
+        "session",
+        "sign out",
+        "countdown ring",
+        "inactivity",
+        "alert dialog",
+        "draft"
+      ],
+      "props": [
+        {
+          "name": "timeout",
+          "type": "number",
+          "defaultValue": "900000",
+          "description": "Idle time before the session ends, in ms."
+        },
+        {
+          "name": "warningTime",
+          "type": "number",
+          "defaultValue": "60000",
+          "description": "How long before the end the warning appears, in ms; the ring counts this window down."
+        },
+        {
+          "name": "open / defaultOpen",
+          "type": "boolean",
+          "defaultValue": "— / false",
+          "description": "Whether the warning is showing, controlled or initial."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "description": "Fires when the warning appears or leaves, from whatever caused it."
+        },
+        {
+          "name": "watch",
+          "type": "\"document\" | \"self\" | \"none\"",
+          "defaultValue": "\"document\"",
+          "description": "Whose activity keeps the session alive: the whole page, only this component's box, or nothing but the button."
+        },
+        {
+          "name": "paused",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Hold the idle clock (a call, a video); it restarts when released, and a showing warning holds its time."
+        },
+        {
+          "name": "onExtend",
+          "type": "(via: \"button\" | \"activity\") => void",
+          "description": "The session was extended, by the button or Escape, or by activity during the warning."
+        },
+        {
+          "name": "onSignOut",
+          "type": "() => void",
+          "description": "Sign out was chosen from the warning."
+        },
+        {
+          "name": "onExpire",
+          "type": "() => void",
+          "description": "The warning ran out and the session ended."
+        },
+        {
+          "name": "onSignIn",
+          "type": "() => void",
+          "description": "Sign back in was pressed on the signed-out note."
+        },
+        {
+          "name": "draft",
+          "type": "{ title: string; excerpt: string; words?: number } | null",
+          "defaultValue": "defaultSessionLapseDraft",
+          "description": "The unsaved work the signed-out note promises to keep; null for none."
+        },
+        {
+          "name": "appName",
+          "type": "string",
+          "defaultValue": "\"Fernworks\"",
+          "description": "The product's name, in the warning's sentence and the announcements."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "description": "The warning's title. Defaults by tone: \"Still there?\", \"Are you still working?\", \"Signing out soon\"."
+        },
+        {
+          "name": "labels",
+          "type": "{ stay?: string; signOut?: string; signIn?: string }",
+          "defaultValue": "Stay signed in · Sign out · Sign back in",
+          "description": "The three actions' words."
+        },
+        {
+          "name": "ringStyle",
+          "type": "\"line\" | \"ticks\" | \"pie\"",
+          "defaultValue": "\"line\"",
+          "description": "How the countdown is drawn: a draining line, a tick per second, or a shrinking sector."
+        },
+        {
+          "name": "tone",
+          "type": "\"calm\" | \"plain\" | \"urgent\"",
+          "defaultValue": "\"calm\"",
+          "description": "The ring's colour and the title's voice: cobalt, ink, or amber turning to danger for the last ten seconds."
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "The page the session belongs to; inert while the warning or the note shows. A quiet placeholder when omitted."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the outer wrapper."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: focus moves to Stay signed in when the warning appears (unless the visitor is busy elsewhere on the page, or the warning is off screen); Tab wraps inside the dialog and Escape stays signed in. When the note arrives, focus goes to Sign back in if it was inside.",
+        "Activity: before the warning any pointer, key or scroll activity in scope moves the clock on; once it shows only a press, a key or a scroll outside the dialog extends, so reaching for Sign out with the pointer never cancels the warning.",
+        "Reduced motion: the ring still drains and the seconds still count, because the time left is information; the refill is a jump and the dialog and note only cross-fade.",
+        "Performance: while the page is in use nothing ticks — one timeout marks when the warning is due; the drain runs only while the ring is on screen and the tab visible, and expiry is a single wall-clock timeout.",
+        "The page stays mounted (inert and faded) behind the note, so the draft's state survives the sign-out and comes back on Sign back in."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/session-lapse",
+      "registryItemUrl": "https://www.kinetiqui.com/r/session-lapse.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/session-lapse",
+        "npm": "npx shadcn@latest add @kinetiq/session-lapse",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/session-lapse",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/session-lapse",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/session-lapse.json"
+      }
+    },
+    {
+      "slug": "invite-accept",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Invite Accept",
+      "serial": "KQ-1715",
+      "tagline": "Mara invited you to Basinworks; join in two steps.",
+      "description": "An invitation landing whose invite is a card: the workspace, who asked, a personal line, the role with what it can do, and when it lapses. Accept turns the card over on snap — its scale dipping with the angle by exactly what perspective adds, so it never grows past its box — while the role chip lifts off on flick, travels flat to its slot on the back on glide and lands on snap, carrying the role to a sign-up form with the name and email already filled. The form is real (labels, autocomplete, Enter submits, errors under their fields, a rejected join kept on the form), focus moves to the first empty field after the turn, Escape turns back, and an expired invite offers to ask again.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "invitation",
+        "sign up",
+        "onboarding",
+        "card flip",
+        "workspace invite",
+        "role",
+        "join team"
+      ],
+      "props": [
+        {
+          "name": "invite",
+          "type": "{ inviter, workspace, role, roleSummary?, email, name?, note?, sentAt, expiresAt }",
+          "defaultValue": "defaultInvite",
+          "description": "The invitation: who sent it, the workspace, the role (and what it can do), the invitee and when it lapses."
+        },
+        {
+          "name": "now",
+          "type": "number",
+          "defaultValue": "defaultInviteNow",
+          "description": "The moment expiry counts from, ms since the epoch; the clock is never read during render."
+        },
+        {
+          "name": "side / defaultSide",
+          "type": "\"front\" | \"back\"",
+          "defaultValue": "— / \"front\"",
+          "description": "Which face of the card is up, controlled or initial."
+        },
+        {
+          "name": "onSideChange",
+          "type": "(side: \"front\" | \"back\") => void",
+          "description": "Fires from the Accept, Back or Escape that turned the card."
+        },
+        {
+          "name": "onAccept",
+          "type": "(details: { name, email, password, role }) => void | Promise<void>",
+          "description": "The form was sent. A promise holds it pending; a rejection keeps the form with its message, or puts it under the field its `field` names."
+        },
+        {
+          "name": "onDecline",
+          "type": "(invite) => void",
+          "description": "Decline was pressed."
+        },
+        {
+          "name": "onSignIn",
+          "type": "(email: string) => void",
+          "description": "Sign in was chosen instead, with the invite's address."
+        },
+        {
+          "name": "onRequestNew",
+          "type": "(invite) => void",
+          "description": "A new invite was asked for, after expiry or a decline."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the invite has loaded: a skeleton while loading, a broken-link card on error."
+        },
+        {
+          "name": "passwordMinLength",
+          "type": "number",
+          "defaultValue": "10",
+          "description": "The shortest password the form accepts; the hint ticks when it is met."
+        },
+        {
+          "name": "cardStyle",
+          "type": "\"plain\" | \"ticket\" | \"pass\"",
+          "defaultValue": "\"plain\"",
+          "description": "The card's make: a plain card, a ticket with notches and a perforated stub, or a pass with a coloured band."
+        },
+        {
+          "name": "flipAxis",
+          "type": "\"y\" | \"x\"",
+          "defaultValue": "\"y\"",
+          "description": "The axis the card turns about: sideways or top over bottom."
+        },
+        {
+          "name": "accent",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "Any CSS colour for the workspace mark, primary buttons, pass band, role chip and checks."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Every action is unavailable."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the outer section."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: every button and field is reachable; Enter on Accept turns the card and focus lands on the first empty field once it faces; Enter submits; Escape on the back turns it back with focus on Accept.",
+        "Reduced motion: the faces cross-fade without turning and the role chip simply appears in its new place; checks appear without drawing and the loading shimmer is still.",
+        "The hidden face is inert, so its fields never take Tab or reach assistive tech; errors are tied to their fields with aria-describedby and the form's own failure is a role=\"alert\" that stays.",
+        "Pass `now` from your server (or a stable value) so the expiry line renders the same on the server and in the browser.",
+        "Performance: nothing runs at rest; the turn and the chip's flight are springs that settle, and the only loop is the loading shimmer, which exists only while status is \"loading\"."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/invite-accept",
+      "registryItemUrl": "https://www.kinetiqui.com/r/invite-accept.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/invite-accept",
+        "npm": "npx shadcn@latest add @kinetiq/invite-accept",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/invite-accept",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/invite-accept",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/invite-accept.json"
+      }
+    },
+    {
+      "slug": "cooling-lock",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Cooling Lock",
+      "serial": "KQ-1716",
+      "tagline": "Too many tries; the lock cools before the next.",
+      "description": "A lockout panel for after repeated failed sign-ins: frost covers a ring round the lock and thaws clockwise from the top as the wait runs down, in six-armed flakes that shrink on snap and leave a slipping droplet as the front passes, bristling hoarfrost that shortens at the front, or a glaze that drains as one arc. When the last of it melts the shackle lifts on snap and the copy gives way on glide to the sign-in form with the address kept; a new lockout freezes the ring back over on glide before the wait starts again, and a very long one points to support. Unlock by email is always offered, the countdown is announced at sensible marks, and focus moves to the password field when the form returns.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "lockout",
+        "rate limit",
+        "failed sign-in",
+        "cooldown",
+        "frost",
+        "unlock by email",
+        "security"
+      ],
+      "props": [
+        {
+          "name": "attempts",
+          "type": "number",
+          "defaultValue": "5",
+          "description": "Failed sign-ins that caused the lock."
+        },
+        {
+          "name": "cooldown",
+          "type": "number",
+          "defaultValue": "60000",
+          "description": "How long the lock lasts, in ms."
+        },
+        {
+          "name": "lockedAt",
+          "type": "number",
+          "defaultValue": "now",
+          "description": "When the lock began, ms since the epoch. A new value starts a new lockout and the frost grows back."
+        },
+        {
+          "name": "now",
+          "type": "number",
+          "defaultValue": "defaultCoolingNow",
+          "description": "The moment the remaining time is measured from, ms since the epoch; the clock is never read during render."
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "defaultValue": "\"rae@fieldline.dev\"",
+          "description": "The account being signed in to; kept for the retry and the unlock link."
+        },
+        {
+          "name": "onRetry",
+          "type": "(retry: { email, password }) => boolean | void | Promise<boolean | void>",
+          "description": "The retry was sent. Return or resolve false, or reject, to refuse it; an Error's message is shown."
+        },
+        {
+          "name": "onUnlockByEmail",
+          "type": "(email: string) => void | Promise<void>",
+          "description": "Unlock by email was pressed; a promise holds it as sending."
+        },
+        {
+          "name": "onThaw",
+          "type": "() => void",
+          "description": "The wait ran out and the form came back."
+        },
+        {
+          "name": "supportAfter",
+          "type": "number",
+          "defaultValue": "3600000",
+          "description": "Lockouts longer than this, in ms, point to support instead of counting down."
+        },
+        {
+          "name": "supportHref",
+          "type": "string",
+          "defaultValue": "\"#support\"",
+          "description": "Where Contact support goes on a long lockout."
+        },
+        {
+          "name": "appName",
+          "type": "string",
+          "defaultValue": "\"Fieldline\"",
+          "description": "The product's name, in the sentences."
+        },
+        {
+          "name": "frostStyle",
+          "type": "\"crystal\" | \"rime\" | \"glaze\"",
+          "defaultValue": "\"crystal\"",
+          "description": "The frost's material: six-armed flakes, bristling hoarfrost, or a smooth glaze of ice."
+        },
+        {
+          "name": "density",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How dense and thick the frost is, 0.2 to 1: flake and spike counts and the band's width."
+        },
+        {
+          "name": "tone",
+          "type": "\"calm\" | \"firm\" | \"stern\"",
+          "defaultValue": "\"firm\"",
+          "description": "The voice and the lock's colour: calm cobalt, firm ink, or stern red."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "The retry and the unlock link are unavailable."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the outer section."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: Unlock by email is always reachable; when the form returns, focus moves to the password field if it was already in the panel, Enter signs in, and a refusal keeps focus in the field with the reason under it.",
+        "Announcements: the digits are hidden from assistive tech; a polite status says how long the wait is, then 5 minutes, 1 minute, 30 and 10 seconds, and when the lock has cooled.",
+        "Reduced motion: the ring still thaws by the same front, because the time left is information; flakes fade without shrinking, droplets do not slide, and the copy cross-fades in place.",
+        "Performance: the thaw and the once-a-second digits run only while the panel is on screen and the tab visible; the end is one wall-clock timeout, and a long lockout runs nothing at all.",
+        "Re-lock by passing a new lockedAt (and cooldown) from your server's answer; a refused retry the host answers with a new lockout shows the frost, not a stale error.",
+        "The frost is pigment mixed from the accent token at a fixed lightness, so it reads the same in light and dark themes."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/cooling-lock",
+      "registryItemUrl": "https://www.kinetiqui.com/r/cooling-lock.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/cooling-lock",
+        "npm": "npx shadcn@latest add @kinetiq/cooling-lock",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/cooling-lock",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/cooling-lock",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/cooling-lock.json"
+      }
+    },
+    {
+      "slug": "number-match",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Number Match",
+      "serial": "KQ-1717",
+      "tagline": "Tap the number you see to approve the sign-in.",
+      "description": "A new-device approval drawn as the two screens it happens on: the browser signing in, showing a two-digit number, and the trusted phone asking whether it's you with three numbers to choose from. The right choice joins the screens — a line grows from the number and from the phone's frame level with the chosen key, each half on glide, and they meet in the middle where a dot lands on recoil — while both screens turn to success and a check stamps on recoil; a wrong one reaches in danger, stops short and draws back on a tween as both screens explain the block. The choices are buttons with roving focus (arrows, Home, End; Enter or Space chooses), outcomes are announced, a lifetime bar drains only while it can be seen, and the screens sit side by side, overlap or mirror, stacking in a narrow container.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "number matching",
+        "push approval",
+        "two-step",
+        "new device",
+        "sign-in approval",
+        "MFA",
+        "phone"
+      ],
+      "props": [
+        {
+          "name": "request",
+          "type": "{ number, choices?, device, place, time, account }",
+          "defaultValue": "defaultNumberMatchRequest",
+          "description": "The sign-in being approved: the number shown, the phone's choices (seeded when omitted), and what, where and when."
+        },
+        {
+          "name": "status / defaultStatus",
+          "type": "\"waiting\" | \"approved\" | \"blocked\" | \"denied\" | \"expired\"",
+          "defaultValue": "— / \"waiting\"",
+          "description": "Where the request stands, controlled or initial."
+        },
+        {
+          "name": "onStatusChange",
+          "type": "(status) => void",
+          "description": "Fires from the choice, the denial or the expiry that changed it."
+        },
+        {
+          "name": "onApprove",
+          "type": "(request) => void",
+          "description": "The right number was chosen."
+        },
+        {
+          "name": "onDeny",
+          "type": "(request, reason: \"mismatch\" | \"denied\") => void",
+          "description": "The request was stopped: a wrong number, or \"No, it's not me\"."
+        },
+        {
+          "name": "onExpire",
+          "type": "(request) => void",
+          "description": "The request ran out of time before anyone chose."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again or Send a new request on the signing-in screen; pass a new request to start over."
+        },
+        {
+          "name": "expiresIn",
+          "type": "number",
+          "defaultValue": "60000",
+          "description": "How long the request lives, in ms."
+        },
+        {
+          "name": "timeZone",
+          "type": "string",
+          "defaultValue": "\"UTC\"",
+          "description": "The time zone the request's time is shown in."
+        },
+        {
+          "name": "appName",
+          "type": "string",
+          "defaultValue": "\"Fieldline\"",
+          "description": "The product's name, on both screens."
+        },
+        {
+          "name": "signInUrl",
+          "type": "string",
+          "defaultValue": "\"fieldline.app/sign-in\"",
+          "description": "The address in the signing-in window's bar."
+        },
+        {
+          "name": "secureHref",
+          "type": "string",
+          "defaultValue": "\"#security\"",
+          "description": "Where Change your password goes after a block or a denial."
+        },
+        {
+          "name": "layout",
+          "type": "\"split\" | \"overlap\" | \"mirror\"",
+          "defaultValue": "\"split\"",
+          "description": "The two screens side by side, the phone over the window's edge, or the phone first; they stack in narrow containers."
+        },
+        {
+          "name": "numberSize",
+          "type": "number",
+          "defaultValue": "56",
+          "description": "The number's size on the signing-in screen, in px; the tile's padding scales with it."
+        },
+        {
+          "name": "accent",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "Any CSS colour for the number, the waiting highlights, the lifetime bar and the app marks."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "The choices and the denial are unavailable."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the outer wrapper."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the three choices are one tab stop; Left/Right (and Up/Down) move between them, Home and End jump, Enter or Space chooses. After an outcome focus moves to the phone's outcome heading if it was on a choice.",
+        "Reduced motion: the line appears whole on a short fade — dashed when it fails — the check appears without the stamp, and only colours change; the lifetime bar still drains, because the time left is information.",
+        "Performance: the lifetime bar is a compositor transform tween that runs only while the surface is on screen and the tab visible; expiry is one wall-clock timeout, and the line's ends are measured only at the choice and on resize.",
+        "The line lands on the phone's frame level with the chosen key, so it never crosses another key or the phone's words; the choices stay in place through every outcome.",
+        "Pass request.time with a timeZone so the time reads the same on the server and in the browser; choices are seeded from the number when you don't pass them."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/number-match",
+      "registryItemUrl": "https://www.kinetiqui.com/r/number-match.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/number-match",
+        "npm": "npx shadcn@latest add @kinetiq/number-match",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/number-match",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/number-match",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/number-match.json"
       }
     },
     {

@@ -38293,6 +38293,911 @@ Notes:
 - The border is an SVG sized in pixels by a ResizeObserver per toast and drawn with an explicit dash array from the outline's own length — no viewBox stretching, no non-scaling strokes. The unknown-progress lap runs only while the stack is in view and the page is visible.
 - Overlay mode positions inside the nearest positioned ancestor, so give the app frame position: relative; finished toasts clear themselves after doneTimeout unless someone is hovering or focused on them.
 
+### Wayfinding Dots (KQ-1693) — `wayfinding-dots`
+Gentle marks on the features you haven't found.
+
+Non-blocking hint dots that sit on the corners of the features nobody has opened yet, each breathing slowly from one shared clock with its own phase. Pressing a dot flicks it up on springs.flick, frames the feature on springs.snap and unfolds the tip out of the dot as a clip circle growing from its centre; closing folds it back and the dot flies on springs.glide along an arc into the corner counter, whose digit rolls on springs.snap and pill lands on springs.recoil. Dots are buttons in reading order: Enter opens, Escape closes and moves focus to the next dot, H shows or hides them all, and under 420px the tip is a bottom sheet you can swipe away.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/wayfinding-dots`
+
+Props:
+- `children`: ReactNode — The interface the hints sit on. Mark each feature with data-wayfinding="<target>".
+- `hints`: WayfindingHint[] (default defaultWayfindingHints) — The hints, { id, target, title, body, placement?, keys? }, in the order they are numbered.
+- `found / defaultFound`: string[] (default — / []) — Ids of the hints already found, controlled or initial.
+- `onFoundChange`: (ids: string[]) => void — Fires from the close, the use or the Dismiss all that found a hint, with every found id.
+- `onOpen`: (hint: WayfindingHint) => void — A dot was opened.
+- `onDismiss`: (hint: WayfindingHint, via: WayfindingDismissVia) => void — A hint was closed and counted as found: via its button, Escape, a press outside, a swipe of the sheet or using the feature.
+- `onDismissAll`: (ids: string[]) => void — Dismiss all was pressed, with the ids it found.
+- `shown / defaultShown`: boolean (default — / true) — Whether the dots are showing, controlled or initial.
+- `onShownChange`: (shown: boolean) => void — Fires from the hotkey or the eye button that showed or hid the dots.
+- `hotkey`: string | null (default "h") — The key that shows and hides every dot while focus is inside the component and not in a text field; null turns it off.
+- `dotStyle`: "beacon" | "halo" | "ring" | "pip" (default "beacon") — The mark: a ring that leaves the dot, a swelling glow, a breathing hollow ring, or a numbered badge.
+- `breathSpeed`: number (default 1) — How fast the dots breathe, 0.25 to 2; 1 is one breath every 3.2 s.
+- `accent`: string (default "var(--accent-bright)") — The dots, the highlight frame and the counter ring. Any CSS colour; dots take its hue at a fixed lightness so they read in both themes.
+- `discoverOnUse`: boolean (default true) — Using a feature yourself counts as finding it: its dot leaves for the counter without a tip.
+- `counter`: "top-start" | "top-end" | "bottom-start" | "bottom-end" (default "bottom-end") — The corner the discovered counter sits in.
+- `sheetBelow`: number (default 420) — Below this container width, in px, tips dock as a bottom sheet.
+- `label`: string (default "Feature hints") — The hint layer's accessible name; the found count is added to it.
+- `disabled`: boolean (default false) — The dots stay but cannot be opened, the hotkey is off and the counter's buttons are inert.
+- `className`: string — Classes for the wrapper around the interface.
+
+Notes:
+- Wrap the real interface and put data-wayfinding="<target>" on each feature; the layer measures targets from layout (ResizeObserver on the root and every target), so transforms above it never skew the dots. The wrapper clips, and tips are clamped inside it.
+- Keyboard: dots are buttons after the interface in reading order. Enter opens a tip and focuses Got it; Escape (handled with preventDefault) or Got it closes it and focus moves on to the next dot; Next hint opens the next. H toggles every dot unless focus is in a text field. The counter's eye and × buttons are the pointer twins of H and Dismiss all.
+- Each found hint is announced once, politely ("Saved views found. 2 of 5."), and the layer's name carries the count.
+- Reduced motion: nothing breathes or travels — each style rests at its fullest, tips and the sheet cross-fade in place, a found dot fades where it is and the count updates at once.
+- Performance: one linear clock animation drives every breath, and only while the component is on screen, the tab is visible, hints are shown and at least one remains; per-frame values are motion values, never React renders.
+- The pigment is the accent's hue at a fixed lightness (oklch from), so a token accent reads the same in light and dark themes; pass any CSS colour.
+
+### Moving Day (KQ-1694) — `moving-day`
+Bring everything over from your old tool.
+
+The import step of moving into a new workspace: each category the old tool holds is a box with its count, and Start opens them in turn — the lid swings open on springs.snap, the count rolls up in tabular digits straight from a motion value, and the box's things leave it one by one, travelling into the new workspace's preview on springs.glide and landing on springs.recoil, before the box shuts with a tick drawn on springs.flick. A category too big to wait for keeps counting in the background behind a thin bar with a toast, and whatever could not move is listed with its reason for Retry. Start, Pause, Resume, Retry and Open are real buttons (the primary keeps focus as its label changes) and the source is a radiogroup the arrow keys move through.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/moving-day`
+
+Props:
+- `sources`: MovingDaySource[] (default defaultMovingDaySources) — The old tools to import from, { id, name, detail?, counts, blocked? }, each with a count per category and the items that cannot move.
+- `categories`: MovingDayCategory[] (default defaultMovingDayCategories) — What moves, { id, label, unit, icon?, samples }, one box each in the order they open.
+- `source / defaultSource`: string (default — / the first source) — The chosen source's id, controlled or initial.
+- `onSourceChange`: (id: string) => void — Fires from the radio or arrow key that changed the source; only before the import starts.
+- `workspace`: string (default "Fieldline") — The new workspace's name, in the preview, the copy and the open button.
+- `onStart`: (sourceId: string) => void — Start was pressed.
+- `onPause`: (sourceId: string) => void — Pause was pressed; the open box's count holds where it is.
+- `onResume`: (sourceId: string) => void — Resume was pressed; the count continues from the same number.
+- `onRetry`: (ids: string[]) => void — Retry was pressed, with the ids of the items it tries again. Retryable ones move; the rest keep their reasons.
+- `onDone`: (summary: { moved: number; stayed: string[] }) => void — Every box has finished, background ones included.
+- `onOpenWorkspace`: () => void — The open-workspace button was pressed (offered as soon as the visible pass is done).
+- `pace`: number (default 2400) — Items per second the simulated import moves; each box takes between 0.9 and 2.4 s.
+- `backgroundAbove`: number (default 5000) — A category with more items than this moves in the background after its first share, with a toast.
+- `boxStyle`: "carton" | "crate" | "tote" (default "carton") — A carton whose flaps swing open, a slatted crate whose lid lifts and tilts, or a tote whose lid slides back.
+- `density`: "compact" | "cozy" | "roomy" (default "cozy") — Box size, row heights and spacing.
+- `tone`: "kraft" | "slate" | "cobalt" | "mint" (default "kraft") — The boxes' pigment, a hue at a fixed lightness shaded toward black in oklab, so it reads in both themes.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the old tool's counts have arrived: loading draws skeleton boxes, error a message with Try again.
+- `onReload`: () => void — Try again was pressed after the counts failed to load.
+- `maxHeight`: number (default 560) — The tallest the step grows before its body scrolls, px.
+- `disabled`: boolean (default false) — Nothing can be started or chosen; the step dims.
+- `className`: string — Classes for the outer section.
+
+Notes:
+- The host owns the real transfer: wire onStart, onPause, onResume and onRetry to it. The component is the visible step and simulates progress at pace, so the counts and arrivals always tell a coherent story.
+- Keyboard: the source is a radiogroup (arrows, Home, End) while nothing has started; Start, Pause, Resume and Open share one primary button that keeps focus as its label changes and is never disabled while focused (aria-disabled instead).
+- Each box is a list item named by a sentence ("Files, 1,285 of 1,286 moved, 1 stayed behind"); the rolling digits are hidden from assistive technology and box starts, finishes, pauses and the background toast are announced once each.
+- Reduced motion: lids cross-fade instead of swinging, things fade into their slots instead of travelling, the tick appears without its draw — the counts still count.
+- Performance: nothing runs at rest. During an import there is one linear count tween for the open box (and one per background box); it stops while the step is off screen or the tab is hidden and resumes from the same number. Arrival offsets are measured once per row, before paint.
+
+### Practice Run (KQ-1695) — `practice-run`
+Learn by doing the real thing, once.
+
+A hands-on tutorial where each lesson is one small real task in a sandboxed copy of the interface: a working board whose cards drag 1:1 and glide into their lane on springs.glide, a comment box whose @ opens a real combobox of teammates, a job whose Labels menu opens on springs.snap. A coach line answers what the visitor actually does, one sentence at a time rising into place on springs.snap, and a finished task presses a quiet check stamp onto the sandbox on springs.recoil before the next lesson slides in on springs.glide. Every lesson has a keyboard path (Space picks a card up and the arrows carry it; arrows and Enter pick a person; arrows walk the menu) and a Skip, and progress is a value so a run resumes where it stopped.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/practice-run`
+
+Props:
+- `lessons`: PracticeLesson[] (default defaultPracticeLessons) — The lessons in order, each a move (board), mention (combobox) or label (menu) task with its own data and optional coach lines.
+- `progress / defaultProgress`: Record<string, "done" | "skipped"> (default — / {}) — Each lesson's state, controlled or initial. The run opens on the first lesson that is neither done nor skipped.
+- `onProgressChange`: (progress: PracticeProgress) => void — Fires from the finish, skip or restart that changed it, with the whole progress.
+- `onComplete`: (lesson: PracticeLesson) => void — A lesson's task was done for real.
+- `onSkip`: (lesson: PracticeLesson) => void — A lesson was skipped.
+- `onFinish`: (progress: PracticeProgress) => void — Start working was pressed after the last lesson.
+- `onRestart`: () => void — Practice again was pressed; progress is cleared.
+- `coach`: string (default "Wren") — The coach's name, on its avatar, in the ticker and the caption.
+- `coachStyle`: "bubble" | "ticker" | "margin" (default "bubble") — An avatar and a speech bubble, a single mono line over a progress hairline, or a note in the left margin pointing at the sandbox. Under 30rem it is always a caption docked at the foot of the sandbox.
+- `stampStyle`: "seal" | "tick" | "ink" (default "seal") — The stamp a finished task gets: a round seal with its rim lettered, a tick drawn on flick in a rounded square, or a rubber-stamped DONE.
+- `accent`: string (default "var(--accent-bright)") — The stamp's ink, the lit lane, the step rail and the mention token. Any CSS colour, taken at a fixed lightness.
+- `stampHold`: number (default 700) — How long the stamp rests before the next lesson slides in, ms.
+- `workspace`: string (default "Fieldline") — The product being practised, in the copy.
+- `status`: "ready" | "loading" (default "ready") — Whether the lessons are ready; loading draws a still sandbox and the rail is inert.
+- `maxHeight`: number (default 560) — The tallest the run grows before its body scrolls, px.
+- `disabled`: boolean (default false) — Nothing can be done or skipped; the run dims.
+- `className`: string — Classes for the outer section.
+
+Notes:
+- Keyboard: on the board, Space or Enter picks a card up, the arrow keys carry it lane to lane (focus follows it), Space puts it down and Escape puts it back. In the mention lesson @ opens a combobox (aria-activedescendant) that the arrows and Enter drive; in the label lesson the arrows open and walk a menu of checkbox items and Escape closes it. Skip and the step rail are buttons.
+- The coach line is the one polite live region: each reaction is a single sentence frozen when it happens, and the stamp is announced as "Done: <lesson>". Focus moves into each new lesson's first control once it has arrived, when it was inside the run before.
+- Pointer: cards follow the finger 1:1 after 4px of travel (touch-action none on the card only), settle into their new lane from where they were seen with the release velocity, and any card can be moved — the sandbox is real, and the coach says so.
+- Reduced motion: cards change lanes in place, the stamp fades in at rest, lessons and coach lines cross-fade. Every state still shows.
+- Nothing runs at rest; the only timer is the stamp's hold, cleared on unmount. Override any coach line per lesson with lesson.coach[event].
+
+### Name Plate (KQ-1696) — `name-plate`
+Name the workspace and hang its sign.
+
+The workspace-creation step: as a name is typed its letters are set onto a plate that swings into the preview sidebar on a pendulum spring — slid along the rail on springs.glide, tilted, and falling through a few decaying swings to hang from its nail — while the address forms beneath the name with each new letter dropping in on springs.flick. Every keystroke is a small impulse to the same pendulum, a new colour re-tints the plate with a bigger push, the address is checked live with a status icon that morphs on springs.snap, and a taken address offers alternatives. Icons and colours are radiogroups the arrow keys move through, Create may return a promise, and a failed create keeps every field.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/name-plate`
+
+Props:
+- `value / defaultValue`: NamePlateValue (default — / defaultNamePlateValue) — The name, address, icon and colour, controlled or initial.
+- `onChange`: (value: NamePlateValue) => void — Fires from the field, chip or radio that changed it, with the whole value.
+- `onCreate`: (value: NamePlateValue) => void | Promise<unknown> — Create was pressed with a valid, available address. Return a promise to show it working; a rejection keeps every field and shows its message.
+- `icons`: NamePlateIcon[] (default defaultNamePlateIcons) — The icons on offer, { id, label, icon }; eight Lucide glyphs by default.
+- `colors`: NamePlateColor[] (default defaultNamePlateColors) — The colours on offer, { id, label, value }; six token hues at a fixed lightness by default.
+- `addressPrefix`: string (default "fieldline.app/") — What comes before the address slug.
+- `takenAddresses`: string[] (default defaultNamePlateTaken) — Addresses already in use, checked after a 250 ms pause in typing.
+- `checkAddress`: (slug: string) => "available" | "taken" | Promise<…> — Asks the host whether an address is free, sync or async; only the newest answer counts. Overrides takenAddresses.
+- `plateStyle`: "enamel" | "brass" | "timber" (default "enamel") — An enamel sign in the colour with a cream inset rule, an engraved brass plate with screw heads and a colour inlay, or a timber board with a painted panel.
+- `swingAmount`: number (default 0.6) — How lively the pendulum is, 0 to 1: the entrance tilt, the impulses and the damping ratio (0.62 down to 0.1).
+- `accent`: string (default "var(--accent-bright)") — The form's accent: the chosen icon's ring, the primary button and the rail's nail. Any CSS colour.
+- `nav`: string[] (default ["Inbox", "Jobs", "Crews", "Reports"]) — The preview sidebar's sections.
+- `maxLength`: number (default 32) — The longest name allowed; the counter in the field shows it.
+- `maxHeight`: number (default 560) — The tallest the step grows before its body scrolls, px.
+- `disabled`: boolean (default false) — Nothing can be changed or created; fields turn read-only and the step dims.
+- `className`: string — Classes for the outer section.
+
+Notes:
+- The address follows the name until the visitor edits it (the pencil turns it into a field); Match name, or Escape in the field, hands it back. Format is checked at once; availability after a 250 ms pause, through checkAddress or takenAddresses, and the message is announced only once the check has answered.
+- Keyboard: the icon and colour pickers are radiogroups with roving focus (arrows, Home, End select as they move). Alternatives are buttons named "Use harbour-ops-team". Create is never disabled while focused — it stays focusable with aria-disabled and aria-busy while a promise is pending.
+- The preview is decoration (aria-hidden) with a visually hidden sentence that says what it shows; the plate swings only on its own spring, so nothing runs once it hangs still.
+- Reduced motion: the plate fades in and hangs still, letters appear without dropping, the status icon cross-fades. The checks, alternatives and create states are unchanged.
+- Under 40rem the plate hangs in a band above the fields instead of in the sidebar; long names step their type down and wrap by whole words so the plate never spills.
+
+### Goal Weave (KQ-1697) — `goal-weave`
+Pick your goals; a plan assembles itself.
+
+A goal-selection step whose plan assembles itself: choosing a goal draws a thread out of its card to each of its tasks — the curve split at a growing t on an enter tween, every point rounded — while the tasks arrive from 8px left on springs.glide in a cascade(), and removing a goal retracts its threads and pulls out only the tasks no other goal holds while shared ones stay. The goal cards are checkboxes that lift on springs.snap and follow the arrow keys; plan rows rove with Up and Down, Alt with Up or Down (or a drag of the grip, 1:1 with the release velocity handed to springs.glide) reorders them, and the threads follow every glide from a geometry loop that runs only while something moves.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/goal-weave`
+
+Props:
+- `goals`: GoalWeaveGoal[] (default defaultGoalWeaveGoals) — The goals to choose from, { id, title, detail?, icon?, tint? }.
+- `tasks`: GoalWeaveTask[] (default defaultGoalWeaveTasks) — Every task a goal can bring, { id, title, minutes?, goals, starter? }; a task in several goals is shared, and starter tasks form the plan while nothing is chosen.
+- `value / defaultValue`: string[] (default — / []) — The chosen goal ids, controlled or initial. A host change weaves like a press.
+- `onGoalsChange`: (ids: string[]) => void — Fires from the card, key or click that changed the goals.
+- `onPlanChange`: (taskIds: string[]) => void — Fires with the plan in order whenever goals or a reorder change it.
+- `onAccept`: (taskIds: string[], goalIds: string[]) => void — Use this plan was pressed.
+- `cardStyle`: "tile" | "chip" | "row" (default "tile") — Two-column tiles with icon, title and detail; compact wrapping chips; or a list of rows with task counts.
+- `threadStyle`: "thread" | "stitch" | "ribbon" (default "thread") — A fine 1.5px curve, a dashed stitch, or a soft 6px ribbon.
+- `accent`: string (default "var(--accent-bright)") — The first goal's tint (later goals turn its hue 48° each), the chosen cards and the primary button. Any CSS colour.
+- `question`: string (default "What should Fernworks help with?") — The question over the goal cards; it also names the checkbox group.
+- `planTitle`: string (default "Your first week") — The plan's heading (and the drawer's label on narrow widths).
+- `acceptLabel`: string (default "Use this plan") — The primary button's label.
+- `maxGoals`: number — The most goals that can be chosen at once; the rest turn aria-disabled with the reason.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the goals have arrived: loading draws skeleton cards, error a message with Try again.
+- `onRetry`: () => void — Try again was pressed after the goals failed to load.
+- `maxHeight`: number (default 560) — The tallest the step grows before its body scrolls, px.
+- `disabled`: boolean (default false) — Nothing can be chosen, moved or accepted; the step dims.
+- `className`: string — Classes for the outer section.
+
+Notes:
+- Keyboard: goal cards are role=checkbox in one roving group — arrows move (Up and Down by a row of tiles), Home and End jump, Space or Enter toggles. Plan rows rove with Up, Down, Home and End on their grips; Alt with Up or Down moves the focused task and announces its new place.
+- Every change is announced once as a sentence ("Track inventory removed. 2 tasks left the plan, 1 stayed, shared."); rows carry aria-posinset and aria-setsize, since their DOM order is held steady while a drag is under way.
+- Performance: threads are SVG paths written straight to the DOM from a requestAnimationFrame loop that runs only while a weave, a reorder, a drag or a resize is in flight, and only while the step is on screen and the tab is visible.
+- Reduced motion: threads fade instead of drawing, tasks fade into their slots, reorders and the drawer jump. The plan, counts and announcements are unchanged.
+- Under 40rem the plan moves into a drawer under the goals; the threads give way to goal-coloured dots on each task, and a change made while it is closed rolls the count and shows a +n badge.
+
+### Shortcut Drills (KQ-1698) — `shortcut-drills`
+Learn the keys by pressing them.
+
+A keyboard practice built from a list of actions and their keys: the screen names an action, you press its shortcut, and every key you press is mirrored on a small keyboard whose caps go down on springs.flick and come back on springs.snap. A correct chord bottoms out together and lights, the caps rise key first and modifiers after, and a bead lifts off the key and flies on an arc into the streak rail on springs.glide, landing on springs.recoil; a wrong one shakes nothing and gently shows the right chord with a breathing ring and a caption. The prompt is a focusable practice pad that takes real chords (Tab and Escape still leave), the board is a roving group of buttons where modifiers latch and a key commits, and the set ends on a summary where any drill can be repeated.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/shortcut-drills`
+
+Props:
+- `drills`: ShortcutDrill[] (default defaultShortcutDrills) — The shortcuts in order: { id, action, detail?, keys } where keys are Mod, Shift, Alt, Control, Meta plus one KeyboardEvent.code (Mod accepts ⌘ or Ctrl).
+- `results / defaultResults`: Record<string, "clean" | "hinted" | "skipped"> (default — / {}) — Each drill's result by id, controlled or initial; a returning visitor's beads.
+- `onResultsChange`: (results: ShortcutResults) => void — Fires from the press, tap or skip that changed a result, with every result.
+- `onComplete`: (summary: { total, clean, hinted, skipped, results }) => void — A run reached the summary: the whole set, or a repeat of part of it.
+- `onSkip`: (drill: ShortcutDrill, index: number) => void — Skip was pressed on a drill.
+- `onAttempt`: (attempt: { drill, keys, correct }) => void — Every chord pressed or tapped while a drill was asked, right or wrong.
+- `keyboardLayout`: "command" | "control" | "split" (default "command") — ⌘ ⌥ ⌃ legends, Ctrl and Alt legends, or the ⌘ board split in two halves.
+- `keycapStyle`: "sculpted" | "flat" | "outline" (default "sculpted") — Tall caps with a skirt and real travel, low chiclets with a shadow, or line drawings that scale instead of travelling.
+- `accent`: "cobalt" | "signal" | "amber" | "graphite" | string (default "cobalt") — Lit caps, beads, the hint ring and the streak: a named accent or any CSS colour.
+- `reveal`: "miss" | "always" (default "miss") — Show the chord after a wrong press, or from the start as a learn mode.
+- `advanceDelay`: number (default 650) — Milliseconds between a correct press and the next drill.
+- `tapThrough`: boolean (default true) — The caps answer taps: modifiers latch, a key commits the chord.
+- `title`: string (default "Fieldline shortcuts") — The heading.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the drills have arrived: a skeleton while loading, a retry on error.
+- `onRetry`: () => void — Try again was pressed after the drills failed to load.
+- `sound`: boolean (default false) — A tick on every press, a brighter one when the bead lands.
+- `disabled`: boolean (default false) — Holds the pad, the board and the buttons.
+- `className`: string — Classes for the surface; give it a height to fix its frame.
+
+Notes:
+- Keyboard: the prompt is a role="application" pad, so screen readers pass keys through; every key but Tab and Escape is an attempt and is prevented while it has focus. Keep drills off chords the browser reserves (closing or opening tabs and windows). The board is one tab stop: arrows walk the caps, Enter or Space taps one.
+- Reduced motion: caps change colour instead of travelling, the bead fades into its slot instead of flying, prompts cross-fade; every result, count and caption still updates at once.
+- The board is drawn in key units and positioned in percentages with container-query legends, so it scales to any width (about 16px caps at a 316px card) and renders the same on the server. On a phone its caps grow taller.
+- Letters match by what they type as well as where they sit, so a visitor on another letter layout answers by the legend; Mod accepts either ⌘ or Ctrl whatever the board shows.
+- Nothing loops: the listening dot breathes only while the pad has focus, and timers and the bead flight are cleared on unmount.
+- Theming: everything is drawn from tokens; accent sets --sd-accent and a fixed-lightness pigment for filled caps and beads, so both themes read.
+
+### Last Slot (KQ-1699) — `last-slot`
+Five of five used; the sixth shows what it costs.
+
+A project grid at its plan's limit: the used projects, then one ghost slot carrying a lock. Hovering or focusing the ghost unlatches the lock on springs.snap (a shackle swings, a bolt slides out of its keeper, or a dial spins and pops) and a beat later the card turns over on springs.glide, about Y in the grid and about X when it is a wide row, to show the plan that holds more projects and its price while the header's meter glides to the new limit. Every project stays a working button with arrow-key travel by the measured columns; the ghost is one labelled button that upgrades (admins) or asks an admin (members), with Compare plans and Not now beside it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/last-slot`
+
+Props:
+- `projects`: LastSlotProject[] (default defaultLastSlotProjects) — The projects in the grid: { id, name, owner, updatedAt, tasks?, done?, next?, members?, tint? }.
+- `usage`: { used: number; limit: number } (default { used: projects.length, limit: plan.limit }) — How many projects are used and allowed; at the limit the next cell carries the lock.
+- `plan`: LastSlotPlan (default defaultLastSlotPlan) — The workspace's plan: { id, name, limit, price?, unit?, period?, perks? }.
+- `offer`: LastSlotPlan (default defaultLastSlotOffer) — The plan that holds more projects, shown on the back of the slot with its price and two perks.
+- `viewerRole`: "admin" | "member" (default "admin") — Admins upgrade from the slot; members ask an admin.
+- `adminName`: string (default "Mara") — Who members ask.
+- `onUpgrade`: (offer: LastSlotPlan) => void — The slot was pressed by an admin at the limit.
+- `onAskAdmin`: (offer: LastSlotPlan) => void — The slot was pressed by a member at the limit.
+- `onCompare`: () => void — Compare plans was pressed.
+- `onDismiss`: () => void — Not now was pressed: the slot steps aside and a limit chip appears in the header.
+- `dismissed / defaultDismissed`: boolean (default — / false) — Whether the slot has been set aside, controlled or initial.
+- `onDismissedChange`: (dismissed: boolean) => void — Fires from Not now (true) or the header's chip (false).
+- `onOpenProject`: (project: LastSlotProject) => void — A project card was pressed.
+- `onCreate`: () => void — The slot was pressed while there is still room under the limit (it shows a plus, not a lock).
+- `now`: number (default defaultLastSlotNow) — The moment edit times count from, in ms; never the wall clock.
+- `formatPrice`: (amount: number) => string (default US dollars) — Formats the offer's price; cents only when there are some.
+- `slotStyle`: "dashed" | "frosted" | "grid" (default "dashed") — The empty slot: a dashed outline, frosted glass over a faint card, or blueprint grid paper.
+- `lockStyle`: "shackle" | "bolt" | "dial" (default "shackle") — A padlock whose shackle lifts and swings, a door bolt that slides out of its keeper, or a combination dial that spins and pops.
+- `accent`: "cobalt" | "signal" | "amber" | "graphite" | string (default "cobalt") — The open lock, the offer's eyebrow and checks, the grid paper and the meter's offer run.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the projects have arrived: placeholder cards while loading, a retry on error.
+- `onRetry`: () => void — Try again was pressed after the projects failed to load.
+- `title`: string (default "Projects") — The heading.
+- `disabled`: boolean (default false) — Holds every press; the slot no longer turns.
+- `className`: string — Classes for the surface; give it a height and the grid scrolls inside it.
+
+Notes:
+- Keyboard: projects and the slot are one roving set; arrows move by the measured columns, Home and End jump. Focusing the slot turns it over; Enter upgrades or asks; Tab reaches Compare plans and Not now, and focus anywhere in the slot keeps it turned.
+- Touch has no hover: the first tap turns the slot over to read it, the second presses it.
+- Reduced motion: no rotation and no lock travel; the faces cross-fade, the lock is drawn open and the meter re-reads at once. The offer still shows on hover and focus.
+- Not now moves focus to the header's limit chip, and the chip brings the slot back with focus on it; both are announced politely.
+- Narrow containers drop to one column of compact rows with the slot kept last, turning about X like a flap.
+- Times come from the now prop and prices from formatPrice, so the server and the browser render the same markup.
+
+### Teaser Lens (KQ-1700) — `teaser-lens`
+Look through the lens at what the upgrade shows.
+
+A premium report drawn from the account's own numbers and softly blurred, with a glass lens that reads one region clearly, a little enlarged. The lens follows the finger 1:1 and has weight: it lifts on springs.flick, its rim tilts toward its travel and its highlight slides the other way, and when let go it coasts by projection, settles on springs.glide with the release velocity and sets down on springs.recoil, while an upgrade card trails beside it on a glide spring naming what that region would tell you. The lens is a button: arrows move it, Page keys and Home/End jump between regions, Enter upgrades and Escape puts it away; with no data the report draws a labelled sample, and in a narrow container the lens becomes a full-width band.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/teaser-lens`
+
+Props:
+- `summary`: TeaserSummary | null (default defaultTeaserSummary) — The account's numbers: { workspace, period, members, activeMembers, tasksDone, cycleDays, onTime, weekly, cohorts, stages }; null draws defaultTeaserSample, labelled as a sample.
+- `regions`: TeaserRegion[] (default defaultTeaserRegions) — What each area would tell you, by id (pulse, trend, cohorts, stages): { id, title, teaser }.
+- `value / defaultValue`: { x: number; y: number } (default — / { x: 0.74, y: 0.52 }) — The lens centre as fractions of the report, controlled or initial; a host change glides the lens there.
+- `onValueChange`: (value: { x: number; y: number }) => void — Fires when the lens comes to rest after a drag, a key or a tap.
+- `onRegionChange`: (region: TeaserRegion) => void — The lens came to rest over a different region.
+- `onUpgrade`: (region: TeaserRegion) => void — Enter on the lens, or the card's call to action, with the region under the lens.
+- `onDismiss`: () => void — The card's close button, or Escape on the lens.
+- `dismissed / defaultDismissed`: boolean (default — / false) — Whether the lens and its card are put away, controlled or initial.
+- `onDismissedChange`: (dismissed: boolean) => void — Fires from the close (true) or the pill that brings the lens back (false).
+- `lensSize`: number (default 136) — The disc's diameter in px; the band's height (up to 200) in a narrow container.
+- `blurAmount`: number (default 6) — How soft the rest of the report is, in px of blur.
+- `accent`: "cobalt" | "signal" | "amber" | "graphite" | string (default "cobalt") — The rim, the plan chip, the report's lead series and heatmap: a named accent or any CSS colour.
+- `magnify`: number (default 1.06) — How much the glass enlarges what is under it (1 to 1.4); the band never enlarges.
+- `weight`: number (default 0.5) — How heavy the glass is, 0 to 1: a heavy lens coasts less after a throw and tilts more while dragged.
+- `planName`: string (default "Pro") — The plan the report belongs to, in the chips and the call to action.
+- `title`: string (default "Delivery report") — The report's heading.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the numbers have arrived: a blurred skeleton while loading, a retry on error.
+- `onRetry`: () => void — Try again was pressed after the report failed to load.
+- `disabled`: boolean (default false) — Holds the lens and every action.
+- `className`: string — Classes for the surface; give it a height and the report scrolls inside it.
+
+Notes:
+- Keyboard: the lens is a button — arrows move it 5% (Shift 15%), Page Up/Down and Home/End jump between region centres, Enter calls onUpgrade with the region under it, Escape puts it away (handled, so the page behind does not close too).
+- Accessibility: both painted copies of the report are aria-hidden; readers get the lens's name, the card's teaser as its description, and one polite announcement each time the lens settles on a new region.
+- Reduced motion: the lens follows and stops where it is let go, with no coast, tilt, lift or bounce; the card moves with it and its text cross-fades.
+- Performance: nothing loops — motion values run only while dragging or settling; region rectangles and sizes come from a ResizeObserver, and the blur is a static filter on a static layer.
+- The report is painted twice (blurred, and sharp inside the lens's clip), so keep custom summaries to the shape of TeaserSummary; with no data pass summary={null} for a clearly labelled sample.
+- Narrow containers (under 480px) swap the disc for a full-width band that moves on y with touch-action pan-x, and dock the card under or over it.
+
+### Trial Recap (KQ-1701) — `trial-recap`
+Seven days left, and what you did with them.
+
+The screen a workspace sees as its trial runs out: what the team did with it beside the plans. The first time it is seen, the days-left ring sweeps to its share on springs.drift while the day count rolls up, the recap's counts roll up on odometer wheels in cascade on springs.glide (each wheel turns only as the one below it rolls over), and the plan that fits the workspace's actual usage rises on glide as its reason chip stamps in on springs.recoil. The plans are a radiogroup with arrow keys and roving focus; the call to action rolls its monthly total on springs.snap, and an expired trial changes the copy and empties the ring.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/trial-recap`
+
+Props:
+- `usage`: TrialUsage (default defaultTrialUsage) — What the workspace did: { projects, invited, seats, hoursSaved, teams? }.
+- `plans`: TrialPlan[] (default defaultTrialPlans) — The plans offered: { id, name, price, seats, projects, blurb } with null for no limit.
+- `now`: number (default defaultTrialNow) — The moment days are counted from, in ms; never the wall clock.
+- `endsAt`: number (default now + 7 days) — When the trial ends, in ms; before now the trial reads as expired.
+- `trialDays`: number (default 14) — How long the trial runs; the ring goes round once for it.
+- `value / defaultValue`: string (default — / the plan that fits) — The chosen plan's id, controlled or initial.
+- `onValueChange`: (planId: string) => void — Fires from the click or key that chose another plan.
+- `onChoosePlan`: (plan: TrialPlan, total: number) => void — The call to action was pressed, with the plan and its monthly total for the workspace's seats.
+- `onExtend`: () => void — Extend (or, once expired, Ask for more days) was pressed.
+- `onTalk`: () => void — Talk to us was pressed.
+- `recommend`: (usage, plans) => { planId, reason } | null (default recommendTrialPlan) — Picks the plan that fits and the reason it shows; by default the cheapest plan holding your seats and projects, explained by whichever ruled out the plan below.
+- `extendDays`: number (default 7) — Days an extension asks for.
+- `workspace`: string (default "Fieldline") — The workspace's name in the header.
+- `ringStyle`: "solid" | "days" | "ticks" (default "solid") — The days-left ring: one round-capped arc, one segment per trial day, or a dial of fine ticks.
+- `density`: "compact" | "regular" | "roomy" (default "regular") — Padding, gaps, ring size (112, 136 or 156px) and the size of the numbers.
+- `tone`: "calm" | "urgent" | "quiet" (default "calm") — Voice and colour: calm cobalt ("Seven days left in your trial"), urgent amber ("Your trial ends in 7 days"), or quiet graphite ("Trial · 7 days left").
+- `formatPrice`: (amount: number) => string (default US dollars) — Formats prices and the monthly total; cents only when there are some.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the recap has arrived: an empty ring and breathing bars while loading, a retry on error.
+- `onRetry`: () => void — Try again was pressed after the recap failed to load.
+- `disabled`: boolean (default false) — Holds the plans and every action.
+- `className`: string — Classes for the surface; give it a height and it scrolls inside itself.
+
+Notes:
+- Keyboard: the plans are a role="radiogroup" with one tab stop on the chosen plan; arrows move the choice, Home and End jump, Space or Enter select. The fitting plan's reason is part of its description.
+- Arrival runs once, when an IntersectionObserver first sees the screen; the server and a no-JavaScript render show the finished numbers, and rolling digits sit behind a plain sr-only number.
+- Reduced motion: the ring, the day count and the recap counts show their values at once; the fitting plan is raised without travel and the call to action's total swaps.
+- Days come from now and endsAt, never the wall clock, so the server and the browser agree; pass a formatPrice for other currencies.
+- Containers under 40rem stack the recap above the plans with a smaller ring beside its caption.
+
+### Add-on Tray (KQ-1702) — `add-on-tray`
+Add only the extras you need, and see the total.
+
+An add-on picker: toggle cards above, beside or under a running total tray. Turning a card on drops its chip into the tray on a small arc — one progress value on springs.glide carries it from the card's price to its place, x straight and y lifted — and it lands with two small bounces on springs.recoil as the monthly total rolls to its new value on odometer wheels on springs.snap; turning it off lifts the chip back out toward its card while the tray closes up on glide. Cards are role="checkbox" buttons with two-dimensional arrow-key travel; incompatible add-ons stay focusable, say why in place of their description and bring the reason forward when pressed, prices shimmer while they load, and narrow containers dock the tray at the bottom.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/add-on-tray`
+
+Props:
+- `addons`: AddOn[] (default defaultAddOns) — The add-ons offered: { id, name, description, price, icon?, conflicts?, requires?, note? }.
+- `value / defaultValue`: string[] (default — / ["storage"]) — The ids turned on, controlled or initial.
+- `onValueChange`: (ids: string[]) => void — Fires from the press or key that changed the selection, with every id on.
+- `onToggle`: (id: string, on: boolean) => void — One add-on was turned on or off.
+- `onBlocked`: (id: string, reason: string) => void — An add-on that cannot be added was pressed, with the reason it shows.
+- `onCheckout`: (order: { ids: string[]; total: number }) => void — Checkout was pressed, with the ids and the monthly total.
+- `base`: { name: string; price: number } (default defaultAddOnBase) — The plan the add-ons sit on; its price starts the total.
+- `pricesLoading`: boolean (default false) — Prices are on their way: they shimmer (only while on screen) and checkout is held.
+- `cardStyle`: "outline" | "tile" | "row" (default "outline") — Bordered cards with a round check, filled tiles with a large icon and a price pill, or compact list rows with a square check.
+- `trayPosition`: "bottom" | "side" | "float" (default "bottom") — A flush panel under the cards, a receipt column beside them, or a floating bar; narrow containers dock every one at the bottom.
+- `accent`: "cobalt" | "signal" | "amber" | "graphite" | string (default "cobalt") — Checks, chips, the flight and the chosen cards' wash: a named accent or any CSS colour.
+- `formatPrice`: (amount: number) => string (default US dollars) — Formats prices; the total's symbol is read from formatPrice(0), so other currencies roll correctly.
+- `period`: string (default "mo") — What the prices are per.
+- `title`: string (default "Add-ons") — The heading.
+- `checkoutLabel`: string (default "Checkout") — The checkout button's word.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the add-ons have arrived: placeholder cards while loading, a retry on error.
+- `onRetry`: () => void — Try again was pressed after the add-ons failed to load.
+- `disabled`: boolean (default false) — Holds every card and checkout.
+- `className`: string — Classes for the surface; give it a height and the cards scroll above the tray.
+
+Notes:
+- Keyboard: the cards are one roving group of role="checkbox" buttons; arrows travel by the measured columns, Home and End jump, Space or Enter toggle. Blocked add-ons stay focusable with aria-disabled, and their reason is part of their description.
+- Changes are announced politely with the new total ("Audit log added. Total $116 a month."); the rolling total sits behind a plain sr-only sentence.
+- Reduced motion: no flight — chips fade in and out of the tray, the total swaps, checks appear without drawing, and the price shimmer is a still bar.
+- List conflicts on both add-ons (conflicts: ["backup"] on one and ["residency"] on the other); an add-on with requires names the plan it needs and can never be turned on here.
+- The odometer reserves the width of the largest possible total, so the tray never shifts while digits roll.
+- Performance: the flier exists only during a flight and the shimmer runs only while prices load and the tray is in view.
+
+### Pause Instead (KQ-1703) — `pause-instead`
+Before cancelling, see what stops and what stays.
+
+A cancellation flow built from plan, usage and offers: the reason, what changes, then a plain choice, in a step bar whose pill slides on springs.snap while each step cross-slides 8px on springs.glide inside a box that glides to its measured height. When "What changes" comes into view the losses switch off one at a time inside the 600ms budget — a mini switch flips on snap, a strike sweeps on glide, or a tile's live bar drains — and the pause offer slides up 16px beneath on glide with a resume date that rolls as the length changes. Reasons and pause lengths are radiogroups (arrows, Home, End), every step and decision is a real button, and a step change moves focus to its heading.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/pause-instead`
+
+Props:
+- `plan`: PauseInsteadPlan (default defaultPauseInsteadPlan) — The plan being cancelled: { id, product, name, price, seats, cycle, renewsAt, currency? }.
+- `usage`: PauseInsteadLoss[] (default defaultPauseInsteadUsage) — What switches off when the plan ends, in order: { id, label, detail, figure?, icon? }.
+- `keeps`: PauseInsteadKeep[] (default defaultPauseInsteadKeeps) — What stays whatever is chosen: { id, label }.
+- `reasons`: PauseInsteadReason[] (default defaultPauseInsteadReasons) — The reasons offered on the first step: { id, label }.
+- `offers`: PauseInsteadOffers (default defaultPauseInsteadOffers) — { pause?: { months, defaultMonths? }, downgrade?: { plan, price, keeps } }; omit one to leave it out.
+- `now`: number (default plan.renewsAt − 23 days) — The moment "days left" counts from, in ms.
+- `step / defaultStep`: "reason" | "losses" | "decide" | "done" (default — / "reason") — The step shown, controlled or initial.
+- `onStepChange`: (step) => void — Fires from the button that moved the flow.
+- `onCancel`: (details: { reason, note }) => void | Promise — Cancel was confirmed; a promise holds the button and a rejection shows its message.
+- `onPause`: (details: { months, resumesAt, reason, note }) => void | Promise — A pause was chosen, with its length and the date billing resumes.
+- `onDowngrade`: (details: { plan, reason, note }) => void | Promise — The cheaper plan was chosen.
+- `onExit`: (outcome: "kept" | "paused" | "downgraded" | "cancelled") => void — The flow was left: Keep my plan, or Done after an outcome.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the plan's data has arrived.
+- `onRetry`: () => void — Try again was pressed after the plan failed to load.
+- `listStyle`: "switch" | "strike" | "tiles" (default "switch") — How the losses are drawn: rows with a switch that flips off, rows struck through, or figure tiles that drain.
+- `density`: "compact" | "cozy" | "roomy" (default "cozy") — Padding, gaps and type size.
+- `tone`: "calm" | "warm" | "mono" (default "calm") — The offer's wash, the primary fill and the step pill: cobalt, amber pigment or ink.
+- `dimInterval`: number (default 150) — Milliseconds between one loss switching off and the next; the run never passes 600ms.
+- `formatDate`: (ms) => string (default "12 Nov 2026" (UTC)) — How a date is written.
+- `formatMoney`: (amount, currency) => string (default Intl currency) — How a price is written.
+- `maxHeight`: number (default 560) — The surface's height cap in px; the steps scroll inside it with edge fades.
+- `disabled`: boolean (default false) — Every action is unavailable; the steps can still be read.
+- `className`: string — Classes for the surface.
+
+Notes:
+- Keyboard: reasons and pause lengths are radiogroups with roving tabindex (arrows move and select, Home and End jump); every step action and decision is a button. A step change moves focus to the new step's heading, bound when it arrives; pending decisions keep focus with aria-busy rather than disabling.
+- Each loss reads as one sentence ("Shared boards: 14 boards go read-only for 8 members. Switches off on 12 Nov 2026."); the switch-off and every outcome are announced once in a polite status, and a failed decision is a role="alert" strip.
+- The switch-off waits until the step is in view and is driven by one timer at a time, so leaving the view or a StrictMode rehearsal resumes it where it was; there are no loops.
+- Reduced motion: nothing travels — steps cross-fade and the offer fades in — but the losses still go off one at a time, because that order is the information.
+- Lays out by container: one column under 36rem (inactive step labels collapse to numbers under 26rem), losses beside what stays and the two offers side by side above it.
+
+### Credit Refill (KQ-1704) — `credit-refill`
+Running low; top up without leaving the work.
+
+A low-credit sheet that docks over the work it interrupts, showing what remains and how long it lasts at the current rate. Choosing a pack pours the balance gauge — a vial, a flask or a capsule of liquid — up to the new total on springs.glide while its surface leans against the pour and settles as a damped slosh, the bought share firming from a lighter band when the charge goes through; one frame loop runs only while the liquid moves. Packs are a radiogroup whose highlight slides on springs.snap, auto-recharge reveals a threshold slider that follows the pointer 1:1 and settles on its step with the release velocity, and arrows, Page keys, Home and End drive both.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/credit-refill`
+
+Props:
+- `balance`: number (default 312) — Credits left right now.
+- `rate`: number (default 144) — Credits used per hour; the runway is balance ÷ rate.
+- `packs`: CreditRefillPack[] (default defaultCreditRefillPacks) — The packs on offer: { id, credits, price, bonus? }.
+- `value / defaultValue`: string (default — / the second pack) — The chosen pack id, controlled or initial.
+- `onValueChange`: (id) => void — Fires from the press or key that chose a pack.
+- `autoRecharge / defaultAutoRecharge`: boolean (default — / false) — Whether auto-recharge is on, controlled or initial.
+- `onAutoRechargeChange`: (on, threshold) => void — Fires when auto-recharge is switched, with the threshold it will use.
+- `threshold / defaultThreshold`: number (default — / 200) — Top up when credits fall below this, controlled or initial.
+- `onThresholdChange`: (threshold) => void — Fires as the slider settles on a new 50-credit step.
+- `thresholdMax`: number (default 1000) — The threshold slider's top end.
+- `onBuy`: (pack) => void | Promise — Buy was pressed; a promise holds the button and a rejection keeps the pack chosen with its reason.
+- `open / defaultOpen`: boolean (default — / true) — Whether the sheet is up, controlled or initial; dismissed, a pill stays to reopen it.
+- `onOpenChange`: (open) => void — Fires when the sheet is dismissed or reopened.
+- `onDismiss`: () => void — The sheet was dismissed: the close button, Escape, or Close after a buy.
+- `paymentMethod`: string (default "Card ending 4417") — Where the charge goes, in words.
+- `now`: number (default —) — The moment the runway counts from, in ms; adds "until about 16:40".
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the packs have arrived.
+- `onRetry`: () => void — Try again was pressed after the packs failed to load.
+- `children`: ReactNode — The work the sheet sits over; it stays usable behind it.
+- `gaugeStyle`: "vial" | "orb" | "bar" (default "vial") — The gauge: a tall vial, a round flask, or a wide capsule.
+- `density`: "compact" | "cozy" | "roomy" (default "cozy") — Padding, gaps and type size.
+- `accent`: "cobalt" | "mint" | "amber" | "ink" | string (default "cobalt") — The liquid, the selection and Buy: a named pigment or any CSS colour.
+- `formatMoney`: (amount) => string (default Intl USD) — How a price is written.
+- `disabled`: boolean (default false) — Buying and auto-recharge are unavailable; the sheet can still be read and dismissed.
+- `className`: string — Classes for the frame; a height class replaces its default 35rem.
+
+Notes:
+- Keyboard: packs are a radiogroup (arrows move and select, Home and End jump); the threshold is a role="slider" with valuetext (arrows step 50, Page Up and Page Down 250, Home and End); Escape inside the sheet dismisses it and focus moves to the reopen pill, and reopening focuses the sheet's heading.
+- The gauge is role="meter" with a valuetext sentence; Buy keeps focus while charging (aria-busy) and a declined payment is a role="alert" with the reason, the pack still chosen.
+- Performance: the liquid's frame loop runs only while the level or the slosh is moving and stops when settled, off screen or in a hidden tab; the paths are written through motion values, never React state.
+- Reduced motion: the level steps on a short tween with a still surface; the band, figures and runway still change.
+- No scrim and nothing inert: the work stays usable. Under a 36rem container the sheet covers the width as a bottom sheet; wider, it floats bottom-right at 24rem.
+
+### Upgrade Request (KQ-1705) — `upgrade-request`
+Ask your admin for the upgrade in one tap.
+
+A member's upgrade request: the locked feature, the admins who can approve it as a radiogroup, and a card with the plan and a note. Send folds the card into an envelope that scales from the card's measured box on springs.glide while its flap closes on springs.snap, then flies to the chosen admin's avatar with x on glide and y on springs.drift so the path arcs, where the ring lands and a Pending chip arrives on springs.recoil. Approval unlocks the feature in place — the shackle swings open on snap and the veil lifts — and a decline shows the admin's note with a way to ask someone else; admins move with arrows, Home and End, and focus moves to Remind once the request lands.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/upgrade-request`
+
+Props:
+- `admins`: UpgradeRequestAdmin[] (default defaultUpgradeRequestAdmins) — Who can approve: { id, name, role, presence?, tint? }.
+- `plan`: UpgradeRequestPlan (default defaultUpgradeRequestPlan) — The plan asked for: { name, price, adds }.
+- `feature`: UpgradeRequestFeature (default defaultUpgradeRequestFeature) — The feature the member reached for: { name, description }.
+- `reason`: string (default a sentence about the Q3 roadmap) — The note's starting text.
+- `value / defaultValue`: string (default — / the first admin online) — The chosen admin id, controlled or initial.
+- `onValueChange`: (id) => void — Fires from the press or key that chose an admin.
+- `request / defaultRequest`: UpgradeRequestRecord | null (default — / null) — The request: { adminId, note, at, status, reply?, remindedAt? }; set its status to answer it.
+- `onRequestChange`: (request | null) => void — Fires when asking creates the request, a reminder updates it, or Ask someone else clears it.
+- `onRequest`: (details: { admin, note }) => void | Promise — Send was pressed; a promise holds the button and a rejection keeps the form with its message.
+- `onRemind`: (request) => void — Remind was pressed on a pending request.
+- `onOpenFeature`: () => void — The unlocked feature's Open button was pressed.
+- `now`: number (default defaultUpgradeRequestNow) — The moment times are written against, in ms.
+- `remindAfter`: number (default 15) — Minutes before a second reminder can go.
+- `maxNote`: number (default 280) — The note's length limit, in characters.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the admins have arrived.
+- `onRetry`: () => void — Try again was pressed after the admins failed to load.
+- `cardStyle`: "raised" | "outline" | "tinted" (default "raised") — The request card: a raised popover, a hairline outline, or a wash of the accent.
+- `envelopeStyle`: "classic" | "airmail" | "plain" (default "classic") — The envelope the card folds into: flap and seams, an airmail border, or a plain sleeve with a seal.
+- `accent`: "cobalt" | "mint" | "amber" | "ink" | string (default "cobalt") — The selection, Send and the envelope's seal: a named pigment or any CSS colour.
+- `formatTime`: (ms) => string (default "14:32" (24-hour UTC)) — How a time is written.
+- `maxHeight`: number (default 560) — The surface's height cap in px; it scrolls inside it.
+- `disabled`: boolean (default false) — Nothing can be sent; the request can still be read.
+- `className`: string — Classes for the surface.
+
+Notes:
+- Keyboard: admins are a radiogroup with roving tabindex (arrows, Home, End); the note is a labelled textarea whose count is its description; Send stays focusable while sending (aria-busy), and focus moves to Remind when the request lands.
+- The envelope layer is aria-hidden and every outcome is announced once ("Asked Priya Raman at 14:32. Pending."); each admin's name carries their role, presence and the request's state.
+- The flight is one set of animate() calls measured against the surface at the moment of sending, so it flies true inside any scroller; unmounting or a StrictMode rehearsal lands it rather than freezing it. Nothing runs at rest.
+- Reduced motion: nothing folds or flies — the card cross-fades to the pending summary and the chip fades in; the lock opens with a fade.
+- Lays out by container: stacked under 36rem with the preview trimmed to two versions, the locked preview beside the admins and card above it.
+
+### Passkey Enrol (KQ-1706) — `passkey-enrol`
+Add a passkey so the password can retire.
+
+A passkey setup step: a key inside a disc with rings round it, a short explanation, Create, and the devices already enrolled. While the platform prompt is open the rings draw slowly one after another on a symmetric tween and then turn very slowly, only in view and in a visible tab; success contracts every ring onto the key on springs.glide, outer ones a beat behind, into a solid mark that settles on springs.snap with a check drawn on springs.flick, while the new device slides into the list from 8px on glide with a New chip landing on springs.recoil. Rename edits in place (Enter saves, Escape cancels), Remove asks in the row, and cancelled prompts and unsupported browsers each get a plain message and a fallback.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/passkey-enrol`
+
+Props:
+- `account`: PasskeyAccount (default defaultPasskeyAccount) — Whose passkeys these are: { name, email }.
+- `devices / defaultDevices`: PasskeyDevice[] (default — / defaultPasskeyDevices) — The enrolled devices: { id, name, kind, addedAt, lastUsedAt? }, controlled or initial.
+- `onDevicesChange`: (devices) => void — Fires with the whole list after an enrol, a rename or a remove.
+- `onEnrol`: () => PasskeyDevice | Promise<PasskeyDevice> — Opens the platform prompt; resolve with the new device, reject with { reason: "cancelled" | "unsupported" | "error" } or the platform's NotAllowedError.
+- `onRename`: (device, name) => void — A device was renamed.
+- `onRemove`: (device) => void — A device was removed after its confirm.
+- `onFallback`: (kind: "other-device" | "password") => void — A fallback was chosen.
+- `supported`: boolean (default true) — Whether this browser can create passkeys; false shows the unsupported message from the start.
+- `now`: number (default defaultPasskeyNow) — The moment "used today" counts from, in ms.
+- `ringCount`: number (default 3) — How many rings draw round the key, 2 to 5.
+- `drawDuration`: number (default 1400) — Milliseconds each ring takes to draw while the prompt is open.
+- `title`: string (default "Add a passkey") — The heading.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the device list has arrived.
+- `onRetry`: () => void — Try again was pressed after the list failed to load.
+- `ringStyle`: "rings" | "arcs" | "dots" (default "rings") — The rings: full circles, broken arcs that turn both ways, or rings of dots.
+- `density`: "compact" | "cozy" | "roomy" (default "cozy") — Padding, row height and type size.
+- `accent`: "cobalt" | "mint" | "amber" | "ink" | string (default "cobalt") — The rings, the solid mark and Create: a named pigment or any CSS colour.
+- `formatDate`: (ms) => string (default "3 Sep" (UTC)) — How a date is written.
+- `maxHeight`: number (default 560) — The surface's height cap in px; the list scrolls inside it.
+- `disabled`: boolean (default false) — Nothing can be enrolled, renamed or removed.
+- `className`: string — Classes for the surface.
+
+Notes:
+- Keyboard: Create stays focusable while the prompt is open (aria-busy); every row's Rename and Remove are buttons named with the device; Rename's field saves on Enter and Escape cancels and returns focus; after a remove, focus moves to the next device (or Create).
+- The rings are aria-hidden; each phase is one polite sentence, and cancelled, unsupported and failed prompts each get a plain paragraph with a fallback button.
+- Wire onEnrol to the platform's credential creation; a rejection with name NotAllowedError (the visitor closed the prompt) reads as cancelled, NotSupportedError as unsupported.
+- Performance: the ring turn runs only while the prompt is open, in view and in a visible tab; the draws are one-shot tweens and nothing runs at rest.
+- Reduced motion: the rings sit fully drawn and breathe in opacity while the prompt is open; success cross-fades to the solid mark and the new row fades in.
+
+### Inbox Wait (KQ-1707) — `inbox-wait`
+We've sent a link; this page will notice.
+
+A magic-link waiting screen where an envelope rests in a slow breathing glow — a mirrored tween whose strength is glowAmount, running only while waiting, in view and in a visible tab — beside the address, a Resend that counts down and a way to change the address. The page notices the link opening through a BroadcastChannel another tab posts to, an onCheck asked when the tab regains focus, or the host's status; then the flap swings open on springs.snap, the letter rises on springs.glide and grows into the signed-in welcome through a shared layout on glide while the welcome's lines arrive in a cascade. Expired links and links opened on another device each explain the next step.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/inbox-wait`
+
+Props:
+- `email`: string (default "ana@waylight.studio") — Where the link went.
+- `status / defaultStatus`: "waiting" | "verified" | "expired" | "other-device" (default — / "waiting") — The page's state, controlled or initial.
+- `onStatusChange`: (status) => void — Fires when the page notices the link opened, the link expires, or a new link goes out.
+- `sentAt`: number (default 6 s before now) — When the link was sent, in ms.
+- `now`: number (default defaultInboxWaitNow) — The moment the page first renders, in ms; its timers count on from it.
+- `resendAfter`: number (default 30) — Seconds before Resend becomes available.
+- `expiresAfter`: number (default 15) — Minutes a link stays valid; the page turns to expired when it lapses.
+- `onResend`: () => void | Promise — Resend was pressed; a promise holds the button.
+- `onChangeEmail`: (email) => void — A new address was saved; a fresh link is assumed to have gone to it.
+- `onVerified`: (info: { name?, via }) => void — The page noticed the link was opened, and how ("channel", "check" or "host"); fires once per link.
+- `onContinue`: () => void — Continue was pressed on the welcome.
+- `channel`: string (default —) — A BroadcastChannel name; another tab posts { type: "verified", name? } (or "expired", "other-device").
+- `onCheck`: () => boolean | Promise<boolean> — Asked when the tab regains focus (and every pollInterval ms while visible); resolve true once the link has been opened.
+- `pollInterval`: number (default 0) — Milliseconds between checks while visible and on screen; 0 checks only on focus.
+- `name`: string (default "Ana") — Who the welcome greets.
+- `product`: string (default "Waylight") — The product being signed in to.
+- `envelopeStyle`: "flap" | "mailer" | "line" (default "flap") — The envelope: a classic flap, a mailer with a tear strip, or line art.
+- `glowAmount`: number (default 0.6) — How strongly the resting envelope glows, 0 to 1; 0 is unlit and still.
+- `tone`: "calm" | "warm" | "mono" (default "calm") — The glow, the seal and the primary action: cobalt, amber or ink.
+- `disabled`: boolean (default false) — Resend and Change email are unavailable.
+- `className`: string — Classes for the surface; it is max-w-sm unless widened here.
+
+Notes:
+- Keyboard: Resend is a button with aria-disabled until its timer ends and its name carries the wait ("Resend link, available in 24 seconds"); the countdown itself is announced only when it reaches zero. Change email swaps in a labelled field (Enter sends, Escape cancels) and focus returns to Change email.
+- A status change moves focus to the new heading only when focus was already inside (or nowhere), so a link noticed in the background never steals focus from the rest of the page.
+- Timers never read the clock in render: they count on from now, schedule only the next tick that changes something, pause in a hidden tab and re-sync when it is shown. The glow loop stops off screen, in a hidden tab, at glowAmount 0 and in every state but waiting.
+- Close the BroadcastChannel loop by posting from the page the link opens: new BroadcastChannel(name).postMessage({ type: "verified", name }).
+- Reduced motion: the glow is a still halo and the envelope cross-fades to the welcome; nothing travels.
+
+### Workspace Lobby (KQ-1708) — `workspace-lobby`
+Choose which workspace to open.
+
+The screen after sign-in: your workspaces as tiles with role, people and last visit, invitations in their own row, and a way to create one. Choosing a tile grows its real box from the tile's measured place to fill the panel on springs.glide while every other tile steps back on the same spring, the workspace's spaces cascade in under a loading line, and the answer resolves to a check drawn on springs.flick — or folds the tile back with the reason; a single accent plate travels between tiles on springs.snap. The tiles are a listbox: arrows walk them by their rendered rows, letters jump by name, Enter opens and Escape folds back.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/workspace-lobby`
+
+Props:
+- `workspaces`: LobbyWorkspace[] (default defaultLobbyWorkspaces) — The workspaces you belong to: { id, name, handle?, members, people?, role, lastVisit?, unread?, tint?, spaces? }.
+- `invitations`: LobbyInvitation[] (default defaultLobbyInvitations) — Invitations waiting for an answer: { id, name, handle?, invitedBy, role, members, tint?, sentAt? }.
+- `account`: { name, email } (default defaultLobbyAccount) — Who is signed in, shown in the header.
+- `now`: number (default defaultLobbyNow) — The clock (epoch ms) every last visit and invitation age is measured from.
+- `value / defaultValue`: string | null (default — / first workspace) — The active tile — the option the arrows are on — controlled or initial.
+- `onValueChange`: (id) => void — Fires from the arrow, type-ahead or press that moved the active tile.
+- `onSelect`: (workspace) => void | Promise<void> — A workspace was chosen. A promise holds the expanded tile while it loads; a rejection folds it back and shows the message on the tile.
+- `onCancel`: (workspace) => void — Cancel, Switch or Escape folded the open workspace back into its tile.
+- `onCreate`: () => void — Create a workspace was pressed (the dashed row, or the empty state's button).
+- `onJoin`: (invitation) => void | Promise<void> — Join was pressed. While a promise runs the card reads Joining…; when the host moves it into workspaces the tile lands from the card's place.
+- `onDecline`: (invitation) => void — Decline was pressed on an invitation.
+- `onSwitchAccount`: () => void — Switch account was pressed in the header.
+- `status`: "ready" | "loading" | "error" (default "ready") — Skeleton tiles while loading; a message and Try again on error.
+- `onRetry`: () => void — Try again was pressed after loading failed.
+- `tileStyle`: "card" | "row" | "poster" (default "card") — A card, a compact row, or a poster with a seeded contour band.
+- `columns`: number (default 3) — Tile columns at wide widths, 1 to 4; two at most below 44rem and one below 30rem of container.
+- `accent`: string (default "var(--accent-bright)") — The selection plate, the loading line, unread dots and Join, any CSS colour.
+- `title`: string (default "Choose a workspace") — The heading that names the listbox.
+- `maxHeight`: number (default 560) — Tallest the panel grows, in px, before its body scrolls.
+- `disabled`: boolean (default false) — Nothing can be opened, joined or created; the tiles stay readable and reachable.
+- `className`: string — Classes for the wrapper.
+
+Notes:
+- Keyboard: the tiles are a role="listbox" with roving tabindex — Left and Right move one, Up and Down move a rendered row (columns are measured, so it works at every width), Home and End jump, letters jump by name, Enter or Space opens. While a workspace opens the list is inert, focus moves to the panel's Cancel, Escape folds it back and focus returns to the tile.
+- Each tile's accessible name is one sentence — name, role, members, last visit, unread — and opening, opened, failure and joining are each announced once in a polite live region.
+- Return a promise from onSelect to hold the expanded tile while the workspace loads; reject with an Error and its message is shown on the tile it folds back to. A late answer for a cancelled opening is ignored.
+- Times come from the now prop in fixed buckets ("2 h ago", "Yesterday"), so the server and the browser render the same words.
+- Reduced motion: nothing travels or scales — the panel cross-fades in at full size, the other tiles dim, the plate moves instantly — and the loading line still fills and the check still appears.
+- No loop at rest: the only repeating animation is the loading line, mounted only while a workspace is opening.
+
+### Org Discovery (KQ-1709) — `org-discovery`
+Type your email; we find your company's sign-in.
+
+A sign-in step that finds a company's own sign-in from the email domain. When a typed domain is recognised, a wash appears behind the domain's own letters — found to the pixel from a hidden mirror of the field's text — and lifts off them onto the field's top edge, growing into a badge with the company's mark on springs.glide while its shadow swells in flight and settles; the main button's words roll to single sign-on on springs.snap and the password folds away to its measured height on glide. Change the address and the badge drops back into the field where the domain now starts; it is a real form, so Tab, Enter and the announcements all behave as a sign-in should.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/org-discovery`
+
+Props:
+- `orgs`: OrgDiscoveryOrg[] (default defaultOrgDiscoveryOrgs) — Companies with their own sign-in: { id, name, domains, methods, provider?, tint? }.
+- `lookup`: (domain) => Promise<OrgDiscoveryOrg | null> (default matches orgs) — Looks a domain up elsewhere; resolve null for unknown. A rejection falls back quietly to the password and code.
+- `lookupDelay`: number (default 280) — Quiet time after typing before a domain is looked up, in ms.
+- `value / defaultValue`: string (default — / "") — The email, controlled or initial.
+- `onValueChange`: (email) => void — Fires from every keystroke in the email field.
+- `onContinue`: (details) => void | Promise<void> — The main button was pressed with { email, method: "sso" | "password", org, password? }. A promise holds it busy; a rejection keeps the step and shows its message under the field it concerns.
+- `onUseOtherMethod`: (method: "code" | "password", email) => void — "Email me a sign-in code" or "Use a password instead" was pressed.
+- `onForgotPassword`: (email) => void — "Forgot password?" was pressed.
+- `onOrgChange`: (org | null) => void — The recognised company changed, reported from the lookup or the keystroke that changed it.
+- `onCreateAccount`: () => void — "Create an account" was pressed under the form.
+- `error`: string — A message from the host about the last attempt, shown under the field it concerns.
+- `productName`: string (default "Waylight") — Your product's name, used in the heading, the aside and the footer.
+- `title`: string (default "Sign in to {productName}") — The heading that names the form.
+- `badgeStyle`: "chip" | "tag" | "mark" (default "chip") — The lifted domain as a pill with mark and name, a tag with an SSO segment, or the mark alone.
+- `density`: "compact" | "cozy" | "roomy" (default "cozy") — Field height, gaps and type size.
+- `accent`: string (default "var(--accent-bright)") — The wash, the tether under the domain, the main button and links, any CSS colour; the button's ink adapts to its lightness.
+- `showAside`: boolean (default true) — Show the explanatory side panel when the container is 40rem or wider.
+- `autoFocus`: boolean (default false) — Focus the email field on mount.
+- `disabled`: boolean (default false) — Nothing can be typed or pressed.
+- `className`: string — Classes for the wrapper.
+
+Notes:
+- It is a real <form>: the email field is type="email" with autocomplete="username", the password field autocomplete="current-password", Enter submits, and the submit button stays focusable while busy (aria-busy). Errors are role="alert" and linked to their field with aria-describedby and aria-invalid.
+- The badge is decorative; the field is described by a visually hidden sentence ("Basinworks uses single sign-on through Basinworks ID.") and the change is announced once in a polite live region, from the lookup or the keystroke that caused it.
+- Pass lookup to ask your own service; answers that arrive after the address changed are dropped by sequence, a rejection falls back quietly to the password and code, and a failed domain is tried again the next time it is typed.
+- Reduced motion: nothing travels — the badge fades in and out at its resting place on the field's edge, the button's words cross-fade and the sections swap without folding.
+- No loop at rest: the three lookup dots breathe only while a lookup is pending, and one ResizeObserver keeps a resting badge and the domain's tether in place as the field resizes.
+
+### Recovery Route (KQ-1710) — `recovery-route`
+Locked out? Choose the way back in.
+
+An account recovery chooser drawn as a map: you on one side, the ways back in on the other — backup code, recovery email, trusted contact, support review — each with how long it takes. Choosing one draws the route from you to its card, revealed along its own length by a mask whose stroke runs on springs.glide with a traveller riding the leading point, and the card's notch answers with a ring on springs.snap; the steps slide in 16px from the side the choice came from under an honest wait counted from now. The methods are a real radio group — arrows choose and skip the ones not set up — and below 44rem of container the route runs down a gutter beside the list.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/recovery-route`
+
+Props:
+- `methods`: RecoveryMethod[] (default defaultRecoveryMethods) — The ways back in: { id, kind, label, detail?, wait, waitMinutes?, target?, steps?, available?, reason? }.
+- `account`: { name, email } (default defaultRecoveryAccount) — The locked account, named in the heading and on your node.
+- `now`: number (default defaultRecoveryNow) — The clock (epoch ms) every "expected by" is counted from.
+- `value / defaultValue`: string | null (default — / null) — The chosen method, controlled or initial.
+- `onValueChange`: (id) => void — Fires with the id from the press or arrow that chose a method.
+- `onChoose`: (method) => void — Fires with the whole method from the press or arrow that chose it.
+- `onSubmit`: (method, { stage, code?, message? }) => void | Promise<void> — A step was submitted. A promise holds its button; resolving advances the step, a rejection keeps it and what was typed, with the message.
+- `onContactSupport`: () => void — "Contact support" was pressed under everything.
+- `status`: "ready" | "loading" | "error" (default "ready") — Skeleton cards while loading; a message and Try again on error.
+- `onRetry`: () => void — Try again was pressed after loading failed.
+- `routeStyle`: "curve" | "dotted" | "metro" (default "curve") — A smooth curve, round dots, or an orthogonal metro line with a rail down its middle.
+- `density`: "compact" | "cozy" | "roomy" (default "cozy") — Card padding, gaps and type size.
+- `tone`: "calm" | "warm" | "plain" (default "calm") — The route, your node's ring, the chosen card's edge and the buttons: cobalt, amber or ink.
+- `formatTime`: (at, now) => string (default recoveryTime (UTC)) — Writes an expected time; the default reads "today 09:35" or "Thu 09:30" in UTC so server and browser agree.
+- `title`: string (default "Locked out of {email}?") — The heading.
+- `maxHeight`: number (default 560) — Tallest the panel grows, in px, before its body scrolls.
+- `disabled`: boolean (default false) — Nothing can be chosen or submitted.
+- `className`: string — Classes for the wrapper.
+
+Notes:
+- Keyboard: the methods are a role="radiogroup" with roving tabindex; arrows move and choose, skipping methods that are not set up (they stay readable with aria-disabled and their reason as the description), Home and End jump, Space and Enter choose.
+- Each step list is an ordered list with the current step marked aria-current="step"; inputs are labelled, errors are role="alert" linked by aria-describedby, and submit buttons stay focusable while busy (aria-busy). A choice is announced once with its wait.
+- The route is decorative and measured from the rendered cards by one ResizeObserver, so it lands on each card's notch at any width and density; the first draw waits until the map is on screen.
+- Times are counted from the now prop; pass formatTime to write them in the visitor's own zone once you are past hydration.
+- Reduced motion: the route appears whole without a traveller, the notch shows without its ring, and the steps cross-fade in place; ticks and the honest wait still show.
+
+### Spare Keys (KQ-1711) — `spare-keys`
+Ten backup codes, saved before you continue.
+
+A backup codes sheet that has to be kept before you go on. The codes are dealt onto the sheet when it comes into view — each ticket leaves a tilted deck above the grid and flies to its cell on springs.glide while its tilt settles on springs.snap, staggered by cascade — and Copy all flashes every ticket in turn as its code lands on the clipboard. Continue carries a padlock that stays shut until the box is ticked, then its shackle lifts and turns open about its right leg on springs.snap. Every action is a button: each ticket copies itself, Download saves a .txt, Print prints the codes alone, and Regenerate warns in place, strikes the old set and deals the new one.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/spare-keys`
+
+Props:
+- `codes`: string[] (default defaultSpareKeysCodes) — The backup codes, in order.
+- `used`: string[] (default []) — Codes already spent: struck through, named "used" and left out of Copy all.
+- `account`: string (default "mara@fieldline.io") — Whose codes these are, shown in the header, the file and the print.
+- `issuer`: string (default "Fieldline") — The service they unlock, used in the file and the print.
+- `generatedAt`: number (default defaultSpareKeysGeneratedAt) — When the set was made, epoch ms.
+- `now`: number (default defaultSpareKeysNow) — The clock "made today 09:12" is read against, epoch ms (UTC).
+- `confirmed / defaultConfirmed`: boolean (default — / false) — The "I've saved these codes" box, controlled or initial.
+- `onConfirmedChange`: (confirmed) => void — Fires from the tick, or from Regenerate clearing it because the saved set is gone.
+- `onCopy`: (codes) => void — Codes were written to the clipboard: every unused one, or the ticket pressed.
+- `onDownload`: (codes) => void — Download was pressed; the sheet saves the .txt itself, then this fires.
+- `onPrint`: (codes) => void (default prints a hidden frame) — Print was pressed. Omit it and the sheet prints the codes alone through a hidden frame.
+- `onRegenerate`: () => void | Promise<void> — New codes were confirmed after the warning. Return a promise while they are made and pass the new set back through codes; a rejection restores the old set.
+- `onConfirm`: () => void — Continue was pressed with the box ticked.
+- `fileName`: string (default "fieldline-backup-codes.txt") — The downloaded file's name.
+- `status`: "ready" | "loading" | "error" (default "ready") — Ten skeleton tickets while the codes are made; a message and Try again on error.
+- `onRetry`: () => void — Try again was pressed after making codes failed.
+- `cellStyle`: "ticket" | "plain" | "slip" (default "ticket") — A notched ticket with a perforation, a plain cell, or a slip with a tear-off stub.
+- `columns`: number (default 2) — Columns where the sheet is wide enough, 2 to 5; always two under 19rem of container and three at most under 34rem.
+- `accent`: string (default "var(--accent-bright)") — The copy flash, the key glyph, the box and Continue's fill, any CSS colour; Continue's ink adapts to its lightness.
+- `deal`: "inView" | "mount" | "none" (default "inView") — When the codes are dealt onto the sheet; they are dealt again after a regenerate.
+- `disabled`: boolean (default false) — Every action is unavailable.
+- `className`: string — Classes for the wrapper.
+
+Notes:
+- Every action is a real <button>, including each ticket (named "Code 4, h2wy 7ke6, copy"); the grid is a list labelled by the heading. The confirmation is a real checkbox, and Continue stays focusable while locked (aria-disabled, described by "Tick the box to continue") — pressing it lights the box's row instead.
+- Copy, download, print and regenerate results are announced once in a polite live region. Regenerate opens a warning in place of the actions with its safer button focused; Escape closes it and returns focus to Regenerate.
+- The clipboard write is attempted quietly: on a page without clipboard access the flash still shows and onCopy still fires, so the host can offer another way.
+- Reduced motion: nothing is dealt or turns — the tickets are simply there, Copy all marks every ticket at once, and the lock shows open while Continue still takes the accent.
+- No loop: the deal runs once per set after the sheet enters view (IntersectionObserver, disconnected after), flashes are timed animations stopped on unmount, and the print frame and download URL are removed after use.
+
+### Authenticator Pair (KQ-1712) — `authenticator-pair`
+Scan, enter the code, and two-step is on.
+
+An authenticator setup: a QR code with the secret written beside it for typing by hand, then a six-digit check. When it comes into view the QR assembles from its centre outward in square rings of modules, each fading up from 0.6 scale on springs.snap with the finder eyes landing in their ring; digits drop into their slots on springs.flick and a paste lands left to right. A correct code folds the rings back into the centre from the outside in, a disc grows on snap, a check draws across it on flick and the step marker's pill slides on to On; a wrong code nudges on a short tween and keeps the digits.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/authenticator-pair`
+
+Props:
+- `secret`: string (default defaultAuthenticatorSecret) — The shared secret, base32, shown in groups of four for typing by hand.
+- `account`: string (default "mara@fieldline.io") — The account the app will list.
+- `issuer`: string (default "Fieldline") — The service the app will list.
+- `modules`: boolean[][] (default seeded stand-in) — A real QR matrix from your encoder (true is dark). Omitted, a seeded 25 × 25 stand-in with real finder, timing and alignment patterns is drawn from the secret.
+- `digits`: number (default 6) — How many digits the app shows.
+- `value / defaultValue`: string (default — / "") — The code, controlled or initial; non-digits are dropped.
+- `onValueChange`: (code) => void — Fires from every keystroke or paste in the code field, digits only.
+- `onVerify`: (code) => boolean | Promise<boolean> — Checks a full code. True turns two-step on; false keeps the digits and says so; a throw says the check failed. Omitted, any full code is accepted.
+- `onCancel`: () => void — Cancel was pressed in the footer.
+- `onCopySecret`: (secret) => void — The setup key was copied (spaces removed).
+- `onDone`: () => void — Done was pressed after two-step turned on.
+- `autoSubmit`: boolean (default true) — Check the code as soon as the last digit lands, whether typed, pasted or set by the host; each code is checked once.
+- `assemble`: "inView" | "mount" | "none" (default "inView") — When the QR assembles from its centre; the server renders it whole.
+- `status`: "ready" | "loading" | "error" (default "ready") — A still placeholder while the key is made; a message and Try again on error.
+- `onRetry`: () => void — Try again was pressed after the key failed to load.
+- `moduleStyle`: "square" | "dot" | "soft" (default "square") — Crisp squares, dots with round finders, or soft rounded squares.
+- `density`: "compact" | "cozy" | "roomy" (default "cozy") — QR size, paddings, slots and type.
+- `accent`: string (default "var(--accent-bright)") — The step marker, the next slot, the finder eyes (deepened so they still scan), the check disc and Verify, any CSS colour.
+- `maxHeight`: number (default 560) — Tallest the panel grows, in px, before its body scrolls.
+- `disabled`: boolean (default false) — Nothing can be typed, copied or pressed.
+- `className`: string — Classes for the wrapper.
+
+Notes:
+- The code is one real <input inputmode="numeric" autocomplete="one-time-code"> drawn as slots, so autofill, paste and screen readers all see an ordinary field; its label is the step's heading and errors are role="alert" linked by aria-describedby. Verify stays focusable while checking (aria-busy).
+- The QR is an img named "QR code for Fieldline, mara@fieldline.io" and the key beside it is real, selectable text with a Copy button. Pass modules from your own encoder for a code that scans; it is always printed dark on a light plate so it scans in dark mode too.
+- The marker is an ordered list with aria-current="step"; success is announced once ("Two-step sign-in is on."). A refused code keeps the digits and, if the field has focus, selects them so typing replaces them — focus is never pulled into the field from elsewhere.
+- Reduced motion: the QR fades in whole and cross-fades to the check disc with its check drawn; digits appear without dropping and the wrong-code nudge becomes the slots' danger underline.
+- No loop at rest: the assembly is one path per ring (about a dozen elements, not one per module), run once after the panel enters view; the matrix is memoised per secret.
+
+### Step Up Check (KQ-1713) — `step-up-check`
+Confirm it's you before the sensitive change.
+
+A step-up verification standing in front of a sensitive settings panel: the panel sits behind a real backdrop-blur frost while a dialog asks for a passkey or password. Verifying opens the lock on snap, then the frost clears outward from the lock itself, its radial mask growing on glide with an accent ring riding the edge, while the opened lock flies into the header chip on the same spring and the chip counts the elevated session down; expiry closes the frost back in toward the lock on glide. Refused tries shake the field on a symmetric tween and are counted and explained, Tab wraps inside the dialog, Escape dismisses it to an Unlock button, and below 28rem the dialog becomes a bottom sheet.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/step-up-check`
+
+Props:
+- `action`: string (default "change where payouts go") — The sensitive change, as it reads after "You're about to".
+- `methods`: ("passkey" | "password")[] (default ["passkey", "password"]) — The ways to verify, in the order offered; the first is the primary one.
+- `account`: { name: string; email: string } (default defaultStepUpAccount) — Who is verifying, shown under the title.
+- `heading`: string (default "Billing and payouts") — The protected section's name, in the header strip beside the session chip.
+- `title`: string (default "Confirm it's you") — The dialog's title.
+- `children`: ReactNode — The protected content; inert and frosted until verified. A quiet placeholder panel when omitted.
+- `verified / defaultVerified`: boolean (default — / false) — Whether the elevated session is open, controlled or initial.
+- `onVerifiedChange`: (verified: boolean) => void — Fires from the verification, expiry or Lock now that changed it.
+- `onVerify`: (attempt: { method, password? }) => boolean | void | Promise<boolean | void> — Checks a try. Return or resolve false, or reject, to refuse it; an Error's message is shown as the reason. Accepts every try when omitted.
+- `onFail`: (failure: { method, attempt, remaining, message }) => void — A try was refused, with the tries left and the reason shown.
+- `onExpire`: () => void — The elevated session ran out and the panel locked again.
+- `onLock`: () => void — Lock now was pressed on the session chip.
+- `onCancel`: () => void — Not now, or Escape, dismissed the dialog; the panel stays locked.
+- `sessionDuration`: number (default 900000) — How long the elevated session lasts, in ms.
+- `warnAt`: number (default 60000) — How long before the end the chip turns to a warning, in ms.
+- `maxAttempts`: number (default 5) — Refused tries before verification pauses.
+- `forgotHref`: string — Where "Forgot password?" goes; the link is hidden when omitted.
+- `autoFocus`: boolean (default false) — Move focus into the dialog when it first shows. Leave off when the check renders with the page.
+- `frostAmount`: number (default 0.6) — How heavy the frost is, 0 to 1: blur radius and tint strength.
+- `lockStyle`: "padlock" | "keyhole" | "shield" (default "padlock") — The lock's glyph and how it opens: a shackle that swings, a key slot that turns, or a check drawn on flick.
+- `accent`: string (default "var(--accent-bright)") — Any CSS colour for the badge, the primary button, the clearing edge and the session chip.
+- `disabled`: boolean (default false) — Every method is unavailable.
+- `className`: string — Classes for the outer section.
+
+Notes:
+- Keyboard: the dialog traps Tab and takes Escape (dismissing to an Unlock button that brings it back focused); Enter submits the password; after verifying, focus moves to the session chip, whose Enter is Lock now.
+- Reduced motion: nothing travels or shakes — the frost fades out, the lock swaps to open, the chip cross-fades — while the countdown, the counted tries and the reasons still update.
+- Performance: nothing runs while locked; the countdown ticks once a second only while the surface is on screen and the tab visible, expiry is one wall-clock timeout, and the frost layer is hidden once clear so no backdrop blur costs anything while elevated.
+- Pass your real panel as children: it stays mounted (inert while locked), so its state and scroll survive the check.
+- The dialog never takes focus on mount unless autoFocus is set, so a page that renders the check does not jump to it.
+- Colours come from tokens and the accent prop; the button text picks light or dark ink from the accent's lightness, so any accent reads in both themes.
+
+### Session Lapse (KQ-1714) — `session-lapse`
+Still there? Stay signed in with a tap.
+
+An idle-timeout guard for a page: before the session ends an alert dialog rises over it with a ring that drains linearly while the seconds in its middle count down, both read off one motion value. Stay signed in, Escape, or a press, key or scroll outside the dialog refills the ring on glide while it pops on snap and the seconds count back up, then the dialog leaves on the exit ease; letting it run out fades the page into a signed-out note that keeps the unsaved draft. Focus moves to Stay signed in when the warning appears, Tab wraps inside it, and the countdown is announced when the warning appears, at 30 seconds in longer warnings, and at 10.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/session-lapse`
+
+Props:
+- `timeout`: number (default 900000) — Idle time before the session ends, in ms.
+- `warningTime`: number (default 60000) — How long before the end the warning appears, in ms; the ring counts this window down.
+- `open / defaultOpen`: boolean (default — / false) — Whether the warning is showing, controlled or initial.
+- `onOpenChange`: (open: boolean) => void — Fires when the warning appears or leaves, from whatever caused it.
+- `watch`: "document" | "self" | "none" (default "document") — Whose activity keeps the session alive: the whole page, only this component's box, or nothing but the button.
+- `paused`: boolean (default false) — Hold the idle clock (a call, a video); it restarts when released, and a showing warning holds its time.
+- `onExtend`: (via: "button" | "activity") => void — The session was extended, by the button or Escape, or by activity during the warning.
+- `onSignOut`: () => void — Sign out was chosen from the warning.
+- `onExpire`: () => void — The warning ran out and the session ended.
+- `onSignIn`: () => void — Sign back in was pressed on the signed-out note.
+- `draft`: { title: string; excerpt: string; words?: number } | null (default defaultSessionLapseDraft) — The unsaved work the signed-out note promises to keep; null for none.
+- `appName`: string (default "Fernworks") — The product's name, in the warning's sentence and the announcements.
+- `title`: string — The warning's title. Defaults by tone: "Still there?", "Are you still working?", "Signing out soon".
+- `labels`: { stay?: string; signOut?: string; signIn?: string } (default Stay signed in · Sign out · Sign back in) — The three actions' words.
+- `ringStyle`: "line" | "ticks" | "pie" (default "line") — How the countdown is drawn: a draining line, a tick per second, or a shrinking sector.
+- `tone`: "calm" | "plain" | "urgent" (default "calm") — The ring's colour and the title's voice: cobalt, ink, or amber turning to danger for the last ten seconds.
+- `children`: ReactNode — The page the session belongs to; inert while the warning or the note shows. A quiet placeholder when omitted.
+- `className`: string — Classes for the outer wrapper.
+
+Notes:
+- Keyboard: focus moves to Stay signed in when the warning appears (unless the visitor is busy elsewhere on the page, or the warning is off screen); Tab wraps inside the dialog and Escape stays signed in. When the note arrives, focus goes to Sign back in if it was inside.
+- Activity: before the warning any pointer, key or scroll activity in scope moves the clock on; once it shows only a press, a key or a scroll outside the dialog extends, so reaching for Sign out with the pointer never cancels the warning.
+- Reduced motion: the ring still drains and the seconds still count, because the time left is information; the refill is a jump and the dialog and note only cross-fade.
+- Performance: while the page is in use nothing ticks — one timeout marks when the warning is due; the drain runs only while the ring is on screen and the tab visible, and expiry is a single wall-clock timeout.
+- The page stays mounted (inert and faded) behind the note, so the draft's state survives the sign-out and comes back on Sign back in.
+
+### Invite Accept (KQ-1715) — `invite-accept`
+Mara invited you to Basinworks; join in two steps.
+
+An invitation landing whose invite is a card: the workspace, who asked, a personal line, the role with what it can do, and when it lapses. Accept turns the card over on snap — its scale dipping with the angle by exactly what perspective adds, so it never grows past its box — while the role chip lifts off on flick, travels flat to its slot on the back on glide and lands on snap, carrying the role to a sign-up form with the name and email already filled. The form is real (labels, autocomplete, Enter submits, errors under their fields, a rejected join kept on the form), focus moves to the first empty field after the turn, Escape turns back, and an expired invite offers to ask again.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/invite-accept`
+
+Props:
+- `invite`: { inviter, workspace, role, roleSummary?, email, name?, note?, sentAt, expiresAt } (default defaultInvite) — The invitation: who sent it, the workspace, the role (and what it can do), the invitee and when it lapses.
+- `now`: number (default defaultInviteNow) — The moment expiry counts from, ms since the epoch; the clock is never read during render.
+- `side / defaultSide`: "front" | "back" (default — / "front") — Which face of the card is up, controlled or initial.
+- `onSideChange`: (side: "front" | "back") => void — Fires from the Accept, Back or Escape that turned the card.
+- `onAccept`: (details: { name, email, password, role }) => void | Promise<void> — The form was sent. A promise holds it pending; a rejection keeps the form with its message, or puts it under the field its `field` names.
+- `onDecline`: (invite) => void — Decline was pressed.
+- `onSignIn`: (email: string) => void — Sign in was chosen instead, with the invite's address.
+- `onRequestNew`: (invite) => void — A new invite was asked for, after expiry or a decline.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the invite has loaded: a skeleton while loading, a broken-link card on error.
+- `passwordMinLength`: number (default 10) — The shortest password the form accepts; the hint ticks when it is met.
+- `cardStyle`: "plain" | "ticket" | "pass" (default "plain") — The card's make: a plain card, a ticket with notches and a perforated stub, or a pass with a coloured band.
+- `flipAxis`: "y" | "x" (default "y") — The axis the card turns about: sideways or top over bottom.
+- `accent`: string (default "var(--accent-bright)") — Any CSS colour for the workspace mark, primary buttons, pass band, role chip and checks.
+- `disabled`: boolean (default false) — Every action is unavailable.
+- `className`: string — Classes for the outer section.
+
+Notes:
+- Keyboard: every button and field is reachable; Enter on Accept turns the card and focus lands on the first empty field once it faces; Enter submits; Escape on the back turns it back with focus on Accept.
+- Reduced motion: the faces cross-fade without turning and the role chip simply appears in its new place; checks appear without drawing and the loading shimmer is still.
+- The hidden face is inert, so its fields never take Tab or reach assistive tech; errors are tied to their fields with aria-describedby and the form's own failure is a role="alert" that stays.
+- Pass `now` from your server (or a stable value) so the expiry line renders the same on the server and in the browser.
+- Performance: nothing runs at rest; the turn and the chip's flight are springs that settle, and the only loop is the loading shimmer, which exists only while status is "loading".
+
+### Cooling Lock (KQ-1716) — `cooling-lock`
+Too many tries; the lock cools before the next.
+
+A lockout panel for after repeated failed sign-ins: frost covers a ring round the lock and thaws clockwise from the top as the wait runs down, in six-armed flakes that shrink on snap and leave a slipping droplet as the front passes, bristling hoarfrost that shortens at the front, or a glaze that drains as one arc. When the last of it melts the shackle lifts on snap and the copy gives way on glide to the sign-in form with the address kept; a new lockout freezes the ring back over on glide before the wait starts again, and a very long one points to support. Unlock by email is always offered, the countdown is announced at sensible marks, and focus moves to the password field when the form returns.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/cooling-lock`
+
+Props:
+- `attempts`: number (default 5) — Failed sign-ins that caused the lock.
+- `cooldown`: number (default 60000) — How long the lock lasts, in ms.
+- `lockedAt`: number (default now) — When the lock began, ms since the epoch. A new value starts a new lockout and the frost grows back.
+- `now`: number (default defaultCoolingNow) — The moment the remaining time is measured from, ms since the epoch; the clock is never read during render.
+- `email`: string (default "rae@fieldline.dev") — The account being signed in to; kept for the retry and the unlock link.
+- `onRetry`: (retry: { email, password }) => boolean | void | Promise<boolean | void> — The retry was sent. Return or resolve false, or reject, to refuse it; an Error's message is shown.
+- `onUnlockByEmail`: (email: string) => void | Promise<void> — Unlock by email was pressed; a promise holds it as sending.
+- `onThaw`: () => void — The wait ran out and the form came back.
+- `supportAfter`: number (default 3600000) — Lockouts longer than this, in ms, point to support instead of counting down.
+- `supportHref`: string (default "#support") — Where Contact support goes on a long lockout.
+- `appName`: string (default "Fieldline") — The product's name, in the sentences.
+- `frostStyle`: "crystal" | "rime" | "glaze" (default "crystal") — The frost's material: six-armed flakes, bristling hoarfrost, or a smooth glaze of ice.
+- `density`: number (default 0.6) — How dense and thick the frost is, 0.2 to 1: flake and spike counts and the band's width.
+- `tone`: "calm" | "firm" | "stern" (default "firm") — The voice and the lock's colour: calm cobalt, firm ink, or stern red.
+- `disabled`: boolean (default false) — The retry and the unlock link are unavailable.
+- `className`: string — Classes for the outer section.
+
+Notes:
+- Keyboard: Unlock by email is always reachable; when the form returns, focus moves to the password field if it was already in the panel, Enter signs in, and a refusal keeps focus in the field with the reason under it.
+- Announcements: the digits are hidden from assistive tech; a polite status says how long the wait is, then 5 minutes, 1 minute, 30 and 10 seconds, and when the lock has cooled.
+- Reduced motion: the ring still thaws by the same front, because the time left is information; flakes fade without shrinking, droplets do not slide, and the copy cross-fades in place.
+- Performance: the thaw and the once-a-second digits run only while the panel is on screen and the tab visible; the end is one wall-clock timeout, and a long lockout runs nothing at all.
+- Re-lock by passing a new lockedAt (and cooldown) from your server's answer; a refused retry the host answers with a new lockout shows the frost, not a stale error.
+- The frost is pigment mixed from the accent token at a fixed lightness, so it reads the same in light and dark themes.
+
+### Number Match (KQ-1717) — `number-match`
+Tap the number you see to approve the sign-in.
+
+A new-device approval drawn as the two screens it happens on: the browser signing in, showing a two-digit number, and the trusted phone asking whether it's you with three numbers to choose from. The right choice joins the screens — a line grows from the number and from the phone's frame level with the chosen key, each half on glide, and they meet in the middle where a dot lands on recoil — while both screens turn to success and a check stamps on recoil; a wrong one reaches in danger, stops short and draws back on a tween as both screens explain the block. The choices are buttons with roving focus (arrows, Home, End; Enter or Space chooses), outcomes are announced, a lifetime bar drains only while it can be seen, and the screens sit side by side, overlap or mirror, stacking in a narrow container.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/number-match`
+
+Props:
+- `request`: { number, choices?, device, place, time, account } (default defaultNumberMatchRequest) — The sign-in being approved: the number shown, the phone's choices (seeded when omitted), and what, where and when.
+- `status / defaultStatus`: "waiting" | "approved" | "blocked" | "denied" | "expired" (default — / "waiting") — Where the request stands, controlled or initial.
+- `onStatusChange`: (status) => void — Fires from the choice, the denial or the expiry that changed it.
+- `onApprove`: (request) => void — The right number was chosen.
+- `onDeny`: (request, reason: "mismatch" | "denied") => void — The request was stopped: a wrong number, or "No, it's not me".
+- `onExpire`: (request) => void — The request ran out of time before anyone chose.
+- `onRetry`: () => void — Try again or Send a new request on the signing-in screen; pass a new request to start over.
+- `expiresIn`: number (default 60000) — How long the request lives, in ms.
+- `timeZone`: string (default "UTC") — The time zone the request's time is shown in.
+- `appName`: string (default "Fieldline") — The product's name, on both screens.
+- `signInUrl`: string (default "fieldline.app/sign-in") — The address in the signing-in window's bar.
+- `secureHref`: string (default "#security") — Where Change your password goes after a block or a denial.
+- `layout`: "split" | "overlap" | "mirror" (default "split") — The two screens side by side, the phone over the window's edge, or the phone first; they stack in narrow containers.
+- `numberSize`: number (default 56) — The number's size on the signing-in screen, in px; the tile's padding scales with it.
+- `accent`: string (default "var(--accent-bright)") — Any CSS colour for the number, the waiting highlights, the lifetime bar and the app marks.
+- `disabled`: boolean (default false) — The choices and the denial are unavailable.
+- `className`: string — Classes for the outer wrapper.
+
+Notes:
+- Keyboard: the three choices are one tab stop; Left/Right (and Up/Down) move between them, Home and End jump, Enter or Space chooses. After an outcome focus moves to the phone's outcome heading if it was on a choice.
+- Reduced motion: the line appears whole on a short fade — dashed when it fails — the check appears without the stamp, and only colours change; the lifetime bar still drains, because the time left is information.
+- Performance: the lifetime bar is a compositor transform tween that runs only while the surface is on screen and the tab visible; expiry is one wall-clock timeout, and the line's ends are measured only at the choice and on resize.
+- The line lands on the phone's frame level with the chosen key, so it never crosses another key or the phone's words; the choices stay in place through every outcome.
+- Pass request.time with a timeZone so the time reads the same on the server and in the browser; choices are seeded from the number when you don't pass them.
+
 ### Pendant Drop (KQ-1782) — `pendant-drop`
 A drop of colour that leans toward your hand.
 

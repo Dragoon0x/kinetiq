@@ -47060,6 +47060,712 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "wayfinding-dots",
+      "type": "registry:ui",
+      "title": "Wayfinding Dots",
+      "description": "Non-blocking hint dots that sit on the corners of the features nobody has opened yet, each breathing slowly from one shared clock with its own phase. Pressing a dot flicks it up on springs.flick, frames the feature on springs.snap and unfolds the tip out of the dot as a clip circle growing from its centre; closing folds it back and the dot flies on springs.glide along an arc into the corner counter, whose digit rolls on springs.snap and pill lands on springs.recoil. Dots are buttons in reading order: Enter opens, Escape closes and moves focus to the next dot, H shows or hides them all, and under 420px the tip is a bottom sheet you can swipe away.",
+      "files": [
+        {
+          "path": "registry/ui/wayfinding-dots.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1693"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "moving-day",
+      "type": "registry:ui",
+      "title": "Moving Day",
+      "description": "The import step of moving into a new workspace: each category the old tool holds is a box with its count, and Start opens them in turn — the lid swings open on springs.snap, the count rolls up in tabular digits straight from a motion value, and the box's things leave it one by one, travelling into the new workspace's preview on springs.glide and landing on springs.recoil, before the box shuts with a tick drawn on springs.flick. A category too big to wait for keeps counting in the background behind a thin bar with a toast, and whatever could not move is listed with its reason for Retry. Start, Pause, Resume, Retry and Open are real buttons (the primary keeps focus as its label changes) and the source is a radiogroup the arrow keys move through.",
+      "files": [
+        {
+          "path": "registry/ui/moving-day.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1694"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "practice-run",
+      "type": "registry:ui",
+      "title": "Practice Run",
+      "description": "A hands-on tutorial where each lesson is one small real task in a sandboxed copy of the interface: a working board whose cards drag 1:1 and glide into their lane on springs.glide, a comment box whose @ opens a real combobox of teammates, a job whose Labels menu opens on springs.snap. A coach line answers what the visitor actually does, one sentence at a time rising into place on springs.snap, and a finished task presses a quiet check stamp onto the sandbox on springs.recoil before the next lesson slides in on springs.glide. Every lesson has a keyboard path (Space picks a card up and the arrows carry it; arrows and Enter pick a person; arrows walk the menu) and a Skip, and progress is a value so a run resumes where it stopped.",
+      "files": [
+        {
+          "path": "registry/ui/practice-run.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1695"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "name-plate",
+      "type": "registry:ui",
+      "title": "Name Plate",
+      "description": "The workspace-creation step: as a name is typed its letters are set onto a plate that swings into the preview sidebar on a pendulum spring — slid along the rail on springs.glide, tilted, and falling through a few decaying swings to hang from its nail — while the address forms beneath the name with each new letter dropping in on springs.flick. Every keystroke is a small impulse to the same pendulum, a new colour re-tints the plate with a bigger push, the address is checked live with a status icon that morphs on springs.snap, and a taken address offers alternatives. Icons and colours are radiogroups the arrow keys move through, Create may return a promise, and a failed create keeps every field.",
+      "files": [
+        {
+          "path": "registry/ui/name-plate.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1696"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "goal-weave",
+      "type": "registry:ui",
+      "title": "Goal Weave",
+      "description": "A goal-selection step whose plan assembles itself: choosing a goal draws a thread out of its card to each of its tasks — the curve split at a growing t on an enter tween, every point rounded — while the tasks arrive from 8px left on springs.glide in a cascade(), and removing a goal retracts its threads and pulls out only the tasks no other goal holds while shared ones stay. The goal cards are checkboxes that lift on springs.snap and follow the arrow keys; plan rows rove with Up and Down, Alt with Up or Down (or a drag of the grip, 1:1 with the release velocity handed to springs.glide) reorders them, and the threads follow every glide from a geometry loop that runs only while something moves.",
+      "files": [
+        {
+          "path": "registry/ui/goal-weave.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1697"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "shortcut-drills",
+      "type": "registry:ui",
+      "title": "Shortcut Drills",
+      "description": "A keyboard practice built from a list of actions and their keys: the screen names an action, you press its shortcut, and every key you press is mirrored on a small keyboard whose caps go down on springs.flick and come back on springs.snap. A correct chord bottoms out together and lights, the caps rise key first and modifiers after, and a bead lifts off the key and flies on an arc into the streak rail on springs.glide, landing on springs.recoil; a wrong one shakes nothing and gently shows the right chord with a breathing ring and a caption. The prompt is a focusable practice pad that takes real chords (Tab and Escape still leave), the board is a roving group of buttons where modifiers latch and a key commits, and the set ends on a summary where any drill can be repeated.",
+      "files": [
+        {
+          "path": "registry/ui/shortcut-drills.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1698"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "last-slot",
+      "type": "registry:ui",
+      "title": "Last Slot",
+      "description": "A project grid at its plan's limit: the used projects, then one ghost slot carrying a lock. Hovering or focusing the ghost unlatches the lock on springs.snap (a shackle swings, a bolt slides out of its keeper, or a dial spins and pops) and a beat later the card turns over on springs.glide, about Y in the grid and about X when it is a wide row, to show the plan that holds more projects and its price while the header's meter glides to the new limit. Every project stays a working button with arrow-key travel by the measured columns; the ghost is one labelled button that upgrades (admins) or asks an admin (members), with Compare plans and Not now beside it.",
+      "files": [
+        {
+          "path": "registry/ui/last-slot.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1699"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "teaser-lens",
+      "type": "registry:ui",
+      "title": "Teaser Lens",
+      "description": "A premium report drawn from the account's own numbers and softly blurred, with a glass lens that reads one region clearly, a little enlarged. The lens follows the finger 1:1 and has weight: it lifts on springs.flick, its rim tilts toward its travel and its highlight slides the other way, and when let go it coasts by projection, settles on springs.glide with the release velocity and sets down on springs.recoil, while an upgrade card trails beside it on a glide spring naming what that region would tell you. The lens is a button: arrows move it, Page keys and Home/End jump between regions, Enter upgrades and Escape puts it away; with no data the report draws a labelled sample, and in a narrow container the lens becomes a full-width band.",
+      "files": [
+        {
+          "path": "registry/ui/teaser-lens.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1700"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "trial-recap",
+      "type": "registry:ui",
+      "title": "Trial Recap",
+      "description": "The screen a workspace sees as its trial runs out: what the team did with it beside the plans. The first time it is seen, the days-left ring sweeps to its share on springs.drift while the day count rolls up, the recap's counts roll up on odometer wheels in cascade on springs.glide (each wheel turns only as the one below it rolls over), and the plan that fits the workspace's actual usage rises on glide as its reason chip stamps in on springs.recoil. The plans are a radiogroup with arrow keys and roving focus; the call to action rolls its monthly total on springs.snap, and an expired trial changes the copy and empties the ring.",
+      "files": [
+        {
+          "path": "registry/ui/trial-recap.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1701"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "add-on-tray",
+      "type": "registry:ui",
+      "title": "Add-on Tray",
+      "description": "An add-on picker: toggle cards above, beside or under a running total tray. Turning a card on drops its chip into the tray on a small arc — one progress value on springs.glide carries it from the card's price to its place, x straight and y lifted — and it lands with two small bounces on springs.recoil as the monthly total rolls to its new value on odometer wheels on springs.snap; turning it off lifts the chip back out toward its card while the tray closes up on glide. Cards are role=\"checkbox\" buttons with two-dimensional arrow-key travel; incompatible add-ons stay focusable, say why in place of their description and bring the reason forward when pressed, prices shimmer while they load, and narrow containers dock the tray at the bottom.",
+      "files": [
+        {
+          "path": "registry/ui/add-on-tray.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1702"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "pause-instead",
+      "type": "registry:ui",
+      "title": "Pause Instead",
+      "description": "A cancellation flow built from plan, usage and offers: the reason, what changes, then a plain choice, in a step bar whose pill slides on springs.snap while each step cross-slides 8px on springs.glide inside a box that glides to its measured height. When \"What changes\" comes into view the losses switch off one at a time inside the 600ms budget — a mini switch flips on snap, a strike sweeps on glide, or a tile's live bar drains — and the pause offer slides up 16px beneath on glide with a resume date that rolls as the length changes. Reasons and pause lengths are radiogroups (arrows, Home, End), every step and decision is a real button, and a step change moves focus to its heading.",
+      "files": [
+        {
+          "path": "registry/ui/pause-instead.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1703"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "credit-refill",
+      "type": "registry:ui",
+      "title": "Credit Refill",
+      "description": "A low-credit sheet that docks over the work it interrupts, showing what remains and how long it lasts at the current rate. Choosing a pack pours the balance gauge — a vial, a flask or a capsule of liquid — up to the new total on springs.glide while its surface leans against the pour and settles as a damped slosh, the bought share firming from a lighter band when the charge goes through; one frame loop runs only while the liquid moves. Packs are a radiogroup whose highlight slides on springs.snap, auto-recharge reveals a threshold slider that follows the pointer 1:1 and settles on its step with the release velocity, and arrows, Page keys, Home and End drive both.",
+      "files": [
+        {
+          "path": "registry/ui/credit-refill.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1704"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "upgrade-request",
+      "type": "registry:ui",
+      "title": "Upgrade Request",
+      "description": "A member's upgrade request: the locked feature, the admins who can approve it as a radiogroup, and a card with the plan and a note. Send folds the card into an envelope that scales from the card's measured box on springs.glide while its flap closes on springs.snap, then flies to the chosen admin's avatar with x on glide and y on springs.drift so the path arcs, where the ring lands and a Pending chip arrives on springs.recoil. Approval unlocks the feature in place — the shackle swings open on snap and the veil lifts — and a decline shows the admin's note with a way to ask someone else; admins move with arrows, Home and End, and focus moves to Remind once the request lands.",
+      "files": [
+        {
+          "path": "registry/ui/upgrade-request.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1705"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "passkey-enrol",
+      "type": "registry:ui",
+      "title": "Passkey Enrol",
+      "description": "A passkey setup step: a key inside a disc with rings round it, a short explanation, Create, and the devices already enrolled. While the platform prompt is open the rings draw slowly one after another on a symmetric tween and then turn very slowly, only in view and in a visible tab; success contracts every ring onto the key on springs.glide, outer ones a beat behind, into a solid mark that settles on springs.snap with a check drawn on springs.flick, while the new device slides into the list from 8px on glide with a New chip landing on springs.recoil. Rename edits in place (Enter saves, Escape cancels), Remove asks in the row, and cancelled prompts and unsupported browsers each get a plain message and a fallback.",
+      "files": [
+        {
+          "path": "registry/ui/passkey-enrol.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1706"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "inbox-wait",
+      "type": "registry:ui",
+      "title": "Inbox Wait",
+      "description": "A magic-link waiting screen where an envelope rests in a slow breathing glow — a mirrored tween whose strength is glowAmount, running only while waiting, in view and in a visible tab — beside the address, a Resend that counts down and a way to change the address. The page notices the link opening through a BroadcastChannel another tab posts to, an onCheck asked when the tab regains focus, or the host's status; then the flap swings open on springs.snap, the letter rises on springs.glide and grows into the signed-in welcome through a shared layout on glide while the welcome's lines arrive in a cascade. Expired links and links opened on another device each explain the next step.",
+      "files": [
+        {
+          "path": "registry/ui/inbox-wait.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1707"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "workspace-lobby",
+      "type": "registry:ui",
+      "title": "Workspace Lobby",
+      "description": "The screen after sign-in: your workspaces as tiles with role, people and last visit, invitations in their own row, and a way to create one. Choosing a tile grows its real box from the tile's measured place to fill the panel on springs.glide while every other tile steps back on the same spring, the workspace's spaces cascade in under a loading line, and the answer resolves to a check drawn on springs.flick — or folds the tile back with the reason; a single accent plate travels between tiles on springs.snap. The tiles are a listbox: arrows walk them by their rendered rows, letters jump by name, Enter opens and Escape folds back.",
+      "files": [
+        {
+          "path": "registry/ui/workspace-lobby.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1708"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "org-discovery",
+      "type": "registry:ui",
+      "title": "Org Discovery",
+      "description": "A sign-in step that finds a company's own sign-in from the email domain. When a typed domain is recognised, a wash appears behind the domain's own letters — found to the pixel from a hidden mirror of the field's text — and lifts off them onto the field's top edge, growing into a badge with the company's mark on springs.glide while its shadow swells in flight and settles; the main button's words roll to single sign-on on springs.snap and the password folds away to its measured height on glide. Change the address and the badge drops back into the field where the domain now starts; it is a real form, so Tab, Enter and the announcements all behave as a sign-in should.",
+      "files": [
+        {
+          "path": "registry/ui/org-discovery.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1709"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "recovery-route",
+      "type": "registry:ui",
+      "title": "Recovery Route",
+      "description": "An account recovery chooser drawn as a map: you on one side, the ways back in on the other — backup code, recovery email, trusted contact, support review — each with how long it takes. Choosing one draws the route from you to its card, revealed along its own length by a mask whose stroke runs on springs.glide with a traveller riding the leading point, and the card's notch answers with a ring on springs.snap; the steps slide in 16px from the side the choice came from under an honest wait counted from now. The methods are a real radio group — arrows choose and skip the ones not set up — and below 44rem of container the route runs down a gutter beside the list.",
+      "files": [
+        {
+          "path": "registry/ui/recovery-route.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1710"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "spare-keys",
+      "type": "registry:ui",
+      "title": "Spare Keys",
+      "description": "A backup codes sheet that has to be kept before you go on. The codes are dealt onto the sheet when it comes into view — each ticket leaves a tilted deck above the grid and flies to its cell on springs.glide while its tilt settles on springs.snap, staggered by cascade — and Copy all flashes every ticket in turn as its code lands on the clipboard. Continue carries a padlock that stays shut until the box is ticked, then its shackle lifts and turns open about its right leg on springs.snap. Every action is a button: each ticket copies itself, Download saves a .txt, Print prints the codes alone, and Regenerate warns in place, strikes the old set and deals the new one.",
+      "files": [
+        {
+          "path": "registry/ui/spare-keys.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1711"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "authenticator-pair",
+      "type": "registry:ui",
+      "title": "Authenticator Pair",
+      "description": "An authenticator setup: a QR code with the secret written beside it for typing by hand, then a six-digit check. When it comes into view the QR assembles from its centre outward in square rings of modules, each fading up from 0.6 scale on springs.snap with the finder eyes landing in their ring; digits drop into their slots on springs.flick and a paste lands left to right. A correct code folds the rings back into the centre from the outside in, a disc grows on snap, a check draws across it on flick and the step marker's pill slides on to On; a wrong code nudges on a short tween and keeps the digits.",
+      "files": [
+        {
+          "path": "registry/ui/authenticator-pair.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1712"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "step-up-check",
+      "type": "registry:ui",
+      "title": "Step Up Check",
+      "description": "A step-up verification standing in front of a sensitive settings panel: the panel sits behind a real backdrop-blur frost while a dialog asks for a passkey or password. Verifying opens the lock on snap, then the frost clears outward from the lock itself, its radial mask growing on glide with an accent ring riding the edge, while the opened lock flies into the header chip on the same spring and the chip counts the elevated session down; expiry closes the frost back in toward the lock on glide. Refused tries shake the field on a symmetric tween and are counted and explained, Tab wraps inside the dialog, Escape dismisses it to an Unlock button, and below 28rem the dialog becomes a bottom sheet.",
+      "files": [
+        {
+          "path": "registry/ui/step-up-check.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1713"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "session-lapse",
+      "type": "registry:ui",
+      "title": "Session Lapse",
+      "description": "An idle-timeout guard for a page: before the session ends an alert dialog rises over it with a ring that drains linearly while the seconds in its middle count down, both read off one motion value. Stay signed in, Escape, or a press, key or scroll outside the dialog refills the ring on glide while it pops on snap and the seconds count back up, then the dialog leaves on the exit ease; letting it run out fades the page into a signed-out note that keeps the unsaved draft. Focus moves to Stay signed in when the warning appears, Tab wraps inside it, and the countdown is announced when the warning appears, at 30 seconds in longer warnings, and at 10.",
+      "files": [
+        {
+          "path": "registry/ui/session-lapse.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1714"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "invite-accept",
+      "type": "registry:ui",
+      "title": "Invite Accept",
+      "description": "An invitation landing whose invite is a card: the workspace, who asked, a personal line, the role with what it can do, and when it lapses. Accept turns the card over on snap — its scale dipping with the angle by exactly what perspective adds, so it never grows past its box — while the role chip lifts off on flick, travels flat to its slot on the back on glide and lands on snap, carrying the role to a sign-up form with the name and email already filled. The form is real (labels, autocomplete, Enter submits, errors under their fields, a rejected join kept on the form), focus moves to the first empty field after the turn, Escape turns back, and an expired invite offers to ask again.",
+      "files": [
+        {
+          "path": "registry/ui/invite-accept.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1715"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "cooling-lock",
+      "type": "registry:ui",
+      "title": "Cooling Lock",
+      "description": "A lockout panel for after repeated failed sign-ins: frost covers a ring round the lock and thaws clockwise from the top as the wait runs down, in six-armed flakes that shrink on snap and leave a slipping droplet as the front passes, bristling hoarfrost that shortens at the front, or a glaze that drains as one arc. When the last of it melts the shackle lifts on snap and the copy gives way on glide to the sign-in form with the address kept; a new lockout freezes the ring back over on glide before the wait starts again, and a very long one points to support. Unlock by email is always offered, the countdown is announced at sensible marks, and focus moves to the password field when the form returns.",
+      "files": [
+        {
+          "path": "registry/ui/cooling-lock.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1716"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "number-match",
+      "type": "registry:ui",
+      "title": "Number Match",
+      "description": "A new-device approval drawn as the two screens it happens on: the browser signing in, showing a two-digit number, and the trusted phone asking whether it's you with three numbers to choose from. The right choice joins the screens — a line grows from the number and from the phone's frame level with the chosen key, each half on glide, and they meet in the middle where a dot lands on recoil — while both screens turn to success and a check stamps on recoil; a wrong one reaches in danger, stops short and draws back on a tween as both screens explain the block. The choices are buttons with roving focus (arrows, Home, End; Enter or Space chooses), outcomes are announced, a lifetime bar drains only while it can be seen, and the screens sit side by side, overlap or mirror, stacking in a narrow container.",
+      "files": [
+        {
+          "path": "registry/ui/number-match.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1717"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
