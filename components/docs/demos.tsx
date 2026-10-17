@@ -2017,6 +2017,21 @@ import { SuiteAtriumDemo } from "@/registry/demos/suite-atrium.demo";
 import { FavouriteShelfDemo } from "@/registry/demos/favourite-shelf.demo";
 import { LetterJumpDemo } from "@/registry/demos/letter-jump.demo";
 import { BubbleUpDemo } from "@/registry/demos/bubble-up.demo";
+import { FlyoutDockDemo } from "@/registry/demos/flyout-dock.demo";
+import { MilestoneRingsDemo } from "@/registry/demos/milestone-rings.demo";
+import { SortedInsertDemo } from "@/registry/demos/sorted-insert.demo";
+import { SpringFoldersDemo } from "@/registry/demos/spring-folders.demo";
+import { FallthroughAskDemo } from "@/registry/demos/fallthrough-ask.demo";
+import { PreviewPaletteDemo } from "@/registry/demos/preview-palette.demo";
+import { BatchPaletteDemo } from "@/registry/demos/batch-palette.demo";
+import { InlineAnswersDemo } from "@/registry/demos/inline-answers.demo";
+import { AnchoredPaletteDemo } from "@/registry/demos/anchored-palette.demo";
+import { SigilPaletteDemo } from "@/registry/demos/sigil-palette.demo";
+import { ZoomReadoutDemo } from "@/registry/demos/zoom-readout.demo";
+import { CountTakeoverDemo } from "@/registry/demos/count-takeover.demo";
+import { BackStackDemo } from "@/registry/demos/back-stack.demo";
+import { RecordStepperDemo } from "@/registry/demos/record-stepper.demo";
+import { DateWindowDemo } from "@/registry/demos/date-window.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -4048,4 +4063,19 @@ export const demos: Record<string, ComponentType> = {
   "favourite-shelf": FavouriteShelfDemo,
   "letter-jump": LetterJumpDemo,
   "bubble-up": BubbleUpDemo,
+  "flyout-dock": FlyoutDockDemo,
+  "milestone-rings": MilestoneRingsDemo,
+  "sorted-insert": SortedInsertDemo,
+  "spring-folders": SpringFoldersDemo,
+  "fallthrough-ask": FallthroughAskDemo,
+  "preview-palette": PreviewPaletteDemo,
+  "batch-palette": BatchPaletteDemo,
+  "inline-answers": InlineAnswersDemo,
+  "anchored-palette": AnchoredPaletteDemo,
+  "sigil-palette": SigilPaletteDemo,
+  "zoom-readout": ZoomReadoutDemo,
+  "count-takeover": CountTakeoverDemo,
+  "back-stack": BackStackDemo,
+  "record-stepper": RecordStepperDemo,
+  "date-window": DateWindowDemo,
 };

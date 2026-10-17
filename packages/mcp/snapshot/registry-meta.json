@@ -13,7 +13,7 @@
     "indexUrl": "https://www.kinetiqui.com/r/registry.json",
     "docsUrl": "https://www.kinetiqui.com",
     "counts": {
-      "components": 1826,
+      "components": 1841,
       "blocks": 152,
       "pages": 28,
       "templates": 10,
@@ -199658,6 +199658,2504 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/bubble-up",
         "bun": "bunx --bun shadcn@latest add @kinetiq/bubble-up",
         "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/bubble-up.json"
+      }
+    },
+    {
+      "slug": "flyout-dock",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Flyout Dock",
+      "serial": "KQ-2111",
+      "tagline": "Pages fly out beside you; pin the ones you need.",
+      "description": "An admin rail whose sections fly their pages out in a panel beside it on springs.glide, with an intent delay that a move toward the panel keeps restarting, so a diagonal sweep from one section to its panel never switches section; while it waits the rail's indicator leans toward the section under the pointer and snaps across on springs.snap once the switch commits. Pinning docks the panel as a permanent second column: one glide spring drives a single value that the panel's inset, radius and shadow and the page's left edge all read, so the floating card settles into a flush column as the page makes room. The rail is one tab stop where Up and Down open each section, Right steps into its pages and Left comes back, P pins, Escape closes, and under 300px the flyouts become drill-in screens.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "sidebar",
+        "navigation rail",
+        "flyout menu",
+        "hover intent",
+        "pinned panel",
+        "admin",
+        "app ui"
+      ],
+      "props": [
+        {
+          "name": "sections",
+          "type": "FlyoutSection[]",
+          "defaultValue": "defaultFlyoutSections",
+          "description": "The rail's sections: { id, label, railLabel?, icon, pages: { id, label, icon?, badge?, summary?, rows? }[], status?: ready | loading | error, badge?, emptyTitle?, emptyHint? }."
+        },
+        {
+          "name": "page / defaultPage",
+          "type": "string",
+          "defaultValue": "the first page",
+          "description": "The current page, controlled or initial."
+        },
+        {
+          "name": "onNavigate",
+          "type": "(pageId: string, sectionId: string) => void",
+          "description": "A page was chosen from the flyout, the pinned column or a drill-in screen."
+        },
+        {
+          "name": "open / defaultOpen",
+          "type": "string | null",
+          "defaultValue": "null",
+          "description": "The section whose pages are out, controlled or initial."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(sectionId: string | null) => void",
+          "description": "Fires from the hover, focus, key or press that opened or closed a section."
+        },
+        {
+          "name": "pinned / defaultPinned",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "The panel docked as a second column, controlled or initial."
+        },
+        {
+          "name": "onPin",
+          "type": "(sectionId: string) => void",
+          "description": "The panel was pinned while showing this section."
+        },
+        {
+          "name": "onUnpin",
+          "type": "(sectionId: string) => void",
+          "description": "The panel was unpinned."
+        },
+        {
+          "name": "onRetry",
+          "type": "(sectionId: string) => void",
+          "description": "Retry was pressed on a section whose pages failed to load."
+        },
+        {
+          "name": "flyoutWidth",
+          "type": "number",
+          "defaultValue": "208",
+          "description": "The panel's width in px, floating and pinned; a pinned column narrows so the page keeps at least 112px."
+        },
+        {
+          "name": "intentDelay",
+          "type": "number",
+          "defaultValue": "140",
+          "description": "How long the pointer rests on a section before it switches, in ms; every move toward the open panel restarts the wait."
+        },
+        {
+          "name": "closeDelay",
+          "type": "number",
+          "defaultValue": "320",
+          "description": "How long an unpinned flyout stays after the pointer leaves, in ms."
+        },
+        {
+          "name": "accent",
+          "type": "\"cobalt\" | \"plum\" | \"mint\" | \"ink\" | string",
+          "defaultValue": "\"cobalt\"",
+          "description": "Indicator, current page, badges and pin. A name or any CSS colour."
+        },
+        {
+          "name": "brand",
+          "type": "{ name: string; initials: string }",
+          "defaultValue": "{ name: \"Coldbrook\", initials: \"Cb\" }",
+          "description": "The product at the top of the rail and the drill-in screens."
+        },
+        {
+          "name": "railLabels",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Labels under the rail's icons."
+        },
+        {
+          "name": "frameHeight",
+          "type": "number",
+          "defaultValue": "520",
+          "description": "The frame's height in px."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Coldbrook admin\"",
+          "description": "The navigation's accessible name."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Read only: nothing opens, pins or navigates."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the frame."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the rail is one tab stop. Up and Down (Home, End) move along it and open each section at once, Right steps into its pages, Up and Down walk them, Enter opens one, Left returns to the rail, P pins or unpins from either, Escape closes an unpinned panel and hands focus back to its section.",
+        "Hover intent is geometric, not just a timer: a section switches after intentDelay of rest, and each pointer step heading into the open panel restarts the wait. Touch skips hover entirely; a tap opens a section and a second tap closes it.",
+        "Reduced motion: the panel fades in place, pinning changes the layout at once with the shadow cross-fading, the indicator jumps and no lean is drawn; badges, the current page and the pinned column still show.",
+        "Cheap when idle: no loops; hover intent is one timeout and two remembered points, and pinning is one spring written into a CSS variable that both the panel and the page read.",
+        "Responsive by its own width: from 300px the rail, its flyout and the page; narrower, a stack of drill-in screens (sections, pages, page) that slide in on glide with focus landing on the row you came back to.",
+        "Per-section status draws loading, failed (with onRetry) and empty states inside the panel, so missing data never leaves a blank column."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/flyout-dock",
+      "registryItemUrl": "https://www.kinetiqui.com/r/flyout-dock.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/flyout-dock",
+        "npm": "npx shadcn@latest add @kinetiq/flyout-dock",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/flyout-dock",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/flyout-dock",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/flyout-dock.json"
+      }
+    },
+    {
+      "slug": "milestone-rings",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Milestone Rings",
+      "serial": "KQ-2112",
+      "tagline": "Each project's next milestone, closing in.",
+      "description": "A project sidebar where every row wraps its icon in a ring whose arc is progress toward the project's next milestone, with a tally of tiny flags for the milestones already reached. When the data says one is reached, the arc closes on springs.glide, flashes once with a halo on a tween, a flag lifts off the ring and flies to the tally (x on glide, y on springs.snap, landing on springs.recoil), and the ring resets on snap — the arc empties forward and the next milestone's share draws in as the meta line changes. Rows are a listbox where Up and Down walk, Enter chooses, Alt+M opens the focused milestone and Alt with an arrow moves the row, a grip drags rows 1:1 while the others glide aside, and the sidebar folds to a rail where the rings stay wrapped round their icons.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "project sidebar",
+        "milestones",
+        "progress ring",
+        "roadmap",
+        "reorder",
+        "app ui",
+        "navigation"
+      ],
+      "props": [
+        {
+          "name": "projects",
+          "type": "MilestoneProject[]",
+          "defaultValue": "defaultMilestoneProjects",
+          "description": "The projects in their starting order: { id, name, icon?, milestones: { id, name, due (ISO day), progress 0–1, done? }[] }. The first milestone not reached is the next one."
+        },
+        {
+          "name": "current / defaultCurrent",
+          "type": "string",
+          "defaultValue": "the first project",
+          "description": "The chosen project, controlled or initial."
+        },
+        {
+          "name": "onNavigate",
+          "type": "(projectId: string) => void",
+          "description": "A project was chosen with a click, Enter or Space."
+        },
+        {
+          "name": "onOpenMilestone",
+          "type": "(projectId: string, milestone: Milestone | null) => void",
+          "description": "Alt+M on a row, or a milestone in the side pane, asked to open a milestone; null when the project has none upcoming."
+        },
+        {
+          "name": "onReorder",
+          "type": "(ids: string[]) => void",
+          "description": "The rows were reordered by a grip drag or Alt with an arrow; the new id order."
+        },
+        {
+          "name": "folded / defaultFolded",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "The sidebar as a 60px rail of rings, controlled or initial."
+        },
+        {
+          "name": "onFoldedChange",
+          "type": "(folded: boolean) => void",
+          "description": "Fires from the button that folded or opened the sidebar."
+        },
+        {
+          "name": "now",
+          "type": "string | number | Date",
+          "defaultValue": "\"2026-10-14\"",
+          "description": "Today, for due and overdue; read in UTC so server and browser agree."
+        },
+        {
+          "name": "ringSize",
+          "type": "number",
+          "defaultValue": "26",
+          "description": "The ring's diameter in px; icons and row heights scale with it."
+        },
+        {
+          "name": "overdueStyle",
+          "type": "\"tint\" | \"hatch\" | \"label\"",
+          "defaultValue": "\"tint\"",
+          "description": "How a late milestone shows: the arc and date in danger, a hatched danger track, or a calm ring with a \"4d late\" chip."
+        },
+        {
+          "name": "accent",
+          "type": "\"cobalt\" | \"plum\" | \"mint\" | \"ink\" | string",
+          "defaultValue": "\"cobalt\"",
+          "description": "Arcs, the current row and flags. A name or any CSS colour."
+        },
+        {
+          "name": "flagLimit",
+          "type": "number",
+          "defaultValue": "4",
+          "description": "Flags drawn in a row's tally before it reads \"+n\"."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the projects have arrived: still skeleton rows while loading, a message and Retry on error."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Retry was pressed after an error."
+        },
+        {
+          "name": "workspace",
+          "type": "string",
+          "defaultValue": "\"Gaugeworks\"",
+          "description": "The workspace in the header."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Product lines\"",
+          "description": "The list's heading and accessible name."
+        },
+        {
+          "name": "frameHeight",
+          "type": "number",
+          "defaultValue": "520",
+          "description": "The frame's height in px; the list scrolls inside it."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Read only: nothing can be chosen, opened or moved."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the frame."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the list is one tab stop (a listbox). Up and Down, Home and End move; Enter or Space chooses; Alt+M opens the focused row's next milestone; Alt with Up or Down moves the row and keeps focus on it. Focusing a row raises its ring's caption with the milestone, date and share.",
+        "The ceremony is driven by your data: raise a milestone's progress to 1 (or set done) and the row plays close, flash, flag and reset once; ordinary progress changes simply glide the arc. A reached milestone is announced once, from the new data.",
+        "Reduced motion: arcs change on short tweens, the reach shows a still full ring and halo before the next share appears, the flag appears without flying, the fold changes width at once; dragging still follows the pointer and settles without a spring.",
+        "Cheap when idle: no loops. Each row's arc is two numbers written into motion values by one-shot animations; a drag writes motion values, not state, on every move.",
+        "Dates are formatted by hand in UTC from the now prop, so server and browser render the same words; overdue is computed against now, never the wall clock.",
+        "Responsive by its own width: under 36rem the sidebar fills the frame and folding reveals the milestone pane beside the rail; wider, the pane is always there."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/milestone-rings",
+      "registryItemUrl": "https://www.kinetiqui.com/r/milestone-rings.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/milestone-rings",
+        "npm": "npx shadcn@latest add @kinetiq/milestone-rings",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/milestone-rings",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/milestone-rings",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/milestone-rings.json"
+      }
+    },
+    {
+      "slug": "sorted-insert",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Sorted Insert",
+      "serial": "KQ-2113",
+      "tagline": "Name it inline; it slots into place.",
+      "description": "A sidebar where New opens an inline field in the list instead of a dialog: every row, header and the field are placed by computed y, so the rows below part on springs.glide to make the field's slot. On Enter the field becomes the new row where it stands, then the row flies on glide to its sorted place — riding 8px aside on a solid lifted card while the rows it passes slide up a slot — settles home on springs.snap and holds a highlight so you see where it went; a refused name nudges the field on a short tween and slides its message in. Rows are one roving tab stop where Up and Down move, F2 renames (a rename that sorts elsewhere flies there too), N opens the field in the focused section and Escape cancels, and under 300px the sidebar becomes a drawer whose field opens at its top.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "inline create",
+        "sidebar",
+        "sorted list",
+        "rename",
+        "validation",
+        "app ui",
+        "clients"
+      ],
+      "props": [
+        {
+          "name": "ref",
+          "type": "React.Ref<SortedInsertHandle>",
+          "description": "Drive the field from outside: startCreate(sectionId?, text?), typeDraft(text), submitDraft(), cancelDraft(). startCreate never moves focus."
+        },
+        {
+          "name": "sections",
+          "type": "InsertSection[]",
+          "defaultValue": "defaultInsertSections",
+          "description": "The sections, top to bottom: { id, label, noun }."
+        },
+        {
+          "name": "items / defaultItems",
+          "type": "InsertItem[]",
+          "defaultValue": "defaultInsertItems",
+          "description": "The rows, controlled or initial: { id, name, section, createdAt (ISO date), projects? }."
+        },
+        {
+          "name": "onItemsChange",
+          "type": "(items: InsertItem[]) => void",
+          "description": "Fires with the whole list after an add, a rename or a failed add taken back out."
+        },
+        {
+          "name": "sortBy",
+          "type": "\"name\" | \"recent\" | \"size\"",
+          "defaultValue": "\"name\"",
+          "description": "The order within each section: A–Z, newest first, or most projects first. Changing it re-sorts every row on glide."
+        },
+        {
+          "name": "highlight",
+          "type": "\"wash\" | \"bar\" | \"ring\"",
+          "defaultValue": "\"wash\"",
+          "description": "How a row shows where it landed, for 1.6 s: an accent wash, a bar on its leading edge that shrinks away, or a ring."
+        },
+        {
+          "name": "accent",
+          "type": "\"cobalt\" | \"plum\" | \"mint\" | \"ink\" | string",
+          "defaultValue": "\"cobalt\"",
+          "description": "Field, highlight and selection. A name or any CSS colour."
+        },
+        {
+          "name": "maxNameLength",
+          "type": "number",
+          "defaultValue": "40",
+          "description": "The longest name the field accepts."
+        },
+        {
+          "name": "validateName",
+          "type": "(name: string, sectionId: string, items: InsertItem[]) => string | null",
+          "description": "Your own naming rule, run after the built-in ones (not empty, not too long, not a duplicate in the section): return a message to refuse."
+        },
+        {
+          "name": "onCreate",
+          "type": "(name: string, sectionId: string) => void | Promise<unknown>",
+          "description": "A name was accepted. Return a promise and the row shows as adding until it settles; a rejection takes the row back out and reopens the field with the name."
+        },
+        {
+          "name": "onRename",
+          "type": "(id: string, name: string, previous: string) => void",
+          "description": "A row was renamed."
+        },
+        {
+          "name": "onCancel",
+          "type": "(kind: \"create\" | \"rename\", target: string) => void",
+          "description": "The field closed without saving: Escape, or an empty field losing focus."
+        },
+        {
+          "name": "selected / defaultSelected",
+          "type": "string",
+          "defaultValue": "the first item",
+          "description": "The chosen row, controlled or initial."
+        },
+        {
+          "name": "onSelect",
+          "type": "(id: string) => void",
+          "description": "A row was chosen."
+        },
+        {
+          "name": "now",
+          "type": "string",
+          "defaultValue": "\"2026-10-14\"",
+          "description": "Today as an ISO date: the createdAt of new rows."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the items have arrived: still skeleton rows while loading, a message and Retry on error."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Retry was pressed after an error."
+        },
+        {
+          "name": "rowHeight",
+          "type": "number",
+          "defaultValue": "34",
+          "description": "Every row's height in px."
+        },
+        {
+          "name": "studio",
+          "type": "{ name: string; initials: string }",
+          "defaultValue": "{ name: \"Fernworks\", initials: \"Fw\" }",
+          "description": "The studio in the header."
+        },
+        {
+          "name": "frameHeight",
+          "type": "number",
+          "defaultValue": "520",
+          "description": "The frame's height in px; the list scrolls inside it and scrolls a landing slot into view."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Clients\"",
+          "description": "The sidebar's heading and accessible name."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Read only: nothing can be added, renamed or chosen."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the frame."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the rows are one tab stop; Up and Down (Home, End) move, Enter chooses, F2 renames, N opens the field in the focused row's section. In the field Enter saves and Escape cancels, handing focus back to where it came from; after an add or a rename focus lands on the row.",
+        "Every refusal is spoken and drawn: the field is marked invalid, its message is an alert tied to the input, and the field shakes once on a short tween (never a spring). Under reduced motion the shake is dropped and the danger border carries it.",
+        "Reduced motion: the field and rows appear in place with short fades, the new row appears at its slot without travelling, and the landing highlight still shows and fades, because it says where the row went.",
+        "Rows keep a stable DOM order and move by transforms, so focus and running springs survive a re-sort; each section is a labelled list with each row's sorted position.",
+        "Cheap when idle: no loops. Each move is one spring written into a row's motion value; the spinner turns only while a row is being added.",
+        "Responsive by its own width: under 300px it is a drawer with New at its top and a section switch in the field; from 34rem a pane beside the list shows the chosen row."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/sorted-insert",
+      "registryItemUrl": "https://www.kinetiqui.com/r/sorted-insert.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/sorted-insert",
+        "npm": "npx shadcn@latest add @kinetiq/sorted-insert",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/sorted-insert",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/sorted-insert",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/sorted-insert.json"
+      }
+    },
+    {
+      "slug": "spring-folders",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Spring Folders",
+      "serial": "KQ-2114",
+      "tagline": "Drag over a folder; it opens for you.",
+      "description": "A folder sidebar that works as a drop target: dragging documents from the page lifts a ghost that follows the pointer 1:1, and holding it over a closed folder starts a ring that closes over springDelay (a linear timer you can read) before it flashes and the folder springs open on springs.snap, its subfolders unfolding on springs.glide so you keep descending without letting go. Dropping files the documents — the ghost shrinks into the folder, its count rolls and bumps on springs.recoil, the cards fold out of the page on glide, and folders sprung open on the way that are not on the path fold shut — while folders that refuse a type tint with a ban glyph and send the ghost home. Every card has Move to (M), which opens the same tree in a dialog where arrows walk and open folders and Enter files, and under 300px the tree is a sheet that rises when a drag begins.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "file manager",
+        "folder tree",
+        "drag and drop",
+        "spring-loaded folders",
+        "move to",
+        "app ui",
+        "documents"
+      ],
+      "props": [
+        {
+          "name": "ref",
+          "type": "React.Ref<SpringFoldersHandle>",
+          "description": "hint(docId?, folderId?) plays the gesture once without a hand: a document glides over a folder, its ring closes, it springs open, and everything goes back."
+        },
+        {
+          "name": "folders / defaultFolders",
+          "type": "SpringFolder[]",
+          "defaultValue": "defaultSpringFolders",
+          "description": "The tree, controlled or initial: { id, name, count, children?, accepts?: (\"pdf\" | \"doc\" | \"sheet\" | \"image\")[] | \"none\" }."
+        },
+        {
+          "name": "docs / defaultDocs",
+          "type": "SpringDoc[]",
+          "defaultValue": "defaultSpringDocs",
+          "description": "The unfiled documents on the page, controlled or initial: { id, name, type, size (bytes) }."
+        },
+        {
+          "name": "onDrop",
+          "type": "(docIds: string[], folderId: string) => void",
+          "description": "Documents were filed into a folder, by a drop or Move to."
+        },
+        {
+          "name": "onOpen",
+          "type": "(folderId: string, via: \"spring\" | \"click\" | \"key\") => void",
+          "description": "A folder opened: sprung by a held drag, pressed, or by a key."
+        },
+        {
+          "name": "onCreateFolder",
+          "type": "(parentId: string, folder: SpringFolder) => void",
+          "description": "New folder was pressed; uncontrolled, the folder is added under the selected one."
+        },
+        {
+          "name": "defaultExpanded",
+          "type": "string[]",
+          "defaultValue": "[\"suppliers\"]",
+          "description": "Folders open at the start."
+        },
+        {
+          "name": "springDelay",
+          "type": "number",
+          "defaultValue": "700",
+          "description": "How long a held drag takes to spring a folder open, in ms; the ring's speed."
+        },
+        {
+          "name": "ringStyle",
+          "type": "\"circle\" | \"outline\" | \"fill\"",
+          "defaultValue": "\"circle\"",
+          "description": "The spring-loading ring: round the folder icon, an outline drawn round the whole row, or the row filling left to right."
+        },
+        {
+          "name": "accent",
+          "type": "\"cobalt\" | \"plum\" | \"mint\" | \"ink\" | string",
+          "defaultValue": "\"cobalt\"",
+          "description": "Ring, selection and drop targets. A name or any CSS colour."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the tree has arrived: still skeleton rows while loading, a message and Retry on error; nothing can be dragged until it is ready."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Retry was pressed after an error."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Basinworks contracts\"",
+          "description": "The tree's heading and accessible name."
+        },
+        {
+          "name": "pageTitle",
+          "type": "string",
+          "defaultValue": "\"Unfiled\"",
+          "description": "The page's heading."
+        },
+        {
+          "name": "frameHeight",
+          "type": "number",
+          "defaultValue": "520",
+          "description": "The frame's height in px."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Read only: nothing can be moved or created."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the frame."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the documents are one tab stop where the arrows walk, Space picks (several can travel together) and M opens Move to. The dialog's tree takes focus: Up and Down move, Right opens a folder or steps into it, Left closes it or goes to the parent, Enter files there; folders that refuse the type are aria-disabled and say why. Escape closes it and focus returns to the card.",
+        "The drag is pointer-only by design, with Move to as its full keyboard path; the pointer is captured only after 4px, so a press still picks, and Escape during a drag sends the ghost home. Cards pan vertically on touch (horizontally in the tray layout), so the list still scrolls under a finger.",
+        "Reduced motion: the ghost still follows the pointer and the ring still fills, because both are information; folders open at once, the drop fades instead of flying and the count changes without a bump.",
+        "Cheap when idle: no loops. The ring is one tween per hovered folder, hit testing is one elementFromPoint per pointer move, and the only window listener (Escape) exists while a drag is live.",
+        "Responsive by its own width: a list with a rising tree sheet under 300px, the tree above a horizontal tray of documents up to 34rem, and the tree beside a grid of cards beyond it.",
+        "Accept rules are data: give a folder accepts: [\"pdf\"] or \"none\" and the tint, the ban glyph, the refusal message and the dialog's disabled state all follow."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/spring-folders",
+      "registryItemUrl": "https://www.kinetiqui.com/r/spring-folders.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/spring-folders",
+        "npm": "npx shadcn@latest add @kinetiq/spring-folders",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/spring-folders",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/spring-folders",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/spring-folders.json"
+      }
+    },
+    {
+      "slug": "fallthrough-ask",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Fallthrough Ask",
+      "serial": "KQ-2115",
+      "tagline": "No command matches; the assistant answers instead.",
+      "description": "A command palette that never dead-ends: typing filters commands and pages with fuzzy matching under a highlight pill that slides on springs.snap, every query ends with an ask row, and a query that matches nothing turns the empty row into it while pages sharing a word stay listed as Related. Enter unfolds the ask row in place on springs.glide into an answer card — while it reads, the pages it is reading arrive one by one on snap; the answer then rises sentence by sentence with citation marks popping in on springs.flick, and its sources settle as chips, a numbered list or footnotes. The field is a combobox whose Up and Down move one highlight across results and the answer (the ask option is described by the answer text), Tab walks the sources, Escape folds the answer and keeps the query, and the no-answer and error states keep it too while still offering a next step.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "command palette",
+        "search",
+        "assistant",
+        "answer card",
+        "citations",
+        "combobox",
+        "app ui"
+      ],
+      "props": [
+        {
+          "name": "ref",
+          "type": "React.Ref<FallthroughAskHandle>",
+          "description": "ask(query?) asks the assistant (the field's query, or this one), fold() folds the answer, focus() puts focus in the field."
+        },
+        {
+          "name": "commands",
+          "type": "AskCommand[]",
+          "defaultValue": "defaultAskCommands",
+          "description": "Commands the palette runs: { id, label, icon, shortcut?, keywords? }."
+        },
+        {
+          "name": "pages",
+          "type": "AskPage[]",
+          "defaultValue": "defaultAskPages",
+          "description": "Pages it opens and answers cite: { id, title, path, excerpt?, keywords? }; excerpts and keywords also find related pages."
+        },
+        {
+          "name": "answers",
+          "type": "AskAnswer[]",
+          "defaultValue": "defaultAskAnswers",
+          "description": "Answers it can give without a host: { id, keywords, text with [1]-style marks, sources (page ids in mark order) }."
+        },
+        {
+          "name": "recent",
+          "type": "string[]",
+          "defaultValue": "[\"leave\", \"expenses\", \"first-week\"]",
+          "description": "Page ids listed for an empty query."
+        },
+        {
+          "name": "query / defaultQuery",
+          "type": "string",
+          "defaultValue": "\"\"",
+          "description": "The field's text, controlled or initial."
+        },
+        {
+          "name": "onQueryChange",
+          "type": "(query: string) => void",
+          "description": "Fires on every keystroke with the new query."
+        },
+        {
+          "name": "onSelect",
+          "type": "(item: { kind: \"command\" | \"page\"; id: string }) => void",
+          "description": "A command or page was chosen with Enter or a click."
+        },
+        {
+          "name": "onAsk",
+          "type": "(query: string) => Promise<AskAnswer | null> | void",
+          "description": "The visitor asked. Return a promise of an answer (null for none) to answer yourself — a rejection shows the error state; return nothing and the palette answers from answers after thinkingMs."
+        },
+        {
+          "name": "onOpenSource",
+          "type": "(pageId: string, answerId: string | null) => void",
+          "description": "A source page was opened from an answer (answerId is null for the no-answer state's closest page)."
+        },
+        {
+          "name": "onAnswer",
+          "type": "(state: \"answered\" | \"none\" | \"error\", answer: AskAnswer | null) => void",
+          "description": "The assistant settled."
+        },
+        {
+          "name": "thinkingMs",
+          "type": "number",
+          "defaultValue": "1200",
+          "description": "How long the palette reads before answering from answers, in ms."
+        },
+        {
+          "name": "answerHeight",
+          "type": "number",
+          "defaultValue": "200",
+          "description": "The tallest the answer grows before it scrolls inside the card, in px."
+        },
+        {
+          "name": "sourceStyle",
+          "type": "\"chips\" | \"list\" | \"notes\"",
+          "defaultValue": "\"chips\"",
+          "description": "How sources show: numbered page chips, a list with each page's path, or footnote marks with a source line."
+        },
+        {
+          "name": "accent",
+          "type": "\"cobalt\" | \"plum\" | \"mint\" | \"ink\" | string",
+          "defaultValue": "\"cobalt\"",
+          "description": "Highlight, ask disc and citations. A name or any CSS colour."
+        },
+        {
+          "name": "assistantName",
+          "type": "string",
+          "defaultValue": "\"Handbook assistant\"",
+          "description": "Who answers, in the card header and the footer."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "defaultValue": "\"Search or ask the handbook\"",
+          "description": "The field's placeholder."
+        },
+        {
+          "name": "maxHeight",
+          "type": "number",
+          "defaultValue": "460",
+          "description": "The palette's tallest height in px; its body follows its content on glide up to this."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Search the Fernworks handbook\"",
+          "description": "The field's accessible name."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Read only: nothing can be typed, chosen or asked."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the palette."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the field is a combobox and keeps focus. Up and Down move one highlight across results and the ask row, Enter opens a result or asks, Tab steps into the answer's sources, Escape folds an answer (and on a folded palette clears the field). The ask option is described by the answer, so a screen reader reads it on arrival; the answer is announced once, when it settles.",
+        "Bring your own assistant: return a promise from onAsk and the card shows the reading state until it resolves; resolve null for no answer or reject for the error state. Without onAsk it answers from the answers prop by keyword.",
+        "Reduced motion: the card appears at its full height on a short fade, the disc does not turn, the reading bars do not breathe, the sentences arrive together and the highlight jumps; every state still shows.",
+        "Cheap when idle: the only repeating motion is the reading bars' breath, and they exist only while it reads. The body's height follows a ResizeObserver; matching is memoised per query.",
+        "Responsive by its own width: under 30rem the answer takes the whole palette while it holds the highlight and the results fold back in when you arrow up; the footer drops its hints first.",
+        "Never a dead end: no-answer offers the closest page and error offers Retry, and both keep the typed query in the field."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/fallthrough-ask",
+      "registryItemUrl": "https://www.kinetiqui.com/r/fallthrough-ask.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/fallthrough-ask",
+        "npm": "npx shadcn@latest add @kinetiq/fallthrough-ask",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/fallthrough-ask",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/fallthrough-ask",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/fallthrough-ask.json"
+      }
+    },
+    {
+      "slug": "preview-palette",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Preview Palette",
+      "serial": "KQ-2116",
+      "tagline": "See where a result goes before you go.",
+      "description": "A command menu whose right half previews the highlighted result on a vertical filmstrip: Up and Down glide the highlight pill down the list and the whole strip the other way on springs.glide in the same moment, so the next card rises into the window while the last tucks behind the top edge and moving down the list feels like flipping through the items themselves. Pages show their first lines, people their card and local time, files a drawn thumbnail; the pane can also be dragged 1:1 or flicked (the release projects to the card it was heading for) or wheeled, a press settles on springs.snap and an end-of-list press gives the strip a velocity kick that leaves and returns. The field is a combobox: Enter opens, Cmd or Ctrl+Enter opens beside, an empty search offers to create, and below 34rem the pane hides and a long press or → peeks it over the list.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "command palette",
+        "search preview",
+        "filmstrip",
+        "wiki search",
+        "quick open",
+        "peek",
+        "app ui"
+      ],
+      "props": [
+        {
+          "name": "previewWidth",
+          "type": "number",
+          "defaultValue": "50",
+          "description": "Share of the palette the preview pane takes, in percent, where the palette is 34rem or wider."
+        },
+        {
+          "name": "listDensity",
+          "type": "\"compact\" | \"cozy\" | \"roomy\"",
+          "defaultValue": "\"cozy\"",
+          "description": "Row height: one tight line, a comfortable line, or two lines with the path or role."
+        },
+        {
+          "name": "accent",
+          "type": "\"cobalt\" | \"plum\" | \"mint\" | \"ink\" | string",
+          "defaultValue": "\"cobalt\"",
+          "description": "Highlight, flash, avatars, thumbnails and badges. A name or any CSS colour."
+        },
+        {
+          "name": "items",
+          "type": "PreviewPaletteItem[]",
+          "defaultValue": "defaultPreviewPaletteItems",
+          "description": "Everything that can be found: { id, kind, title, group, keywords?, path?, excerpt?, outline?, author?, updated?, role?, team?, handle?, utcOffset?, presence?, presenceNote?, owns?, fileType?, size?, detail? }."
+        },
+        {
+          "name": "groups",
+          "type": "PreviewPaletteGroup[]",
+          "defaultValue": "defaultPreviewPaletteGroups",
+          "description": "The groups results list under, in order: { id, label }."
+        },
+        {
+          "name": "recent",
+          "type": "string[]",
+          "defaultValue": "defaultPreviewPaletteRecent",
+          "description": "Ids shown under Recent while the field is empty, newest first."
+        },
+        {
+          "name": "renderers",
+          "type": "Partial<Record<\"page\" | \"person\" | \"file\", (item, { now }) => ReactNode>>",
+          "description": "Replace the built-in preview for a kind of result; the card frame stays the palette's."
+        },
+        {
+          "name": "query / defaultQuery",
+          "type": "string",
+          "defaultValue": "— / \"\"",
+          "description": "The search text, controlled or initial."
+        },
+        {
+          "name": "onQueryChange",
+          "type": "(query: string) => void",
+          "description": "Fires with every keystroke's new query."
+        },
+        {
+          "name": "highlighted",
+          "type": "string",
+          "description": "Controlled: the id of the highlighted result (\"create\" for the create row)."
+        },
+        {
+          "name": "onHighlight",
+          "type": "(item: PreviewPaletteItem | null) => void",
+          "description": "The highlight moved, from the key, pointer or drag that moved it, and once on mount; null for the create row."
+        },
+        {
+          "name": "onSelect",
+          "type": "(item: PreviewPaletteItem) => void",
+          "description": "A result was opened: Enter, a click, or a tap on its preview."
+        },
+        {
+          "name": "onOpenBeside",
+          "type": "(item: PreviewPaletteItem) => void",
+          "description": "Cmd or Ctrl+Enter: open the highlighted result beside the current one."
+        },
+        {
+          "name": "onCreate",
+          "type": "(query: string) => void",
+          "description": "The no-results row was chosen, with the query to create from."
+        },
+        {
+          "name": "createLabel",
+          "type": "string",
+          "defaultValue": "\"Create page\"",
+          "description": "The create row's verb."
+        },
+        {
+          "name": "pendingIds",
+          "type": "string[]",
+          "defaultValue": "[]",
+          "description": "Results whose preview is still loading: their card shows a skeleton."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the results have arrived: skeleton rows while loading, a message with Try again on error."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again after an error."
+        },
+        {
+          "name": "now",
+          "type": "number",
+          "defaultValue": "defaultPreviewPaletteNow",
+          "description": "The time relative dates and local times are read from, in ms."
+        },
+        {
+          "name": "maxResults",
+          "type": "number",
+          "defaultValue": "12",
+          "description": "Most results listed for a query."
+        },
+        {
+          "name": "peekDelay",
+          "type": "number",
+          "defaultValue": "380",
+          "description": "How long a press on a row must last to peek its preview where the pane is hidden, in ms."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "defaultValue": "\"Search Fernworks…\"",
+          "description": "The field's placeholder."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Search the wiki\"",
+          "description": "The field's accessible name."
+        },
+        {
+          "name": "onDismiss",
+          "type": "() => void",
+          "description": "Escape on an empty field. Without it Escape is left to the page."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the outer container."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the field is a combobox (focus never leaves it). Up and Down move and flip the preview, Page Up and Page Down jump five, Enter opens, Cmd or Ctrl+Enter opens beside; below 34rem → at the end of the field peeks and ← or Escape closes the peek. Escape then clears, then calls onDismiss.",
+        "The preview pane is aria-hidden: each option's accessible name already carries its title, kind, path or role and whether it is open beside. Result counts are announced once typing settles, never per keystroke.",
+        "Performance: one motion value carries the whole strip and every card derives its place, scale and fade from it, so a flip re-renders nothing per frame; only cards within two of the window are mounted, and nothing runs at rest.",
+        "Under reduced motion only the highlighted card is shown and the next one cross-fades in; the pill moves at once and the drag becomes a swipe that flips one card.",
+        "Times (edited ago, local time) are read from the now prop, so server and browser render the same markup; pass Date.now() from your own effect to keep it current."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/preview-palette",
+      "registryItemUrl": "https://www.kinetiqui.com/r/preview-palette.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/preview-palette",
+        "npm": "npx shadcn@latest add @kinetiq/preview-palette",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/preview-palette",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/preview-palette",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/preview-palette.json"
+      }
+    },
+    {
+      "slug": "batch-palette",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Batch Palette",
+      "serial": "KQ-2117",
+      "tagline": "Pick several, then act on them all.",
+      "description": "A command menu that gathers several items before choosing what to do with them: Space or Enter picks the highlighted ticket and a copy of its key flies from the row to the tray, landing as a chip on springs.snap with one crisp overshoot, while removed chips leave on the exit ease and the rest close up on springs.glide. Tab moves to the actions and the chips glide out of the tray in a cascade to fan over the highlighted action like a hand of cards, following it from row to row on springs.glide, with the tickets the action would skip or cannot take struck through so you see exactly what it will touch. Running reports a partial failure through onRunAction's { failed }: those chips glide home tinted while the rest sink into the action, and Shift+Tab, Backspace and Escape step back, drop the last chip and clear.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "bulk actions",
+        "multi select",
+        "command palette",
+        "batch edit",
+        "ticket triage",
+        "selection tray",
+        "app ui"
+      ],
+      "props": [
+        {
+          "name": "chipStyle",
+          "type": "\"pill\" | \"tag\" | \"stub\"",
+          "defaultValue": "\"pill\"",
+          "description": "How a picked item is drawn in the tray and the fan: a rounded accent pill, a square tag with a status notch, or a ticket stub with punched sides."
+        },
+        {
+          "name": "fanSpread",
+          "type": "number",
+          "defaultValue": "6",
+          "description": "Degrees between neighbouring chips when they fan out over an action; 0 is a neat stack."
+        },
+        {
+          "name": "accent",
+          "type": "\"cobalt\" | \"plum\" | \"mint\" | \"ink\" | string",
+          "defaultValue": "\"cobalt\"",
+          "description": "Highlight, chips and checks. A name or any CSS colour."
+        },
+        {
+          "name": "items",
+          "type": "BatchItem[]",
+          "defaultValue": "defaultBatchItems",
+          "description": "Everything that can be picked: { id, key, title, status, priority?, assignee?, updated?, keywords? }."
+        },
+        {
+          "name": "actions",
+          "type": "BatchAction[]",
+          "defaultValue": "defaultBatchActions",
+          "description": "What can be done: { id, label, icon, appliesTo?, unsupportedReason?, min?, max?, past?, tone?, keywords? }."
+        },
+        {
+          "name": "selection / defaultSelection",
+          "type": "string[]",
+          "defaultValue": "— / []",
+          "description": "Ids of the picked items in the order they were picked, controlled or initial."
+        },
+        {
+          "name": "onSelectionChange",
+          "type": "(ids: string[]) => void",
+          "description": "Fires with the new pick from the key, click or run that changed it."
+        },
+        {
+          "name": "onRunAction",
+          "type": "(action, items) => void | BatchRunResult | Promise<void | BatchRunResult>",
+          "description": "Run an action on the supported picked items; return or resolve { failed: [{ id, reason }] } for a partial failure."
+        },
+        {
+          "name": "onClearSelection",
+          "type": "() => void",
+          "description": "The tray's Clear was pressed."
+        },
+        {
+          "name": "phase / defaultPhase",
+          "type": "\"items\" | \"actions\"",
+          "defaultValue": "— / \"items\"",
+          "description": "Which list is showing, controlled or initial."
+        },
+        {
+          "name": "onPhaseChange",
+          "type": "(phase: \"items\" | \"actions\") => void",
+          "description": "Fires from the Tab, click or run that switched lists."
+        },
+        {
+          "name": "maxFan",
+          "type": "number",
+          "defaultValue": "6",
+          "description": "Most chips fanned over an action; the rest are counted."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the items have arrived: skeleton rows while loading, a message with Try again on error."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again after an error."
+        },
+        {
+          "name": "now",
+          "type": "number",
+          "defaultValue": "defaultBatchNow",
+          "description": "The time ages are read from, in ms."
+        },
+        {
+          "name": "itemNoun",
+          "type": "[string, string]",
+          "defaultValue": "[\"ticket\", \"tickets\"]",
+          "description": "What one item and many are called, in names, counts and summaries."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "defaultValue": "\"Find tickets…\"",
+          "description": "The field's placeholder while picking."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Batch actions\"",
+          "description": "The palette's accessible name."
+        },
+        {
+          "name": "onDismiss",
+          "type": "() => void",
+          "description": "Escape on an empty field while picking. Without it Escape is left to the page."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the outer container."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: Up and Down move; Space picks once you are moving with the arrows (or whenever the field is empty), Enter always picks; Tab moves to the actions and Shift+Tab back — Tab only ever switches toward the other list, so focus can still leave the field; Backspace on an empty field drops the last chip; Escape clears, steps back, then dismisses.",
+        "Semantics: the field is a combobox over a multi-select listbox (picked tickets are aria-selected); unavailable actions are aria-disabled with their reason in the name. Picks, removals, list switches and run results are each announced once.",
+        "onRunAction receives only the supported items; unsupported ones are skipped and counted in the summary. A promise is guarded by a run token, so a run that settles after unmount or after another run writes nothing.",
+        "Under reduced motion chips fade in their slots instead of flying, the fan fades in over the row and moves instantly, and running shows the spinner without the pulse — the struck-through chips still show what will be skipped.",
+        "Nothing runs at rest: flights and the fan are a few springs on a handful of elements, and the tray scrolls sideways under 34rem."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/batch-palette",
+      "registryItemUrl": "https://www.kinetiqui.com/r/batch-palette.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/batch-palette",
+        "npm": "npx shadcn@latest add @kinetiq/batch-palette",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/batch-palette",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/batch-palette",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/batch-palette.json"
+      }
+    },
+    {
+      "slug": "inline-answers",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Inline Answers",
+      "serial": "KQ-2118",
+      "tagline": "Quick sums and conversions, right in the palette.",
+      "description": "A command menu that answers small questions inline: a sum with units, a conversion, a date offset or a time-zone question puts its answer in a large first row whose digits roll to each new result on springs.snap as you type (rollSpeed scales the spring with its damping ratio kept), counted from the decimal mark so the units stay put while a new leading digit rolls in from zero and opens its width on springs.glide. Under the figure the input is read back as chips, dashed in the warn colour where the provider had to guess (an ambiguous date, a sum waiting for its last number). Enter or Cmd/Ctrl+C copies the answer and the hint turns into a check drawn on springs.flick, Up and Down still move through the ordinary results, and providers are props that may throw: the error is reported once and the row says the provider is unavailable.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "calculator",
+        "unit conversion",
+        "command palette",
+        "date math",
+        "time zones",
+        "quick answers",
+        "app ui"
+      ],
+      "props": [
+        {
+          "name": "answerSize",
+          "type": "number",
+          "defaultValue": "32",
+          "description": "Size of the answer's figure, in px."
+        },
+        {
+          "name": "rollSpeed",
+          "type": "number",
+          "defaultValue": "1",
+          "description": "How fast the digits roll: a multiple of the snap spring's speed, its damping ratio kept."
+        },
+        {
+          "name": "accent",
+          "type": "\"cobalt\" | \"plum\" | \"mint\" | \"ink\" | string",
+          "defaultValue": "\"cobalt\"",
+          "description": "The answer row's wash, chips and check. A name or any CSS colour."
+        },
+        {
+          "name": "providers",
+          "type": "AnswerProvider[]",
+          "defaultValue": "defaultAnswerProviders",
+          "description": "Tried in order, the first answer wins: { id, label, answer(query, context) } returning an InlineAnswer or null; may throw."
+        },
+        {
+          "name": "locale",
+          "type": "string",
+          "defaultValue": "\"en-GB\"",
+          "description": "Number formatting locale; also decides whether 12/03 reads day first."
+        },
+        {
+          "name": "unitSystem",
+          "type": "\"metric\" | \"imperial\"",
+          "defaultValue": "\"metric\"",
+          "description": "Which units a lone quantity converts to when you don't say."
+        },
+        {
+          "name": "maxFractionDigits",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "Most decimals in a number."
+        },
+        {
+          "name": "formatNumber",
+          "type": "(n: number, maxFractionDigits: number) => string",
+          "defaultValue": "Intl.NumberFormat with locale",
+          "description": "Format a number."
+        },
+        {
+          "name": "formatDate",
+          "type": "(date: Date) => string",
+          "defaultValue": "defaultFormatDate",
+          "description": "Format a date (\"Fri 16 Oct 2026\")."
+        },
+        {
+          "name": "zones",
+          "type": "AnswerZone[]",
+          "defaultValue": "defaultAnswerZones",
+          "description": "Places the time-zone answers know: { id, label, names, offset } with fixed offsets."
+        },
+        {
+          "name": "homeZone",
+          "type": "string",
+          "defaultValue": "\"lisbon\"",
+          "description": "The zone \"here\" means, and the one dates are counted in."
+        },
+        {
+          "name": "results",
+          "type": "AnswerResult[]",
+          "defaultValue": "defaultAnswerResults",
+          "description": "The ordinary results under the answer: { id, title, group, detail?, icon, keywords? }."
+        },
+        {
+          "name": "query / defaultQuery",
+          "type": "string",
+          "defaultValue": "— / \"\"",
+          "description": "The field's text, controlled or initial."
+        },
+        {
+          "name": "onQueryChange",
+          "type": "(query: string) => void",
+          "description": "Fires with every keystroke's new query."
+        },
+        {
+          "name": "onCopyAnswer",
+          "type": "(answer: InlineAnswer) => void",
+          "description": "The answer was copied: Enter on it, a click, or Cmd/Ctrl+C."
+        },
+        {
+          "name": "onSelect",
+          "type": "(result: AnswerResult) => void",
+          "description": "An ordinary result was chosen."
+        },
+        {
+          "name": "onProviderError",
+          "type": "(providerId: string, error: unknown) => void",
+          "description": "A provider threw; reported once per query."
+        },
+        {
+          "name": "now",
+          "type": "number",
+          "defaultValue": "defaultAnswerNow",
+          "description": "The time dates and clocks are read from, in ms."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether the ordinary results have arrived; answers work either way."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again after an error."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "defaultValue": "\"Ask or search Fieldline…\"",
+          "description": "The field's placeholder."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Search and answers\"",
+          "description": "The field's accessible name."
+        },
+        {
+          "name": "onDismiss",
+          "type": "() => void",
+          "description": "Escape on an empty field. Without it Escape is left to the page."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the outer container."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the answer row is the first option and is highlighted when there is one — Enter copies it, and Cmd or Ctrl+C copies it whenever no text is selected in the field (a selection copies as usual). Up and Down move into the results, Enter opens one, Escape clears then dismisses.",
+        "The rolling columns are aria-hidden; the answer exists once, in the option's name, with what the provider assumed when it was unsure. The answer is announced once typing settles, and copies are announced.",
+        "answerQuery(query, options) is exported: the same providers and defaults, for showing the answer elsewhere (a status line, a history).",
+        "Providers run synchronously on each keystroke and are memoised per query; one that throws is skipped for the rest, reported once per query, and shown as unavailable only when nothing else answered.",
+        "Under reduced motion digits cross-fade instead of rolling and new places appear at full width; every keystroke still updates the answer and its reading.",
+        "Dates and clocks come from the now prop and fixed English names, so server and browser markup match; numbers use Intl.NumberFormat with the locale (never compact notation)."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/inline-answers",
+      "registryItemUrl": "https://www.kinetiqui.com/r/inline-answers.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/inline-answers",
+        "npm": "npx shadcn@latest add @kinetiq/inline-answers",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/inline-answers",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/inline-answers",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/inline-answers.json"
+      }
+    },
+    {
+      "slug": "anchored-palette",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Anchored Palette",
+      "serial": "KQ-2119",
+      "tagline": "Actions for what you selected, right where it is.",
+      "description": "A document with a command menu that opens from your selection instead of the middle of the screen: select a phrase (it snaps to whole words and becomes a tinted mark) or some tasks, press Cmd or Ctrl+K, and the palette grows out of the selection's own rectangle on springs.glide, its x, y, width, height and radius travelling together while contents laid out at the final size fade in, to sit anchorGap pixels below the selection (above when only that fits, its list shortened rather than covering what it acts on). It quotes the selection, lists only the actions that fit it with a highlight on springs.snap, and previews what an action would make of the text; Escape shrinks it back into the selection on the exit ease. With nothing selected it opens the full palette, on a narrow frame it rises as a bottom sheet you can drag away, and a rejected run keeps it open with the row in danger.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "contextual menu",
+        "selection actions",
+        "command palette",
+        "text editor",
+        "bottom sheet",
+        "document",
+        "app ui"
+      ],
+      "props": [
+        {
+          "name": "anchorGap",
+          "type": "number",
+          "defaultValue": "8",
+          "description": "Pixels between the selection and the palette that grows out of it."
+        },
+        {
+          "name": "quoteStyle",
+          "type": "\"bar\" | \"marks\" | \"chip\"",
+          "defaultValue": "\"bar\"",
+          "description": "How the selection is quoted at the palette's top: an accent rule, a large opening mark, or one mono chip."
+        },
+        {
+          "name": "accent",
+          "type": "\"cobalt\" | \"plum\" | \"mint\" | \"ink\" | string",
+          "defaultValue": "\"cobalt\"",
+          "description": "The selection mark, the grow tint and the highlight. A name or any CSS colour."
+        },
+        {
+          "name": "doc",
+          "type": "AnchoredDoc",
+          "defaultValue": "defaultAnchoredDoc",
+          "description": "The document: { title, path, edited?, author?, blocks } of paragraphs, headings and task lists."
+        },
+        {
+          "name": "selection / defaultSelection",
+          "type": "AnchoredSelection | null",
+          "defaultValue": "— / null",
+          "description": "A word range of one paragraph ({ kind: \"text\", block, start, end }) or some tasks ({ kind: \"items\", ids }), controlled or initial."
+        },
+        {
+          "name": "onSelectionChange",
+          "type": "(selection: AnchoredSelection | null) => void",
+          "description": "Fires from the drag, key or click that changed the selection."
+        },
+        {
+          "name": "actions",
+          "type": "Record<\"text\" | \"items\" | \"none\", AnchoredAction[]>",
+          "defaultValue": "defaultAnchoredActions",
+          "description": "The actions that fit each kind of selection ({ id, label, icon, hint?, keywords?, preview? }); none is the full palette."
+        },
+        {
+          "name": "recent",
+          "type": "string[]",
+          "defaultValue": "defaultAnchoredRecent",
+          "description": "Action ids listed first under Recent where they fit."
+        },
+        {
+          "name": "open / defaultOpen",
+          "type": "boolean",
+          "defaultValue": "— / false",
+          "description": "Whether the palette is open, controlled or initial. Opening from the prop never takes focus."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "description": "Fires from the shortcut, click, Escape, run or drag that opened or closed it."
+        },
+        {
+          "name": "onAction",
+          "type": "(action, selection) => void | Promise<void>",
+          "description": "Run an action on the selection. A rejected promise shows the action-failed state."
+        },
+        {
+          "name": "onPreview",
+          "type": "(action: AnchoredAction | null, selection) => void",
+          "description": "The highlighted action changed; null when the palette closes."
+        },
+        {
+          "name": "onDismiss",
+          "type": "() => void",
+          "description": "The palette was dismissed: Escape, a click outside, or a drag down."
+        },
+        {
+          "name": "shortcut",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Cmd or Ctrl+K, pressed while focus is in the document, opens and closes it."
+        },
+        {
+          "name": "sheetBelow",
+          "type": "number",
+          "defaultValue": "420",
+          "description": "Below this frame width the palette opens as a bottom sheet, in px."
+        },
+        {
+          "name": "now",
+          "type": "number",
+          "defaultValue": "defaultAnchoredNow",
+          "description": "The time \"edited\" is read from, in ms."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "defaultValue": "\"Do something with this…\"",
+          "description": "The field's placeholder."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Selection actions\"",
+          "description": "The palette's accessible name, followed by what it acts on."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the outer container."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: paragraphs are focusable and Shift+→ / Shift+← select word by word; Cmd or Ctrl+K opens actions for the selection (or for the whole focused paragraph, or the full palette when nothing is selected). The task list is a multi-select listbox: arrows move, Space or Enter toggles. In the palette Up and Down move, Enter runs, Escape (handled with preventDefault) closes and focus returns to where it came from.",
+        "The palette is a dialog whose name quotes the selection; Tab stays inside it. Opening, running, failures and closing are announced once.",
+        "Geometry is measured once per open from the selection's client rects and kept in the document's scroll content, so the palette stays attached when the document scrolls; nothing runs at rest.",
+        "Under reduced motion the palette appears in its final place with a fade and closes with a fade, the sheet fades instead of rising, and the mark's pulse after a run is a colour change.",
+        "A drag selection with the mouse is read from the native selection inside one paragraph, grown to whole words, and replaced by the mark (copy it with the Copy as quote action)."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/anchored-palette",
+      "registryItemUrl": "https://www.kinetiqui.com/r/anchored-palette.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/anchored-palette",
+        "npm": "npx shadcn@latest add @kinetiq/anchored-palette",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/anchored-palette",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/anchored-palette",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/anchored-palette.json"
+      }
+    },
+    {
+      "slug": "sigil-palette",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Sigil Palette",
+      "serial": "KQ-2120",
+      "tagline": "One box, and a symbol picks what it searches.",
+      "description": "A command menu where the first character sets the mode — > commands, @ people, # projects, / files: the symbol you type lands in the glyph slot and morphs into that mode's icon on springs.snap, four strokes of nine points interpolated and rebuilt every frame while it slides in from where it was typed, as the field retints toward the mode's colour, the caret follows and the results cross-fade to the mode's own list while its measured height glides on springs.glide. Backspace on an empty query morphs the icon back into the magnifier and Tab morphs icon to icon through the modes, starting from the in-between shape when interrupted. Every mode has its own recents, loading rows and empty state (most offer to create), and under 34rem the mode hints become a chip row.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "command palette",
+        "search modes",
+        "prefix search",
+        "icon morph",
+        "quick switcher",
+        "operations",
+        "app ui"
+      ],
+      "props": [
+        {
+          "name": "glyphStyle",
+          "type": "\"line\" | \"tile\" | \"keycap\"",
+          "defaultValue": "\"line\"",
+          "description": "How the glyph at the start of the field is drawn: a bare stroke in the mode colour, on a filled tile of the mode's pigment, or on a key with the mode colour on its lip."
+        },
+        {
+          "name": "tint",
+          "type": "number",
+          "defaultValue": "12",
+          "description": "How strongly the field takes the mode's colour, in percent."
+        },
+        {
+          "name": "accent",
+          "type": "\"cobalt\" | \"plum\" | \"mint\" | \"ink\" | string",
+          "defaultValue": "\"cobalt\"",
+          "description": "The base hue every mode's colour is turned from. A name or any CSS colour."
+        },
+        {
+          "name": "modes",
+          "type": "SigilMode[]",
+          "defaultValue": "defaultSigilModes",
+          "description": "The modes in Tab order: { id, sigil, label, icon, placeholder, hint, hue, createVerb?, empty? }."
+        },
+        {
+          "name": "items",
+          "type": "SigilItem[]",
+          "defaultValue": "defaultSigilItems",
+          "description": "Everything that can be found, each in its mode: { id, mode, label, detail?, keywords?, shortcut?, presence?, updated? }."
+        },
+        {
+          "name": "recent",
+          "type": "string[]",
+          "defaultValue": "defaultSigilRecent",
+          "description": "Ids shown under Recent while the field is empty, newest first."
+        },
+        {
+          "name": "mode / defaultMode",
+          "type": "string",
+          "defaultValue": "— / \"all\"",
+          "description": "\"all\" or a mode id, controlled or initial."
+        },
+        {
+          "name": "onModeChange",
+          "type": "(mode: string) => void",
+          "description": "Fires from the key, Tab or click that changed the mode."
+        },
+        {
+          "name": "query / defaultQuery",
+          "type": "string",
+          "defaultValue": "— / \"\"",
+          "description": "The query without the symbol, controlled or initial."
+        },
+        {
+          "name": "onQueryChange",
+          "type": "(query: string) => void",
+          "description": "Fires with every keystroke's new query."
+        },
+        {
+          "name": "onSelect",
+          "type": "(item: SigilItem, mode: string) => void",
+          "description": "A result was chosen, with the mode it was found in."
+        },
+        {
+          "name": "onCreate",
+          "type": "(mode: string, query: string) => void",
+          "description": "The create row was chosen, with its mode and the query."
+        },
+        {
+          "name": "loadingModes",
+          "type": "string[]",
+          "defaultValue": "[]",
+          "description": "Modes whose results are still arriving: skeleton rows."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Whether anything has arrived: a message with Try again on error."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Try again after an error."
+        },
+        {
+          "name": "now",
+          "type": "number",
+          "defaultValue": "defaultSigilNow",
+          "description": "The time file ages are read from, in ms."
+        },
+        {
+          "name": "maxResults",
+          "type": "number",
+          "defaultValue": "8",
+          "description": "Most results listed for a query."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "defaultValue": "\"Search Coldbrook…\"",
+          "description": "The field's placeholder with no mode."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Search Coldbrook\"",
+          "description": "The field's accessible name with no mode."
+        },
+        {
+          "name": "onDismiss",
+          "type": "() => void",
+          "description": "Escape with nothing to clear and no mode. Without it Escape is left to the page."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the outer container."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: a symbol typed first enters its mode and is consumed; Tab and Shift+Tab cycle the modes, Backspace in an empty field leaves the mode, Up and Down move, Enter opens or creates. Escape clears, then leaves the mode, then dismisses — and an Escape with nothing to do lets the next Tab leave the field (described to assistive technology).",
+        "The field's name follows the mode (\"Search people\") and mode changes are announced once; the glyph is aria-hidden and the hint buttons and chips are real buttons with aria-pressed.",
+        "Mode colours are turned from the accent by each mode's hue (oklch relative colour), so one accent tweak moves the whole family and ink makes it monochrome; avatars use pigment at a fixed lightness so they read in both themes.",
+        "Nothing animates at rest: the morph is one spring per mode change, written into four path motion values, and the height observer binds to the panel when it arrives.",
+        "Under reduced motion the glyph cross-fades to the new icon without morphing or sliding, results swap with opacity only and the height changes at once; the retint still happens."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/sigil-palette",
+      "registryItemUrl": "https://www.kinetiqui.com/r/sigil-palette.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/sigil-palette",
+        "npm": "npx shadcn@latest add @kinetiq/sigil-palette",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/sigil-palette",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/sigil-palette",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/sigil-palette.json"
+      }
+    },
+    {
+      "slug": "zoom-readout",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Zoom Readout",
+      "serial": "KQ-2126",
+      "tagline": "Zoom, fit and the tools, in one strip.",
+      "description": "The top strip of a whiteboard over the board it drives: the active tool sits on a marker that slides between tools on springs.snap, and the zoom readout is an odometer whose digits are separate wheels — a step turns only the wheels whose digit changed, the short way in the direction the zoom moved, with snap's one crisp overshoot, while fit to selection turns them on springs.glide in the same frame as the fit icon's brackets close on its centre and four brackets on the board converge onto the rectangle the selection glides into. A trackpad pinch follows the fingers 1:1 about the pointer and the hand tool drags the board 1:1 and coasts to its projected rest on glide; V, H and 1–8 pick tools, Cmd or Ctrl with = and − step the zoom, Shift+1 fits, and below 36rem the tools fold into one menu.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "zoom",
+        "toolbar",
+        "whiteboard",
+        "fit to selection",
+        "odometer",
+        "canvas app",
+        "navbar"
+      ],
+      "props": [
+        {
+          "name": "ref",
+          "type": "React.Ref<ZoomReadoutHandle>",
+          "description": "Imperative handle with fit(target?) and zoomTo(zoom), for hosts that drive the board from elsewhere."
+        },
+        {
+          "name": "tools",
+          "type": "ZoomReadoutTool[]",
+          "defaultValue": "defaultZoomReadoutTools",
+          "description": "The tools in the strip, in order: { id, label, icon, key? }. The key is a single-letter shortcut; 1–9 always pick by position."
+        },
+        {
+          "name": "tool / defaultTool",
+          "type": "string",
+          "defaultValue": "\"select\"",
+          "description": "The active tool id, controlled or initial. The hand tool makes the whole board a pan surface."
+        },
+        {
+          "name": "onToolChange",
+          "type": "(tool: string) => void",
+          "description": "Fires from the press, menu choice or key that picked a tool."
+        },
+        {
+          "name": "zoom / defaultZoom",
+          "type": "number",
+          "defaultValue": "50",
+          "description": "Zoom in whole percent, controlled or initial. A controlled change the host refuses never moves the board."
+        },
+        {
+          "name": "onZoomChange",
+          "type": "(zoom: number) => void",
+          "description": "Fires with the new whole-percent zoom from the step, preset, pinch or fit that changed it."
+        },
+        {
+          "name": "minZoom",
+          "type": "number",
+          "defaultValue": "10",
+          "description": "Lowest zoom, percent."
+        },
+        {
+          "name": "maxZoom",
+          "type": "number",
+          "defaultValue": "800",
+          "description": "Highest zoom, percent. Its digit count sets how many wheels the readout has."
+        },
+        {
+          "name": "presets",
+          "type": "number[]",
+          "defaultValue": "[10, 25, 50, 75, 100, 150, 200, 400, 800]",
+          "description": "The stops Zoom in and Zoom out step through, also listed in the readout's menu."
+        },
+        {
+          "name": "items",
+          "type": "ZoomReadoutItem[]",
+          "defaultValue": "defaultZoomReadoutItems",
+          "description": "What is on the board, in board pixels: { id, kind: \"frame\" | \"sticky\" | \"shape\" | \"ellipse\" | \"text\", x, y, w, h, label, note?, tone? }."
+        },
+        {
+          "name": "selection / defaultSelection",
+          "type": "string[]",
+          "defaultValue": "[\"pricing\"]",
+          "description": "Selected item ids, controlled or initial. Fit selection is aria-disabled, with the reason in its name, while this is empty."
+        },
+        {
+          "name": "onSelectionChange",
+          "type": "(ids: string[]) => void",
+          "description": "Fires from the click, key or Escape that changed the selection."
+        },
+        {
+          "name": "onFit",
+          "type": "(fit: { target: \"selection\" | \"all\"; zoom: number; ids: string[] }) => void",
+          "description": "Fires when a fit runs, with what was fitted and the zoom it landed on."
+        },
+        {
+          "name": "fitPadding",
+          "type": "number",
+          "defaultValue": "20",
+          "description": "Screen pixels left around a fitted selection."
+        },
+        {
+          "name": "toolSize",
+          "type": "number",
+          "defaultValue": "32",
+          "description": "Tool and zoom button size in px. The strip is 12 px taller and the readout's type scales with it."
+        },
+        {
+          "name": "readoutStyle",
+          "type": "\"roll\" | \"tiles\" | \"meter\"",
+          "defaultValue": "\"roll\"",
+          "description": "How the zoom reads: bare rolling digits, each digit on a split tile like a counter, or digits over a level meter that fills on a log scale between minZoom and maxZoom."
+        },
+        {
+          "name": "accent",
+          "type": "\"cobalt\" | \"plum\" | \"mint\" | \"ink\" | string",
+          "defaultValue": "\"cobalt\"",
+          "description": "Tool marker, selection outline, fit brackets and meter: a named accent or any CSS colour."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Q4 launch board\"",
+          "description": "The board's name, shown from 40rem; with the workspace it is the piece's accessible name."
+        },
+        {
+          "name": "workspace",
+          "type": "string",
+          "defaultValue": "\"Fernworks\"",
+          "description": "The workspace the board belongs to; its initial is the monogram."
+        },
+        {
+          "name": "viewportHeight",
+          "type": "number",
+          "defaultValue": "164",
+          "description": "Height of the board viewport under the strip, px. Menus open inside it."
+        },
+        {
+          "name": "shortcuts",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Listen for tool letters, 1–9, Cmd or Ctrl with = − 0, Shift+1, Shift+0 and Escape while focus is inside the piece."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Board state: loading draws a still skeleton (it pulses only when motion is allowed), error offers Retry. Fit is off in both."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Called by the error state's Retry button."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Turns every control and the board off."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the outer section."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the tools are one toolbar (Left/Right rove, Enter or Space picks); V, H and the other tool letters or 1–8 pick from anywhere inside; Cmd or Ctrl with = and − step through presets, with 0 go to 100%; Shift+1 fits the selection, Shift+0 the whole board; Escape clears the selection. The readout opens a menu (Down arrow or press) whose Escape returns focus to it.",
+        "Reduced motion swaps digits without rolling, jumps the camera and fades the fit brackets in place; the numbers, selection and tool still change.",
+        "Nothing runs while idle: every move is a one-shot spring stopped on change and unmount, and the board's transform, dot grid and overlays are motion values, never per-frame React state.",
+        "Ctrl or Cmd + wheel (a trackpad pinch) is captured only over the board; a plain wheel still scrolls the page.",
+        "Sticky notes are pigments at a fixed lightness taken from the status tokens' hues, so they read the same in light and dark; pass any CSS colour as accent."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/zoom-readout",
+      "registryItemUrl": "https://www.kinetiqui.com/r/zoom-readout.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/zoom-readout",
+        "npm": "npx shadcn@latest add @kinetiq/zoom-readout",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/zoom-readout",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/zoom-readout",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/zoom-readout.json"
+      }
+    },
+    {
+      "slug": "count-takeover",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Count Takeover",
+      "serial": "KQ-2127",
+      "tagline": "Pick rows; the header turns into actions.",
+      "description": "A list header that changes role when rows are picked: the title leaves upward on the exit ease while the count rises in from below on springs.snap and the selection's actions rise after it in a cascade() stagger on snap, and clearing runs the same path backwards, the actions sinking in reverse order before the title comes back down. Each digit of the count is its own wheel that rolls on snap in the direction the count moved, and every action can answer a mixed selection with a reason — it stays focusable but aria-disabled, and hovering or focusing it slides the sentence in under the header. The list is a multi-select listbox (Space toggles, Shift with arrows or a click extends), Cmd or Ctrl+A selects all, Escape clears, and on narrow widths the secondary actions fold into a More menu.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "bulk actions",
+        "selection toolbar",
+        "list header",
+        "multi select",
+        "contextual actions",
+        "navbar",
+        "rolling count"
+      ],
+      "props": [
+        {
+          "name": "items",
+          "type": "CountTakeoverItem[]",
+          "defaultValue": "defaultCountTakeoverItems",
+          "description": "The rows: { id, ref, destination, customer, carrier, state: \"draft\" | \"ready\" | \"transit\" | \"delivered\" | \"held\", due }."
+        },
+        {
+          "name": "selection / defaultSelection",
+          "type": "string[]",
+          "defaultValue": "[]",
+          "description": "Selected row ids, controlled or initial. Ids whose rows have gone are neither shown nor counted."
+        },
+        {
+          "name": "onSelectionChange",
+          "type": "(ids: string[]) => void",
+          "description": "Fires from the click, key, Clear or action that changed the selection."
+        },
+        {
+          "name": "actions",
+          "type": "CountTakeoverAction[]",
+          "defaultValue": "defaultCountTakeoverActions",
+          "description": "What the header offers a selection: { id, label, icon, tone?: \"default\" | \"danger\", priority?: \"primary\" | \"secondary\", reason?: (selected) => string | null }. A reason turns the action off for that selection and is shown on hover or focus."
+        },
+        {
+          "name": "idleActions",
+          "type": "CountTakeoverAction[]",
+          "defaultValue": "defaultCountTakeoverIdleActions",
+          "description": "What the header offers with nothing selected; the last one is the primary button."
+        },
+        {
+          "name": "onAction",
+          "type": "(actionId: string, ids: string[]) => void",
+          "description": "Fires when an action is taken, with the ids it applies to (empty for idle actions). An action that is off never fires it."
+        },
+        {
+          "name": "onSelectAll",
+          "type": "(ids: string[]) => void",
+          "description": "Fires when everything is selected by the header checkbox or Cmd/Ctrl+A."
+        },
+        {
+          "name": "onClear",
+          "type": "() => void",
+          "description": "Fires when the selection is cleared by Escape, Clear or the header checkbox."
+        },
+        {
+          "name": "clearOnAction",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Drop the selection once an action has been taken, so the header reverses to its title."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Shipments\"",
+          "description": "The list's title, and the accessible name of the piece and its listbox."
+        },
+        {
+          "name": "meta",
+          "type": "string",
+          "defaultValue": "\"48 in transit · updated 4 min ago\"",
+          "description": "The line under the title."
+        },
+        {
+          "name": "noun",
+          "type": "{ one: string; many: string }",
+          "defaultValue": "{ one: \"shipment\", many: \"shipments\" }",
+          "description": "What one row is called, for the count and the announcements."
+        },
+        {
+          "name": "listHeight",
+          "type": "number",
+          "defaultValue": "168",
+          "description": "Height of the scrolling list, px."
+        },
+        {
+          "name": "swapStyle",
+          "type": "\"rise\" | \"push\" | \"fold\"",
+          "defaultValue": "\"rise\"",
+          "description": "How the header changes role: the title rises out as the count rises in, a sideways push, or a fold about the header's horizontal axis."
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"regular\" | \"roomy\"",
+          "defaultValue": "\"regular\"",
+          "description": "Header and row height: 44/32, 48/40 or 52/48 px."
+        },
+        {
+          "name": "accent",
+          "type": "\"cobalt\" | \"plum\" | \"mint\" | \"ink\" | string",
+          "defaultValue": "\"cobalt\"",
+          "description": "Checkboxes, the selection wash, the count and the primary action: a named accent or any CSS colour."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "List state: loading shows skeleton rows, error offers Retry."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Called by the error state's Retry button."
+        },
+        {
+          "name": "emptyText",
+          "type": "string",
+          "defaultValue": "\"No shipments match this view.\"",
+          "description": "Shown when there are no rows."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Turns the list and the header off."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the outer section."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the list is one tab stop (Up/Down/Home/End move, Space or Enter toggles, Shift with an arrow extends from the last toggled row); Cmd or Ctrl+A selects all and Escape clears from anywhere inside; the selection actions are a toolbar (Left/Right/Home/End).",
+        "An action that is off for the selection stays focusable with aria-disabled and its reason as its description; pressing it says why instead of acting.",
+        "When an action or Clear removes the selection toolbar, focus moves to the header checkbox first, so it never falls to the page.",
+        "Reduced motion cross-fades the two header layers and swaps the count's digits; the count, the reasons and the row states still change.",
+        "No loops run: the takeover is declarative and settles, and one ResizeObserver picks which actions are labelled or folded into More."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/count-takeover",
+      "registryItemUrl": "https://www.kinetiqui.com/r/count-takeover.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/count-takeover",
+        "npm": "npx shadcn@latest add @kinetiq/count-takeover",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/count-takeover",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/count-takeover",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/count-takeover.json"
+      }
+    },
+    {
+      "slug": "back-stack",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Back Stack",
+      "serial": "KQ-2128",
+      "tagline": "Back is a list, not a guess.",
+      "description": "An app header whose Back and Forward know where they lead: Back names the page it returns to — a chip that slides out from under it on springs.snap, a label it always carries, or a tooltip — and holding either button fills a bar under it on a linear tween until the whole history drops from under the header, unrolling on an enter tween while its entries arrive newest first in cascade() order on snap with the current one marked. Choosing an entry jumps there and the page slides in from the side the jump went on springs.glide while the old one leaves on the exit ease; related links push onto the history and drop the pages ahead. Alt with Left and Right moves, Alt+Down (or Down on either button) opens the stack, right-click and a touch long press open it too, and Escape closes it back onto the button that opened it.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "back button",
+        "history",
+        "navigation",
+        "app header",
+        "long press",
+        "navbar",
+        "breadcrumb"
+      ],
+      "props": [
+        {
+          "name": "pages",
+          "type": "BackStackPage[]",
+          "defaultValue": "defaultBackStackPages",
+          "description": "Every page the session can reach: { id, title, section, icon?, summary, links? }. Links are page ids shown as related links that push onto the history."
+        },
+        {
+          "name": "history / defaultHistory",
+          "type": "BackStackVisit[]",
+          "defaultValue": "defaultBackStackHistory",
+          "description": "The visits, oldest first: { page, at } with at in ms. Controlled or initial."
+        },
+        {
+          "name": "index / defaultIndex",
+          "type": "number",
+          "defaultValue": "3",
+          "description": "Where in the history the visitor is, controlled or initial. The first and last positions turn Back and Forward off."
+        },
+        {
+          "name": "onNavigate",
+          "type": "(index: number, visit: BackStackVisit, via: \"back\" | \"forward\" | \"stack\" | \"link\") => void",
+          "description": "Fires from the press, key, stack choice or link that moved, with where it landed and how."
+        },
+        {
+          "name": "onHistoryChange",
+          "type": "(history: BackStackVisit[], index: number) => void",
+          "description": "Fires when the history itself changes: a link pushed a page (dropping those ahead), or it was cleared."
+        },
+        {
+          "name": "onClearHistory",
+          "type": "() => void",
+          "description": "Fires from Clear history at the foot of the stack, which keeps only the current page."
+        },
+        {
+          "name": "stackOpen / defaultStackOpen",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Whether the history stack is dropped, controlled or initial. A stack the host opens never moves focus; one the visitor opens focuses the current entry."
+        },
+        {
+          "name": "onStackOpenChange",
+          "type": "(open: boolean) => void",
+          "description": "Fires from the hold, key, right-click, choice, outside press or Escape that opened or closed the stack."
+        },
+        {
+          "name": "holdMs",
+          "type": "number",
+          "defaultValue": "450",
+          "description": "How long Back or Forward is held before the stack drops, ms. A release before then is an ordinary press."
+        },
+        {
+          "name": "now",
+          "type": "number",
+          "defaultValue": "defaultBackStackNow",
+          "description": "The time visits are measured from (\"2 min ago\"), ms since the epoch — never read from the clock during render."
+        },
+        {
+          "name": "labelMode",
+          "type": "\"hover\" | \"always\" | \"tip\"",
+          "defaultValue": "\"hover\"",
+          "description": "How Back names where it leads: a chip that slides out on hover or keyboard focus, a label it always carries (cross-sliding as it changes), or a tooltip with the shortcut."
+        },
+        {
+          "name": "stackStyle",
+          "type": "\"list\" | \"cards\" | \"rail\"",
+          "defaultValue": "\"list\"",
+          "description": "How the dropped history reads: plain rows, cards that deal down from a pile, or a timeline rail with the pages ahead on a dashed segment."
+        },
+        {
+          "name": "accent",
+          "type": "\"cobalt\" | \"plum\" | \"mint\" | \"ink\" | string",
+          "defaultValue": "\"cobalt\"",
+          "description": "The current entry, the hold bar and the related links: a named accent or any CSS colour."
+        },
+        {
+          "name": "product",
+          "type": "string",
+          "defaultValue": "\"Waylight Help\"",
+          "description": "The product the header belongs to; the accessible name of the piece."
+        },
+        {
+          "name": "onSearch",
+          "type": "() => void",
+          "description": "Shows a Search help button at the right that calls this."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Page state: loading shows a skeleton page, error offers Retry. The header keeps working."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Called by the error state's Retry button."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Turns the header and the links off."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the outer section."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: Alt+Left and Alt+Right move from anywhere inside; Alt+Down, or Down on Back or Forward, drops the stack with focus on the current entry; inside it Up/Down/Home/End move, Enter or Space jumps, and Escape closes it back onto the button that opened it.",
+        "Disabled ends stay focusable with aria-disabled and say why in their names (\"Back, no earlier page\"), so focus never falls to the page when the last step is taken.",
+        "Reduced motion keeps the hold bar filling (it is the hold's feedback), fades the stack in already in place and cross-fades the page without sliding.",
+        "No loops run: one timer per hold, cleared on release, leave and unmount; right-click and the touch long press are prevented from opening the browser's own menu.",
+        "Times are read from the now prop and formatted by hand, so the server and the browser print the same \"2 min ago\"."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/back-stack",
+      "registryItemUrl": "https://www.kinetiqui.com/r/back-stack.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/back-stack",
+        "npm": "npx shadcn@latest add @kinetiq/back-stack",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/back-stack",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/back-stack",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/back-stack.json"
+      }
+    },
+    {
+      "slug": "record-stepper",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Record Stepper",
+      "serial": "KQ-2129",
+      "tagline": "Step through records without leaving the page.",
+      "description": "A detail-page header that knows where the record sits in its list — \"12 of 240\" — with Previous and Next: stepping slides the title stack up or down by slideDistance on springs.glide in the direction you moved, clipped to the header so it reads as the list moving under a window, while the counter's digits roll the same way on the same glide, the record body cross-slides by half the distance and the peek of the next record updates. A neighbour the host has not loaded still moves the counter while the title and body show skeletons until it lands, and at either end the missing step leans the title 4 px on springs.flick and returns it on springs.snap. J and K step, Escape returns to the list, and below 30rem the counter becomes a small progress tick.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "record pager",
+        "previous next",
+        "detail header",
+        "ticket queue",
+        "j k navigation",
+        "navbar",
+        "rolling counter"
+      ],
+      "props": [
+        {
+          "name": "order",
+          "type": "string[]",
+          "defaultValue": "defaultRecordStepperOrder",
+          "description": "Every record id in the list, in list order; its length is the total the counter reads."
+        },
+        {
+          "name": "records",
+          "type": "RecordStepperRecord[]",
+          "defaultValue": "defaultRecordStepperRecords",
+          "description": "The records the host has loaded: { id, title, requester, company, state, priority, updatedAt, excerpt }. A position whose record is missing shows as a loading neighbour until it arrives."
+        },
+        {
+          "name": "position / defaultPosition",
+          "type": "number",
+          "defaultValue": "12",
+          "description": "The 1-based position in the list, controlled or initial."
+        },
+        {
+          "name": "onStep",
+          "type": "(direction: 1 | -1, position: number, record: RecordStepperRecord | null) => void",
+          "description": "Fires from the press or key that stepped, with the new position and its record — null while the host has not loaded it, which is the cue to fetch."
+        },
+        {
+          "name": "onBackToList",
+          "type": "() => void",
+          "description": "Fires from the list button, the end-of-list link or Escape."
+        },
+        {
+          "name": "listLabel",
+          "type": "string",
+          "defaultValue": "\"Open tickets\"",
+          "description": "The list's name, on the back button and in the announcements."
+        },
+        {
+          "name": "filters",
+          "type": "{ id: string; label: string }[]",
+          "defaultValue": "defaultRecordStepperFilters",
+          "description": "The filters the list is under: a count on the back button, the chips themselves from 52rem, and part of its accessible name."
+        },
+        {
+          "name": "slideDistance",
+          "type": "number",
+          "defaultValue": "16",
+          "description": "How far a title travels when stepping, px; the body travels half of it."
+        },
+        {
+          "name": "counterStyle",
+          "type": "\"words\" | \"slash\" | \"track\"",
+          "defaultValue": "\"words\"",
+          "description": "How the place in the list reads: \"12 of 240\", \"12/240\" in an inset pill, or \"12 of 240\" over a small track whose thumb glides to the position. Below 30rem every style becomes a vertical progress tick."
+        },
+        {
+          "name": "accent",
+          "type": "\"cobalt\" | \"plum\" | \"mint\" | \"ink\" | string",
+          "defaultValue": "\"cobalt\"",
+          "description": "The track thumb, the requester mark and the end-of-list link: a named accent or any CSS colour."
+        },
+        {
+          "name": "now",
+          "type": "number",
+          "defaultValue": "defaultRecordStepperNow",
+          "description": "The time updates are measured from (\"updated 12 min ago\"), ms since the epoch."
+        },
+        {
+          "name": "shortcuts",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Listen for J, K and Escape while focus is inside the piece (ignored while typing in a field)."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Record state: error shows a retry in place of the record; stepping still works."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Called by the error state's Retry button."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Turns stepping and the buttons off."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the outer section."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: J steps to the next record and K to the previous from anywhere inside; Escape returns to the list. Previous and Next carry aria-keyshortcuts and name the record they lead to.",
+        "A step onto a record the host has not loaded announces \"Ticket 16 of 240, loading.\" and the record's title once it lands — never before the host has answered.",
+        "Ends stay focusable with aria-disabled; pressing them leans the title toward the missing record and back, and says it is the first or last.",
+        "Reduced motion cross-fades titles and body without travel and swaps the counter's digits; the counter, the record and the loading state still change.",
+        "No script loops: steps are declarative and settle, and the skeleton pulse is a CSS animation that exists only while a record is loading and motion is allowed."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/record-stepper",
+      "registryItemUrl": "https://www.kinetiqui.com/r/record-stepper.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/record-stepper",
+        "npm": "npx shadcn@latest add @kinetiq/record-stepper",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/record-stepper",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/record-stepper",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/record-stepper.json"
+      }
+    },
+    {
+      "slug": "date-window",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Date Window",
+      "serial": "KQ-2130",
+      "tagline": "Pick the period; compare it to the last.",
+      "description": "The header of a sales dashboard and the figures it governs: the date presets are a radiogroup whose selected pill slides to the new choice on springs.snap through one shared layoutId, the range label cross-slides and the tiles re-settle in a cascade() on springs.glide. Turning compare on slides a muted second range label in beside the first on glide, its width growing from nothing so the row makes room instead of jumping, and each tile's change against it rises in on snap; Custom opens a calendar under the bar whose height glides open — one month, two side by side, or a scrolling strip of days — where a span longer than maxDays turns to a danger hatch and Apply says why it is off. Arrow keys move between presets, C toggles compare, Escape closes the calendar, and below 34rem the presets collapse into one dropdown.",
+      "categories": [
+        "canvas"
+      ],
+      "keywords": [
+        "date range picker",
+        "date presets",
+        "compare period",
+        "dashboard header",
+        "calendar",
+        "navbar",
+        "analytics"
+      ],
+      "props": [
+        {
+          "name": "presets",
+          "type": "DateWindowPreset[]",
+          "defaultValue": "defaultDateWindowPresets",
+          "description": "The preset pills, in order: { id, label, short, days? , kind?: \"today\" | \"qtd\" | \"ytd\" | \"custom\" }. A days preset is a trailing window ending today; custom opens the calendar."
+        },
+        {
+          "name": "range / defaultRange",
+          "type": "DateWindowRange",
+          "defaultValue": "defaultDateWindowRange (the last 30 days)",
+          "description": "The range, controlled or initial: { preset, start, end } with ISO days in the dashboard's time zone. A range whose start is after its end shows as invalid."
+        },
+        {
+          "name": "onRangeChange",
+          "type": "(range: DateWindowRange) => void",
+          "description": "Fires from the pill, arrow key, dropdown or Apply that changed the range."
+        },
+        {
+          "name": "compare / defaultCompare",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Whether the figures are compared with another range, controlled or initial."
+        },
+        {
+          "name": "compareMode / defaultCompareMode",
+          "type": "\"previous\" | \"year\"",
+          "defaultValue": "\"previous\"",
+          "description": "What the range is compared with: the period of the same length just before it, or the same days a year earlier."
+        },
+        {
+          "name": "onCompareChange",
+          "type": "(compare: boolean, mode: \"previous\" | \"year\") => void",
+          "description": "Fires from the switch, the C key or the mode radios, with both values."
+        },
+        {
+          "name": "series",
+          "type": "DateWindowDay[]",
+          "defaultValue": "defaultDateWindowSeries",
+          "description": "Daily figures the tiles add up: { date, revenue, orders }. Days missing from it count as no data."
+        },
+        {
+          "name": "now",
+          "type": "number",
+          "defaultValue": "defaultDateWindowNow",
+          "description": "The moment today is taken from, ms since the epoch — never the clock during render."
+        },
+        {
+          "name": "timeZone",
+          "type": "{ label: string; offsetMinutes: number }",
+          "defaultValue": "{ label: \"Pacific\", offsetMinutes: -420 }",
+          "description": "The dashboard's time zone: today and every day shown are in it, and the chip names it."
+        },
+        {
+          "name": "dataDelay",
+          "type": "number",
+          "defaultValue": "120",
+          "description": "How far behind the figures run, minutes, shown as a note; 0 hides it."
+        },
+        {
+          "name": "maxDays",
+          "type": "number",
+          "defaultValue": "90",
+          "description": "The longest custom range Apply accepts. A longer span is the invalid state: a danger hatch and a reason, with Apply off."
+        },
+        {
+          "name": "weekStart",
+          "type": "0 | 1",
+          "defaultValue": "1",
+          "description": "First day of the week in the calendar: 0 Sunday, 1 Monday."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Sales\"",
+          "description": "The dashboard's name."
+        },
+        {
+          "name": "product",
+          "type": "string",
+          "defaultValue": "\"Coldbrook\"",
+          "description": "Whose dashboard it is; shown under the title and part of the accessible name."
+        },
+        {
+          "name": "formatMoney",
+          "type": "(dollars: number) => string",
+          "defaultValue": "compact dollars by hand ($48.2K)",
+          "description": "Formats revenue for the tiles. The default avoids Intl compact notation, which prints differently on the server and in the browser."
+        },
+        {
+          "name": "pillStyle",
+          "type": "\"solid\" | \"soft\" | \"line\"",
+          "defaultValue": "\"soft\"",
+          "description": "The selected preset's look: a filled accent pill, a soft accent wash, or a 2 px underline that slides."
+        },
+        {
+          "name": "calendarLayout",
+          "type": "\"single\" | \"double\" | \"strip\"",
+          "defaultValue": "\"single\"",
+          "description": "The custom calendar: one month, two months side by side when there is room, or one sideways-scrolling strip of days that settles on whole days."
+        },
+        {
+          "name": "accent",
+          "type": "\"cobalt\" | \"plum\" | \"mint\" | \"ink\" | string",
+          "defaultValue": "\"cobalt\"",
+          "description": "The pill, the compare switch and the range ends: a named accent or any CSS colour."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"loading\" | \"error\"",
+          "defaultValue": "\"ready\"",
+          "description": "Figures state: loading shows skeleton tiles, error offers Retry. The header keeps working."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Called by the error state's Retry button."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Turns the presets, the switch and the calendar off."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the outer section. Give it a max height to have it scroll inside its own box while the calendar is open."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the presets are a radiogroup (arrows move and select, Home/End); choosing Custom opens the calendar without moving focus, and the calendar is a grid — arrows move a day or a week, Page Up/Down a month, Home/End the week, Enter picks; Escape closes it back onto Custom. C toggles compare from anywhere inside.",
+        "Dates are ISO day strings and every label is formatted by hand from now and the time zone, so the server and the browser render the same markup.",
+        "Reduced motion moves the pill and the compare label without travel and opens the calendar without a height glide; the figures, the deltas and the invalid hatch still show.",
+        "No loops run: figures are derived with useMemo from the series, and every motion is a declarative spring or tween that settles.",
+        "The calendar pushes the tiles down rather than covering them; in a short container pass a max height and the piece scrolls inside itself."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/date-window",
+      "registryItemUrl": "https://www.kinetiqui.com/r/date-window.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/date-window",
+        "npm": "npx shadcn@latest add @kinetiq/date-window",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/date-window",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/date-window",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/date-window.json"
       }
     },
     {

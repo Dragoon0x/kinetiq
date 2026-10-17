@@ -2395,4 +2395,64 @@ export const CANVAS_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/bubble-up.demo").then((m) =>
       mod(m.BubbleUpDemo, m.tweaks),
     ),
+  "flyout-dock": () =>
+    import("@/registry/demos/flyout-dock.demo").then((m) =>
+      mod(m.FlyoutDockDemo, m.tweaks),
+    ),
+  "milestone-rings": () =>
+    import("@/registry/demos/milestone-rings.demo").then((m) =>
+      mod(m.MilestoneRingsDemo, m.tweaks),
+    ),
+  "sorted-insert": () =>
+    import("@/registry/demos/sorted-insert.demo").then((m) =>
+      mod(m.SortedInsertDemo, m.tweaks),
+    ),
+  "spring-folders": () =>
+    import("@/registry/demos/spring-folders.demo").then((m) =>
+      mod(m.SpringFoldersDemo, m.tweaks),
+    ),
+  "fallthrough-ask": () =>
+    import("@/registry/demos/fallthrough-ask.demo").then((m) =>
+      mod(m.FallthroughAskDemo, m.tweaks),
+    ),
+  "preview-palette": () =>
+    import("@/registry/demos/preview-palette.demo").then((m) =>
+      mod(m.PreviewPaletteDemo, m.tweaks),
+    ),
+  "batch-palette": () =>
+    import("@/registry/demos/batch-palette.demo").then((m) =>
+      mod(m.BatchPaletteDemo, m.tweaks),
+    ),
+  "inline-answers": () =>
+    import("@/registry/demos/inline-answers.demo").then((m) =>
+      mod(m.InlineAnswersDemo, m.tweaks),
+    ),
+  "anchored-palette": () =>
+    import("@/registry/demos/anchored-palette.demo").then((m) =>
+      mod(m.AnchoredPaletteDemo, m.tweaks),
+    ),
+  "sigil-palette": () =>
+    import("@/registry/demos/sigil-palette.demo").then((m) =>
+      mod(m.SigilPaletteDemo, m.tweaks),
+    ),
+  "zoom-readout": () =>
+    import("@/registry/demos/zoom-readout.demo").then((m) =>
+      mod(m.ZoomReadoutDemo, m.tweaks),
+    ),
+  "count-takeover": () =>
+    import("@/registry/demos/count-takeover.demo").then((m) =>
+      mod(m.CountTakeoverDemo, m.tweaks),
+    ),
+  "back-stack": () =>
+    import("@/registry/demos/back-stack.demo").then((m) =>
+      mod(m.BackStackDemo, m.tweaks),
+    ),
+  "record-stepper": () =>
+    import("@/registry/demos/record-stepper.demo").then((m) =>
+      mod(m.RecordStepperDemo, m.tweaks),
+    ),
+  "date-window": () =>
+    import("@/registry/demos/date-window.demo").then((m) =>
+      mod(m.DateWindowDemo, m.tweaks),
+    ),
 };

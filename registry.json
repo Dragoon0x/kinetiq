@@ -51174,6 +51174,431 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "flyout-dock",
+      "type": "registry:ui",
+      "title": "Flyout Dock",
+      "description": "An admin rail whose sections fly their pages out in a panel beside it on springs.glide, with an intent delay that a move toward the panel keeps restarting, so a diagonal sweep from one section to its panel never switches section; while it waits the rail's indicator leans toward the section under the pointer and snaps across on springs.snap once the switch commits. Pinning docks the panel as a permanent second column: one glide spring drives a single value that the panel's inset, radius and shadow and the page's left edge all read, so the floating card settles into a flush column as the page makes room. The rail is one tab stop where Up and Down open each section, Right steps into its pages and Left comes back, P pins, Escape closes, and under 300px the flyouts become drill-in screens.",
+      "files": [
+        {
+          "path": "registry/ui/flyout-dock.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2111"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "milestone-rings",
+      "type": "registry:ui",
+      "title": "Milestone Rings",
+      "description": "A project sidebar where every row wraps its icon in a ring whose arc is progress toward the project's next milestone, with a tally of tiny flags for the milestones already reached. When the data says one is reached, the arc closes on springs.glide, flashes once with a halo on a tween, a flag lifts off the ring and flies to the tally (x on glide, y on springs.snap, landing on springs.recoil), and the ring resets on snap — the arc empties forward and the next milestone's share draws in as the meta line changes. Rows are a listbox where Up and Down walk, Enter chooses, Alt+M opens the focused milestone and Alt with an arrow moves the row, a grip drags rows 1:1 while the others glide aside, and the sidebar folds to a rail where the rings stay wrapped round their icons.",
+      "files": [
+        {
+          "path": "registry/ui/milestone-rings.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2112"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "sorted-insert",
+      "type": "registry:ui",
+      "title": "Sorted Insert",
+      "description": "A sidebar where New opens an inline field in the list instead of a dialog: every row, header and the field are placed by computed y, so the rows below part on springs.glide to make the field's slot. On Enter the field becomes the new row where it stands, then the row flies on glide to its sorted place — riding 8px aside on a solid lifted card while the rows it passes slide up a slot — settles home on springs.snap and holds a highlight so you see where it went; a refused name nudges the field on a short tween and slides its message in. Rows are one roving tab stop where Up and Down move, F2 renames (a rename that sorts elsewhere flies there too), N opens the field in the focused section and Escape cancels, and under 300px the sidebar becomes a drawer whose field opens at its top.",
+      "files": [
+        {
+          "path": "registry/ui/sorted-insert.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2113"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "spring-folders",
+      "type": "registry:ui",
+      "title": "Spring Folders",
+      "description": "A folder sidebar that works as a drop target: dragging documents from the page lifts a ghost that follows the pointer 1:1, and holding it over a closed folder starts a ring that closes over springDelay (a linear timer you can read) before it flashes and the folder springs open on springs.snap, its subfolders unfolding on springs.glide so you keep descending without letting go. Dropping files the documents — the ghost shrinks into the folder, its count rolls and bumps on springs.recoil, the cards fold out of the page on glide, and folders sprung open on the way that are not on the path fold shut — while folders that refuse a type tint with a ban glyph and send the ghost home. Every card has Move to (M), which opens the same tree in a dialog where arrows walk and open folders and Enter files, and under 300px the tree is a sheet that rises when a drag begins.",
+      "files": [
+        {
+          "path": "registry/ui/spring-folders.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2114"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "fallthrough-ask",
+      "type": "registry:ui",
+      "title": "Fallthrough Ask",
+      "description": "A command palette that never dead-ends: typing filters commands and pages with fuzzy matching under a highlight pill that slides on springs.snap, every query ends with an ask row, and a query that matches nothing turns the empty row into it while pages sharing a word stay listed as Related. Enter unfolds the ask row in place on springs.glide into an answer card — while it reads, the pages it is reading arrive one by one on snap; the answer then rises sentence by sentence with citation marks popping in on springs.flick, and its sources settle as chips, a numbered list or footnotes. The field is a combobox whose Up and Down move one highlight across results and the answer (the ask option is described by the answer text), Tab walks the sources, Escape folds the answer and keeps the query, and the no-answer and error states keep it too while still offering a next step.",
+      "files": [
+        {
+          "path": "registry/ui/fallthrough-ask.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2115"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "preview-palette",
+      "type": "registry:ui",
+      "title": "Preview Palette",
+      "description": "A command menu whose right half previews the highlighted result on a vertical filmstrip: Up and Down glide the highlight pill down the list and the whole strip the other way on springs.glide in the same moment, so the next card rises into the window while the last tucks behind the top edge and moving down the list feels like flipping through the items themselves. Pages show their first lines, people their card and local time, files a drawn thumbnail; the pane can also be dragged 1:1 or flicked (the release projects to the card it was heading for) or wheeled, a press settles on springs.snap and an end-of-list press gives the strip a velocity kick that leaves and returns. The field is a combobox: Enter opens, Cmd or Ctrl+Enter opens beside, an empty search offers to create, and below 34rem the pane hides and a long press or → peeks it over the list.",
+      "files": [
+        {
+          "path": "registry/ui/preview-palette.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2116"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "batch-palette",
+      "type": "registry:ui",
+      "title": "Batch Palette",
+      "description": "A command menu that gathers several items before choosing what to do with them: Space or Enter picks the highlighted ticket and a copy of its key flies from the row to the tray, landing as a chip on springs.snap with one crisp overshoot, while removed chips leave on the exit ease and the rest close up on springs.glide. Tab moves to the actions and the chips glide out of the tray in a cascade to fan over the highlighted action like a hand of cards, following it from row to row on springs.glide, with the tickets the action would skip or cannot take struck through so you see exactly what it will touch. Running reports a partial failure through onRunAction's { failed }: those chips glide home tinted while the rest sink into the action, and Shift+Tab, Backspace and Escape step back, drop the last chip and clear.",
+      "files": [
+        {
+          "path": "registry/ui/batch-palette.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2117"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "inline-answers",
+      "type": "registry:ui",
+      "title": "Inline Answers",
+      "description": "A command menu that answers small questions inline: a sum with units, a conversion, a date offset or a time-zone question puts its answer in a large first row whose digits roll to each new result on springs.snap as you type (rollSpeed scales the spring with its damping ratio kept), counted from the decimal mark so the units stay put while a new leading digit rolls in from zero and opens its width on springs.glide. Under the figure the input is read back as chips, dashed in the warn colour where the provider had to guess (an ambiguous date, a sum waiting for its last number). Enter or Cmd/Ctrl+C copies the answer and the hint turns into a check drawn on springs.flick, Up and Down still move through the ordinary results, and providers are props that may throw: the error is reported once and the row says the provider is unavailable.",
+      "files": [
+        {
+          "path": "registry/ui/inline-answers.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2118"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "anchored-palette",
+      "type": "registry:ui",
+      "title": "Anchored Palette",
+      "description": "A document with a command menu that opens from your selection instead of the middle of the screen: select a phrase (it snaps to whole words and becomes a tinted mark) or some tasks, press Cmd or Ctrl+K, and the palette grows out of the selection's own rectangle on springs.glide, its x, y, width, height and radius travelling together while contents laid out at the final size fade in, to sit anchorGap pixels below the selection (above when only that fits, its list shortened rather than covering what it acts on). It quotes the selection, lists only the actions that fit it with a highlight on springs.snap, and previews what an action would make of the text; Escape shrinks it back into the selection on the exit ease. With nothing selected it opens the full palette, on a narrow frame it rises as a bottom sheet you can drag away, and a rejected run keeps it open with the row in danger.",
+      "files": [
+        {
+          "path": "registry/ui/anchored-palette.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2119"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "sigil-palette",
+      "type": "registry:ui",
+      "title": "Sigil Palette",
+      "description": "A command menu where the first character sets the mode — > commands, @ people, # projects, / files: the symbol you type lands in the glyph slot and morphs into that mode's icon on springs.snap, four strokes of nine points interpolated and rebuilt every frame while it slides in from where it was typed, as the field retints toward the mode's colour, the caret follows and the results cross-fade to the mode's own list while its measured height glides on springs.glide. Backspace on an empty query morphs the icon back into the magnifier and Tab morphs icon to icon through the modes, starting from the in-between shape when interrupted. Every mode has its own recents, loading rows and empty state (most offer to create), and under 34rem the mode hints become a chip row.",
+      "files": [
+        {
+          "path": "registry/ui/sigil-palette.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2120"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "zoom-readout",
+      "type": "registry:ui",
+      "title": "Zoom Readout",
+      "description": "The top strip of a whiteboard over the board it drives: the active tool sits on a marker that slides between tools on springs.snap, and the zoom readout is an odometer whose digits are separate wheels — a step turns only the wheels whose digit changed, the short way in the direction the zoom moved, with snap's one crisp overshoot, while fit to selection turns them on springs.glide in the same frame as the fit icon's brackets close on its centre and four brackets on the board converge onto the rectangle the selection glides into. A trackpad pinch follows the fingers 1:1 about the pointer and the hand tool drags the board 1:1 and coasts to its projected rest on glide; V, H and 1–8 pick tools, Cmd or Ctrl with = and − step the zoom, Shift+1 fits, and below 36rem the tools fold into one menu.",
+      "files": [
+        {
+          "path": "registry/ui/zoom-readout.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2126"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "count-takeover",
+      "type": "registry:ui",
+      "title": "Count Takeover",
+      "description": "A list header that changes role when rows are picked: the title leaves upward on the exit ease while the count rises in from below on springs.snap and the selection's actions rise after it in a cascade() stagger on snap, and clearing runs the same path backwards, the actions sinking in reverse order before the title comes back down. Each digit of the count is its own wheel that rolls on snap in the direction the count moved, and every action can answer a mixed selection with a reason — it stays focusable but aria-disabled, and hovering or focusing it slides the sentence in under the header. The list is a multi-select listbox (Space toggles, Shift with arrows or a click extends), Cmd or Ctrl+A selects all, Escape clears, and on narrow widths the secondary actions fold into a More menu.",
+      "files": [
+        {
+          "path": "registry/ui/count-takeover.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2127"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "back-stack",
+      "type": "registry:ui",
+      "title": "Back Stack",
+      "description": "An app header whose Back and Forward know where they lead: Back names the page it returns to — a chip that slides out from under it on springs.snap, a label it always carries, or a tooltip — and holding either button fills a bar under it on a linear tween until the whole history drops from under the header, unrolling on an enter tween while its entries arrive newest first in cascade() order on snap with the current one marked. Choosing an entry jumps there and the page slides in from the side the jump went on springs.glide while the old one leaves on the exit ease; related links push onto the history and drop the pages ahead. Alt with Left and Right moves, Alt+Down (or Down on either button) opens the stack, right-click and a touch long press open it too, and Escape closes it back onto the button that opened it.",
+      "files": [
+        {
+          "path": "registry/ui/back-stack.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2128"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "record-stepper",
+      "type": "registry:ui",
+      "title": "Record Stepper",
+      "description": "A detail-page header that knows where the record sits in its list — \"12 of 240\" — with Previous and Next: stepping slides the title stack up or down by slideDistance on springs.glide in the direction you moved, clipped to the header so it reads as the list moving under a window, while the counter's digits roll the same way on the same glide, the record body cross-slides by half the distance and the peek of the next record updates. A neighbour the host has not loaded still moves the counter while the title and body show skeletons until it lands, and at either end the missing step leans the title 4 px on springs.flick and returns it on springs.snap. J and K step, Escape returns to the list, and below 30rem the counter becomes a small progress tick.",
+      "files": [
+        {
+          "path": "registry/ui/record-stepper.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2129"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "date-window",
+      "type": "registry:ui",
+      "title": "Date Window",
+      "description": "The header of a sales dashboard and the figures it governs: the date presets are a radiogroup whose selected pill slides to the new choice on springs.snap through one shared layoutId, the range label cross-slides and the tiles re-settle in a cascade() on springs.glide. Turning compare on slides a muted second range label in beside the first on glide, its width growing from nothing so the row makes room instead of jumping, and each tile's change against it rises in on snap; Custom opens a calendar under the bar whose height glides open — one month, two side by side, or a scrolling strip of days — where a span longer than maxDays turns to a danger hatch and Apply says why it is off. Arrow keys move between presets, C toggles compare, Escape closes the calendar, and below 34rem the presets collapse into one dropdown.",
+      "files": [
+        {
+          "path": "registry/ui/date-window.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2130"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
