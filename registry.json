@@ -49617,6 +49617,572 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "spend-guard",
+      "type": "registry:ui",
+      "title": "Spend Guard",
+      "description": "A budget-alerts panel for a project's cloud spend this month: one bar carries the spend as a fill, the forecast to month end as a hatch, a hairline at the budget and a marker per alert threshold with its recipients' avatars riding on its head, while a month strip below pins each threshold to the day it fired or will fire at the current pace, joined by a leader. Dragging a marker follows the pointer 1:1 and rubber-bands past the axis, the avatars follow on springs.snap and the date pin trails on springs.glide, and release snaps to a whole percent on snap with the throw's velocity; crossing what is already spent flips the head on springs.flick. Every marker is a slider (arrows one percent, Shift five, Page keys ten, Home and End), the recipients menu is a real menu, and an optional hard limit says plainly what stops.",
+      "files": [
+        {
+          "path": "registry/ui/spend-guard.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1773"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "tax-profile",
+      "type": "registry:ui",
+      "title": "Tax Profile",
+      "description": "A billing-details form with a live invoice header beside it: every field a labelled native input in reading order with its error inline, the preview re-typesetting as you type and lighting the line of the field you are in. A well-formed tax ID runs a checking pulse along the field's lower edge while it is looked up; a registered number fills the legal name, which lifts out of the note under the field and glides into the invoice header on springs.glide, landing with a springs.flick settle and a wash of the accent while the Verified badge pops on springs.snap. Not-found numbers and an unanswering registry keep the entry with a note, a failed check digit is an inline error, and on a narrow container the preview folds away behind a toggle.",
+      "files": [
+        {
+          "path": "registry/ui/tax-profile.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1774"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "team-chargeback",
+      "type": "registry:ui",
+      "title": "Team Chargeback",
+      "description": "A cost-allocation view for a cloud account: the month's total is one long bar already divided into its teams, with what no rule claims hatched at its end and every billed month drawn below it. Pressing the total splits it: the segments part on springs.snap, then each slides down into its own row of a ranked list on springs.glide in one cascade while its share, trend and owner arrive beside it, and the unallocated remainder stays behind in the bar; pressing again folds the rows back up. Allocation is computed from tag rules and shared-cost splits, rows open with Enter to their spend by service and the rules that claimed it, arrow keys walk the rows and the month tabs, and a narrow container shortens each bar to its percentage.",
+      "files": [
+        {
+          "path": "registry/ui/team-chargeback.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1775"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "visitor-chat",
+      "type": "registry:ui",
+      "title": "Visitor Chat",
+      "description": "A website chat widget that lives in the corner of its own box, with the host page behind it. Pressing the launcher stretches it into the window on a goo layer used only while the shape moves: the window grows out of the launcher, rising on springs.snap and widening on springs.glide while its fill turns from the accent to the card and the neck between them thins until it lets go, then the crisp window takes over and its content arrives; closing runs back into the launcher on the exit ease. Inside, the header says who is on and how soon they reply, the messages are a log where an agent's reply resolves out of the typing bubble on springs.glide, the composer is a real textarea with attach and send, a failed send keeps a retry on its bubble, outside office hours the window asks for an email first, and Escape closes it and returns focus to the launcher.",
+      "files": [
+        {
+          "path": "registry/ui/visitor-chat.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1776"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "swipe-reply",
+      "type": "registry:ui",
+      "title": "Swipe Reply",
+      "description": "A direct-message thread on a phone-width screen with day dividers, delivery ticks, reactions and a composer. Swiping a bubble toward the middle pulls it 1:1 for swipeDistance px and rubber-bands past it while a ring in the gap it uncovers fills with the pull and, full, arms with a springs.flick pop; letting go always snaps the bubble home on springs.snap with the release velocity, and an armed pull docks the quoted message above the composer on springs.glide with its accent edge drawing down. Keyboard users walk the messages with the arrow keys, press R to reply and the menu key (or Shift+F10) to open reactions, which land under the bubble on springs.recoil; older messages load at the top behind a spinner without moving what you were reading, and a failed message offers retry.",
+      "files": [
+        {
+          "path": "registry/ui/swipe-reply.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-1777"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "ask-back",
+      "type": "registry:ui",
+      "title": "Ask Back",
+      "description": "An assistant thread that clarifies before it writes: the open request gets two to four questions as chip sets, and each settled chip lifts off and flies into its slot on the pinned brief on springs.glide, its box morphing to the slot as the value cross-fades in. When the last answer lands the brief is stamped Complete on springs.recoil and the real answer streams in; questions deal in on springs.snap and chips press on springs.flick. Each chip set is a radiogroup (arrows move the pick, Enter settles it and moves on), Skip and Write it now answer on stated assumptions, a brief slot reopens its question and Backspace in an empty composer reopens the last one.",
+      "files": [
+        {
+          "path": "registry/ui/ask-back.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2051"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "chart-talk",
+      "type": "registry:ui",
+      "title": "Chart Talk",
+      "description": "A conversation with a dataset where the answer is one living chart: each follow-up morphs the same chart on springs.glide — bars split into stacked region segments that start as the whole bar, months gather into their quarter, a filter widens the bars that stay while the rest sink on the exit ease, and lines and areas morph point by point — while the axis and the total count to the new range on the same spring. The thread keeps one line and a thumbnail per turn, its selection bar sliding on springs.snap; loading, no-rows and query errors are drawn on the chart. The thread is a listbox: arrow keys step turns and the chart follows, Home and End jump, Enter selects.",
+      "files": [
+        {
+          "path": "registry/ui/chart-talk.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2052"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "hint-ladder",
+      "type": "registry:ui",
+      "title": "Hint Ladder",
+      "description": "A tutoring thread that answers with a ladder of hints instead of the solution: rungs are dealt face down on springs.snap in a cascade, and each turns over only when asked — a 180° flip on springs.snap with the hint on the far side of the card — while the ladder's rail fills on springs.glide with how much help was used. The worked answer waits behind a bar that fills linearly while held and drains back on springs.snap if let go, then unfolds to its measured height on springs.glide; checking the learner's working marks it line by line with ticks and crosses that draw on springs.flick. H turns the next hint, holding Space on the bar reveals the answer, and under 23rem the rungs become one deck you swipe up or press Enter on.",
+      "files": [
+        {
+          "path": "registry/ui/hint-ladder.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2053"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "meeting-recall",
+      "type": "registry:ui",
+      "title": "Meeting Recall",
+      "description": "Questions asked of a recorded meeting, with its waveform and transcript docked beside the thread: every claim in an answer carries a timestamp chip, and pressing one glides the waveform's playhead to the moment on springs.glide while the transcript scrolls its own box there and a highlight sweeps across each supporting line in turn. Claims arrive on springs.snap, chips press on springs.flick, and a claim nothing supports shows a dashed No source mark. Tab moves through the chips and Enter seeks, K plays and pauses, the waveform is a slider (drag, arrows, Page keys, Home/End), and under 40rem the transcript is a sheet that rises on springs.glide.",
+      "files": [
+        {
+          "path": "registry/ui/meeting-recall.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2054"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "widget-thread",
+      "type": "registry:ui",
+      "title": "Widget Thread",
+      "description": "An assistant whose replies are small live controls — a quantity stepper, a compare table, a slot picker, a confirm card — each assembling out of a skeleton block by block, every block rising a nudge on springs.snap in a cascade. Whatever is chosen inside a widget lifts out and becomes the next sent message: a copy of the chosen thing travels to the new bubble on springs.glide, its box morphing from the control to the bubble as its fill warms to the bubble colour, while the widget fades to a read-only record with the choice ticked on springs.flick. Each widget is one tab stop with its own keyboard path (radiogroup, spinbutton, roving table buttons, roving confirm buttons), so Tab leaves it for the composer, where typing an option's name answers it too.",
+      "files": [
+        {
+          "path": "registry/ui/widget-thread.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2055"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "night-shift",
+      "type": "registry:ui",
+      "title": "Night Shift",
+      "description": "A morning digest of an overnight agent run, read by replaying the night: every event is a dot on an arc from dusk to dawn and a moon rides it. Drag the moon and it follows 1:1 along the arc while the event cards below slide in lockstep, because the strip's offset is the moon's place expressed as a fractional event index; let go and the throw is projected and the moon settles on springs.glide with the release velocity at the nearest event, whose dot lights with a ring that opens on springs.snap. The strip can be dragged too, and then the moon races or crawls along the arc to keep up. The moon is a real slider: Left and Right step event by event, Home and End jump to dusk and dawn, Page Up and Page Down move about an hour and Enter opens the event; failed runs are pinned above the sky, and under 30rem the arc straightens into a vertical rail.",
+      "files": [
+        {
+          "path": "registry/ui/night-shift.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2066"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "footprint-map",
+      "type": "registry:ui",
+      "title": "Footprint Map",
+      "description": "A live map of a repository while agents work in it: folders and files laid out as a squarified treemap sized by file size, each working agent a marker that glides from file to file along a gentle arc on springs.glide as it reads and edits, its newest trail segment cut at the marker's own progress so the line is drawn out behind it, older files fading behind. Touched files are washed by read or write, by the last agent's colour or by heat; two active agents in one file open a soft warn ring on springs.snap with a possible-conflict chip, and a stalled agent holds still with a dashed ring. Tab moves through the agents, F follows the focused one and Enter opens the history of its file; the map is one tab stop whose arrow keys move spatially between files, and under 30rem the map gives way to a list of files ranked by activity.",
+      "files": [
+        {
+          "path": "registry/ui/footprint-map.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2067"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "run-journal",
+      "type": "registry:ui",
+      "title": "Run Journal",
+      "description": "An agent's run written up as it goes, as a journal of short paragraphs with their times in the margin. The newest line is written by a pen nib that rides the end of the text: after each chunk arrives its target is measured from a marker at the end of the words and it moves there on springs.flick along the line and springs.glide when the text wraps, leaning with its speed, while the words it has just written arrive in the accent and dry to ink. Only the newest entries stay written out; as one ages past condenseAfter it condenses on springs.glide into its one-line summary, its measured height closing as the summary fades in, and it opens again on a press or Enter. Up and Down move between entries, Home and End jump, links stay ordinary links, and paused, failed and finished runs each have their own designed state.",
+      "files": [
+        {
+          "path": "registry/ui/run-journal.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2068"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "routine-week",
+      "type": "registry:ui",
+      "title": "Routine Week",
+      "description": "Every scheduled agent routine on one week: days across, the small hours down, each run a block coloured by its outcome and each future slot a dashed ghost, with overlapping runs sharing the column under a notch and skipped runs hatched. The now line moves down today's column on springs.glide as now advances, and as it crosses a scheduled slot a new block buds out of the line — a sliver that opens to the block on springs.recoil, scaled from its top edge — then fills while the run executes, the fill following now on glide until the host records the outcome. The slots are a grid with one row per day: arrows move between slots (Left and Right to the nearest slot in time on the neighbouring day), Home and End jump, Enter opens a run, R runs the focused routine now and P pauses it; under 32rem the grid becomes the day's agenda under a week strip.",
+      "files": [
+        {
+          "path": "registry/ui/routine-week.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2069"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "standup-cards",
+      "type": "registry:ui",
+      "title": "Standup Cards",
+      "description": "A daily standup for a team of agents: one card each with what it did, what it does next and what it is stuck on. When the table comes into view the cards are dealt onto it in turn on springs.snap — from a deck with a seeded tilt, dropped from above, or slid in from the left — and an unanswered blocker glows in the warn colour until someone answers it. Answering slides the item off its card: a chip lifts from the row and glides to the resolved tray on springs.glide, landing there on springs.recoil while the card closes the gap on glide, and reassigning swaps the owner on snap. Tab moves card to card, Down and Up walk a card's items, B jumps to the next blocker; the cards form two columns from 36rem and a swipeable stack under 30rem, where a projected flick sends the front card to the back.",
+      "files": [
+        {
+          "path": "registry/ui/standup-cards.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2070"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "cause-lines",
+      "type": "registry:ui",
+      "title": "Cause Lines",
+      "description": "An agent activity feed drawn oldest first on a causal gutter, where selecting an event lights its chain: lines start at the selected node and grow along their own paths up to the events that caused it and down to the ones it caused on springs.glide, hop after hop, while unrelated events dim and the selected node's ring lands on springs.snap. Every link is always there as a faint ghost, a link through an event the agent filter hides is drawn dotted, and in a narrow container the gutter gives way to indented rails whose rows step in by generation. The feed is a listbox: Up and Down walk it, Shift with Up or Down jumps to the nearest cause or effect, P pins the chain and Escape unpins it.",
+      "files": [
+        {
+          "path": "registry/ui/cause-lines.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2071"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "merge-train",
+      "type": "registry:ui",
+      "title": "Merge Train",
+      "description": "A merge queue drawn as a train: the pull requests agents have opened are coupled cars on a line through the depot and the stations for tests, review and merge. When a car clears a station the train advances on springs.glide, the front car first and each car behind a cascade later like slack running out, a car that fails uncouples and drops onto the siding on springs.recoil while the cars behind close the gap, and a merged car pulls away on the exit ease; couplers latch on springs.flick and check pips fill as checks pass. Below 30rem the line runs down the page. The cars are a listbox: arrows walk the line, Enter opens a car's checks, Delete pulls it from the train and Alt with an arrow moves a waiting car in the queue.",
+      "files": [
+        {
+          "path": "registry/ui/merge-train.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2072"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "schema-mould",
+      "type": "registry:ui",
+      "title": "Schema Mould",
+      "description": "A tool call checked against its schema, drawn as a mould: one cavity per expected field, keyed by its type, and the agent's arguments as pieces keyed by the type of the value they actually hold. When the mould comes into view the pieces pour in a cascade apart, each falling into its cavity on springs.snap as the rim brightens; a value of the wrong type hits the rim and is thrown out beside the mould on springs.recoil with a short reason, and a missing required field leaves its cavity hollow. Every field is a tab stop, Enter edits a rejected value and a fixed value drops back in on springs.snap; below 30rem nested objects fold into rows you open.",
+      "files": [
+        {
+          "path": "registry/ui/schema-mould.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2073"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "search-fan",
+      "type": "registry:ui",
+      "title": "Search Fan",
+      "description": "A web search tool call shown as it works: the agent's queries fan out from the call as tabs, tilted like a hand of cards and landing on springs.snap a cascade apart, and result cards stream in under each on springs.glide. A scan line skims every card in scanSpeed ms; when it reaches the bottom the agent's decision lands, a kept card lifting and flying into the Kept stack on springs.glide while a dropped card falls away on the exit ease and leaves a slim stub, with the reason on hover and focus. Cards are one roving group where arrows move by where cards really are, K keeps and D drops to override the agent; below 40rem the fan shows one query at a time.",
+      "files": [
+        {
+          "path": "registry/ui/search-fan.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2074"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "run-cell",
+      "type": "registry:ui",
+      "title": "Run Cell",
+      "description": "A code execution tool call drawn as a notebook cell and fed by props as the call streams: new lines of code slide in on springs.glide, an execution cursor glides down the gutter as each line runs and every executed line is marked on springs.flick, and stdout rises line by line below. When a figure first arrives the Figure tab opens and the plot develops out of a blank frame, a soft blur clearing as it settles from 1.02 on springs.glide while its lines draw left to right behind a sweeping clip and the tolerance band fades in last, with its data one tab away as a real table. Failing and timed-out lines are marked in place; Tab moves from the code to the tabs to the panel, and Enter on the code re-runs it.",
+      "files": [
+        {
+          "path": "registry/ui/run-cell.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2075"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

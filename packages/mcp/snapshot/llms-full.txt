@@ -40992,6 +40992,192 @@ Notes:
 - The band's colour is one hue variable, so the turn from red to green is a plain colour transition everywhere at once; fills are pigment and read the same in light and dark.
 - Under reduced motion the sweep is a still, faint fill, the colour still turns, the check appears without drawing and the fold is a fade. The only timer is the fold delay, cleared on unmount.
 
+### Spend Guard (KQ-1773) — `spend-guard`
+Set limits, and who hears when you're near them.
+
+A budget-alerts panel for a project's cloud spend this month: one bar carries the spend as a fill, the forecast to month end as a hatch, a hairline at the budget and a marker per alert threshold with its recipients' avatars riding on its head, while a month strip below pins each threshold to the day it fired or will fire at the current pace, joined by a leader. Dragging a marker follows the pointer 1:1 and rubber-bands past the axis, the avatars follow on springs.snap and the date pin trails on springs.glide, and release snaps to a whole percent on snap with the throw's velocity; crossing what is already spent flips the head on springs.flick. Every marker is a slider (arrows one percent, Shift five, Page keys ten, Home and End), the recipients menu is a real menu, and an optional hard limit says plainly what stops.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/spend-guard`
+
+Props:
+- `markerStyle`: "pin" | "flag" | "tick" (default "pin") — How a threshold marker is drawn: a round head carrying the avatars, a flag off the stem, or a hairline tick.
+- `barHeight`: number (default 20) — Thickness of the spend bar in px; markers and the month strip scale with it.
+- `palette`: "cobalt" | "ember" | "moss" | "mono" (default "cobalt") — Tone of the spend fill, forecast hatch and markers; the hard limit keeps its danger tone.
+- `budget`: number (default 5000) — The monthly budget, in the currency format prints.
+- `thresholds / defaultThresholds`: SpendThreshold[] (default — / defaultSpendThresholds) — The alert thresholds, controlled or initial: { id, percent (of budget), recipients (ids) }.
+- `onThresholdChange`: (thresholds: SpendThreshold[], id: string) => void — Fires from the drag, key, add, remove or recipient change that changed the thresholds, with all of them and the id that changed.
+- `recipients`: SpendRecipient[] (default defaultSpendRecipients) — Everyone who can be alerted: { id, name, role?, hue? }.
+- `onRecipientsChange`: (thresholdId: string, recipientIds: string[]) => void — A threshold's recipients changed, with the new ids.
+- `hardLimit / defaultHardLimit`: number | null (default — / null) — The amount at which spending stops, controlled or initial; null for none.
+- `onHardLimitChange`: (amount: number | null) => void — The hard limit was switched on, moved or switched off.
+- `hardLimitEffect`: string (default "New deployments pause and preview environments scale to zero. Production keeps serving, and nothing is deleted.") — One plain sentence: what stops at the hard limit and what keeps running.
+- `daily`: number[] (default defaultSpendDaily) — Spend per day of the current month so far, day 1 first; the pace is the mean of the last seven.
+- `now`: number (default defaultSpendNow (17 Oct 2026)) — The current time in ms. Dates are read in UTC; never read from the clock.
+- `format`: (amount: number) => string (default US dollars, no cents) — Formats every amount.
+- `onSave`: (config: SpendConfig) => void | Promise<void> — Save was pressed with { thresholds, hardLimit }; return a promise to show Saving… and its outcome.
+- `status`: "ready" | "loading" | "empty" | "error" (default "ready") — Whether the spend data has arrived. The bar and its markers stay in every state.
+- `onRetry`: () => void — Try again was pressed after the spend failed to load.
+- `project`: string (default "Waylight") — The project, in the heading.
+- `height`: number (default 540) — Height of the surface in px; its body scrolls inside.
+- `disabled`: boolean (default false) — Nothing can be moved, added or saved.
+- `className`: string — Classes for the outer surface.
+
+Notes:
+- Each marker is a role="slider" whose value text is a full sentence (percent, amount, the date it fires and who hears it): arrows move it one percent, Shift five, Page Up and Page Down ten, Home and End to the axis ends. The recipients button opens a real menu of menuitemcheckbox rows; Escape closes it and returns focus.
+- Under reduced motion markers, avatars and date pins move instantly and the hard-limit body opens without travel; the passed state, the inspector and every date still update.
+- Dates are computed in UTC from the now prop and the daily series, so server and client agree; the pace is the mean of the last seven days.
+- Nothing runs at rest: positions are motion values that settle, the leader paths are rebuilt only while a marker or pin moves, and the only observer is a ResizeObserver on the hard-limit body.
+- Colours come from tokens: the palette sets --sg-fill (a pigment at fixed lightness, so a filled bar reads the same in both themes) and --sg-ink; the hard limit always uses the danger tone.
+- Below a 32rem container the heads drop their unit and the riding avatars become dots, so markers a few percent apart still sit side by side on a phone.
+
+### Tax Profile (KQ-1774) — `tax-profile`
+Company details for invoices, checked as you type.
+
+A billing-details form with a live invoice header beside it: every field a labelled native input in reading order with its error inline, the preview re-typesetting as you type and lighting the line of the field you are in. A well-formed tax ID runs a checking pulse along the field's lower edge while it is looked up; a registered number fills the legal name, which lifts out of the note under the field and glides into the invoice header on springs.glide, landing with a springs.flick settle and a wash of the accent while the Verified badge pops on springs.snap. Not-found numbers and an unanswering registry keep the entry with a note, a failed check digit is an inline error, and on a narrow container the preview folds away behind a toggle.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/tax-profile`
+
+Props:
+- `fieldStyle`: "boxed" | "line" | "filled" (default "boxed") — How the inputs are drawn: bordered boxes, an underline only, or soft filled wells.
+- `previewStyle`: "classic" | "modern" | "compact" (default "classic") — The invoice header preview: seller left and title right, a large title with two blocks, or one tight strip.
+- `accent`: string (default "var(--accent-bright)") — Any CSS colour: focus edges, the checking pulse, the landing wash and the invoice rule.
+- `company`: string (default "") — The legal company name the form starts with.
+- `address`: TaxAddress (default defaultTaxAddress) — The billing address the form starts with: { line1, line2, city, postalCode, country }.
+- `taxId`: TaxIdValue (default { country: "GB", number: "" }) — The tax ID the form starts with; spaces and a repeated country prefix in the number are ignored.
+- `email`: string (default "billing@fernworks.studio") — The billing email the form starts with.
+- `reference`: string (default "") — The purchase order reference the form starts with.
+- `values`: TaxProfileValues — Controlled form values ({ company, taxId, email, address, reference }); when set, the starting-value props are ignored.
+- `onValuesChange`: (values: TaxProfileValues) => void — Fires from every edit and from a registry fill, with all the values.
+- `countries`: TaxCountry[] (default defaultTaxCountries) — Countries for the tax ID prefix and the address: { code, name }.
+- `seller`: TaxSeller (default defaultTaxSeller) — Who issues the invoices, shown in the preview: { name, lines, taxId, email }.
+- `invoiceNumber`: string (default "INV-2026-0418") — The invoice number in the preview.
+- `now`: number (default defaultTaxNow (17 Oct 2026)) — The current time in ms, the preview's issue date (read in UTC). Never read from the clock.
+- `lookup`: (taxId: string) => Promise<TaxLookupResult> (default a seeded registry of four companies) — Looks a full tax ID up, e.g. "GB204718369"; a rejected promise reads as an unanswering registry.
+- `checkDelay`: number (default 900) — How long the default lookup takes, in ms.
+- `onValidate`: (result: TaxLookupResult) => void — Fires with every check outcome: valid (with the registered name), not-found, unreachable or invalid.
+- `onSave`: (values: TaxProfileValues) => void | Promise<void> — Save was pressed with valid values; return a promise to show Saving… and its outcome. With errors, focus goes to the first invalid field instead.
+- `onCancel`: () => void — Cancel was pressed; an uncontrolled form also returns to its last saved values.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the saved details have arrived.
+- `onRetry`: () => void — Try again was pressed after the details failed to load.
+- `height`: number (default 540) — Height of the surface in px; its body scrolls inside.
+- `disabled`: boolean (default false) — Nothing can be edited or saved.
+- `className`: string — Classes for the outer surface.
+
+Notes:
+- A real form in normal tab order: every input is labelled, errors are inline with aria-invalid and aria-describedby, the tax ID group is aria-busy while checking, and Save (a submit button associated with the form) focuses the first invalid field and announces how many need attention.
+- Lookups are debounced (450 ms after the ninth digit), keyed by the number and cancelled when it changes, so a stale answer never lands; pass lookup to call your own registry and read every outcome from onValidate.
+- Under reduced motion the pulse is a still tint with a spinner glyph, there is no flight, and the registered name cross-fades into the header; the Verified badge and every note still appear.
+- The preview is a document: its paper keeps a fixed light tone and ink in both themes, while the form uses theme tokens; the accent drives the focus edge, pulse, wash and the invoice rule.
+- Below a 44rem container the preview folds behind a Preview invoice toggle (aria-expanded, aria-controls) and opens above the form; City and Postal code share a row from 22rem.
+
+### Team Chargeback (KQ-1775) — `team-chargeback`
+Split the bill by the teams that ran it up.
+
+A cost-allocation view for a cloud account: the month's total is one long bar already divided into its teams, with what no rule claims hatched at its end and every billed month drawn below it. Pressing the total splits it: the segments part on springs.snap, then each slides down into its own row of a ranked list on springs.glide in one cascade while its share, trend and owner arrive beside it, and the unallocated remainder stays behind in the bar; pressing again folds the rows back up. Allocation is computed from tag rules and shared-cost splits, rows open with Enter to their spend by service and the rules that claimed it, arrow keys walk the rows and the month tabs, and a narrow container shortens each bar to its percentage.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/team-chargeback`
+
+Props:
+- `barStyle`: "solid" | "soft" | "outline" (default "soft") — How team bars are drawn: pigment fills, a tint with a lead edge, or outlines that fill on hover and focus.
+- `density`: "compact" | "cozy" | "roomy" (default "cozy") — Row height and bar thickness; roomy rows also show the owner's role.
+- `palette`: "basin" | "ember" | "spectrum" | "mono" (default "basin") — Team colours as pigments at fixed lightness: cool blues and teals, warm, spread hues, or ink steps.
+- `costs`: Record<string, ChargebackCost[]> (default defaultChargebackCosts) — Costs per month id: { id, label (resource), service, amount, previous, tags }.
+- `months`: ChargebackMonth[] (default defaultChargebackMonths) — The months as tabs, oldest first: { id, label, long }.
+- `month / defaultMonth`: string (default — / "2026-10") — The month shown, controlled or initial.
+- `onMonthChange`: (month: string) => void — A month tab was chosen.
+- `teams`: ChargebackTeam[] (default defaultChargebackTeams) — The teams costs are charged back to: { id, name, owner, role? }.
+- `rules / defaultRules`: ChargebackRule[] (default — / defaultChargebackRules) — Allocation rules, controlled or initial: tag rules { kind: "tag", key, value, team, enabled } (key "resource" matches a cost's label) and split rules { kind: "split", key, value, method: "usage" | "even", enabled } for shared costs.
+- `onRuleChange`: (rule: ChargebackRule, rules: ChargebackRule[]) => void — A rule was switched, re-methoded or added, with every rule.
+- `onAllocate`: (costId: string, teamId: string) => void — An unallocated cost was assigned to a team; uncontrolled, a resource rule is added so the amount moves.
+- `onExport`: (csv: string, rows: ChargebackRow[]) => void — Export was pressed: the month's allocation as CSV text and as rows.
+- `split / defaultSplit`: boolean (default — / false) — Whether the total bar is split into team rows, controlled or initial. A host that flips it gets the same choreography as a press.
+- `onSplitChange`: (split: boolean) => void — The total bar was pressed.
+- `format`: (amount: number) => string (default US dollars, no cents) — Formats every amount.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the costs have arrived; a month without costs says so on its own.
+- `onRetry`: () => void — Try again was pressed after the costs failed to load.
+- `account`: string (default "Basinworks") — The account, in the heading.
+- `height`: number (default 540) — Height of the surface in px; its body scrolls inside.
+- `disabled`: boolean (default false) — Nothing can be split, switched or assigned.
+- `className`: string — Classes for the outer surface.
+
+Notes:
+- The total bar is a button with aria-expanded and a sentence describing the split; rows are buttons with aria-expanded under roving focus (Up and Down, Home and End), rule switches are role="switch", the shared-cost method is a radiogroup, and the months are a tablist driven by the arrow keys.
+- While rows are being edited the ranking holds still, so a rule change or an assignment never pulls the row you are in out from under the focus; the next split ranks the teams again.
+- Under reduced motion the split is a cross-fade: no segment travels, rows appear in place and open without a height glide; every amount, share and trend still updates.
+- Shared layout moves run only on split and fold (each segment's layoutDependency is the phase and its amount), so expanding rows never sets off stray slides; nothing runs at rest.
+- Team colours are pigments at fixed lightness so the bars read the same in both themes; trends use the warn tone above +10% and the success tone for a fall, always with the sign and percentage in text.
+
+### Visitor Chat (KQ-1776) — `visitor-chat`
+Talk to the team from the corner of the page.
+
+A website chat widget that lives in the corner of its own box, with the host page behind it. Pressing the launcher stretches it into the window on a goo layer used only while the shape moves: the window grows out of the launcher, rising on springs.snap and widening on springs.glide while its fill turns from the accent to the card and the neck between them thins until it lets go, then the crisp window takes over and its content arrives; closing runs back into the launcher on the exit ease. Inside, the header says who is on and how soon they reply, the messages are a log where an agent's reply resolves out of the typing bubble on springs.glide, the composer is a real textarea with attach and send, a failed send keeps a retry on its bubble, outside office hours the window asks for an email first, and Escape closes it and returns focus to the launcher.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/visitor-chat`
+
+Props:
+- `launcherShape`: "circle" | "squircle" | "pill" (default "circle") — The launcher: a circle, a rounded square, or a pill with "Chat with us". The stretch starts from its shape.
+- `bubbleStyle`: "tinted" | "solid" | "minimal" (default "tinted") — Message bubbles: a soft tint, a solid accent for the visitor, or agents as plain text.
+- `accent`: string (default "var(--accent-bright)") — Any CSS colour: the launcher, the visitor's bubbles, read marks and focus edges.
+- `team`: ChatAgent[] (default defaultChatTeam) — Who answers: { id, name, role?, online, hue? }.
+- `hours`: ChatHours (default defaultChatHours) — When the team answers live: { days (0 = Sunday), open, close (minutes), utcOffset (minutes), zone }.
+- `messages / defaultMessages`: ChatMessage[] (default — / []) — The thread, controlled or initial: { id, from ("visitor" or an agent id), text, at, status?, attachment? }.
+- `onMessagesChange`: (messages: ChatMessage[]) => void — Fires from a send, a delivery change or a retry, with every message.
+- `typing`: string | null (default null) — The agent typing now, by id; their next message resolves out of the indicator.
+- `onSend`: (message: ChatMessage, meta: { email: string | null }) => void | Promise<void> — A message was sent or retried. Return a promise: resolved marks it sent, rejected keeps a retry on its bubble.
+- `onAttach`: (files: File[]) => void — Files were picked with the attach button; the first rides on the next message.
+- `open / defaultOpen`: boolean (default — / false) — Whether the window is open, controlled or initial. A host that opens it gets the same stretch, without moving focus.
+- `onOpenChange`: (open: boolean) => void — The launcher, Escape or the minimise button changed the open state.
+- `onClose`: () => void — The window was closed by the visitor.
+- `now`: number (default defaultChatNow (Fri 16 Oct 2026 14:20 UTC)) — The current time in ms; decides office hours. Never read from the clock.
+- `replyMinutes`: number (default 4) — How soon the team usually replies, in minutes, shown in the header.
+- `title`: string (default "Waylight help") — The window's title and the dialog's name.
+- `greeting`: string (default "Hi, we're the Waylight team. Ask us anything about your workspace, billing or the API.") — The team's first message, always shown at the top.
+- `height`: number (default 560) — Height of the box the widget lives in, in px.
+- `disabled`: boolean (default false) — Nothing can be opened or sent.
+- `className`: string — Classes for the outer box.
+- `children`: ReactNode — The page behind the widget.
+
+Notes:
+- The launcher is a button with aria-expanded and aria-controls; the window is a non-modal role="dialog" labelled by its title, opened by the visitor it moves focus into the composer, and Escape anywhere inside closes it and returns focus to the launcher.
+- Messages live in a role="log" (polite) holding a list; every bubble carries its author and time for assistive technology, and the visitor's carry their delivery (Sending, Sent, Seen, Not sent) as words, not colour. The typing bubble announces itself once.
+- The goo is an SVG blur-and-threshold filter over two plain shapes that exists only during the half second of stretching; at rest the window is plain DOM and nothing animates except the typing dots while someone types.
+- Under reduced motion there is no goo and no stretch: the window cross-fades in place, the typing dots hold still at three tones, and replies fade in.
+- Agent replies are the host's: pass typing while an agent types, then add their message in the same update that clears typing so it grows out of the indicator.
+- Office hours are computed from hours and now in the team's offset; outside them the window asks for an email before the first send and passes it to onSend.
+
+### Swipe Reply (KQ-1777) — `swipe-reply`
+Swipe a message to answer it.
+
+A direct-message thread on a phone-width screen with day dividers, delivery ticks, reactions and a composer. Swiping a bubble toward the middle pulls it 1:1 for swipeDistance px and rubber-bands past it while a ring in the gap it uncovers fills with the pull and, full, arms with a springs.flick pop; letting go always snaps the bubble home on springs.snap with the release velocity, and an armed pull docks the quoted message above the composer on springs.glide with its accent edge drawing down. Keyboard users walk the messages with the arrow keys, press R to reply and the menu key (or Shift+F10) to open reactions, which land under the bubble on springs.recoil; older messages load at the top behind a spinner without moving what you were reading, and a failed message offers retry.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/swipe-reply`
+
+Props:
+- `swipeDistance`: number (default 64) — How far a pull travels before the reply arms, in px; past it the bubble rubber-bands.
+- `bubbleStyle`: "tail" | "round" | "block" (default "tail") — Bubble shape: a small tail on the last of a run, full pills, or squarer blocks.
+- `accent`: string (default "var(--accent-bright)") — Any CSS colour: your bubbles, the reply ring, the dock's edge and focus edges.
+- `messages / defaultMessages`: SwipeMessage[] (default — / defaultSwipeMessages) — The thread, oldest first, controlled or initial: { id, from, text, at, status?, replyTo?, reactions? }.
+- `onMessagesChange`: (messages: SwipeMessage[]) => void — Fires from a send, a reaction, a retry or older messages arriving, with every message.
+- `participants`: SwipePerson[] (default defaultSwipePeople) — Everyone in the thread: { id, name, hue?, presence? }.
+- `me`: string (default "you") — Which participant is you; your bubbles sit right and swipe left.
+- `onSend`: (message: SwipeMessage) => void | Promise<void> — A message was sent. Return a promise: resolved marks it sent, rejected marks it failed with a retry.
+- `onReply`: (message: SwipeMessage) => void — A message was picked to reply to, by swipe, R or the hover bar.
+- `onReact`: (message: SwipeMessage, reaction: SwipeReaction, on: boolean) => void — You added or removed a reaction (like, love, laugh, wow, sad, done).
+- `onRetry`: (message: SwipeMessage) => void — Retry was pressed on a failed message; it is sent again through onSend.
+- `onLoadEarlier`: () => Promise<SwipeMessage[] | void> | void — The thread reached the top; return older messages (oldest first) or add them yourself.
+- `hasEarlier`: boolean (default true) — Whether older messages exist; shows the loader row at the top.
+- `now`: number (default defaultSwipeNow (17 Oct 2026 09:40 UTC)) — The current time in ms, for day dividers (read in UTC). Never read from the clock.
+- `height`: number (default 560) — Height of the screen in px; the thread scrolls inside.
+- `disabled`: boolean (default false) — Nothing can be sent, swiped or reacted to.
+- `className`: string — Classes for the outer box.
+
+Notes:
+- Every gesture has a key: messages are a roving list inside a polite role="log" (Up and Down, Home and End, Up from the first loads earlier), R replies to the focused message, the menu key or Shift+F10 opens a real menu of reactions, and Escape clears the reply dock or closes the menu and returns focus.
+- Each message speaks as one sentence: author, time, what it answers, its text, its delivery (Sending, Sent, Delivered, Read, Not delivered) and its reactions by name; reactions are drawn icons, never emoji.
+- Bubbles are touch-pan-y, so a vertical swipe still scrolls the thread; the drag captures the pointer only after 6px sideways. Under reduced motion the bubble still follows the finger and the ring still fills (it is information), but it returns home at once and the dock fades in.
+- Older history is prepended with the scroll position restored before paint, so what you were reading stays put; the spinner animates only while a page is loading.
+- Nothing runs at rest: the pull, ring and pop are motion values on each bubble, and the hover bar is hidden while a bubble is being pulled.
+
 ### Live Chatter (KQ-1778) — `live-chatter`
 A fast chat that holds still while you read.
 
@@ -45058,6 +45244,187 @@ Notes:
 - Nothing runs at rest: one ResizeObserver reads the container, the layout is computed from it, and the skeleton's shimmer exists only while a column is loading.
 - The layout follows its container: from stackBelow up it is a row of columns and spines; below it, a stack that follows the finger 1:1 with touch-action pan-y so vertical scrolling inside a column still works.
 
+### Ask Back (KQ-2051) — `ask-back`
+It asks what it needs before it answers.
+
+An assistant thread that clarifies before it writes: the open request gets two to four questions as chip sets, and each settled chip lifts off and flies into its slot on the pinned brief on springs.glide, its box morphing to the slot as the value cross-fades in. When the last answer lands the brief is stamped Complete on springs.recoil and the real answer streams in; questions deal in on springs.snap and chips press on springs.flick. Each chip set is a radiogroup (arrows move the pick, Enter settles it and moves on), Skip and Write it now answer on stated assumptions, a brief slot reopens its question and Backspace in an empty composer reopens the last one.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/ask-back`
+
+Props:
+- `request`: string (default "Draft the Q3 report for Basinworks.") — The visitor's open request at the top of the thread.
+- `questions`: AskBackQuestion[] (default defaultAskBackQuestions) — Two to four questions, each with prompt, short brief label, options, an assumption used when skipped and an optional why line.
+- `value / defaultValue`: AskBackAnswers (default {}) — Controlled or initial answers: question id to { value, label, assumed? }.
+- `onValueChange`: (answers: AskBackAnswers) => void — Fires from the press, key, skip or reopen that changed the answers.
+- `onAnswer`: (questionId: string, answer: AskBackAnswer, answers: AskBackAnswers) => void — A question was answered by a chip or in the visitor's own words.
+- `onSkip`: (questionId: string, assumedValue: string) => void — A question was skipped and answered on its assumption.
+- `onSkipAll`: (answers: AskBackAnswers) => void — Write it now answered every open question on its assumption.
+- `onBriefEdit`: (questionId: string) => void — A brief slot was pressed and its question reopened.
+- `onComplete`: (answers: AskBackAnswers) => void — Every question is settled; the answer starts to stream.
+- `onSend`: (text: string) => void — A follow-up was sent after the brief was complete.
+- `answer`: string | ((answers: AskBackAnswers) => string) (default defaultAskBackAnswer) — The real answer, streamed once the brief is complete.
+- `streamRate`: number (default 22) — Words a second while the answer streams.
+- `chipStyle`: "pill" | "tile" | "line" (default "pill") — Rounded chips, boxed tiles with a detail line, or underlined text options.
+- `briefPlacement`: "dock" | "top" | "side" (default "dock") — Brief pinned above the composer, under the header, or in a side column on wide surfaces.
+- `accent`: string (default "var(--accent-bright)") — Chosen chips, the flight and the stamp — any CSS colour.
+- `model`: string (default "Fernworks Model 3") — The model answering, shown in the header.
+- `title`: string (default "Q3 report") — The surface's heading and accessible name.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the questions have arrived.
+- `onRetry`: () => void — Try again was pressed after the questions failed to load.
+- `height`: number (default 520) — Height of the surface in px; the thread scrolls inside it.
+- `disabled`: boolean (default false) — Read only: nothing can be answered, skipped or sent.
+- `className`: string — Classes for the surface.
+
+Notes:
+- Keyboard: each chip set is one tab stop; arrow keys move the tentative pick, Enter or Space settles it and focus flows to the next open question. Brief slots reopen their question, Backspace in an empty composer reopens the last settled one, and Escape closes the narrow brief list.
+- Reduced motion: nothing flies or bounces — values cross-fade into the brief, the stamp fades in at rest, questions appear without travel and the answer appears whole. Counts and states still update.
+- Performance: no loops at rest. The stream is a 100 ms interval that runs only while the answer is incomplete, the surface is on screen and the page is visible; each flight is one element removed when it lands.
+- Theming: every colour is a token except `accent`, which tints chips, the flight, the brief and the stamp in both themes. Pass `briefPlacement` to suit the host layout; under 26rem the brief folds into a count badge.
+- Data: questions, the answer text and every decision are props and callbacks, so a host can drive the questions from its own model and stream its own answer.
+
+### Chart Talk (KQ-2052) — `chart-talk`
+Ask a question; the chart answers and changes.
+
+A conversation with a dataset where the answer is one living chart: each follow-up morphs the same chart on springs.glide — bars split into stacked region segments that start as the whole bar, months gather into their quarter, a filter widens the bars that stay while the rest sink on the exit ease, and lines and areas morph point by point — while the axis and the total count to the new range on the same spring. The thread keeps one line and a thumbnail per turn, its selection bar sliding on springs.snap; loading, no-rows and query errors are drawn on the chart. The thread is a listbox: arrow keys step turns and the chart follows, Home and End jump, Enter selects.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/chart-talk`
+
+Props:
+- `rows`: ChartTalkRow[] (default defaultChartTalkRows) — The dataset: { month, region, units, revenue } records.
+- `turns`: ChartTalkTurn[] (default defaultChartTalkTurns) — The questions the assistant can answer, each with a reply, a chart spec and match words.
+- `defaultAsked`: number (default 3) — How many turns are already asked when the surface mounts.
+- `value / defaultValue`: string (default the last asked turn) — Controlled or initial id of the turn the chart shows.
+- `onValueChange`: (turnId: string) => void — Fires from the click or key that selected a turn.
+- `onAsk`: (question: string, turn: ChartTalkTurn | null) => void — A question was asked; turn is null when nothing matched.
+- `onRestoreTurn`: (turnId: string) => void — The chart was taken back to an earlier turn.
+- `onExport`: (table: ChartTalkTable) => void — Export was pressed, with the columns and rows behind the chart on screen.
+- `chartKind`: "bars" | "lines" | "area" (default "bars") — Stacked bars, a line per series, or stacked areas.
+- `thumbSize`: "sm" | "md" | "lg" (default "md") — Size of the chart thumbnails in the thread.
+- `accent`: string (default "var(--accent-bright)") — Start of the series ramp — any CSS colour.
+- `queryDelay`: number (default 520) — Milliseconds a question shows the chart querying before it answers.
+- `format`: (value: number, measure: ChartTalkMeasure, share: boolean) => string (default defaultChartTalkFormat) — Formats axis labels and the total.
+- `title`: string (default "Sensor sales · 2026") — The surface's heading and accessible name.
+- `source`: string (default "gaugeworks.sales") — Where the rows come from, shown under the title.
+- `status`: "ready" | "loading" | "empty" | "error" (default "ready") — The dataset's state, drawn on the chart itself.
+- `onRetry`: () => void — Try again was pressed after the rows failed to load.
+- `height`: number (default 520) — Height of the surface in px.
+- `disabled`: boolean (default false) — Read only: nothing can be asked or exported.
+- `className`: string — Classes for the surface.
+
+Notes:
+- Keyboard: the thread is one tab stop; Up/Down and Left/Right step turns with the chart following, Home and End jump, Enter or Space selects. Suggestions and the composer ask new questions; Export is a button.
+- Reduced motion: geometry cuts straight to each answer and new marks fade in where they belong; leaving marks fade in place and the selection bar moves without travel. Values, labels and totals still change.
+- Accessibility: the chart is a role="img" with a summary sentence and an sr-only table of every value; each answer and rewind is announced once.
+- Performance: no loops. Marks are springs that settle; the SVG uses a fixed viewBox with non-scaling strokes, so resizing costs nothing, and axis numbers count by writing their own text nodes rather than re-rendering.
+- Theming: the series ramp mixes the accent toward the card colour, so stacked segments read in both themes; pass any CSS colour as `accent`.
+
+### Hint Ladder (KQ-2053) — `hint-ladder`
+Help that holds back until you ask.
+
+A tutoring thread that answers with a ladder of hints instead of the solution: rungs are dealt face down on springs.snap in a cascade, and each turns over only when asked — a 180° flip on springs.snap with the hint on the far side of the card — while the ladder's rail fills on springs.glide with how much help was used. The worked answer waits behind a bar that fills linearly while held and drains back on springs.snap if let go, then unfolds to its measured height on springs.glide; checking the learner's working marks it line by line with ticks and crosses that draw on springs.flick. H turns the next hint, holding Space on the bar reveals the answer, and under 23rem the rungs become one deck you swipe up or press Enter on.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/hint-ladder`
+
+Props:
+- `problem`: HintLadderProblem (default defaultHintLadderProblem) — The exercise: title, statement and optional givens.
+- `hints`: HintRung[] (default defaultHintLadderHints) — The rungs, easiest help first, each with a teaser shown face down and the hint text.
+- `solution`: string[] (default defaultHintLadderSolution) — The worked answer, one line per step; the last line is the answer.
+- `checks`: HintLadderCheck[] (default defaultHintLadderChecks) — Step values the checker recognises, right or wrong, with what to say.
+- `value / defaultValue`: number (default 0) — Controlled or initial count of hints turned over.
+- `onValueChange`: (revealed: number) => void — Fires from the press, key or swipe that turned a hint over.
+- `onRevealHint`: (index: number, hint: HintRung) => void — A hint was turned over.
+- `onAttempt`: (lines: string[], marks: HintLadderMark[]) => void — Check my work was pressed, with each line and its mark.
+- `onRevealAnswer`: () => void — The worked answer was revealed.
+- `defaultAttempt`: string — The learner's working when the surface mounts.
+- `rungStyle`: "card" | "index" | "tape" (default "card") — Raised cards that flip, ruled index cards, or slim rows sealed with tape that peels.
+- `revealHold`: number (default 900) — Milliseconds the answer bar must be held.
+- `accent`: string (default "var(--accent-bright)") — The rail, turned cards and the hold fill — any CSS colour.
+- `tutor`: string (default "Fieldline Tutor") — Who is tutoring.
+- `title`: string (default "Levelling · exercise 4") — The surface's heading and accessible name.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the exercise has arrived.
+- `onRetry`: () => void — Try again was pressed after the exercise failed to load.
+- `height`: number (default 520) — Height of the surface in px; the thread scrolls inside it.
+- `disabled`: boolean (default false) — Read only: nothing can be turned, held or checked.
+- `className`: string — Classes for the surface.
+
+Notes:
+- Keyboard: H turns the next hint from anywhere outside a text field and focus moves on to the next Turn over button (or the hold bar); hold Space or Enter on the bar to reveal the answer; ⌘/Ctrl+Enter in the working box checks it. In the narrow deck, Enter or Arrow Up moves forward and Arrow Down goes back.
+- Reduced motion: cards cross-fade instead of turning, the deck swaps without travel, the hold bar still fills (it is the timer) but drains at once, and marks appear without drawing. The rail still fills.
+- Accessibility: a face-down card never puts its hint in the page, so assistive tech cannot read ahead; the rail is a role="meter" of help used, each mark is spoken as a sentence, and a click from assistive technology on the hold bar reveals at once.
+- Performance: nothing runs at rest; the hold is one linear animation stopped on release, and the deck drag goes through the shared gesture kit with capture only after 4px.
+- Data: checks match the last number on each line within a tolerance, so a host can teach any numeric exercise by passing its own steps and common slips.
+
+### Meeting Recall (KQ-2054) — `meeting-recall`
+Ask what was decided; jump to the moment.
+
+Questions asked of a recorded meeting, with its waveform and transcript docked beside the thread: every claim in an answer carries a timestamp chip, and pressing one glides the waveform's playhead to the moment on springs.glide while the transcript scrolls its own box there and a highlight sweeps across each supporting line in turn. Claims arrive on springs.snap, chips press on springs.flick, and a claim nothing supports shows a dashed No source mark. Tab moves through the chips and Enter seeks, K plays and pauses, the waveform is a slider (drag, arrows, Page keys, Home/End), and under 40rem the transcript is a sheet that rises on springs.glide.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/meeting-recall`
+
+Props:
+- `title`: string (default "Tuesday roadmap call") — The meeting's name and the surface's accessible name.
+- `speakers`: RecallSpeaker[] (default defaultRecallSpeakers) — Who spoke: { id, name }.
+- `segments`: RecallSegment[] (default defaultRecallSegments) — The transcript in order: { id, speaker, start, end, text } in seconds.
+- `peaks`: number[] (default seeded from segments) — Loudness samples 0–1 spread evenly over the recording.
+- `answers`: RecallAnswer[] (default defaultRecallAnswers) — Questions the assistant can answer, each a list of claims with the segment ids that support them.
+- `defaultAsked`: number (default 1) — How many answers are already in the thread when it mounts.
+- `defaultTime`: number (default 0) — Where the playhead starts, in seconds.
+- `playing / defaultPlaying`: boolean (default false) — Controlled or initial playback.
+- `onPlay`: (playing: boolean) => void — Fires from the press or key that started or stopped playback, and when it reaches the end.
+- `onSeek`: (seconds: number, segmentIds: string[]) => void — A chip, a transcript line or the scrubber moved the playhead.
+- `onAsk`: (question: string, answer: RecallAnswer | null) => void — A question was asked; answer is null when nothing in the recording answers it.
+- `rate`: number (default 1) — Playback speed.
+- `waveStyle`: "bars" | "mirror" | "line" (default "bars") — Bars from the baseline, bars mirrored about the centre, or a filled envelope.
+- `density`: "compact" | "regular" | "roomy" (default "regular") — Type and spacing in the thread and the transcript.
+- `accent`: string (default "var(--accent-bright)") — Chips, the played wave and the sweep — any CSS colour.
+- `status`: "ready" | "processing" | "empty" | "error" (default "ready") — The recording's state: still processing, no speech found, or failed to load.
+- `progress`: number (default 0.64) — How far processing has got, 0 to 1, while status is processing.
+- `onRetry`: () => void — Try again was pressed after the recording failed to load.
+- `height`: number (default 520) — Height of the surface in px.
+- `disabled`: boolean (default false) — Read only: nothing can be asked, played or seeked.
+- `className`: string — Classes for the surface.
+
+Notes:
+- Keyboard: Tab moves through the timestamp chips and Enter seeks; the transcript is one tab stop whose lines rove with Up/Down and Home/End; K plays and pauses from anywhere outside a text field; the waveform is a role="slider" (arrows ±5 s, Page Up/Down ±30 s, Home/End). On narrow surfaces a chip raises the transcript sheet and focuses it, and Escape lowers it and returns focus to the chip.
+- Reduced motion: the playhead and the transcript jump instead of gliding, the highlight fades in whole, claims arrive without travel and the sheet fades. Playback still advances — it is the content.
+- Performance: the playhead is one motion value written straight into the clip, the line and the clock, so playing re-renders only once a second; the frame loop runs only while playing, on screen and with the page visible, and the waveform's bar count follows its width (3px a bar, the gap dropped below 2.5px).
+- Data: claims cite segment ids, so a host can point any answer at the exact lines that support it; a claim with no refs is drawn as unsupported rather than hidden.
+- Theming: every surface colour is a token; `accent` tints the chips, the played wave, the supporting bands and the sweep in both themes.
+
+### Widget Thread (KQ-2055) — `widget-thread`
+Replies you can use, not just read.
+
+An assistant whose replies are small live controls — a quantity stepper, a compare table, a slot picker, a confirm card — each assembling out of a skeleton block by block, every block rising a nudge on springs.snap in a cascade. Whatever is chosen inside a widget lifts out and becomes the next sent message: a copy of the chosen thing travels to the new bubble on springs.glide, its box morphing from the control to the bubble as its fill warms to the bubble colour, while the widget fades to a read-only record with the choice ticked on springs.flick. Each widget is one tab stop with its own keyboard path (radiogroup, spinbutton, roving table buttons, roving confirm buttons), so Tab leaves it for the composer, where typing an option's name answers it too.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/widget-thread`
+
+Props:
+- `turns`: WidgetTurn[] (default defaultWidgetTurns) — The assistant's script; each turn's text and widget may be functions of the choices so far.
+- `request`: string (default "Book a room for the Gaugeworks review on Thursday.") — The visitor's opening message.
+- `defaultValue`: WidgetChoices (default {}) — Choices already made; the thread replays them and opens at the first open widget.
+- `onValueChange`: (choices: WidgetChoices) => void — Fires from the choice that changed them, with every choice so far.
+- `onWidgetSubmit`: (widgetId: string, choice: WidgetChoice, choices: WidgetChoices) => void — A widget was used.
+- `onSend`: (text: string) => void — Free text was sent from the composer.
+- `onRetry`: (widgetId: string | null) => void — Refresh on an expired widget, or Try again after a failed load (null).
+- `widgetChrome`: "card" | "tinted" | "plain" (default "card") — Bordered widget cards, accent-washed panels, or controls set straight into the reply.
+- `density`: "compact" | "regular" | "roomy" (default "regular") — Type and spacing.
+- `accent`: string (default "var(--accent-bright)") — Your bubbles, chosen states and the flight — any CSS colour.
+- `now`: number (default defaultWidgetNow) — The current time in ms; widgets with expiresIn expire against it.
+- `typingDelay`: number (default 520) — Milliseconds the assistant types before a reply assembles.
+- `assistant`: string (default "Coldbrook Desk") — Who is answering.
+- `title`: string (default "Book a room") — The surface's heading and accessible name.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the thread has loaded.
+- `height`: number (default 520) — Height of the surface in px; the thread scrolls inside it.
+- `disabled`: boolean (default false) — Read only: nothing can be chosen or sent.
+- `className`: string — Classes for the surface.
+
+Notes:
+- Keyboard: every open widget is a single tab stop — slots are a radiogroup (arrows move, Enter or Space chooses), the stepper a spinbutton (arrows, Page keys, Home/End, Enter sends), the compare table's Choose buttons and the confirm card's buttons rove with Left/Right. Tab leaves for the composer, and focus follows into each new widget only if it was already in the thread.
+- Reduced motion: nothing flies or rises — your bubble appears where it lands, the skeleton swaps to the whole widget in one cross-fade, and the widget still greys into its record.
+- Data: widget specs are typed (slots, stepper, compare, confirm) and may carry expiresIn minutes; an open widget past its time against `now` shows an expired state with Refresh, which fires onRetry and posts it again.
+- Performance: no loops. The flight is one imperative animation on a single reused element, assembly is a short chain of timeouts per reply, and every timer and glide is cleared on unmount.
+- Narrow surfaces: compare tables scroll sideways inside their bubble with an edge fade and become focusable when they scroll; the surface itself never scrolls sideways.
+
 ### Council Table (KQ-2056) — `council-table`
 Several specialists, one conversation.
 
@@ -45423,6 +45790,378 @@ Notes:
 - A paste from the handle never takes focus or scrolls the page unless the caret is already in the composer, so a demo or a host can feed it content safely.
 - Reduced motion skips the spill and the fold: the block appears folded with a short highlight, and the peek cross-fades.
 - onSubmit hands you both the structured parts and a plain-text message with each block fenced by its kind, ready to send to a model.
+
+### Night Shift (KQ-2066) — `night-shift`
+The overnight run, replayed by the hour.
+
+A morning digest of an overnight agent run, read by replaying the night: every event is a dot on an arc from dusk to dawn and a moon rides it. Drag the moon and it follows 1:1 along the arc while the event cards below slide in lockstep, because the strip's offset is the moon's place expressed as a fractional event index; let go and the throw is projected and the moon settles on springs.glide with the release velocity at the nearest event, whose dot lights with a ring that opens on springs.snap. The strip can be dragged too, and then the moon races or crawls along the arc to keep up. The moon is a real slider: Left and Right step event by event, Home and End jump to dusk and dawn, Page Up and Page Down move about an hour and Enter opens the event; failed runs are pinned above the sky, and under 30rem the arc straightens into a vertical rail.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/night-shift`
+
+Props:
+- `events`: NightShiftEvent[] (default defaultNightShiftEvents (17)) — The night's events { id, agent, at, title, detail?, outcome, metric? }, in any order; outcome is done, flagged or failed.
+- `agents`: NightShiftAgent[] (default defaultNightShiftAgents (3)) — The agents the events name: { id, name, role }.
+- `night`: { start: number; end: number } (default defaultNightShiftWindow (19:00 to 07:00)) — Dusk and dawn in ms; events outside the window are left off the arc.
+- `utcOffset`: number (default 0) — Minutes added to UTC before a time is printed, so the clock reads in the team's zone.
+- `value / defaultValue`: number (default — / the first failed event, else the first event) — The scrub time in ms. A controlled value glides the moon whenever it changes.
+- `onScrub`: (at: number, event: NightShiftEvent | null) => void — Fires every time the moon lands — a release, a key, a tap — with the time and the event there (null at dusk or dawn).
+- `onOpenEvent`: (event: NightShiftEvent) => void — Open was pressed on the card under the moon, or Enter on the moon.
+- `acknowledged / defaultAcknowledged`: boolean (default — / false) — Whether the digest has been acknowledged.
+- `onAcknowledge`: () => void — Acknowledge was pressed; the button turns into a stamped, drawn check.
+- `now`: number (default 42 minutes after dawn) — The moment the digest is read, in ms; stamped on the acknowledgement.
+- `title`: string (default "Overnight run") — The digest's name and the region's accessible name.
+- `source`: string (default "Basinworks inventory") — What the agents worked on, under the title.
+- `pinFailures`: boolean (default true) — Pin failed runs above the sky as buttons that scrub to them; with none, a quiet 'No failed runs' line.
+- `arcHeight`: number (default 140) — How tall the night's arc is drawn, px; the narrow rail grows with it.
+- `cardStyle`: "raised" | "outline" | "tinted" (default "raised") — The event cards: filled and raised, outlined, or washed in their outcome colour with a side bar.
+- `accent`: string (default "var(--accent-bright)") — The moon's halo, the travelled arc, done events and the current card's ring — any CSS colour.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the night's data has arrived; loading draws placeholders, error offers Try again.
+- `onReload`: () => void — Try again was pressed after the night failed to load.
+- `disabled`: boolean (default false) — Read only: the moon cannot be moved and nothing can be acknowledged.
+- `className`: string — Classes for the outer region.
+
+Notes:
+- Keyboard: the moon is a slider — Left/Down and Right/Up step to the previous and next event, Home and End jump to dusk and dawn, Page Up and Page Down move about an hour, Enter opens the event; each landing is announced politely, never per drag frame.
+- Reduced motion: the moon jumps to its landing and the strip swaps instead of sliding; while dragging, the moon still follows the pointer because the visitor is moving it. Times, counts and the travelled arc still update.
+- Nothing runs at rest: every frame comes from a drag or a spring the visitor started, and positions live in motion values, so a scrub never re-renders the tree per frame.
+- Times are printed from UTC plus utcOffset with a fixed 24-hour clock, so the server and the browser render the same markup; pass your own events and window in ms.
+- The layout is chosen by container width: under 30rem the arc straightens into a vertical rail (drag with touch-pan-x) with the cards sliding beside it.
+- Colours come from tokens: done events use the accent, flagged the warn token and failed the danger token, in both themes.
+
+### Footprint Map (KQ-2067) — `footprint-map`
+See which parts of the code agents are in.
+
+A live map of a repository while agents work in it: folders and files laid out as a squarified treemap sized by file size, each working agent a marker that glides from file to file along a gentle arc on springs.glide as it reads and edits, its newest trail segment cut at the marker's own progress so the line is drawn out behind it, older files fading behind. Touched files are washed by read or write, by the last agent's colour or by heat; two active agents in one file open a soft warn ring on springs.snap with a possible-conflict chip, and a stalled agent holds still with a dashed ring. Tab moves through the agents, F follows the focused one and Enter opens the history of its file; the map is one tab stop whose arrow keys move spatially between files, and under 30rem the map gives way to a list of files ranked by activity.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/footprint-map`
+
+Props:
+- `files`: FootprintFile[] (default defaultFootprintFiles (23)) — Every file in the repository as { path, size }; folders come from the paths and size sets each file's area.
+- `agents`: FootprintAgent[] (default defaultFootprintAgents (3)) — The agents working in it: { id, name, task, state?, tint? }. Idle agents are not drawn; stalled ones hold still with a dashed ring.
+- `events`: FootprintEvent[] (default defaultFootprintEvents (12)) — What they read and wrote, oldest first: { id, agent, path, op, at }. Each agent sits in the file of its newest event.
+- `repo`: string (default "fernworks/web") — The repository's name, in the header and as the region's accessible name.
+- `now`: number (default the newest event) — The moment the map is read, in ms; stalls are counted from it.
+- `utcOffset`: number (default 0) — Minutes added to UTC before a time is printed.
+- `stallAfter`: number (default 180000) — An active agent whose newest step is older than this, in ms, reads as stalled.
+- `follow / defaultFollow`: string | null (default — / null) — The followed agent: its trail and log come forward and the others dim.
+- `onFollowAgent`: (agentId: string | null) => void — Fires from the press or key (F) that followed an agent or stopped following.
+- `paused / defaultPaused`: boolean (default — / false) — Whether the agents are paused; the markers dim and the header says so.
+- `onPause`: (paused: boolean) => void — Pause agents (or Resume agents) was pressed, with the new state.
+- `onSelectFile`: (path: string, history: FootprintEvent[]) => void — A file's history was opened (Enter or a press), with its events newest first.
+- `trailLength`: number (default 3) — How many of each agent's recent files stay joined by its trail; 0 draws markers only.
+- `tint`: "access" | "agent" | "heat" (default "access") — How touched files are washed: by read or write (with a pen mark), by the last agent's colour, or by how often they were touched.
+- `accent`: string (default "var(--accent-bright)") — Access and heat washes, the follow highlight and focus accents — any CSS colour.
+- `mapHeight`: number (default 260) — The treemap's height, px.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the repository has been read; loading draws placeholders, error offers Try again.
+- `onReload`: () => void — Try again was pressed after the map failed to load.
+- `disabled`: boolean (default false) — Read only: nothing can be followed, paused or opened.
+- `className`: string — Classes for the outer region.
+
+Notes:
+- Keyboard: Tab moves through the agents; on an agent, F or Space follows it and Enter opens the history of the file it is in. The map is one tab stop — arrow keys move to the nearest file in that direction, Home and End jump, Enter opens a file's history and Escape closes it, returning focus.
+- The component draws what it is given: feed events and now from your agent stream (the demo plays a seeded script only while the map is on screen). Nothing animates between steps.
+- Reduced motion: markers jump to their file, the conflict ring and landing flash appear without scale and list rows re-rank at once; washes, counts and the inspector still update.
+- The treemap is measured to its box with one ResizeObserver and laid out deterministically, so the server renders the same default layout the browser hydrates.
+- Conflicts and stalls are announced once, politely, when they begin; follow changes and opened histories are announced too, never each step.
+- Under 30rem of container the map becomes a list of files ranked by activity, with the agents' monograms gliding between rows.
+
+### Run Journal (KQ-2068) — `run-journal`
+The run, told in plain sentences.
+
+An agent's run written up as it goes, as a journal of short paragraphs with their times in the margin. The newest line is written by a pen nib that rides the end of the text: after each chunk arrives its target is measured from a marker at the end of the words and it moves there on springs.flick along the line and springs.glide when the text wraps, leaning with its speed, while the words it has just written arrive in the accent and dry to ink. Only the newest entries stay written out; as one ages past condenseAfter it condenses on springs.glide into its one-line summary, its measured height closing as the summary fades in, and it opens again on a press or Enter. Up and Down move between entries, Home and End jump, links stay ordinary links, and paused, failed and finished runs each have their own designed state.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/run-journal`
+
+Props:
+- `entries`: RunJournalEntry[] (default defaultRunJournalEntries (9)) — The journal, oldest first: { id, at, text, summary, kind? }. The newest entry is the one being written; [[artifact-id]] or [[artifact-id|words]] in the text becomes a link.
+- `artifacts`: RunJournalArtifact[] (default defaultRunJournalArtifacts (5)) — What the prose can link to: { id, label, href, kind? }, listed again in the footer.
+- `state`: "writing" | "paused" | "failed" | "finished" (default "writing") — Where the run stands: the nib writes, lifts away, stops beside a danger mark, or signs off with a closing rule.
+- `agent`: string (default "Waylight migration agent") — Who is writing; the region's accessible name.
+- `run`: string (default "Run 18 · orders → ledger schema") — What the run is, under the agent's name.
+- `pausedReason`: string (default "Waiting for approval of the cut-over plan.") — Shown and announced while paused.
+- `error`: string (default "Stopped: the orders table stayed locked for 30 seconds.") — Shown and announced when the run has failed.
+- `now`: number (default the newest entry's time) — The moment the journal is read, in ms; the header counts the run's length to it.
+- `utcOffset`: number (default 0) — Minutes added to UTC before a time is printed.
+- `condenseAfter`: number (default 3) — How many of the newest entries stay written out; older ones condense to their summary line.
+- `expanded / defaultExpanded`: string[] (default — / []) — Ids of aged entries opened by hand.
+- `onExpandEntry`: (id: string, open: boolean) => void — A condensed entry was opened, or an opened one folded again.
+- `onOpenArtifact`: (artifact: RunJournalArtifact, event: React.MouseEvent<HTMLAnchorElement>) => void — A link to an artifact was followed, in the prose or the footer. It stays an ordinary link unless you prevent the event.
+- `onStop`: () => void — Stop was pressed while writing or paused.
+- `onResume`: () => void — Resume was pressed while paused.
+- `nibStyle`: "nib" | "pencil" | "caret" (default "nib") — What writes the newest line: a fountain-pen nib, a pencil tip, or a heavy caret.
+- `accent`: string (default "var(--accent-bright)") — Wet ink, the nib, decision marks, links and the writing pill — any CSS colour.
+- `height`: number (default 520) — The journal's height in px; the entries scroll inside it and stay pinned to the newest line while you are there.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the journal has loaded; loading draws placeholder lines, error offers Try again.
+- `onReload`: () => void — Try again was pressed after the journal failed to load.
+- `className`: string — Classes for the outer region.
+
+Notes:
+- Stream the newest entry by growing its text through props; the nib follows each change and nothing animates between chunks. An unclosed [[ link is held back until it closes, so a link never shows half-typed.
+- Keyboard: entries are one roving tab stop — Up and Down move, Home and End jump, Enter or Space opens or folds an aged entry; links inside entries stay ordinary links in the tab order.
+- Announcements are polite and whole: an entry is announced (as its summary) once the next one begins, and each change of state is announced once — never per chunk.
+- Reduced motion: the nib sits at the end of the text without travel or lean, ink is drawn dry, condensing swaps at once and the closing rule appears whole; every word and state still shows.
+- Under 19rem of container the margin times move above each entry; the footer's artifact chips scroll sideways with an edge fade.
+
+### Routine Week (KQ-2069) — `routine-week`
+Every scheduled agent, laid out on the week.
+
+Every scheduled agent routine on one week: days across, the small hours down, each run a block coloured by its outcome and each future slot a dashed ghost, with overlapping runs sharing the column under a notch and skipped runs hatched. The now line moves down today's column on springs.glide as now advances, and as it crosses a scheduled slot a new block buds out of the line — a sliver that opens to the block on springs.recoil, scaled from its top edge — then fills while the run executes, the fill following now on glide until the host records the outcome. The slots are a grid with one row per day: arrows move between slots (Left and Right to the nearest slot in time on the neighbouring day), Home and End jump, Enter opens a run, R runs the focused routine now and P pauses it; under 32rem the grid becomes the day's agenda under a week strip.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/routine-week`
+
+Props:
+- `routines`: RoutineWeekRoutine[] (default defaultRoutineWeekRoutines (6)) — The recurring routines: { id, name, agent, days (0 = Monday), at (minutes after midnight), duration, paused? }.
+- `runs / defaultRuns`: RoutineWeekRun[] (default — / defaultRoutineWeekRuns) — This week's runs: { id, routine, day, start, duration, outcome, note? }; outcome is success, failed, skipped or running. A run whose routine, day and start match a slot fills that slot.
+- `onRunsChange`: (runs: RoutineWeekRun[]) => void — Fires with the whole list when Run now adds a running run.
+- `weekOf`: number (default defaultRoutineWeekStart (Mon 12 Oct 2026)) — Monday 00:00 of the week, in ms.
+- `now`: number (default Thursday 02:20 of that week) — The moment the week is read, in ms: places the now line and decides which slot is running.
+- `utcOffset`: number (default 0) — Minutes added to UTC before dates are read.
+- `hours`: [number, number] (default [0, 9]) — The hours drawn, as [from, to).
+- `day / defaultDay`: number (default — / today) — The day the narrow agenda shows, 0 to 6.
+- `onDayChange`: (day: number) => void — Fires when the week strip picks another day.
+- `onRunNow`: (routine: RoutineWeekRoutine, run: RoutineWeekRun) => void — Run now (or R) was pressed, with the run it started at the now line.
+- `onPause`: (routine: RoutineWeekRoutine, paused: boolean) => void — Pause or Resume (or P) was pressed, with the new state.
+- `onEditSchedule`: (routine: RoutineWeekRoutine | null) => void — Edit schedule was pressed, or Enter on a slot that has not run; null from the empty week's Add a routine.
+- `onOpenRun`: (run: RoutineWeekRun, routine: RoutineWeekRoutine) => void — Open run was pressed, or Enter on a slot that ran.
+- `title`: string (default "Nightly reports") — The surface's name and accessible name.
+- `team`: string (default "Coldbrook") — Whose routines, under the title.
+- `hourHeight`: number (default 32) — Height of an hour on the grid, px; the agenda's rows breathe with it.
+- `blockStyle`: "solid" | "tinted" | "outline" (default "tinted") — Run blocks: pigment-filled, washed with a side bar, or outlined with an outcome dot.
+- `accent`: string (default "var(--accent-bright)") — The now line, running blocks, scheduled slots, today's shading and focus — any CSS colour.
+- `maxHeight`: number (default 300) — Tallest the grid's viewport grows, px, before the hours scroll inside it.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the week has loaded; loading draws placeholder columns, error offers Try again.
+- `onReload`: () => void — Try again was pressed after the week failed to load.
+- `disabled`: boolean (default false) — Read only: nothing can be run, paused or edited.
+- `className`: string — Classes for the outer region.
+
+Notes:
+- Keyboard: the slots are one roving tab stop in a grid with a row per day — Up and Down move within the day, Left and Right to the nearest slot in time on the neighbouring day, Home and End jump, Enter or Space opens the run (or edits a slot that has not run), R runs the routine now and P pauses it.
+- Drive it from your scheduler: pass now and runs; a slot whose window contains now and has no run reads as running and buds, and a recorded outcome replaces the fill. Nothing ticks inside the component.
+- Reduced motion: no bud and no glide — running blocks appear whole and the fill and now line move without springs; outcomes, fills and counts still update.
+- The bud is driven on the element itself, so a slot that starts running keeps its node and any keyboard focus on it.
+- Under 32rem of container the grid becomes the chosen day's agenda under a seven-day strip (a radiogroup), with the now marker between items and a progress bar on the running one.
+
+### Standup Cards (KQ-2070) — `standup-cards`
+Each agent reports: done, next, stuck.
+
+A daily standup for a team of agents: one card each with what it did, what it does next and what it is stuck on. When the table comes into view the cards are dealt onto it in turn on springs.snap — from a deck with a seeded tilt, dropped from above, or slid in from the left — and an unanswered blocker glows in the warn colour until someone answers it. Answering slides the item off its card: a chip lifts from the row and glides to the resolved tray on springs.glide, landing there on springs.recoil while the card closes the gap on glide, and reassigning swaps the owner on snap. Tab moves card to card, Down and Up walk a card's items, B jumps to the next blocker; the cards form two columns from 36rem and a swipeable stack under 30rem, where a projected flick sends the front card to the back.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/standup-cards`
+
+Props:
+- `agents`: StandupAgent[] (default defaultStandupAgents (4)) — The agents at the standup, one card each in dealing order: { id, name, role, online?, lastSeen? }.
+- `items`: StandupItem[] (default defaultStandupItems) — Every agent's items: { id, agent, kind, text, owner? }; kind is done, next or blocked, and a blocker names the owner it needs.
+- `owners`: StandupOwner[] (default defaultStandupOwners (4)) — People a blocker can need and be reassigned to: { id, name, team? }.
+- `resolved / defaultResolved`: StandupResolution[] (default — / []) — Answered blockers, newest first: { item, answer, at }. They leave their cards and sit in the resolved tray.
+- `onResolvedChange`: (resolved: StandupResolution[]) => void — Fires with the whole list when a blocker is answered.
+- `onAnswerBlocker`: (item: StandupItem, answer: string) => void — A blocker was answered (Send or Enter in its field).
+- `onReassign`: (item: StandupItem, owner: StandupOwner) => void — A blocker was reassigned from its owner menu.
+- `onOpenItem`: (item: StandupItem) => void — An item, or a resolved chip, was pressed.
+- `now`: number (default Thu 15 Oct 2026, 09:30 UTC) — The moment of the standup, in ms: stamps answers and dates the header.
+- `utcOffset`: number (default 0) — Minutes added to UTC before a time is printed.
+- `title`: string (default "Thursday standup") — The standup's name and the region's accessible name.
+- `team`: string (default "Gaugeworks support") — Whose agents, under the title.
+- `dealStyle`: "deck" | "drop" | "slide" (default "deck") — How the cards arrive: dealt from a deck at the top with a seeded tilt, dropped into place, or slid in from the left.
+- `density`: "compact" | "cozy" | "roomy" (default "cozy") — Type size, padding and gaps of the cards.
+- `accent`: string (default "var(--accent-bright)") — Agent marks, Answer and Send, the flight, the tray and focus accents — any CSS colour.
+- `trigger`: "mount" | "inView" (default "inView") — When the cards are dealt: as soon as they mount, or when the table scrolls into view.
+- `height`: number (default 560) — The surface's height in px; the table scrolls inside it.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the standup has loaded; loading draws placeholder cards, error offers Try again.
+- `onReload`: () => void — Try again was pressed after the standup failed to load.
+- `disabled`: boolean (default false) — Read only: nothing can be answered or reassigned.
+- `className`: string — Classes for the outer region.
+
+Notes:
+- Keyboard: each card is a tab stop and Tab moves card to card, stopping on a blocker's Reassign and Answer; Down and Up walk a card's items and Escape returns to the card; B anywhere in the table jumps to the next unanswered blocker (bringing its card to the front of the stack). In the answer field Enter sends, Shift+Enter breaks a line and Escape closes it.
+- The breathing glow on unanswered blockers runs only while the table is on screen, the tab is visible and motion is allowed; under reduced motion it is a still glow.
+- Reduced motion: no deal travel (the cards fade in, in turn), no flight (the answered item fades from its card and the tray chip appears), and the stack swaps instead of sliding; counts and the tray still update.
+- The deal is driven on motion values from an IntersectionObserver and always lands — a StrictMode rehearsal or an unmount finishes it rather than freezing a card mid-air; the server renders the cards at rest.
+- Under 30rem of container the cards become a swipeable stack (touch-pan-y): the front card follows the finger with a slight lean, a projected flick sends it to the back, Left and Right do the same, and dots show the position.
+
+### Cause Lines (KQ-2071) — `cause-lines`
+Trace which event set off which.
+
+An agent activity feed drawn oldest first on a causal gutter, where selecting an event lights its chain: lines start at the selected node and grow along their own paths up to the events that caused it and down to the ones it caused on springs.glide, hop after hop, while unrelated events dim and the selected node's ring lands on springs.snap. Every link is always there as a faint ghost, a link through an event the agent filter hides is drawn dotted, and in a narrow container the gutter gives way to indented rails whose rows step in by generation. The feed is a listbox: Up and Down walk it, Shift with Up or Down jumps to the nearest cause or effect, P pins the chain and Escape unpins it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/cause-lines`
+
+Props:
+- `events`: CauseEvent[] (default defaultCauseEvents) — The feed, any order: { id, at, agent, severity, title, detail? }. Drawn oldest first so causes sit above effects.
+- `links`: CauseLink[] (default defaultCauseLinks) — Which event set off which: { from, to }.
+- `agents`: CauseAgent[] (default defaultCauseAgents) — The agents writing into the feed, in filter order: { id, name, initial? }.
+- `severities`: CauseSeverity[] (default defaultCauseSeverities) — Severity levels: { id, label, tone } where tone is neutral, accent, warn or danger.
+- `value / defaultValue`: string | null (default — / null) — The selected event id, controlled or initial.
+- `onSelectEvent`: (id, event) => void — Fires from the click or key that selected an event, or with null when a filter hid it.
+- `pinned / defaultPinned`: string | null (default — / null) — The event whose chain stays lit while the selection moves, controlled or initial.
+- `onPinChain`: (id, chain) => void — Fires from P or the Pin button with the pinned id (or null) and its lit chain in feed order.
+- `agentFilter / defaultAgentFilter`: string | null (default — / null) — The agent whose events show, or null for every agent.
+- `onFilterAgent`: (agentId) => void — Fires from the chip that changed the filter.
+- `status`: "live" | "paused" | "loading" | "empty" | "error" (default "live") — Whether the feed is streaming, held, or has nothing to show yet.
+- `onLiveChange`: (live) => void — The Live / Paused pill was pressed; omit it and the pill is a label.
+- `onRetry`: () => void — Try again was pressed after the feed failed to load.
+- `now`: number (default defaultCauseNow) — The moment relative times count from, in ms.
+- `reach`: number (default 3) — How many hops of causes and effects light up each way, 1 to 6.
+- `title`: string (default "Sync incident") — The feed's heading and the listbox's name.
+- `subtitle`: string (default "Fieldline · eu-west") — Under the heading, before the event count.
+- `curveStyle`: "arc" | "elbow" | "chevron" (default "arc") — How a causal line bends into the gutter: round bows, square brackets or angled chevrons.
+- `dimLevel`: number (default 0.3) — Opacity of the events outside the lit chain, 0.1 to 0.6.
+- `accent`: "cobalt" | "plum" | "mint" | "ink" | string (default "cobalt") — The chain, the selection and Live: a named pigment or any CSS colour.
+- `disabled`: boolean (default false) — Read only: nothing can be selected, pinned or filtered.
+- `className`: string — Classes for the surface; it caps at 36rem tall and the feed scrolls inside.
+
+Notes:
+- Keyboard: the feed is a listbox with one tab stop. Up and Down walk it, Home and End jump, Shift with Up or Down jumps to the nearest cause or effect, P pins or unpins the chain and Escape unpins; every selection is announced once, as a sentence.
+- Rows are a fixed 52 px, so every line is computed from the row index alone: the server renders the same lines the browser draws, and nothing is measured to draw them.
+- Arrivals while the reader is near the bottom are followed; otherwise a "new below" pill offers them, so a live feed never yanks the event someone is reading.
+- Severity is a word as well as a colour: warn and error rows say it in the meta line, and the node discs use pigment at a fixed lightness so they read the same in both themes.
+- Under reduced motion the chain appears whole with a fade, rows re-indent in place and arrivals fade in; the dims and the lit chain still show, because they are the information.
+- Below an 18.75rem container the causal gutter becomes indented rails, by container query, so the markup is the same at every width.
+
+### Merge Train (KQ-2072) — `merge-train`
+Agent changes, coupled and checked in order.
+
+A merge queue drawn as a train: the pull requests agents have opened are coupled cars on a line through the depot and the stations for tests, review and merge. When a car clears a station the train advances on springs.glide, the front car first and each car behind a cascade later like slack running out, a car that fails uncouples and drops onto the siding on springs.recoil while the cars behind close the gap, and a merged car pulls away on the exit ease; couplers latch on springs.flick and check pips fill as checks pass. Below 30rem the line runs down the page. The cars are a listbox: arrows walk the line, Enter opens a car's checks, Delete pulls it from the train and Alt with an arrow moves a waiting car in the queue.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/merge-train`
+
+Props:
+- `changes`: TrainChange[] (default defaultTrainChanges) — Every car in a stable order: { id, number, title, agent, branch?, stop, result, checks?, progress?, failedReason? }. stop is -1 in the depot.
+- `stations`: TrainStation[] (default defaultTrainStations) — The stops after the depot, in order: { id, label }.
+- `order / defaultOrder`: string[] (default — / the depot cars in changes order) — The queue order of the cars waiting in the depot, next to leave first.
+- `onReorder`: (order) => void — Fires from Alt+Arrow or the Move buttons with the new queue order.
+- `open / defaultOpen`: string | null (default — / null) — The car whose checks are open below the yard.
+- `onOpenChange`: (id) => void — Fires from Enter, a click, Escape or Close with the open car or null.
+- `onRetry`: (change) => void — Retry was pressed on a car standing on the siding.
+- `onRemoveCar`: (change) => void — Delete, Backspace or Remove pulled a car from the train; it leaves at once.
+- `held`: boolean (default false) — Hold the train: the last station's lamp turns to stop and a banner says why.
+- `heldReason`: string (default "main is frozen for the 4.2 release") — Why the train is held.
+- `merged`: number (default 0) — Changes merged so far today, for the header.
+- `status`: "running" | "loading" | "empty" | "error" (default "running") — Whether the train's data has arrived; an empty train draws an empty depot.
+- `onReload`: () => void — Try again was pressed after the train failed to load.
+- `title`: string (default "Merge train") — The heading and the listbox's name.
+- `subtitle`: string (default "waylight/app · main") — Under the heading.
+- `carStyle`: "card" | "pill" | "boxcar" (default "card") — A card with its checks, a compact pill, or a boxcar with a roof band and wheels.
+- `trackStyle`: "rails" | "transit" | "ruled" (default "rails") — Rails and sleepers, one transit line with station rings, or a dashed hairline.
+- `accent`: "cobalt" | "plum" | "mint" | "ink" | string (default "cobalt") — Running cars, progress and the open car: a named pigment or any CSS colour.
+- `disabled`: boolean (default false) — Read only: cars can be walked and read but not opened, moved or removed.
+- `className`: string — Classes for the surface; it caps at 36rem tall and its body scrolls inside.
+
+Notes:
+- Keyboard: the cars are a listbox with one tab stop, in line order (depot queue, the line, then the siding). Arrows walk, Home and End jump, Enter opens a car, Escape closes it, Delete or Backspace pulls it from the train, Alt with an arrow moves a waiting car in the queue.
+- The component draws whatever `changes` says: move a car's `stop`, set `result` to failed or merged, and the train animates the difference. Every car lives in one grid in a stable DOM order, so each move is a layout animation, not a remount.
+- Lamps, pips and car states always carry words for assistive technology; failures, merges and moves are announced once, from the change that caused them.
+- Under reduced motion cars change places with a fade instead of travelling, the siding drop has no bounce, and pips, lamps and progress still update.
+- Below a 30rem container the yard turns: stations become rows with upright platform signs and the siding runs down the right, by container query, so the server markup is the same at every width.
+
+### Schema Mould (KQ-2073) — `schema-mould`
+Arguments that fit the shape they should.
+
+A tool call checked against its schema, drawn as a mould: one cavity per expected field, keyed by its type, and the agent's arguments as pieces keyed by the type of the value they actually hold. When the mould comes into view the pieces pour in a cascade apart, each falling into its cavity on springs.snap as the rim brightens; a value of the wrong type hits the rim and is thrown out beside the mould on springs.recoil with a short reason, and a missing required field leaves its cavity hollow. Every field is a tab stop, Enter edits a rejected value and a fixed value drops back in on springs.snap; below 30rem nested objects fold into rows you open.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/schema-mould`
+
+Props:
+- `tool`: string (default "create_invoice") — The tool being called, in mono; also the surface's name.
+- `server`: string (default "Coldbrook Billing") — Who serves the tool.
+- `schema`: SchemaField[] (default defaultMouldSchema) — The expected fields: { name, type, required?, description?, options?, format?, fields?, items? }, nested for objects and arrays.
+- `args / defaultArgs`: Record<string, unknown> (default — / defaultMouldArgs) — The arguments the agent sent, controlled or initial.
+- `validation`: Record<string, string | null> — A path's reason it does not fit, or null when it fits; overrides the built-in type check for that path.
+- `status`: "pending" | "rejected" | "running" | "completed" | "error" (default derived) — The call's state; rejected while anything is outside the mould, else pending, unless the host says otherwise.
+- `result`: string — The tool's reply once the call completed, or the error it gave.
+- `onFixArgument`: (path, value) => void — A rejected value was fixed in its editor, with its path and the value parsed by the field's type.
+- `onRun`: (args) => void — Run was pressed with every argument in the mould.
+- `onCopy`: (json) => void — Copy was pressed; the arguments as JSON, also written to the clipboard when it allows.
+- `trigger`: "inView" | "mount" (default "inView") — When the pieces pour into the mould.
+- `mouldStyle`: "inset" | "outline" | "cast" (default "inset") — Debossed cavities in a tray, dashed blueprint outlines, or a tinted cast.
+- `density`: "compact" | "cozy" | "roomy" (default "cozy") — Row height and piece size.
+- `accent`: "cobalt" | "plum" | "mint" | "ink" | string (default "cobalt") — Fitted keys, rims, Run and the cast: a named pigment or any CSS colour.
+- `formatValue`: (value, field) => string (default JSON, strings quoted) — How a value is written on its piece.
+- `disabled`: boolean (default false) — Read only: nothing can be fixed or run.
+- `className`: string — Classes for the surface; it caps at 36rem tall and the mould scrolls inside.
+
+Notes:
+- Keyboard: every field is a tab stop named with its path, type and verdict. Enter on a rejected or missing field opens an editor; Enter saves (the text is parsed by the field's type, and an unreadable value is refused in place with aria-invalid), Escape cancels and returns focus to the field.
+- Types are shapes, not only colours: each cavity and piece carries a key glyph (circle for text, square for numbers, triangle for enums, diamond for dates), so a misfit reads at a glance and in greyscale.
+- Validation is built in for string, number, integer, boolean, enum, date, object and array, with email format; pass `validation` to override any path with your server's own verdict.
+- Run stays focusable and aria-disabled while anything is outside the mould, described by the fit summary, so a keyboard user hears why.
+- Under reduced motion every piece appears where it ends up, in the mould or outside it, with a fade: no fall and no bounce.
+- Below a 30rem container the rows stack and nested objects and arrays fold into disclosure rows, by container query, so the server markup is the same at every width.
+
+### Search Fan (KQ-2074) — `search-fan`
+Watch it search, skim and keep what matters.
+
+A web search tool call shown as it works: the agent's queries fan out from the call as tabs, tilted like a hand of cards and landing on springs.snap a cascade apart, and result cards stream in under each on springs.glide. A scan line skims every card in scanSpeed ms; when it reaches the bottom the agent's decision lands, a kept card lifting and flying into the Kept stack on springs.glide while a dropped card falls away on the exit ease and leaves a slim stub, with the reason on hover and focus. Cards are one roving group where arrows move by where cards really are, K keeps and D drops to override the agent; below 40rem the fan shows one query at a time.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/search-fan`
+
+Props:
+- `call`: string (default "web_search") — The tool's name, in mono on the call pill.
+- `topic`: string (default "Basinworks water pricing") — What the agent is researching; the surface's heading.
+- `queries`: SearchQuery[] (default defaultSearchQueries) — The queries: { id, text, at, state? } where at is ms after the call starts and state is ok, no-results or rate-limited.
+- `results`: SearchResult[] (default defaultSearchResults) — The results: { id, queryId, at, domain, title, snippet, url, decision, reason }.
+- `playing`: boolean (default true) — Run the call's clock; paused, everything holds where it is.
+- `trigger`: "inView" | "mount" (default "inView") — When the clock starts.
+- `onOpenResult`: (result) => void — Enter or a click on a result, to open its page.
+- `onKeep`: (result) => void — K overrode the agent and kept a result.
+- `onDiscard`: (result) => void — D overrode the agent and dropped a result.
+- `onStop`: () => void — Stop was pressed: nothing more arrives and unread results stay unread.
+- `onComplete`: () => void — The last result has been skimmed.
+- `status`: "auto" | "loading" | "error" (default "auto") — auto plays the call; loading and error stand in before it starts.
+- `onRetry`: () => void — Try again was pressed after the call failed.
+- `retryAt`: string (default "14:05") — When a rate-limited query will try again, as shown.
+- `fanAngle`: number (default 8) — Tilt of the outermost query tabs, in degrees, 0 to 16.
+- `scanSpeed`: number (default 700) — How long the agent skims one result, in ms.
+- `accent`: "cobalt" | "plum" | "mint" | "ink" | string (default "cobalt") — The scan line, kept results and the call pill: a named pigment or any CSS colour.
+- `disabled`: boolean (default false) — Read only: results open but cannot be kept or dropped, and Stop is off.
+- `className`: string — Classes for the surface; it is 34rem tall and its columns scroll inside.
+
+Notes:
+- Keyboard: every card, stub and kept row is in one roving group with a single tab stop. Arrow keys move to the nearest item in that direction by where items really are, so the same keys work in the column layout and the one-query layout (where Left and Right off the edge switch query). Enter opens, K keeps, D drops.
+- The call runs on its own clock from the `at` times in the data, as one chain of timers that pauses while the surface is off screen or the page is hidden and stops once everything has landed: no animation frame loop.
+- A kept card flies to the stack as a measured flyer drawn over the surface, so it can travel between two scrolling columns; the stack row appears as it lands.
+- Every decision carries its reason: in the footer on hover or focus, and in each item's description for assistive technology. Progress is announced once per landing, not per frame.
+- Under reduced motion cards appear without travel, the skim is a brief tint instead of a sweeping line, and kept results appear in the stack with a fade.
+- Below a 40rem container the tabs stack into a fanned hand with one query in front, by container query, so the server markup is the same at every width.
+
+### Run Cell (KQ-2075) — `run-cell`
+Code it ran, and what came out.
+
+A code execution tool call drawn as a notebook cell and fed by props as the call streams: new lines of code slide in on springs.glide, an execution cursor glides down the gutter as each line runs and every executed line is marked on springs.flick, and stdout rises line by line below. When a figure first arrives the Figure tab opens and the plot develops out of a blank frame, a soft blur clearing as it settles from 1.02 on springs.glide while its lines draw left to right behind a sweeping clip and the tolerance band fades in last, with its data one tab away as a real table. Failing and timed-out lines are marked in place; Tab moves from the code to the tabs to the panel, and Enter on the code re-runs it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/run-cell`
+
+Props:
+- `code`: string (default defaultRunCode) — The code, in full or as far as it has arrived; appended lines slide in, replaced code starts fresh.
+- `language`: string (default "python") — Shown on the chip; the colouring reads Python keywords, strings, numbers, comments and calls.
+- `executedLine`: number (default every line once done) — How many lines have run; the line at this index is running now.
+- `outputs`: RunOutput[] (default defaultRunOutputs) — What it printed so far: { id, stream, text } with stream stdout or stderr.
+- `figures`: RunFigure[] (default defaultRunFigures) — What it returned: { id, title, xTicks, yUnit, series, band?, summary }. A new one develops in the Figure tab.
+- `status`: "queued" | "running" | "done" | "error" | "timed-out" | "stopped" (default "done") — Where the call is.
+- `error`: RunError — The failure: { line, name, message, trace }, line 1-based as a traceback counts.
+- `elapsed`: number (default 2380) — Run time so far, in ms.
+- `timeout`: number (default 30000) — The run's time limit in ms, shown when it is hit.
+- `runtime`: string (default "Gaugeworks runtime · py 3.12") — The machine that ran it.
+- `count`: number (default 7) — The execution count shown as In [7]; a star while it runs.
+- `tab / defaultTab`: "output" | "figure" | "data" (default — / figure when a figure exists, else output) — The open result tab, controlled or initial; a new figure selects Figure when uncontrolled.
+- `onTabChange`: (tab) => void — Fires from the click or key that changed the tab.
+- `onRerun`: () => void — Re-run was pressed, or Enter on the code.
+- `onStop`: () => void — Stop was pressed while it ran.
+- `onCopy`: (code) => void — Copy was pressed; the code is also written to the clipboard when it allows.
+- `onOpenFigure`: (figure) => void — Open was pressed on a figure.
+- `foldLines`: number (default 4) — Below 30rem the code folds to this many lines until opened.
+- `codeTheme`: "paper" | "ink" | "tint" (default "paper") — The code's surface: the page's paper, a deep ink panel in both themes, or a tint of the accent.
+- `gutterStyle`: "ticks" | "bar" | "dots" (default "ticks") — How executed lines are marked: a tick each, one bar filling down, or dots that fill.
+- `accent`: "cobalt" | "plum" | "mint" | "ink" | string (default "cobalt") — The cursor, keywords, ticks and the running state: a named pigment or any CSS colour.
+- `disabled`: boolean (default false) — Read only: nothing can be re-run, stopped or copied.
+- `className`: string — Classes for the cell; it caps at 36rem tall and its code and panels scroll inside.
+
+Notes:
+- The cell draws whatever the props say, so it follows a real stream: append to `code`, raise `executedLine`, push `outputs`, add a figure, then set `status`. Nothing in the component keeps time.
+- Keyboard: the code is one focusable region named with its line count, executed count and any error (Enter re-runs); the result tabs are a tablist with roving arrows, Home and End; each panel is focusable so long output can be scrolled by keys.
+- The figure is one SVG stretched to its box with non-scaling strokes and HTML labels, so it stays crisp at any width without measuring; it carries a sentence summary, and its data is a real table with a caption.
+- The output is a log that does not announce every line; the run's end, an error with its line, a timeout or a stop are announced once.
+- Under reduced motion lines and the figure appear with a short fade, the cursor jumps between lines, and ticks still mark each executed line.
+- Below a 30rem container the code folds to its first lines behind a disclosure, by container query, so the server markup is the same at every width.
 
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.

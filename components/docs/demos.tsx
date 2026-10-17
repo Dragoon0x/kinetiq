@@ -1962,6 +1962,26 @@ import { AnswerShapeDemo } from "@/registry/demos/answer-shape.demo";
 import { QueuedAsksDemo } from "@/registry/demos/queued-asks.demo";
 import { ScopeWheelDemo } from "@/registry/demos/scope-wheel.demo";
 import { PasteFoldDemo } from "@/registry/demos/paste-fold.demo";
+import { SpendGuardDemo } from "@/registry/demos/spend-guard.demo";
+import { TaxProfileDemo } from "@/registry/demos/tax-profile.demo";
+import { TeamChargebackDemo } from "@/registry/demos/team-chargeback.demo";
+import { VisitorChatDemo } from "@/registry/demos/visitor-chat.demo";
+import { SwipeReplyDemo } from "@/registry/demos/swipe-reply.demo";
+import { AskBackDemo } from "@/registry/demos/ask-back.demo";
+import { ChartTalkDemo } from "@/registry/demos/chart-talk.demo";
+import { HintLadderDemo } from "@/registry/demos/hint-ladder.demo";
+import { MeetingRecallDemo } from "@/registry/demos/meeting-recall.demo";
+import { WidgetThreadDemo } from "@/registry/demos/widget-thread.demo";
+import { NightShiftDemo } from "@/registry/demos/night-shift.demo";
+import { FootprintMapDemo } from "@/registry/demos/footprint-map.demo";
+import { RunJournalDemo } from "@/registry/demos/run-journal.demo";
+import { RoutineWeekDemo } from "@/registry/demos/routine-week.demo";
+import { StandupCardsDemo } from "@/registry/demos/standup-cards.demo";
+import { CauseLinesDemo } from "@/registry/demos/cause-lines.demo";
+import { MergeTrainDemo } from "@/registry/demos/merge-train.demo";
+import { SchemaMouldDemo } from "@/registry/demos/schema-mould.demo";
+import { SearchFanDemo } from "@/registry/demos/search-fan.demo";
+import { RunCellDemo } from "@/registry/demos/run-cell.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -3938,4 +3958,24 @@ export const demos: Record<string, ComponentType> = {
   "queued-asks": QueuedAsksDemo,
   "scope-wheel": ScopeWheelDemo,
   "paste-fold": PasteFoldDemo,
+  "spend-guard": SpendGuardDemo,
+  "tax-profile": TaxProfileDemo,
+  "team-chargeback": TeamChargebackDemo,
+  "visitor-chat": VisitorChatDemo,
+  "swipe-reply": SwipeReplyDemo,
+  "ask-back": AskBackDemo,
+  "chart-talk": ChartTalkDemo,
+  "hint-ladder": HintLadderDemo,
+  "meeting-recall": MeetingRecallDemo,
+  "widget-thread": WidgetThreadDemo,
+  "night-shift": NightShiftDemo,
+  "footprint-map": FootprintMapDemo,
+  "run-journal": RunJournalDemo,
+  "routine-week": RoutineWeekDemo,
+  "standup-cards": StandupCardsDemo,
+  "cause-lines": CauseLinesDemo,
+  "merge-train": MergeTrainDemo,
+  "schema-mould": SchemaMouldDemo,
+  "search-fan": SearchFanDemo,
+  "run-cell": RunCellDemo,
 };

@@ -179701,4 +179701,3359 @@ export const components: KinetiqItem[] = [
       "onSubmit hands you both the structured parts and a plain-text message with each block fenced by its kind, ready to send to a model.",
     ],
   },
+  {
+    name: "spend-guard",
+    type: "registry:ui",
+    title: "Spend Guard",
+    description:
+      "A budget-alerts panel for a project's cloud spend this month: one bar carries the spend as a fill, the forecast to month end as a hatch, a hairline at the budget and a marker per alert threshold with its recipients' avatars riding on its head, while a month strip below pins each threshold to the day it fired or will fire at the current pace, joined by a leader. Dragging a marker follows the pointer 1:1 and rubber-bands past the axis, the avatars follow on springs.snap and the date pin trails on springs.glide, and release snaps to a whole percent on snap with the throw's velocity; crossing what is already spent flips the head on springs.flick. Every marker is a slider (arrows one percent, Shift five, Page keys ten, Home and End), the recipients menu is a real menu, and an optional hard limit says plainly what stops.",
+    files: [
+      {
+        path: "registry/ui/spend-guard.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1773",
+    },
+    tagline: "Set limits, and who hears when you're near them.",
+    keywords: [
+      "budget alerts",
+      "cloud spend",
+      "billing",
+      "threshold",
+      "hard limit",
+      "forecast",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "markerStyle",
+        type: '"pin" | "flag" | "tick"',
+        defaultValue: '"pin"',
+        description:
+          "How a threshold marker is drawn: a round head carrying the avatars, a flag off the stem, or a hairline tick.",
+      },
+      {
+        name: "barHeight",
+        type: "number",
+        defaultValue: "20",
+        description:
+          "Thickness of the spend bar in px; markers and the month strip scale with it.",
+      },
+      {
+        name: "palette",
+        type: '"cobalt" | "ember" | "moss" | "mono"',
+        defaultValue: '"cobalt"',
+        description:
+          "Tone of the spend fill, forecast hatch and markers; the hard limit keeps its danger tone.",
+      },
+      {
+        name: "budget",
+        type: "number",
+        defaultValue: "5000",
+        description: "The monthly budget, in the currency format prints.",
+      },
+      {
+        name: "thresholds / defaultThresholds",
+        type: "SpendThreshold[]",
+        defaultValue: "— / defaultSpendThresholds",
+        description:
+          "The alert thresholds, controlled or initial: { id, percent (of budget), recipients (ids) }.",
+      },
+      {
+        name: "onThresholdChange",
+        type: "(thresholds: SpendThreshold[], id: string) => void",
+        description:
+          "Fires from the drag, key, add, remove or recipient change that changed the thresholds, with all of them and the id that changed.",
+      },
+      {
+        name: "recipients",
+        type: "SpendRecipient[]",
+        defaultValue: "defaultSpendRecipients",
+        description: "Everyone who can be alerted: { id, name, role?, hue? }.",
+      },
+      {
+        name: "onRecipientsChange",
+        type: "(thresholdId: string, recipientIds: string[]) => void",
+        description: "A threshold's recipients changed, with the new ids.",
+      },
+      {
+        name: "hardLimit / defaultHardLimit",
+        type: "number | null",
+        defaultValue: "— / null",
+        description:
+          "The amount at which spending stops, controlled or initial; null for none.",
+      },
+      {
+        name: "onHardLimitChange",
+        type: "(amount: number | null) => void",
+        description: "The hard limit was switched on, moved or switched off.",
+      },
+      {
+        name: "hardLimitEffect",
+        type: "string",
+        defaultValue:
+          '"New deployments pause and preview environments scale to zero. Production keeps serving, and nothing is deleted."',
+        description:
+          "One plain sentence: what stops at the hard limit and what keeps running.",
+      },
+      {
+        name: "daily",
+        type: "number[]",
+        defaultValue: "defaultSpendDaily",
+        description:
+          "Spend per day of the current month so far, day 1 first; the pace is the mean of the last seven.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "defaultSpendNow (17 Oct 2026)",
+        description:
+          "The current time in ms. Dates are read in UTC; never read from the clock.",
+      },
+      {
+        name: "format",
+        type: "(amount: number) => string",
+        defaultValue: "US dollars, no cents",
+        description: "Formats every amount.",
+      },
+      {
+        name: "onSave",
+        type: "(config: SpendConfig) => void | Promise<void>",
+        description:
+          "Save was pressed with { thresholds, hardLimit }; return a promise to show Saving… and its outcome.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "empty" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the spend data has arrived. The bar and its markers stay in every state.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the spend failed to load.",
+      },
+      {
+        name: "project",
+        type: "string",
+        defaultValue: '"Waylight"',
+        description: "The project, in the heading.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "540",
+        description: "Height of the surface in px; its body scrolls inside.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Nothing can be moved, added or saved.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer surface.",
+      },
+    ],
+    usageNotes: [
+      'Each marker is a role="slider" whose value text is a full sentence (percent, amount, the date it fires and who hears it): arrows move it one percent, Shift five, Page Up and Page Down ten, Home and End to the axis ends. The recipients button opens a real menu of menuitemcheckbox rows; Escape closes it and returns focus.',
+      "Under reduced motion markers, avatars and date pins move instantly and the hard-limit body opens without travel; the passed state, the inspector and every date still update.",
+      "Dates are computed in UTC from the now prop and the daily series, so server and client agree; the pace is the mean of the last seven days.",
+      "Nothing runs at rest: positions are motion values that settle, the leader paths are rebuilt only while a marker or pin moves, and the only observer is a ResizeObserver on the hard-limit body.",
+      "Colours come from tokens: the palette sets --sg-fill (a pigment at fixed lightness, so a filled bar reads the same in both themes) and --sg-ink; the hard limit always uses the danger tone.",
+      "Below a 32rem container the heads drop their unit and the riding avatars become dots, so markers a few percent apart still sit side by side on a phone.",
+    ],
+  },
+  {
+    name: "tax-profile",
+    type: "registry:ui",
+    title: "Tax Profile",
+    description:
+      "A billing-details form with a live invoice header beside it: every field a labelled native input in reading order with its error inline, the preview re-typesetting as you type and lighting the line of the field you are in. A well-formed tax ID runs a checking pulse along the field's lower edge while it is looked up; a registered number fills the legal name, which lifts out of the note under the field and glides into the invoice header on springs.glide, landing with a springs.flick settle and a wash of the accent while the Verified badge pops on springs.snap. Not-found numbers and an unanswering registry keep the entry with a note, a failed check digit is an inline error, and on a narrow container the preview folds away behind a toggle.",
+    files: [
+      {
+        path: "registry/ui/tax-profile.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1774",
+    },
+    tagline: "Company details for invoices, checked as you type.",
+    keywords: [
+      "billing details",
+      "tax id",
+      "vat number",
+      "invoice preview",
+      "form validation",
+      "lookup",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "fieldStyle",
+        type: '"boxed" | "line" | "filled"',
+        defaultValue: '"boxed"',
+        description:
+          "How the inputs are drawn: bordered boxes, an underline only, or soft filled wells.",
+      },
+      {
+        name: "previewStyle",
+        type: '"classic" | "modern" | "compact"',
+        defaultValue: '"classic"',
+        description:
+          "The invoice header preview: seller left and title right, a large title with two blocks, or one tight strip.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "Any CSS colour: focus edges, the checking pulse, the landing wash and the invoice rule.",
+      },
+      {
+        name: "company",
+        type: "string",
+        defaultValue: '""',
+        description: "The legal company name the form starts with.",
+      },
+      {
+        name: "address",
+        type: "TaxAddress",
+        defaultValue: "defaultTaxAddress",
+        description:
+          "The billing address the form starts with: { line1, line2, city, postalCode, country }.",
+      },
+      {
+        name: "taxId",
+        type: "TaxIdValue",
+        defaultValue: '{ country: "GB", number: "" }',
+        description:
+          "The tax ID the form starts with; spaces and a repeated country prefix in the number are ignored.",
+      },
+      {
+        name: "email",
+        type: "string",
+        defaultValue: '"billing@fernworks.studio"',
+        description: "The billing email the form starts with.",
+      },
+      {
+        name: "reference",
+        type: "string",
+        defaultValue: '""',
+        description: "The purchase order reference the form starts with.",
+      },
+      {
+        name: "values",
+        type: "TaxProfileValues",
+        description:
+          "Controlled form values ({ company, taxId, email, address, reference }); when set, the starting-value props are ignored.",
+      },
+      {
+        name: "onValuesChange",
+        type: "(values: TaxProfileValues) => void",
+        description:
+          "Fires from every edit and from a registry fill, with all the values.",
+      },
+      {
+        name: "countries",
+        type: "TaxCountry[]",
+        defaultValue: "defaultTaxCountries",
+        description:
+          "Countries for the tax ID prefix and the address: { code, name }.",
+      },
+      {
+        name: "seller",
+        type: "TaxSeller",
+        defaultValue: "defaultTaxSeller",
+        description:
+          "Who issues the invoices, shown in the preview: { name, lines, taxId, email }.",
+      },
+      {
+        name: "invoiceNumber",
+        type: "string",
+        defaultValue: '"INV-2026-0418"',
+        description: "The invoice number in the preview.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "defaultTaxNow (17 Oct 2026)",
+        description:
+          "The current time in ms, the preview's issue date (read in UTC). Never read from the clock.",
+      },
+      {
+        name: "lookup",
+        type: "(taxId: string) => Promise<TaxLookupResult>",
+        defaultValue: "a seeded registry of four companies",
+        description:
+          'Looks a full tax ID up, e.g. "GB204718369"; a rejected promise reads as an unanswering registry.',
+      },
+      {
+        name: "checkDelay",
+        type: "number",
+        defaultValue: "900",
+        description: "How long the default lookup takes, in ms.",
+      },
+      {
+        name: "onValidate",
+        type: "(result: TaxLookupResult) => void",
+        description:
+          "Fires with every check outcome: valid (with the registered name), not-found, unreachable or invalid.",
+      },
+      {
+        name: "onSave",
+        type: "(values: TaxProfileValues) => void | Promise<void>",
+        description:
+          "Save was pressed with valid values; return a promise to show Saving… and its outcome. With errors, focus goes to the first invalid field instead.",
+      },
+      {
+        name: "onCancel",
+        type: "() => void",
+        description:
+          "Cancel was pressed; an uncontrolled form also returns to its last saved values.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description: "Whether the saved details have arrived.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the details failed to load.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "540",
+        description: "Height of the surface in px; its body scrolls inside.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Nothing can be edited or saved.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer surface.",
+      },
+    ],
+    usageNotes: [
+      "A real form in normal tab order: every input is labelled, errors are inline with aria-invalid and aria-describedby, the tax ID group is aria-busy while checking, and Save (a submit button associated with the form) focuses the first invalid field and announces how many need attention.",
+      "Lookups are debounced (450 ms after the ninth digit), keyed by the number and cancelled when it changes, so a stale answer never lands; pass lookup to call your own registry and read every outcome from onValidate.",
+      "Under reduced motion the pulse is a still tint with a spinner glyph, there is no flight, and the registered name cross-fades into the header; the Verified badge and every note still appear.",
+      "The preview is a document: its paper keeps a fixed light tone and ink in both themes, while the form uses theme tokens; the accent drives the focus edge, pulse, wash and the invoice rule.",
+      "Below a 44rem container the preview folds behind a Preview invoice toggle (aria-expanded, aria-controls) and opens above the form; City and Postal code share a row from 22rem.",
+    ],
+  },
+  {
+    name: "team-chargeback",
+    type: "registry:ui",
+    title: "Team Chargeback",
+    description:
+      "A cost-allocation view for a cloud account: the month's total is one long bar already divided into its teams, with what no rule claims hatched at its end and every billed month drawn below it. Pressing the total splits it: the segments part on springs.snap, then each slides down into its own row of a ranked list on springs.glide in one cascade while its share, trend and owner arrive beside it, and the unallocated remainder stays behind in the bar; pressing again folds the rows back up. Allocation is computed from tag rules and shared-cost splits, rows open with Enter to their spend by service and the rules that claimed it, arrow keys walk the rows and the month tabs, and a narrow container shortens each bar to its percentage.",
+    files: [
+      {
+        path: "registry/ui/team-chargeback.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1775",
+    },
+    tagline: "Split the bill by the teams that ran it up.",
+    keywords: [
+      "chargeback",
+      "cost allocation",
+      "cloud bill",
+      "finops",
+      "teams",
+      "split",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "barStyle",
+        type: '"solid" | "soft" | "outline"',
+        defaultValue: '"soft"',
+        description:
+          "How team bars are drawn: pigment fills, a tint with a lead edge, or outlines that fill on hover and focus.",
+      },
+      {
+        name: "density",
+        type: '"compact" | "cozy" | "roomy"',
+        defaultValue: '"cozy"',
+        description:
+          "Row height and bar thickness; roomy rows also show the owner's role.",
+      },
+      {
+        name: "palette",
+        type: '"basin" | "ember" | "spectrum" | "mono"',
+        defaultValue: '"basin"',
+        description:
+          "Team colours as pigments at fixed lightness: cool blues and teals, warm, spread hues, or ink steps.",
+      },
+      {
+        name: "costs",
+        type: "Record<string, ChargebackCost[]>",
+        defaultValue: "defaultChargebackCosts",
+        description:
+          "Costs per month id: { id, label (resource), service, amount, previous, tags }.",
+      },
+      {
+        name: "months",
+        type: "ChargebackMonth[]",
+        defaultValue: "defaultChargebackMonths",
+        description: "The months as tabs, oldest first: { id, label, long }.",
+      },
+      {
+        name: "month / defaultMonth",
+        type: "string",
+        defaultValue: '— / "2026-10"',
+        description: "The month shown, controlled or initial.",
+      },
+      {
+        name: "onMonthChange",
+        type: "(month: string) => void",
+        description: "A month tab was chosen.",
+      },
+      {
+        name: "teams",
+        type: "ChargebackTeam[]",
+        defaultValue: "defaultChargebackTeams",
+        description:
+          "The teams costs are charged back to: { id, name, owner, role? }.",
+      },
+      {
+        name: "rules / defaultRules",
+        type: "ChargebackRule[]",
+        defaultValue: "— / defaultChargebackRules",
+        description:
+          'Allocation rules, controlled or initial: tag rules { kind: "tag", key, value, team, enabled } (key "resource" matches a cost\'s label) and split rules { kind: "split", key, value, method: "usage" | "even", enabled } for shared costs.',
+      },
+      {
+        name: "onRuleChange",
+        type: "(rule: ChargebackRule, rules: ChargebackRule[]) => void",
+        description:
+          "A rule was switched, re-methoded or added, with every rule.",
+      },
+      {
+        name: "onAllocate",
+        type: "(costId: string, teamId: string) => void",
+        description:
+          "An unallocated cost was assigned to a team; uncontrolled, a resource rule is added so the amount moves.",
+      },
+      {
+        name: "onExport",
+        type: "(csv: string, rows: ChargebackRow[]) => void",
+        description:
+          "Export was pressed: the month's allocation as CSV text and as rows.",
+      },
+      {
+        name: "split / defaultSplit",
+        type: "boolean",
+        defaultValue: "— / false",
+        description:
+          "Whether the total bar is split into team rows, controlled or initial. A host that flips it gets the same choreography as a press.",
+      },
+      {
+        name: "onSplitChange",
+        type: "(split: boolean) => void",
+        description: "The total bar was pressed.",
+      },
+      {
+        name: "format",
+        type: "(amount: number) => string",
+        defaultValue: "US dollars, no cents",
+        description: "Formats every amount.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the costs have arrived; a month without costs says so on its own.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the costs failed to load.",
+      },
+      {
+        name: "account",
+        type: "string",
+        defaultValue: '"Basinworks"',
+        description: "The account, in the heading.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "540",
+        description: "Height of the surface in px; its body scrolls inside.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Nothing can be split, switched or assigned.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer surface.",
+      },
+    ],
+    usageNotes: [
+      'The total bar is a button with aria-expanded and a sentence describing the split; rows are buttons with aria-expanded under roving focus (Up and Down, Home and End), rule switches are role="switch", the shared-cost method is a radiogroup, and the months are a tablist driven by the arrow keys.',
+      "While rows are being edited the ranking holds still, so a rule change or an assignment never pulls the row you are in out from under the focus; the next split ranks the teams again.",
+      "Under reduced motion the split is a cross-fade: no segment travels, rows appear in place and open without a height glide; every amount, share and trend still updates.",
+      "Shared layout moves run only on split and fold (each segment's layoutDependency is the phase and its amount), so expanding rows never sets off stray slides; nothing runs at rest.",
+      "Team colours are pigments at fixed lightness so the bars read the same in both themes; trends use the warn tone above +10% and the success tone for a fall, always with the sign and percentage in text.",
+    ],
+  },
+  {
+    name: "visitor-chat",
+    type: "registry:ui",
+    title: "Visitor Chat",
+    description:
+      "A website chat widget that lives in the corner of its own box, with the host page behind it. Pressing the launcher stretches it into the window on a goo layer used only while the shape moves: the window grows out of the launcher, rising on springs.snap and widening on springs.glide while its fill turns from the accent to the card and the neck between them thins until it lets go, then the crisp window takes over and its content arrives; closing runs back into the launcher on the exit ease. Inside, the header says who is on and how soon they reply, the messages are a log where an agent's reply resolves out of the typing bubble on springs.glide, the composer is a real textarea with attach and send, a failed send keeps a retry on its bubble, outside office hours the window asks for an email first, and Escape closes it and returns focus to the launcher.",
+    files: [
+      {
+        path: "registry/ui/visitor-chat.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1776",
+    },
+    tagline: "Talk to the team from the corner of the page.",
+    keywords: [
+      "chat widget",
+      "live chat",
+      "support",
+      "launcher",
+      "gooey",
+      "messenger",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "launcherShape",
+        type: '"circle" | "squircle" | "pill"',
+        defaultValue: '"circle"',
+        description:
+          'The launcher: a circle, a rounded square, or a pill with "Chat with us". The stretch starts from its shape.',
+      },
+      {
+        name: "bubbleStyle",
+        type: '"tinted" | "solid" | "minimal"',
+        defaultValue: '"tinted"',
+        description:
+          "Message bubbles: a soft tint, a solid accent for the visitor, or agents as plain text.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "Any CSS colour: the launcher, the visitor's bubbles, read marks and focus edges.",
+      },
+      {
+        name: "team",
+        type: "ChatAgent[]",
+        defaultValue: "defaultChatTeam",
+        description: "Who answers: { id, name, role?, online, hue? }.",
+      },
+      {
+        name: "hours",
+        type: "ChatHours",
+        defaultValue: "defaultChatHours",
+        description:
+          "When the team answers live: { days (0 = Sunday), open, close (minutes), utcOffset (minutes), zone }.",
+      },
+      {
+        name: "messages / defaultMessages",
+        type: "ChatMessage[]",
+        defaultValue: "— / []",
+        description:
+          'The thread, controlled or initial: { id, from ("visitor" or an agent id), text, at, status?, attachment? }.',
+      },
+      {
+        name: "onMessagesChange",
+        type: "(messages: ChatMessage[]) => void",
+        description:
+          "Fires from a send, a delivery change or a retry, with every message.",
+      },
+      {
+        name: "typing",
+        type: "string | null",
+        defaultValue: "null",
+        description:
+          "The agent typing now, by id; their next message resolves out of the indicator.",
+      },
+      {
+        name: "onSend",
+        type: "(message: ChatMessage, meta: { email: string | null }) => void | Promise<void>",
+        description:
+          "A message was sent or retried. Return a promise: resolved marks it sent, rejected keeps a retry on its bubble.",
+      },
+      {
+        name: "onAttach",
+        type: "(files: File[]) => void",
+        description:
+          "Files were picked with the attach button; the first rides on the next message.",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "boolean",
+        defaultValue: "— / false",
+        description:
+          "Whether the window is open, controlled or initial. A host that opens it gets the same stretch, without moving focus.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(open: boolean) => void",
+        description:
+          "The launcher, Escape or the minimise button changed the open state.",
+      },
+      {
+        name: "onClose",
+        type: "() => void",
+        description: "The window was closed by the visitor.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "defaultChatNow (Fri 16 Oct 2026 14:20 UTC)",
+        description:
+          "The current time in ms; decides office hours. Never read from the clock.",
+      },
+      {
+        name: "replyMinutes",
+        type: "number",
+        defaultValue: "4",
+        description:
+          "How soon the team usually replies, in minutes, shown in the header.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Waylight help"',
+        description: "The window's title and the dialog's name.",
+      },
+      {
+        name: "greeting",
+        type: "string",
+        defaultValue:
+          '"Hi, we\'re the Waylight team. Ask us anything about your workspace, billing or the API."',
+        description: "The team's first message, always shown at the top.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "560",
+        description: "Height of the box the widget lives in, in px.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Nothing can be opened or sent.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer box.",
+      },
+      {
+        name: "children",
+        type: "ReactNode",
+        description: "The page behind the widget.",
+      },
+    ],
+    usageNotes: [
+      'The launcher is a button with aria-expanded and aria-controls; the window is a non-modal role="dialog" labelled by its title, opened by the visitor it moves focus into the composer, and Escape anywhere inside closes it and returns focus to the launcher.',
+      'Messages live in a role="log" (polite) holding a list; every bubble carries its author and time for assistive technology, and the visitor\'s carry their delivery (Sending, Sent, Seen, Not sent) as words, not colour. The typing bubble announces itself once.',
+      "The goo is an SVG blur-and-threshold filter over two plain shapes that exists only during the half second of stretching; at rest the window is plain DOM and nothing animates except the typing dots while someone types.",
+      "Under reduced motion there is no goo and no stretch: the window cross-fades in place, the typing dots hold still at three tones, and replies fade in.",
+      "Agent replies are the host's: pass typing while an agent types, then add their message in the same update that clears typing so it grows out of the indicator.",
+      "Office hours are computed from hours and now in the team's offset; outside them the window asks for an email before the first send and passes it to onSend.",
+    ],
+  },
+  {
+    name: "swipe-reply",
+    type: "registry:ui",
+    title: "Swipe Reply",
+    description:
+      "A direct-message thread on a phone-width screen with day dividers, delivery ticks, reactions and a composer. Swiping a bubble toward the middle pulls it 1:1 for swipeDistance px and rubber-bands past it while a ring in the gap it uncovers fills with the pull and, full, arms with a springs.flick pop; letting go always snaps the bubble home on springs.snap with the release velocity, and an armed pull docks the quoted message above the composer on springs.glide with its accent edge drawing down. Keyboard users walk the messages with the arrow keys, press R to reply and the menu key (or Shift+F10) to open reactions, which land under the bubble on springs.recoil; older messages load at the top behind a spinner without moving what you were reading, and a failed message offers retry.",
+    files: [
+      {
+        path: "registry/ui/swipe-reply.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-1777",
+    },
+    tagline: "Swipe a message to answer it.",
+    keywords: [
+      "direct messages",
+      "swipe to reply",
+      "chat thread",
+      "reactions",
+      "messenger",
+      "rubber band",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "swipeDistance",
+        type: "number",
+        defaultValue: "64",
+        description:
+          "How far a pull travels before the reply arms, in px; past it the bubble rubber-bands.",
+      },
+      {
+        name: "bubbleStyle",
+        type: '"tail" | "round" | "block"',
+        defaultValue: '"tail"',
+        description:
+          "Bubble shape: a small tail on the last of a run, full pills, or squarer blocks.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "Any CSS colour: your bubbles, the reply ring, the dock's edge and focus edges.",
+      },
+      {
+        name: "messages / defaultMessages",
+        type: "SwipeMessage[]",
+        defaultValue: "— / defaultSwipeMessages",
+        description:
+          "The thread, oldest first, controlled or initial: { id, from, text, at, status?, replyTo?, reactions? }.",
+      },
+      {
+        name: "onMessagesChange",
+        type: "(messages: SwipeMessage[]) => void",
+        description:
+          "Fires from a send, a reaction, a retry or older messages arriving, with every message.",
+      },
+      {
+        name: "participants",
+        type: "SwipePerson[]",
+        defaultValue: "defaultSwipePeople",
+        description: "Everyone in the thread: { id, name, hue?, presence? }.",
+      },
+      {
+        name: "me",
+        type: "string",
+        defaultValue: '"you"',
+        description:
+          "Which participant is you; your bubbles sit right and swipe left.",
+      },
+      {
+        name: "onSend",
+        type: "(message: SwipeMessage) => void | Promise<void>",
+        description:
+          "A message was sent. Return a promise: resolved marks it sent, rejected marks it failed with a retry.",
+      },
+      {
+        name: "onReply",
+        type: "(message: SwipeMessage) => void",
+        description:
+          "A message was picked to reply to, by swipe, R or the hover bar.",
+      },
+      {
+        name: "onReact",
+        type: "(message: SwipeMessage, reaction: SwipeReaction, on: boolean) => void",
+        description:
+          "You added or removed a reaction (like, love, laugh, wow, sad, done).",
+      },
+      {
+        name: "onRetry",
+        type: "(message: SwipeMessage) => void",
+        description:
+          "Retry was pressed on a failed message; it is sent again through onSend.",
+      },
+      {
+        name: "onLoadEarlier",
+        type: "() => Promise<SwipeMessage[] | void> | void",
+        description:
+          "The thread reached the top; return older messages (oldest first) or add them yourself.",
+      },
+      {
+        name: "hasEarlier",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Whether older messages exist; shows the loader row at the top.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "defaultSwipeNow (17 Oct 2026 09:40 UTC)",
+        description:
+          "The current time in ms, for day dividers (read in UTC). Never read from the clock.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "560",
+        description: "Height of the screen in px; the thread scrolls inside.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Nothing can be sent, swiped or reacted to.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer box.",
+      },
+    ],
+    usageNotes: [
+      'Every gesture has a key: messages are a roving list inside a polite role="log" (Up and Down, Home and End, Up from the first loads earlier), R replies to the focused message, the menu key or Shift+F10 opens a real menu of reactions, and Escape clears the reply dock or closes the menu and returns focus.',
+      "Each message speaks as one sentence: author, time, what it answers, its text, its delivery (Sending, Sent, Delivered, Read, Not delivered) and its reactions by name; reactions are drawn icons, never emoji.",
+      "Bubbles are touch-pan-y, so a vertical swipe still scrolls the thread; the drag captures the pointer only after 6px sideways. Under reduced motion the bubble still follows the finger and the ring still fills (it is information), but it returns home at once and the dock fades in.",
+      "Older history is prepended with the scroll position restored before paint, so what you were reading stays put; the spinner animates only while a page is loading.",
+      "Nothing runs at rest: the pull, ring and pop are motion values on each bubble, and the hover bar is hidden while a bubble is being pulled.",
+    ],
+  },
+  {
+    name: "ask-back",
+    type: "registry:ui",
+    title: "Ask Back",
+    description:
+      "An assistant thread that clarifies before it writes: the open request gets two to four questions as chip sets, and each settled chip lifts off and flies into its slot on the pinned brief on springs.glide, its box morphing to the slot as the value cross-fades in. When the last answer lands the brief is stamped Complete on springs.recoil and the real answer streams in; questions deal in on springs.snap and chips press on springs.flick. Each chip set is a radiogroup (arrows move the pick, Enter settles it and moves on), Skip and Write it now answer on stated assumptions, a brief slot reopens its question and Backspace in an empty composer reopens the last one.",
+    files: [
+      {
+        path: "registry/ui/ask-back.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2051",
+    },
+    tagline: "It asks what it needs before it answers.",
+    keywords: [
+      "clarifying questions",
+      "ai chat",
+      "brief",
+      "assistant",
+      "chips",
+      "assumptions",
+      "streaming",
+    ],
+    props: [
+      {
+        name: "request",
+        type: "string",
+        defaultValue: '"Draft the Q3 report for Basinworks."',
+        description: "The visitor's open request at the top of the thread.",
+      },
+      {
+        name: "questions",
+        type: "AskBackQuestion[]",
+        defaultValue: "defaultAskBackQuestions",
+        description:
+          "Two to four questions, each with prompt, short brief label, options, an assumption used when skipped and an optional why line.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "AskBackAnswers",
+        defaultValue: "{}",
+        description:
+          "Controlled or initial answers: question id to { value, label, assumed? }.",
+      },
+      {
+        name: "onValueChange",
+        type: "(answers: AskBackAnswers) => void",
+        description:
+          "Fires from the press, key, skip or reopen that changed the answers.",
+      },
+      {
+        name: "onAnswer",
+        type: "(questionId: string, answer: AskBackAnswer, answers: AskBackAnswers) => void",
+        description:
+          "A question was answered by a chip or in the visitor's own words.",
+      },
+      {
+        name: "onSkip",
+        type: "(questionId: string, assumedValue: string) => void",
+        description: "A question was skipped and answered on its assumption.",
+      },
+      {
+        name: "onSkipAll",
+        type: "(answers: AskBackAnswers) => void",
+        description:
+          "Write it now answered every open question on its assumption.",
+      },
+      {
+        name: "onBriefEdit",
+        type: "(questionId: string) => void",
+        description: "A brief slot was pressed and its question reopened.",
+      },
+      {
+        name: "onComplete",
+        type: "(answers: AskBackAnswers) => void",
+        description: "Every question is settled; the answer starts to stream.",
+      },
+      {
+        name: "onSend",
+        type: "(text: string) => void",
+        description: "A follow-up was sent after the brief was complete.",
+      },
+      {
+        name: "answer",
+        type: "string | ((answers: AskBackAnswers) => string)",
+        defaultValue: "defaultAskBackAnswer",
+        description: "The real answer, streamed once the brief is complete.",
+      },
+      {
+        name: "streamRate",
+        type: "number",
+        defaultValue: "22",
+        description: "Words a second while the answer streams.",
+      },
+      {
+        name: "chipStyle",
+        type: '"pill" | "tile" | "line"',
+        defaultValue: '"pill"',
+        description:
+          "Rounded chips, boxed tiles with a detail line, or underlined text options.",
+      },
+      {
+        name: "briefPlacement",
+        type: '"dock" | "top" | "side"',
+        defaultValue: '"dock"',
+        description:
+          "Brief pinned above the composer, under the header, or in a side column on wide surfaces.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description: "Chosen chips, the flight and the stamp — any CSS colour.",
+      },
+      {
+        name: "model",
+        type: "string",
+        defaultValue: '"Fernworks Model 3"',
+        description: "The model answering, shown in the header.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Q3 report"',
+        description: "The surface's heading and accessible name.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description: "Whether the questions have arrived.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description:
+          "Try again was pressed after the questions failed to load.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "520",
+        description:
+          "Height of the surface in px; the thread scrolls inside it.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only: nothing can be answered, skipped or sent.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the surface.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: each chip set is one tab stop; arrow keys move the tentative pick, Enter or Space settles it and focus flows to the next open question. Brief slots reopen their question, Backspace in an empty composer reopens the last settled one, and Escape closes the narrow brief list.",
+      "Reduced motion: nothing flies or bounces — values cross-fade into the brief, the stamp fades in at rest, questions appear without travel and the answer appears whole. Counts and states still update.",
+      "Performance: no loops at rest. The stream is a 100 ms interval that runs only while the answer is incomplete, the surface is on screen and the page is visible; each flight is one element removed when it lands.",
+      "Theming: every colour is a token except `accent`, which tints chips, the flight, the brief and the stamp in both themes. Pass `briefPlacement` to suit the host layout; under 26rem the brief folds into a count badge.",
+      "Data: questions, the answer text and every decision are props and callbacks, so a host can drive the questions from its own model and stream its own answer.",
+    ],
+  },
+  {
+    name: "chart-talk",
+    type: "registry:ui",
+    title: "Chart Talk",
+    description:
+      "A conversation with a dataset where the answer is one living chart: each follow-up morphs the same chart on springs.glide — bars split into stacked region segments that start as the whole bar, months gather into their quarter, a filter widens the bars that stay while the rest sink on the exit ease, and lines and areas morph point by point — while the axis and the total count to the new range on the same spring. The thread keeps one line and a thumbnail per turn, its selection bar sliding on springs.snap; loading, no-rows and query errors are drawn on the chart. The thread is a listbox: arrow keys step turns and the chart follows, Home and End jump, Enter selects.",
+    files: [
+      {
+        path: "registry/ui/chart-talk.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2052",
+    },
+    tagline: "Ask a question; the chart answers and changes.",
+    keywords: [
+      "chart",
+      "ai chat",
+      "data",
+      "analytics",
+      "morph",
+      "stacked bars",
+      "query",
+    ],
+    props: [
+      {
+        name: "rows",
+        type: "ChartTalkRow[]",
+        defaultValue: "defaultChartTalkRows",
+        description: "The dataset: { month, region, units, revenue } records.",
+      },
+      {
+        name: "turns",
+        type: "ChartTalkTurn[]",
+        defaultValue: "defaultChartTalkTurns",
+        description:
+          "The questions the assistant can answer, each with a reply, a chart spec and match words.",
+      },
+      {
+        name: "defaultAsked",
+        type: "number",
+        defaultValue: "3",
+        description:
+          "How many turns are already asked when the surface mounts.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        defaultValue: "the last asked turn",
+        description: "Controlled or initial id of the turn the chart shows.",
+      },
+      {
+        name: "onValueChange",
+        type: "(turnId: string) => void",
+        description: "Fires from the click or key that selected a turn.",
+      },
+      {
+        name: "onAsk",
+        type: "(question: string, turn: ChartTalkTurn | null) => void",
+        description: "A question was asked; turn is null when nothing matched.",
+      },
+      {
+        name: "onRestoreTurn",
+        type: "(turnId: string) => void",
+        description: "The chart was taken back to an earlier turn.",
+      },
+      {
+        name: "onExport",
+        type: "(table: ChartTalkTable) => void",
+        description:
+          "Export was pressed, with the columns and rows behind the chart on screen.",
+      },
+      {
+        name: "chartKind",
+        type: '"bars" | "lines" | "area"',
+        defaultValue: '"bars"',
+        description: "Stacked bars, a line per series, or stacked areas.",
+      },
+      {
+        name: "thumbSize",
+        type: '"sm" | "md" | "lg"',
+        defaultValue: '"md"',
+        description: "Size of the chart thumbnails in the thread.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description: "Start of the series ramp — any CSS colour.",
+      },
+      {
+        name: "queryDelay",
+        type: "number",
+        defaultValue: "520",
+        description:
+          "Milliseconds a question shows the chart querying before it answers.",
+      },
+      {
+        name: "format",
+        type: "(value: number, measure: ChartTalkMeasure, share: boolean) => string",
+        defaultValue: "defaultChartTalkFormat",
+        description: "Formats axis labels and the total.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Sensor sales · 2026"',
+        description: "The surface's heading and accessible name.",
+      },
+      {
+        name: "source",
+        type: "string",
+        defaultValue: '"gaugeworks.sales"',
+        description: "Where the rows come from, shown under the title.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "empty" | "error"',
+        defaultValue: '"ready"',
+        description: "The dataset's state, drawn on the chart itself.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the rows failed to load.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "520",
+        description: "Height of the surface in px.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only: nothing can be asked or exported.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the surface.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the thread is one tab stop; Up/Down and Left/Right step turns with the chart following, Home and End jump, Enter or Space selects. Suggestions and the composer ask new questions; Export is a button.",
+      "Reduced motion: geometry cuts straight to each answer and new marks fade in where they belong; leaving marks fade in place and the selection bar moves without travel. Values, labels and totals still change.",
+      'Accessibility: the chart is a role="img" with a summary sentence and an sr-only table of every value; each answer and rewind is announced once.',
+      "Performance: no loops. Marks are springs that settle; the SVG uses a fixed viewBox with non-scaling strokes, so resizing costs nothing, and axis numbers count by writing their own text nodes rather than re-rendering.",
+      "Theming: the series ramp mixes the accent toward the card colour, so stacked segments read in both themes; pass any CSS colour as `accent`.",
+    ],
+  },
+  {
+    name: "hint-ladder",
+    type: "registry:ui",
+    title: "Hint Ladder",
+    description:
+      "A tutoring thread that answers with a ladder of hints instead of the solution: rungs are dealt face down on springs.snap in a cascade, and each turns over only when asked — a 180° flip on springs.snap with the hint on the far side of the card — while the ladder's rail fills on springs.glide with how much help was used. The worked answer waits behind a bar that fills linearly while held and drains back on springs.snap if let go, then unfolds to its measured height on springs.glide; checking the learner's working marks it line by line with ticks and crosses that draw on springs.flick. H turns the next hint, holding Space on the bar reveals the answer, and under 23rem the rungs become one deck you swipe up or press Enter on.",
+    files: [
+      {
+        path: "registry/ui/hint-ladder.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2053",
+    },
+    tagline: "Help that holds back until you ask.",
+    keywords: [
+      "tutor",
+      "hints",
+      "ai chat",
+      "education",
+      "hold to reveal",
+      "check my work",
+      "flip card",
+    ],
+    props: [
+      {
+        name: "problem",
+        type: "HintLadderProblem",
+        defaultValue: "defaultHintLadderProblem",
+        description: "The exercise: title, statement and optional givens.",
+      },
+      {
+        name: "hints",
+        type: "HintRung[]",
+        defaultValue: "defaultHintLadderHints",
+        description:
+          "The rungs, easiest help first, each with a teaser shown face down and the hint text.",
+      },
+      {
+        name: "solution",
+        type: "string[]",
+        defaultValue: "defaultHintLadderSolution",
+        description:
+          "The worked answer, one line per step; the last line is the answer.",
+      },
+      {
+        name: "checks",
+        type: "HintLadderCheck[]",
+        defaultValue: "defaultHintLadderChecks",
+        description:
+          "Step values the checker recognises, right or wrong, with what to say.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "number",
+        defaultValue: "0",
+        description: "Controlled or initial count of hints turned over.",
+      },
+      {
+        name: "onValueChange",
+        type: "(revealed: number) => void",
+        description:
+          "Fires from the press, key or swipe that turned a hint over.",
+      },
+      {
+        name: "onRevealHint",
+        type: "(index: number, hint: HintRung) => void",
+        description: "A hint was turned over.",
+      },
+      {
+        name: "onAttempt",
+        type: "(lines: string[], marks: HintLadderMark[]) => void",
+        description: "Check my work was pressed, with each line and its mark.",
+      },
+      {
+        name: "onRevealAnswer",
+        type: "() => void",
+        description: "The worked answer was revealed.",
+      },
+      {
+        name: "defaultAttempt",
+        type: "string",
+        description: "The learner's working when the surface mounts.",
+      },
+      {
+        name: "rungStyle",
+        type: '"card" | "index" | "tape"',
+        defaultValue: '"card"',
+        description:
+          "Raised cards that flip, ruled index cards, or slim rows sealed with tape that peels.",
+      },
+      {
+        name: "revealHold",
+        type: "number",
+        defaultValue: "900",
+        description: "Milliseconds the answer bar must be held.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "The rail, turned cards and the hold fill — any CSS colour.",
+      },
+      {
+        name: "tutor",
+        type: "string",
+        defaultValue: '"Fieldline Tutor"',
+        description: "Who is tutoring.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Levelling · exercise 4"',
+        description: "The surface's heading and accessible name.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description: "Whether the exercise has arrived.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the exercise failed to load.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "520",
+        description:
+          "Height of the surface in px; the thread scrolls inside it.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only: nothing can be turned, held or checked.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the surface.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: H turns the next hint from anywhere outside a text field and focus moves on to the next Turn over button (or the hold bar); hold Space or Enter on the bar to reveal the answer; ⌘/Ctrl+Enter in the working box checks it. In the narrow deck, Enter or Arrow Up moves forward and Arrow Down goes back.",
+      "Reduced motion: cards cross-fade instead of turning, the deck swaps without travel, the hold bar still fills (it is the timer) but drains at once, and marks appear without drawing. The rail still fills.",
+      'Accessibility: a face-down card never puts its hint in the page, so assistive tech cannot read ahead; the rail is a role="meter" of help used, each mark is spoken as a sentence, and a click from assistive technology on the hold bar reveals at once.',
+      "Performance: nothing runs at rest; the hold is one linear animation stopped on release, and the deck drag goes through the shared gesture kit with capture only after 4px.",
+      "Data: checks match the last number on each line within a tolerance, so a host can teach any numeric exercise by passing its own steps and common slips.",
+    ],
+  },
+  {
+    name: "meeting-recall",
+    type: "registry:ui",
+    title: "Meeting Recall",
+    description:
+      "Questions asked of a recorded meeting, with its waveform and transcript docked beside the thread: every claim in an answer carries a timestamp chip, and pressing one glides the waveform's playhead to the moment on springs.glide while the transcript scrolls its own box there and a highlight sweeps across each supporting line in turn. Claims arrive on springs.snap, chips press on springs.flick, and a claim nothing supports shows a dashed No source mark. Tab moves through the chips and Enter seeks, K plays and pauses, the waveform is a slider (drag, arrows, Page keys, Home/End), and under 40rem the transcript is a sheet that rises on springs.glide.",
+    files: [
+      {
+        path: "registry/ui/meeting-recall.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2054",
+    },
+    tagline: "Ask what was decided; jump to the moment.",
+    keywords: [
+      "meeting",
+      "transcript",
+      "waveform",
+      "ai chat",
+      "citations",
+      "timestamps",
+      "recording",
+    ],
+    props: [
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Tuesday roadmap call"',
+        description: "The meeting's name and the surface's accessible name.",
+      },
+      {
+        name: "speakers",
+        type: "RecallSpeaker[]",
+        defaultValue: "defaultRecallSpeakers",
+        description: "Who spoke: { id, name }.",
+      },
+      {
+        name: "segments",
+        type: "RecallSegment[]",
+        defaultValue: "defaultRecallSegments",
+        description:
+          "The transcript in order: { id, speaker, start, end, text } in seconds.",
+      },
+      {
+        name: "peaks",
+        type: "number[]",
+        defaultValue: "seeded from segments",
+        description: "Loudness samples 0–1 spread evenly over the recording.",
+      },
+      {
+        name: "answers",
+        type: "RecallAnswer[]",
+        defaultValue: "defaultRecallAnswers",
+        description:
+          "Questions the assistant can answer, each a list of claims with the segment ids that support them.",
+      },
+      {
+        name: "defaultAsked",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "How many answers are already in the thread when it mounts.",
+      },
+      {
+        name: "defaultTime",
+        type: "number",
+        defaultValue: "0",
+        description: "Where the playhead starts, in seconds.",
+      },
+      {
+        name: "playing / defaultPlaying",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Controlled or initial playback.",
+      },
+      {
+        name: "onPlay",
+        type: "(playing: boolean) => void",
+        description:
+          "Fires from the press or key that started or stopped playback, and when it reaches the end.",
+      },
+      {
+        name: "onSeek",
+        type: "(seconds: number, segmentIds: string[]) => void",
+        description:
+          "A chip, a transcript line or the scrubber moved the playhead.",
+      },
+      {
+        name: "onAsk",
+        type: "(question: string, answer: RecallAnswer | null) => void",
+        description:
+          "A question was asked; answer is null when nothing in the recording answers it.",
+      },
+      {
+        name: "rate",
+        type: "number",
+        defaultValue: "1",
+        description: "Playback speed.",
+      },
+      {
+        name: "waveStyle",
+        type: '"bars" | "mirror" | "line"',
+        defaultValue: '"bars"',
+        description:
+          "Bars from the baseline, bars mirrored about the centre, or a filled envelope.",
+      },
+      {
+        name: "density",
+        type: '"compact" | "regular" | "roomy"',
+        defaultValue: '"regular"',
+        description: "Type and spacing in the thread and the transcript.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description: "Chips, the played wave and the sweep — any CSS colour.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "processing" | "empty" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "The recording's state: still processing, no speech found, or failed to load.",
+      },
+      {
+        name: "progress",
+        type: "number",
+        defaultValue: "0.64",
+        description:
+          "How far processing has got, 0 to 1, while status is processing.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description:
+          "Try again was pressed after the recording failed to load.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "520",
+        description: "Height of the surface in px.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only: nothing can be asked, played or seeked.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the surface.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: Tab moves through the timestamp chips and Enter seeks; the transcript is one tab stop whose lines rove with Up/Down and Home/End; K plays and pauses from anywhere outside a text field; the waveform is a role="slider" (arrows ±5 s, Page Up/Down ±30 s, Home/End). On narrow surfaces a chip raises the transcript sheet and focuses it, and Escape lowers it and returns focus to the chip.',
+      "Reduced motion: the playhead and the transcript jump instead of gliding, the highlight fades in whole, claims arrive without travel and the sheet fades. Playback still advances — it is the content.",
+      "Performance: the playhead is one motion value written straight into the clip, the line and the clock, so playing re-renders only once a second; the frame loop runs only while playing, on screen and with the page visible, and the waveform's bar count follows its width (3px a bar, the gap dropped below 2.5px).",
+      "Data: claims cite segment ids, so a host can point any answer at the exact lines that support it; a claim with no refs is drawn as unsupported rather than hidden.",
+      "Theming: every surface colour is a token; `accent` tints the chips, the played wave, the supporting bands and the sweep in both themes.",
+    ],
+  },
+  {
+    name: "widget-thread",
+    type: "registry:ui",
+    title: "Widget Thread",
+    description:
+      "An assistant whose replies are small live controls — a quantity stepper, a compare table, a slot picker, a confirm card — each assembling out of a skeleton block by block, every block rising a nudge on springs.snap in a cascade. Whatever is chosen inside a widget lifts out and becomes the next sent message: a copy of the chosen thing travels to the new bubble on springs.glide, its box morphing from the control to the bubble as its fill warms to the bubble colour, while the widget fades to a read-only record with the choice ticked on springs.flick. Each widget is one tab stop with its own keyboard path (radiogroup, spinbutton, roving table buttons, roving confirm buttons), so Tab leaves it for the composer, where typing an option's name answers it too.",
+    files: [
+      {
+        path: "registry/ui/widget-thread.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2055",
+    },
+    tagline: "Replies you can use, not just read.",
+    keywords: [
+      "ai chat",
+      "generative ui",
+      "widgets",
+      "booking",
+      "slot picker",
+      "stepper",
+      "compare table",
+    ],
+    props: [
+      {
+        name: "turns",
+        type: "WidgetTurn[]",
+        defaultValue: "defaultWidgetTurns",
+        description:
+          "The assistant's script; each turn's text and widget may be functions of the choices so far.",
+      },
+      {
+        name: "request",
+        type: "string",
+        defaultValue: '"Book a room for the Gaugeworks review on Thursday."',
+        description: "The visitor's opening message.",
+      },
+      {
+        name: "defaultValue",
+        type: "WidgetChoices",
+        defaultValue: "{}",
+        description:
+          "Choices already made; the thread replays them and opens at the first open widget.",
+      },
+      {
+        name: "onValueChange",
+        type: "(choices: WidgetChoices) => void",
+        description:
+          "Fires from the choice that changed them, with every choice so far.",
+      },
+      {
+        name: "onWidgetSubmit",
+        type: "(widgetId: string, choice: WidgetChoice, choices: WidgetChoices) => void",
+        description: "A widget was used.",
+      },
+      {
+        name: "onSend",
+        type: "(text: string) => void",
+        description: "Free text was sent from the composer.",
+      },
+      {
+        name: "onRetry",
+        type: "(widgetId: string | null) => void",
+        description:
+          "Refresh on an expired widget, or Try again after a failed load (null).",
+      },
+      {
+        name: "widgetChrome",
+        type: '"card" | "tinted" | "plain"',
+        defaultValue: '"card"',
+        description:
+          "Bordered widget cards, accent-washed panels, or controls set straight into the reply.",
+      },
+      {
+        name: "density",
+        type: '"compact" | "regular" | "roomy"',
+        defaultValue: '"regular"',
+        description: "Type and spacing.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "Your bubbles, chosen states and the flight — any CSS colour.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "defaultWidgetNow",
+        description:
+          "The current time in ms; widgets with expiresIn expire against it.",
+      },
+      {
+        name: "typingDelay",
+        type: "number",
+        defaultValue: "520",
+        description:
+          "Milliseconds the assistant types before a reply assembles.",
+      },
+      {
+        name: "assistant",
+        type: "string",
+        defaultValue: '"Coldbrook Desk"',
+        description: "Who is answering.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Book a room"',
+        description: "The surface's heading and accessible name.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description: "Whether the thread has loaded.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "520",
+        description:
+          "Height of the surface in px; the thread scrolls inside it.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only: nothing can be chosen or sent.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the surface.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: every open widget is a single tab stop — slots are a radiogroup (arrows move, Enter or Space chooses), the stepper a spinbutton (arrows, Page keys, Home/End, Enter sends), the compare table's Choose buttons and the confirm card's buttons rove with Left/Right. Tab leaves for the composer, and focus follows into each new widget only if it was already in the thread.",
+      "Reduced motion: nothing flies or rises — your bubble appears where it lands, the skeleton swaps to the whole widget in one cross-fade, and the widget still greys into its record.",
+      "Data: widget specs are typed (slots, stepper, compare, confirm) and may carry expiresIn minutes; an open widget past its time against `now` shows an expired state with Refresh, which fires onRetry and posts it again.",
+      "Performance: no loops. The flight is one imperative animation on a single reused element, assembly is a short chain of timeouts per reply, and every timer and glide is cleared on unmount.",
+      "Narrow surfaces: compare tables scroll sideways inside their bubble with an edge fade and become focusable when they scroll; the surface itself never scrolls sideways.",
+    ],
+  },
+  {
+    name: "night-shift",
+    type: "registry:ui",
+    title: "Night Shift",
+    description:
+      "A morning digest of an overnight agent run, read by replaying the night: every event is a dot on an arc from dusk to dawn and a moon rides it. Drag the moon and it follows 1:1 along the arc while the event cards below slide in lockstep, because the strip's offset is the moon's place expressed as a fractional event index; let go and the throw is projected and the moon settles on springs.glide with the release velocity at the nearest event, whose dot lights with a ring that opens on springs.snap. The strip can be dragged too, and then the moon races or crawls along the arc to keep up. The moon is a real slider: Left and Right step event by event, Home and End jump to dusk and dawn, Page Up and Page Down move about an hour and Enter opens the event; failed runs are pinned above the sky, and under 30rem the arc straightens into a vertical rail.",
+    files: [
+      {
+        path: "registry/ui/night-shift.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2066",
+    },
+    tagline: "The overnight run, replayed by the hour.",
+    keywords: [
+      "agent activity",
+      "overnight run",
+      "morning digest",
+      "timeline scrubber",
+      "event replay",
+      "agent monitoring",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "events",
+        type: "NightShiftEvent[]",
+        defaultValue: "defaultNightShiftEvents (17)",
+        description:
+          "The night's events { id, agent, at, title, detail?, outcome, metric? }, in any order; outcome is done, flagged or failed.",
+      },
+      {
+        name: "agents",
+        type: "NightShiftAgent[]",
+        defaultValue: "defaultNightShiftAgents (3)",
+        description: "The agents the events name: { id, name, role }.",
+      },
+      {
+        name: "night",
+        type: "{ start: number; end: number }",
+        defaultValue: "defaultNightShiftWindow (19:00 to 07:00)",
+        description:
+          "Dusk and dawn in ms; events outside the window are left off the arc.",
+      },
+      {
+        name: "utcOffset",
+        type: "number",
+        defaultValue: "0",
+        description:
+          "Minutes added to UTC before a time is printed, so the clock reads in the team's zone.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "number",
+        defaultValue: "— / the first failed event, else the first event",
+        description:
+          "The scrub time in ms. A controlled value glides the moon whenever it changes.",
+      },
+      {
+        name: "onScrub",
+        type: "(at: number, event: NightShiftEvent | null) => void",
+        description:
+          "Fires every time the moon lands — a release, a key, a tap — with the time and the event there (null at dusk or dawn).",
+      },
+      {
+        name: "onOpenEvent",
+        type: "(event: NightShiftEvent) => void",
+        description:
+          "Open was pressed on the card under the moon, or Enter on the moon.",
+      },
+      {
+        name: "acknowledged / defaultAcknowledged",
+        type: "boolean",
+        defaultValue: "— / false",
+        description: "Whether the digest has been acknowledged.",
+      },
+      {
+        name: "onAcknowledge",
+        type: "() => void",
+        description:
+          "Acknowledge was pressed; the button turns into a stamped, drawn check.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "42 minutes after dawn",
+        description:
+          "The moment the digest is read, in ms; stamped on the acknowledgement.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Overnight run"',
+        description: "The digest's name and the region's accessible name.",
+      },
+      {
+        name: "source",
+        type: "string",
+        defaultValue: '"Basinworks inventory"',
+        description: "What the agents worked on, under the title.",
+      },
+      {
+        name: "pinFailures",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Pin failed runs above the sky as buttons that scrub to them; with none, a quiet 'No failed runs' line.",
+      },
+      {
+        name: "arcHeight",
+        type: "number",
+        defaultValue: "140",
+        description:
+          "How tall the night's arc is drawn, px; the narrow rail grows with it.",
+      },
+      {
+        name: "cardStyle",
+        type: '"raised" | "outline" | "tinted"',
+        defaultValue: '"raised"',
+        description:
+          "The event cards: filled and raised, outlined, or washed in their outcome colour with a side bar.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "The moon's halo, the travelled arc, done events and the current card's ring — any CSS colour.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the night's data has arrived; loading draws placeholders, error offers Try again.",
+      },
+      {
+        name: "onReload",
+        type: "() => void",
+        description: "Try again was pressed after the night failed to load.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Read only: the moon cannot be moved and nothing can be acknowledged.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer region.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the moon is a slider — Left/Down and Right/Up step to the previous and next event, Home and End jump to dusk and dawn, Page Up and Page Down move about an hour, Enter opens the event; each landing is announced politely, never per drag frame.",
+      "Reduced motion: the moon jumps to its landing and the strip swaps instead of sliding; while dragging, the moon still follows the pointer because the visitor is moving it. Times, counts and the travelled arc still update.",
+      "Nothing runs at rest: every frame comes from a drag or a spring the visitor started, and positions live in motion values, so a scrub never re-renders the tree per frame.",
+      "Times are printed from UTC plus utcOffset with a fixed 24-hour clock, so the server and the browser render the same markup; pass your own events and window in ms.",
+      "The layout is chosen by container width: under 30rem the arc straightens into a vertical rail (drag with touch-pan-x) with the cards sliding beside it.",
+      "Colours come from tokens: done events use the accent, flagged the warn token and failed the danger token, in both themes.",
+    ],
+  },
+  {
+    name: "footprint-map",
+    type: "registry:ui",
+    title: "Footprint Map",
+    description:
+      "A live map of a repository while agents work in it: folders and files laid out as a squarified treemap sized by file size, each working agent a marker that glides from file to file along a gentle arc on springs.glide as it reads and edits, its newest trail segment cut at the marker's own progress so the line is drawn out behind it, older files fading behind. Touched files are washed by read or write, by the last agent's colour or by heat; two active agents in one file open a soft warn ring on springs.snap with a possible-conflict chip, and a stalled agent holds still with a dashed ring. Tab moves through the agents, F follows the focused one and Enter opens the history of its file; the map is one tab stop whose arrow keys move spatially between files, and under 30rem the map gives way to a list of files ranked by activity.",
+    files: [
+      {
+        path: "registry/ui/footprint-map.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2067",
+    },
+    tagline: "See which parts of the code agents are in.",
+    keywords: [
+      "agent activity",
+      "repository map",
+      "treemap",
+      "code ownership",
+      "merge conflict",
+      "multi agent",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "files",
+        type: "FootprintFile[]",
+        defaultValue: "defaultFootprintFiles (23)",
+        description:
+          "Every file in the repository as { path, size }; folders come from the paths and size sets each file's area.",
+      },
+      {
+        name: "agents",
+        type: "FootprintAgent[]",
+        defaultValue: "defaultFootprintAgents (3)",
+        description:
+          "The agents working in it: { id, name, task, state?, tint? }. Idle agents are not drawn; stalled ones hold still with a dashed ring.",
+      },
+      {
+        name: "events",
+        type: "FootprintEvent[]",
+        defaultValue: "defaultFootprintEvents (12)",
+        description:
+          "What they read and wrote, oldest first: { id, agent, path, op, at }. Each agent sits in the file of its newest event.",
+      },
+      {
+        name: "repo",
+        type: "string",
+        defaultValue: '"fernworks/web"',
+        description:
+          "The repository's name, in the header and as the region's accessible name.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "the newest event",
+        description:
+          "The moment the map is read, in ms; stalls are counted from it.",
+      },
+      {
+        name: "utcOffset",
+        type: "number",
+        defaultValue: "0",
+        description: "Minutes added to UTC before a time is printed.",
+      },
+      {
+        name: "stallAfter",
+        type: "number",
+        defaultValue: "180000",
+        description:
+          "An active agent whose newest step is older than this, in ms, reads as stalled.",
+      },
+      {
+        name: "follow / defaultFollow",
+        type: "string | null",
+        defaultValue: "— / null",
+        description:
+          "The followed agent: its trail and log come forward and the others dim.",
+      },
+      {
+        name: "onFollowAgent",
+        type: "(agentId: string | null) => void",
+        description:
+          "Fires from the press or key (F) that followed an agent or stopped following.",
+      },
+      {
+        name: "paused / defaultPaused",
+        type: "boolean",
+        defaultValue: "— / false",
+        description:
+          "Whether the agents are paused; the markers dim and the header says so.",
+      },
+      {
+        name: "onPause",
+        type: "(paused: boolean) => void",
+        description:
+          "Pause agents (or Resume agents) was pressed, with the new state.",
+      },
+      {
+        name: "onSelectFile",
+        type: "(path: string, history: FootprintEvent[]) => void",
+        description:
+          "A file's history was opened (Enter or a press), with its events newest first.",
+      },
+      {
+        name: "trailLength",
+        type: "number",
+        defaultValue: "3",
+        description:
+          "How many of each agent's recent files stay joined by its trail; 0 draws markers only.",
+      },
+      {
+        name: "tint",
+        type: '"access" | "agent" | "heat"',
+        defaultValue: '"access"',
+        description:
+          "How touched files are washed: by read or write (with a pen mark), by the last agent's colour, or by how often they were touched.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "Access and heat washes, the follow highlight and focus accents — any CSS colour.",
+      },
+      {
+        name: "mapHeight",
+        type: "number",
+        defaultValue: "260",
+        description: "The treemap's height, px.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the repository has been read; loading draws placeholders, error offers Try again.",
+      },
+      {
+        name: "onReload",
+        type: "() => void",
+        description: "Try again was pressed after the map failed to load.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only: nothing can be followed, paused or opened.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer region.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: Tab moves through the agents; on an agent, F or Space follows it and Enter opens the history of the file it is in. The map is one tab stop — arrow keys move to the nearest file in that direction, Home and End jump, Enter opens a file's history and Escape closes it, returning focus.",
+      "The component draws what it is given: feed events and now from your agent stream (the demo plays a seeded script only while the map is on screen). Nothing animates between steps.",
+      "Reduced motion: markers jump to their file, the conflict ring and landing flash appear without scale and list rows re-rank at once; washes, counts and the inspector still update.",
+      "The treemap is measured to its box with one ResizeObserver and laid out deterministically, so the server renders the same default layout the browser hydrates.",
+      "Conflicts and stalls are announced once, politely, when they begin; follow changes and opened histories are announced too, never each step.",
+      "Under 30rem of container the map becomes a list of files ranked by activity, with the agents' monograms gliding between rows.",
+    ],
+  },
+  {
+    name: "run-journal",
+    type: "registry:ui",
+    title: "Run Journal",
+    description:
+      "An agent's run written up as it goes, as a journal of short paragraphs with their times in the margin. The newest line is written by a pen nib that rides the end of the text: after each chunk arrives its target is measured from a marker at the end of the words and it moves there on springs.flick along the line and springs.glide when the text wraps, leaning with its speed, while the words it has just written arrive in the accent and dry to ink. Only the newest entries stay written out; as one ages past condenseAfter it condenses on springs.glide into its one-line summary, its measured height closing as the summary fades in, and it opens again on a press or Enter. Up and Down move between entries, Home and End jump, links stay ordinary links, and paused, failed and finished runs each have their own designed state.",
+    files: [
+      {
+        path: "registry/ui/run-journal.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2068",
+    },
+    tagline: "The run, told in plain sentences.",
+    keywords: [
+      "agent activity",
+      "run log",
+      "journal",
+      "streaming text",
+      "progress narrative",
+      "migration",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "entries",
+        type: "RunJournalEntry[]",
+        defaultValue: "defaultRunJournalEntries (9)",
+        description:
+          "The journal, oldest first: { id, at, text, summary, kind? }. The newest entry is the one being written; [[artifact-id]] or [[artifact-id|words]] in the text becomes a link.",
+      },
+      {
+        name: "artifacts",
+        type: "RunJournalArtifact[]",
+        defaultValue: "defaultRunJournalArtifacts (5)",
+        description:
+          "What the prose can link to: { id, label, href, kind? }, listed again in the footer.",
+      },
+      {
+        name: "state",
+        type: '"writing" | "paused" | "failed" | "finished"',
+        defaultValue: '"writing"',
+        description:
+          "Where the run stands: the nib writes, lifts away, stops beside a danger mark, or signs off with a closing rule.",
+      },
+      {
+        name: "agent",
+        type: "string",
+        defaultValue: '"Waylight migration agent"',
+        description: "Who is writing; the region's accessible name.",
+      },
+      {
+        name: "run",
+        type: "string",
+        defaultValue: '"Run 18 · orders → ledger schema"',
+        description: "What the run is, under the agent's name.",
+      },
+      {
+        name: "pausedReason",
+        type: "string",
+        defaultValue: '"Waiting for approval of the cut-over plan."',
+        description: "Shown and announced while paused.",
+      },
+      {
+        name: "error",
+        type: "string",
+        defaultValue:
+          '"Stopped: the orders table stayed locked for 30 seconds."',
+        description: "Shown and announced when the run has failed.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "the newest entry's time",
+        description:
+          "The moment the journal is read, in ms; the header counts the run's length to it.",
+      },
+      {
+        name: "utcOffset",
+        type: "number",
+        defaultValue: "0",
+        description: "Minutes added to UTC before a time is printed.",
+      },
+      {
+        name: "condenseAfter",
+        type: "number",
+        defaultValue: "3",
+        description:
+          "How many of the newest entries stay written out; older ones condense to their summary line.",
+      },
+      {
+        name: "expanded / defaultExpanded",
+        type: "string[]",
+        defaultValue: "— / []",
+        description: "Ids of aged entries opened by hand.",
+      },
+      {
+        name: "onExpandEntry",
+        type: "(id: string, open: boolean) => void",
+        description:
+          "A condensed entry was opened, or an opened one folded again.",
+      },
+      {
+        name: "onOpenArtifact",
+        type: "(artifact: RunJournalArtifact, event: React.MouseEvent<HTMLAnchorElement>) => void",
+        description:
+          "A link to an artifact was followed, in the prose or the footer. It stays an ordinary link unless you prevent the event.",
+      },
+      {
+        name: "onStop",
+        type: "() => void",
+        description: "Stop was pressed while writing or paused.",
+      },
+      {
+        name: "onResume",
+        type: "() => void",
+        description: "Resume was pressed while paused.",
+      },
+      {
+        name: "nibStyle",
+        type: '"nib" | "pencil" | "caret"',
+        defaultValue: '"nib"',
+        description:
+          "What writes the newest line: a fountain-pen nib, a pencil tip, or a heavy caret.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "Wet ink, the nib, decision marks, links and the writing pill — any CSS colour.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "520",
+        description:
+          "The journal's height in px; the entries scroll inside it and stay pinned to the newest line while you are there.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the journal has loaded; loading draws placeholder lines, error offers Try again.",
+      },
+      {
+        name: "onReload",
+        type: "() => void",
+        description: "Try again was pressed after the journal failed to load.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer region.",
+      },
+    ],
+    usageNotes: [
+      "Stream the newest entry by growing its text through props; the nib follows each change and nothing animates between chunks. An unclosed [[ link is held back until it closes, so a link never shows half-typed.",
+      "Keyboard: entries are one roving tab stop — Up and Down move, Home and End jump, Enter or Space opens or folds an aged entry; links inside entries stay ordinary links in the tab order.",
+      "Announcements are polite and whole: an entry is announced (as its summary) once the next one begins, and each change of state is announced once — never per chunk.",
+      "Reduced motion: the nib sits at the end of the text without travel or lean, ink is drawn dry, condensing swaps at once and the closing rule appears whole; every word and state still shows.",
+      "Under 19rem of container the margin times move above each entry; the footer's artifact chips scroll sideways with an edge fade.",
+    ],
+  },
+  {
+    name: "routine-week",
+    type: "registry:ui",
+    title: "Routine Week",
+    description:
+      "Every scheduled agent routine on one week: days across, the small hours down, each run a block coloured by its outcome and each future slot a dashed ghost, with overlapping runs sharing the column under a notch and skipped runs hatched. The now line moves down today's column on springs.glide as now advances, and as it crosses a scheduled slot a new block buds out of the line — a sliver that opens to the block on springs.recoil, scaled from its top edge — then fills while the run executes, the fill following now on glide until the host records the outcome. The slots are a grid with one row per day: arrows move between slots (Left and Right to the nearest slot in time on the neighbouring day), Home and End jump, Enter opens a run, R runs the focused routine now and P pauses it; under 32rem the grid becomes the day's agenda under a week strip.",
+    files: [
+      {
+        path: "registry/ui/routine-week.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2069",
+    },
+    tagline: "Every scheduled agent, laid out on the week.",
+    keywords: [
+      "agent activity",
+      "scheduled jobs",
+      "cron",
+      "week grid",
+      "run history",
+      "recurring tasks",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "routines",
+        type: "RoutineWeekRoutine[]",
+        defaultValue: "defaultRoutineWeekRoutines (6)",
+        description:
+          "The recurring routines: { id, name, agent, days (0 = Monday), at (minutes after midnight), duration, paused? }.",
+      },
+      {
+        name: "runs / defaultRuns",
+        type: "RoutineWeekRun[]",
+        defaultValue: "— / defaultRoutineWeekRuns",
+        description:
+          "This week's runs: { id, routine, day, start, duration, outcome, note? }; outcome is success, failed, skipped or running. A run whose routine, day and start match a slot fills that slot.",
+      },
+      {
+        name: "onRunsChange",
+        type: "(runs: RoutineWeekRun[]) => void",
+        description:
+          "Fires with the whole list when Run now adds a running run.",
+      },
+      {
+        name: "weekOf",
+        type: "number",
+        defaultValue: "defaultRoutineWeekStart (Mon 12 Oct 2026)",
+        description: "Monday 00:00 of the week, in ms.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "Thursday 02:20 of that week",
+        description:
+          "The moment the week is read, in ms: places the now line and decides which slot is running.",
+      },
+      {
+        name: "utcOffset",
+        type: "number",
+        defaultValue: "0",
+        description: "Minutes added to UTC before dates are read.",
+      },
+      {
+        name: "hours",
+        type: "[number, number]",
+        defaultValue: "[0, 9]",
+        description: "The hours drawn, as [from, to).",
+      },
+      {
+        name: "day / defaultDay",
+        type: "number",
+        defaultValue: "— / today",
+        description: "The day the narrow agenda shows, 0 to 6.",
+      },
+      {
+        name: "onDayChange",
+        type: "(day: number) => void",
+        description: "Fires when the week strip picks another day.",
+      },
+      {
+        name: "onRunNow",
+        type: "(routine: RoutineWeekRoutine, run: RoutineWeekRun) => void",
+        description:
+          "Run now (or R) was pressed, with the run it started at the now line.",
+      },
+      {
+        name: "onPause",
+        type: "(routine: RoutineWeekRoutine, paused: boolean) => void",
+        description: "Pause or Resume (or P) was pressed, with the new state.",
+      },
+      {
+        name: "onEditSchedule",
+        type: "(routine: RoutineWeekRoutine | null) => void",
+        description:
+          "Edit schedule was pressed, or Enter on a slot that has not run; null from the empty week's Add a routine.",
+      },
+      {
+        name: "onOpenRun",
+        type: "(run: RoutineWeekRun, routine: RoutineWeekRoutine) => void",
+        description: "Open run was pressed, or Enter on a slot that ran.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Nightly reports"',
+        description: "The surface's name and accessible name.",
+      },
+      {
+        name: "team",
+        type: "string",
+        defaultValue: '"Coldbrook"',
+        description: "Whose routines, under the title.",
+      },
+      {
+        name: "hourHeight",
+        type: "number",
+        defaultValue: "32",
+        description:
+          "Height of an hour on the grid, px; the agenda's rows breathe with it.",
+      },
+      {
+        name: "blockStyle",
+        type: '"solid" | "tinted" | "outline"',
+        defaultValue: '"tinted"',
+        description:
+          "Run blocks: pigment-filled, washed with a side bar, or outlined with an outcome dot.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "The now line, running blocks, scheduled slots, today's shading and focus — any CSS colour.",
+      },
+      {
+        name: "maxHeight",
+        type: "number",
+        defaultValue: "300",
+        description:
+          "Tallest the grid's viewport grows, px, before the hours scroll inside it.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the week has loaded; loading draws placeholder columns, error offers Try again.",
+      },
+      {
+        name: "onReload",
+        type: "() => void",
+        description: "Try again was pressed after the week failed to load.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only: nothing can be run, paused or edited.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer region.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the slots are one roving tab stop in a grid with a row per day — Up and Down move within the day, Left and Right to the nearest slot in time on the neighbouring day, Home and End jump, Enter or Space opens the run (or edits a slot that has not run), R runs the routine now and P pauses it.",
+      "Drive it from your scheduler: pass now and runs; a slot whose window contains now and has no run reads as running and buds, and a recorded outcome replaces the fill. Nothing ticks inside the component.",
+      "Reduced motion: no bud and no glide — running blocks appear whole and the fill and now line move without springs; outcomes, fills and counts still update.",
+      "The bud is driven on the element itself, so a slot that starts running keeps its node and any keyboard focus on it.",
+      "Under 32rem of container the grid becomes the chosen day's agenda under a seven-day strip (a radiogroup), with the now marker between items and a progress bar on the running one.",
+    ],
+  },
+  {
+    name: "standup-cards",
+    type: "registry:ui",
+    title: "Standup Cards",
+    description:
+      "A daily standup for a team of agents: one card each with what it did, what it does next and what it is stuck on. When the table comes into view the cards are dealt onto it in turn on springs.snap — from a deck with a seeded tilt, dropped from above, or slid in from the left — and an unanswered blocker glows in the warn colour until someone answers it. Answering slides the item off its card: a chip lifts from the row and glides to the resolved tray on springs.glide, landing there on springs.recoil while the card closes the gap on glide, and reassigning swaps the owner on snap. Tab moves card to card, Down and Up walk a card's items, B jumps to the next blocker; the cards form two columns from 36rem and a swipeable stack under 30rem, where a projected flick sends the front card to the back.",
+    files: [
+      {
+        path: "registry/ui/standup-cards.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2070",
+    },
+    tagline: "Each agent reports: done, next, stuck.",
+    keywords: [
+      "agent activity",
+      "daily standup",
+      "blockers",
+      "team status",
+      "card stack",
+      "async updates",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "agents",
+        type: "StandupAgent[]",
+        defaultValue: "defaultStandupAgents (4)",
+        description:
+          "The agents at the standup, one card each in dealing order: { id, name, role, online?, lastSeen? }.",
+      },
+      {
+        name: "items",
+        type: "StandupItem[]",
+        defaultValue: "defaultStandupItems",
+        description:
+          "Every agent's items: { id, agent, kind, text, owner? }; kind is done, next or blocked, and a blocker names the owner it needs.",
+      },
+      {
+        name: "owners",
+        type: "StandupOwner[]",
+        defaultValue: "defaultStandupOwners (4)",
+        description:
+          "People a blocker can need and be reassigned to: { id, name, team? }.",
+      },
+      {
+        name: "resolved / defaultResolved",
+        type: "StandupResolution[]",
+        defaultValue: "— / []",
+        description:
+          "Answered blockers, newest first: { item, answer, at }. They leave their cards and sit in the resolved tray.",
+      },
+      {
+        name: "onResolvedChange",
+        type: "(resolved: StandupResolution[]) => void",
+        description: "Fires with the whole list when a blocker is answered.",
+      },
+      {
+        name: "onAnswerBlocker",
+        type: "(item: StandupItem, answer: string) => void",
+        description: "A blocker was answered (Send or Enter in its field).",
+      },
+      {
+        name: "onReassign",
+        type: "(item: StandupItem, owner: StandupOwner) => void",
+        description: "A blocker was reassigned from its owner menu.",
+      },
+      {
+        name: "onOpenItem",
+        type: "(item: StandupItem) => void",
+        description: "An item, or a resolved chip, was pressed.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "Thu 15 Oct 2026, 09:30 UTC",
+        description:
+          "The moment of the standup, in ms: stamps answers and dates the header.",
+      },
+      {
+        name: "utcOffset",
+        type: "number",
+        defaultValue: "0",
+        description: "Minutes added to UTC before a time is printed.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Thursday standup"',
+        description: "The standup's name and the region's accessible name.",
+      },
+      {
+        name: "team",
+        type: "string",
+        defaultValue: '"Gaugeworks support"',
+        description: "Whose agents, under the title.",
+      },
+      {
+        name: "dealStyle",
+        type: '"deck" | "drop" | "slide"',
+        defaultValue: '"deck"',
+        description:
+          "How the cards arrive: dealt from a deck at the top with a seeded tilt, dropped into place, or slid in from the left.",
+      },
+      {
+        name: "density",
+        type: '"compact" | "cozy" | "roomy"',
+        defaultValue: '"cozy"',
+        description: "Type size, padding and gaps of the cards.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "Agent marks, Answer and Send, the flight, the tray and focus accents — any CSS colour.",
+      },
+      {
+        name: "trigger",
+        type: '"mount" | "inView"',
+        defaultValue: '"inView"',
+        description:
+          "When the cards are dealt: as soon as they mount, or when the table scrolls into view.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "560",
+        description: "The surface's height in px; the table scrolls inside it.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the standup has loaded; loading draws placeholder cards, error offers Try again.",
+      },
+      {
+        name: "onReload",
+        type: "() => void",
+        description: "Try again was pressed after the standup failed to load.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only: nothing can be answered or reassigned.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer region.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: each card is a tab stop and Tab moves card to card, stopping on a blocker's Reassign and Answer; Down and Up walk a card's items and Escape returns to the card; B anywhere in the table jumps to the next unanswered blocker (bringing its card to the front of the stack). In the answer field Enter sends, Shift+Enter breaks a line and Escape closes it.",
+      "The breathing glow on unanswered blockers runs only while the table is on screen, the tab is visible and motion is allowed; under reduced motion it is a still glow.",
+      "Reduced motion: no deal travel (the cards fade in, in turn), no flight (the answered item fades from its card and the tray chip appears), and the stack swaps instead of sliding; counts and the tray still update.",
+      "The deal is driven on motion values from an IntersectionObserver and always lands — a StrictMode rehearsal or an unmount finishes it rather than freezing a card mid-air; the server renders the cards at rest.",
+      "Under 30rem of container the cards become a swipeable stack (touch-pan-y): the front card follows the finger with a slight lean, a projected flick sends it to the back, Left and Right do the same, and dots show the position.",
+    ],
+  },
+  {
+    name: "cause-lines",
+    type: "registry:ui",
+    title: "Cause Lines",
+    description:
+      "An agent activity feed drawn oldest first on a causal gutter, where selecting an event lights its chain: lines start at the selected node and grow along their own paths up to the events that caused it and down to the ones it caused on springs.glide, hop after hop, while unrelated events dim and the selected node's ring lands on springs.snap. Every link is always there as a faint ghost, a link through an event the agent filter hides is drawn dotted, and in a narrow container the gutter gives way to indented rails whose rows step in by generation. The feed is a listbox: Up and Down walk it, Shift with Up or Down jumps to the nearest cause or effect, P pins the chain and Escape unpins it.",
+    files: [
+      {
+        path: "registry/ui/cause-lines.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2071",
+    },
+    tagline: "Trace which event set off which.",
+    keywords: [
+      "agent activity",
+      "event feed",
+      "causality",
+      "incident timeline",
+      "root cause",
+      "app ui",
+      "observability",
+    ],
+    props: [
+      {
+        name: "events",
+        type: "CauseEvent[]",
+        defaultValue: "defaultCauseEvents",
+        description:
+          "The feed, any order: { id, at, agent, severity, title, detail? }. Drawn oldest first so causes sit above effects.",
+      },
+      {
+        name: "links",
+        type: "CauseLink[]",
+        defaultValue: "defaultCauseLinks",
+        description: "Which event set off which: { from, to }.",
+      },
+      {
+        name: "agents",
+        type: "CauseAgent[]",
+        defaultValue: "defaultCauseAgents",
+        description:
+          "The agents writing into the feed, in filter order: { id, name, initial? }.",
+      },
+      {
+        name: "severities",
+        type: "CauseSeverity[]",
+        defaultValue: "defaultCauseSeverities",
+        description:
+          "Severity levels: { id, label, tone } where tone is neutral, accent, warn or danger.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string | null",
+        defaultValue: "— / null",
+        description: "The selected event id, controlled or initial.",
+      },
+      {
+        name: "onSelectEvent",
+        type: "(id, event) => void",
+        description:
+          "Fires from the click or key that selected an event, or with null when a filter hid it.",
+      },
+      {
+        name: "pinned / defaultPinned",
+        type: "string | null",
+        defaultValue: "— / null",
+        description:
+          "The event whose chain stays lit while the selection moves, controlled or initial.",
+      },
+      {
+        name: "onPinChain",
+        type: "(id, chain) => void",
+        description:
+          "Fires from P or the Pin button with the pinned id (or null) and its lit chain in feed order.",
+      },
+      {
+        name: "agentFilter / defaultAgentFilter",
+        type: "string | null",
+        defaultValue: "— / null",
+        description: "The agent whose events show, or null for every agent.",
+      },
+      {
+        name: "onFilterAgent",
+        type: "(agentId) => void",
+        description: "Fires from the chip that changed the filter.",
+      },
+      {
+        name: "status",
+        type: '"live" | "paused" | "loading" | "empty" | "error"',
+        defaultValue: '"live"',
+        description:
+          "Whether the feed is streaming, held, or has nothing to show yet.",
+      },
+      {
+        name: "onLiveChange",
+        type: "(live) => void",
+        description:
+          "The Live / Paused pill was pressed; omit it and the pill is a label.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the feed failed to load.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "defaultCauseNow",
+        description: "The moment relative times count from, in ms.",
+      },
+      {
+        name: "reach",
+        type: "number",
+        defaultValue: "3",
+        description:
+          "How many hops of causes and effects light up each way, 1 to 6.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Sync incident"',
+        description: "The feed's heading and the listbox's name.",
+      },
+      {
+        name: "subtitle",
+        type: "string",
+        defaultValue: '"Fieldline · eu-west"',
+        description: "Under the heading, before the event count.",
+      },
+      {
+        name: "curveStyle",
+        type: '"arc" | "elbow" | "chevron"',
+        defaultValue: '"arc"',
+        description:
+          "How a causal line bends into the gutter: round bows, square brackets or angled chevrons.",
+      },
+      {
+        name: "dimLevel",
+        type: "number",
+        defaultValue: "0.3",
+        description: "Opacity of the events outside the lit chain, 0.1 to 0.6.",
+      },
+      {
+        name: "accent",
+        type: '"cobalt" | "plum" | "mint" | "ink" | string',
+        defaultValue: '"cobalt"',
+        description:
+          "The chain, the selection and Live: a named pigment or any CSS colour.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only: nothing can be selected, pinned or filtered.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the surface; it caps at 36rem tall and the feed scrolls inside.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the feed is a listbox with one tab stop. Up and Down walk it, Home and End jump, Shift with Up or Down jumps to the nearest cause or effect, P pins or unpins the chain and Escape unpins; every selection is announced once, as a sentence.",
+      "Rows are a fixed 52 px, so every line is computed from the row index alone: the server renders the same lines the browser draws, and nothing is measured to draw them.",
+      'Arrivals while the reader is near the bottom are followed; otherwise a "new below" pill offers them, so a live feed never yanks the event someone is reading.',
+      "Severity is a word as well as a colour: warn and error rows say it in the meta line, and the node discs use pigment at a fixed lightness so they read the same in both themes.",
+      "Under reduced motion the chain appears whole with a fade, rows re-indent in place and arrivals fade in; the dims and the lit chain still show, because they are the information.",
+      "Below an 18.75rem container the causal gutter becomes indented rails, by container query, so the markup is the same at every width.",
+    ],
+  },
+  {
+    name: "merge-train",
+    type: "registry:ui",
+    title: "Merge Train",
+    description:
+      "A merge queue drawn as a train: the pull requests agents have opened are coupled cars on a line through the depot and the stations for tests, review and merge. When a car clears a station the train advances on springs.glide, the front car first and each car behind a cascade later like slack running out, a car that fails uncouples and drops onto the siding on springs.recoil while the cars behind close the gap, and a merged car pulls away on the exit ease; couplers latch on springs.flick and check pips fill as checks pass. Below 30rem the line runs down the page. The cars are a listbox: arrows walk the line, Enter opens a car's checks, Delete pulls it from the train and Alt with an arrow moves a waiting car in the queue.",
+    files: [
+      {
+        path: "registry/ui/merge-train.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2072",
+    },
+    tagline: "Agent changes, coupled and checked in order.",
+    keywords: [
+      "merge queue",
+      "pull requests",
+      "agent activity",
+      "ci pipeline",
+      "code review",
+      "app ui",
+      "release train",
+    ],
+    props: [
+      {
+        name: "changes",
+        type: "TrainChange[]",
+        defaultValue: "defaultTrainChanges",
+        description:
+          "Every car in a stable order: { id, number, title, agent, branch?, stop, result, checks?, progress?, failedReason? }. stop is -1 in the depot.",
+      },
+      {
+        name: "stations",
+        type: "TrainStation[]",
+        defaultValue: "defaultTrainStations",
+        description: "The stops after the depot, in order: { id, label }.",
+      },
+      {
+        name: "order / defaultOrder",
+        type: "string[]",
+        defaultValue: "— / the depot cars in changes order",
+        description:
+          "The queue order of the cars waiting in the depot, next to leave first.",
+      },
+      {
+        name: "onReorder",
+        type: "(order) => void",
+        description:
+          "Fires from Alt+Arrow or the Move buttons with the new queue order.",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "string | null",
+        defaultValue: "— / null",
+        description: "The car whose checks are open below the yard.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(id) => void",
+        description:
+          "Fires from Enter, a click, Escape or Close with the open car or null.",
+      },
+      {
+        name: "onRetry",
+        type: "(change) => void",
+        description: "Retry was pressed on a car standing on the siding.",
+      },
+      {
+        name: "onRemoveCar",
+        type: "(change) => void",
+        description:
+          "Delete, Backspace or Remove pulled a car from the train; it leaves at once.",
+      },
+      {
+        name: "held",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Hold the train: the last station's lamp turns to stop and a banner says why.",
+      },
+      {
+        name: "heldReason",
+        type: "string",
+        defaultValue: '"main is frozen for the 4.2 release"',
+        description: "Why the train is held.",
+      },
+      {
+        name: "merged",
+        type: "number",
+        defaultValue: "0",
+        description: "Changes merged so far today, for the header.",
+      },
+      {
+        name: "status",
+        type: '"running" | "loading" | "empty" | "error"',
+        defaultValue: '"running"',
+        description:
+          "Whether the train's data has arrived; an empty train draws an empty depot.",
+      },
+      {
+        name: "onReload",
+        type: "() => void",
+        description: "Try again was pressed after the train failed to load.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Merge train"',
+        description: "The heading and the listbox's name.",
+      },
+      {
+        name: "subtitle",
+        type: "string",
+        defaultValue: '"waylight/app · main"',
+        description: "Under the heading.",
+      },
+      {
+        name: "carStyle",
+        type: '"card" | "pill" | "boxcar"',
+        defaultValue: '"card"',
+        description:
+          "A card with its checks, a compact pill, or a boxcar with a roof band and wheels.",
+      },
+      {
+        name: "trackStyle",
+        type: '"rails" | "transit" | "ruled"',
+        defaultValue: '"rails"',
+        description:
+          "Rails and sleepers, one transit line with station rings, or a dashed hairline.",
+      },
+      {
+        name: "accent",
+        type: '"cobalt" | "plum" | "mint" | "ink" | string',
+        defaultValue: '"cobalt"',
+        description:
+          "Running cars, progress and the open car: a named pigment or any CSS colour.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Read only: cars can be walked and read but not opened, moved or removed.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the surface; it caps at 36rem tall and its body scrolls inside.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the cars are a listbox with one tab stop, in line order (depot queue, the line, then the siding). Arrows walk, Home and End jump, Enter opens a car, Escape closes it, Delete or Backspace pulls it from the train, Alt with an arrow moves a waiting car in the queue.",
+      "The component draws whatever `changes` says: move a car's `stop`, set `result` to failed or merged, and the train animates the difference. Every car lives in one grid in a stable DOM order, so each move is a layout animation, not a remount.",
+      "Lamps, pips and car states always carry words for assistive technology; failures, merges and moves are announced once, from the change that caused them.",
+      "Under reduced motion cars change places with a fade instead of travelling, the siding drop has no bounce, and pips, lamps and progress still update.",
+      "Below a 30rem container the yard turns: stations become rows with upright platform signs and the siding runs down the right, by container query, so the server markup is the same at every width.",
+    ],
+  },
+  {
+    name: "schema-mould",
+    type: "registry:ui",
+    title: "Schema Mould",
+    description:
+      "A tool call checked against its schema, drawn as a mould: one cavity per expected field, keyed by its type, and the agent's arguments as pieces keyed by the type of the value they actually hold. When the mould comes into view the pieces pour in a cascade apart, each falling into its cavity on springs.snap as the rim brightens; a value of the wrong type hits the rim and is thrown out beside the mould on springs.recoil with a short reason, and a missing required field leaves its cavity hollow. Every field is a tab stop, Enter edits a rejected value and a fixed value drops back in on springs.snap; below 30rem nested objects fold into rows you open.",
+    files: [
+      {
+        path: "registry/ui/schema-mould.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2073",
+    },
+    tagline: "Arguments that fit the shape they should.",
+    keywords: [
+      "tool call",
+      "json schema",
+      "validation",
+      "function arguments",
+      "agent",
+      "app ui",
+      "type check",
+    ],
+    props: [
+      {
+        name: "tool",
+        type: "string",
+        defaultValue: '"create_invoice"',
+        description: "The tool being called, in mono; also the surface's name.",
+      },
+      {
+        name: "server",
+        type: "string",
+        defaultValue: '"Coldbrook Billing"',
+        description: "Who serves the tool.",
+      },
+      {
+        name: "schema",
+        type: "SchemaField[]",
+        defaultValue: "defaultMouldSchema",
+        description:
+          "The expected fields: { name, type, required?, description?, options?, format?, fields?, items? }, nested for objects and arrays.",
+      },
+      {
+        name: "args / defaultArgs",
+        type: "Record<string, unknown>",
+        defaultValue: "— / defaultMouldArgs",
+        description: "The arguments the agent sent, controlled or initial.",
+      },
+      {
+        name: "validation",
+        type: "Record<string, string | null>",
+        description:
+          "A path's reason it does not fit, or null when it fits; overrides the built-in type check for that path.",
+      },
+      {
+        name: "status",
+        type: '"pending" | "rejected" | "running" | "completed" | "error"',
+        defaultValue: "derived",
+        description:
+          "The call's state; rejected while anything is outside the mould, else pending, unless the host says otherwise.",
+      },
+      {
+        name: "result",
+        type: "string",
+        description:
+          "The tool's reply once the call completed, or the error it gave.",
+      },
+      {
+        name: "onFixArgument",
+        type: "(path, value) => void",
+        description:
+          "A rejected value was fixed in its editor, with its path and the value parsed by the field's type.",
+      },
+      {
+        name: "onRun",
+        type: "(args) => void",
+        description: "Run was pressed with every argument in the mould.",
+      },
+      {
+        name: "onCopy",
+        type: "(json) => void",
+        description:
+          "Copy was pressed; the arguments as JSON, also written to the clipboard when it allows.",
+      },
+      {
+        name: "trigger",
+        type: '"inView" | "mount"',
+        defaultValue: '"inView"',
+        description: "When the pieces pour into the mould.",
+      },
+      {
+        name: "mouldStyle",
+        type: '"inset" | "outline" | "cast"',
+        defaultValue: '"inset"',
+        description:
+          "Debossed cavities in a tray, dashed blueprint outlines, or a tinted cast.",
+      },
+      {
+        name: "density",
+        type: '"compact" | "cozy" | "roomy"',
+        defaultValue: '"cozy"',
+        description: "Row height and piece size.",
+      },
+      {
+        name: "accent",
+        type: '"cobalt" | "plum" | "mint" | "ink" | string',
+        defaultValue: '"cobalt"',
+        description:
+          "Fitted keys, rims, Run and the cast: a named pigment or any CSS colour.",
+      },
+      {
+        name: "formatValue",
+        type: "(value, field) => string",
+        defaultValue: "JSON, strings quoted",
+        description: "How a value is written on its piece.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only: nothing can be fixed or run.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the surface; it caps at 36rem tall and the mould scrolls inside.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: every field is a tab stop named with its path, type and verdict. Enter on a rejected or missing field opens an editor; Enter saves (the text is parsed by the field's type, and an unreadable value is refused in place with aria-invalid), Escape cancels and returns focus to the field.",
+      "Types are shapes, not only colours: each cavity and piece carries a key glyph (circle for text, square for numbers, triangle for enums, diamond for dates), so a misfit reads at a glance and in greyscale.",
+      "Validation is built in for string, number, integer, boolean, enum, date, object and array, with email format; pass `validation` to override any path with your server's own verdict.",
+      "Run stays focusable and aria-disabled while anything is outside the mould, described by the fit summary, so a keyboard user hears why.",
+      "Under reduced motion every piece appears where it ends up, in the mould or outside it, with a fade: no fall and no bounce.",
+      "Below a 30rem container the rows stack and nested objects and arrays fold into disclosure rows, by container query, so the server markup is the same at every width.",
+    ],
+  },
+  {
+    name: "search-fan",
+    type: "registry:ui",
+    title: "Search Fan",
+    description:
+      "A web search tool call shown as it works: the agent's queries fan out from the call as tabs, tilted like a hand of cards and landing on springs.snap a cascade apart, and result cards stream in under each on springs.glide. A scan line skims every card in scanSpeed ms; when it reaches the bottom the agent's decision lands, a kept card lifting and flying into the Kept stack on springs.glide while a dropped card falls away on the exit ease and leaves a slim stub, with the reason on hover and focus. Cards are one roving group where arrows move by where cards really are, K keeps and D drops to override the agent; below 40rem the fan shows one query at a time.",
+    files: [
+      {
+        path: "registry/ui/search-fan.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2074",
+    },
+    tagline: "Watch it search, skim and keep what matters.",
+    keywords: [
+      "web search",
+      "tool call",
+      "agent research",
+      "search results",
+      "sources",
+      "app ui",
+      "citations",
+    ],
+    props: [
+      {
+        name: "call",
+        type: "string",
+        defaultValue: '"web_search"',
+        description: "The tool's name, in mono on the call pill.",
+      },
+      {
+        name: "topic",
+        type: "string",
+        defaultValue: '"Basinworks water pricing"',
+        description: "What the agent is researching; the surface's heading.",
+      },
+      {
+        name: "queries",
+        type: "SearchQuery[]",
+        defaultValue: "defaultSearchQueries",
+        description:
+          "The queries: { id, text, at, state? } where at is ms after the call starts and state is ok, no-results or rate-limited.",
+      },
+      {
+        name: "results",
+        type: "SearchResult[]",
+        defaultValue: "defaultSearchResults",
+        description:
+          "The results: { id, queryId, at, domain, title, snippet, url, decision, reason }.",
+      },
+      {
+        name: "playing",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Run the call's clock; paused, everything holds where it is.",
+      },
+      {
+        name: "trigger",
+        type: '"inView" | "mount"',
+        defaultValue: '"inView"',
+        description: "When the clock starts.",
+      },
+      {
+        name: "onOpenResult",
+        type: "(result) => void",
+        description: "Enter or a click on a result, to open its page.",
+      },
+      {
+        name: "onKeep",
+        type: "(result) => void",
+        description: "K overrode the agent and kept a result.",
+      },
+      {
+        name: "onDiscard",
+        type: "(result) => void",
+        description: "D overrode the agent and dropped a result.",
+      },
+      {
+        name: "onStop",
+        type: "() => void",
+        description:
+          "Stop was pressed: nothing more arrives and unread results stay unread.",
+      },
+      {
+        name: "onComplete",
+        type: "() => void",
+        description: "The last result has been skimmed.",
+      },
+      {
+        name: "status",
+        type: '"auto" | "loading" | "error"',
+        defaultValue: '"auto"',
+        description:
+          "auto plays the call; loading and error stand in before it starts.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the call failed.",
+      },
+      {
+        name: "retryAt",
+        type: "string",
+        defaultValue: '"14:05"',
+        description: "When a rate-limited query will try again, as shown.",
+      },
+      {
+        name: "fanAngle",
+        type: "number",
+        defaultValue: "8",
+        description: "Tilt of the outermost query tabs, in degrees, 0 to 16.",
+      },
+      {
+        name: "scanSpeed",
+        type: "number",
+        defaultValue: "700",
+        description: "How long the agent skims one result, in ms.",
+      },
+      {
+        name: "accent",
+        type: '"cobalt" | "plum" | "mint" | "ink" | string',
+        defaultValue: '"cobalt"',
+        description:
+          "The scan line, kept results and the call pill: a named pigment or any CSS colour.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Read only: results open but cannot be kept or dropped, and Stop is off.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the surface; it is 34rem tall and its columns scroll inside.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: every card, stub and kept row is in one roving group with a single tab stop. Arrow keys move to the nearest item in that direction by where items really are, so the same keys work in the column layout and the one-query layout (where Left and Right off the edge switch query). Enter opens, K keeps, D drops.",
+      "The call runs on its own clock from the `at` times in the data, as one chain of timers that pauses while the surface is off screen or the page is hidden and stops once everything has landed: no animation frame loop.",
+      "A kept card flies to the stack as a measured flyer drawn over the surface, so it can travel between two scrolling columns; the stack row appears as it lands.",
+      "Every decision carries its reason: in the footer on hover or focus, and in each item's description for assistive technology. Progress is announced once per landing, not per frame.",
+      "Under reduced motion cards appear without travel, the skim is a brief tint instead of a sweeping line, and kept results appear in the stack with a fade.",
+      "Below a 40rem container the tabs stack into a fanned hand with one query in front, by container query, so the server markup is the same at every width.",
+    ],
+  },
+  {
+    name: "run-cell",
+    type: "registry:ui",
+    title: "Run Cell",
+    description:
+      "A code execution tool call drawn as a notebook cell and fed by props as the call streams: new lines of code slide in on springs.glide, an execution cursor glides down the gutter as each line runs and every executed line is marked on springs.flick, and stdout rises line by line below. When a figure first arrives the Figure tab opens and the plot develops out of a blank frame, a soft blur clearing as it settles from 1.02 on springs.glide while its lines draw left to right behind a sweeping clip and the tolerance band fades in last, with its data one tab away as a real table. Failing and timed-out lines are marked in place; Tab moves from the code to the tabs to the panel, and Enter on the code re-runs it.",
+    files: [
+      {
+        path: "registry/ui/run-cell.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2075",
+    },
+    tagline: "Code it ran, and what came out.",
+    keywords: [
+      "code execution",
+      "notebook cell",
+      "tool call",
+      "stdout",
+      "chart output",
+      "app ui",
+      "data analysis",
+    ],
+    props: [
+      {
+        name: "code",
+        type: "string",
+        defaultValue: "defaultRunCode",
+        description:
+          "The code, in full or as far as it has arrived; appended lines slide in, replaced code starts fresh.",
+      },
+      {
+        name: "language",
+        type: "string",
+        defaultValue: '"python"',
+        description:
+          "Shown on the chip; the colouring reads Python keywords, strings, numbers, comments and calls.",
+      },
+      {
+        name: "executedLine",
+        type: "number",
+        defaultValue: "every line once done",
+        description:
+          "How many lines have run; the line at this index is running now.",
+      },
+      {
+        name: "outputs",
+        type: "RunOutput[]",
+        defaultValue: "defaultRunOutputs",
+        description:
+          "What it printed so far: { id, stream, text } with stream stdout or stderr.",
+      },
+      {
+        name: "figures",
+        type: "RunFigure[]",
+        defaultValue: "defaultRunFigures",
+        description:
+          "What it returned: { id, title, xTicks, yUnit, series, band?, summary }. A new one develops in the Figure tab.",
+      },
+      {
+        name: "status",
+        type: '"queued" | "running" | "done" | "error" | "timed-out" | "stopped"',
+        defaultValue: '"done"',
+        description: "Where the call is.",
+      },
+      {
+        name: "error",
+        type: "RunError",
+        description:
+          "The failure: { line, name, message, trace }, line 1-based as a traceback counts.",
+      },
+      {
+        name: "elapsed",
+        type: "number",
+        defaultValue: "2380",
+        description: "Run time so far, in ms.",
+      },
+      {
+        name: "timeout",
+        type: "number",
+        defaultValue: "30000",
+        description: "The run's time limit in ms, shown when it is hit.",
+      },
+      {
+        name: "runtime",
+        type: "string",
+        defaultValue: '"Gaugeworks runtime · py 3.12"',
+        description: "The machine that ran it.",
+      },
+      {
+        name: "count",
+        type: "number",
+        defaultValue: "7",
+        description:
+          "The execution count shown as In [7]; a star while it runs.",
+      },
+      {
+        name: "tab / defaultTab",
+        type: '"output" | "figure" | "data"',
+        defaultValue: "— / figure when a figure exists, else output",
+        description:
+          "The open result tab, controlled or initial; a new figure selects Figure when uncontrolled.",
+      },
+      {
+        name: "onTabChange",
+        type: "(tab) => void",
+        description: "Fires from the click or key that changed the tab.",
+      },
+      {
+        name: "onRerun",
+        type: "() => void",
+        description: "Re-run was pressed, or Enter on the code.",
+      },
+      {
+        name: "onStop",
+        type: "() => void",
+        description: "Stop was pressed while it ran.",
+      },
+      {
+        name: "onCopy",
+        type: "(code) => void",
+        description:
+          "Copy was pressed; the code is also written to the clipboard when it allows.",
+      },
+      {
+        name: "onOpenFigure",
+        type: "(figure) => void",
+        description: "Open was pressed on a figure.",
+      },
+      {
+        name: "foldLines",
+        type: "number",
+        defaultValue: "4",
+        description:
+          "Below 30rem the code folds to this many lines until opened.",
+      },
+      {
+        name: "codeTheme",
+        type: '"paper" | "ink" | "tint"',
+        defaultValue: '"paper"',
+        description:
+          "The code's surface: the page's paper, a deep ink panel in both themes, or a tint of the accent.",
+      },
+      {
+        name: "gutterStyle",
+        type: '"ticks" | "bar" | "dots"',
+        defaultValue: '"ticks"',
+        description:
+          "How executed lines are marked: a tick each, one bar filling down, or dots that fill.",
+      },
+      {
+        name: "accent",
+        type: '"cobalt" | "plum" | "mint" | "ink" | string',
+        defaultValue: '"cobalt"',
+        description:
+          "The cursor, keywords, ticks and the running state: a named pigment or any CSS colour.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only: nothing can be re-run, stopped or copied.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the cell; it caps at 36rem tall and its code and panels scroll inside.",
+      },
+    ],
+    usageNotes: [
+      "The cell draws whatever the props say, so it follows a real stream: append to `code`, raise `executedLine`, push `outputs`, add a figure, then set `status`. Nothing in the component keeps time.",
+      "Keyboard: the code is one focusable region named with its line count, executed count and any error (Enter re-runs); the result tabs are a tablist with roving arrows, Home and End; each panel is focusable so long output can be scrolled by keys.",
+      "The figure is one SVG stretched to its box with non-scaling strokes and HTML labels, so it stays crisp at any width without measuring; it carries a sentence summary, and its data is a real table with a caption.",
+      "The output is a log that does not announce every line; the run's end, an error with its line, a timeout or a stop are announced once.",
+      "Under reduced motion lines and the figure appear with a short fade, the cursor jumps between lines, and ticks still mark each executed line.",
+      "Below a 30rem container the code folds to its first lines behind a disclosure, by container query, so the server markup is the same at every width.",
+    ],
+  },
 ];

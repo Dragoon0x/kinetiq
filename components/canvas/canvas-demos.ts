@@ -2175,4 +2175,84 @@ export const CANVAS_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/paste-fold.demo").then((m) =>
       mod(m.PasteFoldDemo, m.tweaks),
     ),
+  "spend-guard": () =>
+    import("@/registry/demos/spend-guard.demo").then((m) =>
+      mod(m.SpendGuardDemo, m.tweaks),
+    ),
+  "tax-profile": () =>
+    import("@/registry/demos/tax-profile.demo").then((m) =>
+      mod(m.TaxProfileDemo, m.tweaks),
+    ),
+  "team-chargeback": () =>
+    import("@/registry/demos/team-chargeback.demo").then((m) =>
+      mod(m.TeamChargebackDemo, m.tweaks),
+    ),
+  "visitor-chat": () =>
+    import("@/registry/demos/visitor-chat.demo").then((m) =>
+      mod(m.VisitorChatDemo, m.tweaks),
+    ),
+  "swipe-reply": () =>
+    import("@/registry/demos/swipe-reply.demo").then((m) =>
+      mod(m.SwipeReplyDemo, m.tweaks),
+    ),
+  "ask-back": () =>
+    import("@/registry/demos/ask-back.demo").then((m) =>
+      mod(m.AskBackDemo, m.tweaks),
+    ),
+  "chart-talk": () =>
+    import("@/registry/demos/chart-talk.demo").then((m) =>
+      mod(m.ChartTalkDemo, m.tweaks),
+    ),
+  "hint-ladder": () =>
+    import("@/registry/demos/hint-ladder.demo").then((m) =>
+      mod(m.HintLadderDemo, m.tweaks),
+    ),
+  "meeting-recall": () =>
+    import("@/registry/demos/meeting-recall.demo").then((m) =>
+      mod(m.MeetingRecallDemo, m.tweaks),
+    ),
+  "widget-thread": () =>
+    import("@/registry/demos/widget-thread.demo").then((m) =>
+      mod(m.WidgetThreadDemo, m.tweaks),
+    ),
+  "night-shift": () =>
+    import("@/registry/demos/night-shift.demo").then((m) =>
+      mod(m.NightShiftDemo, m.tweaks),
+    ),
+  "footprint-map": () =>
+    import("@/registry/demos/footprint-map.demo").then((m) =>
+      mod(m.FootprintMapDemo, m.tweaks),
+    ),
+  "run-journal": () =>
+    import("@/registry/demos/run-journal.demo").then((m) =>
+      mod(m.RunJournalDemo, m.tweaks),
+    ),
+  "routine-week": () =>
+    import("@/registry/demos/routine-week.demo").then((m) =>
+      mod(m.RoutineWeekDemo, m.tweaks),
+    ),
+  "standup-cards": () =>
+    import("@/registry/demos/standup-cards.demo").then((m) =>
+      mod(m.StandupCardsDemo, m.tweaks),
+    ),
+  "cause-lines": () =>
+    import("@/registry/demos/cause-lines.demo").then((m) =>
+      mod(m.CauseLinesDemo, m.tweaks),
+    ),
+  "merge-train": () =>
+    import("@/registry/demos/merge-train.demo").then((m) =>
+      mod(m.MergeTrainDemo, m.tweaks),
+    ),
+  "schema-mould": () =>
+    import("@/registry/demos/schema-mould.demo").then((m) =>
+      mod(m.SchemaMouldDemo, m.tweaks),
+    ),
+  "search-fan": () =>
+    import("@/registry/demos/search-fan.demo").then((m) =>
+      mod(m.SearchFanDemo, m.tweaks),
+    ),
+  "run-cell": () =>
+    import("@/registry/demos/run-cell.demo").then((m) =>
+      mod(m.RunCellDemo, m.tweaks),
+    ),
 };
