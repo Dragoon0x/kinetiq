@@ -245,7 +245,7 @@ function sampleSpots(
   mask.height = h;
   const ctx = mask.getContext("2d", { willReadFrequently: true });
   if (!ctx || words.length === 0) return null;
-  ctx.fillStyle = "#fff";
+  ctx.fillStyle = "white";
   ctx.textBaseline = "alphabetic";
   for (const word of words) {
     const style = getComputedStyle(word);
