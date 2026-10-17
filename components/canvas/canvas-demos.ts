@@ -2315,4 +2315,84 @@ export const CANVAS_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/swap-savings.demo").then((m) =>
       mod(m.SwapSavingsDemo, m.tweaks),
     ),
+  "time-fit": () =>
+    import("@/registry/demos/time-fit.demo").then((m) =>
+      mod(m.TimeFitDemo, m.tweaks),
+    ),
+  "replan-diff": () =>
+    import("@/registry/demos/replan-diff.demo").then((m) =>
+      mod(m.ReplanDiffDemo, m.tweaks),
+    ),
+  "goal-bloom": () =>
+    import("@/registry/demos/goal-bloom.demo").then((m) =>
+      mod(m.GoalBloomDemo, m.tweaks),
+    ),
+  "acceptance-sheet": () =>
+    import("@/registry/demos/acceptance-sheet.demo").then((m) =>
+      mod(m.AcceptanceSheetDemo, m.tweaks),
+    ),
+  "crossroads-plan": () =>
+    import("@/registry/demos/crossroads-plan.demo").then((m) =>
+      mod(m.CrossroadsPlanDemo, m.tweaks),
+    ),
+  "unit-cost": () =>
+    import("@/registry/demos/unit-cost.demo").then((m) =>
+      mod(m.UnitCostDemo, m.tweaks),
+    ),
+  "cache-dividend": () =>
+    import("@/registry/demos/cache-dividend.demo").then((m) =>
+      mod(m.CacheDividendDemo, m.tweaks),
+    ),
+  "request-anatomy": () =>
+    import("@/registry/demos/request-anatomy.demo").then((m) =>
+      mod(m.RequestAnatomyDemo, m.tweaks),
+    ),
+  "workspace-lift": () =>
+    import("@/registry/demos/workspace-lift.demo").then((m) =>
+      mod(m.WorkspaceLiftDemo, m.tweaks),
+    ),
+  "console-shell": () =>
+    import("@/registry/demos/console-shell.demo").then((m) =>
+      mod(m.ConsoleShellDemo, m.tweaks),
+    ),
+  "lockstep-panes": () =>
+    import("@/registry/demos/lockstep-panes.demo").then((m) =>
+      mod(m.LockstepPanesDemo, m.tweaks),
+    ),
+  "stage-mode": () =>
+    import("@/registry/demos/stage-mode.demo").then((m) =>
+      mod(m.StageModeDemo, m.tweaks),
+    ),
+  "tiling-desk": () =>
+    import("@/registry/demos/tiling-desk.demo").then((m) =>
+      mod(m.TilingDeskDemo, m.tweaks),
+    ),
+  "double-rail": () =>
+    import("@/registry/demos/double-rail.demo").then((m) =>
+      mod(m.DoubleRailDemo, m.tweaks),
+    ),
+  "tray-windows": () =>
+    import("@/registry/demos/tray-windows.demo").then((m) =>
+      mod(m.TrayWindowsDemo, m.tweaks),
+    ),
+  "env-ribbon": () =>
+    import("@/registry/demos/env-ribbon.demo").then((m) =>
+      mod(m.EnvRibbonDemo, m.tweaks),
+    ),
+  "suite-atrium": () =>
+    import("@/registry/demos/suite-atrium.demo").then((m) =>
+      mod(m.SuiteAtriumDemo, m.tweaks),
+    ),
+  "favourite-shelf": () =>
+    import("@/registry/demos/favourite-shelf.demo").then((m) =>
+      mod(m.FavouriteShelfDemo, m.tweaks),
+    ),
+  "letter-jump": () =>
+    import("@/registry/demos/letter-jump.demo").then((m) =>
+      mod(m.LetterJumpDemo, m.tweaks),
+    ),
+  "bubble-up": () =>
+    import("@/registry/demos/bubble-up.demo").then((m) =>
+      mod(m.BubbleUpDemo, m.tweaks),
+    ),
 };

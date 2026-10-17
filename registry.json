@@ -50608,6 +50608,572 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "time-fit",
+      "type": "registry:ui",
+      "title": "Time Fit",
+      "description": "An agent's plan packed against a time budget: steps are ranked by value and packed greedily, pinned steps first, so what fits sits above a budget line and what does not sits below it, greyed. Dragging the line keeps it 1:1 under the finger while the budget moves in snapped minutes; every change re-packs, the steps that no longer fit sliding below the line on springs.glide while the ones that now fit rise above it on the same spring, the finish time rolling digit by digit on springs.snap, and the line settling into its slot on snap with the release velocity. The rows are a multi-select listbox where P or Space pins, the line is a vertical slider on the arrow, Page, Home and End keys, and an over-budget state turns the line danger when the pins alone need more time than there is.",
+      "files": [
+        {
+          "path": "registry/ui/time-fit.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2086"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "replan-diff",
+      "type": "registry:ui",
+      "title": "Replan Diff",
+      "description": "The moment an agent revises its plan mid-run, shown as a diff of the old plan and the new: completed steps stay locked, a weighted longest common subsequence picks out the steps that moved, dropped steps stay where they were as struck ghosts, new steps are marked, and every change carries the agent's one-line reason while the run waits paused for review. When first seen it shows the old plan for a beat, then kept steps glide to their new places on springs.glide (motion layout over a stable DOM order), a strike sweeps across each dropped title on glide before it fades, and new steps slide in with their badges landing on springs.snap, all on one cascade; a revert replays the same physics for that step. Up and Down walk the changes, Enter opens one with Revert and Ask why, R reverts or restores it, and under 34rem the old plan hides behind a toggle.",
+      "files": [
+        {
+          "path": "registry/ui/replan-diff.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2087"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "goal-bloom",
+      "type": "registry:ui",
+      "title": "Goal Bloom",
+      "description": "A radial plan with the goal in a disc at the centre, sub-goals as pills on the first ring and their steps on the second, each sub-goal owning a sector and a petal. As the agent plans, every new node blooms out of its parent along its own angle on springs.glide while its siblings re-space round the ring on the same spring, each node's angle and radius animated in polar coordinates so a re-spacing sweeps round the circle; when a branch finishes, its steps fold back into the sub-goal, the sub-goal moves in toward the centre and its petal fills from the centre on springs.recoil, so progress reads as the flower closing while the goal's ring fills on glide. It is a tree: Left and Right move round a ring, Enter steps out a ring, Escape steps back in, and under 32rem the bloom becomes an indented list with the same states and keys.",
+      "files": [
+        {
+          "path": "registry/ui/goal-bloom.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2088"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "acceptance-sheet",
+      "type": "registry:ui",
+      "title": "Acceptance Sheet",
+      "description": "An agent's plan written as a short document: numbered steps, a sentence each, and acceptance criteria under them that the agent verifies as it works. A verified criterion gets a small stamp that lands on springs.recoil — from 1.7× and a few degrees off, with a ring of ink spreading under it — and links to its evidence; a failed one is underlined by a danger rule that sweeps under the words on springs.glide and reopens its step, whose check undraws on springs.flick while the failure note glides open. Every criterion is a button in the Tab order: Enter opens its evidence (inline from 34rem, in a focus-trapped sheet that rises from the bottom below that), O overrides it with a required reason, Escape closes and returns focus, and draft, in-progress and signed-off states change what the sheet allows.",
+      "files": [
+        {
+          "path": "registry/ui/acceptance-sheet.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2089"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "crossroads-plan",
+      "type": "registry:ui",
+      "title": "Crossroads Plan",
+      "description": "An agent's plan that stops at its open questions: it runs on a rail until a crossroads, where the rail forks into the branches on offer, each previewed a few steps deep with the agent's recommendation and reason, and the run holds at the first undecided crossroads with everything after it folded into one faded line. Choosing drives one value per crossroads on springs.glide — the chosen column widens to the full width while its remaining steps grow downward on a cascade, and the branch not taken withers, its content fading as its column narrows to a 40px stub that keeps a dashed rail, a hollow node, a Reopen button and its title turned on its side — with witherSpeed scaling that spring (stiffness by speed², damping by speed, so its character never changes). Left and Right pick a branch, Enter chooses, Backspace reopens the last crossroads, and under 36rem the branches become tabs with the same keys.",
+      "files": [
+        {
+          "path": "registry/ui/crossroads-plan.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2090"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "unit-cost",
+      "type": "registry:ui",
+      "title": "Unit Cost",
+      "description": "An AI usage panel that divides the period's spend by the outcomes it produced and draws it as a real fraction: when the period or outcome changes, the numerator and denominator roll independently on springs.snap, each changed digit's strip travelling to its new face with the denominator a beat behind, while a number that gains a place grows a column on springs.glide and the quotient fades in once both have landed. Beside it a trend of cost per outcome over twelve weeks, its target band shaded, works as the period picker: the cursor follows the finger 1:1, picks each week it passes and settles on snap with the release velocity, a change of outcome morphs the whole line on glide, and the target line's handle drags to a new target that commits to the cent on snap. Outcomes are a radiogroup with arrow keys, the trend and the target are sliders, and the trend also reads as a table.",
+      "files": [
+        {
+          "path": "registry/ui/unit-cost.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2096"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "cache-dividend",
+      "type": "registry:ui",
+      "title": "Cache Dividend",
+      "description": "A month of a prompt cache drawn as one split bar per day, the cached and uncached parts of the day's input at one token scale, under a savings counter that reads what the cache saved through the day you are on. The bars are one slider: scrubbing across them lifts the day under the finger on springs.snap while its two parts open a hairline apart, dims the days after it on a short tween, and ticks the counter to the new total on snap for every day passed, as rolling digit columns, a counting figure or a figure over a gauge. The day's prompts are listed beside the bars as hit and missed, with why each miss missed, cross-fading between days with rows in cascade order; Left and Right move a day, Page Up and Page Down a week, and in a narrow container the bars become a week-by-week strip.",
+      "files": [
+        {
+          "path": "registry/ui/cache-dividend.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2097"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "request-anatomy",
+      "type": "registry:ui",
+      "title": "Request Anatomy",
+      "description": "A log of one agent run's model requests where opening a request unfolds its anatomy: the row's height opens on springs.glide, a long bar arrives closed with every part touching, then its system, context, history, input, output and cached parts slide apart on glide while their captions rise in cascade order with tokens and price, and a bracket sweeps across the slowest stretch of the latency beneath. A Tokens / Cost switch re-proportions the same parts on glide, and a pinned request rides along as a ghost bar at the same scale with per-part differences. The log is a grid where Up and Down move, Enter opens, C pins for comparison and Escape closes; truncated, errored and redacted requests are drawn as such, and in a narrow container the bar stands vertically beside its captions.",
+      "files": [
+        {
+          "path": "registry/ui/request-anatomy.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2098"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "workspace-lift",
+      "type": "registry:ui",
+      "title": "Workspace Lift",
+      "description": "An app frame with a narrow strip of workspace icons at its far left, where the rest of the frame — sidebar, header and page — is one car: choosing another workspace runs it like an elevator on springs.glide, the current car and the next travelling together as one shaft so the seam between them passes through the frame, the new one arriving from below when it sits lower in the strip and from above when higher. The strip's indicator slides on springs.snap, the frame takes the new workspace's colour on a short tween, the header's floor number rolls one face the way the car went, and inside a workspace the nav tree's current pill travels on snap while pages cross-fade with a 4px rise. The strip is a vertical tablist whose Up and Down walk it with the car riding along, Cmd or Ctrl with 1 to 9 switches from anywhere in the frame, and in a narrow container the strip becomes a sheet dropping from the header.",
+      "files": [
+        {
+          "path": "registry/ui/workspace-lift.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2099"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "console-shell",
+      "type": "registry:ui",
+      "title": "Console Shell",
+      "description": "An editor-style frame for a firmware project — title bar, file explorer, an editor with file tabs, a bottom panel for problems, output and a console, and a slim status bar — whose panel is pulled up by its edge: the edge follows the finger 1:1 with rubber-band past full height, and on release the height is projected with the release velocity and committed to the nearest snap point (closed, a quarter, half or full) on springs.glide carrying the throw's velocity. Closed, only the status bar is left, and its error and warning counts roll one face on springs.snap the way they moved when new problems arrive while their chip warms once; the panel's tab indicator slides on snap and choosing a problem opens its line in the editor. Cmd or Ctrl+J toggles the panel, F6 moves focus between explorer, editor, panel and status bar, the edge is a separator stepped by arrow keys, and in a narrow container the panel opens as a full-height sheet.",
+      "files": [
+        {
+          "path": "registry/ui/console-shell.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2100"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "lockstep-panes",
+      "type": "registry:ui",
+      "title": "Lockstep Panes",
+      "description": "Two versions of a document side by side with a lockable shared scroll that maps matched sections onto each other, so the bands across the gutter bend wherever the versions drift. Locking glides the drifted pane back into line on springs.glide as the padlock's shackle drops shut on springs.snap; swap trades the panes on glide and the section strip's pill slides on snap. Cmd or Ctrl+L locks, Alt with Left and Right moves between panes, and on a phone the panes become tabs that keep your place.",
+      "files": [
+        {
+          "path": "registry/ui/lockstep-panes.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2101"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "stage-mode",
+      "type": "registry:ui",
+      "title": "Stage Mode",
+      "description": "A board review frame with a presentation mode: the sidebar slides off the left edge on springs.glide, the header lifts away and the toolbar sinks on springs.snap a cascade apart, while the board, carried by one transform, scales up into the freed room on glide and the zoom readout counts up with it. On stage a pointer at an edge (or focus) peeks that chrome back on snap, and a one-time hint lands on springs.recoil. F toggles the stage, Escape leaves it, a two-finger tap toggles it on touch.",
+      "files": [
+        {
+          "path": "registry/ui/stage-mode.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2102"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "tiling-desk",
+      "type": "registry:ui",
+      "title": "Tiling Desk",
+      "description": "An app frame where every opened record becomes a window that tiles the desk from a binary tree of splits. Opening a record splits the focused tile — it glides into its half on springs.glide while the new window wipes in from the split line — closing one lets its neighbours glide out to fill, and dragging a window by its title bar previews the half, swap or desk-edge strip it would take on springs.snap before it lands with its release velocity. Cmd or Ctrl with an arrow moves focus between tiles, with Shift swaps them and with Alt docks the window along that edge.",
+      "files": [
+        {
+          "path": "registry/ui/tiling-desk.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2103"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "double-rail",
+      "type": "registry:ui",
+      "title": "Double Rail",
+      "description": "An app frame with two tiers of navigation: a slim rail of sections whose pill slides on springs.snap, and a panel listing what is inside the chosen one. Changing section slides the panel's list sideways on springs.glide in the direction of travel while its title and count carry over as shared elements — the title cross-fades in place, the count glides to sit after it and rolls to its new number on snap; on a phone the section row's title and count fly into the drilled header. Up and Down move within a tier, Right crosses from rail to panel, Left comes back.",
+      "files": [
+        {
+          "path": "registry/ui/double-rail.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2104"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "tray-windows",
+      "type": "registry:ui",
+      "title": "Tray Windows",
+      "description": "A workspace of floating windows where any record can be parked in a tray: minimising sends a ghost of the window — title bar and body lines — flying into its chip's slot on springs.glide, position, size and corner radius from one value, and the chip lands with a small drop on springs.recoil; restoring flies it back to exactly where the window was and returns focus to it. Chips keep an unsaved marker and ask before discarding, and a full tray puts the rest behind a +N menu. Cmd or Ctrl+M minimises the focused window and Cmd or Ctrl with a number restores that chip.",
+      "files": [
+        {
+          "path": "registry/ui/tray-windows.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2105"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "env-ribbon",
+      "type": "registry:ui",
+      "title": "Env Ribbon",
+      "description": "An app shell whose top edge always says which environment it is pointed at: a ribbon in the environment's colour, and a change sweeps the new colour across it from the switcher outward on springs.glide, both edges reaching the frame's ends together with a glint riding each, while the console's data cross-fades and its rows rise 4px in cascade. Entering a protected environment grows a hatched edge on every destructive button on springs.snap, each timed to the moment the sweep reaches it, and switching into production or running a destructive action there asks for the environment's name to be typed first. Alt+E opens the switcher, a listbox with arrow keys, type-ahead and Escape; below a 22rem container the ribbon thickens into a labelled bar.",
+      "files": [
+        {
+          "path": "registry/ui/env-ribbon.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2106"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "suite-atrium",
+      "type": "registry:ui",
+      "title": "Suite Atrium",
+      "description": "The home of a product suite, its apps as tiles with live summaries, rolling stats and sparklines, where choosing a tile grows it into the full app on springs.glide: one progress value opens a clip from the tile's box to the whole atrium while the app's interior rides the clip's corner, so the icon never moves and the window opens around it, and the sidebar unfolds from the tile's edge a beat behind with its rows arriving in cascade. Going home runs the same value back into the tile, re-measured in case pinning moved it, and focus returns to it; grow can instead zoom the app from the tile's centre or raise it as a sheet. Tiles are one roving group: arrows move by tile and by row, Enter opens, P pins and pinned apps glide to the front, and Cmd or Ctrl+Shift+H or Escape goes home.",
+      "files": [
+        {
+          "path": "registry/ui/suite-atrium.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2107"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "favourite-shelf",
+      "type": "registry:ui",
+      "title": "Favourite Shelf",
+      "description": "A workspace sidebar with a Favourites shelf at its top that fills by dragging any row up into it: the grabbed row lifts into a layer above the sidebar on springs.flick and follows the pointer 1:1 while a dashed ghost holds its place, and over the shelf the favourites part on springs.glide to open a gap that follows the pointer as the shelf's height glides open by a row. Let go over the gap and the row glides in with the release velocity, then lands with a short squash from a springs.recoil spring kicked by the impact; let go elsewhere and it glides home, and a favourite dragged out below the shelf comes off it. Every row is one roving list: Alt+F adds or removes a favourite with the same flight, Alt with Up or Down reorders one, Delete removes one, and the folded rail turns the shelf into a strip of icons.",
+      "files": [
+        {
+          "path": "registry/ui/favourite-shelf.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2108"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "letter-jump",
+      "type": "registry:ui",
+      "title": "Letter Jump",
+      "description": "A keyboard-first sidebar that reads as a calm, ordinary list until you hold G: then every row raises a letter badge, each rising 4px on springs.snap in a ripple out from the current page, cascade milliseconds apart and inside the 600ms budget, and a letter jumps, its badge flashing as it fills with the accent and lands from 1.25x on springs.snap while the current pill glides to the row on springs.glide and focus follows. Letters several rows want become prefixes, so the first press dims every other row and lights the second letters, and the key assignment is a pure function the server and browser agree on. G can be held or tapped, the header's key button and a long press on the header show the badges for pointers and touch, ? opens a key sheet where any key can be rebound with collisions falling back to two letters, and the arrow keys still walk the list.",
+      "files": [
+        {
+          "path": "registry/ui/letter-jump.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2109"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "bubble-up",
+      "type": "registry:ui",
+      "title": "Bubble Up",
+      "description": "A project sidebar where what changed floats to the top: a project with new activity shows its count at home, popping in on springs.snap, and after liftDelay the row lifts out with a shadow on springs.flick and glides up on springs.glide into an Updated group that opens a slot for it while the group's count rolls, leaving a dotted placeholder that holds its home for a beat and then closes as the rows below slide up. Opening a project marks it read and sends it back down to its home on glide, and Shift+R sends the whole group home in cascade order. Every row is placed from a pure layout of fixed heights, so the server renders the positions the browser animates and the DOM order never changes; Up and Down walk the rows as they appear, Enter opens, M mutes, and below an 18.5rem container the Updated group folds into a count chip.",
+      "files": [
+        {
+          "path": "registry/ui/bubble-up.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2110"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

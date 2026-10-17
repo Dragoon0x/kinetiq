@@ -46531,6 +46531,178 @@ Notes:
 - Positions live in motion values (one per card and per arrow lane) and each arrow's path is derived from its two cards and its lane, so dragging re-renders only when the provisional order changes.
 - Under reduced motion cards and lanes jump to their places, a drag still follows the finger and lands without a spring, and the red arrows, notes and stamp still change.
 
+### Time Fit (KQ-2086) — `time-fit`
+Fit the plan to the time you have.
+
+An agent's plan packed against a time budget: steps are ranked by value and packed greedily, pinned steps first, so what fits sits above a budget line and what does not sits below it, greyed. Dragging the line keeps it 1:1 under the finger while the budget moves in snapped minutes; every change re-packs, the steps that no longer fit sliding below the line on springs.glide while the ones that now fit rise above it on the same spring, the finish time rolling digit by digit on springs.snap, and the line settling into its slot on snap with the release velocity. The rows are a multi-select listbox where P or Space pins, the line is a vertical slider on the arrow, Page, Home and End keys, and an over-budget state turns the line danger when the pins alone need more time than there is.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/time-fit`
+
+Props:
+- `lineStyle`: "rule" | "dashed" | "band" (default "rule") — The budget line's character: a rule with a grab pill, a dashed cut line with the pill centred, or a band that carries the budget and spare time inside it.
+- `density`: "compact" | "regular" | "roomy" (default "regular") — Row height and type size: 34, 40 or 48px one-line rows, 42, 46 or 52px two-line rows on narrow containers.
+- `accent`: string (default "var(--accent-bright)") — The line, pins, value meters and Approve — any CSS colour.
+- `steps`: TimeFitStep[] (default defaultTimeFitSteps) — The plan's steps in any order: id, title, minutes (the estimate), value (1–10) and an optional owner. The component ranks them by value, then by the shorter estimate.
+- `budget / defaultBudget`: number (default — / 150) — The time budget in minutes, controlled or initial.
+- `onBudgetChange`: (minutes: number) => void — Fires from the drag or key that moved the line, once per budgetStep crossed.
+- `pinned / defaultPinned`: string[] (default — / []) — Pinned step ids, controlled or initial. Pinned steps always stay above the line.
+- `onPinStep`: (id: string, pinned: boolean) => void — Fires from the click or key that pinned or unpinned a step.
+- `onApprove`: (plan: TimeFitPlan) => void — Approve was pressed: the step ids above the line, the budget, the minutes they take, the finish time in minutes after midnight, and whether the pins are over budget.
+- `minBudget`: number (default 30) — The shortest budget the line allows, in minutes.
+- `maxBudget`: number (default 360) — The longest budget the line allows, in minutes.
+- `budgetStep`: number (default 5) — Minutes per arrow key and the grain a drag snaps to.
+- `now`: number (default 785) — When the plan starts, in minutes after midnight (13:05); the finish time counts from it, so the server and the browser agree.
+- `title`: string (default "Launch checklist") — The plan's name.
+- `product`: string (default "Fernworks") — Who the plan is for, shown above the title.
+- `label`: string (default "<product> <title>") — The surface's accessible name.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the plan has arrived: loading draws placeholder rows, error offers Try again. An empty steps list says so.
+- `onRetry`: () => void — Try again was pressed after the plan failed to load.
+- `disabled`: boolean (default false) — Read only: the line, pins and Approve do nothing.
+- `className`: string — Classes for the outer surface.
+
+Notes:
+- Keyboard: the rows are a multi-select listbox (Up, Down, Home, End; P or Space pins). The line is a vertical slider: Down and Right add budgetStep, Up and Left take it away, Page Down and Page Up move an hour, Home and End reach minBudget and maxBudget. Each re-pack is announced once, naming the steps that rose and fell and the new finish time.
+- Reduced motion: rows and the line jump to their places and a change of side is a short colour fade; the packing, the greying and every readout still update.
+- Row height is one CSS variable set by a container query, and rows move by translateY(calc(slot × var(--tf-row))), so the server's markup is already laid out at every width and nothing is measured to place a row. Nothing animates while the plan is settled.
+- Below 24rem of container width the estimate and the value meter move under each step's title and Approve goes full width.
+- Use packTimeFit(steps, pinned, budget) to read the same packing outside the component, for a status line or a summary.
+
+### Replan Diff (KQ-2087) — `replan-diff`
+What changed when it changed its mind.
+
+The moment an agent revises its plan mid-run, shown as a diff of the old plan and the new: completed steps stay locked, a weighted longest common subsequence picks out the steps that moved, dropped steps stay where they were as struck ghosts, new steps are marked, and every change carries the agent's one-line reason while the run waits paused for review. When first seen it shows the old plan for a beat, then kept steps glide to their new places on springs.glide (motion layout over a stable DOM order), a strike sweeps across each dropped title on glide before it fades, and new steps slide in with their badges landing on springs.snap, all on one cascade; a revert replays the same physics for that step. Up and Down walk the changes, Enter opens one with Revert and Ask why, R reverts or restores it, and under 34rem the old plan hides behind a toggle.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/replan-diff`
+
+Props:
+- `diffStyle`: "tint" | "gutter" | "ledger" (default "tint") — How changes are marked: washed rows with badges, a coloured +/−/↕ gutter with an edge bar, or a ledger of hairline rows with old → new positions.
+- `reasonPlacement`: "below" | "side" | "toggle" (default "below") — Where the agent's reasons sit: under each change, in a column beside the list on wide containers (under it when narrow), or hidden until a change is opened.
+- `accent`: string (default "var(--accent-bright)") — New-step marks, the open change's ring and Accept — any CSS colour.
+- `before`: ReplanStep[] (default defaultReplanBefore) — The plan before the agent changed its mind: id, title and an optional minutes estimate per step.
+- `after`: ReplanStep[] (default defaultReplanAfter) — The plan it wants to run now.
+- `reasons`: Record<string, string> (default defaultReplanReasons) — The agent's one-line reason for each changed step, by step id.
+- `completed`: string[] (default ["profile", "find-dupes"]) — Steps already finished; drawn with a check and locked at the top.
+- `current`: string (default "merge") — The step that was running when the agent replanned; drawn paused while the plan is under review.
+- `reviewing / defaultReviewing`: boolean (default — / true) — Whether the run is paused until the new plan is accepted, controlled or initial.
+- `reverted / defaultReverted`: string[] (default — / []) — Change ids sent back to the old plan, controlled or initial.
+- `onRevertStep`: (id: string, reverted: boolean) => void — Fires from the key or button that reverted a change or put it back.
+- `onAcceptReplan`: (plan: ReplanStep[]) => void — Accept was pressed: the plan that will run, with reverts applied.
+- `onAskWhy`: (id: string) => void — Ask why was pressed on a change.
+- `intro`: boolean (default true) — Show the old plan for a beat when the surface is first seen, then play the change.
+- `agent`: string (default "Gaugeworks agent") — Who replanned, shown above the title.
+- `title`: string (default "Vendor table cleanup") — The run's name; also the surface's accessible name.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the plans have arrived: loading draws placeholder rows, error offers Try again. Identical plans show the no-change state.
+- `onRetry`: () => void — Try again was pressed after the plans failed to load.
+- `disabled`: boolean (default false) — Read only: nothing can be reverted, asked or accepted.
+- `className`: string — Classes for the outer surface.
+
+Notes:
+- Keyboard: each change's header is a button under a roving tabindex — Up and Down walk the changes, Home and End jump, Enter or Space opens one (its reason in toggle mode, Revert and Ask why), R reverts or restores the focused change, Escape closes it. The revision and every revert are announced once in a polite status region.
+- Reduced motion: the old plan is skipped and the diff appears in its final order with a short fade; reverts swap order instantly; strikes, badges and reasons still show.
+- Rows keep a stable DOM order and take their sequence from CSS order, so focus never jumps while a step moves; the moves are motion layout animations that run only when the plans or a revert change.
+- Pass identical before and after plans for the no-change state: the run resumes from a single Resume run button.
+- Under 34rem of container width the old plan hides behind a toggle in the header and side reasons fall back under their rows.
+
+### Goal Bloom (KQ-2088) — `goal-bloom`
+The goal in the middle, the work around it.
+
+A radial plan with the goal in a disc at the centre, sub-goals as pills on the first ring and their steps on the second, each sub-goal owning a sector and a petal. As the agent plans, every new node blooms out of its parent along its own angle on springs.glide while its siblings re-space round the ring on the same spring, each node's angle and radius animated in polar coordinates so a re-spacing sweeps round the circle; when a branch finishes, its steps fold back into the sub-goal, the sub-goal moves in toward the centre and its petal fills from the centre on springs.recoil, so progress reads as the flower closing while the goal's ring fills on glide. It is a tree: Left and Right move round a ring, Enter steps out a ring, Escape steps back in, and under 32rem the bloom becomes an indented list with the same states and keys.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/goal-bloom`
+
+Props:
+- `petalShape`: "leaf" | "round" | "wedge" (default "leaf") — Every petal, outline and fill: a pointed leaf, a blunt round petal, or an annular wedge.
+- `ringGap`: number (default 64) — Units between rings, 40 to 76, in a bloom 400 units across — how open the flower is. Deeper rings scale to fit.
+- `accent`: string (default "var(--accent-bright)") — Petals, active nodes, the goal's ring and Approve — any CSS colour. Filled petals take its hue at a fixed lightness so they read alike in both themes.
+- `goal`: GoalBloomGoal (default defaultGoalBloomGoal) — The goal at the centre: title, a short form for the disc, and a note for the panel.
+- `nodes`: GoalBloomNode[] (default defaultGoalBloomNodes) — Sub-goals and steps as one flat list linked by parent (null for a sub-goal of the goal): id, title, short, status (todo, active, done, blocked, planning), owner, note. A node with children takes its status from them.
+- `depth`: number (default 2) — How many rings to draw, 1 to 3; deeper nodes are left out.
+- `status`: "ready" | "planning" | "blocked" | "loading" (default "ready") — The plan as a whole: planning holds Approve and draws new nodes dashed, blocked flags the plan, loading draws the bud alone. An empty nodes list shows the empty state.
+- `selected / defaultSelected`: string | null (default — / null) — The selected node id, controlled or initial; null is the goal.
+- `onSelectNode`: (id: string | null) => void — Fires from the click or key that moved the selection.
+- `onAddSubgoal`: (parentId: string | null) => void — Add a step (or Add a sub-goal, on the goal) was pressed in the detail panel.
+- `onApprove`: () => void — Approve plan was pressed.
+- `intro`: boolean (default true) — Bloom out of the centre the first time the plan is seen.
+- `title`: string (default "Store opening plan") — The plan's name.
+- `product`: string (default "Coldbrook · Larch Street") — Who it is for, shown above the title.
+- `label`: string (default the title) — The tree's accessible name.
+- `disabled`: boolean (default false) — Read only: nothing can be added or approved.
+- `className`: string — Classes for the outer surface.
+
+Notes:
+- Keyboard: one roving tab stop. In the bloom, Left/Right (and Up/Down) move to the neighbour on the same ring, Enter steps out to the first node of the next ring, Escape steps back in to the parent (handled only when there is somewhere to go), Home and End jump to the ring's ends. In the list, Up/Down walk the rows, Right or Enter step out, Left or Escape step in. New plans and finished branches are announced once.
+- Reduced motion: no bloom and no fold travel — nodes appear at their places with a short fade and finished petals appear filled; statuses, petals and counts still change.
+- Each node owns its motion values (angle, radius, and a copy of its parent's on the same spring), so a re-spacing sweeps round the ring and nothing is shared or measured; springs run only when the plan changes and every coordinate is rounded before it reaches the page.
+- Give sub-goals a short label of about ten characters for the ring's pills; the full title is in the panel, the list and the accessible name.
+- Under 32rem of container width the bloom becomes an indented list; from 44rem the detail panel sits beside the bloom.
+
+### Acceptance Sheet (KQ-2089) — `acceptance-sheet`
+Done means these boxes, checked.
+
+An agent's plan written as a short document: numbered steps, a sentence each, and acceptance criteria under them that the agent verifies as it works. A verified criterion gets a small stamp that lands on springs.recoil — from 1.7× and a few degrees off, with a ring of ink spreading under it — and links to its evidence; a failed one is underlined by a danger rule that sweeps under the words on springs.glide and reopens its step, whose check undraws on springs.flick while the failure note glides open. Every criterion is a button in the Tab order: Enter opens its evidence (inline from 34rem, in a focus-trapped sheet that rises from the bottom below that), O overrides it with a required reason, Escape closes and returns focus, and draft, in-progress and signed-off states change what the sheet allows.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/acceptance-sheet`
+
+Props:
+- `stampStyle`: "seal" | "tag" | "tick" (default "seal") — What a verified criterion's stamp looks like: a round ink seal, a rotated rectangular Verified tag, or a quiet circled tick drawn on flick. Overrides draw it dashed.
+- `paper`: "plain" | "ruled" | "grid" (default "plain") — The sheet's ground: plain card, ruled lines with a margin rule, or a dot grid.
+- `accent`: string (default "var(--accent-bright)") — Stamps, checks, links and the sign-off seal — any CSS colour.
+- `steps`: AcceptanceStep[] (default defaultAcceptanceSteps) — The plan as a document: each step's id, title, summary and criteria (id, text, verdict, evidence { label, source, excerpt, href }, note, override).
+- `state`: "draft" | "in-progress" | "signed-off" (default "in-progress") — Draft makes criteria editable (Enter edits), in progress shows verdicts as they arrive, signed off locks the sheet under a seal.
+- `title`: string (default "Weekly basin report, automated") — The document's title; also its accessible name.
+- `author`: string (default "Basinworks agent") — Who wrote the plan, shown above the title on wider containers.
+- `revision`: string (default "Rev 3") — The revision shown beside the author.
+- `signedOff`: { by: string; at: string } (default { by: "Rae Okafor", at: "Fri 17 Oct, 14:32" }) — Who signed it off and when, shown once the state is signed-off.
+- `onEditCriterion`: (id: string, text: string) => void — A criterion's text was edited in draft.
+- `onOverride`: (id: string, verdict: "pass" | "fail", reason: string) => void — A person overrode a criterion's verdict with a reason; the sheet shows it at once.
+- `onOpenEvidence`: (id: string, evidence: AcceptanceEvidence) => void — A criterion's evidence was opened, from the keyboard, a click on the criterion or its stamp.
+- `onSignOff`: () => void — Sign off was pressed once every criterion passed.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the plan has arrived: loading draws placeholder lines, error offers Try again. An empty steps list says so.
+- `onRetry`: () => void — Try again was pressed after the plan failed to load.
+- `label`: string (default the title) — The document's accessible name.
+- `disabled`: boolean (default false) — Read only: evidence still opens, but nothing can be edited, overridden or signed.
+- `className`: string — Classes for the outer sheet.
+
+Notes:
+- Keyboard: every criterion is a button in the Tab order. Enter opens its evidence (or edits it in draft), O opens the override form (two radios and a required reason), Escape closes either and returns focus to the criterion. Below 34rem the evidence opens in a modal sheet inside the component with Tab kept inside it. Verdict changes are announced once.
+- Reduced motion: stamps appear in place at full size, the underline and the check appear without sweeping, and panels and the sheet cross-fade; every verdict, note and chip still changes.
+- Drive it from the agent: pass steps with updated verdicts and the sheet animates only what changed — a stamp, an underline, a reopened step. Anything already true when it mounts is drawn finished, so server markup matches.
+- Overrides are kept inside the component and reported through onOverride; pass criterion.override to show one the host already holds.
+- The stamp is a pointer shortcut only (tabIndex −1); the criterion's button carries the whole sentence for assistive technology.
+
+### Crossroads Plan (KQ-2090) — `crossroads-plan`
+Choose the path; the other one withers.
+
+An agent's plan that stops at its open questions: it runs on a rail until a crossroads, where the rail forks into the branches on offer, each previewed a few steps deep with the agent's recommendation and reason, and the run holds at the first undecided crossroads with everything after it folded into one faded line. Choosing drives one value per crossroads on springs.glide — the chosen column widens to the full width while its remaining steps grow downward on a cascade, and the branch not taken withers, its content fading as its column narrows to a 40px stub that keeps a dashed rail, a hollow node, a Reopen button and its title turned on its side — with witherSpeed scaling that spring (stiffness by speed², damping by speed, so its character never changes). Left and Right pick a branch, Enter chooses, Backspace reopens the last crossroads, and under 36rem the branches become tabs with the same keys.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/crossroads-plan`
+
+Props:
+- `branchStyle`: "rails" | "cards" | "lines" (default "rails") — How branches are drawn: metro rails with a drawn fork and nodes, bordered branch cards, or quiet text lists on hairlines.
+- `witherSpeed`: number (default 1) — How fast the branch not taken withers and the chosen one grows, 0.5× to 2×; scales the glide spring without changing its damping ratio.
+- `accent`: string (default "var(--accent-bright)") — The chosen path, the picked branch, the recommendation and Approve — any CSS colour.
+- `plan`: CrossroadsSegment[] (default defaultCrossroadsPlan) — The plan in order: { kind: "steps", id, steps } runs and { kind: "decision", decision } crossroads, each decision with an id, question, branches (id, title, summary, steps), recommended branch id and rationale.
+- `choices / defaultChoices`: Record<string, string> (default — / {}) — Decision id to chosen branch id, controlled or initial.
+- `onChooseBranch`: (decisionId: string, branchId: string) => void — Fires from the key, click or Take this path that chose a branch.
+- `onReopen`: (decisionId: string) => void — Fires from Backspace or a stub's Reopen that reopened a crossroads.
+- `onApprove`: (choices: Record<string, string>) => void — Approve plan was pressed with every crossroads decided.
+- `preview`: number (default 3) — Steps of each branch shown before it is chosen; the rest grow in when it is.
+- `title`: string (default "Switch freight vendors") — The plan's name.
+- `product`: string (default "Fieldline") — Who it is for, shown above the title with the count of decided crossroads.
+- `maxHeight`: number — Tallest the plan grows, in px, before it scrolls inside its own box with a bottom fade; choosing scrolls the next crossroads into view inside the plan, never the page.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the plan has arrived: loading draws placeholder rows, error offers Try again. An empty plan says so.
+- `onRetry`: () => void — Try again was pressed after the plan failed to load.
+- `label`: string (default the title) — The surface's accessible name.
+- `disabled`: boolean (default false) — Read only: nothing can be chosen, reopened or approved.
+- `className`: string — Classes for the outer surface.
+
+Notes:
+- Keyboard: on wide containers each crossroads is a radiogroup labelled by its question — Left and Right (Home, End) pick a branch, Enter or Space chooses it, and focus moves on to the next crossroads or to Approve. Under 36rem each crossroads is a tablist with the same keys and a Take this path button. Backspace anywhere in the plan reopens the last decided crossroads; every stub has a Reopen button. Choices and reopenings are announced once.
+- Reduced motion: the columns jump to their widths and the stub and the full branch swap with a short fade; the held state, the counts and the choices still change.
+- One motion value per crossroads drives the column widths (as calc strings, so the server's markup is already laid out), the fade of the branch not taken and the stub's arrival; nothing runs once it settles.
+- Approve stays aria-disabled, with the open question as its description, until every crossroads is decided.
+- Give the plan maxHeight when it sits in a fixed-height frame: it scrolls inside its own box and keeps the next crossroads in view as you decide.
+
 ### Token Bucket (KQ-2091) — `token-bucket`
 Your rate limit, as water in a tank.
 
@@ -46729,6 +46901,547 @@ Notes:
 - Apply mix stays focusable and reads aria-disabled until a share moves, so focus never falls to the page.
 - Under reduced motion bars and thumbs jump to their values and figures update without rolling.
 - Below a 36rem container the chart turns horizontal, a row per task with its slider underneath.
+
+### Unit Cost (KQ-2096) — `unit-cost`
+What each finished piece of work costs in AI.
+
+An AI usage panel that divides the period's spend by the outcomes it produced and draws it as a real fraction: when the period or outcome changes, the numerator and denominator roll independently on springs.snap, each changed digit's strip travelling to its new face with the denominator a beat behind, while a number that gains a place grows a column on springs.glide and the quotient fades in once both have landed. Beside it a trend of cost per outcome over twelve weeks, its target band shaded, works as the period picker: the cursor follows the finger 1:1, picks each week it passes and settles on snap with the release velocity, a change of outcome morphs the whole line on glide, and the target line's handle drags to a new target that commits to the cent on snap. Outcomes are a radiogroup with arrow keys, the trend and the target are sliders, and the trend also reads as a table.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/unit-cost`
+
+Props:
+- `outcomes`: UnitCostOutcome[] (default defaultUnitCostOutcomes) — What spend is divided by: { id, label, short?, unit, target, tolerance? }. The target is the cost per outcome the team aims for; tolerance is half the band's width as a share of it.
+- `usages`: UnitCostUsage[] (default defaultUnitCostUsages) — The usage lines spend is reported under: { id, name }. Unmapped lines are named in the unmapped note.
+- `periods`: UnitCostPeriod[] (default defaultUnitCostPeriods) — The periods, oldest first: { id, label, spend (dollars per usage id), outcomes (count per outcome id), partial? }. A partial last period is drawn dashed.
+- `mapping`: Record<string, string | null> (default defaultUnitCostMapping) — Which outcome each usage line produces. Usage mapped to nothing is summed as unmapped spend; an outcome with no usage mapped shows a dash and says so.
+- `outcome / defaultOutcome`: string (default the first outcome) — The outcome spend is divided by, controlled or initial.
+- `onOutcomeChange`: (id: string, outcome: UnitCostOutcome) => void — Fires from the radio or arrow key that changed the outcome.
+- `period / defaultPeriod`: string (default the last period) — The period the fraction reads, controlled or initial.
+- `onPeriodChange`: (id: string, period: UnitCostPeriod) => void — Fires as the trend's cursor, a table row or an arrow key picks a period.
+- `targets`: Record<string, number> — Controlled targets per outcome id, overriding each outcome's own.
+- `onSetTarget`: (outcomeId: string, value: number) => void — Fires when the target handle is dragged or stepped to a new value.
+- `onMapUsage`: (usageIds: string[]) => void — “Map usage” was pressed on the unmapped-spend note, with the usage ids that feed no outcome. Omit it and the note is plain text.
+- `minOutcomes`: number (default 40) — Below this many outcomes a period's cost is called too few to trust and drawn as a hollow dot.
+- `defaultView`: "chart" | "table" (default "chart") — The trend as a chart or a table at first; the Chart and Table buttons switch it.
+- `status`: "ready" | "loading" | "error" (default "ready") — Usage arrived, is on its way (a still skeleton), or failed (a message and Try again).
+- `onRetry`: () => void — “Try again” was pressed after usage failed to load.
+- `title`: string (default "Gaugeworks · support assistant") — The panel's heading.
+- `subtitle`: string (default "AI spend per finished outcome") — Under the heading.
+- `formatMoney`: (amount: number, kind: "total" | "each") => string (default hand formatter) — How money prints: whole totals (“$1,284”) and per-outcome costs (“$0.37”, three places under twenty cents).
+- `fractionStyle`: "stacked" | "slashed" | "ratio" (default "stacked") — The fraction's form: one figure over a rule over the other, a slashed nut fraction, or one line with a division sign.
+- `bandStyle`: "shade" | "hatch" | "rules" (default "shade") — How the target band is drawn: a soft wash, diagonal hatching with edges, or only its two dashed edges.
+- `accent`: "cobalt" | "plum" | "mint" | "ink" | string (default "cobalt") — The line, band and selection colour; any CSS colour works.
+- `disabled`: boolean (default false) — Read only: nothing can be picked, dragged or set.
+- `className`: string — Classes for the panel, e.g. a max height; it scrolls inside its own box.
+
+Notes:
+- Keyboard: outcomes are a radiogroup (arrows move and select, Home and End). The trend is a slider (Left and Right a week, Page Up and Page Down four, Home and End); the target handle is a vertical slider (Up and Down one step, Page Up and Page Down ten). Chart and Table are pressed buttons, and the table's week buttons pick a period.
+- Reduced motion: digits swap without rolling, the line, band and cursor move to their new place without travel, and the quotient cross-fades in 150ms — every number still changes.
+- Nothing runs while idle: each roll, morph and settle is one spring started by a change and stopped on the next or on unmount, and geometry is written straight into the SVG, never through React state per frame.
+- Lays out by its own width: from a 40rem container the fraction sits beside the trend; narrower, it stacks over a 112px chart. Give it a max height (the gallery card uses max-h-[13.75rem]) and it scrolls inside its own box.
+- Colours come from tokens and the accent variable, so the panel reads in light and dark; the verdict chip uses the success, warn and danger tokens as text, never as fills.
+
+### Cache Dividend (KQ-2097) — `cache-dividend`
+How much the cache saved you this month.
+
+A month of a prompt cache drawn as one split bar per day, the cached and uncached parts of the day's input at one token scale, under a savings counter that reads what the cache saved through the day you are on. The bars are one slider: scrubbing across them lifts the day under the finger on springs.snap while its two parts open a hairline apart, dims the days after it on a short tween, and ticks the counter to the new total on snap for every day passed, as rolling digit columns, a counting figure or a figure over a gauge. The day's prompts are listed beside the bars as hit and missed, with why each miss missed, cross-fading between days with rows in cascade order; Left and Right move a day, Page Up and Page Down a week, and in a narrow container the bars become a week-by-week strip.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/cache-dividend`
+
+Props:
+- `days`: CacheDay[] (default defaultCacheDays) — The month's days with data, from day 1: { date, input, cached, writes?, prompts?: { id, name, tokens, hit, reason? }[] }.
+- `monthDays`: number (default 31) — Days in the month; days without data are drawn as days to come.
+- `prices`: CachePrices (default { input: 3, cached: 0.3, write: 3.75 }) — Dollars per million input tokens, uncached, read from cache and written to cache. Savings are cached × (input − cached) − writes × (write − input).
+- `day / defaultDay`: number (default the last day with data) — The day the counter reads through, as an index into days; controlled or initial.
+- `onScrub`: (index: number, day: CacheDay) => void — Fires as the scrub, a tap or an arrow key lands on a day (in the strip, the last day of the week).
+- `onOpenPrompt`: (prompt: CachePrompt, day: CacheDay) => void — A prompt in the list was pressed. Omit it and the rows are plain.
+- `onExport`: (days: CacheDay[]) => void — Export was pressed. Omit it and the button is not drawn.
+- `cache`: "on" | "off" | "warming" (default "on") — The cache is on, off (nothing cached; the counter reads $0 and an estimate is shown), or warming up (the first days hatched with a note).
+- `warmupDays`: number (default 3) — While warming, how many of the first days are drawn as warm-up.
+- `estimateHitRate`: number (default 0.8) — The hit rate the off-state estimate assumes, 0 to 1.
+- `status`: "ready" | "loading" | "error" (default "ready") — Usage arrived, is on its way (still ghost bars), or failed (a message and Try again).
+- `onRetry`: () => void — “Try again” was pressed after usage failed to load.
+- `title`: string (default "Coldbrook · support assistant") — The panel's heading.
+- `subtitle`: string (default "Prompt cache · October") — Under the heading.
+- `formatMoney`: (amount: number) => string (default "$1,284.60" by hand) — How money prints.
+- `splitStyle`: "stacked" | "mirror" | "share" (default "stacked") — Each bar's form: cached under uncached on one baseline, cached up and uncached down from a centre line, or every bar full height split by hit rate.
+- `counterStyle`: "odometer" | "count" | "gauge" (default "odometer") — The savings figure: rolling digit columns, a figure that counts through its values, or a figure over a gauge of the most the month could have saved.
+- `accent`: "cobalt" | "plum" | "mint" | "ink" | string (default "cobalt") — The cached colour, the gauge and the selection; any CSS colour works.
+- `disabled`: boolean (default false) — Read only: the day cannot be scrubbed.
+- `className`: string — Classes for the panel, e.g. a max height; it scrolls inside its own box.
+
+Notes:
+- Keyboard: the bars are one slider — Left and Right a day, Page Up and Page Down a week, Home and End the ends. In the narrow strip the same keys step weeks. Prompts are buttons in two labelled lists (hit, missed). The settled day is announced once, never per day a drag passes.
+- Reduced motion: nothing lifts, parts or rolls; the chosen day's highlight, the dimming of the days ahead and the savings figure still change, because they are the reading.
+- Cheap when idle: no loops or timers. A scrub sets state only when the finger crosses into another day (at most 31 a month), and every spring is driven by that change.
+- Responsive by its own width: from a 40rem container the bars sit beside the day's prompt list; narrower, a week-by-week strip with the week's prompts below. Give it a max height and it scrolls inside its own box.
+- Money and token counts are formatted by hand, so the server and the browser print the same strings; pass formatMoney for another currency.
+
+### Request Anatomy (KQ-2098) — `request-anatomy`
+One request, taken apart by what it cost.
+
+A log of one agent run's model requests where opening a request unfolds its anatomy: the row's height opens on springs.glide, a long bar arrives closed with every part touching, then its system, context, history, input, output and cached parts slide apart on glide while their captions rise in cascade order with tokens and price, and a bracket sweeps across the slowest stretch of the latency beneath. A Tokens / Cost switch re-proportions the same parts on glide, and a pinned request rides along as a ghost bar at the same scale with per-part differences. The log is a grid where Up and Down move, Enter opens, C pins for comparison and Escape closes; truncated, errored and redacted requests are drawn as such, and in a narrow container the bar stands vertically beside its captions.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/request-anatomy`
+
+Props:
+- `requests`: AnatomyRequest[] (default defaultAnatomyRequests) — The run's requests in order: { id, step, model, at, tokens (per part), phases ({ name, ms }[]), status?: ok | truncated | errored | redacted, error?, dropped?, preview? }.
+- `prices`: Record<string, AnatomyPrice> (default defaultAnatomyPrices) — Dollars per million tokens per model name: { input, output, cached }. System, context, history and input bill at the input price.
+- `open / defaultOpen`: string | null (default null) — The open request id, controlled or initial. A request open from the first render is drawn open; every later open unfolds.
+- `onOpenRequest`: (id: string | null, request: AnatomyRequest | null) => void — Fires when Enter or a click opens a request, or with null when it closes.
+- `pinned / defaultPinned`: string | null (default null) — The request pinned for comparison, controlled or initial.
+- `onPin`: (id: string | null) => void — Fires when C or the pin button pins a request, or with null when it is unpinned.
+- `onCompare`: (pinned: AnatomyRequest, open: AnatomyRequest) => void — Fires when an open request is compared with a different pinned one.
+- `onCopyId`: (id: string) => void — Fires when a request id is copied (the button answers “Copied”).
+- `sizeBy / defaultSizeBy`: "tokens" | "cost" (default "tokens") — What the bar's parts are proportional to, controlled or initial.
+- `onSizeByChange`: (sizeBy: "tokens" | "cost") => void — Fires from the Tokens / Cost switch.
+- `status`: "ready" | "loading" | "error" (default "ready") — The run arrived, is on its way (still placeholder rows), or failed (a message and Try again).
+- `onRetry`: () => void — “Try again” was pressed after the run failed to load.
+- `title`: string (default "Fernworks agent · run 7f3a") — The panel's heading; the run's totals print under it.
+- `formatMoney`: (amount: number) => string (default "$0.049" by hand) — How money prints.
+- `segmentGap`: number (default 6) — How far apart the parts slide when a request opens, in px.
+- `palette`: "tones" | "spectrum" | "mono" (default "tones") — The parts' colours: one hue in six steps, six hues turned from the accent, or ink greys — pigments at one lightness in both themes.
+- `accent`: "cobalt" | "plum" | "mint" | "ink" | string (default "cobalt") — The selection, the slowest-stretch mark and the hue the palette turns from; any CSS colour works.
+- `disabled`: boolean (default false) — Read only: requests cannot be opened or pinned.
+- `className`: string — Classes for the panel; it scrolls inside its own box (36rem tall at most).
+
+Notes:
+- Keyboard: the log is a grid with one focusable row at a time — Up and Down move, Home and End jump, Enter or Space opens and closes, C pins for comparison, Escape closes (and is consumed, so a dialog around it stays open). Tab goes on to the open request's Pin and Copy buttons.
+- Reduced motion: the row opens without a height spring, the bar is drawn already apart, captions fade in and the latency bracket is drawn whole; re-proportioning swaps at once.
+- No loops: one spring per open or switch writes the parts' positions straight into the DOM, never React state per frame, and every animation finishes on its target when interrupted.
+- Responsive by its own width: from a 36rem container rows read on one line and the bar lies flat; narrower, rows take two lines and the bar stands beside its captions.
+- Prices are per model name, so a run that switches models mid-way bills each request at its own rate; redacted requests keep their counts and hide only their content.
+
+### Workspace Lift (KQ-2099) — `workspace-lift`
+Switch workspaces; the whole app rides along.
+
+An app frame with a narrow strip of workspace icons at its far left, where the rest of the frame — sidebar, header and page — is one car: choosing another workspace runs it like an elevator on springs.glide, the current car and the next travelling together as one shaft so the seam between them passes through the frame, the new one arriving from below when it sits lower in the strip and from above when higher. The strip's indicator slides on springs.snap, the frame takes the new workspace's colour on a short tween, the header's floor number rolls one face the way the car went, and inside a workspace the nav tree's current pill travels on snap while pages cross-fade with a 4px rise. The strip is a vertical tablist whose Up and Down walk it with the car riding along, Cmd or Ctrl with 1 to 9 switches from anywhere in the frame, and in a narrow container the strip becomes a sheet dropping from the header.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/workspace-lift`
+
+Props:
+- `workspaces`: LiftWorkspace[] (default defaultLiftWorkspaces) — The workspaces in strip order: { id, name, initials, color, kind?, nav: { id, label, items: { id, label, unread?, icon?, page: { title, summary, rows } }[] }[], status?: ready | loading | locked }.
+- `workspace / defaultWorkspace`: string (default the first workspace) — The open workspace, controlled or initial. A host change rides the lift too.
+- `onSwitchWorkspace`: (id: string, workspace: LiftWorkspace) => void — Fires from the strip, the sheet, an arrow key or Cmd/Ctrl+number that chose a workspace.
+- `page / defaultPage`: string (default each workspace's first page) — The page within the current workspace, controlled or initial; every workspace remembers its own page for the trip back.
+- `onNavigate`: (workspaceId: string, pageId: string) => void — Fires when a nav item is chosen.
+- `onAddWorkspace`: () => void — The strip's + button (or the sheet's Add a workspace) was pressed. Omit it and there is no + button.
+- `onRequestAccess`: (workspaceId: string) => void — “Ask for access” was pressed on a locked workspace; the button then reads “Request sent”.
+- `user`: { name: string; initials: string } (default { name: "Ines Carvalho", initials: "IC" }) — The person signed in, for the header avatar.
+- `title`: string (default "Workspaces") — The frame's accessible name.
+- `frameHeight`: number (default 520) — The frame's height in px; pages scroll inside it.
+- `liftDirection`: "auto" | "up" | "down" (default "auto") — Where a new workspace arrives from: by its place in the strip, always rising from below, or always dropping from above.
+- `stripWidth`: number (default 56) — The strip's width in px; its icons, badges and indicator scale with it.
+- `accent`: "cobalt" | "plum" | "mint" | "ink" | string (default "cobalt") — Selection colour for the nav pill and unread counts; each workspace keeps its own colour for the frame.
+- `shortcuts`: boolean (default true) — Cmd or Ctrl with 1 to 9 switches workspace while focus is in the frame.
+- `disabled`: boolean (default false) — Read only: nothing can be switched or opened.
+- `className`: string — Classes for the frame.
+
+Notes:
+- Keyboard: the strip is a vertical tablist — Up and Down (Home, End) move and switch, so the car rides with each press. Cmd or Ctrl with 1 to 9 switches from anywhere inside the frame. The nav is a tree: Up and Down move, Left and Right collapse and expand groups, Enter opens a page. The narrow sheet is a dialog that takes focus, keeps it, closes on Escape and hands focus back to the live car's trigger.
+- Reduced motion: the cars cross-fade in 150ms with no travel; the frame colour, the floor number and the page still change.
+- Cheap when idle: one spring per switch writes both cars' positions straight into two motion values; the old car unmounts the moment the new one lands. A car that is leaving is inert and hidden from assistive technology.
+- Responsive by its own width: from a 34rem container the strip and sidebar show; narrower, the header carries a workspace button that drops a sheet, and the sidebar becomes a scrolling row of pages.
+- Workspace colours are any CSS colour (the defaults are oklch pigments that read in both themes); the frame mixes them with tokens, so light and dark both work.
+
+### Console Shell (KQ-2100) — `console-shell`
+A workspace with a console you pull up.
+
+An editor-style frame for a firmware project — title bar, file explorer, an editor with file tabs, a bottom panel for problems, output and a console, and a slim status bar — whose panel is pulled up by its edge: the edge follows the finger 1:1 with rubber-band past full height, and on release the height is projected with the release velocity and committed to the nearest snap point (closed, a quarter, half or full) on springs.glide carrying the throw's velocity. Closed, only the status bar is left, and its error and warning counts roll one face on springs.snap the way they moved when new problems arrive while their chip warms once; the panel's tab indicator slides on snap and choosing a problem opens its line in the editor. Cmd or Ctrl+J toggles the panel, F6 moves focus between explorer, editor, panel and status bar, the edge is a separator stepped by arrow keys, and in a narrow container the panel opens as a full-height sheet.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/console-shell`
+
+Props:
+- `files`: ConsoleFile[] (default defaultConsoleFiles) — The project's files: { id, name, folder, lines }. The explorer groups them by folder; C and TOML get light colouring.
+- `defaultFile`: string (default the first file with a problem) — The file open first.
+- `problems`: ConsoleProblem[] (default defaultConsoleProblems) — What the last build found: { id, file, line, col?, severity: error | warning | info, message }. Counts in the status bar roll when this grows.
+- `output`: ConsoleLine[] (default defaultConsoleOutput) — The build log: { id, text, tone?: muted | error | warn | success | command }.
+- `history`: ConsoleLine[] (default defaultConsoleHistory) — The console's history, oldest first; the host appends what a command printed.
+- `tab / defaultTab`: "problems" | "output" | "console" (default "problems") — The panel's tab, controlled or initial.
+- `onTabChange`: (tab) => void — Fires from the tablist, the status counts or the Build button that changed the tab.
+- `panel / defaultPanel`: number (default 0) — The panel's height as a share of the space above the status bar, 0 (closed) to 1, controlled or initial. On a phone any open value shows as the full-height sheet.
+- `onPanelResize`: (height: number) => void — Fires when a drag, key or button settles the panel on a new height.
+- `onRunCommand`: (command: string) => void — A command was entered in the console, or Build was pressed ("build").
+- `onOpenProblem`: (problem: ConsoleProblem) => void — A problem was chosen; the editor has already opened its file and highlighted its line.
+- `build`: "idle" | "building" | "passed" | "failed" (default "failed") — The build's state in the status bar: a progress line and spinner while building, a danger tint when it failed.
+- `buildProgress`: number (default 0) — While building, how far along, 0 to 1.
+- `statusItems`: { id: string; label: string }[] (default Ln/Col, encoding, board) — Items on the right of the status bar (from a 40rem container).
+- `project`: string (default "Gaugeworks · gauge-fw") — The project's name in the title bar and the frame's accessible name.
+- `branch`: string (default "main") — The branch in the status bar.
+- `frameHeight`: number (default 520) — The frame's height in px.
+- `snapPoints`: "quarter" | "half" | "free" (default "quarter") — Where the panel can rest: closed, a quarter, half or full; closed, half or full; or anywhere it is let go (with momentum).
+- `statusStyle`: "counts" | "pills" | "minimal" (default "counts") — How the status bar shows problems: icons and rolling numbers, tinted pills, or one dot and a phrase.
+- `accent`: "cobalt" | "plum" | "mint" | "ink" | string (default "cobalt") — Focus, selection, the panel's edge, keywords and the build progress; any CSS colour works.
+- `disabled`: boolean (default false) — Read only: the panel cannot move and nothing runs.
+- `className`: string — Classes for the frame.
+
+Notes:
+- Keyboard: the panel's edge is a separator — Up and Down step its snap points, Home closes, End fills, Enter toggles. Cmd or Ctrl+J toggles the panel from anywhere in the frame and returns it to the height it had; F6 and Shift+F6 move focus between the explorer, the editor, the panel and the status bar, skipping whatever is hidden. The explorer is a tree, the open files and the panel views are tablists.
+- Reduced motion: the edge still follows the finger, but releases, keys and Cmd/Ctrl+J land without travel; counts change without rolling and the build spinner stands still.
+- Hand-feel: the drag waits 3px before it takes the pointer, so a tap on the shut edge simply opens the panel; until then it follows the pointer on the window, so a fast pull that leaves the thin edge is never lost.
+- Cheap when idle: the panel's height is one motion value written by the finger or by one spring per release; nothing runs between changes. The demo's simulated build ticks only while the frame is on screen and the page is visible.
+- Responsive by its own width: from a 34rem container the explorer shows; narrower, the panel is a full-height sheet with a grabber and the whole status bar is its handle.
+
+### Lockstep Panes (KQ-2101) — `lockstep-panes`
+Two documents side by side, scrolling as one.
+
+Two versions of a document side by side with a lockable shared scroll that maps matched sections onto each other, so the bands across the gutter bend wherever the versions drift. Locking glides the drifted pane back into line on springs.glide as the padlock's shackle drops shut on springs.snap; swap trades the panes on glide and the section strip's pill slides on snap. Cmd or Ctrl+L locks, Alt with Left and Right moves between panes, and on a phone the panes become tabs that keep your place.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/lockstep-panes`
+
+Props:
+- `documents`: [LockstepDocument | null, LockstepDocument | null] (default defaultLockstepDocuments) — The two documents, older first. A null side shows the missing-document state.
+- `anchors`: LockstepAnchor[] (default defaultLockstepAnchors) — The matched sections in reading order, with the short names the section strip uses.
+- `locked / defaultLocked`: boolean (default — / true) — Whether the panes scroll as one. Controlled or uncontrolled.
+- `onLockChange`: (locked: boolean) => void — Fires from the switch or the shortcut that changed the lock.
+- `onSwap`: (documents: LockstepPair) => void — Fires when the panes trade places, with the documents in their new left-to-right order.
+- `onClosePane`: (side: "left" | "right", document: LockstepDocument) => void — A pane's close button was pressed; the pane shows its closed state until reopened.
+- `onReopenPane`: (side: "left" | "right", document: LockstepDocument) => void — A closed pane's Reopen was pressed.
+- `onPickDocument`: (side: "left" | "right") => void — The missing-document state's Choose version was pressed. Without it the button is not drawn.
+- `onSectionChange`: (anchor: string) => void — The section at the leading pane's reading line, on mount and whenever it changes.
+- `bandOpacity`: number (default 0.35) — Fill strength of the bands across the gutter, 0 to 1.
+- `gutter`: number (default 48) — Width of the gutter the bands cross, px.
+- `accent`: string (default "var(--accent-bright)") — Changed and new marks, changed bands, the lock and the strip pill — any CSS colour.
+- `readingLine`: number (default 0.25) — Where in a pane matched sections line up while locked, as a fraction of its height.
+- `showChanges`: boolean (default true) — Mark changed, new and dropped sections with tags, edge markers and accent bands.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the documents have arrived.
+- `onRetry`: () => void — Try again was pressed after the documents failed to load.
+- `title`: string (default "Compare versions") — The frame's title.
+- `subtitle`: string (default "Fieldline · Services agreement") — One line under the title; the change summary follows it.
+- `height`: number (default 520) — The frame's height, px; the panes scroll inside it.
+- `className`: string — Classes for the outer frame.
+
+Notes:
+- Keyboard: Cmd or Ctrl+L toggles the lock from anywhere inside; Alt with Left or Right moves focus between the panes (on a phone it switches tabs); each pane is a focusable region that scrolls with the arrow, Page and Home/End keys; the section strip is a roving toolbar where Enter glides both panes to a section.
+- Locked scrolling is piecewise linear between matched section tops at readingLine, not 1:1 — a pane runs faster through a section its version spent more words on and waits through one the other version lacks. Whichever pane the reader touched leads, so there is no feedback loop.
+- Reduced motion: the follower and section jumps land at once, the shackle swaps without travel and swap is instant; the bands still follow the scroll because they carry information.
+- Performance: nothing runs at rest. Scroll events write band paths straight into the DOM (no React render per frame) and section geometry is re-measured only by a ResizeObserver.
+- Sections pair by anchor id; differences are worked out from the headings and paragraphs, older document first, so pass the pair in age order and let onSwap report the visual order.
+
+### Stage Mode (KQ-2102) — `stage-mode`
+The chrome steps away; the work takes the room.
+
+A board review frame with a presentation mode: the sidebar slides off the left edge on springs.glide, the header lifts away and the toolbar sinks on springs.snap a cascade apart, while the board, carried by one transform, scales up into the freed room on glide and the zoom readout counts up with it. On stage a pointer at an edge (or focus) peeks that chrome back on snap, and a one-time hint lands on springs.recoil. F toggles the stage, Escape leaves it, a two-finger tap toggles it on touch.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/stage-mode`
+
+Props:
+- `nav`: StageBoard[] (default defaultStageBoards) — The boards in the sidebar (a tab bar on a phone): label, kind, comment count and pins.
+- `page / defaultPage`: string (default — / the first board) — The current board id, controlled or uncontrolled.
+- `onNavigate`: (id: string) => void — Fires with the board chosen from the sidebar or the tab bar.
+- `actions`: StageAction[] (default defaultStageActions) — Tool buttons in the floating toolbar ({ id, label, icon }); the first starts active.
+- `onAction`: (id: string) => void — Fires with the tool chosen from the toolbar.
+- `children`: React.ReactNode — Drawn inside the board in place of the built-in page, at the board's design size.
+- `boardSize`: { width: number; height: number } (default { width: 640, height: 400 }) — The board's design size; it is scaled to fit the room it has.
+- `mode / defaultMode`: "normal" | "stage" (default — / "normal") — Whether the chrome has stepped away, controlled or uncontrolled.
+- `onModeChange`: (mode: "normal" | "stage") => void — Fires from the button, key or gesture that changed the mode.
+- `cascade`: number (default 60) — Delay between the sidebar, the header and the toolbar as they step away, ms.
+- `peekZone`: number (default 24) — How near an edge the pointer must come to peek that piece of chrome back, px.
+- `accent`: string (default "var(--accent-bright)") — Present, the current board, pins and the edge hints — any CSS colour.
+- `hint`: string | null (default how to leave and peek) — The toast shown the first time the stage is taken; null never shows it.
+- `onHintDismiss`: () => void — Fires when the one-time hint leaves.
+- `people`: string[] (default four reviewers) — Reviewers shown in the header.
+- `workspace`: string (default "Waylight") — The workspace, first in the breadcrumb.
+- `project`: string (default "Q4 launch") — The project, second in the breadcrumb and the frame's name.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the boards have arrived.
+- `onRetry`: () => void — Try again was pressed after the boards failed to load.
+- `height`: number (default 520) — The frame's height, px.
+- `className`: string — Classes for the outer frame.
+
+Notes:
+- Keyboard: F toggles stage mode while focus is inside the frame (never while typing), Escape leaves it and is marked handled, a two-finger tap toggles it on touch. Hidden chrome stays in the tab order and peeks back while it holds focus.
+- The board is laid out once at boardSize and fitted with a transform, so the scale-up is compositor work; pass your own page as children and it scales the same way.
+- Reduced motion: chrome fades out and steps away instead of travelling, the board jumps to its new fit, the toast fades; the zoom readout still changes.
+- Performance: nothing runs at rest. Pointer moves on stage set three motion values for the edge hints and render only when the peeked piece changes; one ResizeObserver refits the board.
+- Under 30rem the frame has a header and a bottom tab bar instead of a sidebar and toolbar; stage mode hides those two and shows a small corner Leave button.
+
+### Tiling Desk (KQ-2103) — `tiling-desk`
+Open records tile themselves into the room.
+
+An app frame where every opened record becomes a window that tiles the desk from a binary tree of splits. Opening a record splits the focused tile — it glides into its half on springs.glide while the new window wipes in from the split line — closing one lets its neighbours glide out to fill, and dragging a window by its title bar previews the half, swap or desk-edge strip it would take on springs.snap before it lands with its release velocity. Cmd or Ctrl with an arrow moves focus between tiles, with Shift swaps them and with Alt docks the window along that edge.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/tiling-desk`
+
+Props:
+- `records`: TilingRecord[] (default defaultTilingRecords) — Everything that can be opened: orders and customers with fields, lines, totals and related records.
+- `layout / defaultLayout`: TilingNode | null (default — / defaultTilingLayout) — The layout tree; its leaves are the open record ids, null is an empty desk. Controlled or uncontrolled.
+- `onLayoutChange`: (layout: TilingNode | null) => void — Fires with the whole tree after an open, a close, a drop, a swap or a dock.
+- `focused / defaultFocused`: string | null (default — / the first window) — The focused window id, controlled or uncontrolled.
+- `onFocusChange`: (id: string | null) => void — Fires when another window becomes the focused one.
+- `onOpenRecord`: (record: TilingRecord) => void — A record was opened as a new window (not when an open one is brought forward).
+- `onCloseWindow`: (id: string) => void — A window was closed.
+- `suggestions`: string[] (default three record ids) — Records offered on an empty desk.
+- `gap`: number (default 8) — Space between tiles and around the desk, px.
+- `splitRule`: "longest" | "alternate" | "spiral" (default "longest") — Which side of the focused tile a new window takes: along its longer side, alternating right and below with each window, or spiralling a quarter turn with each.
+- `accent`: string (default "var(--accent-bright)") — Focus, drop zones, the split rule and open markers — any CSS colour.
+- `maxWindows`: number (default 6) — The most windows the desk holds.
+- `renderRecord`: (record, size: { width, height, compact }) => ReactNode — Draws a window's body in place of the built-in record card.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the records have arrived.
+- `onRetry`: () => void — Try again was pressed after the records failed to load.
+- `title`: string (default "Desk") — The frame's title.
+- `workspace`: string (default "Basinworks") — The workspace shown beside the title.
+- `height`: number (default 520) — The frame's height, px.
+- `className`: string — Classes for the outer frame.
+
+Notes:
+- Keyboard: the records list is a roving list (arrows, Home/End, Enter opens or focuses). Each window is a group with a roving tab stop; Cmd or Ctrl with an arrow moves to the nearest window that way, with Shift swaps the two, with Alt docks the focused window along that edge of the desk — the keyboard path to a drag-to-edge — and Delete closes it.
+- The layout is a plain tree ({ kind: "split", dir, ratio, a, b } or { kind: "leaf", id }); store it and pass it back to restore a desk exactly. tilingLeaves(layout) lists the open windows.
+- Reduced motion: windows jump to their rectangles, the split wipe and rule are skipped and the drop zone fades; the layout still changes.
+- Performance: nothing runs at rest. Rectangles are recomputed only when the tree or the desk's measured size changes; a drag writes motion values directly and renders only when the drop zone changes.
+- Under 30rem the record list becomes a row of chips and the windows become a stack of summary cards in tree order; Cmd or Ctrl with Up and Down moves between them, with Shift reorders, and a card dragged over another swaps them.
+
+### Double Rail (KQ-2104) — `double-rail`
+A rail for where, a panel for what.
+
+An app frame with two tiers of navigation: a slim rail of sections whose pill slides on springs.snap, and a panel listing what is inside the chosen one. Changing section slides the panel's list sideways on springs.glide in the direction of travel while its title and count carry over as shared elements — the title cross-fades in place, the count glides to sit after it and rolls to its new number on snap; on a phone the section row's title and count fly into the drilled header. Up and Down move within a tier, Right crosses from rail to panel, Left comes back.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/double-rail`
+
+Props:
+- `sections`: RailSection[] (default defaultRailSections) — Sections for the rail, each with its icon, count and grouped secondary list; loading and empty sections are states, not errors.
+- `section / defaultSection`: string (default — / the first section) — The current section id, controlled or uncontrolled.
+- `onSection`: (id: string) => void — Fires from the rail (click or arrows) with the section chosen.
+- `page / defaultPage`: string (default — / the first item) — The current page: an item id, unique across sections.
+- `onNavigate`: (sectionId: string, itemId: string) => void — Fires whenever the current page changes, including when a section change brings its remembered page.
+- `collapsed / defaultCollapsed`: boolean (default — / false) — Whether the panel is folded away, controlled or uncontrolled.
+- `onCollapse`: (collapsed: boolean) => void — Fires from the toggle, or when choosing a section reopens the panel.
+- `onEmptyAction`: (sectionId: string) => void — An empty section's action button was pressed.
+- `panelWidth`: number (default 220) — Width of the secondary panel, px.
+- `slideDirection`: "sideways" | "vertical" | "fade" (default "sideways") — How the panel's list moves when the section changes: sideways in the direction of travel, vertically with the rail, or a cross-fade.
+- `accent`: string (default "var(--accent-bright)") — The rail pill, the current page and counts in the current section — any CSS colour.
+- `renderPage`: (section: RailSection, item: RailItem | null) => ReactNode — Draws the page in place of the built-in one.
+- `product`: string (default "Gaugeworks") — The product's name, on the rail's mark and in the phone header.
+- `user`: string (default "Mara Lindqvist") — Who is signed in, for the rail's avatar.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the navigation has arrived.
+- `onRetry`: () => void — Try again was pressed after the navigation failed to load.
+- `height`: number (default 520) — The frame's height, px.
+- `className`: string — Classes for the outer frame.
+
+Notes:
+- Keyboard: the rail is a vertical tablist with automatic activation — Up, Down, Home and End move and choose, Right crosses into the panel onto the current page. In the panel Up and Down move, Enter opens the page and Left returns to the rail. On a phone Right or Enter drills in and Left or Escape (marked handled) goes back.
+- Each section remembers its last page, so coming back to a section brings its page back; onNavigate reports that change too.
+- Reduced motion: lists cross-fade without travel, the rail pill, count badge and drill-in jump, and digits change without rolling; counts and pages still update.
+- Performance: no loops — motion runs only on a change. Page rows are generated once per item from a seeded hash, so server and browser render the same markup.
+- Mark a section with loading: true while its list is in flight, or give it no items and an emptyText and emptyAction for its empty state.
+
+### Tray Windows (KQ-2105) — `tray-windows`
+Park what you are working on; pick it up later.
+
+A workspace of floating windows where any record can be parked in a tray: minimising sends a ghost of the window — title bar and body lines — flying into its chip's slot on springs.glide, position, size and corner radius from one value, and the chip lands with a small drop on springs.recoil; restoring flies it back to exactly where the window was and returns focus to it. Chips keep an unsaved marker and ask before discarding, and a full tray puts the rest behind a +N menu. Cmd or Ctrl+M minimises the focused window and Cmd or Ctrl with a number restores that chip.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/tray-windows`
+
+Props:
+- `records`: TrayRecord[] (default defaultTrayRecords) — Every record with a window: drafts (an editable body) and tickets (the last message and a reply).
+- `tray / defaultTray`: string[] (default — / ["t-2210", "t-2219"]) — The ids parked in the tray, in the order they were parked. Controlled or uncontrolled.
+- `onTrayChange`: (ids: string[]) => void — Fires with the whole tray after a minimise, a restore or a close.
+- `unsaved / defaultUnsaved`: string[] (default — / ["d-3195"]) — The ids with unsaved changes. Controlled or uncontrolled.
+- `onUnsavedChange`: (ids: string[]) => void — Fires when typing or saving changes which ids are unsaved.
+- `positions`: Record<string, { x, y, w, h }> (default defaultTrayPositions) — Where each window sits, as fractions of the workspace; a restore flies back here.
+- `onMinimise`: (id: string) => void — A window was minimised into the tray.
+- `onRestore`: (id: string) => void — A chip was restored to its window.
+- `onCloseItem`: (id: string) => void — A window or a chip was closed, after the unsaved check.
+- `onSave`: (id: string, body: string) => void — Save (a draft) or Send (a ticket reply) was pressed, with the text.
+- `chipSize`: "sm" | "md" | "lg" (default "md") — Chip length and height; large adds a meta line.
+- `trayPosition`: "bottom" | "floating" | "side" (default "bottom") — A bar docked along the bottom edge, a dock floating above it, or a column on the right.
+- `accent`: string (default "var(--accent-bright)") — Unsaved markers, focus and the primary buttons — any CSS colour.
+- `trayLimit`: number (default 6) — The most chips shown before the rest go behind the overflow menu (fewer when the tray is shorter).
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the records have arrived.
+- `onRetry`: () => void — Try again was pressed after the records failed to load.
+- `workspace`: string (default "Fernworks") — The workspace's name.
+- `title`: string (default "Support desk") — The frame's title.
+- `height`: number (default 520) — The frame's height, px.
+- `className`: string — Classes for the outer frame.
+
+Notes:
+- Keyboard: Cmd or Ctrl+M minimises the window that holds focus (or the front one); Cmd or Ctrl with 1–9 restores that chip — Ctrl where the browser keeps Cmd with a number for its tabs. The tray is a toolbar with a roving tabindex: arrows along it, Enter restores, Delete closes. The overflow button opens a menu (arrows, Enter, Escape returns focus).
+- Focus follows the work: minimising moves focus to the chip that landed, restoring moves it into the window's text field, and the unsaved check focuses Keep, which Escape also chooses.
+- Reduced motion: there is no flight — the window fades out and the chip fades in, and back; counts, markers and focus still change.
+- Performance: nothing runs at rest. Each flight is one spring on one number writing a handful of motion values; windows keep their DOM order and come to the front by z-index, so a press that raises a window still lands as a click.
+- Under 30rem windows become full-width sheets and the tray a row of icons with their numbers; the side tray falls back to the bottom.
+
+### Env Ribbon (KQ-2106) — `env-ribbon`
+Always know which environment you are in.
+
+An app shell whose top edge always says which environment it is pointed at: a ribbon in the environment's colour, and a change sweeps the new colour across it from the switcher outward on springs.glide, both edges reaching the frame's ends together with a glint riding each, while the console's data cross-fades and its rows rise 4px in cascade. Entering a protected environment grows a hatched edge on every destructive button on springs.snap, each timed to the moment the sweep reaches it, and switching into production or running a destructive action there asks for the environment's name to be typed first. Alt+E opens the switcher, a listbox with arrow keys, type-ahead and Escape; below a 22rem container the ribbon thickens into a labelled bar.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/env-ribbon`
+
+Props:
+- `ribbonWidth`: number (default 4) — Ribbon thickness along the frame's top edge, in px. The narrow labelled bar grows with it.
+- `hatch`: "stripe" | "cross" | "ticks" | "off" (default "stripe") — The edge destructive buttons grow in a protected environment.
+- `accent`: "cobalt" | "plum" | "mint" | "ink" | string (default "cobalt") — Interface accent: the mark, the primary action and the switcher's selection. A name or any CSS colour.
+- `environments`: EnvRibbonEnvironment[] (default defaultEnvRibbonEnvironments) — The environments in switcher order: { id, name, colour?, protected?, region?, host? }. Colours default to green, amber and red pigments.
+- `environment / defaultEnvironment`: string (default — / "staging") — The current environment id, controlled or initial.
+- `onEnvironmentChange`: (id: string, environment: EnvRibbonEnvironment) => void — Fires from the choice, after any confirmation, that changed the environment.
+- `snapshots`: Record<string, EnvRibbonSnapshot> (default defaultEnvRibbonSnapshots) — What each environment runs, by id: version, commit, deployedAt, deployedBy, metrics and services.
+- `actions`: EnvRibbonAction[] (default defaultEnvRibbonActions) — The action bar: { id, label, kind?, icon?, short?, consequence?, done? }. Destructive actions grow the hatched edge and ask first in a protected environment.
+- `onAction`: (actionId: string, envId: string) => void — An action ran straight away: anything outside a protected environment, and non-destructive actions inside one.
+- `onConfirmProtected`: (request: { kind: "switch" | "action"; envId: string; actionId?: string }) => void — A protected switch or destructive action was confirmed.
+- `confirmByTyping`: boolean (default true) — Ask for the environment's name to be typed before a protected step. Off: one confirm press.
+- `now`: number (default defaultEnvRibbonNow) — The moment relative times count from, in ms, so server and browser agree.
+- `product`: string (default "Waylight") — Product name beside the mark.
+- `title`: string (default "Deploy console") — The console's title under the product.
+- `shortcut`: boolean (default true) — Alt+E opens the switcher while focus is in the frame, or while it is hovered with nothing focused.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the current environment's data has arrived: a skeleton while loading, a message with Try again on error.
+- `onRetry`: () => void — Try again after an error.
+- `disabled`: boolean (default false) — Read only: nothing can be switched or run.
+- `label`: string — The frame's accessible name. Defaults to the product and title.
+- `className`: string — Classes for the outer container.
+
+Notes:
+- Keyboard: Alt+E (matched by key code, so the macOS dead key still works) opens the switcher from anywhere in the frame, or with nothing focused while the frame is hovered. The list has Up, Down, Home, End, type-ahead, Enter or Space to choose and Escape to close, and every environment change is announced once.
+- Protected steps open an alert dialog with focus trapped and Escape handled; with confirmByTyping the confirm button stays aria-disabled until the environment's name is typed, and focus returns to whatever opened it.
+- Environment colours are pigments (a status token's hue at a fixed lightness), so the ribbon reads the same in light and dark themes; pass any CSS colour per environment to change them.
+- The sweep is one motion value and one animation per change, and the hatched edges' delays are solved from the glide spring's step response once per change: nothing runs at rest.
+- Under reduced motion the new colour cross-fades over the ribbon and the hatched edges fade in without growing; the data, the colour and the edges still change, because they are the information.
+- Layout follows the frame's own width: a labelled bar, metric tiles two by two and service rows below 40rem, and icon-only secondary actions below 22rem.
+
+### Suite Atrium (KQ-2107) — `suite-atrium`
+Every app in the suite, one step from home.
+
+The home of a product suite, its apps as tiles with live summaries, rolling stats and sparklines, where choosing a tile grows it into the full app on springs.glide: one progress value opens a clip from the tile's box to the whole atrium while the app's interior rides the clip's corner, so the icon never moves and the window opens around it, and the sidebar unfolds from the tile's edge a beat behind with its rows arriving in cascade. Going home runs the same value back into the tile, re-measured in case pinning moved it, and focus returns to it; grow can instead zoom the app from the tile's centre or raise it as a sheet. Tiles are one roving group: arrows move by tile and by row, Enter opens, P pins and pinned apps glide to the front, and Cmd or Ctrl+Shift+H or Escape goes home.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/suite-atrium`
+
+Props:
+- `tileSize`: number (default 180) — The narrowest a tile column may be, in px: smaller fits more tiles to a row.
+- `grow`: "tile" | "zoom" | "sheet" (default "tile") — How a chosen tile becomes the app: grows from the tile, zooms from its centre, or rises as a sheet from its top edge.
+- `accent`: "cobalt" | "plum" | "mint" | "ink" | string (default "cobalt") — Interface accent: the section pill, the pinned glyph and the highlighted item. A name or any CSS colour.
+- `apps`: SuiteApp[] (default defaultSuiteApps) — The suite's apps in home order: { id, name, icon, hue?, summary, stat?, series?, status?, lockedReason?, sections, items }. Pinned ones sort first.
+- `recent`: SuiteRecent[] (default defaultSuiteRecent) — Recent items across the suite, newest first: { id, appId, itemId?, title }. Shown as chips at home and per app in its sidebar.
+- `openApp / defaultOpenApp`: string | null (default — / null) — The open app id, controlled or initial; null is home.
+- `onOpenApp`: (appId: string) => void — Fires from the tile, chip or key that opened an app.
+- `onReturnHome`: (fromAppId: string) => void — Fires from the button or key that went home, with the app that was open.
+- `pinned / defaultPinned`: string[] (default — / ["survey"]) — Pinned app ids, controlled or initial.
+- `onPinApp`: (appId: string, pinned: boolean, all: string[]) => void — Fires when an app is pinned or unpinned, with the whole new list.
+- `onOpenItem`: (appId: string, itemId: string) => void — An item inside an app, or a recent item, was chosen.
+- `onRequestAccess`: (appId: string) => void — A locked app was pressed; its tile then says access was requested.
+- `suite`: string (default "Fieldline") — The suite's name in the header.
+- `user`: { name: string; initials?: string } (default { name: "Ines Duarte" }) — Who is signed in: the greeting's name and the avatar.
+- `greeting`: string — The home greeting. Defaults to good morning, afternoon or evening from now's UTC hour, with the first name.
+- `now`: number (default defaultSuiteNow) — The moment the greeting reads, in ms, so server and browser agree.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the suite's data has arrived: skeleton tiles while loading, a message with Try again on error.
+- `onRetry`: () => void — Try again after an error.
+- `label`: string — The atrium's accessible name. Defaults to "<suite> home".
+- `className`: string — Classes for the outer container.
+
+Notes:
+- Keyboard: tiles are one tab stop. Left and Right move by tile, Up and Down move to the nearest tile in the row above or below (read from the layout, so it works at any column count and in the list), Home and End jump, Enter opens and P pins. Inside an app the sections are a roving list, and Cmd or Ctrl+Shift+H or Escape goes home.
+- Focus moves to the app's current section when its frame arrives and back to the tile once the frame has gone; home is inert while an app is open, and opening and returning are announced once.
+- The growth is one progress value per open, with positions measured once per open and once per return, so nothing runs at rest; sparklines are static paths rounded to two places.
+- A locked app requests access instead of opening and a loading app shows skeleton lines on its tile and in its frame; per-app status comes from the data, the suite's from status.
+- Under reduced motion the app cross-fades in place with no clip, zoom or travel and tiles reorder without moving; the open app, the sections and the pinned order still change.
+- Layout follows the atrium's own width: below 26rem the tiles become a list of rows and the app's sidebar becomes a row of section chips that unfolds the same way.
+
+### Favourite Shelf (KQ-2108) — `favourite-shelf`
+Drag anything up to keep it close.
+
+A workspace sidebar with a Favourites shelf at its top that fills by dragging any row up into it: the grabbed row lifts into a layer above the sidebar on springs.flick and follows the pointer 1:1 while a dashed ghost holds its place, and over the shelf the favourites part on springs.glide to open a gap that follows the pointer as the shelf's height glides open by a row. Let go over the gap and the row glides in with the release velocity, then lands with a short squash from a springs.recoil spring kicked by the impact; let go elsewhere and it glides home, and a favourite dragged out below the shelf comes off it. Every row is one roving list: Alt+F adds or removes a favourite with the same flight, Alt with Up or Down reorders one, Delete removes one, and the folded rail turns the shelf into a strip of icons.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/favourite-shelf`
+
+Props:
+- `shelfStyle`: "tray" | "ruled" | "card" (default "tray") — How the shelf is drawn: an inset tray, hairline rules, or a raised card with an accent edge.
+- `rowHeight`: number (default 32) — Every row's height, in px; the gap, the landing and the shelf's height follow it.
+- `accent`: "cobalt" | "plum" | "mint" | "ink" | string (default "cobalt") — Accent for the current page, the landing pad, the stars and the shelf meter. A name or any CSS colour.
+- `sections`: ShelfSection[] (default defaultShelfSections) — The sections under the shelf, in order: { id, label }.
+- `items`: ShelfItem[] (default defaultShelfItems) — Every row, in order within its section: { id, label, section, icon, count? }.
+- `favourites / defaultFavourites`: string[] (default — / defaultShelfFavourites) — Item ids on the shelf in shelf order, controlled or initial.
+- `onFavouritesChange`: (ids: string[]) => void — Fires with the whole new shelf after any add, remove or reorder.
+- `onFavourite`: (id: string, index: number) => void — An item landed on the shelf, at this index.
+- `onUnfavourite`: (id: string) => void — An item left the shelf.
+- `onReorderFavourites`: (ids: string[]) => void — The shelf's order changed, by a drag or by Alt with an arrow.
+- `limit`: number (default 5) — The most the shelf holds; a full shelf opens no gap and says so.
+- `current / defaultCurrent`: string (default — / "roadmap") — The open page's id, controlled or initial.
+- `onNavigate`: (id: string) => void — A row was opened by a press, Enter or Space.
+- `folded / defaultFolded`: boolean (default — / false) — The sidebar as a 60px rail, controlled or initial.
+- `onFoldedChange`: (folded: boolean) => void — Fires from the button that folded or opened the sidebar.
+- `workspace`: string (default "Basinworks") — The workspace's name in the header.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the sidebar's data has arrived: skeleton rows while loading, a message with Try again on error.
+- `onRetry`: () => void — Try again after an error.
+- `label`: string — The navigation's accessible name. Defaults to "<workspace> sidebar".
+- `className`: string — Classes for the outer container.
+
+Notes:
+- Keyboard: every row is in one roving list (one tab stop). Up and Down walk it, Home and End jump, Enter or Space opens; Alt+F adds the focused row to the shelf or takes a favourite off, Alt with Up or Down reorders a favourite, Delete removes one, and every change is announced with the shelf's count.
+- The drag follows the pointer 1:1 and captures only after 4px, so a plain press still opens the row; until then the window passes on moves, so a quick pull that leaves the row before the threshold still becomes a drag. Rows keep touch-action pan-y so the sidebar scrolls under a finger, and the grip (shown on hover, focus and coarse pointers) is touch-none so a finger can drag from it.
+- The grabbed row is drawn in a layer inside the sidebar's own box, so nothing paints outside the component; rects are measured once at the grab and every frame after is motion values, so nothing re-renders per pointer move.
+- Under reduced motion the copy still follows the pointer, because it is direct manipulation, but the lift, the flight home and the squash are instant and the gap opens without travel; order, stars and counts still change.
+- Shelf rows keep one DOM order and take their place from the shelf's order, so a reorder never moves a focused node; each says its position, e.g. "Roadmap, favourite 1 of 3".
+
+### Letter Jump (KQ-2109) — `letter-jump`
+Hold G; every item shows its key.
+
+A keyboard-first sidebar that reads as a calm, ordinary list until you hold G: then every row raises a letter badge, each rising 4px on springs.snap in a ripple out from the current page, cascade milliseconds apart and inside the 600ms budget, and a letter jumps, its badge flashing as it fills with the accent and lands from 1.25x on springs.snap while the current pill glides to the row on springs.glide and focus follows. Letters several rows want become prefixes, so the first press dims every other row and lights the second letters, and the key assignment is a pure function the server and browser agree on. G can be held or tapped, the header's key button and a long press on the header show the badges for pointers and touch, ? opens a key sheet where any key can be rebound with collisions falling back to two letters, and the arrow keys still walk the list.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/letter-jump`
+
+Props:
+- `badgeStyle`: "keycap" | "pill" | "outline" (default "keycap") — How the letter badges are drawn: a raised key, a solid accent pill, or a hairline ring with an accent letter.
+- `cascade`: number (default 20) — Milliseconds between one badge rising and the next, rippling out from the current row; the whole wave stays under 600ms.
+- `accent`: "cobalt" | "plum" | "mint" | "ink" | string (default "cobalt") — Accent for the current page, the flash and pill badges. A name or any CSS colour.
+- `sections`: LetterJumpSection[] (default defaultLetterJumpSections) — The sections, in order: { id, label }.
+- `items`: LetterJumpItem[] (default defaultLetterJumpItems) — Every row, in order within its section: { id, label, section, icon, count?, key? }. A key asked for in `key` is honoured unless it collides.
+- `current / defaultCurrent`: string (default — / "inbox") — The open page's id, controlled or initial.
+- `onNavigate`: (id: string) => void — A row was opened: a press, Enter, or a letter jump.
+- `onRebindKey`: (id: string, key: string) => void — A key was rebound in the key sheet; anything it collided with has fallen back.
+- `showKeys / defaultShowKeys`: boolean (default — / false) — Whether the badges are up, controlled or initial.
+- `onShowKeysChange`: (shown: boolean) => void — Fires when the badges rise or sink, from the key, button or press that did it.
+- `leader`: string (default "g") — The key held or tapped to raise the badges. It is never assigned to an item.
+- `timeout`: number (default 1500) — How long the badges wait for a letter after a tapped leader, in ms.
+- `longPress`: number (default 450) — How long a press on the header must last to raise the badges on touch, in ms.
+- `title`: string (default "Gaugeworks") — The product in the header.
+- `subtitle`: string (default "Support desk") — The line under the product.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the list's data has arrived: skeleton rows while loading, a message with Try again on error.
+- `onRetry`: () => void — Try again after an error.
+- `label`: string — The navigation's accessible name. Defaults to "<title> navigation".
+- `className`: string — Classes for the outer container.
+
+Notes:
+- Keyboard: rows are one roving list (Up, Down, Home, End, Enter). G then a letter, or two, jumps while focus is in the list, or with nothing focused while it is hovered, and never while typing in a field; ? opens the key sheet, whose focus is trapped and whose Escape is handled; Escape also puts raised keys away.
+- Each row's accessible name ends with its jump keys ("Unassigned, G then U N"); the badges themselves are aria-hidden, and jumps and rebinds are announced once, including any key that fell back.
+- Keys come from assignLetterKeys(items, leader, pins), exported for hosts that want to print them elsewhere: a letter is either one item's key or the prefix of two-letter keys, never both, and the leader is never a key.
+- Nothing runs at rest: the only timers are the tapped leader's wait, the long press and a hint, all cleared; the ripple is per-row delays on one spring each.
+- Under reduced motion the badges fade in and out without rising, the flash is a colour change and the current pill moves at once; the keys, the dimming and the jump still happen.
+- showKeys can be driven by the host, for a toolbar toggle or an onboarding moment that shows people the keys once.
+
+### Bubble Up (KQ-2110) — `bubble-up`
+What changed floats to the top.
+
+A project sidebar where what changed floats to the top: a project with new activity shows its count at home, popping in on springs.snap, and after liftDelay the row lifts out with a shadow on springs.flick and glides up on springs.glide into an Updated group that opens a slot for it while the group's count rolls, leaving a dotted placeholder that holds its home for a beat and then closes as the rows below slide up. Opening a project marks it read and sends it back down to its home on glide, and Shift+R sends the whole group home in cascade order. Every row is placed from a pure layout of fixed heights, so the server renders the positions the browser animates and the DOM order never changes; Up and Down walk the rows as they appear, Enter opens, M mutes, and below an 18.5rem container the Updated group folds into a count chip.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/bubble-up`
+
+Props:
+- `liftDelay`: number (default 500) — How long a row with new activity waits at home, its count showing, before it rises, in ms.
+- `density`: "compact" | "cozy" | "roomy" (default "cozy") — Row height and what each row says: one line, a meta line, or meta and client.
+- `accent`: "cobalt" | "plum" | "mint" | "ink" | string (default "cobalt") — Accent for counts, the chip and the Updated group. A name or any CSS colour.
+- `projects`: BubbleProject[] (default defaultBubbleProjects) — The projects, in order within their groups: { id, name, client, group, hue? }.
+- `groups`: BubbleGroup[] (default defaultBubbleGroups) — The home groups, in order: { id, label }.
+- `events`: BubbleEvent[] (default defaultBubbleEvents) — Activity on the projects, any order: { id, projectId, at, by, kind }. A project is updated while it has events after its read time.
+- `readAt / defaultReadAt`: Record<string, number> (default — / defaultBubbleReadAt) — For each project, the time it was read up to, controlled or initial.
+- `onMarkRead`: (projectIds: string[], readAt: Record<string, number>) => void — Projects were marked read, by opening one or by Shift+R, with the whole new read state.
+- `muted / defaultMuted`: string[] (default — / []) — Muted project ids, controlled or initial; a muted project never rises.
+- `onMute`: (projectId: string, muted: boolean) => void — A project was muted or unmuted, by its bell or by M.
+- `onOpen`: (projectId: string) => void — A project was opened.
+- `current / defaultCurrent`: string | null (default — / null) — The open project's id, controlled or initial.
+- `placeholderBeat`: number (default 700) — How long the dotted placeholder holds a risen row's home before it closes, in ms.
+- `now`: number (default defaultBubbleNow) — The moment relative times count from, in ms, so server and browser agree.
+- `title`: string (default "Fernworks") — The studio's name in the header.
+- `subtitle`: string (default "Client projects") — The line under the name.
+- `status`: "ready" | "loading" | "error" (default "ready") — Whether the projects have arrived: skeleton rows while loading, a message with Try again on error.
+- `onRetry`: () => void — Try again after an error.
+- `label`: string — The navigation's accessible name. Defaults to "<title> projects".
+- `className`: string — Classes for the outer container.
+
+Notes:
+- Keyboard: rows are one roving list in the order they appear (Up, Down, Home, End); Enter opens and marks read, M mutes or unmutes the focused project, and Shift+R anywhere in the sidebar marks every update read. Each row's name is one sentence with its count and latest activity.
+- Rows are placed from a pure layout of fixed row heights and never change DOM order, so the server renders the same positions the browser animates and a moving row keeps its focus.
+- With nothing updated the group says All caught up with the last read time; risen and returning rows are announced once per change, not per event.
+- Timers run only while a lift or a placeholder is pending, and all are cleared; nothing loops at rest. Times come from now and event times, never the wall clock.
+- Under reduced motion rows move at once and the placeholder closes straight away; the counts, the group and the order still change, because they are the information.
+- Below an 18.5rem container (measured on the component's own wrapper) the Updated group folds into a count chip in the header that opens it, and a width change re-lays the list without animating.
 
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.

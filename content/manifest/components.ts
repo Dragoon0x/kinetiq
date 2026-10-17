@@ -185641,4 +185641,3233 @@ export const components: KinetiqItem[] = [
       "Below a 36rem container the chart turns horizontal, a row per task with its slider underneath.",
     ],
   },
+  {
+    name: "time-fit",
+    type: "registry:ui",
+    title: "Time Fit",
+    description:
+      "An agent's plan packed against a time budget: steps are ranked by value and packed greedily, pinned steps first, so what fits sits above a budget line and what does not sits below it, greyed. Dragging the line keeps it 1:1 under the finger while the budget moves in snapped minutes; every change re-packs, the steps that no longer fit sliding below the line on springs.glide while the ones that now fit rise above it on the same spring, the finish time rolling digit by digit on springs.snap, and the line settling into its slot on snap with the release velocity. The rows are a multi-select listbox where P or Space pins, the line is a vertical slider on the arrow, Page, Home and End keys, and an over-budget state turns the line danger when the pins alone need more time than there is.",
+    files: [
+      {
+        path: "registry/ui/time-fit.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2086",
+    },
+    tagline: "Fit the plan to the time you have.",
+    keywords: [
+      "agent plan",
+      "time budget",
+      "prioritise",
+      "knapsack",
+      "slider",
+      "re-pack",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "lineStyle",
+        type: '"rule" | "dashed" | "band"',
+        defaultValue: '"rule"',
+        description:
+          "The budget line's character: a rule with a grab pill, a dashed cut line with the pill centred, or a band that carries the budget and spare time inside it.",
+      },
+      {
+        name: "density",
+        type: '"compact" | "regular" | "roomy"',
+        defaultValue: '"regular"',
+        description:
+          "Row height and type size: 34, 40 or 48px one-line rows, 42, 46 or 52px two-line rows on narrow containers.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "The line, pins, value meters and Approve — any CSS colour.",
+      },
+      {
+        name: "steps",
+        type: "TimeFitStep[]",
+        defaultValue: "defaultTimeFitSteps",
+        description:
+          "The plan's steps in any order: id, title, minutes (the estimate), value (1–10) and an optional owner. The component ranks them by value, then by the shorter estimate.",
+      },
+      {
+        name: "budget / defaultBudget",
+        type: "number",
+        defaultValue: "— / 150",
+        description: "The time budget in minutes, controlled or initial.",
+      },
+      {
+        name: "onBudgetChange",
+        type: "(minutes: number) => void",
+        description:
+          "Fires from the drag or key that moved the line, once per budgetStep crossed.",
+      },
+      {
+        name: "pinned / defaultPinned",
+        type: "string[]",
+        defaultValue: "— / []",
+        description:
+          "Pinned step ids, controlled or initial. Pinned steps always stay above the line.",
+      },
+      {
+        name: "onPinStep",
+        type: "(id: string, pinned: boolean) => void",
+        description:
+          "Fires from the click or key that pinned or unpinned a step.",
+      },
+      {
+        name: "onApprove",
+        type: "(plan: TimeFitPlan) => void",
+        description:
+          "Approve was pressed: the step ids above the line, the budget, the minutes they take, the finish time in minutes after midnight, and whether the pins are over budget.",
+      },
+      {
+        name: "minBudget",
+        type: "number",
+        defaultValue: "30",
+        description: "The shortest budget the line allows, in minutes.",
+      },
+      {
+        name: "maxBudget",
+        type: "number",
+        defaultValue: "360",
+        description: "The longest budget the line allows, in minutes.",
+      },
+      {
+        name: "budgetStep",
+        type: "number",
+        defaultValue: "5",
+        description: "Minutes per arrow key and the grain a drag snaps to.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "785",
+        description:
+          "When the plan starts, in minutes after midnight (13:05); the finish time counts from it, so the server and the browser agree.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Launch checklist"',
+        description: "The plan's name.",
+      },
+      {
+        name: "product",
+        type: "string",
+        defaultValue: '"Fernworks"',
+        description: "Who the plan is for, shown above the title.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"<product> <title>"',
+        description: "The surface's accessible name.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the plan has arrived: loading draws placeholder rows, error offers Try again. An empty steps list says so.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the plan failed to load.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only: the line, pins and Approve do nothing.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer surface.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the rows are a multi-select listbox (Up, Down, Home, End; P or Space pins). The line is a vertical slider: Down and Right add budgetStep, Up and Left take it away, Page Down and Page Up move an hour, Home and End reach minBudget and maxBudget. Each re-pack is announced once, naming the steps that rose and fell and the new finish time.",
+      "Reduced motion: rows and the line jump to their places and a change of side is a short colour fade; the packing, the greying and every readout still update.",
+      "Row height is one CSS variable set by a container query, and rows move by translateY(calc(slot × var(--tf-row))), so the server's markup is already laid out at every width and nothing is measured to place a row. Nothing animates while the plan is settled.",
+      "Below 24rem of container width the estimate and the value meter move under each step's title and Approve goes full width.",
+      "Use packTimeFit(steps, pinned, budget) to read the same packing outside the component, for a status line or a summary.",
+    ],
+  },
+  {
+    name: "replan-diff",
+    type: "registry:ui",
+    title: "Replan Diff",
+    description:
+      "The moment an agent revises its plan mid-run, shown as a diff of the old plan and the new: completed steps stay locked, a weighted longest common subsequence picks out the steps that moved, dropped steps stay where they were as struck ghosts, new steps are marked, and every change carries the agent's one-line reason while the run waits paused for review. When first seen it shows the old plan for a beat, then kept steps glide to their new places on springs.glide (motion layout over a stable DOM order), a strike sweeps across each dropped title on glide before it fades, and new steps slide in with their badges landing on springs.snap, all on one cascade; a revert replays the same physics for that step. Up and Down walk the changes, Enter opens one with Revert and Ask why, R reverts or restores it, and under 34rem the old plan hides behind a toggle.",
+    files: [
+      {
+        path: "registry/ui/replan-diff.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2087",
+    },
+    tagline: "What changed when it changed its mind.",
+    keywords: [
+      "agent plan",
+      "replan",
+      "plan diff",
+      "revision",
+      "review",
+      "revert",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "diffStyle",
+        type: '"tint" | "gutter" | "ledger"',
+        defaultValue: '"tint"',
+        description:
+          "How changes are marked: washed rows with badges, a coloured +/−/↕ gutter with an edge bar, or a ledger of hairline rows with old → new positions.",
+      },
+      {
+        name: "reasonPlacement",
+        type: '"below" | "side" | "toggle"',
+        defaultValue: '"below"',
+        description:
+          "Where the agent's reasons sit: under each change, in a column beside the list on wide containers (under it when narrow), or hidden until a change is opened.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "New-step marks, the open change's ring and Accept — any CSS colour.",
+      },
+      {
+        name: "before",
+        type: "ReplanStep[]",
+        defaultValue: "defaultReplanBefore",
+        description:
+          "The plan before the agent changed its mind: id, title and an optional minutes estimate per step.",
+      },
+      {
+        name: "after",
+        type: "ReplanStep[]",
+        defaultValue: "defaultReplanAfter",
+        description: "The plan it wants to run now.",
+      },
+      {
+        name: "reasons",
+        type: "Record<string, string>",
+        defaultValue: "defaultReplanReasons",
+        description:
+          "The agent's one-line reason for each changed step, by step id.",
+      },
+      {
+        name: "completed",
+        type: "string[]",
+        defaultValue: '["profile", "find-dupes"]',
+        description:
+          "Steps already finished; drawn with a check and locked at the top.",
+      },
+      {
+        name: "current",
+        type: "string",
+        defaultValue: '"merge"',
+        description:
+          "The step that was running when the agent replanned; drawn paused while the plan is under review.",
+      },
+      {
+        name: "reviewing / defaultReviewing",
+        type: "boolean",
+        defaultValue: "— / true",
+        description:
+          "Whether the run is paused until the new plan is accepted, controlled or initial.",
+      },
+      {
+        name: "reverted / defaultReverted",
+        type: "string[]",
+        defaultValue: "— / []",
+        description:
+          "Change ids sent back to the old plan, controlled or initial.",
+      },
+      {
+        name: "onRevertStep",
+        type: "(id: string, reverted: boolean) => void",
+        description:
+          "Fires from the key or button that reverted a change or put it back.",
+      },
+      {
+        name: "onAcceptReplan",
+        type: "(plan: ReplanStep[]) => void",
+        description:
+          "Accept was pressed: the plan that will run, with reverts applied.",
+      },
+      {
+        name: "onAskWhy",
+        type: "(id: string) => void",
+        description: "Ask why was pressed on a change.",
+      },
+      {
+        name: "intro",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Show the old plan for a beat when the surface is first seen, then play the change.",
+      },
+      {
+        name: "agent",
+        type: "string",
+        defaultValue: '"Gaugeworks agent"',
+        description: "Who replanned, shown above the title.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Vendor table cleanup"',
+        description: "The run's name; also the surface's accessible name.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the plans have arrived: loading draws placeholder rows, error offers Try again. Identical plans show the no-change state.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the plans failed to load.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only: nothing can be reverted, asked or accepted.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer surface.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: each change's header is a button under a roving tabindex — Up and Down walk the changes, Home and End jump, Enter or Space opens one (its reason in toggle mode, Revert and Ask why), R reverts or restores the focused change, Escape closes it. The revision and every revert are announced once in a polite status region.",
+      "Reduced motion: the old plan is skipped and the diff appears in its final order with a short fade; reverts swap order instantly; strikes, badges and reasons still show.",
+      "Rows keep a stable DOM order and take their sequence from CSS order, so focus never jumps while a step moves; the moves are motion layout animations that run only when the plans or a revert change.",
+      "Pass identical before and after plans for the no-change state: the run resumes from a single Resume run button.",
+      "Under 34rem of container width the old plan hides behind a toggle in the header and side reasons fall back under their rows.",
+    ],
+  },
+  {
+    name: "goal-bloom",
+    type: "registry:ui",
+    title: "Goal Bloom",
+    description:
+      "A radial plan with the goal in a disc at the centre, sub-goals as pills on the first ring and their steps on the second, each sub-goal owning a sector and a petal. As the agent plans, every new node blooms out of its parent along its own angle on springs.glide while its siblings re-space round the ring on the same spring, each node's angle and radius animated in polar coordinates so a re-spacing sweeps round the circle; when a branch finishes, its steps fold back into the sub-goal, the sub-goal moves in toward the centre and its petal fills from the centre on springs.recoil, so progress reads as the flower closing while the goal's ring fills on glide. It is a tree: Left and Right move round a ring, Enter steps out a ring, Escape steps back in, and under 32rem the bloom becomes an indented list with the same states and keys.",
+    files: [
+      {
+        path: "registry/ui/goal-bloom.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2088",
+    },
+    tagline: "The goal in the middle, the work around it.",
+    keywords: [
+      "agent plan",
+      "radial tree",
+      "goal map",
+      "sub-goals",
+      "progress",
+      "tree view",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "petalShape",
+        type: '"leaf" | "round" | "wedge"',
+        defaultValue: '"leaf"',
+        description:
+          "Every petal, outline and fill: a pointed leaf, a blunt round petal, or an annular wedge.",
+      },
+      {
+        name: "ringGap",
+        type: "number",
+        defaultValue: "64",
+        description:
+          "Units between rings, 40 to 76, in a bloom 400 units across — how open the flower is. Deeper rings scale to fit.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "Petals, active nodes, the goal's ring and Approve — any CSS colour. Filled petals take its hue at a fixed lightness so they read alike in both themes.",
+      },
+      {
+        name: "goal",
+        type: "GoalBloomGoal",
+        defaultValue: "defaultGoalBloomGoal",
+        description:
+          "The goal at the centre: title, a short form for the disc, and a note for the panel.",
+      },
+      {
+        name: "nodes",
+        type: "GoalBloomNode[]",
+        defaultValue: "defaultGoalBloomNodes",
+        description:
+          "Sub-goals and steps as one flat list linked by parent (null for a sub-goal of the goal): id, title, short, status (todo, active, done, blocked, planning), owner, note. A node with children takes its status from them.",
+      },
+      {
+        name: "depth",
+        type: "number",
+        defaultValue: "2",
+        description:
+          "How many rings to draw, 1 to 3; deeper nodes are left out.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "planning" | "blocked" | "loading"',
+        defaultValue: '"ready"',
+        description:
+          "The plan as a whole: planning holds Approve and draws new nodes dashed, blocked flags the plan, loading draws the bud alone. An empty nodes list shows the empty state.",
+      },
+      {
+        name: "selected / defaultSelected",
+        type: "string | null",
+        defaultValue: "— / null",
+        description:
+          "The selected node id, controlled or initial; null is the goal.",
+      },
+      {
+        name: "onSelectNode",
+        type: "(id: string | null) => void",
+        description: "Fires from the click or key that moved the selection.",
+      },
+      {
+        name: "onAddSubgoal",
+        type: "(parentId: string | null) => void",
+        description:
+          "Add a step (or Add a sub-goal, on the goal) was pressed in the detail panel.",
+      },
+      {
+        name: "onApprove",
+        type: "() => void",
+        description: "Approve plan was pressed.",
+      },
+      {
+        name: "intro",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Bloom out of the centre the first time the plan is seen.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Store opening plan"',
+        description: "The plan's name.",
+      },
+      {
+        name: "product",
+        type: "string",
+        defaultValue: '"Coldbrook · Larch Street"',
+        description: "Who it is for, shown above the title.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: "the title",
+        description: "The tree's accessible name.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only: nothing can be added or approved.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer surface.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: one roving tab stop. In the bloom, Left/Right (and Up/Down) move to the neighbour on the same ring, Enter steps out to the first node of the next ring, Escape steps back in to the parent (handled only when there is somewhere to go), Home and End jump to the ring's ends. In the list, Up/Down walk the rows, Right or Enter step out, Left or Escape step in. New plans and finished branches are announced once.",
+      "Reduced motion: no bloom and no fold travel — nodes appear at their places with a short fade and finished petals appear filled; statuses, petals and counts still change.",
+      "Each node owns its motion values (angle, radius, and a copy of its parent's on the same spring), so a re-spacing sweeps round the ring and nothing is shared or measured; springs run only when the plan changes and every coordinate is rounded before it reaches the page.",
+      "Give sub-goals a short label of about ten characters for the ring's pills; the full title is in the panel, the list and the accessible name.",
+      "Under 32rem of container width the bloom becomes an indented list; from 44rem the detail panel sits beside the bloom.",
+    ],
+  },
+  {
+    name: "acceptance-sheet",
+    type: "registry:ui",
+    title: "Acceptance Sheet",
+    description:
+      "An agent's plan written as a short document: numbered steps, a sentence each, and acceptance criteria under them that the agent verifies as it works. A verified criterion gets a small stamp that lands on springs.recoil — from 1.7× and a few degrees off, with a ring of ink spreading under it — and links to its evidence; a failed one is underlined by a danger rule that sweeps under the words on springs.glide and reopens its step, whose check undraws on springs.flick while the failure note glides open. Every criterion is a button in the Tab order: Enter opens its evidence (inline from 34rem, in a focus-trapped sheet that rises from the bottom below that), O overrides it with a required reason, Escape closes and returns focus, and draft, in-progress and signed-off states change what the sheet allows.",
+    files: [
+      {
+        path: "registry/ui/acceptance-sheet.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2089",
+    },
+    tagline: "Done means these boxes, checked.",
+    keywords: [
+      "agent plan",
+      "acceptance criteria",
+      "verification",
+      "evidence",
+      "stamp",
+      "sign-off",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "stampStyle",
+        type: '"seal" | "tag" | "tick"',
+        defaultValue: '"seal"',
+        description:
+          "What a verified criterion's stamp looks like: a round ink seal, a rotated rectangular Verified tag, or a quiet circled tick drawn on flick. Overrides draw it dashed.",
+      },
+      {
+        name: "paper",
+        type: '"plain" | "ruled" | "grid"',
+        defaultValue: '"plain"',
+        description:
+          "The sheet's ground: plain card, ruled lines with a margin rule, or a dot grid.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "Stamps, checks, links and the sign-off seal — any CSS colour.",
+      },
+      {
+        name: "steps",
+        type: "AcceptanceStep[]",
+        defaultValue: "defaultAcceptanceSteps",
+        description:
+          "The plan as a document: each step's id, title, summary and criteria (id, text, verdict, evidence { label, source, excerpt, href }, note, override).",
+      },
+      {
+        name: "state",
+        type: '"draft" | "in-progress" | "signed-off"',
+        defaultValue: '"in-progress"',
+        description:
+          "Draft makes criteria editable (Enter edits), in progress shows verdicts as they arrive, signed off locks the sheet under a seal.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Weekly basin report, automated"',
+        description: "The document's title; also its accessible name.",
+      },
+      {
+        name: "author",
+        type: "string",
+        defaultValue: '"Basinworks agent"',
+        description:
+          "Who wrote the plan, shown above the title on wider containers.",
+      },
+      {
+        name: "revision",
+        type: "string",
+        defaultValue: '"Rev 3"',
+        description: "The revision shown beside the author.",
+      },
+      {
+        name: "signedOff",
+        type: "{ by: string; at: string }",
+        defaultValue: '{ by: "Rae Okafor", at: "Fri 17 Oct, 14:32" }',
+        description:
+          "Who signed it off and when, shown once the state is signed-off.",
+      },
+      {
+        name: "onEditCriterion",
+        type: "(id: string, text: string) => void",
+        description: "A criterion's text was edited in draft.",
+      },
+      {
+        name: "onOverride",
+        type: '(id: string, verdict: "pass" | "fail", reason: string) => void',
+        description:
+          "A person overrode a criterion's verdict with a reason; the sheet shows it at once.",
+      },
+      {
+        name: "onOpenEvidence",
+        type: "(id: string, evidence: AcceptanceEvidence) => void",
+        description:
+          "A criterion's evidence was opened, from the keyboard, a click on the criterion or its stamp.",
+      },
+      {
+        name: "onSignOff",
+        type: "() => void",
+        description: "Sign off was pressed once every criterion passed.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the plan has arrived: loading draws placeholder lines, error offers Try again. An empty steps list says so.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the plan failed to load.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: "the title",
+        description: "The document's accessible name.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Read only: evidence still opens, but nothing can be edited, overridden or signed.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer sheet.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: every criterion is a button in the Tab order. Enter opens its evidence (or edits it in draft), O opens the override form (two radios and a required reason), Escape closes either and returns focus to the criterion. Below 34rem the evidence opens in a modal sheet inside the component with Tab kept inside it. Verdict changes are announced once.",
+      "Reduced motion: stamps appear in place at full size, the underline and the check appear without sweeping, and panels and the sheet cross-fade; every verdict, note and chip still changes.",
+      "Drive it from the agent: pass steps with updated verdicts and the sheet animates only what changed — a stamp, an underline, a reopened step. Anything already true when it mounts is drawn finished, so server markup matches.",
+      "Overrides are kept inside the component and reported through onOverride; pass criterion.override to show one the host already holds.",
+      "The stamp is a pointer shortcut only (tabIndex −1); the criterion's button carries the whole sentence for assistive technology.",
+    ],
+  },
+  {
+    name: "crossroads-plan",
+    type: "registry:ui",
+    title: "Crossroads Plan",
+    description:
+      "An agent's plan that stops at its open questions: it runs on a rail until a crossroads, where the rail forks into the branches on offer, each previewed a few steps deep with the agent's recommendation and reason, and the run holds at the first undecided crossroads with everything after it folded into one faded line. Choosing drives one value per crossroads on springs.glide — the chosen column widens to the full width while its remaining steps grow downward on a cascade, and the branch not taken withers, its content fading as its column narrows to a 40px stub that keeps a dashed rail, a hollow node, a Reopen button and its title turned on its side — with witherSpeed scaling that spring (stiffness by speed², damping by speed, so its character never changes). Left and Right pick a branch, Enter chooses, Backspace reopens the last crossroads, and under 36rem the branches become tabs with the same keys.",
+    files: [
+      {
+        path: "registry/ui/crossroads-plan.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2090",
+    },
+    tagline: "Choose the path; the other one withers.",
+    keywords: [
+      "agent plan",
+      "decision point",
+      "branching plan",
+      "human in the loop",
+      "radiogroup",
+      "tabs",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "branchStyle",
+        type: '"rails" | "cards" | "lines"',
+        defaultValue: '"rails"',
+        description:
+          "How branches are drawn: metro rails with a drawn fork and nodes, bordered branch cards, or quiet text lists on hairlines.",
+      },
+      {
+        name: "witherSpeed",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "How fast the branch not taken withers and the chosen one grows, 0.5× to 2×; scales the glide spring without changing its damping ratio.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "The chosen path, the picked branch, the recommendation and Approve — any CSS colour.",
+      },
+      {
+        name: "plan",
+        type: "CrossroadsSegment[]",
+        defaultValue: "defaultCrossroadsPlan",
+        description:
+          'The plan in order: { kind: "steps", id, steps } runs and { kind: "decision", decision } crossroads, each decision with an id, question, branches (id, title, summary, steps), recommended branch id and rationale.',
+      },
+      {
+        name: "choices / defaultChoices",
+        type: "Record<string, string>",
+        defaultValue: "— / {}",
+        description: "Decision id to chosen branch id, controlled or initial.",
+      },
+      {
+        name: "onChooseBranch",
+        type: "(decisionId: string, branchId: string) => void",
+        description:
+          "Fires from the key, click or Take this path that chose a branch.",
+      },
+      {
+        name: "onReopen",
+        type: "(decisionId: string) => void",
+        description:
+          "Fires from Backspace or a stub's Reopen that reopened a crossroads.",
+      },
+      {
+        name: "onApprove",
+        type: "(choices: Record<string, string>) => void",
+        description: "Approve plan was pressed with every crossroads decided.",
+      },
+      {
+        name: "preview",
+        type: "number",
+        defaultValue: "3",
+        description:
+          "Steps of each branch shown before it is chosen; the rest grow in when it is.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Switch freight vendors"',
+        description: "The plan's name.",
+      },
+      {
+        name: "product",
+        type: "string",
+        defaultValue: '"Fieldline"',
+        description:
+          "Who it is for, shown above the title with the count of decided crossroads.",
+      },
+      {
+        name: "maxHeight",
+        type: "number",
+        description:
+          "Tallest the plan grows, in px, before it scrolls inside its own box with a bottom fade; choosing scrolls the next crossroads into view inside the plan, never the page.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the plan has arrived: loading draws placeholder rows, error offers Try again. An empty plan says so.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the plan failed to load.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: "the title",
+        description: "The surface's accessible name.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only: nothing can be chosen, reopened or approved.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer surface.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: on wide containers each crossroads is a radiogroup labelled by its question — Left and Right (Home, End) pick a branch, Enter or Space chooses it, and focus moves on to the next crossroads or to Approve. Under 36rem each crossroads is a tablist with the same keys and a Take this path button. Backspace anywhere in the plan reopens the last decided crossroads; every stub has a Reopen button. Choices and reopenings are announced once.",
+      "Reduced motion: the columns jump to their widths and the stub and the full branch swap with a short fade; the held state, the counts and the choices still change.",
+      "One motion value per crossroads drives the column widths (as calc strings, so the server's markup is already laid out), the fade of the branch not taken and the stub's arrival; nothing runs once it settles.",
+      "Approve stays aria-disabled, with the open question as its description, until every crossroads is decided.",
+      "Give the plan maxHeight when it sits in a fixed-height frame: it scrolls inside its own box and keeps the next crossroads in view as you decide.",
+    ],
+  },
+  {
+    name: "unit-cost",
+    type: "registry:ui",
+    title: "Unit Cost",
+    description:
+      "An AI usage panel that divides the period's spend by the outcomes it produced and draws it as a real fraction: when the period or outcome changes, the numerator and denominator roll independently on springs.snap, each changed digit's strip travelling to its new face with the denominator a beat behind, while a number that gains a place grows a column on springs.glide and the quotient fades in once both have landed. Beside it a trend of cost per outcome over twelve weeks, its target band shaded, works as the period picker: the cursor follows the finger 1:1, picks each week it passes and settles on snap with the release velocity, a change of outcome morphs the whole line on glide, and the target line's handle drags to a new target that commits to the cent on snap. Outcomes are a radiogroup with arrow keys, the trend and the target are sliders, and the trend also reads as a table.",
+    files: [
+      {
+        path: "registry/ui/unit-cost.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2096",
+    },
+    tagline: "What each finished piece of work costs in AI.",
+    keywords: [
+      "unit cost",
+      "cost per outcome",
+      "ai spend",
+      "unit economics",
+      "target band",
+      "app ui",
+      "ai usage",
+    ],
+    props: [
+      {
+        name: "outcomes",
+        type: "UnitCostOutcome[]",
+        defaultValue: "defaultUnitCostOutcomes",
+        description:
+          "What spend is divided by: { id, label, short?, unit, target, tolerance? }. The target is the cost per outcome the team aims for; tolerance is half the band's width as a share of it.",
+      },
+      {
+        name: "usages",
+        type: "UnitCostUsage[]",
+        defaultValue: "defaultUnitCostUsages",
+        description:
+          "The usage lines spend is reported under: { id, name }. Unmapped lines are named in the unmapped note.",
+      },
+      {
+        name: "periods",
+        type: "UnitCostPeriod[]",
+        defaultValue: "defaultUnitCostPeriods",
+        description:
+          "The periods, oldest first: { id, label, spend (dollars per usage id), outcomes (count per outcome id), partial? }. A partial last period is drawn dashed.",
+      },
+      {
+        name: "mapping",
+        type: "Record<string, string | null>",
+        defaultValue: "defaultUnitCostMapping",
+        description:
+          "Which outcome each usage line produces. Usage mapped to nothing is summed as unmapped spend; an outcome with no usage mapped shows a dash and says so.",
+      },
+      {
+        name: "outcome / defaultOutcome",
+        type: "string",
+        defaultValue: "the first outcome",
+        description: "The outcome spend is divided by, controlled or initial.",
+      },
+      {
+        name: "onOutcomeChange",
+        type: "(id: string, outcome: UnitCostOutcome) => void",
+        description:
+          "Fires from the radio or arrow key that changed the outcome.",
+      },
+      {
+        name: "period / defaultPeriod",
+        type: "string",
+        defaultValue: "the last period",
+        description: "The period the fraction reads, controlled or initial.",
+      },
+      {
+        name: "onPeriodChange",
+        type: "(id: string, period: UnitCostPeriod) => void",
+        description:
+          "Fires as the trend's cursor, a table row or an arrow key picks a period.",
+      },
+      {
+        name: "targets",
+        type: "Record<string, number>",
+        description:
+          "Controlled targets per outcome id, overriding each outcome's own.",
+      },
+      {
+        name: "onSetTarget",
+        type: "(outcomeId: string, value: number) => void",
+        description:
+          "Fires when the target handle is dragged or stepped to a new value.",
+      },
+      {
+        name: "onMapUsage",
+        type: "(usageIds: string[]) => void",
+        description:
+          "“Map usage” was pressed on the unmapped-spend note, with the usage ids that feed no outcome. Omit it and the note is plain text.",
+      },
+      {
+        name: "minOutcomes",
+        type: "number",
+        defaultValue: "40",
+        description:
+          "Below this many outcomes a period's cost is called too few to trust and drawn as a hollow dot.",
+      },
+      {
+        name: "defaultView",
+        type: '"chart" | "table"',
+        defaultValue: '"chart"',
+        description:
+          "The trend as a chart or a table at first; the Chart and Table buttons switch it.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Usage arrived, is on its way (a still skeleton), or failed (a message and Try again).",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "“Try again” was pressed after usage failed to load.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Gaugeworks · support assistant"',
+        description: "The panel's heading.",
+      },
+      {
+        name: "subtitle",
+        type: "string",
+        defaultValue: '"AI spend per finished outcome"',
+        description: "Under the heading.",
+      },
+      {
+        name: "formatMoney",
+        type: '(amount: number, kind: "total" | "each") => string',
+        defaultValue: "hand formatter",
+        description:
+          "How money prints: whole totals (“$1,284”) and per-outcome costs (“$0.37”, three places under twenty cents).",
+      },
+      {
+        name: "fractionStyle",
+        type: '"stacked" | "slashed" | "ratio"',
+        defaultValue: '"stacked"',
+        description:
+          "The fraction's form: one figure over a rule over the other, a slashed nut fraction, or one line with a division sign.",
+      },
+      {
+        name: "bandStyle",
+        type: '"shade" | "hatch" | "rules"',
+        defaultValue: '"shade"',
+        description:
+          "How the target band is drawn: a soft wash, diagonal hatching with edges, or only its two dashed edges.",
+      },
+      {
+        name: "accent",
+        type: '"cobalt" | "plum" | "mint" | "ink" | string',
+        defaultValue: '"cobalt"',
+        description:
+          "The line, band and selection colour; any CSS colour works.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only: nothing can be picked, dragged or set.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the panel, e.g. a max height; it scrolls inside its own box.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: outcomes are a radiogroup (arrows move and select, Home and End). The trend is a slider (Left and Right a week, Page Up and Page Down four, Home and End); the target handle is a vertical slider (Up and Down one step, Page Up and Page Down ten). Chart and Table are pressed buttons, and the table's week buttons pick a period.",
+      "Reduced motion: digits swap without rolling, the line, band and cursor move to their new place without travel, and the quotient cross-fades in 150ms — every number still changes.",
+      "Nothing runs while idle: each roll, morph and settle is one spring started by a change and stopped on the next or on unmount, and geometry is written straight into the SVG, never through React state per frame.",
+      "Lays out by its own width: from a 40rem container the fraction sits beside the trend; narrower, it stacks over a 112px chart. Give it a max height (the gallery card uses max-h-[13.75rem]) and it scrolls inside its own box.",
+      "Colours come from tokens and the accent variable, so the panel reads in light and dark; the verdict chip uses the success, warn and danger tokens as text, never as fills.",
+    ],
+  },
+  {
+    name: "cache-dividend",
+    type: "registry:ui",
+    title: "Cache Dividend",
+    description:
+      "A month of a prompt cache drawn as one split bar per day, the cached and uncached parts of the day's input at one token scale, under a savings counter that reads what the cache saved through the day you are on. The bars are one slider: scrubbing across them lifts the day under the finger on springs.snap while its two parts open a hairline apart, dims the days after it on a short tween, and ticks the counter to the new total on snap for every day passed, as rolling digit columns, a counting figure or a figure over a gauge. The day's prompts are listed beside the bars as hit and missed, with why each miss missed, cross-fading between days with rows in cascade order; Left and Right move a day, Page Up and Page Down a week, and in a narrow container the bars become a week-by-week strip.",
+    files: [
+      {
+        path: "registry/ui/cache-dividend.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2097",
+    },
+    tagline: "How much the cache saved you this month.",
+    keywords: [
+      "prompt cache",
+      "cache savings",
+      "hit rate",
+      "token usage",
+      "ai cost",
+      "app ui",
+      "ai usage",
+    ],
+    props: [
+      {
+        name: "days",
+        type: "CacheDay[]",
+        defaultValue: "defaultCacheDays",
+        description:
+          "The month's days with data, from day 1: { date, input, cached, writes?, prompts?: { id, name, tokens, hit, reason? }[] }.",
+      },
+      {
+        name: "monthDays",
+        type: "number",
+        defaultValue: "31",
+        description:
+          "Days in the month; days without data are drawn as days to come.",
+      },
+      {
+        name: "prices",
+        type: "CachePrices",
+        defaultValue: "{ input: 3, cached: 0.3, write: 3.75 }",
+        description:
+          "Dollars per million input tokens, uncached, read from cache and written to cache. Savings are cached × (input − cached) − writes × (write − input).",
+      },
+      {
+        name: "day / defaultDay",
+        type: "number",
+        defaultValue: "the last day with data",
+        description:
+          "The day the counter reads through, as an index into days; controlled or initial.",
+      },
+      {
+        name: "onScrub",
+        type: "(index: number, day: CacheDay) => void",
+        description:
+          "Fires as the scrub, a tap or an arrow key lands on a day (in the strip, the last day of the week).",
+      },
+      {
+        name: "onOpenPrompt",
+        type: "(prompt: CachePrompt, day: CacheDay) => void",
+        description:
+          "A prompt in the list was pressed. Omit it and the rows are plain.",
+      },
+      {
+        name: "onExport",
+        type: "(days: CacheDay[]) => void",
+        description: "Export was pressed. Omit it and the button is not drawn.",
+      },
+      {
+        name: "cache",
+        type: '"on" | "off" | "warming"',
+        defaultValue: '"on"',
+        description:
+          "The cache is on, off (nothing cached; the counter reads $0 and an estimate is shown), or warming up (the first days hatched with a note).",
+      },
+      {
+        name: "warmupDays",
+        type: "number",
+        defaultValue: "3",
+        description:
+          "While warming, how many of the first days are drawn as warm-up.",
+      },
+      {
+        name: "estimateHitRate",
+        type: "number",
+        defaultValue: "0.8",
+        description: "The hit rate the off-state estimate assumes, 0 to 1.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Usage arrived, is on its way (still ghost bars), or failed (a message and Try again).",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "“Try again” was pressed after usage failed to load.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Coldbrook · support assistant"',
+        description: "The panel's heading.",
+      },
+      {
+        name: "subtitle",
+        type: "string",
+        defaultValue: '"Prompt cache · October"',
+        description: "Under the heading.",
+      },
+      {
+        name: "formatMoney",
+        type: "(amount: number) => string",
+        defaultValue: '"$1,284.60" by hand',
+        description: "How money prints.",
+      },
+      {
+        name: "splitStyle",
+        type: '"stacked" | "mirror" | "share"',
+        defaultValue: '"stacked"',
+        description:
+          "Each bar's form: cached under uncached on one baseline, cached up and uncached down from a centre line, or every bar full height split by hit rate.",
+      },
+      {
+        name: "counterStyle",
+        type: '"odometer" | "count" | "gauge"',
+        defaultValue: '"odometer"',
+        description:
+          "The savings figure: rolling digit columns, a figure that counts through its values, or a figure over a gauge of the most the month could have saved.",
+      },
+      {
+        name: "accent",
+        type: '"cobalt" | "plum" | "mint" | "ink" | string',
+        defaultValue: '"cobalt"',
+        description:
+          "The cached colour, the gauge and the selection; any CSS colour works.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only: the day cannot be scrubbed.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the panel, e.g. a max height; it scrolls inside its own box.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the bars are one slider — Left and Right a day, Page Up and Page Down a week, Home and End the ends. In the narrow strip the same keys step weeks. Prompts are buttons in two labelled lists (hit, missed). The settled day is announced once, never per day a drag passes.",
+      "Reduced motion: nothing lifts, parts or rolls; the chosen day's highlight, the dimming of the days ahead and the savings figure still change, because they are the reading.",
+      "Cheap when idle: no loops or timers. A scrub sets state only when the finger crosses into another day (at most 31 a month), and every spring is driven by that change.",
+      "Responsive by its own width: from a 40rem container the bars sit beside the day's prompt list; narrower, a week-by-week strip with the week's prompts below. Give it a max height and it scrolls inside its own box.",
+      "Money and token counts are formatted by hand, so the server and the browser print the same strings; pass formatMoney for another currency.",
+    ],
+  },
+  {
+    name: "request-anatomy",
+    type: "registry:ui",
+    title: "Request Anatomy",
+    description:
+      "A log of one agent run's model requests where opening a request unfolds its anatomy: the row's height opens on springs.glide, a long bar arrives closed with every part touching, then its system, context, history, input, output and cached parts slide apart on glide while their captions rise in cascade order with tokens and price, and a bracket sweeps across the slowest stretch of the latency beneath. A Tokens / Cost switch re-proportions the same parts on glide, and a pinned request rides along as a ghost bar at the same scale with per-part differences. The log is a grid where Up and Down move, Enter opens, C pins for comparison and Escape closes; truncated, errored and redacted requests are drawn as such, and in a narrow container the bar stands vertically beside its captions.",
+    files: [
+      {
+        path: "registry/ui/request-anatomy.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2098",
+    },
+    tagline: "One request, taken apart by what it cost.",
+    keywords: [
+      "request log",
+      "token breakdown",
+      "ai cost",
+      "latency",
+      "agent run",
+      "app ui",
+      "ai usage",
+    ],
+    props: [
+      {
+        name: "requests",
+        type: "AnatomyRequest[]",
+        defaultValue: "defaultAnatomyRequests",
+        description:
+          "The run's requests in order: { id, step, model, at, tokens (per part), phases ({ name, ms }[]), status?: ok | truncated | errored | redacted, error?, dropped?, preview? }.",
+      },
+      {
+        name: "prices",
+        type: "Record<string, AnatomyPrice>",
+        defaultValue: "defaultAnatomyPrices",
+        description:
+          "Dollars per million tokens per model name: { input, output, cached }. System, context, history and input bill at the input price.",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "string | null",
+        defaultValue: "null",
+        description:
+          "The open request id, controlled or initial. A request open from the first render is drawn open; every later open unfolds.",
+      },
+      {
+        name: "onOpenRequest",
+        type: "(id: string | null, request: AnatomyRequest | null) => void",
+        description:
+          "Fires when Enter or a click opens a request, or with null when it closes.",
+      },
+      {
+        name: "pinned / defaultPinned",
+        type: "string | null",
+        defaultValue: "null",
+        description:
+          "The request pinned for comparison, controlled or initial.",
+      },
+      {
+        name: "onPin",
+        type: "(id: string | null) => void",
+        description:
+          "Fires when C or the pin button pins a request, or with null when it is unpinned.",
+      },
+      {
+        name: "onCompare",
+        type: "(pinned: AnatomyRequest, open: AnatomyRequest) => void",
+        description:
+          "Fires when an open request is compared with a different pinned one.",
+      },
+      {
+        name: "onCopyId",
+        type: "(id: string) => void",
+        description:
+          "Fires when a request id is copied (the button answers “Copied”).",
+      },
+      {
+        name: "sizeBy / defaultSizeBy",
+        type: '"tokens" | "cost"',
+        defaultValue: '"tokens"',
+        description:
+          "What the bar's parts are proportional to, controlled or initial.",
+      },
+      {
+        name: "onSizeByChange",
+        type: '(sizeBy: "tokens" | "cost") => void',
+        description: "Fires from the Tokens / Cost switch.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "The run arrived, is on its way (still placeholder rows), or failed (a message and Try again).",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "“Try again” was pressed after the run failed to load.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Fernworks agent · run 7f3a"',
+        description: "The panel's heading; the run's totals print under it.",
+      },
+      {
+        name: "formatMoney",
+        type: "(amount: number) => string",
+        defaultValue: '"$0.049" by hand',
+        description: "How money prints.",
+      },
+      {
+        name: "segmentGap",
+        type: "number",
+        defaultValue: "6",
+        description:
+          "How far apart the parts slide when a request opens, in px.",
+      },
+      {
+        name: "palette",
+        type: '"tones" | "spectrum" | "mono"',
+        defaultValue: '"tones"',
+        description:
+          "The parts' colours: one hue in six steps, six hues turned from the accent, or ink greys — pigments at one lightness in both themes.",
+      },
+      {
+        name: "accent",
+        type: '"cobalt" | "plum" | "mint" | "ink" | string',
+        defaultValue: '"cobalt"',
+        description:
+          "The selection, the slowest-stretch mark and the hue the palette turns from; any CSS colour works.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only: requests cannot be opened or pinned.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the panel; it scrolls inside its own box (36rem tall at most).",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the log is a grid with one focusable row at a time — Up and Down move, Home and End jump, Enter or Space opens and closes, C pins for comparison, Escape closes (and is consumed, so a dialog around it stays open). Tab goes on to the open request's Pin and Copy buttons.",
+      "Reduced motion: the row opens without a height spring, the bar is drawn already apart, captions fade in and the latency bracket is drawn whole; re-proportioning swaps at once.",
+      "No loops: one spring per open or switch writes the parts' positions straight into the DOM, never React state per frame, and every animation finishes on its target when interrupted.",
+      "Responsive by its own width: from a 36rem container rows read on one line and the bar lies flat; narrower, rows take two lines and the bar stands beside its captions.",
+      "Prices are per model name, so a run that switches models mid-way bills each request at its own rate; redacted requests keep their counts and hide only their content.",
+    ],
+  },
+  {
+    name: "workspace-lift",
+    type: "registry:ui",
+    title: "Workspace Lift",
+    description:
+      "An app frame with a narrow strip of workspace icons at its far left, where the rest of the frame — sidebar, header and page — is one car: choosing another workspace runs it like an elevator on springs.glide, the current car and the next travelling together as one shaft so the seam between them passes through the frame, the new one arriving from below when it sits lower in the strip and from above when higher. The strip's indicator slides on springs.snap, the frame takes the new workspace's colour on a short tween, the header's floor number rolls one face the way the car went, and inside a workspace the nav tree's current pill travels on snap while pages cross-fade with a 4px rise. The strip is a vertical tablist whose Up and Down walk it with the car riding along, Cmd or Ctrl with 1 to 9 switches from anywhere in the frame, and in a narrow container the strip becomes a sheet dropping from the header.",
+    files: [
+      {
+        path: "registry/ui/workspace-lift.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2099",
+    },
+    tagline: "Switch workspaces; the whole app rides along.",
+    keywords: [
+      "workspace switcher",
+      "app shell",
+      "sidebar",
+      "elevator transition",
+      "multi tenant",
+      "app ui",
+      "navigation",
+    ],
+    props: [
+      {
+        name: "workspaces",
+        type: "LiftWorkspace[]",
+        defaultValue: "defaultLiftWorkspaces",
+        description:
+          "The workspaces in strip order: { id, name, initials, color, kind?, nav: { id, label, items: { id, label, unread?, icon?, page: { title, summary, rows } }[] }[], status?: ready | loading | locked }.",
+      },
+      {
+        name: "workspace / defaultWorkspace",
+        type: "string",
+        defaultValue: "the first workspace",
+        description:
+          "The open workspace, controlled or initial. A host change rides the lift too.",
+      },
+      {
+        name: "onSwitchWorkspace",
+        type: "(id: string, workspace: LiftWorkspace) => void",
+        description:
+          "Fires from the strip, the sheet, an arrow key or Cmd/Ctrl+number that chose a workspace.",
+      },
+      {
+        name: "page / defaultPage",
+        type: "string",
+        defaultValue: "each workspace's first page",
+        description:
+          "The page within the current workspace, controlled or initial; every workspace remembers its own page for the trip back.",
+      },
+      {
+        name: "onNavigate",
+        type: "(workspaceId: string, pageId: string) => void",
+        description: "Fires when a nav item is chosen.",
+      },
+      {
+        name: "onAddWorkspace",
+        type: "() => void",
+        description:
+          "The strip's + button (or the sheet's Add a workspace) was pressed. Omit it and there is no + button.",
+      },
+      {
+        name: "onRequestAccess",
+        type: "(workspaceId: string) => void",
+        description:
+          "“Ask for access” was pressed on a locked workspace; the button then reads “Request sent”.",
+      },
+      {
+        name: "user",
+        type: "{ name: string; initials: string }",
+        defaultValue: '{ name: "Ines Carvalho", initials: "IC" }',
+        description: "The person signed in, for the header avatar.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Workspaces"',
+        description: "The frame's accessible name.",
+      },
+      {
+        name: "frameHeight",
+        type: "number",
+        defaultValue: "520",
+        description: "The frame's height in px; pages scroll inside it.",
+      },
+      {
+        name: "liftDirection",
+        type: '"auto" | "up" | "down"',
+        defaultValue: '"auto"',
+        description:
+          "Where a new workspace arrives from: by its place in the strip, always rising from below, or always dropping from above.",
+      },
+      {
+        name: "stripWidth",
+        type: "number",
+        defaultValue: "56",
+        description:
+          "The strip's width in px; its icons, badges and indicator scale with it.",
+      },
+      {
+        name: "accent",
+        type: '"cobalt" | "plum" | "mint" | "ink" | string',
+        defaultValue: '"cobalt"',
+        description:
+          "Selection colour for the nav pill and unread counts; each workspace keeps its own colour for the frame.",
+      },
+      {
+        name: "shortcuts",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Cmd or Ctrl with 1 to 9 switches workspace while focus is in the frame.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only: nothing can be switched or opened.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the frame.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the strip is a vertical tablist — Up and Down (Home, End) move and switch, so the car rides with each press. Cmd or Ctrl with 1 to 9 switches from anywhere inside the frame. The nav is a tree: Up and Down move, Left and Right collapse and expand groups, Enter opens a page. The narrow sheet is a dialog that takes focus, keeps it, closes on Escape and hands focus back to the live car's trigger.",
+      "Reduced motion: the cars cross-fade in 150ms with no travel; the frame colour, the floor number and the page still change.",
+      "Cheap when idle: one spring per switch writes both cars' positions straight into two motion values; the old car unmounts the moment the new one lands. A car that is leaving is inert and hidden from assistive technology.",
+      "Responsive by its own width: from a 34rem container the strip and sidebar show; narrower, the header carries a workspace button that drops a sheet, and the sidebar becomes a scrolling row of pages.",
+      "Workspace colours are any CSS colour (the defaults are oklch pigments that read in both themes); the frame mixes them with tokens, so light and dark both work.",
+    ],
+  },
+  {
+    name: "console-shell",
+    type: "registry:ui",
+    title: "Console Shell",
+    description:
+      "An editor-style frame for a firmware project — title bar, file explorer, an editor with file tabs, a bottom panel for problems, output and a console, and a slim status bar — whose panel is pulled up by its edge: the edge follows the finger 1:1 with rubber-band past full height, and on release the height is projected with the release velocity and committed to the nearest snap point (closed, a quarter, half or full) on springs.glide carrying the throw's velocity. Closed, only the status bar is left, and its error and warning counts roll one face on springs.snap the way they moved when new problems arrive while their chip warms once; the panel's tab indicator slides on snap and choosing a problem opens its line in the editor. Cmd or Ctrl+J toggles the panel, F6 moves focus between explorer, editor, panel and status bar, the edge is a separator stepped by arrow keys, and in a narrow container the panel opens as a full-height sheet.",
+    files: [
+      {
+        path: "registry/ui/console-shell.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2100",
+    },
+    tagline: "A workspace with a console you pull up.",
+    keywords: [
+      "editor shell",
+      "bottom panel",
+      "console",
+      "problems",
+      "status bar",
+      "resizable panel",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "files",
+        type: "ConsoleFile[]",
+        defaultValue: "defaultConsoleFiles",
+        description:
+          "The project's files: { id, name, folder, lines }. The explorer groups them by folder; C and TOML get light colouring.",
+      },
+      {
+        name: "defaultFile",
+        type: "string",
+        defaultValue: "the first file with a problem",
+        description: "The file open first.",
+      },
+      {
+        name: "problems",
+        type: "ConsoleProblem[]",
+        defaultValue: "defaultConsoleProblems",
+        description:
+          "What the last build found: { id, file, line, col?, severity: error | warning | info, message }. Counts in the status bar roll when this grows.",
+      },
+      {
+        name: "output",
+        type: "ConsoleLine[]",
+        defaultValue: "defaultConsoleOutput",
+        description:
+          "The build log: { id, text, tone?: muted | error | warn | success | command }.",
+      },
+      {
+        name: "history",
+        type: "ConsoleLine[]",
+        defaultValue: "defaultConsoleHistory",
+        description:
+          "The console's history, oldest first; the host appends what a command printed.",
+      },
+      {
+        name: "tab / defaultTab",
+        type: '"problems" | "output" | "console"',
+        defaultValue: '"problems"',
+        description: "The panel's tab, controlled or initial.",
+      },
+      {
+        name: "onTabChange",
+        type: "(tab) => void",
+        description:
+          "Fires from the tablist, the status counts or the Build button that changed the tab.",
+      },
+      {
+        name: "panel / defaultPanel",
+        type: "number",
+        defaultValue: "0",
+        description:
+          "The panel's height as a share of the space above the status bar, 0 (closed) to 1, controlled or initial. On a phone any open value shows as the full-height sheet.",
+      },
+      {
+        name: "onPanelResize",
+        type: "(height: number) => void",
+        description:
+          "Fires when a drag, key or button settles the panel on a new height.",
+      },
+      {
+        name: "onRunCommand",
+        type: "(command: string) => void",
+        description:
+          'A command was entered in the console, or Build was pressed ("build").',
+      },
+      {
+        name: "onOpenProblem",
+        type: "(problem: ConsoleProblem) => void",
+        description:
+          "A problem was chosen; the editor has already opened its file and highlighted its line.",
+      },
+      {
+        name: "build",
+        type: '"idle" | "building" | "passed" | "failed"',
+        defaultValue: '"failed"',
+        description:
+          "The build's state in the status bar: a progress line and spinner while building, a danger tint when it failed.",
+      },
+      {
+        name: "buildProgress",
+        type: "number",
+        defaultValue: "0",
+        description: "While building, how far along, 0 to 1.",
+      },
+      {
+        name: "statusItems",
+        type: "{ id: string; label: string }[]",
+        defaultValue: "Ln/Col, encoding, board",
+        description:
+          "Items on the right of the status bar (from a 40rem container).",
+      },
+      {
+        name: "project",
+        type: "string",
+        defaultValue: '"Gaugeworks · gauge-fw"',
+        description:
+          "The project's name in the title bar and the frame's accessible name.",
+      },
+      {
+        name: "branch",
+        type: "string",
+        defaultValue: '"main"',
+        description: "The branch in the status bar.",
+      },
+      {
+        name: "frameHeight",
+        type: "number",
+        defaultValue: "520",
+        description: "The frame's height in px.",
+      },
+      {
+        name: "snapPoints",
+        type: '"quarter" | "half" | "free"',
+        defaultValue: '"quarter"',
+        description:
+          "Where the panel can rest: closed, a quarter, half or full; closed, half or full; or anywhere it is let go (with momentum).",
+      },
+      {
+        name: "statusStyle",
+        type: '"counts" | "pills" | "minimal"',
+        defaultValue: '"counts"',
+        description:
+          "How the status bar shows problems: icons and rolling numbers, tinted pills, or one dot and a phrase.",
+      },
+      {
+        name: "accent",
+        type: '"cobalt" | "plum" | "mint" | "ink" | string',
+        defaultValue: '"cobalt"',
+        description:
+          "Focus, selection, the panel's edge, keywords and the build progress; any CSS colour works.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only: the panel cannot move and nothing runs.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the frame.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the panel's edge is a separator — Up and Down step its snap points, Home closes, End fills, Enter toggles. Cmd or Ctrl+J toggles the panel from anywhere in the frame and returns it to the height it had; F6 and Shift+F6 move focus between the explorer, the editor, the panel and the status bar, skipping whatever is hidden. The explorer is a tree, the open files and the panel views are tablists.",
+      "Reduced motion: the edge still follows the finger, but releases, keys and Cmd/Ctrl+J land without travel; counts change without rolling and the build spinner stands still.",
+      "Hand-feel: the drag waits 3px before it takes the pointer, so a tap on the shut edge simply opens the panel; until then it follows the pointer on the window, so a fast pull that leaves the thin edge is never lost.",
+      "Cheap when idle: the panel's height is one motion value written by the finger or by one spring per release; nothing runs between changes. The demo's simulated build ticks only while the frame is on screen and the page is visible.",
+      "Responsive by its own width: from a 34rem container the explorer shows; narrower, the panel is a full-height sheet with a grabber and the whole status bar is its handle.",
+    ],
+  },
+  {
+    name: "lockstep-panes",
+    type: "registry:ui",
+    title: "Lockstep Panes",
+    description:
+      "Two versions of a document side by side with a lockable shared scroll that maps matched sections onto each other, so the bands across the gutter bend wherever the versions drift. Locking glides the drifted pane back into line on springs.glide as the padlock's shackle drops shut on springs.snap; swap trades the panes on glide and the section strip's pill slides on snap. Cmd or Ctrl+L locks, Alt with Left and Right moves between panes, and on a phone the panes become tabs that keep your place.",
+    files: [
+      {
+        path: "registry/ui/lockstep-panes.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2101",
+    },
+    tagline: "Two documents side by side, scrolling as one.",
+    keywords: [
+      "compare",
+      "diff",
+      "split view",
+      "synced scroll",
+      "versions",
+      "contract",
+      "app shell",
+    ],
+    props: [
+      {
+        name: "documents",
+        type: "[LockstepDocument | null, LockstepDocument | null]",
+        defaultValue: "defaultLockstepDocuments",
+        description:
+          "The two documents, older first. A null side shows the missing-document state.",
+      },
+      {
+        name: "anchors",
+        type: "LockstepAnchor[]",
+        defaultValue: "defaultLockstepAnchors",
+        description:
+          "The matched sections in reading order, with the short names the section strip uses.",
+      },
+      {
+        name: "locked / defaultLocked",
+        type: "boolean",
+        defaultValue: "— / true",
+        description:
+          "Whether the panes scroll as one. Controlled or uncontrolled.",
+      },
+      {
+        name: "onLockChange",
+        type: "(locked: boolean) => void",
+        description:
+          "Fires from the switch or the shortcut that changed the lock.",
+      },
+      {
+        name: "onSwap",
+        type: "(documents: LockstepPair) => void",
+        description:
+          "Fires when the panes trade places, with the documents in their new left-to-right order.",
+      },
+      {
+        name: "onClosePane",
+        type: '(side: "left" | "right", document: LockstepDocument) => void',
+        description:
+          "A pane's close button was pressed; the pane shows its closed state until reopened.",
+      },
+      {
+        name: "onReopenPane",
+        type: '(side: "left" | "right", document: LockstepDocument) => void',
+        description: "A closed pane's Reopen was pressed.",
+      },
+      {
+        name: "onPickDocument",
+        type: '(side: "left" | "right") => void',
+        description:
+          "The missing-document state's Choose version was pressed. Without it the button is not drawn.",
+      },
+      {
+        name: "onSectionChange",
+        type: "(anchor: string) => void",
+        description:
+          "The section at the leading pane's reading line, on mount and whenever it changes.",
+      },
+      {
+        name: "bandOpacity",
+        type: "number",
+        defaultValue: "0.35",
+        description: "Fill strength of the bands across the gutter, 0 to 1.",
+      },
+      {
+        name: "gutter",
+        type: "number",
+        defaultValue: "48",
+        description: "Width of the gutter the bands cross, px.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "Changed and new marks, changed bands, the lock and the strip pill — any CSS colour.",
+      },
+      {
+        name: "readingLine",
+        type: "number",
+        defaultValue: "0.25",
+        description:
+          "Where in a pane matched sections line up while locked, as a fraction of its height.",
+      },
+      {
+        name: "showChanges",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Mark changed, new and dropped sections with tags, edge markers and accent bands.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description: "Whether the documents have arrived.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description:
+          "Try again was pressed after the documents failed to load.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Compare versions"',
+        description: "The frame's title.",
+      },
+      {
+        name: "subtitle",
+        type: "string",
+        defaultValue: '"Fieldline · Services agreement"',
+        description: "One line under the title; the change summary follows it.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "520",
+        description: "The frame's height, px; the panes scroll inside it.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer frame.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: Cmd or Ctrl+L toggles the lock from anywhere inside; Alt with Left or Right moves focus between the panes (on a phone it switches tabs); each pane is a focusable region that scrolls with the arrow, Page and Home/End keys; the section strip is a roving toolbar where Enter glides both panes to a section.",
+      "Locked scrolling is piecewise linear between matched section tops at readingLine, not 1:1 — a pane runs faster through a section its version spent more words on and waits through one the other version lacks. Whichever pane the reader touched leads, so there is no feedback loop.",
+      "Reduced motion: the follower and section jumps land at once, the shackle swaps without travel and swap is instant; the bands still follow the scroll because they carry information.",
+      "Performance: nothing runs at rest. Scroll events write band paths straight into the DOM (no React render per frame) and section geometry is re-measured only by a ResizeObserver.",
+      "Sections pair by anchor id; differences are worked out from the headings and paragraphs, older document first, so pass the pair in age order and let onSwap report the visual order.",
+    ],
+  },
+  {
+    name: "stage-mode",
+    type: "registry:ui",
+    title: "Stage Mode",
+    description:
+      "A board review frame with a presentation mode: the sidebar slides off the left edge on springs.glide, the header lifts away and the toolbar sinks on springs.snap a cascade apart, while the board, carried by one transform, scales up into the freed room on glide and the zoom readout counts up with it. On stage a pointer at an edge (or focus) peeks that chrome back on snap, and a one-time hint lands on springs.recoil. F toggles the stage, Escape leaves it, a two-finger tap toggles it on touch.",
+    files: [
+      {
+        path: "registry/ui/stage-mode.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2102",
+    },
+    tagline: "The chrome steps away; the work takes the room.",
+    keywords: [
+      "presentation mode",
+      "focus mode",
+      "fullscreen",
+      "app shell",
+      "design review",
+      "peek",
+    ],
+    props: [
+      {
+        name: "nav",
+        type: "StageBoard[]",
+        defaultValue: "defaultStageBoards",
+        description:
+          "The boards in the sidebar (a tab bar on a phone): label, kind, comment count and pins.",
+      },
+      {
+        name: "page / defaultPage",
+        type: "string",
+        defaultValue: "— / the first board",
+        description: "The current board id, controlled or uncontrolled.",
+      },
+      {
+        name: "onNavigate",
+        type: "(id: string) => void",
+        description:
+          "Fires with the board chosen from the sidebar or the tab bar.",
+      },
+      {
+        name: "actions",
+        type: "StageAction[]",
+        defaultValue: "defaultStageActions",
+        description:
+          "Tool buttons in the floating toolbar ({ id, label, icon }); the first starts active.",
+      },
+      {
+        name: "onAction",
+        type: "(id: string) => void",
+        description: "Fires with the tool chosen from the toolbar.",
+      },
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "Drawn inside the board in place of the built-in page, at the board's design size.",
+      },
+      {
+        name: "boardSize",
+        type: "{ width: number; height: number }",
+        defaultValue: "{ width: 640, height: 400 }",
+        description:
+          "The board's design size; it is scaled to fit the room it has.",
+      },
+      {
+        name: "mode / defaultMode",
+        type: '"normal" | "stage"',
+        defaultValue: '— / "normal"',
+        description:
+          "Whether the chrome has stepped away, controlled or uncontrolled.",
+      },
+      {
+        name: "onModeChange",
+        type: '(mode: "normal" | "stage") => void',
+        description:
+          "Fires from the button, key or gesture that changed the mode.",
+      },
+      {
+        name: "cascade",
+        type: "number",
+        defaultValue: "60",
+        description:
+          "Delay between the sidebar, the header and the toolbar as they step away, ms.",
+      },
+      {
+        name: "peekZone",
+        type: "number",
+        defaultValue: "24",
+        description:
+          "How near an edge the pointer must come to peek that piece of chrome back, px.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "Present, the current board, pins and the edge hints — any CSS colour.",
+      },
+      {
+        name: "hint",
+        type: "string | null",
+        defaultValue: "how to leave and peek",
+        description:
+          "The toast shown the first time the stage is taken; null never shows it.",
+      },
+      {
+        name: "onHintDismiss",
+        type: "() => void",
+        description: "Fires when the one-time hint leaves.",
+      },
+      {
+        name: "people",
+        type: "string[]",
+        defaultValue: "four reviewers",
+        description: "Reviewers shown in the header.",
+      },
+      {
+        name: "workspace",
+        type: "string",
+        defaultValue: '"Waylight"',
+        description: "The workspace, first in the breadcrumb.",
+      },
+      {
+        name: "project",
+        type: "string",
+        defaultValue: '"Q4 launch"',
+        description:
+          "The project, second in the breadcrumb and the frame's name.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description: "Whether the boards have arrived.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the boards failed to load.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "520",
+        description: "The frame's height, px.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer frame.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: F toggles stage mode while focus is inside the frame (never while typing), Escape leaves it and is marked handled, a two-finger tap toggles it on touch. Hidden chrome stays in the tab order and peeks back while it holds focus.",
+      "The board is laid out once at boardSize and fitted with a transform, so the scale-up is compositor work; pass your own page as children and it scales the same way.",
+      "Reduced motion: chrome fades out and steps away instead of travelling, the board jumps to its new fit, the toast fades; the zoom readout still changes.",
+      "Performance: nothing runs at rest. Pointer moves on stage set three motion values for the edge hints and render only when the peeked piece changes; one ResizeObserver refits the board.",
+      "Under 30rem the frame has a header and a bottom tab bar instead of a sidebar and toolbar; stage mode hides those two and shows a small corner Leave button.",
+    ],
+  },
+  {
+    name: "tiling-desk",
+    type: "registry:ui",
+    title: "Tiling Desk",
+    description:
+      "An app frame where every opened record becomes a window that tiles the desk from a binary tree of splits. Opening a record splits the focused tile — it glides into its half on springs.glide while the new window wipes in from the split line — closing one lets its neighbours glide out to fill, and dragging a window by its title bar previews the half, swap or desk-edge strip it would take on springs.snap before it lands with its release velocity. Cmd or Ctrl with an arrow moves focus between tiles, with Shift swaps them and with Alt docks the window along that edge.",
+    files: [
+      {
+        path: "registry/ui/tiling-desk.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2103",
+    },
+    tagline: "Open records tile themselves into the room.",
+    keywords: [
+      "tiling",
+      "window manager",
+      "split view",
+      "workspace",
+      "drag and drop",
+      "app shell",
+      "records",
+    ],
+    props: [
+      {
+        name: "records",
+        type: "TilingRecord[]",
+        defaultValue: "defaultTilingRecords",
+        description:
+          "Everything that can be opened: orders and customers with fields, lines, totals and related records.",
+      },
+      {
+        name: "layout / defaultLayout",
+        type: "TilingNode | null",
+        defaultValue: "— / defaultTilingLayout",
+        description:
+          "The layout tree; its leaves are the open record ids, null is an empty desk. Controlled or uncontrolled.",
+      },
+      {
+        name: "onLayoutChange",
+        type: "(layout: TilingNode | null) => void",
+        description:
+          "Fires with the whole tree after an open, a close, a drop, a swap or a dock.",
+      },
+      {
+        name: "focused / defaultFocused",
+        type: "string | null",
+        defaultValue: "— / the first window",
+        description: "The focused window id, controlled or uncontrolled.",
+      },
+      {
+        name: "onFocusChange",
+        type: "(id: string | null) => void",
+        description: "Fires when another window becomes the focused one.",
+      },
+      {
+        name: "onOpenRecord",
+        type: "(record: TilingRecord) => void",
+        description:
+          "A record was opened as a new window (not when an open one is brought forward).",
+      },
+      {
+        name: "onCloseWindow",
+        type: "(id: string) => void",
+        description: "A window was closed.",
+      },
+      {
+        name: "suggestions",
+        type: "string[]",
+        defaultValue: "three record ids",
+        description: "Records offered on an empty desk.",
+      },
+      {
+        name: "gap",
+        type: "number",
+        defaultValue: "8",
+        description: "Space between tiles and around the desk, px.",
+      },
+      {
+        name: "splitRule",
+        type: '"longest" | "alternate" | "spiral"',
+        defaultValue: '"longest"',
+        description:
+          "Which side of the focused tile a new window takes: along its longer side, alternating right and below with each window, or spiralling a quarter turn with each.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "Focus, drop zones, the split rule and open markers — any CSS colour.",
+      },
+      {
+        name: "maxWindows",
+        type: "number",
+        defaultValue: "6",
+        description: "The most windows the desk holds.",
+      },
+      {
+        name: "renderRecord",
+        type: "(record, size: { width, height, compact }) => ReactNode",
+        description:
+          "Draws a window's body in place of the built-in record card.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description: "Whether the records have arrived.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the records failed to load.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Desk"',
+        description: "The frame's title.",
+      },
+      {
+        name: "workspace",
+        type: "string",
+        defaultValue: '"Basinworks"',
+        description: "The workspace shown beside the title.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "520",
+        description: "The frame's height, px.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer frame.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the records list is a roving list (arrows, Home/End, Enter opens or focuses). Each window is a group with a roving tab stop; Cmd or Ctrl with an arrow moves to the nearest window that way, with Shift swaps the two, with Alt docks the focused window along that edge of the desk — the keyboard path to a drag-to-edge — and Delete closes it.",
+      'The layout is a plain tree ({ kind: "split", dir, ratio, a, b } or { kind: "leaf", id }); store it and pass it back to restore a desk exactly. tilingLeaves(layout) lists the open windows.',
+      "Reduced motion: windows jump to their rectangles, the split wipe and rule are skipped and the drop zone fades; the layout still changes.",
+      "Performance: nothing runs at rest. Rectangles are recomputed only when the tree or the desk's measured size changes; a drag writes motion values directly and renders only when the drop zone changes.",
+      "Under 30rem the record list becomes a row of chips and the windows become a stack of summary cards in tree order; Cmd or Ctrl with Up and Down moves between them, with Shift reorders, and a card dragged over another swaps them.",
+    ],
+  },
+  {
+    name: "double-rail",
+    type: "registry:ui",
+    title: "Double Rail",
+    description:
+      "An app frame with two tiers of navigation: a slim rail of sections whose pill slides on springs.snap, and a panel listing what is inside the chosen one. Changing section slides the panel's list sideways on springs.glide in the direction of travel while its title and count carry over as shared elements — the title cross-fades in place, the count glides to sit after it and rolls to its new number on snap; on a phone the section row's title and count fly into the drilled header. Up and Down move within a tier, Right crosses from rail to panel, Left comes back.",
+    files: [
+      {
+        path: "registry/ui/double-rail.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2104",
+    },
+    tagline: "A rail for where, a panel for what.",
+    keywords: [
+      "navigation",
+      "sidebar",
+      "rail",
+      "two-tier nav",
+      "app shell",
+      "drill-in",
+      "shared element",
+    ],
+    props: [
+      {
+        name: "sections",
+        type: "RailSection[]",
+        defaultValue: "defaultRailSections",
+        description:
+          "Sections for the rail, each with its icon, count and grouped secondary list; loading and empty sections are states, not errors.",
+      },
+      {
+        name: "section / defaultSection",
+        type: "string",
+        defaultValue: "— / the first section",
+        description: "The current section id, controlled or uncontrolled.",
+      },
+      {
+        name: "onSection",
+        type: "(id: string) => void",
+        description:
+          "Fires from the rail (click or arrows) with the section chosen.",
+      },
+      {
+        name: "page / defaultPage",
+        type: "string",
+        defaultValue: "— / the first item",
+        description: "The current page: an item id, unique across sections.",
+      },
+      {
+        name: "onNavigate",
+        type: "(sectionId: string, itemId: string) => void",
+        description:
+          "Fires whenever the current page changes, including when a section change brings its remembered page.",
+      },
+      {
+        name: "collapsed / defaultCollapsed",
+        type: "boolean",
+        defaultValue: "— / false",
+        description:
+          "Whether the panel is folded away, controlled or uncontrolled.",
+      },
+      {
+        name: "onCollapse",
+        type: "(collapsed: boolean) => void",
+        description:
+          "Fires from the toggle, or when choosing a section reopens the panel.",
+      },
+      {
+        name: "onEmptyAction",
+        type: "(sectionId: string) => void",
+        description: "An empty section's action button was pressed.",
+      },
+      {
+        name: "panelWidth",
+        type: "number",
+        defaultValue: "220",
+        description: "Width of the secondary panel, px.",
+      },
+      {
+        name: "slideDirection",
+        type: '"sideways" | "vertical" | "fade"',
+        defaultValue: '"sideways"',
+        description:
+          "How the panel's list moves when the section changes: sideways in the direction of travel, vertically with the rail, or a cross-fade.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "The rail pill, the current page and counts in the current section — any CSS colour.",
+      },
+      {
+        name: "renderPage",
+        type: "(section: RailSection, item: RailItem | null) => ReactNode",
+        description: "Draws the page in place of the built-in one.",
+      },
+      {
+        name: "product",
+        type: "string",
+        defaultValue: '"Gaugeworks"',
+        description:
+          "The product's name, on the rail's mark and in the phone header.",
+      },
+      {
+        name: "user",
+        type: "string",
+        defaultValue: '"Mara Lindqvist"',
+        description: "Who is signed in, for the rail's avatar.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description: "Whether the navigation has arrived.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description:
+          "Try again was pressed after the navigation failed to load.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "520",
+        description: "The frame's height, px.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer frame.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the rail is a vertical tablist with automatic activation — Up, Down, Home and End move and choose, Right crosses into the panel onto the current page. In the panel Up and Down move, Enter opens the page and Left returns to the rail. On a phone Right or Enter drills in and Left or Escape (marked handled) goes back.",
+      "Each section remembers its last page, so coming back to a section brings its page back; onNavigate reports that change too.",
+      "Reduced motion: lists cross-fade without travel, the rail pill, count badge and drill-in jump, and digits change without rolling; counts and pages still update.",
+      "Performance: no loops — motion runs only on a change. Page rows are generated once per item from a seeded hash, so server and browser render the same markup.",
+      "Mark a section with loading: true while its list is in flight, or give it no items and an emptyText and emptyAction for its empty state.",
+    ],
+  },
+  {
+    name: "tray-windows",
+    type: "registry:ui",
+    title: "Tray Windows",
+    description:
+      "A workspace of floating windows where any record can be parked in a tray: minimising sends a ghost of the window — title bar and body lines — flying into its chip's slot on springs.glide, position, size and corner radius from one value, and the chip lands with a small drop on springs.recoil; restoring flies it back to exactly where the window was and returns focus to it. Chips keep an unsaved marker and ask before discarding, and a full tray puts the rest behind a +N menu. Cmd or Ctrl+M minimises the focused window and Cmd or Ctrl with a number restores that chip.",
+    files: [
+      {
+        path: "registry/ui/tray-windows.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2105",
+    },
+    tagline: "Park what you are working on; pick it up later.",
+    keywords: [
+      "minimise",
+      "tray",
+      "dock",
+      "windows",
+      "drafts",
+      "app shell",
+      "unsaved changes",
+    ],
+    props: [
+      {
+        name: "records",
+        type: "TrayRecord[]",
+        defaultValue: "defaultTrayRecords",
+        description:
+          "Every record with a window: drafts (an editable body) and tickets (the last message and a reply).",
+      },
+      {
+        name: "tray / defaultTray",
+        type: "string[]",
+        defaultValue: '— / ["t-2210", "t-2219"]',
+        description:
+          "The ids parked in the tray, in the order they were parked. Controlled or uncontrolled.",
+      },
+      {
+        name: "onTrayChange",
+        type: "(ids: string[]) => void",
+        description:
+          "Fires with the whole tray after a minimise, a restore or a close.",
+      },
+      {
+        name: "unsaved / defaultUnsaved",
+        type: "string[]",
+        defaultValue: '— / ["d-3195"]',
+        description:
+          "The ids with unsaved changes. Controlled or uncontrolled.",
+      },
+      {
+        name: "onUnsavedChange",
+        type: "(ids: string[]) => void",
+        description:
+          "Fires when typing or saving changes which ids are unsaved.",
+      },
+      {
+        name: "positions",
+        type: "Record<string, { x, y, w, h }>",
+        defaultValue: "defaultTrayPositions",
+        description:
+          "Where each window sits, as fractions of the workspace; a restore flies back here.",
+      },
+      {
+        name: "onMinimise",
+        type: "(id: string) => void",
+        description: "A window was minimised into the tray.",
+      },
+      {
+        name: "onRestore",
+        type: "(id: string) => void",
+        description: "A chip was restored to its window.",
+      },
+      {
+        name: "onCloseItem",
+        type: "(id: string) => void",
+        description: "A window or a chip was closed, after the unsaved check.",
+      },
+      {
+        name: "onSave",
+        type: "(id: string, body: string) => void",
+        description:
+          "Save (a draft) or Send (a ticket reply) was pressed, with the text.",
+      },
+      {
+        name: "chipSize",
+        type: '"sm" | "md" | "lg"',
+        defaultValue: '"md"',
+        description: "Chip length and height; large adds a meta line.",
+      },
+      {
+        name: "trayPosition",
+        type: '"bottom" | "floating" | "side"',
+        defaultValue: '"bottom"',
+        description:
+          "A bar docked along the bottom edge, a dock floating above it, or a column on the right.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "Unsaved markers, focus and the primary buttons — any CSS colour.",
+      },
+      {
+        name: "trayLimit",
+        type: "number",
+        defaultValue: "6",
+        description:
+          "The most chips shown before the rest go behind the overflow menu (fewer when the tray is shorter).",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description: "Whether the records have arrived.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the records failed to load.",
+      },
+      {
+        name: "workspace",
+        type: "string",
+        defaultValue: '"Fernworks"',
+        description: "The workspace's name.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Support desk"',
+        description: "The frame's title.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "520",
+        description: "The frame's height, px.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer frame.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: Cmd or Ctrl+M minimises the window that holds focus (or the front one); Cmd or Ctrl with 1–9 restores that chip — Ctrl where the browser keeps Cmd with a number for its tabs. The tray is a toolbar with a roving tabindex: arrows along it, Enter restores, Delete closes. The overflow button opens a menu (arrows, Enter, Escape returns focus).",
+      "Focus follows the work: minimising moves focus to the chip that landed, restoring moves it into the window's text field, and the unsaved check focuses Keep, which Escape also chooses.",
+      "Reduced motion: there is no flight — the window fades out and the chip fades in, and back; counts, markers and focus still change.",
+      "Performance: nothing runs at rest. Each flight is one spring on one number writing a handful of motion values; windows keep their DOM order and come to the front by z-index, so a press that raises a window still lands as a click.",
+      "Under 30rem windows become full-width sheets and the tray a row of icons with their numbers; the side tray falls back to the bottom.",
+    ],
+  },
+  {
+    name: "env-ribbon",
+    type: "registry:ui",
+    title: "Env Ribbon",
+    description:
+      "An app shell whose top edge always says which environment it is pointed at: a ribbon in the environment's colour, and a change sweeps the new colour across it from the switcher outward on springs.glide, both edges reaching the frame's ends together with a glint riding each, while the console's data cross-fades and its rows rise 4px in cascade. Entering a protected environment grows a hatched edge on every destructive button on springs.snap, each timed to the moment the sweep reaches it, and switching into production or running a destructive action there asks for the environment's name to be typed first. Alt+E opens the switcher, a listbox with arrow keys, type-ahead and Escape; below a 22rem container the ribbon thickens into a labelled bar.",
+    files: [
+      {
+        path: "registry/ui/env-ribbon.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2106",
+    },
+    tagline: "Always know which environment you are in.",
+    keywords: [
+      "environment switcher",
+      "app shell",
+      "deploy console",
+      "production guard",
+      "staging",
+      "destructive action",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "ribbonWidth",
+        type: "number",
+        defaultValue: "4",
+        description:
+          "Ribbon thickness along the frame's top edge, in px. The narrow labelled bar grows with it.",
+      },
+      {
+        name: "hatch",
+        type: '"stripe" | "cross" | "ticks" | "off"',
+        defaultValue: '"stripe"',
+        description:
+          "The edge destructive buttons grow in a protected environment.",
+      },
+      {
+        name: "accent",
+        type: '"cobalt" | "plum" | "mint" | "ink" | string',
+        defaultValue: '"cobalt"',
+        description:
+          "Interface accent: the mark, the primary action and the switcher's selection. A name or any CSS colour.",
+      },
+      {
+        name: "environments",
+        type: "EnvRibbonEnvironment[]",
+        defaultValue: "defaultEnvRibbonEnvironments",
+        description:
+          "The environments in switcher order: { id, name, colour?, protected?, region?, host? }. Colours default to green, amber and red pigments.",
+      },
+      {
+        name: "environment / defaultEnvironment",
+        type: "string",
+        defaultValue: '— / "staging"',
+        description: "The current environment id, controlled or initial.",
+      },
+      {
+        name: "onEnvironmentChange",
+        type: "(id: string, environment: EnvRibbonEnvironment) => void",
+        description:
+          "Fires from the choice, after any confirmation, that changed the environment.",
+      },
+      {
+        name: "snapshots",
+        type: "Record<string, EnvRibbonSnapshot>",
+        defaultValue: "defaultEnvRibbonSnapshots",
+        description:
+          "What each environment runs, by id: version, commit, deployedAt, deployedBy, metrics and services.",
+      },
+      {
+        name: "actions",
+        type: "EnvRibbonAction[]",
+        defaultValue: "defaultEnvRibbonActions",
+        description:
+          "The action bar: { id, label, kind?, icon?, short?, consequence?, done? }. Destructive actions grow the hatched edge and ask first in a protected environment.",
+      },
+      {
+        name: "onAction",
+        type: "(actionId: string, envId: string) => void",
+        description:
+          "An action ran straight away: anything outside a protected environment, and non-destructive actions inside one.",
+      },
+      {
+        name: "onConfirmProtected",
+        type: '(request: { kind: "switch" | "action"; envId: string; actionId?: string }) => void',
+        description: "A protected switch or destructive action was confirmed.",
+      },
+      {
+        name: "confirmByTyping",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Ask for the environment's name to be typed before a protected step. Off: one confirm press.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "defaultEnvRibbonNow",
+        description:
+          "The moment relative times count from, in ms, so server and browser agree.",
+      },
+      {
+        name: "product",
+        type: "string",
+        defaultValue: '"Waylight"',
+        description: "Product name beside the mark.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Deploy console"',
+        description: "The console's title under the product.",
+      },
+      {
+        name: "shortcut",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Alt+E opens the switcher while focus is in the frame, or while it is hovered with nothing focused.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the current environment's data has arrived: a skeleton while loading, a message with Try again on error.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again after an error.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only: nothing can be switched or run.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          "The frame's accessible name. Defaults to the product and title.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer container.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: Alt+E (matched by key code, so the macOS dead key still works) opens the switcher from anywhere in the frame, or with nothing focused while the frame is hovered. The list has Up, Down, Home, End, type-ahead, Enter or Space to choose and Escape to close, and every environment change is announced once.",
+      "Protected steps open an alert dialog with focus trapped and Escape handled; with confirmByTyping the confirm button stays aria-disabled until the environment's name is typed, and focus returns to whatever opened it.",
+      "Environment colours are pigments (a status token's hue at a fixed lightness), so the ribbon reads the same in light and dark themes; pass any CSS colour per environment to change them.",
+      "The sweep is one motion value and one animation per change, and the hatched edges' delays are solved from the glide spring's step response once per change: nothing runs at rest.",
+      "Under reduced motion the new colour cross-fades over the ribbon and the hatched edges fade in without growing; the data, the colour and the edges still change, because they are the information.",
+      "Layout follows the frame's own width: a labelled bar, metric tiles two by two and service rows below 40rem, and icon-only secondary actions below 22rem.",
+    ],
+  },
+  {
+    name: "suite-atrium",
+    type: "registry:ui",
+    title: "Suite Atrium",
+    description:
+      "The home of a product suite, its apps as tiles with live summaries, rolling stats and sparklines, where choosing a tile grows it into the full app on springs.glide: one progress value opens a clip from the tile's box to the whole atrium while the app's interior rides the clip's corner, so the icon never moves and the window opens around it, and the sidebar unfolds from the tile's edge a beat behind with its rows arriving in cascade. Going home runs the same value back into the tile, re-measured in case pinning moved it, and focus returns to it; grow can instead zoom the app from the tile's centre or raise it as a sheet. Tiles are one roving group: arrows move by tile and by row, Enter opens, P pins and pinned apps glide to the front, and Cmd or Ctrl+Shift+H or Escape goes home.",
+    files: [
+      {
+        path: "registry/ui/suite-atrium.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2107",
+    },
+    tagline: "Every app in the suite, one step from home.",
+    keywords: [
+      "app launcher",
+      "app shell",
+      "product suite",
+      "home screen",
+      "tile grid",
+      "shared element",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "tileSize",
+        type: "number",
+        defaultValue: "180",
+        description:
+          "The narrowest a tile column may be, in px: smaller fits more tiles to a row.",
+      },
+      {
+        name: "grow",
+        type: '"tile" | "zoom" | "sheet"',
+        defaultValue: '"tile"',
+        description:
+          "How a chosen tile becomes the app: grows from the tile, zooms from its centre, or rises as a sheet from its top edge.",
+      },
+      {
+        name: "accent",
+        type: '"cobalt" | "plum" | "mint" | "ink" | string',
+        defaultValue: '"cobalt"',
+        description:
+          "Interface accent: the section pill, the pinned glyph and the highlighted item. A name or any CSS colour.",
+      },
+      {
+        name: "apps",
+        type: "SuiteApp[]",
+        defaultValue: "defaultSuiteApps",
+        description:
+          "The suite's apps in home order: { id, name, icon, hue?, summary, stat?, series?, status?, lockedReason?, sections, items }. Pinned ones sort first.",
+      },
+      {
+        name: "recent",
+        type: "SuiteRecent[]",
+        defaultValue: "defaultSuiteRecent",
+        description:
+          "Recent items across the suite, newest first: { id, appId, itemId?, title }. Shown as chips at home and per app in its sidebar.",
+      },
+      {
+        name: "openApp / defaultOpenApp",
+        type: "string | null",
+        defaultValue: "— / null",
+        description: "The open app id, controlled or initial; null is home.",
+      },
+      {
+        name: "onOpenApp",
+        type: "(appId: string) => void",
+        description: "Fires from the tile, chip or key that opened an app.",
+      },
+      {
+        name: "onReturnHome",
+        type: "(fromAppId: string) => void",
+        description:
+          "Fires from the button or key that went home, with the app that was open.",
+      },
+      {
+        name: "pinned / defaultPinned",
+        type: "string[]",
+        defaultValue: '— / ["survey"]',
+        description: "Pinned app ids, controlled or initial.",
+      },
+      {
+        name: "onPinApp",
+        type: "(appId: string, pinned: boolean, all: string[]) => void",
+        description:
+          "Fires when an app is pinned or unpinned, with the whole new list.",
+      },
+      {
+        name: "onOpenItem",
+        type: "(appId: string, itemId: string) => void",
+        description: "An item inside an app, or a recent item, was chosen.",
+      },
+      {
+        name: "onRequestAccess",
+        type: "(appId: string) => void",
+        description:
+          "A locked app was pressed; its tile then says access was requested.",
+      },
+      {
+        name: "suite",
+        type: "string",
+        defaultValue: '"Fieldline"',
+        description: "The suite's name in the header.",
+      },
+      {
+        name: "user",
+        type: "{ name: string; initials?: string }",
+        defaultValue: '{ name: "Ines Duarte" }',
+        description: "Who is signed in: the greeting's name and the avatar.",
+      },
+      {
+        name: "greeting",
+        type: "string",
+        description:
+          "The home greeting. Defaults to good morning, afternoon or evening from now's UTC hour, with the first name.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "defaultSuiteNow",
+        description:
+          "The moment the greeting reads, in ms, so server and browser agree.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the suite's data has arrived: skeleton tiles while loading, a message with Try again on error.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again after an error.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          'The atrium\'s accessible name. Defaults to "<suite> home".',
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer container.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: tiles are one tab stop. Left and Right move by tile, Up and Down move to the nearest tile in the row above or below (read from the layout, so it works at any column count and in the list), Home and End jump, Enter opens and P pins. Inside an app the sections are a roving list, and Cmd or Ctrl+Shift+H or Escape goes home.",
+      "Focus moves to the app's current section when its frame arrives and back to the tile once the frame has gone; home is inert while an app is open, and opening and returning are announced once.",
+      "The growth is one progress value per open, with positions measured once per open and once per return, so nothing runs at rest; sparklines are static paths rounded to two places.",
+      "A locked app requests access instead of opening and a loading app shows skeleton lines on its tile and in its frame; per-app status comes from the data, the suite's from status.",
+      "Under reduced motion the app cross-fades in place with no clip, zoom or travel and tiles reorder without moving; the open app, the sections and the pinned order still change.",
+      "Layout follows the atrium's own width: below 26rem the tiles become a list of rows and the app's sidebar becomes a row of section chips that unfolds the same way.",
+    ],
+  },
+  {
+    name: "favourite-shelf",
+    type: "registry:ui",
+    title: "Favourite Shelf",
+    description:
+      "A workspace sidebar with a Favourites shelf at its top that fills by dragging any row up into it: the grabbed row lifts into a layer above the sidebar on springs.flick and follows the pointer 1:1 while a dashed ghost holds its place, and over the shelf the favourites part on springs.glide to open a gap that follows the pointer as the shelf's height glides open by a row. Let go over the gap and the row glides in with the release velocity, then lands with a short squash from a springs.recoil spring kicked by the impact; let go elsewhere and it glides home, and a favourite dragged out below the shelf comes off it. Every row is one roving list: Alt+F adds or removes a favourite with the same flight, Alt with Up or Down reorders one, Delete removes one, and the folded rail turns the shelf into a strip of icons.",
+    files: [
+      {
+        path: "registry/ui/favourite-shelf.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2108",
+    },
+    tagline: "Drag anything up to keep it close.",
+    keywords: [
+      "favourites",
+      "sidebar",
+      "drag and drop",
+      "pinned pages",
+      "navigation",
+      "reorder",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "shelfStyle",
+        type: '"tray" | "ruled" | "card"',
+        defaultValue: '"tray"',
+        description:
+          "How the shelf is drawn: an inset tray, hairline rules, or a raised card with an accent edge.",
+      },
+      {
+        name: "rowHeight",
+        type: "number",
+        defaultValue: "32",
+        description:
+          "Every row's height, in px; the gap, the landing and the shelf's height follow it.",
+      },
+      {
+        name: "accent",
+        type: '"cobalt" | "plum" | "mint" | "ink" | string',
+        defaultValue: '"cobalt"',
+        description:
+          "Accent for the current page, the landing pad, the stars and the shelf meter. A name or any CSS colour.",
+      },
+      {
+        name: "sections",
+        type: "ShelfSection[]",
+        defaultValue: "defaultShelfSections",
+        description: "The sections under the shelf, in order: { id, label }.",
+      },
+      {
+        name: "items",
+        type: "ShelfItem[]",
+        defaultValue: "defaultShelfItems",
+        description:
+          "Every row, in order within its section: { id, label, section, icon, count? }.",
+      },
+      {
+        name: "favourites / defaultFavourites",
+        type: "string[]",
+        defaultValue: "— / defaultShelfFavourites",
+        description:
+          "Item ids on the shelf in shelf order, controlled or initial.",
+      },
+      {
+        name: "onFavouritesChange",
+        type: "(ids: string[]) => void",
+        description:
+          "Fires with the whole new shelf after any add, remove or reorder.",
+      },
+      {
+        name: "onFavourite",
+        type: "(id: string, index: number) => void",
+        description: "An item landed on the shelf, at this index.",
+      },
+      {
+        name: "onUnfavourite",
+        type: "(id: string) => void",
+        description: "An item left the shelf.",
+      },
+      {
+        name: "onReorderFavourites",
+        type: "(ids: string[]) => void",
+        description:
+          "The shelf's order changed, by a drag or by Alt with an arrow.",
+      },
+      {
+        name: "limit",
+        type: "number",
+        defaultValue: "5",
+        description:
+          "The most the shelf holds; a full shelf opens no gap and says so.",
+      },
+      {
+        name: "current / defaultCurrent",
+        type: "string",
+        defaultValue: '— / "roadmap"',
+        description: "The open page's id, controlled or initial.",
+      },
+      {
+        name: "onNavigate",
+        type: "(id: string) => void",
+        description: "A row was opened by a press, Enter or Space.",
+      },
+      {
+        name: "folded / defaultFolded",
+        type: "boolean",
+        defaultValue: "— / false",
+        description: "The sidebar as a 60px rail, controlled or initial.",
+      },
+      {
+        name: "onFoldedChange",
+        type: "(folded: boolean) => void",
+        description: "Fires from the button that folded or opened the sidebar.",
+      },
+      {
+        name: "workspace",
+        type: "string",
+        defaultValue: '"Basinworks"',
+        description: "The workspace's name in the header.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the sidebar's data has arrived: skeleton rows while loading, a message with Try again on error.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again after an error.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          'The navigation\'s accessible name. Defaults to "<workspace> sidebar".',
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer container.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: every row is in one roving list (one tab stop). Up and Down walk it, Home and End jump, Enter or Space opens; Alt+F adds the focused row to the shelf or takes a favourite off, Alt with Up or Down reorders a favourite, Delete removes one, and every change is announced with the shelf's count.",
+      "The drag follows the pointer 1:1 and captures only after 4px, so a plain press still opens the row; until then the window passes on moves, so a quick pull that leaves the row before the threshold still becomes a drag. Rows keep touch-action pan-y so the sidebar scrolls under a finger, and the grip (shown on hover, focus and coarse pointers) is touch-none so a finger can drag from it.",
+      "The grabbed row is drawn in a layer inside the sidebar's own box, so nothing paints outside the component; rects are measured once at the grab and every frame after is motion values, so nothing re-renders per pointer move.",
+      "Under reduced motion the copy still follows the pointer, because it is direct manipulation, but the lift, the flight home and the squash are instant and the gap opens without travel; order, stars and counts still change.",
+      'Shelf rows keep one DOM order and take their place from the shelf\'s order, so a reorder never moves a focused node; each says its position, e.g. "Roadmap, favourite 1 of 3".',
+    ],
+  },
+  {
+    name: "letter-jump",
+    type: "registry:ui",
+    title: "Letter Jump",
+    description:
+      "A keyboard-first sidebar that reads as a calm, ordinary list until you hold G: then every row raises a letter badge, each rising 4px on springs.snap in a ripple out from the current page, cascade milliseconds apart and inside the 600ms budget, and a letter jumps, its badge flashing as it fills with the accent and lands from 1.25x on springs.snap while the current pill glides to the row on springs.glide and focus follows. Letters several rows want become prefixes, so the first press dims every other row and lights the second letters, and the key assignment is a pure function the server and browser agree on. G can be held or tapped, the header's key button and a long press on the header show the badges for pointers and touch, ? opens a key sheet where any key can be rebound with collisions falling back to two letters, and the arrow keys still walk the list.",
+    files: [
+      {
+        path: "registry/ui/letter-jump.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2109",
+    },
+    tagline: "Hold G; every item shows its key.",
+    keywords: [
+      "keyboard shortcuts",
+      "sidebar",
+      "go to",
+      "key hints",
+      "navigation",
+      "accessibility",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "badgeStyle",
+        type: '"keycap" | "pill" | "outline"',
+        defaultValue: '"keycap"',
+        description:
+          "How the letter badges are drawn: a raised key, a solid accent pill, or a hairline ring with an accent letter.",
+      },
+      {
+        name: "cascade",
+        type: "number",
+        defaultValue: "20",
+        description:
+          "Milliseconds between one badge rising and the next, rippling out from the current row; the whole wave stays under 600ms.",
+      },
+      {
+        name: "accent",
+        type: '"cobalt" | "plum" | "mint" | "ink" | string',
+        defaultValue: '"cobalt"',
+        description:
+          "Accent for the current page, the flash and pill badges. A name or any CSS colour.",
+      },
+      {
+        name: "sections",
+        type: "LetterJumpSection[]",
+        defaultValue: "defaultLetterJumpSections",
+        description: "The sections, in order: { id, label }.",
+      },
+      {
+        name: "items",
+        type: "LetterJumpItem[]",
+        defaultValue: "defaultLetterJumpItems",
+        description:
+          "Every row, in order within its section: { id, label, section, icon, count?, key? }. A key asked for in `key` is honoured unless it collides.",
+      },
+      {
+        name: "current / defaultCurrent",
+        type: "string",
+        defaultValue: '— / "inbox"',
+        description: "The open page's id, controlled or initial.",
+      },
+      {
+        name: "onNavigate",
+        type: "(id: string) => void",
+        description: "A row was opened: a press, Enter, or a letter jump.",
+      },
+      {
+        name: "onRebindKey",
+        type: "(id: string, key: string) => void",
+        description:
+          "A key was rebound in the key sheet; anything it collided with has fallen back.",
+      },
+      {
+        name: "showKeys / defaultShowKeys",
+        type: "boolean",
+        defaultValue: "— / false",
+        description: "Whether the badges are up, controlled or initial.",
+      },
+      {
+        name: "onShowKeysChange",
+        type: "(shown: boolean) => void",
+        description:
+          "Fires when the badges rise or sink, from the key, button or press that did it.",
+      },
+      {
+        name: "leader",
+        type: "string",
+        defaultValue: '"g"',
+        description:
+          "The key held or tapped to raise the badges. It is never assigned to an item.",
+      },
+      {
+        name: "timeout",
+        type: "number",
+        defaultValue: "1500",
+        description:
+          "How long the badges wait for a letter after a tapped leader, in ms.",
+      },
+      {
+        name: "longPress",
+        type: "number",
+        defaultValue: "450",
+        description:
+          "How long a press on the header must last to raise the badges on touch, in ms.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Gaugeworks"',
+        description: "The product in the header.",
+      },
+      {
+        name: "subtitle",
+        type: "string",
+        defaultValue: '"Support desk"',
+        description: "The line under the product.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the list's data has arrived: skeleton rows while loading, a message with Try again on error.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again after an error.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          'The navigation\'s accessible name. Defaults to "<title> navigation".',
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer container.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: rows are one roving list (Up, Down, Home, End, Enter). G then a letter, or two, jumps while focus is in the list, or with nothing focused while it is hovered, and never while typing in a field; ? opens the key sheet, whose focus is trapped and whose Escape is handled; Escape also puts raised keys away.",
+      'Each row\'s accessible name ends with its jump keys ("Unassigned, G then U N"); the badges themselves are aria-hidden, and jumps and rebinds are announced once, including any key that fell back.',
+      "Keys come from assignLetterKeys(items, leader, pins), exported for hosts that want to print them elsewhere: a letter is either one item's key or the prefix of two-letter keys, never both, and the leader is never a key.",
+      "Nothing runs at rest: the only timers are the tapped leader's wait, the long press and a hint, all cleared; the ripple is per-row delays on one spring each.",
+      "Under reduced motion the badges fade in and out without rising, the flash is a colour change and the current pill moves at once; the keys, the dimming and the jump still happen.",
+      "showKeys can be driven by the host, for a toolbar toggle or an onboarding moment that shows people the keys once.",
+    ],
+  },
+  {
+    name: "bubble-up",
+    type: "registry:ui",
+    title: "Bubble Up",
+    description:
+      "A project sidebar where what changed floats to the top: a project with new activity shows its count at home, popping in on springs.snap, and after liftDelay the row lifts out with a shadow on springs.flick and glides up on springs.glide into an Updated group that opens a slot for it while the group's count rolls, leaving a dotted placeholder that holds its home for a beat and then closes as the rows below slide up. Opening a project marks it read and sends it back down to its home on glide, and Shift+R sends the whole group home in cascade order. Every row is placed from a pure layout of fixed heights, so the server renders the positions the browser animates and the DOM order never changes; Up and Down walk the rows as they appear, Enter opens, M mutes, and below an 18.5rem container the Updated group folds into a count chip.",
+    files: [
+      {
+        path: "registry/ui/bubble-up.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2110",
+    },
+    tagline: "What changed floats to the top.",
+    keywords: [
+      "project sidebar",
+      "activity",
+      "unread",
+      "updates",
+      "notifications",
+      "reorder",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "liftDelay",
+        type: "number",
+        defaultValue: "500",
+        description:
+          "How long a row with new activity waits at home, its count showing, before it rises, in ms.",
+      },
+      {
+        name: "density",
+        type: '"compact" | "cozy" | "roomy"',
+        defaultValue: '"cozy"',
+        description:
+          "Row height and what each row says: one line, a meta line, or meta and client.",
+      },
+      {
+        name: "accent",
+        type: '"cobalt" | "plum" | "mint" | "ink" | string',
+        defaultValue: '"cobalt"',
+        description:
+          "Accent for counts, the chip and the Updated group. A name or any CSS colour.",
+      },
+      {
+        name: "projects",
+        type: "BubbleProject[]",
+        defaultValue: "defaultBubbleProjects",
+        description:
+          "The projects, in order within their groups: { id, name, client, group, hue? }.",
+      },
+      {
+        name: "groups",
+        type: "BubbleGroup[]",
+        defaultValue: "defaultBubbleGroups",
+        description: "The home groups, in order: { id, label }.",
+      },
+      {
+        name: "events",
+        type: "BubbleEvent[]",
+        defaultValue: "defaultBubbleEvents",
+        description:
+          "Activity on the projects, any order: { id, projectId, at, by, kind }. A project is updated while it has events after its read time.",
+      },
+      {
+        name: "readAt / defaultReadAt",
+        type: "Record<string, number>",
+        defaultValue: "— / defaultBubbleReadAt",
+        description:
+          "For each project, the time it was read up to, controlled or initial.",
+      },
+      {
+        name: "onMarkRead",
+        type: "(projectIds: string[], readAt: Record<string, number>) => void",
+        description:
+          "Projects were marked read, by opening one or by Shift+R, with the whole new read state.",
+      },
+      {
+        name: "muted / defaultMuted",
+        type: "string[]",
+        defaultValue: "— / []",
+        description:
+          "Muted project ids, controlled or initial; a muted project never rises.",
+      },
+      {
+        name: "onMute",
+        type: "(projectId: string, muted: boolean) => void",
+        description: "A project was muted or unmuted, by its bell or by M.",
+      },
+      {
+        name: "onOpen",
+        type: "(projectId: string) => void",
+        description: "A project was opened.",
+      },
+      {
+        name: "current / defaultCurrent",
+        type: "string | null",
+        defaultValue: "— / null",
+        description: "The open project's id, controlled or initial.",
+      },
+      {
+        name: "placeholderBeat",
+        type: "number",
+        defaultValue: "700",
+        description:
+          "How long the dotted placeholder holds a risen row's home before it closes, in ms.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "defaultBubbleNow",
+        description:
+          "The moment relative times count from, in ms, so server and browser agree.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Fernworks"',
+        description: "The studio's name in the header.",
+      },
+      {
+        name: "subtitle",
+        type: "string",
+        defaultValue: '"Client projects"',
+        description: "The line under the name.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the projects have arrived: skeleton rows while loading, a message with Try again on error.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again after an error.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          'The navigation\'s accessible name. Defaults to "<title> projects".',
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer container.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: rows are one roving list in the order they appear (Up, Down, Home, End); Enter opens and marks read, M mutes or unmutes the focused project, and Shift+R anywhere in the sidebar marks every update read. Each row's name is one sentence with its count and latest activity.",
+      "Rows are placed from a pure layout of fixed row heights and never change DOM order, so the server renders the same positions the browser animates and a moving row keeps its focus.",
+      "With nothing updated the group says All caught up with the last read time; risen and returning rows are announced once per change, not per event.",
+      "Timers run only while a lift or a placeholder is pending, and all are cleared; nothing loops at rest. Times come from now and event times, never the wall clock.",
+      "Under reduced motion rows move at once and the placeholder closes straight away; the counts, the group and the order still change, because they are the information.",
+      "Below an 18.5rem container (measured on the component's own wrapper) the Updated group folds into a count chip in the header that opens it, and a width change re-lays the list without animating.",
+    ],
+  },
 ];

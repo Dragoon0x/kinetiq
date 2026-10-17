@@ -1997,6 +1997,26 @@ import { CrewUsageDemo } from "@/registry/demos/crew-usage.demo";
 import { CostStreamsDemo } from "@/registry/demos/cost-streams.demo";
 import { SpikeTraceDemo } from "@/registry/demos/spike-trace.demo";
 import { SwapSavingsDemo } from "@/registry/demos/swap-savings.demo";
+import { TimeFitDemo } from "@/registry/demos/time-fit.demo";
+import { ReplanDiffDemo } from "@/registry/demos/replan-diff.demo";
+import { GoalBloomDemo } from "@/registry/demos/goal-bloom.demo";
+import { AcceptanceSheetDemo } from "@/registry/demos/acceptance-sheet.demo";
+import { CrossroadsPlanDemo } from "@/registry/demos/crossroads-plan.demo";
+import { UnitCostDemo } from "@/registry/demos/unit-cost.demo";
+import { CacheDividendDemo } from "@/registry/demos/cache-dividend.demo";
+import { RequestAnatomyDemo } from "@/registry/demos/request-anatomy.demo";
+import { WorkspaceLiftDemo } from "@/registry/demos/workspace-lift.demo";
+import { ConsoleShellDemo } from "@/registry/demos/console-shell.demo";
+import { LockstepPanesDemo } from "@/registry/demos/lockstep-panes.demo";
+import { StageModeDemo } from "@/registry/demos/stage-mode.demo";
+import { TilingDeskDemo } from "@/registry/demos/tiling-desk.demo";
+import { DoubleRailDemo } from "@/registry/demos/double-rail.demo";
+import { TrayWindowsDemo } from "@/registry/demos/tray-windows.demo";
+import { EnvRibbonDemo } from "@/registry/demos/env-ribbon.demo";
+import { SuiteAtriumDemo } from "@/registry/demos/suite-atrium.demo";
+import { FavouriteShelfDemo } from "@/registry/demos/favourite-shelf.demo";
+import { LetterJumpDemo } from "@/registry/demos/letter-jump.demo";
+import { BubbleUpDemo } from "@/registry/demos/bubble-up.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -4008,4 +4028,24 @@ export const demos: Record<string, ComponentType> = {
   "cost-streams": CostStreamsDemo,
   "spike-trace": SpikeTraceDemo,
   "swap-savings": SwapSavingsDemo,
+  "time-fit": TimeFitDemo,
+  "replan-diff": ReplanDiffDemo,
+  "goal-bloom": GoalBloomDemo,
+  "acceptance-sheet": AcceptanceSheetDemo,
+  "crossroads-plan": CrossroadsPlanDemo,
+  "unit-cost": UnitCostDemo,
+  "cache-dividend": CacheDividendDemo,
+  "request-anatomy": RequestAnatomyDemo,
+  "workspace-lift": WorkspaceLiftDemo,
+  "console-shell": ConsoleShellDemo,
+  "lockstep-panes": LockstepPanesDemo,
+  "stage-mode": StageModeDemo,
+  "tiling-desk": TilingDeskDemo,
+  "double-rail": DoubleRailDemo,
+  "tray-windows": TrayWindowsDemo,
+  "env-ribbon": EnvRibbonDemo,
+  "suite-atrium": SuiteAtriumDemo,
+  "favourite-shelf": FavouriteShelfDemo,
+  "letter-jump": LetterJumpDemo,
+  "bubble-up": BubbleUpDemo,
 };
