@@ -1982,6 +1982,21 @@ import { MergeTrainDemo } from "@/registry/demos/merge-train.demo";
 import { SchemaMouldDemo } from "@/registry/demos/schema-mould.demo";
 import { SearchFanDemo } from "@/registry/demos/search-fan.demo";
 import { RunCellDemo } from "@/registry/demos/run-cell.demo";
+import { RerunBenchDemo } from "@/registry/demos/rerun-bench.demo";
+import { ServerLanesDemo } from "@/registry/demos/server-lanes.demo";
+import { QueryStagesDemo } from "@/registry/demos/query-stages.demo";
+import { CommandUnpackedDemo } from "@/registry/demos/command-unpacked.demo";
+import { TwoKeysDemo } from "@/registry/demos/two-keys.demo";
+import { WipePreviewDemo } from "@/registry/demos/wipe-preview.demo";
+import { EditBeforeSendDemo } from "@/registry/demos/edit-before-send.demo";
+import { AllowRulesDemo } from "@/registry/demos/allow-rules.demo";
+import { BudgetPourDemo } from "@/registry/demos/budget-pour.demo";
+import { RewirePlanDemo } from "@/registry/demos/rewire-plan.demo";
+import { TokenBucketDemo } from "@/registry/demos/token-bucket.demo";
+import { CrewUsageDemo } from "@/registry/demos/crew-usage.demo";
+import { CostStreamsDemo } from "@/registry/demos/cost-streams.demo";
+import { SpikeTraceDemo } from "@/registry/demos/spike-trace.demo";
+import { SwapSavingsDemo } from "@/registry/demos/swap-savings.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -3978,4 +3993,19 @@ export const demos: Record<string, ComponentType> = {
   "schema-mould": SchemaMouldDemo,
   "search-fan": SearchFanDemo,
   "run-cell": RunCellDemo,
+  "rerun-bench": RerunBenchDemo,
+  "server-lanes": ServerLanesDemo,
+  "query-stages": QueryStagesDemo,
+  "command-unpacked": CommandUnpackedDemo,
+  "two-keys": TwoKeysDemo,
+  "wipe-preview": WipePreviewDemo,
+  "edit-before-send": EditBeforeSendDemo,
+  "allow-rules": AllowRulesDemo,
+  "budget-pour": BudgetPourDemo,
+  "rewire-plan": RewirePlanDemo,
+  "token-bucket": TokenBucketDemo,
+  "crew-usage": CrewUsageDemo,
+  "cost-streams": CostStreamsDemo,
+  "spike-trace": SpikeTraceDemo,
+  "swap-savings": SwapSavingsDemo,
 };

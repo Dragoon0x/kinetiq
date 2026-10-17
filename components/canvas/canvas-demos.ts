@@ -2255,4 +2255,64 @@ export const CANVAS_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/run-cell.demo").then((m) =>
       mod(m.RunCellDemo, m.tweaks),
     ),
+  "rerun-bench": () =>
+    import("@/registry/demos/rerun-bench.demo").then((m) =>
+      mod(m.RerunBenchDemo, m.tweaks),
+    ),
+  "server-lanes": () =>
+    import("@/registry/demos/server-lanes.demo").then((m) =>
+      mod(m.ServerLanesDemo, m.tweaks),
+    ),
+  "query-stages": () =>
+    import("@/registry/demos/query-stages.demo").then((m) =>
+      mod(m.QueryStagesDemo, m.tweaks),
+    ),
+  "command-unpacked": () =>
+    import("@/registry/demos/command-unpacked.demo").then((m) =>
+      mod(m.CommandUnpackedDemo, m.tweaks),
+    ),
+  "two-keys": () =>
+    import("@/registry/demos/two-keys.demo").then((m) =>
+      mod(m.TwoKeysDemo, m.tweaks),
+    ),
+  "wipe-preview": () =>
+    import("@/registry/demos/wipe-preview.demo").then((m) =>
+      mod(m.WipePreviewDemo, m.tweaks),
+    ),
+  "edit-before-send": () =>
+    import("@/registry/demos/edit-before-send.demo").then((m) =>
+      mod(m.EditBeforeSendDemo, m.tweaks),
+    ),
+  "allow-rules": () =>
+    import("@/registry/demos/allow-rules.demo").then((m) =>
+      mod(m.AllowRulesDemo, m.tweaks),
+    ),
+  "budget-pour": () =>
+    import("@/registry/demos/budget-pour.demo").then((m) =>
+      mod(m.BudgetPourDemo, m.tweaks),
+    ),
+  "rewire-plan": () =>
+    import("@/registry/demos/rewire-plan.demo").then((m) =>
+      mod(m.RewirePlanDemo, m.tweaks),
+    ),
+  "token-bucket": () =>
+    import("@/registry/demos/token-bucket.demo").then((m) =>
+      mod(m.TokenBucketDemo, m.tweaks),
+    ),
+  "crew-usage": () =>
+    import("@/registry/demos/crew-usage.demo").then((m) =>
+      mod(m.CrewUsageDemo, m.tweaks),
+    ),
+  "cost-streams": () =>
+    import("@/registry/demos/cost-streams.demo").then((m) =>
+      mod(m.CostStreamsDemo, m.tweaks),
+    ),
+  "spike-trace": () =>
+    import("@/registry/demos/spike-trace.demo").then((m) =>
+      mod(m.SpikeTraceDemo, m.tweaks),
+    ),
+  "swap-savings": () =>
+    import("@/registry/demos/swap-savings.demo").then((m) =>
+      mod(m.SwapSavingsDemo, m.tweaks),
+    ),
 };

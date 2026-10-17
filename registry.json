@@ -50183,6 +50183,431 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "rerun-bench",
+      "type": "registry:ui",
+      "title": "Rerun Bench",
+      "description": "A debugging bench for one recorded tool call: its arguments as real fields beside its response as indented rows. Editing an argument dims the response in place as stale; when the fresh run arrives one accent line sweeps down and each row's new value drops in on springs.flick as it passes, fields that differ flash once and keep a change mark that grows in on springs.snap, and the run strip's selection slides on snap. Cmd or Ctrl+Enter re-runs, Alt with Up and Down steps through earlier runs, the strip is a radiogroup on the arrow keys, and Escape in an edited field restores it.",
+      "files": [
+        {
+          "path": "registry/ui/rerun-bench.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2076"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "server-lanes",
+      "type": "registry:ui",
+      "title": "Server Lanes",
+      "description": "The tool servers an assistant is connected to, each a lane branching off the assistant's spine to a card for the server, with every call a bead that runs out along the upper rail on a tween, waits at the server end behind older calls (re-packing on springs.glide as each leaves), drops to the return rail on springs.snap and runs home tinted by its result — so a slow server shows as beads bunching and a failing one sends red home, while the port pulses on springs.flick and the card's strip gains a mark on snap. Up and Down move between lanes, Enter lists a lane's recent calls under it on glide, and Space pauses it, holding new beads at the assistant end until they are released in a cascade.",
+      "files": [
+        {
+          "path": "registry/ui/server-lanes.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2077"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "query-stages",
+      "type": "registry:ui",
+      "title": "Query Stages",
+      "description": "A database query call shown as the stages it runs through, in the order the database runs them: as each finishes its clause lights, its bar narrows from the previous stage's width to its own on springs.snap and its row counter falls on snap, so the stack of bars reads as a funnel, while the running clause carries a sweeping underline and the result table unfolds beneath on springs.glide with its rows in a cascade once the last clause is done. Slow stages show their time and note, an empty result names the clause that removed the last rows, and a syntax error outlines its clause and underlines the token. Tab moves between the clauses and the table, and Enter on a clause opens the rows as they stood after it.",
+      "files": [
+        {
+          "path": "registry/ui/query-stages.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2078"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "command-unpacked",
+      "type": "registry:ui",
+      "title": "Command Unpacked",
+      "description": "An approval card for a shell command an agent wants to run: the command first shows as one plain line, then its parts — program, flags, paths, arguments, operators — lift apart on springs.glide in a cascade and hairline stems draw down to tags that name each one, packed into staggered rows so no stem crosses a tag, with anything risky (a recursive delete, a write outside the project, running as administrator, piping into a shell) outlined in the risk colour. The part in focus is explained in plain words beneath as its outline slides on springs.snap. Tab walks the parts, Enter approves (twice for a risky command), Escape denies, and under 42rem the parts wrap and stack as a list with their explanations.",
+      "files": [
+        {
+          "path": "registry/ui/command-unpacked.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2079"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "two-keys",
+      "type": "registry:ui",
+      "title": "Two Keys",
+      "description": "A two-person approval for an agent's action, drawn as two key switches beneath a summary of it: each approver turns their own key a quarter turn on springs.snap, the first key opens a window that drains as a hairline, and only when the second turns inside it do the two halves of the bar between the switches close on springs.glide, the lock swap open on springs.flick and the Run control unlock — while a lone key turns itself back on snap if the window lapses. Only the current user's key is a control: a real switch that Space or Enter turns, or a sideways drag that follows the pointer 1:1 and commits by projection; under 34rem the switches stack beside a shorter summary with the bar running down between them.",
+      "files": [
+        {
+          "path": "registry/ui/two-keys.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2080"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "wipe-preview",
+      "type": "registry:ui",
+      "title": "Wipe Preview",
+      "description": "An approval surface for an agent action that edits many records: every affected record is drawn twice in one grid, the result in flow and today's values laid over it, and a wipe decides which shows, with every changed field ringed solid on the result side and dashed on today's. The handle follows the pointer 1:1, rubber-bands past the ends and settles on springs.snap with the throw's velocity; approving runs the wipe to the result on springs.glide and an Applied stamp lands on springs.recoil once the host answers, while a refusal glides it back. The handle is a slider (arrows, Shift, Page keys, Home, End), the records are a multi-select listbox where X or Space skips the focused one, and below 28rem the wipe becomes a Before / After toggle.",
+      "files": [
+        {
+          "path": "registry/ui/wipe-preview.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2081"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "edit-before-send",
+      "type": "registry:ui",
+      "title": "Edit Before Send",
+      "description": "A review frame for a message an agent wants to send: the draft reads as tracked changes against your edits, Edit swaps it for a real textarea sized to its text, every change is a stop you can walk to and revert, and policy flags hold the send until their words are gone, their checks drawing on springs.flick when they are. Approve shrinks the message into an envelope's pocket on springs.glide, folds the flap shut on springs.snap with a seal on flick, waits sealed for the host, then slides it out of the frame on glide; a failed send opens the flap and unfolds the sheet with the reason, and Request changes shrinks the message toward the agent with your note. Cmd or Ctrl+Enter approves from anywhere in the frame, Cmd or Ctrl+Z reverts the focused change or the last edit, and at narrow widths the recipients collapse into a count.",
+      "files": [
+        {
+          "path": "registry/ui/edit-before-send.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2082"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "allow-rules",
+      "type": "registry:ui",
+      "title": "Allow Rules",
+      "description": "A permission prompt that can become a standing rule: Always allow opens a sentence of selects that widens one yes into a pattern (the action, the files, a cost ceiling), with a live rule chip, a reach strip that lights in a cascade the recent requests the rule would have covered, and a conflict that names the deny rule it collides with, rings that rule and holds Create. Create folds the request card on springs.glide into its rule chip while the list opens a slot on the same spring, the chip flies into that slot on glide, and the row's fire count rolls from 0 to 1 on springs.snap as the next waiting request rises in. The builder is a toolbar of select-only comboboxes (Left and Right move, Up and Down change, Enter opens), the rules are roving stops where Enter edits and R revokes after a confirm, and below 30rem the panes sit behind tabs and the chip flies to the Rules tab.",
+      "files": [
+        {
+          "path": "registry/ui/allow-rules.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2083"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "budget-pour",
+      "type": "registry:ui",
+      "title": "Budget Pour",
+      "description": "An agent asking to spend money, drawn against the budget it would come out of: the bar shows paid, promised and the room left, and the order sits above it as a block of its line items starting exactly where the room left starts. A cap handle at the block's end follows the pointer 1:1, rubber-bands and settles on the nearest $10 on springs.snap, and every item past it lets go of the block and strikes in the list. Approve runs one pour front across the block on springs.glide at pourSpeed: behind it the block drains down a sloped surface into a thin stream, the bar's fill grows under the stream and the room left counts down; over budget the block overhangs the bar in danger, above the second-approval line your approval waits for the second, and an expired quote holds the decision. The cap is a slider (arrows $10, Shift $100, Page keys $250, Home, End) and Enter on it approves.",
+      "files": [
+        {
+          "path": "registry/ui/budget-pour.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2084"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "rewire-plan",
+      "type": "registry:ui",
+      "title": "Rewire Plan",
+      "description": "A plan an agent proposes before it starts, laid out as numbered step cards in execution order with dependency arrows in a gutter beside them, packed into lanes so arrows with overlapping spans never share one. A dragged card follows the pointer 1:1, lifted on springs.flick, while the others glide out of its way on springs.glide; every arrow touching it is rebuilt each frame from the cards' motion values and the lanes re-pack on glide, and an arrow that would now point backwards turns red and dashed while the card that needs it says why. The card lands on glide with the release velocity, Approve holds until the order is legal (Fix order finds the legal order that moves least), and the approved plan takes a stamp on springs.recoil; Up and Down move between steps, Alt with Up or Down moves one, Enter edits its title and estimate, and below 28rem the arrows become indented needs lines.",
+      "files": [
+        {
+          "path": "registry/ui/rewire-plan.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2085"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "token-bucket",
+      "type": "registry:ui",
+      "title": "Token Bucket",
+      "description": "An API rate limit as a glass tank of water that refills at the plan's speed in a steady linear rise, where every request lifts out a slab of exactly its size that floats up on springs.glide and evaporates while the surface drops to the new level on springs.snap and sloshes. When the water is too low, requests hang above the tank as droplets that arrive on snap, a dashed line marks what the first one needs, and when the water reaches it the droplet falls in on the exit ease and its scoop leaves as it lands; a refusal throttles the key and a ring clock counts the retry down. The last ten requests sit in a real list beside the tank (behind a toggle in a narrow container) where Up and Down move, Home and End jump and Enter inspects a request.",
+      "files": [
+        {
+          "path": "registry/ui/token-bucket.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2091"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "crew-usage",
+      "type": "registry:ui",
+      "title": "Crew Usage",
+      "description": "A team usage table for an assistant with a row per member — requests, tokens, spend, a thirty-day sparkline on one shared scale and a thin strip of what they use it for — where switching the metric morphs every sparkline at once on springs.glide while the rows re-rank on glide and their rank numbers roll on springs.snap. Focusing or clicking a member opens their strip into a full breakdown whose measured height unfolds on glide as its segments grow in a cascade. It is a real grid with one roving cell: Up and Down move members, Left and Right move cells, Home and End jump, Enter opens the member, Space or focus opens the breakdown, Escape closes it and M cycles the metric.",
+      "files": [
+        {
+          "path": "registry/ui/crew-usage.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2092"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "cost-streams",
+      "type": "registry:ui",
+      "title": "Cost Streams",
+      "description": "Assistant spend drawn as streams flowing from projects through features to models, each as thick as its money and coloured by the project it left; switching the month drives every node and stream from where it is to the new month's layout on one springs.glide spring, carrying on from any frame a second switch interrupts, while the total rolls on springs.snap and a line names the feature that moved most. Hovering or focusing a node lifts its streams and dims the rest, and Enter or a click isolates it — the plot re-lays out with only its flows at the same money scale on the same morph. Tab moves node to node, Enter isolates, Escape releases, the months are a tablist, and in a narrow container the streams become a nested list of bars.",
+      "files": [
+        {
+          "path": "registry/ui/cost-streams.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2093"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "spike-trace",
+      "type": "registry:ui",
+      "title": "Spike Trace",
+      "description": "A workspace's daily usage as bars with anomalous days flagged, where pressing a spike unpacks it: the bar splits into a coloured band per cause and from each band a strand fans out across the chart to its row in a ranked list beside it, drawn by a clip that sweeps from the bar to the list on springs.glide while the rows arrive in a cascade and one line names the biggest cause. Switching between keys, people and prompts re-splits the bar and re-sweeps the strands, and Escape folds it back on the exit ease. The flagged days are a roving set of buttons — Left and Right move between them, Home and End jump, Enter or Space unpacks, Escape folds — and in a narrow container the strands become a stacked bar above the list.",
+      "files": [
+        {
+          "path": "registry/ui/spike-trace.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2094"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "swap-savings",
+      "type": "registry:ui",
+      "title": "Swap Savings",
+      "description": "This month's assistant spend by task and model with a what-if mode: as you move a share of a task's traffic to another model, the from-model's bar drops and the to-model's bar rises to their projected heights on springs.glide — chasing the slider so they arrive just behind your hand — over ghost outlines that hold today's heights, while the savings figure rolls on springs.snap beside a quality note that turns warn past your floor. Each share is a real slider whose thumb follows the finger 1:1 and lands on its step on snap with the release velocity; arrows step it, Page Up and Page Down move a quarter, Home and End jump, R resets every share and Flip reverses the pair. In a narrow container the chart turns horizontal.",
+      "files": [
+        {
+          "path": "registry/ui/swap-savings.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "canvas"
+      ],
+      "meta": {
+        "serial": "KQ-2095"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

@@ -183056,4 +183056,2589 @@ export const components: KinetiqItem[] = [
       "Below a 30rem container the code folds to its first lines behind a disclosure, by container query, so the server markup is the same at every width.",
     ],
   },
+  {
+    name: "rerun-bench",
+    type: "registry:ui",
+    title: "Rerun Bench",
+    description:
+      "A debugging bench for one recorded tool call: its arguments as real fields beside its response as indented rows. Editing an argument dims the response in place as stale; when the fresh run arrives one accent line sweeps down and each row's new value drops in on springs.flick as it passes, fields that differ flash once and keep a change mark that grows in on springs.snap, and the run strip's selection slides on snap. Cmd or Ctrl+Enter re-runs, Alt with Up and Down steps through earlier runs, the strip is a radiogroup on the arrow keys, and Escape in an edited field restores it.",
+    files: [
+      {
+        path: "registry/ui/rerun-bench.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2076",
+    },
+    tagline: "Change an argument and see what it would return.",
+    keywords: [
+      "tool call",
+      "rerun",
+      "debugger",
+      "diff",
+      "api playground",
+      "agent tools",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "diffStyle",
+        type: '"gutter" | "inline" | "wash"',
+        defaultValue: '"gutter"',
+        description:
+          "How a changed field keeps its mark: a bar in the gutter, the old value struck through before the new one, or a soft wash on the row.",
+      },
+      {
+        name: "density",
+        type: '"compact" | "cozy" | "roomy"',
+        defaultValue: '"cozy"',
+        description: "Row height, field height and type size.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "Selection, change marks, the sweep and Re-run — any CSS colour.",
+      },
+      {
+        name: "call",
+        type: "RerunBenchCall",
+        defaultValue: "defaultRerunCall",
+        description:
+          "The tool, its server and every parameter it takes (name, type string/number/boolean/enum, options, description, required).",
+      },
+      {
+        name: "runs",
+        type: "RerunBenchRun[]",
+        defaultValue: "defaultRerunRuns",
+        description:
+          "Every run oldest first: args, response (any JSON), ms, at, from (the run it was re-run from), recorded, error.",
+      },
+      {
+        name: "run / defaultRun",
+        type: "string",
+        defaultValue: "— / the newest run",
+        description:
+          "The id of the run on the bench, controlled or initial. Uncontrolled, the bench moves to each new run as it arrives.",
+      },
+      {
+        name: "onRunChange",
+        type: "(id: string) => void",
+        description:
+          "Fires from the pick or the Alt+Up/Down step that changed the run.",
+      },
+      {
+        name: "args",
+        type: "RerunBenchArgs",
+        description:
+          "Controlled argument draft. Uncontrolled, the draft starts as the shown run's arguments and resets when the run changes.",
+      },
+      {
+        name: "onArgsChange",
+        type: "(args: RerunBenchArgs) => void",
+        description:
+          "Fires from every edit, restore or run change with the whole draft.",
+      },
+      {
+        name: "onRerun",
+        type: "(args: RerunBenchArgs, fromRunId: string) => void",
+        description:
+          "Re-run or Cmd/Ctrl+Enter: call the tool with these arguments. Add the result to runs to stream it in.",
+      },
+      {
+        name: "onRestore",
+        type: "(runId: string) => void",
+        description: "Restore: the draft went back to this run's arguments.",
+      },
+      {
+        name: "onSaveAsTest",
+        type: "(run: RerunBenchRun) => void",
+        description:
+          "Save as test: keep this run's arguments and response as a test case.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "running"',
+        defaultValue: '"ready"',
+        description:
+          "loading shows skeleton fields and rows; running keeps the response dimmed with a scanning hairline.",
+      },
+      {
+        name: "error",
+        type: "string | null",
+        defaultValue: "null",
+        description:
+          "The last re-run never came back: shown over the response with Retry.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "defaultRerunNow",
+        description: "The moment relative run times count from, in ms.",
+      },
+      {
+        name: "baseline",
+        type: '"previous" | "recorded"',
+        defaultValue: '"previous"',
+        description:
+          "What a run's marks are drawn against: the run it was re-run from, or the recorded call.",
+      },
+      {
+        name: "streamMs",
+        type: "number",
+        defaultValue: "520",
+        description:
+          "How long a fresh response takes to stream over the stale one, in ms.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"<tool> rerun bench"',
+        description: "The bench's accessible name.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only: nothing can be edited or re-run.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer surface.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: Cmd or Ctrl+Enter re-runs from anywhere inside the bench, Alt+Up and Alt+Down step through runs, the run strip is a radiogroup (arrows, Home, End), and Escape in an edited field restores that argument.",
+      'The bench never runs the tool itself: onRerun hands you the draft, and appending the result to runs (and selecting it, if you control run) is what plays the stream-over. Keep status at "running" while the call is out.',
+      "Marks compare by JSON path; fields that disappear stay as struck rows where they used to be, and each changed row tells assistive technology what it was.",
+      "Reduced motion cross-fades the values instead of sweeping and the marks appear without the flash; the stale dim, the chips and every mark still show.",
+      'Nothing loops at rest: the scanning hairline runs only while status is "running" and the sweep ends with the last row.',
+      "The surface caps its height at 34rem and scrolls its body; under 34rem of width the request and response stack.",
+    ],
+  },
+  {
+    name: "server-lanes",
+    type: "registry:ui",
+    title: "Server Lanes",
+    description:
+      "The tool servers an assistant is connected to, each a lane branching off the assistant's spine to a card for the server, with every call a bead that runs out along the upper rail on a tween, waits at the server end behind older calls (re-packing on springs.glide as each leaves), drops to the return rail on springs.snap and runs home tinted by its result — so a slow server shows as beads bunching and a failing one sends red home, while the port pulses on springs.flick and the card's strip gains a mark on snap. Up and Down move between lanes, Enter lists a lane's recent calls under it on glide, and Space pauses it, holding new beads at the assistant end until they are released in a cascade.",
+    files: [
+      {
+        path: "registry/ui/server-lanes.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2077",
+    },
+    tagline: "Every tool server, and the calls running to it.",
+    keywords: [
+      "tool servers",
+      "tool calls",
+      "latency",
+      "health",
+      "monitoring",
+      "agent tools",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "beadSize",
+        type: "number",
+        defaultValue: "7",
+        description:
+          "Bead diameter in px (3 to 14), and with it how tightly waiting beads pack and how far apart the rails sit.",
+      },
+      {
+        name: "laneStyle",
+        type: '"rails" | "tube" | "thread"',
+        defaultValue: '"rails"',
+        description:
+          "Two hairline rails, a rounded tube the beads run inside, or one dotted thread with beads riding above and below.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "Good calls, the spine's node, the open lane and the switches — any CSS colour.",
+      },
+      {
+        name: "servers",
+        type: "ServerLanesServer[]",
+        defaultValue: "defaultServerLanesServers",
+        description:
+          "One lane each: id, name, host, tools, health (healthy, degraded, disconnected), enabled and a one-line note.",
+      },
+      {
+        name: "calls",
+        type: "ServerLanesCall[]",
+        defaultValue: "defaultServerLanesCalls",
+        description:
+          "Every call: id, server, tool, summary, startedAt, endedAt, status (running, ok, error) and error. A new id launches a bead; a status change brings it home.",
+      },
+      {
+        name: "assistant",
+        type: "string",
+        defaultValue: '"Fieldline assistant"',
+        description: "The assistant's name at the head of the spine.",
+      },
+      {
+        name: "paused / defaultPaused",
+        type: "string[]",
+        defaultValue: "— / []",
+        description: "Ids of the paused lanes, controlled or initial.",
+      },
+      {
+        name: "onPausedChange",
+        type: "(ids: string[]) => void",
+        description:
+          "Fires from Space or a lane's pause button with every paused lane.",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "string | null",
+        defaultValue: "— / null",
+        description:
+          "The lane whose recent calls are listed under it, controlled or initial.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(id: string | null) => void",
+        description: "Fires from Enter, a click or Escape.",
+      },
+      {
+        name: "onToggleServer",
+        type: "(id: string, enabled: boolean) => void",
+        description: "The switch on a server card: may the assistant call it.",
+      },
+      {
+        name: "onReconnect",
+        type: "(id: string) => void",
+        description:
+          "Reconnect on a disconnected server; the lane reads Reconnecting until its health changes.",
+      },
+      {
+        name: "onInspectCall",
+        type: "(call: ServerLanesCall) => void",
+        description: "A call in a lane's recent list was chosen.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "defaultServerLanesNow",
+        description: "The moment relative call times count from, in ms.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading"',
+        defaultValue: '"ready"',
+        description: "loading draws placeholder lanes.",
+      },
+      {
+        name: "slowMs",
+        type: "number",
+        defaultValue: "1500",
+        description: "A call slower than this comes home amber, in ms.",
+      },
+      {
+        name: "travelMs",
+        type: "number",
+        defaultValue: "650",
+        description:
+          "How long a bead takes to run the length of its lane, in ms.",
+      },
+      {
+        name: "recentCount",
+        type: "number",
+        defaultValue: "12",
+        description: "How many results the strip on each server card keeps.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Tool servers"',
+        description: "The view's accessible name.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer surface.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the lanes are one roving group — Up and Down move, Home and End jump, Enter lists the lane's recent calls (Escape closes and returns focus), and Space pauses or resumes the lane. Every lane's name reads its health, calls in flight and its last results.",
+      'Drive it from your call log: append a call with status "running" to launch a bead and set status and endedAt when it returns. Pausing is visual and reported; hold the real calls yourself while a lane is paused.',
+      "Nothing runs at rest: each bead is one tween at a time and is removed when it lands, so a quiet assistant costs nothing. Beads are capped at ten per lane.",
+      "Reduced motion keeps beads still: a running call waits at the server end and its result lands straight in the strip.",
+      "Bead colours are pigments taken from the accent, warn and danger hues at a fixed lightness, so they read the same in light and dark themes.",
+      "Under 36rem of width each lane becomes rows: the server's name and switch, the track, then the recent-calls strip.",
+    ],
+  },
+  {
+    name: "query-stages",
+    type: "registry:ui",
+    title: "Query Stages",
+    description:
+      "A database query call shown as the stages it runs through, in the order the database runs them: as each finishes its clause lights, its bar narrows from the previous stage's width to its own on springs.snap and its row counter falls on snap, so the stack of bars reads as a funnel, while the running clause carries a sweeping underline and the result table unfolds beneath on springs.glide with its rows in a cascade once the last clause is done. Slow stages show their time and note, an empty result names the clause that removed the last rows, and a syntax error outlines its clause and underlines the token. Tab moves between the clauses and the table, and Enter on a clause opens the rows as they stood after it.",
+    files: [
+      {
+        path: "registry/ui/query-stages.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2078",
+    },
+    tagline: "Watch the query narrow down to the answer.",
+    keywords: [
+      "sql",
+      "query plan",
+      "tool call",
+      "funnel",
+      "database",
+      "agent tools",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "stageStyle",
+        type: '"funnel" | "bars" | "rail"',
+        defaultValue: '"funnel"',
+        description:
+          "Bars centred so the stack reads as a funnel, bars from the left like a chart, or a rail of stage nodes that fills as the query runs.",
+      },
+      {
+        name: "counterStyle",
+        type: '"roll" | "tally" | "share"',
+        defaultValue: '"roll"',
+        description:
+          "Rolling digit columns, a number that tallies down, or the share of the source rows with the count beneath.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "Lit keywords, bars, the running underline and the table rule — any CSS colour.",
+      },
+      {
+        name: "source",
+        type: "{ tool: string; database: string }",
+        defaultValue: '{ tool: "run_query", database: "coldbrook-stock" }',
+        description: "The tool that ran the query and the database it ran on.",
+      },
+      {
+        name: "statement",
+        type: "string",
+        defaultValue: "defaultQueryStatement",
+        description:
+          "The statement as written; Copy writes it to the clipboard and Copy and Explain hand it over.",
+      },
+      {
+        name: "stages",
+        type: "QueryStage[]",
+        defaultValue: "defaultQueryStages",
+        description:
+          "The clauses in run order: id, clause (from, join, where, group, having, select, order, limit), text, rows left, ms, note and a sample of rows.",
+      },
+      {
+        name: "columns",
+        type: "QueryColumn[]",
+        defaultValue: "defaultQueryColumns",
+        description:
+          "The result's columns: key, label, align, width, and hideNarrow to drop one on a phone.",
+      },
+      {
+        name: "rows",
+        type: "QueryRow[]",
+        defaultValue: "defaultQueryRows",
+        description: "The result rows.",
+      },
+      {
+        name: "status",
+        type: '"loading" | "running" | "done" | "error"',
+        defaultValue: '"done"',
+        description:
+          "Where the call is. Rendered done, the view arrives finished with no travel.",
+      },
+      {
+        name: "completed",
+        type: "number",
+        defaultValue: "stages.length",
+        description:
+          "How many stages have finished while running; the next one is lit as running.",
+      },
+      {
+        name: "error",
+        type: "QueryStagesError | null",
+        defaultValue: "null",
+        description:
+          'A syntax error with status "error": the stage id, the message, the token to underline and the line.',
+      },
+      {
+        name: "slowMs",
+        type: "number",
+        defaultValue: "1000",
+        description:
+          "A stage slower than this is marked slow and shows its note, in ms.",
+      },
+      {
+        name: "onRerun",
+        type: "() => void",
+        description: "Re-run in the header.",
+      },
+      {
+        name: "onOpenResult",
+        type: "(rows: QueryRow[]) => void",
+        description: "Open in the result's header, with every row.",
+      },
+      {
+        name: "onCopyQuery",
+        type: "(statement: string) => void",
+        description: "Copy in the header, with the statement.",
+      },
+      {
+        name: "onExplain",
+        type: "(statement: string) => void",
+        description: "Explain in the header, with the statement.",
+      },
+      {
+        name: "onInspectStage",
+        type: "(stage: QueryStage) => void",
+        description: "Enter or a click opened a finished stage's rows.",
+      },
+      {
+        name: "format",
+        type: "(n: number) => string",
+        defaultValue: "en-US grouping",
+        description: "Formats every row count and number cell.",
+      },
+      {
+        name: "tableRows",
+        type: "number",
+        defaultValue: "4",
+        description:
+          "Result rows visible before the table scrolls inside its own region.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"<tool> on <database>"',
+        description: "The view's accessible name.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer surface.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: every clause is a button in the Tab order whose name reads its step, keyword, text, rows and time; Enter opens the rows as they stood after it and Escape closes them. The result table sits in a labelled, focusable scroll region.",
+      'Drive a live call by stepping completed as each stage reports and set status to "done" at the end; the table unfolds then. Rendered already done, counts and rows appear in place without rolling.',
+      "Bars use a log scale so a 48,000-row scan and an 8-row answer are both visible; pass format to change how counts read.",
+      "Reduced motion lights clauses and changes counts without rolling or travel, and the table opens in place; every state still shows.",
+      'Nothing loops at rest: only the running clause\'s underline moves, and only while status is "running".',
+    ],
+  },
+  {
+    name: "command-unpacked",
+    type: "registry:ui",
+    title: "Command Unpacked",
+    description:
+      "An approval card for a shell command an agent wants to run: the command first shows as one plain line, then its parts — program, flags, paths, arguments, operators — lift apart on springs.glide in a cascade and hairline stems draw down to tags that name each one, packed into staggered rows so no stem crosses a tag, with anything risky (a recursive delete, a write outside the project, running as administrator, piping into a shell) outlined in the risk colour. The part in focus is explained in plain words beneath as its outline slides on springs.snap. Tab walks the parts, Enter approves (twice for a risky command), Escape denies, and under 42rem the parts wrap and stack as a list with their explanations.",
+    files: [
+      {
+        path: "registry/ui/command-unpacked.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2079",
+    },
+    tagline: "Understand the command before you let it run.",
+    keywords: [
+      "agent approval",
+      "shell command",
+      "explain command",
+      "risk",
+      "permission prompt",
+      "terminal",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "partStyle",
+        type: '"chips" | "lines" | "boxes"',
+        defaultValue: '"chips"',
+        description:
+          "Tinted chips, plain text with a coloured underline per part, or hollow outlined boxes.",
+      },
+      {
+        name: "riskColor",
+        type: "string",
+        defaultValue: '"var(--danger)"',
+        description:
+          "Outline, stem, tag and callout colour for risky parts — any CSS colour.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "Programs, the active outline and Approve — any CSS colour.",
+      },
+      {
+        name: "command",
+        type: "string",
+        defaultValue: "defaultCommand",
+        description:
+          "The command the agent wants to run; it is tokenised into parts (quotes respected) and explained.",
+      },
+      {
+        name: "cwd",
+        type: "string",
+        defaultValue: '"~/waylight/web"',
+        description:
+          "Where it would run; relative paths are resolved against it.",
+      },
+      {
+        name: "root",
+        type: "string",
+        defaultValue: "cwd",
+        description:
+          "The project root: paths that land outside it are flagged when they are deleted or written.",
+      },
+      {
+        name: "agent",
+        type: "{ name: string; task?: string; askedAt?: number }",
+        defaultValue: "Waylight build agent",
+        description:
+          "Who is asking, why, and when it asked in ms (12 s before now when left out).",
+      },
+      {
+        name: "programs",
+        type: "Record<string, CommandProgram>",
+        defaultValue: "defaultCommandPrograms",
+        description:
+          "What each known program does: gist, summary, flags, subcommands, flags that take values, what plain arguments mean, and whether it deletes or writes its paths.",
+      },
+      {
+        name: "annotations",
+        type: "Record<string, string>",
+        description:
+          "Explanations the agent gave for particular parts, keyed by the part's text; they replace the built-in ones.",
+      },
+      {
+        name: "rules",
+        type: "CommandRule[]",
+        defaultValue: "defaultCommandRules",
+        description:
+          "What counts as risky: id, label, level (danger or caution) and test(part, ctx) returning the reason or null.",
+      },
+      {
+        name: "policy",
+        type: "CommandPolicy | null",
+        defaultValue: "null",
+        description:
+          "A policy that blocks approval here: blocked, reason and source. Approve locks; Deny and Edit remain.",
+      },
+      {
+        name: "decision / defaultDecision",
+        type: '"pending" | "approved" | "denied"',
+        defaultValue: '— / "pending"',
+        description: "The decision, controlled or initial.",
+      },
+      {
+        name: "onApprove",
+        type: "(command: string) => void",
+        description:
+          "Approve or Enter on a part — a second press when the command is risky and confirmRisky is on.",
+      },
+      {
+        name: "onDeny",
+        type: "(command: string) => void",
+        description: "Deny or Escape.",
+      },
+      {
+        name: "onEditCommand",
+        type: "(command: string) => void",
+        description: "The command was edited and saved; it is explained again.",
+      },
+      {
+        name: "onAllowSimilar",
+        type: "(pattern: string) => void",
+        description:
+          "A pattern chosen from Allow similar, offered only for the parts of the command with no risk.",
+      },
+      {
+        name: "unpacked / defaultUnpacked",
+        type: "boolean",
+        defaultValue: "— / false",
+        description:
+          "Whether the parts are lifted apart, controlled or initial.",
+      },
+      {
+        name: "onUnpackedChange",
+        type: "(unpacked: boolean) => void",
+        description:
+          "Fires from the Pack/Unpack toggle and from the automatic unpack.",
+      },
+      {
+        name: "trigger",
+        type: '"inView" | "mount" | "manual"',
+        defaultValue: '"inView"',
+        description: "When the command first lifts apart by itself.",
+      },
+      {
+        name: "confirmRisky",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "A risky command needs a second press within 4 seconds to approve.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "defaultCommandNow",
+        description: 'The moment the "asked 12 s ago" time counts from, in ms.',
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Command approval"',
+        description: "The card's accessible name.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer surface.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: Tab walks the parts and each one's explanation and risk are its description; Enter on a part approves (arming first for a risky command), Escape denies from anywhere in the card, and closes the Allow similar menu or the editor first when one is open.",
+      "parseCommand(command, cwd, root, programs) is exported, so you can run the same tokeniser and path resolution on the server before you ever show the card.",
+      "Rules are plain functions over each part and the whole command: add your own (a network call, a force push) by appending to defaultCommandRules.",
+      "The drawing is measured once per layout change with one ResizeObserver and tags are set in mono, so packing them needs no second pass; nothing animates at rest.",
+      "Reduced motion shows the parts unpacked with stems and tags fading in where they are, and the active outline jumps instead of sliding.",
+      "Under 42rem of width the command wraps and the parts stack as a list with their explanations instead of the stem drawing.",
+    ],
+  },
+  {
+    name: "two-keys",
+    type: "registry:ui",
+    title: "Two Keys",
+    description:
+      "A two-person approval for an agent's action, drawn as two key switches beneath a summary of it: each approver turns their own key a quarter turn on springs.snap, the first key opens a window that drains as a hairline, and only when the second turns inside it do the two halves of the bar between the switches close on springs.glide, the lock swap open on springs.flick and the Run control unlock — while a lone key turns itself back on snap if the window lapses. Only the current user's key is a control: a real switch that Space or Enter turns, or a sideways drag that follows the pointer 1:1 and commits by projection; under 34rem the switches stack beside a shorter summary with the bar running down between them.",
+    files: [
+      {
+        path: "registry/ui/two-keys.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2080",
+    },
+    tagline: "Two people turn their keys before it runs.",
+    keywords: [
+      "two-person approval",
+      "agent approval",
+      "four eyes",
+      "refund",
+      "key switch",
+      "permission",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "switchStyle",
+        type: '"key" | "lever" | "dial"',
+        defaultValue: '"key"',
+        description:
+          "A key in a round keyhole plate, a throw lever swinging across an arc, or a dial whose ring fills as it turns.",
+      },
+      {
+        name: "windowLength",
+        type: "number",
+        defaultValue: "60",
+        description: "Seconds the second key has after the first one turns.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        defaultValue: '"var(--accent-bright)"',
+        description:
+          "Lit ticks, the key, the closed bar and Run — any CSS colour.",
+      },
+      {
+        name: "action",
+        type: "TwoKeysAction",
+        defaultValue: "defaultTwoKeysAction",
+        description:
+          "What the agent wants to do: title, amount, currency, payee, reference, reason, limitNote, requestedBy, requestedAt and expiresAt.",
+      },
+      {
+        name: "approvers",
+        type: "TwoKeysApprover[]",
+        defaultValue: "defaultTwoKeysApprovers",
+        description:
+          "The two people whose keys it needs, in switch order: id, name, role, turnedAt, rejected ({ at, note }) and comment.",
+      },
+      {
+        name: "currentUser",
+        type: "string",
+        defaultValue: '"mara"',
+        description:
+          "Whose key is a control here; every other key is a drawing with its state in text. Someone who is not an approver is offered Withdraw.",
+      },
+      {
+        name: "turned / defaultTurned",
+        type: "boolean",
+        defaultValue: "— / false",
+        description:
+          "Whether the current user's key is turned, controlled or initial.",
+      },
+      {
+        name: "onTurnKey",
+        type: '(turned: boolean, reason: "key" | "lapsed") => void',
+        description:
+          'Fires from the press, the drag, Space or Enter — or with "lapsed" when the window ran out on the user\'s own key.',
+      },
+      {
+        name: "onReject",
+        type: "(note: string) => void",
+        description:
+          "Reject, with the reason the approver wrote (a reason is required).",
+      },
+      {
+        name: "onRemind",
+        type: "(approverId: string) => void",
+        description: "Remind, for an approver whose key is not turned.",
+      },
+      {
+        name: "onWithdraw",
+        type: "() => void",
+        description:
+          "Withdraw, offered to anyone viewing who is not an approver.",
+      },
+      {
+        name: "onRun",
+        type: "() => void",
+        description: "The unlocked Run control was pressed.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "defaultTwoKeysNow",
+        description:
+          "The moment times count from, in ms; while a window is open the card keeps time from it itself.",
+      },
+      {
+        name: "status",
+        type: '"open" | "expired" | "withdrawn" | "done"',
+        defaultValue: '"open"',
+        description:
+          "Whether the request can still be decided; done means it ran. It also reads as expired once now passes action.expiresAt.",
+      },
+      {
+        name: "runLabel",
+        type: "string",
+        defaultValue: '"Run refund"',
+        description: "The Run control's words.",
+      },
+      {
+        name: "format",
+        type: "(amount: number, currency: string) => string",
+        defaultValue: "en-GB currency",
+        description: "Formats the amount.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: "the action's title and amount",
+        description: "The card's accessible name.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Nothing can be turned or pressed.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer surface.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: only the current user's key is focusable — a role=\"switch\" that Space or Enter turns; the other approver's key state is read as text. Reject opens a labelled note field (Escape cancels, Cmd or Ctrl+Enter sends), and Run stays focusable while locked and says why.",
+      "Pass each approver's turnedAt from your own records and keep now current; both keys count only when they turned within windowLength seconds of each other, so a late second key opens a fresh window instead of unlocking.",
+      "Nothing ticks at rest: the card keeps a 250 ms clock only while a window is open, it is on screen and the tab is visible; the drain itself is one linear tween.",
+      "Reduced motion switches key poses without travel, jumps the bar shut, and steps the window line once a tick instead of draining smoothly; every state still shows.",
+      "Under 34rem of width the switches stack beside a shorter summary with the bar running vertically between them.",
+    ],
+  },
+  {
+    name: "wipe-preview",
+    type: "registry:ui",
+    title: "Wipe Preview",
+    description:
+      "An approval surface for an agent action that edits many records: every affected record is drawn twice in one grid, the result in flow and today's values laid over it, and a wipe decides which shows, with every changed field ringed solid on the result side and dashed on today's. The handle follows the pointer 1:1, rubber-bands past the ends and settles on springs.snap with the throw's velocity; approving runs the wipe to the result on springs.glide and an Applied stamp lands on springs.recoil once the host answers, while a refusal glides it back. The handle is a slider (arrows, Shift, Page keys, Home, End), the records are a multi-select listbox where X or Space skips the focused one, and below 28rem the wipe becomes a Before / After toggle.",
+    files: [
+      {
+        path: "registry/ui/wipe-preview.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2081",
+    },
+    tagline: "See what it will change before it does.",
+    keywords: [
+      "agent approval",
+      "before and after",
+      "bulk edit preview",
+      "diff",
+      "wipe slider",
+      "app ui",
+      "review",
+    ],
+    props: [
+      {
+        name: "action",
+        type: "WipeAction",
+        defaultValue: "defaultWipeAction",
+        description:
+          "The proposed action: { id, agent, title, summary, scope, proposedAt }.",
+      },
+      {
+        name: "fields",
+        type: "WipeField[]",
+        defaultValue: "defaultWipeFields",
+        description:
+          "The fields compared, in column order: { key, label, kind? } where kind is money, percent, number or text.",
+      },
+      {
+        name: "records",
+        type: "WipeRecord[]",
+        defaultValue: "defaultWipeRecords (40 Coldbrook items)",
+        description:
+          "The affected records: { id, title, meta?, before, after }.",
+      },
+      {
+        name: "excluded / defaultExcluded",
+        type: "string[]",
+        defaultValue: "— / []",
+        description: "Ids left out of the action, controlled or initial.",
+      },
+      {
+        name: "onExcludedChange",
+        type: "(ids) => void",
+        description: "Fires with every excluded id after an exclusion changes.",
+      },
+      {
+        name: "onExclude",
+        type: "(id, excluded) => void",
+        description:
+          "Fires from the key or press that skipped a record (true) or put it back (false).",
+      },
+      {
+        name: "value / defaultValue",
+        type: "number",
+        defaultValue: "— / 50",
+        description:
+          "The wipe position, 0 (all today) to 100 (all result), controlled or initial.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value) => void",
+        description: "Fires when a drag, key or toggle settles the wipe.",
+      },
+      {
+        name: "onApprove",
+        type: "(includedIds) => void | Promise",
+        description:
+          "Approve was pressed; a returned promise holds the stamp until it resolves, and a rejection slides the wipe back and states the reason.",
+      },
+      {
+        name: "onReject",
+        type: "(note) => void",
+        description:
+          "The action was sent back, with the reviewer's optional note.",
+      },
+      {
+        name: "onEditPlan",
+        type: "() => void",
+        description: "Edit plan was pressed.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Retry simulation was pressed after a failure.",
+      },
+      {
+        name: "largeChangeAt",
+        type: "number",
+        defaultValue: "10",
+        description:
+          "A record whose money or number field moves more than this percent counts as a large change and raises the warning.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "empty" | "failed"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the simulation has produced records; failed shows the failure and holds Approve.",
+      },
+      {
+        name: "failure",
+        type: "{ message, recordId? }",
+        description: "Why the simulation failed and the record it stopped on.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "Oct 17 2026, 14:00 UTC",
+        description: "The moment ages are counted from, in ms.",
+      },
+      {
+        name: "wipeStyle",
+        type: '"line" | "feather" | "cells"',
+        defaultValue: '"line"',
+        description:
+          "The wipe's edge: a hard line, a soft 40px feather, or whole fields flipping as the handle passes each column.",
+      },
+      {
+        name: "ringColor",
+        type: '"amber" | "accent" | "signal" | "ink" | string',
+        defaultValue: '"amber"',
+        description:
+          "The ring around every changed field: a named colour or any CSS colour.",
+      },
+      {
+        name: "accent",
+        type: '"cobalt" | "plum" | "mint" | "ink" | string',
+        defaultValue: '"cobalt"',
+        description:
+          "The handle, Approve and the stamp: a named pigment or any CSS colour.",
+      },
+      {
+        name: "formatMoney",
+        type: "(amount) => string",
+        defaultValue: "Intl USD",
+        description: "How money is written.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "560",
+        description:
+          "Tallest the surface grows, in px, before its record list scrolls.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Read only: the wipe still compares, nothing can be decided.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the surface.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: the handle is a role="slider" (Left and Right step 5, Shift 20, Page keys 25, Home and End); the records are a multi-select listbox of what is included, where Up, Down, Home and End move and X or Space skips or includes the focused record; Escape closes the reject note.',
+      "Each record's accessible name is one sentence (title, every change from and to, included or skipped); the overlaid today layer is aria-hidden, so assistive technology reads each record once.",
+      "The wipe is one motion value writing one CSS variable: the clip, the feather mask, the per-field flips and the ring swell are computed by CSS from it, so dragging re-renders nothing and no frame loop runs at rest.",
+      "Under reduced motion the wipe never travels on its own: approving cross-fades today's layer away and the stamp fades in; a drag still follows the finger and lands without a spring.",
+      "Colours come from tokens: accent and ringColor take a named pigment or any CSS colour, and the amber ring is pigment at a fixed lightness so it reads the same in light and dark.",
+    ],
+  },
+  {
+    name: "edit-before-send",
+    type: "registry:ui",
+    title: "Edit Before Send",
+    description:
+      "A review frame for a message an agent wants to send: the draft reads as tracked changes against your edits, Edit swaps it for a real textarea sized to its text, every change is a stop you can walk to and revert, and policy flags hold the send until their words are gone, their checks drawing on springs.flick when they are. Approve shrinks the message into an envelope's pocket on springs.glide, folds the flap shut on springs.snap with a seal on flick, waits sealed for the host, then slides it out of the frame on glide; a failed send opens the flap and unfolds the sheet with the reason, and Request changes shrinks the message toward the agent with your note. Cmd or Ctrl+Enter approves from anywhere in the frame, Cmd or Ctrl+Z reverts the focused change or the last edit, and at narrow widths the recipients collapse into a count.",
+    files: [
+      {
+        path: "registry/ui/edit-before-send.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2082",
+    },
+    tagline: "Change what it drafted, then let it go.",
+    keywords: [
+      "agent approval",
+      "tracked changes",
+      "email review",
+      "redline",
+      "envelope",
+      "send",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "draft",
+        type: "EditDraft",
+        defaultValue: "defaultEditDraft",
+        description:
+          "The held message: { id, agent, model, from, subject, body, heldAt }; paragraphs in body are separated by a blank line.",
+      },
+      {
+        name: "recipients",
+        type: "EditRecipient[]",
+        defaultValue: "defaultEditRecipients",
+        description: 'Who it goes to: { id, name, email, kind?: "to" | "cc" }.',
+      },
+      {
+        name: "attachments",
+        type: "EditAttachment[]",
+        defaultValue: "defaultEditAttachments",
+        description: "Files it carries: { id, name, size } with size in bytes.",
+      },
+      {
+        name: "flags",
+        type: "EditFlag[]",
+        defaultValue: "defaultEditFlags",
+        description:
+          'What the sending policy found: { id, severity: "block" | "warn", match, message }; a block holds Approve while its words are in the text.',
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        defaultValue: "— / draft.body",
+        description: "The message text, controlled or initial.",
+      },
+      {
+        name: "onValueChange",
+        type: "(text) => void",
+        description: "Fires with the text as it is typed, reverted or undone.",
+      },
+      {
+        name: "onEdit",
+        type: "(text, changes) => void",
+        description:
+          "Fires when an edit settles (leaving the editor, a revert, an undo) with every change against the draft as { from, to }.",
+      },
+      {
+        name: "onApprove",
+        type: "(text) => void | Promise",
+        description:
+          "Approve and send was pressed; the envelope waits sealed until a returned promise resolves, and a rejection unfolds it with the reason.",
+      },
+      {
+        name: "onRequestChanges",
+        type: "(note, text) => void",
+        description:
+          "Sent back to the agent with the reviewer's note and the text as it stands.",
+      },
+      {
+        name: "onDiscard",
+        type: "() => void",
+        description: "The draft was discarded after the confirm.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "empty" | "error"',
+        defaultValue: '"ready"',
+        description: "Whether a draft is here to review.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the draft failed to load.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "Oct 17 2026, 14:00 UTC",
+        description: "The moment the hold is timed from, in ms.",
+      },
+      {
+        name: "trackStyle",
+        type: '"inline" | "clean" | "bars"',
+        defaultValue: '"inline"',
+        description:
+          "How changes are marked: struck and underlined, the clean text with carets where words went, or the clean text with change bars and counts in the margin.",
+      },
+      {
+        name: "envelope",
+        type: '"plain" | "airmail" | "window"',
+        defaultValue: '"plain"',
+        description:
+          "The envelope the message folds into: plain, a striped airmail border, or an address window.",
+      },
+      {
+        name: "accent",
+        type: '"cobalt" | "plum" | "mint" | "ink" | string',
+        defaultValue: '"cobalt"',
+        description:
+          "Insertions, Approve and the seal: a named pigment or any CSS colour.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "560",
+        description: "Tallest the frame grows, in px, before its body scrolls.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only: the message can be read, not changed or sent.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the frame.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: Cmd or Ctrl+Enter approves from anywhere in the frame (it leaves the editor first); each change is a roving stop where arrows, Home and End move and Enter edits it; Cmd or Ctrl+Z reverts the focused change, or the last edit when no change is focused, while inside the textarea the browser's own undo applies; Escape leaves the editor and closes the note and the discard confirm.",
+      "Pressing a flag opens the editor with the flagged words selected; a blocking flag keeps Approve focusable but aria-disabled, with the reason as its description.",
+      "The diff is word-level and memoised on the text; changes separated only by spaces are one change, so a phrase reverts as one.",
+      "Under reduced motion nothing folds or travels: the sealed envelope fades in and out, the returned message fades, and every count, check and state still changes.",
+      "Pass onApprove a promise from your send call: the envelope only leaves the frame once it resolves, so the sent receipt never claims a send that failed.",
+    ],
+  },
+  {
+    name: "allow-rules",
+    type: "registry:ui",
+    title: "Allow Rules",
+    description:
+      "A permission prompt that can become a standing rule: Always allow opens a sentence of selects that widens one yes into a pattern (the action, the files, a cost ceiling), with a live rule chip, a reach strip that lights in a cascade the recent requests the rule would have covered, and a conflict that names the deny rule it collides with, rings that rule and holds Create. Create folds the request card on springs.glide into its rule chip while the list opens a slot on the same spring, the chip flies into that slot on glide, and the row's fire count rolls from 0 to 1 on springs.snap as the next waiting request rises in. The builder is a toolbar of select-only comboboxes (Left and Right move, Up and Down change, Enter opens), the rules are roving stops where Enter edits and R revokes after a confirm, and below 30rem the panes sit behind tabs and the chip flies to the Rules tab.",
+    files: [
+      {
+        path: "registry/ui/allow-rules.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2083",
+    },
+    tagline: "Turn one yes into a rule you trust.",
+    keywords: [
+      "agent permissions",
+      "allow rule",
+      "permission prompt",
+      "policy",
+      "always allow",
+      "app ui",
+      "access control",
+    ],
+    props: [
+      {
+        name: "request",
+        type: "AllowRequest | null",
+        defaultValue: "defaultAllowRequest",
+        description:
+          "The permission asked for now: { id, agent, verb, path, size?, cost, reason, at }; null when nothing waits.",
+      },
+      {
+        name: "waiting",
+        type: "AllowRequest[]",
+        defaultValue: "defaultAllowWaiting",
+        description:
+          "Requests waiting behind it, in order; each decision brings the next one in.",
+      },
+      {
+        name: "templates",
+        type: "AllowTemplates",
+        defaultValue: "templatesFor(request)",
+        description:
+          "The builder's options, narrowest first: { verbs, scopes, costs }, each { id, label, value }.",
+      },
+      {
+        name: "rules / defaultRules",
+        type: "AllowRule[]",
+        defaultValue: "— / defaultAllowRules",
+        description:
+          "Standing rules, controlled or initial: { id, effect, pattern, fires, daily?, lastFiredAt? }.",
+      },
+      {
+        name: "onRulesChange",
+        type: "(rules) => void",
+        description:
+          "Fires with the whole list after a rule is created or revoked.",
+      },
+      {
+        name: "history",
+        type: "AllowHistoryItem[]",
+        defaultValue: "defaultAllowHistory (40)",
+        description:
+          "Recent requests, newest first; the reach strip lights the ones a rule would have covered.",
+      },
+      {
+        name: "onAllowOnce",
+        type: "(request) => void",
+        description: "Allow once was pressed.",
+      },
+      {
+        name: "onDeny",
+        type: "(request) => void",
+        description: "Deny was pressed.",
+      },
+      {
+        name: "onCreateRule",
+        type: "(rule, request) => void",
+        description:
+          "A rule was created from the request; it fires once for it.",
+      },
+      {
+        name: "onEditRule",
+        type: "(rule) => void",
+        description: "Enter on a rule, or Edit that rule on a conflict.",
+      },
+      {
+        name: "onRevokeRule",
+        type: "(rule) => void",
+        description: "A rule was revoked after its confirm.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "empty" | "error"',
+        defaultValue: '"ready"',
+        description: "Whether the permissions have loaded.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after a failure to load.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "Oct 17 2026, 14:00 UTC",
+        description: "The moment ages are counted from, in ms.",
+      },
+      {
+        name: "chipStyle",
+        type: '"pill" | "tag" | "code"',
+        defaultValue: '"pill"',
+        description:
+          "How a rule is drawn: a pill with an effect dot, a notched tag, or a mono glob pattern.",
+      },
+      {
+        name: "listDensity",
+        type: '"compact" | "cozy" | "roomy"',
+        defaultValue: '"cozy"',
+        description:
+          "Row height of the rules list; compact drops the last-fired line.",
+      },
+      {
+        name: "accent",
+        type: '"cobalt" | "plum" | "mint" | "ink" | string',
+        defaultValue: '"cobalt"',
+        description:
+          "Allow rules, the builder and Create: a named pigment or any CSS colour.",
+      },
+      {
+        name: "formatMoney",
+        type: "(amount) => string",
+        defaultValue: "Intl USD",
+        description: "How money is written.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "560",
+        description:
+          "Tallest the surface grows, in px, before its panes scroll.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the surface.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the pattern builder is a toolbar with one tab stop; Left and Right move between its selects, Up and Down change one in place, Enter, Space or Alt+Down open its listbox (arrows, Home, End, Enter picks, Escape closes). Rules are roving stops: Up, Down, Home and End move, Enter edits, R opens a revoke confirm with Keep focused, and Escape keeps.",
+      "Patterns match by verb, path (an exact file, a folder ending in / and everything under it, or any file) and cost ceiling; a deny rule that overlaps the pattern holds Create and says which rule wins, and an allow rule that already covers it is named instead.",
+      "Each rule's accessible name is one sentence with its fire count and last fire; the fourteen-day strip is a single crisp SVG path, decorative.",
+      "Under reduced motion nothing folds or flies: the card fades, the new row fades in already counted, reach dots light at once, and every count still changes.",
+      "The fold and the flight are two transient ghost elements measured from the live layout and removed when they land; nothing runs at rest.",
+    ],
+  },
+  {
+    name: "budget-pour",
+    type: "registry:ui",
+    title: "Budget Pour",
+    description:
+      "An agent asking to spend money, drawn against the budget it would come out of: the bar shows paid, promised and the room left, and the order sits above it as a block of its line items starting exactly where the room left starts. A cap handle at the block's end follows the pointer 1:1, rubber-bands and settles on the nearest $10 on springs.snap, and every item past it lets go of the block and strikes in the list. Approve runs one pour front across the block on springs.glide at pourSpeed: behind it the block drains down a sloped surface into a thin stream, the bar's fill grows under the stream and the room left counts down; over budget the block overhangs the bar in danger, above the second-approval line your approval waits for the second, and an expired quote holds the decision. The cap is a slider (arrows $10, Shift $100, Page keys $250, Home, End) and Enter on it approves.",
+    files: [
+      {
+        path: "registry/ui/budget-pour.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2084",
+    },
+    tagline: "Approve a purchase against what is left.",
+    keywords: [
+      "spend approval",
+      "budget",
+      "purchase request",
+      "agent approval",
+      "spending cap",
+      "app ui",
+      "finance",
+    ],
+    props: [
+      {
+        name: "request",
+        type: "BudgetRequest",
+        defaultValue: "defaultBudgetRequest",
+        description:
+          "The spend asked for: { id, agent, title, reason, vendor, quote: { id, validUntil }, items, requestedAt }; items are in priority order and the cap trims from the bottom.",
+      },
+      {
+        name: "budget",
+        type: "BudgetPot",
+        defaultValue: "defaultBudgetPot",
+        description:
+          "The budget it comes out of: { id, name, total, spent, committed }.",
+      },
+      {
+        name: "cap / defaultCap",
+        type: "number",
+        defaultValue: "— / the request total",
+        description:
+          "Most the agent may spend on this order, controlled or initial.",
+      },
+      {
+        name: "onSetCap",
+        type: "(cap) => void",
+        description:
+          "Fires when a drag, key or Cap at what's left settles the cap.",
+      },
+      {
+        name: "onApprove",
+        type: "(amount, items) => void | Promise",
+        description:
+          "Your approval, with the amount and the items that fit under the cap; a promise holds the pour until it resolves and a rejection is stated.",
+      },
+      {
+        name: "onReject",
+        type: "(note) => void",
+        description: "Declined, with the reviewer's optional note.",
+      },
+      {
+        name: "onRequestQuote",
+        type: "() => void",
+        description: "Ask for a new quote was pressed on an expired quote.",
+      },
+      {
+        name: "secondApprovalAbove",
+        type: "number",
+        defaultValue: "3000",
+        description: "Orders above this need every approver, not only you.",
+      },
+      {
+        name: "approvers",
+        type: "BudgetApprover[]",
+        defaultValue: "you and Mara Ilves",
+        description:
+          "Who approves: { id, name, you? }; the one marked you is the viewer.",
+      },
+      {
+        name: "approvals",
+        type: "string[]",
+        description:
+          "Controlled ids of approvers who have approved; the held order pours when all have. Your own approval counts as soon as you give it.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "empty" | "error"',
+        defaultValue: '"ready"',
+        description: "Whether the request has loaded.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after a failure to load.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "Oct 17 2026, 14:00 UTC",
+        description: "The moment the quote's validity is counted from, in ms.",
+      },
+      {
+        name: "barStyle",
+        type: '"solid" | "cells" | "rail"',
+        defaultValue: '"solid"',
+        description:
+          "How the budget is drawn: a solid bar, $250 cells cut by a repeating mask, or a 4px rail with $1,000 ticks.",
+      },
+      {
+        name: "pourSpeed",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "How fast the approved amount pours, as a multiple of the glide's pace from 0.5 to 2; the damping ratio stays the glide's.",
+      },
+      {
+        name: "accent",
+        type: '"cobalt" | "plum" | "mint" | "ink" | string',
+        defaultValue: '"cobalt"',
+        description:
+          "The order, its pour and Approve: a named pigment or any CSS colour.",
+      },
+      {
+        name: "formatMoney",
+        type: "(amount) => string",
+        defaultValue: "Intl USD",
+        description: "How money is written.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "560",
+        description:
+          "Tallest the surface grows, in px, before its body scrolls.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the surface.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: the cap is a role="slider" whose value text reads the cap, the items that fit and the room left after; Left and Right step $10, Shift $100, Page keys $250, Home and End jump, and Enter approves. Approve stays focusable when held (aria-disabled) and its description says why.',
+      "The figure is drawn from CSS variables: two motion values (the cap and the pour) write unitless numbers and calc() places the cap, drains the block and grows the bar, so dragging re-renders only when the cap crosses an item's edge.",
+      "fitUnderCap(items, cap) is exported, so a host can show the same kept items and total elsewhere.",
+      "Under reduced motion nothing pours: the block fades, the bar and the room-left figure step to their final values, and the cap still follows a drag and lands without a spring.",
+      "Status pigments (spent, the order, the overhang) are taken at a fixed lightness so the bar reads the same in light and dark; the figure also carries a one-sentence screen-reader summary.",
+    ],
+  },
+  {
+    name: "rewire-plan",
+    type: "registry:ui",
+    title: "Rewire Plan",
+    description:
+      "A plan an agent proposes before it starts, laid out as numbered step cards in execution order with dependency arrows in a gutter beside them, packed into lanes so arrows with overlapping spans never share one. A dragged card follows the pointer 1:1, lifted on springs.flick, while the others glide out of its way on springs.glide; every arrow touching it is rebuilt each frame from the cards' motion values and the lanes re-pack on glide, and an arrow that would now point backwards turns red and dashed while the card that needs it says why. The card lands on glide with the release velocity, Approve holds until the order is legal (Fix order finds the legal order that moves least), and the approved plan takes a stamp on springs.recoil; Up and Down move between steps, Alt with Up or Down moves one, Enter edits its title and estimate, and below 28rem the arrows become indented needs lines.",
+    files: [
+      {
+        path: "registry/ui/rewire-plan.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2085",
+    },
+    tagline: "Reorder the steps; the arrows follow.",
+    keywords: [
+      "agent plan",
+      "dependencies",
+      "reorder",
+      "drag and drop",
+      "dependency arrows",
+      "plan review",
+      "app ui",
+    ],
+    props: [
+      {
+        name: "steps",
+        type: "PlanStep[]",
+        defaultValue: "defaultPlanSteps (8)",
+        description:
+          'The proposed steps: { id, title, minutes, owner } where owner is a person\'s name or "agent".',
+      },
+      {
+        name: "dependencies",
+        type: "PlanDependency[]",
+        defaultValue: "defaultPlanDependencies",
+        description:
+          "Which steps need which: { from, to, note? }; the note explains a broken order.",
+      },
+      {
+        name: "order / defaultOrder",
+        type: "string[]",
+        defaultValue: "— / the steps' own order",
+        description: "Execution order of step ids, controlled or initial.",
+      },
+      {
+        name: "onReorder",
+        type: "(order, movedId) => void",
+        description:
+          "Fires from the drag, key or Fix order that changed the order, with the step moved (null for Fix order).",
+      },
+      {
+        name: "onEditStep",
+        type: "(step) => void",
+        description: "A step's title or estimate was edited.",
+      },
+      {
+        name: "onAddStep",
+        type: "(step) => void",
+        description:
+          "Add step created a step at the end; it opens for editing.",
+      },
+      {
+        name: "onApprove",
+        type: "(order) => void | Promise",
+        description:
+          "Approve plan was pressed; a returned promise holds the stamp until it resolves.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "drafting" | "empty" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Whether the plan exists yet; drafting shows a skeleton of cards and arrows.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the plan failed to load.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Move orders to the new cluster"',
+        description: "The plan's name.",
+      },
+      {
+        name: "agent",
+        type: "string",
+        defaultValue: '"Waylight migration agent"',
+        description: "Who proposes it.",
+      },
+      {
+        name: "proposedAt",
+        type: "number",
+        defaultValue: "Oct 17 2026, 13:57 UTC",
+        description: "When the agent proposed the plan, in ms.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "Oct 17 2026, 14:00 UTC",
+        description: "The moment the plan's age is counted from, in ms.",
+      },
+      {
+        name: "arrowStyle",
+        type: '"curve" | "elbow" | "metro"',
+        defaultValue: '"curve"',
+        description:
+          "How arrows are routed: one curve out to the lane and back, orthogonal elbows with rounded corners, or metro lines with 45° turns and stop dots.",
+      },
+      {
+        name: "cardStyle",
+        type: '"card" | "row" | "ticket"',
+        defaultValue: '"card"',
+        description:
+          "How steps are drawn: bordered cards, flat rows, or tickets with a numbered stub behind a perforation.",
+      },
+      {
+        name: "accent",
+        type: '"cobalt" | "plum" | "mint" | "ink" | string',
+        defaultValue: '"cobalt"',
+        description:
+          "Arrows of the focused or dragged step, the agent's steps and Approve: a named pigment or any CSS colour.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "560",
+        description:
+          "Tallest the surface grows, in px, before the plan scrolls.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the surface.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the plan is an ordered list of roving stops; Up, Down, Home and End move between steps, Alt with Up or Down moves the focused step (announced with how many dependencies now run backwards), Enter or Space edits its title and estimate, Enter saves and Escape cancels back to the card.",
+      "Each step's accessible name says its number, title, estimate, owner and what it needs, and whether that now runs later; the gutter of arrows is decorative, and below 28rem the same facts show as indented needs lines.",
+      "fixPlanOrder(order, dependencies) is exported: a stable topological sort that keeps the reviewer's order wherever it is already legal.",
+      "Positions live in motion values (one per card and per arrow lane) and each arrow's path is derived from its two cards and its lane, so dragging re-renders only when the provisional order changes.",
+      "Under reduced motion cards and lanes jump to their places, a drag still follows the finger and lands without a spring, and the red arrows, notes and stamp still change.",
+    ],
+  },
+  {
+    name: "token-bucket",
+    type: "registry:ui",
+    title: "Token Bucket",
+    description:
+      "An API rate limit as a glass tank of water that refills at the plan's speed in a steady linear rise, where every request lifts out a slab of exactly its size that floats up on springs.glide and evaporates while the surface drops to the new level on springs.snap and sloshes. When the water is too low, requests hang above the tank as droplets that arrive on snap, a dashed line marks what the first one needs, and when the water reaches it the droplet falls in on the exit ease and its scoop leaves as it lands; a refusal throttles the key and a ring clock counts the retry down. The last ten requests sit in a real list beside the tank (behind a toggle in a narrow container) where Up and Down move, Home and End jump and Enter inspects a request.",
+    files: [
+      {
+        path: "registry/ui/token-bucket.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2091",
+    },
+    tagline: "Your rate limit, as water in a tank.",
+    keywords: [
+      "rate limit",
+      "token bucket",
+      "api usage",
+      "throttling",
+      "request queue",
+      "app ui",
+      "ai usage",
+    ],
+    props: [
+      {
+        name: "capacity",
+        type: "number",
+        defaultValue: "30000",
+        description:
+          "The size of the bucket: the most tokens you can spend at once.",
+      },
+      {
+        name: "level",
+        type: "number",
+        defaultValue: "defaultTokenBucketState.level",
+        description: "Tokens available at `now`, as the limit reports them.",
+      },
+      {
+        name: "refillSpeed",
+        type: "number",
+        defaultValue: "500",
+        description:
+          "How fast the plan refills the bucket, in tokens per second; the tank rises at this rate between readings.",
+      },
+      {
+        name: "requests",
+        type: "TokenBucketRequest[]",
+        defaultValue: "defaultTokenBucketState.requests",
+        description:
+          "Recent requests: { id, at, tokens, route, key?, status: served | queued | refused, servedAt? }. The newest are listed; queued ones hang above the tank.",
+      },
+      {
+        name: "throttledUntil",
+        type: "number | null",
+        defaultValue: "null",
+        description:
+          "When the current throttle lifts (ms); the glass turns warn and a ring clock counts down.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "defaultTokenBucketNow",
+        description:
+          "The moment the reading was taken (ms). Clocks count from it; the component never reads the wall clock in render.",
+      },
+      {
+        name: "status",
+        type: '"live" | "paused" | "loading" | "error"',
+        defaultValue: '"live"',
+        description: "Live or paused traffic, or no reading yet.",
+      },
+      {
+        name: "historySize",
+        type: "number",
+        defaultValue: "10",
+        description: "How many requests the list keeps.",
+      },
+      {
+        name: "maxDroplets",
+        type: "number",
+        defaultValue: "6",
+        description:
+          "Droplets drawn above the tank before the rest are counted as +n.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Waylight API"',
+        description: "The panel's heading.",
+      },
+      {
+        name: "subtitle",
+        type: "string",
+        defaultValue: '"Team plan · 30k tokens a minute"',
+        description:
+          "Under the heading; by default it states the refill speed.",
+      },
+      {
+        name: "unit",
+        type: "string",
+        defaultValue: '"tokens"',
+        description: "What the bucket holds, in words.",
+      },
+      {
+        name: "formatTime",
+        type: "(ms: number) => string",
+        defaultValue: "UTC hh:mm:ss",
+        description: "How a request's time is printed in the list.",
+      },
+      {
+        name: "liquid",
+        type: '"water" | "flat" | "cells"',
+        defaultValue: '"water"',
+        description:
+          "How the water is drawn: a translucent fill with a rippling surface, a flat solid fill, or measured cells with the top one part-filled.",
+      },
+      {
+        name: "slosh",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How much the surface ripples when a scoop leaves, 0 to 1.",
+      },
+      {
+        name: "accent",
+        type: '"cobalt" | "plum" | "mint" | "ink" | string',
+        defaultValue: '"cobalt"',
+        description:
+          "The water, the threshold line and the active actions: a named pigment or any CSS colour.",
+      },
+      {
+        name: "listOpen / defaultListOpen",
+        type: "boolean",
+        defaultValue: "— / false",
+        description:
+          "Whether the request list is open in a narrow container, controlled or initial.",
+      },
+      {
+        name: "onListOpenChange",
+        type: "(open: boolean) => void",
+        description:
+          "Fires from the Requests toggle with the state it asks for.",
+      },
+      {
+        name: "onRaiseLimit",
+        type: "() => void",
+        description:
+          "Raise limit was pressed. Omit it and the button is not drawn.",
+      },
+      {
+        name: "onPause",
+        type: "(paused: boolean) => void",
+        description:
+          "Pause or Resume was pressed, with the state it asks for. Omit it and the button is not drawn.",
+      },
+      {
+        name: "onInspectRequest",
+        type: "(request: TokenBucketRequest) => void",
+        description: "A request in the list was opened.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after the limit could not be read.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only: actions and the list do nothing.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the panel.",
+      },
+    ],
+    usageNotes: [
+      "Feed it readings, not a clock: pass level, requests and throttledUntil at now (once a second is enough), or derive them from an arrival log with the exported simulateTokenBucket. The tank extrapolates the refill between readings and owns the drawn water after the first paint.",
+      "One animation-frame loop runs only while something is moving (refilling below its cap, a drop settling, a ripple decaying), only while the tank is on screen and the page is visible; it stops when settled and wakes on the next reading.",
+      "The request list is a real ordered list with one tab stop: Up and Down move, Home and End jump, Enter or Space inspects. Each row reads its time, route, tokens and outcome. A polite status speaks only changes of state (queue forming or clearing, throttled, full), never a refill tick.",
+      "Under reduced motion the surface steps to each reading, slabs fade in place and droplets fade, but the refill still rises and every number and clock still updates.",
+      "Below a 34rem container the list hides behind the Requests toggle (aria-expanded) and replaces the readout; action labels collapse to icons with their names kept.",
+      "Colours come from tokens: the water is pigment (a fixed lightness from the accent's hue) so it reads the same in light and dark themes.",
+    ],
+  },
+  {
+    name: "crew-usage",
+    type: "registry:ui",
+    title: "Crew Usage",
+    description:
+      "A team usage table for an assistant with a row per member — requests, tokens, spend, a thirty-day sparkline on one shared scale and a thin strip of what they use it for — where switching the metric morphs every sparkline at once on springs.glide while the rows re-rank on glide and their rank numbers roll on springs.snap. Focusing or clicking a member opens their strip into a full breakdown whose measured height unfolds on glide as its segments grow in a cascade. It is a real grid with one roving cell: Up and Down move members, Left and Right move cells, Home and End jump, Enter opens the member, Space or focus opens the breakdown, Escape closes it and M cycles the metric.",
+    files: [
+      {
+        path: "registry/ui/crew-usage.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2092",
+    },
+    tagline: "Who uses the assistant, and for what.",
+    keywords: [
+      "team usage",
+      "ai usage",
+      "sparkline table",
+      "leaderboard",
+      "usage by member",
+      "app ui",
+      "billing",
+    ],
+    props: [
+      {
+        name: "members",
+        type: "CrewMember[]",
+        defaultValue: "defaultCrewMembers",
+        description:
+          "The team: { id, name, role, initials? }. Rows rank by the metric; members with no usage sort last.",
+      },
+      {
+        name: "roles",
+        type: "CrewRole[]",
+        defaultValue: "defaultCrewRoles",
+        description:
+          "Role names for the role ids members carry: { id, label }.",
+      },
+      {
+        name: "usage",
+        type: "Record<string, CrewSeries>",
+        defaultValue: "defaultCrewUsage",
+        description:
+          "Daily usage per member id, oldest first: { requests, spend, tokens } as number arrays. The window is the series' length.",
+      },
+      {
+        name: "tasks",
+        type: "CrewTask[]",
+        defaultValue: "defaultCrewTasks",
+        description:
+          "What the assistant is used for, in strip order: { id, label }.",
+      },
+      {
+        name: "mix",
+        type: "Record<string, Record<string, number>>",
+        defaultValue: "defaultCrewMix",
+        description: "Requests per task per member id over the window.",
+      },
+      {
+        name: "metric / defaultMetric",
+        type: '"requests" | "spend" | "tokens"',
+        defaultValue: '— / "requests"',
+        description:
+          "The metric the table ranks and draws by, controlled or initial.",
+      },
+      {
+        name: "onMetricChange",
+        type: "(metric) => void",
+        description: "Fires from the switch or the M key with the new metric.",
+      },
+      {
+        name: "expanded / defaultExpanded",
+        type: "string | null",
+        defaultValue: "— / null",
+        description:
+          "The member whose breakdown is open, controlled or initial.",
+      },
+      {
+        name: "onExpandedChange",
+        type: "(id: string | null) => void",
+        description:
+          "Fires when focus or a click opens a breakdown, or with null when it closes.",
+      },
+      {
+        name: "onOpenMember",
+        type: "(id, member) => void",
+        description: "Enter on a row, or Open in a breakdown.",
+      },
+      {
+        name: "onExport",
+        type: "(metric, rows: CrewRow[]) => void",
+        description:
+          "Export was pressed, with the rows in rank order. Omit it and the button is not drawn.",
+      },
+      {
+        name: "canSeeCosts",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Whether the viewer may see costs. Without it spend reads Hidden and cannot rank.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Usage arrived, is on its way, or failed. A team with no usage shows the empty state.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after usage failed to load.",
+      },
+      {
+        name: "now",
+        type: "number",
+        defaultValue: "defaultCrewNow",
+        description:
+          "The last day of the window (ms); day labels count back from it.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Fernworks · Design"',
+        description: "The table's heading.",
+      },
+      {
+        name: "subtitle",
+        type: "string",
+        defaultValue: '"Last 30 days · Sep 18 – Oct 17"',
+        description: "Under the heading; by default the window's dates.",
+      },
+      {
+        name: "formatMoney",
+        type: "(amount: number) => string",
+        defaultValue: '"$1,284.50", by hand',
+        description: "How money is printed.",
+      },
+      {
+        name: "sparkStyle",
+        type: '"line" | "area" | "bars"',
+        defaultValue: '"line"',
+        description:
+          "How a sparkline is drawn: a line with an end dot, an area, or day bars.",
+      },
+      {
+        name: "density",
+        type: '"compact" | "cozy" | "roomy"',
+        defaultValue: '"cozy"',
+        description: "Row height, padding and sparkline height.",
+      },
+      {
+        name: "accent",
+        type: '"cobalt" | "plum" | "mint" | "ink" | string',
+        defaultValue: '"cobalt"',
+        description:
+          "Sparklines, the metric pill and the hue the task colours turn from: a named pigment or any CSS colour.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only: the metric cannot change and nothing opens.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the panel.",
+      },
+    ],
+    usageNotes: [
+      "No loops run: every motion is a spring or tween started by a change. Sparkline paths keep the same point count across metrics, so the morph is a pure interpolation of their numbers on one spring.",
+      "The grid has one tab stop. Up and Down move members, Left and Right move cells, Home and End jump, Enter opens the member, Space or focus opens the breakdown, Escape closes it and M cycles the metric (Escape with nothing open is left for the page).",
+      "Sparklines share one gently compressed scale so heights compare across the team; each sparkline cell is an image whose label reads the metric, its peak day and its trend.",
+      "Without billing access (canSeeCosts false) spend reads Hidden, the Spend option is unavailable with its reason, and Export sends zero spend.",
+      "Under reduced motion sparklines switch shape at once, rows reorder in place, breakdowns appear without unfolding and numbers update without rolling.",
+      "Below a 40rem container each row becomes a card with the sparkline full width and the other two numbers on the strip's line; the headers stay for assistive technology.",
+    ],
+  },
+  {
+    name: "cost-streams",
+    type: "registry:ui",
+    title: "Cost Streams",
+    description:
+      "Assistant spend drawn as streams flowing from projects through features to models, each as thick as its money and coloured by the project it left; switching the month drives every node and stream from where it is to the new month's layout on one springs.glide spring, carrying on from any frame a second switch interrupts, while the total rolls on springs.snap and a line names the feature that moved most. Hovering or focusing a node lifts its streams and dims the rest, and Enter or a click isolates it — the plot re-lays out with only its flows at the same money scale on the same morph. Tab moves node to node, Enter isolates, Escape releases, the months are a tablist, and in a narrow container the streams become a nested list of bars.",
+    files: [
+      {
+        path: "registry/ui/cost-streams.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2093",
+    },
+    tagline: "Follow the spend from project to model.",
+    keywords: [
+      "sankey",
+      "spend breakdown",
+      "cost allocation",
+      "ai usage",
+      "flow chart",
+      "app ui",
+      "billing",
+    ],
+    props: [
+      {
+        name: "projects",
+        type: "CostNode[]",
+        defaultValue: "defaultCostProjects",
+        description: "Where spend starts, top to bottom: { id, name }.",
+      },
+      {
+        name: "features",
+        type: "CostFeature[]",
+        defaultValue: "defaultCostFeatures",
+        description:
+          "What spends it: { id, name, project? }; a feature's streams take its project's colour.",
+      },
+      {
+        name: "models",
+        type: "CostNode[]",
+        defaultValue: "defaultCostModels",
+        description: "What bills it, top to bottom.",
+      },
+      {
+        name: "months",
+        type: "CostMonth[]",
+        defaultValue: "defaultCostMonths",
+        description:
+          "The months, oldest first: { id, label, flows: { project, feature, model, amount }[], partialThrough? }.",
+      },
+      {
+        name: "month / defaultMonth",
+        type: "string",
+        defaultValue: "— / the last month",
+        description: "The month shown, controlled or initial.",
+      },
+      {
+        name: "onMonthChange",
+        type: "(id, month) => void",
+        description: "Fires from the tab or arrow key that changed the month.",
+      },
+      {
+        name: "isolated / defaultIsolated",
+        type: "string | null",
+        defaultValue: "— / null",
+        description:
+          "The node whose flows are isolated, controlled or initial.",
+      },
+      {
+        name: "onSelectNode",
+        type: "(id | null, kind) => void",
+        description:
+          "Fires when Enter or a click isolates a node, or with null when it is released.",
+      },
+      {
+        name: "onExport",
+        type: "(monthId, flows) => void",
+        description: "Export was pressed. Omit it and the button is not drawn.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Spend arrived, is on its way, or failed. A month with no flows shows the empty state.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after spend failed to load.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Gaugeworks · assistant spend"',
+        description: "The panel's heading.",
+      },
+      {
+        name: "subtitle",
+        type: "string",
+        defaultValue: '"Four products · by feature and model"',
+        description: "Under the heading.",
+      },
+      {
+        name: "formatMoney",
+        type: "(amount: number) => string",
+        defaultValue: '"$18,420", by hand',
+        description: "How money is printed.",
+      },
+      {
+        name: "colors",
+        type: "string[]",
+        defaultValue: "pigments turned from the accent's hue",
+        description: "Project colours in project order.",
+      },
+      {
+        name: "plotHeight",
+        type: "number",
+        defaultValue: "300",
+        description: "The flow's height in px.",
+      },
+      {
+        name: "curvature",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How far each stream's handles reach: 0 a straight band, 1 a deep S.",
+      },
+      {
+        name: "nodeWidth",
+        type: "number",
+        defaultValue: "10",
+        description:
+          "Thickness of the node bars in px; streams start at their edges.",
+      },
+      {
+        name: "accent",
+        type: '"cobalt" | "plum" | "mint" | "ink" | string',
+        defaultValue: '"cobalt"',
+        description:
+          "The tab indicator, the isolation chip and the hue the project colours turn from.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only: months and isolation cannot change.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the panel.",
+      },
+    ],
+    usageNotes: [
+      "No loops run. A month change or an isolation starts one spring whose progress interpolates every node and stream; geometry is written straight into the paths and labels per frame, never through React state.",
+      "Every node is a button in the tab order with a name that reads its kind, amount and share of the month; Enter or Space isolates it (aria-pressed), Escape releases it. The months are a tablist: arrows, Home and End select.",
+      "A partial month (partialThrough) is marked on its tab, noted above the plot, drawn with dashed stream edges, and its total is shown with the pace for the full month.",
+      "Under reduced motion months and isolation swap to the new layout at once; dimming stays a short opacity change and totals update without rolling.",
+      "Below a 36rem container the streams become a nested list of bars — projects with their features under them, then the models billed — whose rows isolate like the nodes.",
+      "The plot width is measured with a ResizeObserver; the server renders a default 696 px layout that the client re-measures without animating.",
+    ],
+  },
+  {
+    name: "spike-trace",
+    type: "registry:ui",
+    title: "Spike Trace",
+    description:
+      "A workspace's daily usage as bars with anomalous days flagged, where pressing a spike unpacks it: the bar splits into a coloured band per cause and from each band a strand fans out across the chart to its row in a ranked list beside it, drawn by a clip that sweeps from the bar to the list on springs.glide while the rows arrive in a cascade and one line names the biggest cause. Switching between keys, people and prompts re-splits the bar and re-sweeps the strands, and Escape folds it back on the exit ease. The flagged days are a roving set of buttons — Left and Right move between them, Home and End jump, Enter or Space unpacks, Escape folds — and in a narrow container the strands become a stacked bar above the list.",
+    files: [
+      {
+        path: "registry/ui/spike-trace.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2094",
+    },
+    tagline: "Click a usage spike to see what caused it.",
+    keywords: [
+      "usage spikes",
+      "anomaly detection",
+      "cost attribution",
+      "ai usage",
+      "root cause",
+      "app ui",
+      "bar chart",
+    ],
+    props: [
+      {
+        name: "days",
+        type: "SpikeDay[]",
+        defaultValue: "defaultSpikeDays",
+        description: "Daily usage, oldest first: { date, total }.",
+      },
+      {
+        name: "attributions",
+        type: "Record<string, SpikeAttribution>",
+        defaultValue: "defaultSpikeAttributions",
+        description:
+          "What made each flagged day, by date: { keys, members, prompts } lists of { id, label, amount, detail? }.",
+      },
+      {
+        name: "flags",
+        type: "SpikeFlag[]",
+        defaultValue: "defaultSpikeFlags",
+        description:
+          "The days the detector flagged: { date, expected?, note? }. Empty shows the no-spikes state.",
+      },
+      {
+        name: "pending",
+        type: "string[]",
+        defaultValue: '["2026-10-17"]',
+        description: "Flagged dates whose causes are still being computed.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string | null",
+        defaultValue: "— / null",
+        description: "The unpacked date, controlled or initial.",
+      },
+      {
+        name: "onSelectSpike",
+        type: "(date | null, day) => void",
+        description:
+          "Fires from the press or key that unpacked a spike, or with null when it folds.",
+      },
+      {
+        name: "dimension / defaultDimension",
+        type: '"keys" | "members" | "prompts"',
+        defaultValue: '— / "keys"',
+        description: "What the spike is unpacked by, controlled or initial.",
+      },
+      {
+        name: "onDimensionChange",
+        type: "(dimension) => void",
+        description: "Fires from the switch with the new dimension.",
+      },
+      {
+        name: "onOpenCause",
+        type: "(cause, dimension, date) => void",
+        description: "A cause's Open button was pressed.",
+      },
+      {
+        name: "onFlagExpected",
+        type: "(date, expected) => void",
+        description:
+          "Mark expected was pressed, with the state it asks for. Omit it and the button is not drawn.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "error"',
+        defaultValue: '"ready"',
+        description: "Usage arrived, is on its way, or failed.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after usage failed to load.",
+      },
+      {
+        name: "maxCauses",
+        type: "number",
+        defaultValue: "5",
+        description: "Causes listed before the rest are folded into one row.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Basinworks · usage"',
+        description: "The panel's heading.",
+      },
+      {
+        name: "subtitle",
+        type: "string",
+        defaultValue: '"Sep 18 – Oct 17 · tokens a day"',
+        description: "Under the heading; by default the window and the unit.",
+      },
+      {
+        name: "unit",
+        type: "string",
+        defaultValue: '"tokens"',
+        description: "What is counted, in words.",
+      },
+      {
+        name: "formatValue",
+        type: "(amount: number) => string",
+        defaultValue: '"6.4M", by hand',
+        description: "How an amount is printed.",
+      },
+      {
+        name: "strandStyle",
+        type: '"ribbon" | "thread" | "step"',
+        defaultValue: '"ribbon"',
+        description:
+          "How the strands are drawn: filled ribbons as thick as their share, fine threads, or orthogonal steps.",
+      },
+      {
+        name: "flagStyle",
+        type: '"pin" | "ring" | "band"',
+        defaultValue: '"pin"',
+        description:
+          "How a flagged day is marked: a pin above the bar, a ring, or a tinted band behind it.",
+      },
+      {
+        name: "accent",
+        type: '"cobalt" | "plum" | "mint" | "ink" | string',
+        defaultValue: '"cobalt"',
+        description:
+          "The spike, the switch and the hue the cause colours turn from.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only: spikes cannot be unpacked or marked.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the panel.",
+      },
+    ],
+    usageNotes: [
+      "No loops run: an unpack is one clip sweep and a cascade of row entrances. The chart's size is measured with a ResizeObserver and every coordinate is rounded, so the server renders the same markup.",
+      "Flagged days are a roving set of buttons over the chart: Left and Right move, Home and End jump, Enter or Space unpacks (aria-pressed), Escape folds. Each reads its weekday, total, multiple of the median and whether it was expected.",
+      'The causes are a real ordered list with share text; a polite status speaks the unpack ("Most came from nightly-evals, 61%") and the fold, never per frame.',
+      "Under reduced motion the bands, strands and rows appear with a short fade and nothing sweeps or travels.",
+      "Below a 40rem container the chart runs full width and the strands give way to a stacked bar of the same shares above the list.",
+      "A pending date shows a hatched bar and says its attribution is still being computed; an empty flags list says there were no unusual days.",
+    ],
+  },
+  {
+    name: "swap-savings",
+    type: "registry:ui",
+    title: "Swap Savings",
+    description:
+      "This month's assistant spend by task and model with a what-if mode: as you move a share of a task's traffic to another model, the from-model's bar drops and the to-model's bar rises to their projected heights on springs.glide — chasing the slider so they arrive just behind your hand — over ghost outlines that hold today's heights, while the savings figure rolls on springs.snap beside a quality note that turns warn past your floor. Each share is a real slider whose thumb follows the finger 1:1 and lands on its step on snap with the release velocity; arrows step it, Page Up and Page Down move a quarter, Home and End jump, R resets every share and Flip reverses the pair. In a narrow container the chart turns horizontal.",
+    files: [
+      {
+        path: "registry/ui/swap-savings.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+    ],
+    categories: ["canvas"],
+    meta: {
+      serial: "KQ-2095",
+    },
+    tagline: "What it would cost on a different model.",
+    keywords: [
+      "model costs",
+      "what-if",
+      "cost savings",
+      "ai usage",
+      "model routing",
+      "app ui",
+      "pricing",
+    ],
+    props: [
+      {
+        name: "models",
+        type: "SwapModel[]",
+        defaultValue: "defaultSwapModels",
+        description:
+          "The models on the bill: { id, name, short?, inputPrice, outputPrice } per million tokens.",
+      },
+      {
+        name: "tasks",
+        type: "SwapTask[]",
+        defaultValue: "defaultSwapTasks",
+        description: "What the traffic is for, in chart order: { id, label }.",
+      },
+      {
+        name: "usage",
+        type: "SwapUsage[]",
+        defaultValue: "defaultSwapUsage",
+        description:
+          "This month's tokens per task and model: { task, model, inputTokens, outputTokens }.",
+      },
+      {
+        name: "quality",
+        type: "Record<string, Record<string, number>>",
+        defaultValue: "defaultSwapQuality",
+        description: "Quality per model and task, 0–100, from your evals.",
+      },
+      {
+        name: "fromModel",
+        type: "string",
+        defaultValue: "the first model",
+        description: "The model traffic moves away from; Flip swaps the pair.",
+      },
+      {
+        name: "toModel",
+        type: "string",
+        defaultValue: "the second model",
+        description: "The model traffic moves to.",
+      },
+      {
+        name: "mix / defaultMix",
+        type: "Record<string, number>",
+        defaultValue: "— / {}",
+        description:
+          "Share of each task's traffic moved, 0 to 1, controlled or initial.",
+      },
+      {
+        name: "onMixChange",
+        type: "(mix) => void",
+        description:
+          "Fires from the slider, key or Reset that changed a share, with the whole mix.",
+      },
+      {
+        name: "onApplyMix",
+        type: "(mix, projection) => void",
+        description: "Apply mix was pressed.",
+      },
+      {
+        name: "onReset",
+        type: "() => void",
+        description: "Reset (or R) put every share back to today's.",
+      },
+      {
+        name: "onCompare",
+        type: "(projection) => void",
+        description:
+          "Compare was pressed. Omit it and the button is not drawn.",
+      },
+      {
+        name: "status",
+        type: '"ready" | "loading" | "insufficient" | "error"',
+        defaultValue: '"ready"',
+        description:
+          "Usage is ready, loading, too thin to project from, or failed.",
+      },
+      {
+        name: "daysOfData",
+        type: "number",
+        defaultValue: "30",
+        description: "Days of traffic so far, for the not-enough-data state.",
+      },
+      {
+        name: "daysNeeded",
+        type: "number",
+        defaultValue: "14",
+        description: "Days a projection needs.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Try again was pressed after usage failed to load.",
+      },
+      {
+        name: "step",
+        type: "number",
+        defaultValue: "0.05",
+        description: "How far one arrow key moves a share.",
+      },
+      {
+        name: "qualityFloor",
+        type: "number",
+        defaultValue: "3",
+        description: "A drop in quality past this many points is flagged.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"October spend by model"',
+        description: "The panel's heading.",
+      },
+      {
+        name: "formatMoney",
+        type: "(amount: number) => string",
+        defaultValue: '"$1,240", by hand',
+        description: "How money is printed.",
+      },
+      {
+        name: "ghostStyle",
+        type: '"dashed" | "shade" | "cap"',
+        defaultValue: '"dashed"',
+        description:
+          "How today's heights are kept while the bars move: a dashed outline, a faint shade, or a cap line.",
+      },
+      {
+        name: "barWidth",
+        type: "number",
+        defaultValue: "32",
+        description:
+          "Bar thickness in px; the gap between a group's bars widens for thin bars so their labels never collide.",
+      },
+      {
+        name: "accent",
+        type: '"cobalt" | "plum" | "mint" | "ink" | string',
+        defaultValue: '"cobalt"',
+        description:
+          "The to-model's bars, the sliders and the savings: a named pigment or any CSS colour.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Read only: shares cannot move.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the panel.",
+      },
+    ],
+    usageNotes: [
+      "The projection is pure math (the exported projectSwap): moved tokens are re-priced at the new model's rates and the moved traffic's quality is weighed by the tokens moved.",
+      "No loops run. A drag writes one motion value per thumb; bars chase the stepped share on a spring through a CSS variable, so the same element stands in a column or lies in a row.",
+      'Each share is role="slider" with a value text ("40% of summaries moved to Waylight Lite"): arrows step, Page Up and Page Down move a quarter, Home and End jump, R resets every share. The savings are spoken when a change lands, never per pixel.',
+      "Apply mix stays focusable and reads aria-disabled until a share moves, so focus never falls to the page.",
+      "Under reduced motion bars and thumbs jump to their values and figures update without rolling.",
+      "Below a 36rem container the chart turns horizontal, a row per task with its slider underneath.",
+    ],
+  },
 ];
